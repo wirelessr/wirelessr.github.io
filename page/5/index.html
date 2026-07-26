@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/5/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/5/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/5/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/NotebookLM-Saved-My-Life/20241027/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/NotebookLM-Saved-My-Life/20241027/" class="post-title-link" itemprop="url">NotebookLM Saved My Life</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-10-28 02:40:37" itemprop="dateCreated datePublished" datetime="2024-10-28T02:40:37+08:00">2024-10-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="NotebookLM-Saved-My-Life"><a href="#NotebookLM-Saved-My-Life" class="headerlink" title="NotebookLM Saved My Life"></a>NotebookLM Saved My Life</h3><h4 id="Generative-AI-combined-with-note-taking-is-a-game-changer"><a href="#Generative-AI-combined-with-note-taking-is-a-game-changer" class="headerlink" title="Generative AI combined with note-taking is a game-changer!"></a>Generative AI combined with note-taking is a game-changer!</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*EUYxTEUoFsk6cdtrWUJXEw.png"></p>
+<p>Recently generative AI is being used more and more widely, and some of the concepts are both interesting and practical, even revolutionizing traditional industries. One of them is <a target="_blank" rel="noopener" href="https://www.perplexity.ai/">Perplexity</a>, which is gradually replacing traditional search engines, and the other is <a target="_blank" rel="noopener" href="https://notebooklm.google.com/">NotebookLM</a>, which is dominating the notebook market.</p>
+<p>Both products have a similar feature with generative AI to quickly summarize data and provide corresponding sources, but the difference is that Perplexity summarizes content from the Internet, while NotebookLM summarizes notes from self-managed records.</p>
+<p>Regarding Perplexity, although I use it occasionally, we “ancient” techies are already trained to search for keywords very accurately, so most of the searching requirements are just an open and shut case, and the answers come out without any additional summarization.</p>
+<p>Therefore, Perplexity doesn’t quite meet my needs, but NotebookLM is a different story. NotebookLM has completely changed my note-taking behavior.</p>
+<p>I believe we can all agree that an architect is a role that requires a lot of reading, whether it’s about various paradigms, patterns, best practices, or even versions of databases and frameworks.</p>
+<p>As architects, we constantly need to read a lot of diverse materials, technical documents, books and even technical blogs.</p>
+<p>In this context, the importance of notes is particularly obvious. When we read, we must leave a record, otherwise it will be difficult to go back and find the source in the future. However, it’s a tedious task to describe the content accurately, and on the other hand, it’s also extremely hard to search for our own reading logs.</p>
+<p>For example, the following is one of my notes in Markdown.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## Warehousing Design  </span><br><span class="line">  </span><br><span class="line">- [Slowing changing dimension](https://en.wikipedia.org/wiki/Slowly_changing_dimension)  </span><br><span class="line">- [Kimball&#x27;s Dimensional Data Modeling](https://www.holistics.io/books/setup-analytics/kimball-s-dimensional-data-modeling/)  </span><br><span class="line">- [Data pipeline tiering](https://blog.csdn.net/u012501054/article/details/102504760)</span><br></pre></td></tr></table></figure>
+
+<p>Can you guess what’s behind these links? Even I don’t remember, so how could you?</p>
+<h3 id="NotebookLM-User-Experience"><a href="#NotebookLM-User-Experience" class="headerlink" title="NotebookLM User Experience"></a>NotebookLM User Experience</h3><p>To solve the above problem, we just need to rely on NotebookLM’s auto-summarize function.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*_nM9EM_orP1DcUsx.png"></p>
+<p>It not only summarizes, but even builds table of content indexes to jump directly to the corresponding chapter. In this way, all we need to do is to put all the material we have read into NotebookLM.</p>
+<p>It is worth noting that now NotebookLM has a <a target="_blank" rel="noopener" href="https://support.google.com/notebooklm/answer/14276468?hl=en">resource limit</a> and can only store up to 50 sources, so the categorization of notes that we would have done in the past is still necessary even on NotebookLM.</p>
+<p>In addition to the basic note summarization, NotebookLM’s search function is even more valuable.</p>
+<p>Imagine a situation where we want to model a dimension table, but we find out that the table is not immutable but variable. What should we do? The answer is SCD, but if we forget the keyword SCD, how can we search for the corresponding source?</p>
+<p>In NotebookLM, we just ask.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*jpy2ee7z3XOSaIAg.png"></p>
+<blockquote>
+<p><em>a modeling strategy to describe dimension table changes</em></p>
+</blockquote>
+<p>Then NotebookLM will tell you about SCD, and even more, it will tell you that there are many forms of SCD with references.</p>
+<p>There is another search situation, suppose we read a book a long time ago, when we suddenly need to write a report, how to quickly find out the contents of the book and compile it? Just upload all the books we have read into a notebook and ask questions.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*HlDNGIZUDx14wb5p.png"></p>
+<blockquote>
+<p><em>when decomposing a microservice, should i first decouple database or application?</em></p>
+</blockquote>
+<p>Even if it’s a PDF, NotebookLM still reads it well and provides the references, and those references do jump to the corresponding positions in the book.</p>
+<p>Furthermore, these helpful Q&amp;A’s can be pinned to the notebook for quick tips.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*GQbLhH1PV8cTG6ck.png"></p>
+<p>Through these interactions with knowledge, valuable content can be extracted more efficiently and many tedious routines can be eliminated.</p>
+<p>I have to say, this has completely changed the way I work.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Some of the “magic” of NotebookLM is listed above.</p>
+<ol>
+<li>Quickly summarize each source.</li>
+<li>Quickly locate a sentence or chapter.</li>
+<li>Ask and answer questions based on the material, and provide the references.</li>
+</ol>
+<p>Just uploading materials to NotebookLM offers unprecedented freedom and peace of mind.</p>
+<p>If you haven’t tried NotebookLM yet, give it a shot — you’ll definitely get hooked.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/notebooklm-saved-my-life-93b5bb23f5c3">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Database/PostgreSQL-17s-JSON-TABLE-isnt-Particularly-Powerful/20241006/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Database/PostgreSQL-17s-JSON-TABLE-isnt-Particularly-Powerful/20241006/" class="post-title-link" itemprop="url">PostgreSQL 17’s JSON_TABLE isn’t Particularly Powerful</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-10-07 01:34:49" itemprop="dateCreated datePublished" datetime="2024-10-07T01:34:49+08:00">2024-10-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Exploring-practical-differences-between-JSONB-and-JSON-TABLE-in-PostgreSQL-17"><a href="#Exploring-practical-differences-between-JSONB-and-JSON-TABLE-in-PostgreSQL-17" class="headerlink" title="Exploring practical differences between JSONB and JSON_TABLE in PostgreSQL 17"></a>Exploring practical differences between JSONB and JSON_TABLE in PostgreSQL 17</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*DactiFjhV87_GBS_y9h4pA.png"></p>
+<p>Recently Postgres 17 was released, and one of the features interesting to me was the <code>JSON_TABLE</code> keyword. Postgres has always had an ambition to dominate the database market, and of course that includes document databases.</p>
+<p>After the release of <code>JSONB</code> support in previous versions of Postgres, this time JSON structures have been made more descriptive. I was expecting a lot of groundbreaking, but <code>JSON_TABLE</code> looks a bit “ordinary”. In my opinion, <code>JSON_TABLE</code> just provides syntactic sugar, not much difference in usage.</p>
+<p>Let’s take a quick look at some examples to get a feel for the difference between <code>JSON_TABLE</code> and the <code>JSONB</code> of the past.</p>
+<h3 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h3><p>Let’s start by creating a table. In order to be as close to the document database as possible, we’ll use a single JSONB column to store all the order data, including the order item and the customer.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE orders (  </span><br><span class="line">  id serial PRIMARY KEY,  </span><br><span class="line">  order_data JSONB  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>Then we put in two orders, each with two items.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO orders (order_data) VALUES  </span><br><span class="line">(&#x27;&#123;  </span><br><span class="line">  &quot;items&quot;: [  </span><br><span class="line">    &#123; &quot;name&quot;: &quot;Laptop&quot;, &quot;price&quot;: 1200 &#125;,  </span><br><span class="line">    &#123; &quot;name&quot;: &quot;Mouse&quot;, &quot;price&quot;: 25 &#125;  </span><br><span class="line">  ],  </span><br><span class="line">  &quot;customer&quot;: &#123; &quot;id&quot;: 123, &quot;name&quot;: &quot;John Doe&quot; &#125;  </span><br><span class="line">&#125;&#x27;),  </span><br><span class="line">(&#x27;&#123;  </span><br><span class="line">  &quot;items&quot;: [  </span><br><span class="line">    &#123; &quot;name&quot;: &quot;Keyboard&quot;, &quot;price&quot;: 100 &#125;,  </span><br><span class="line">    &#123; &quot;name&quot;: &quot;Monitor&quot;, &quot;price&quot;: 300 &#125;  </span><br><span class="line">  ],  </span><br><span class="line">  &quot;customer&quot;: &#123; &quot;id&quot;: 456, &quot;name&quot;: &quot;Jane Smith&quot; &#125;  </span><br><span class="line">&#125;&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>Okay, let’s experience <code>JSON_TABLE</code>.</p>
+<h3 id="JSON-TABLE-vs-JSONB"><a href="#JSON-TABLE-vs-JSONB" class="headerlink" title="JSON_TABLE vs. JSONB"></a>JSON_TABLE vs. JSONB</h3><p>In the past, when we wanted to query for orders with Laptop we would manipulate <code>items</code> through <code>jsonb_array_elements</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT  </span><br><span class="line">  item-&gt;&gt;&#x27;name&#x27; AS item_name,  </span><br><span class="line">  item-&gt;&gt;&#x27;price&#x27; AS item_price,  </span><br><span class="line">  order_data -- whole order including Laptop  </span><br><span class="line">FROM  </span><br><span class="line">  orders,  </span><br><span class="line">  jsonb_array_elements(order_data-&gt;&#x27;items&#x27;) AS item  </span><br><span class="line">WHERE  </span><br><span class="line">  item-&gt;&gt;&#x27;name&#x27; = &#x27;Laptop&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>So what would this query look like with <code>JSON_TABLE</code>? Let’s see the following example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SELECT  </span><br><span class="line">  jt.item_name,  </span><br><span class="line">  jt.item_price,  </span><br><span class="line">  order_data  </span><br><span class="line">FROM orders o,  </span><br><span class="line">  json_table(o.order_data, &#x27;$.items[*]&#x27;  </span><br><span class="line">  COLUMNS (  </span><br><span class="line">    item_name TEXT PATH &#x27;$.name&#x27;,  </span><br><span class="line">    item_price NUMERIC PATH &#x27;$.price&#x27;  </span><br><span class="line">  )) AS jt  </span><br><span class="line">WHERE jt.item_name = &#x27;Laptop&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>I have to say the difference is not obvious, but that’s partly because string matching is pretty simple. If we want to look up the price of an item, we’ll start to see the advantages of <code>JSON_TABLE</code>.</p>
+<p>Suppose we want to find an order with an item price less than 100, we use the original <code>JSONB</code> as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT  </span><br><span class="line">  item-&gt;&gt;&#x27;name&#x27; AS item_name,  </span><br><span class="line">  item-&gt;&gt;&#x27;price&#x27; AS item_price,  </span><br><span class="line">  order_data  </span><br><span class="line">FROM  </span><br><span class="line">  orders,  </span><br><span class="line">  jsonb_array_elements(order_data-&gt;&#x27;items&#x27;) AS item  </span><br><span class="line">WHERE  </span><br><span class="line">  (item-&gt;&gt;&#x27;price&#x27;)::numeric &lt; 100;</span><br></pre></td></tr></table></figure>
+
+<p>We have to add explicit type casts so that we can compare numbers. But in <code>JSON_TABLE</code> query, since there are already defined type casts, we can compare directly.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SELECT  </span><br><span class="line">  jt.item_name,  </span><br><span class="line">  jt.item_price,  </span><br><span class="line">  order_data  </span><br><span class="line">FROM orders o,  </span><br><span class="line">  json_table(o.order_data, &#x27;$.items[*]&#x27;  </span><br><span class="line">  COLUMNS (  </span><br><span class="line">    item_name TEXT PATH &#x27;$.name&#x27;,  </span><br><span class="line">    item_price NUMERIC PATH &#x27;$.price&#x27;  </span><br><span class="line">  )) AS jt  </span><br><span class="line">WHERE jt.item_price &lt; 100;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Nested-JSON"><a href="#Nested-JSON" class="headerlink" title="Nested JSON"></a>Nested JSON</h3><p>Now we’ve familiarized ourselves with general JSON manipulation, let’s look at the benefits of nested JSON in a <code>JSON_TABLE</code>.</p>
+<p>Let’s start by inserting a few test data.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO orders (order_data) VALUES  </span><br><span class="line">(&#x27;&#123;&quot;order&quot;: &#123;&quot;items&quot;: [&#123;&quot;name&quot;: &quot;Laptop&quot;, &quot;price&quot;: 1200, &quot;details&quot;: &#123;&quot;warranty&quot;: &quot;2 years&quot;, &quot;color&quot;: &quot;gray&quot;&#125;&#125;, &#123;&quot;name&quot;: &quot;Mouse&quot;, &quot;price&quot;: 25, &quot;details&quot;: &#123;&quot;warranty&quot;: &quot;1 year&quot;, &quot;color&quot;: &quot;black&quot;&#125;&#125;], &quot;customer&quot;: &#123;&quot;id&quot;: 123, &quot;name&quot;: &quot;John Doe&quot;&#125;&#125;&#125;&#x27;),  </span><br><span class="line">(&#x27;&#123;&quot;order&quot;: &#123;&quot;items&quot;: [&#123;&quot;name&quot;: &quot;Keyboard&quot;, &quot;price&quot;: 70, &quot;details&quot;: &#123;&quot;warranty&quot;: &quot;1 year&quot;, &quot;color&quot;: &quot;blue&quot;&#125;&#125;, &#123;&quot;name&quot;: &quot;Monitor&quot;, &quot;price&quot;: 300, &quot;details&quot;: &#123;&quot;warranty&quot;: &quot;3 years&quot;, &quot;color&quot;: &quot;black&quot;&#125;&#125;], &quot;customer&quot;: &#123;&quot;id&quot;: 456, &quot;name&quot;: &quot;Jane Smith&quot;&#125;&#125;&#125;&#x27;),  </span><br><span class="line">(&#x27;&#123;&quot;order&quot;: &#123;&quot;items&quot;: [&#123;&quot;name&quot;: &quot;Tablet&quot;, &quot;price&quot;: 400, &quot;details&quot;: &#123;&quot;warranty&quot;: &quot;2 years&quot;, &quot;color&quot;: &quot;white&quot;&#125;&#125;], &quot;customer&quot;: &#123;&quot;id&quot;: 789, &quot;name&quot;: &quot;Alice Johnson&quot;&#125;&#125;&#125;&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>There is now an additional <code>details</code> attribute for each order item, which contains the color and warranty.</p>
+<p>I would like to check the items that are blue in color, and I can do this with <code>JSONB</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT  </span><br><span class="line">  item-&gt;&gt;&#x27;name&#x27; AS item_name,  </span><br><span class="line">  item-&gt;&gt;&#x27;price&#x27; AS item_price,  </span><br><span class="line">  item-&gt;&#x27;details&#x27;-&gt;&gt;&#x27;warranty&#x27; AS warranty  </span><br><span class="line">FROM  </span><br><span class="line">  orders,  </span><br><span class="line">  jsonb_array_elements(order_data-&gt;&#x27;order&#x27;-&gt;&#x27;items&#x27;) AS item  </span><br><span class="line">WHERE  </span><br><span class="line">  item-&gt;&#x27;details&#x27;-&gt;&gt;&#x27;color&#x27; = &#x27;blue&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>As we can see from the <code>WHERE</code> clause above, our chain is starting to get longer. But in the <code>JSON_TABLE</code> query we can keep the <code>WHERE</code> simple.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SELECT  </span><br><span class="line">  jt.item_name,  </span><br><span class="line">  jt.item_price,  </span><br><span class="line">  jt.warranty  </span><br><span class="line">FROM orders o,  </span><br><span class="line">  json_table(o.order_data, &#x27;$.order.items[*]&#x27;  </span><br><span class="line">  COLUMNS (  </span><br><span class="line">    item_name TEXT PATH &#x27;$.name&#x27;,  </span><br><span class="line">    item_price NUMERIC PATH &#x27;$.price&#x27;,  </span><br><span class="line">    warranty TEXT PATH &#x27;$.details.warranty&#x27;,  </span><br><span class="line">    color TEXT PATH &#x27;$.details.color&#x27;  </span><br><span class="line">  )) AS jt  </span><br><span class="line">WHERE jt.color = &#x27;blue&#x27;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In a simple JSON query, <code>JSON_TABLE</code> really doesn’t have any advantage at all. But when the query gets complex, the fact that <code>SELECT</code> and <code>WHERE</code> can still be kept simple under the <code>JSON_TABLE</code> structure is a big advantage.</p>
+<p>Personally, I’m happy to see Postgres continue to improve its document database features, which will probably force other SQL based databases to start following along.</p>
+<p>Overall, <code>JSON_TABLE</code> is a step forward, and there are many more possibilities for structuring unstructured data in the future.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/postgresql-17s-json-table-isn-t-particularly-powerful-f2531c9994ac">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/How-SHOPLINE-Saves-40-Space-in-Main-Database-Part-2/20240922/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/How-SHOPLINE-Saves-40-Space-in-Main-Database-Part-2/20240922/" class="post-title-link" itemprop="url">How SHOPLINE Saves 40 Percent Space in Main Database, Part 2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-09-23 01:49:09" itemprop="dateCreated datePublished" datetime="2024-09-23T01:49:09+08:00">2024-09-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="How-SHOPLINE-Saves-40-Space-in-Main-Database-Part-2"><a href="#How-SHOPLINE-Saves-40-Space-in-Main-Database-Part-2" class="headerlink" title="How SHOPLINE Saves 40% Space in Main Database, Part 2"></a>How SHOPLINE Saves 40% Space in Main Database, Part 2</h3><h4 id="An-in-depth-guide-to-practical-data-tiering-and-advanced-technical-solutions"><a href="#An-in-depth-guide-to-practical-data-tiering-and-advanced-technical-solutions" class="headerlink" title="An in-depth guide to practical data tiering and advanced technical solutions"></a>An in-depth guide to practical data tiering and advanced technical solutions</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*O2IDsBM28q-_1tzKwU12gw.png"></p>
+<ul>
+<li>Part 1: <a target="_blank" rel="noopener" href="https://medium.com/stackademic/how-shopline-saves-40-space-in-main-database-9504a1eb2472">Data tiering methodology</a></li>
+<li>Part 2 (this article): Practice detail</li>
+</ul>
+<blockquote>
+<p><em>If you haven’t read Part 1 yet, we suggest you start there. In Part 1 we went through the complete steps of how to start data tiering from the business side.</em></p>
+</blockquote>
+<p>Let’s quickly review the process from the previous article.</p>
+<ol>
+<li>Identify the target that needs to be tiered.</li>
+<li>Set the time partitioning for data tiering to occur.</li>
+<li>Define the user scenarios for the cold data.</li>
+<li>Verify our hypothesis.</li>
+<li>Make the right technical selection.</li>
+<li>Begin implementation.</li>
+</ol>
+<p>When SHOPLINE decides to perform data tiering, based on the above process, we need to know which target to start with first.</p>
+<p>After actually counting all the tables, we found that the order related data takes up more than 80% of the main database capacity, and among them, the order and its metadata are the most significant.</p>
+<p>Therefore, we finally selected order and order metadata as the first target for data tiering, they are <code>order</code>, <code>order_item</code>, <code>order_payment</code> and <code>order_delivery</code>.</p>
+<p>With specific targets in mind, we then need to figure out what kind of time partitioning we want to use in order to minimize the impact on users.</p>
+<p>We collected all the REST API calls and their input parameters over a period of time and counted the time interval in which these input parameters were used. From this information, we observed that when an order is older than two years, the frequency of usage decreases significantly, so two years becomes our hypothesis for cold data.</p>
+<p>At the same time, the data tiering we want is not to make the data disappear completely, but rather to archive the cold data in a place where it can be used for basic querying.</p>
+<p>Although we no longer support complex query criteria and fast response times, we still want users to be able to get the information they want when they really need it, such as information about a particular order or a certain period of time.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*HcsyO0YNwDD7VKxR.png"></p>
+<p>This is exactly strategy 4: data warehousing.</p>
+<p>In addition, there are many metadata in the order, and even though we decided to archive <code>order_item</code>, <code>order_payment</code>, and <code>order_delivery</code>, we still want to get the rest of the information in a single query in the data warehouse. Then, we still need to find a way to validate which metadata we want to archive.</p>
+<p>At first, we made a few changes to the existing UI to observe user behavior. We want to clarify the following issues.</p>
+<ol>
+<li>How often users view old data.</li>
+<li>What kind of old data the user specifically needs.</li>
+</ol>
+<p>Our approach is simple: we have added a two-year restriction to the existing time-selection component so that users cannot select a time period longer than two years. Nevertheless, we will not block the user if he queries directly with the order number.</p>
+<p>However, we will mask the order details section so that order details older than two years are collapsed based on metadata. When the user clicks on the exact section, we can track which metadata the user really cares about.</p>
+<p>Here’s a little trick.</p>
+<p>If we collapse all the details, the user’s first reaction will be to click on all of them. Therefore, we opened the basic information of the order, as well as the payment &amp; logistics, and collapsed only those metadata sections that we wanted to validate.</p>
+<p>In the end, we verified both the time hypothesis and the user’s need for metadata. Then, we can begin to formally enter the technical selection phase.</p>
+<h3 id="Advanced-technical-selection"><a href="#Advanced-technical-selection" class="headerlink" title="Advanced technical selection"></a>Advanced technical selection</h3><p>Although we chose data warehousing for cold data storage based on the user scenario, there are still many data warehousing options to choose from.</p>
+<p>One of the most important considerations is the existing technical stack.</p>
+<p>As mentioned in the previous article, if the existing database naturally supports data tiering, then there will not be so many problems. Also, depending on the existing data pipeline in the organization, there may be viable options.</p>
+<p>Let’s take a quick look at the SHOPLINE technical stack.</p>
+<ul>
+<li>The (former) main database: MongoDB Atlas</li>
+<li>Main database for data mart: PingCAP TiDB</li>
+<li>Main Warehouse for Data Pipeline: GCP BigQuery</li>
+</ul>
+<p>There are three technology options that can be born from these stacks.</p>
+<h3 id="Atlas-Data-Federation"><a href="#Atlas-Data-Federation" class="headerlink" title="Atlas Data Federation"></a><a target="_blank" rel="noopener" href="https://www.mongodb.com/products/platform/atlas-data-federation">Atlas Data Federation</a></h3><p>Data federation is a real-time streaming pipeline developed by Atlas that delivers MongoDB data to the object storage system in a near real-time way.</p>
+<p>It also builds an API on the object store to provide querying via MQL.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*VYGtRBhjJr9SEsQ4ATmFIQ.png"></p>
+<p>I have to say, this is an excellent solution. Unlike regular data warehouses that offer SQL capabilities, this Atlas self developed data warehouse offers MQL querying capabilities. For an application that is already using MongoDB and MQL, it’s almost a seamless transition.</p>
+<p>Furthermore, the data written to this data warehouse can be generated based on specific aggregation statements, making it quicker to satisfy a variety of scenarios.</p>
+<p>Nevertheless, Atlas Federation is a technology that can’t be duplicated — after all, it’s Atlas’ own data warehouse. In other words, once we’ve chosen this solution, we’re vendor lock-in.</p>
+<h3 id="PingCAP-TiDB-Serverless"><a href="#PingCAP-TiDB-Serverless" class="headerlink" title="PingCAP TiDB Serverless"></a><a target="_blank" rel="noopener" href="https://www.pingcap.com/tidb-serverless/">PingCAP TiDB Serverless</a></h3><p>TiDB Serverless is a Compute-Storage Separation architecture, similar to regular data warehouse. It builds a one-tier query engine on top of the object storage system and provides SQL querying capabilities.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*J_1vJ4hWjpo-KMO3WW2AkA.png"></p>
+<p>When there are no queries at all, the query engine can be scaled to zero to save costs. In other words, when not in use, TiDB Serverless is only a storage cost. This use case is ideal for cold data storage after data tiering.</p>
+<p>For an OLTP database, this would be a brand new invention, but for regular OLAP data warehouse, this is not a big advantage.</p>
+<p>For us, if we use this solution, on the one hand, it is another vendor lock-in and on the other hand, we need to rewrite the application program significantly to support SQL query.</p>
+<p>If we need to rewrite the application to support SQL, why not use a regular data warehouse such as BigQuery, which we are already using?</p>
+<h3 id="GCP-BigQuery"><a href="#GCP-BigQuery" class="headerlink" title="GCP BigQuery"></a>GCP BigQuery</h3><p>I have described our data pipeline in <a target="_blank" rel="noopener" href="https://medium.com/stackademic/tidb-kappa-accelerating-api-responses-with-smart-architecture-5fe9a28f0f83">my previous article</a>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*MwieNFNPy6SCpqT1K8cepA.png"></p>
+<p>One of the challenges of using BigQuery as a data warehouse for cold data is that BigQuery is not low cost to query. If directly expose BigQuery to the application, then any misuse could be costly, so for the application, we will send the well organized data to the data mart.</p>
+<p>If we put all the cold data from all the orders into the data mart, we are creating another object that requires data tiering. But if we don’t use the data mart, then BigQuery would have to be exposed to application queries, which is against our data governance policy.</p>
+<p>Second, BigQuery is also a vendor lock-in that we want to get rid of, so we don’t want to add more use cases to BigQuery.</p>
+<h3 id="Self-built-Data-Warehouse"><a href="#Self-built-Data-Warehouse" class="headerlink" title="Self-built Data Warehouse"></a>Self-built Data Warehouse</h3><p>In fact, we have been investigating the option of building our own data warehouse.</p>
+<p>The so-called data warehouse is actually a nearly unlimited and low-cost storage space coupled with a scalable computing engine. The lowest entry point is to store Iceberg in AWS S3 and provide query capabilities through Trino.</p>
+<p>To investigate the feasibility of Iceberg, I’ve made many attempts to produce several interesting open source playgrounds.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/getting-started-with-flink-sql-apache-iceberg-and-dynamodb-catalog-71b96817e3c3">Integrating Flink with Iceberg</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/trino-iceberg-made-easy-a-ready-to-use-playground-7f4a1f7713ca">Integrating Trino with Iceberg</a></li>
+</ul>
+<p>Since it is a practical and feasible approach and is related to our long-term architectural transformation, it will be our answer.</p>
+<h3 id="Leverage-the-existing-data-pipeline-Fail"><a href="#Leverage-the-existing-data-pipeline-Fail" class="headerlink" title="Leverage the existing data pipeline (Fail)"></a>Leverage the existing data pipeline (Fail)</h3><p>At the beginning, our idea was pretty simple, that is, to leverage the existing data pipeline as much as possible, just put the data into another storage in another format.</p>
+<p>So we defined the following architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*TbB3VDeLGtyotQXSoWpegA.png"></p>
+<p>As shown in the diagram, most of our components are ready to go, we just need to establish the ability to read and write to Iceberg, which means we can use a real-time data pipeline to accomplish the conversion from hot data to cold data.</p>
+<p>When the life cycle of the data reaches its end, we can delete it in real time, because there is a data pipeline behind it that keeps synchronizing all the data.</p>
+<p>The data we want to store is actually what the documents look like in MongoDB, just in Iceberg format in S3.</p>
+<p>The following ER model is our data model.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*IdRk3xFDJUyqASuU9UgF4g.png"></p>
+<p>The <code>orderID</code> of the <code>order</code> table is a foreign key to the other metadata tables, so only one SQL command is needed to list the orders in a time period.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">SELECT  </span><br><span class="line">    o.orderID,  </span><br><span class="line">    o.tenantID,  </span><br><span class="line">    oi.orderItemID,  </span><br><span class="line">    ...  </span><br><span class="line">FROM  </span><br><span class="line">    order o  </span><br><span class="line">LEFT JOIN  </span><br><span class="line">    order_item oi ON o.orderID = oi.orderID  </span><br><span class="line">LEFT JOIN  </span><br><span class="line">    order_payment op ON o.orderID = op.orderID  </span><br><span class="line">LEFT JOIN  </span><br><span class="line">    order_delivery od ON o.orderID = od.orderID  </span><br><span class="line">WHERE  </span><br><span class="line">    o.orderDate BETWEEN &#x27;2024-01-01&#x27; AND &#x27;2024-01-31&#x27;  </span><br><span class="line">ORDER BY  </span><br><span class="line">    o.orderID;</span><br></pre></td></tr></table></figure>
+
+<p>However, we soon realized a problem. It was difficult to choose a common partition key.</p>
+<p>The reason why a common partition key is desirable is because we don’t want to couple the data pipeline with the business logic, so each table should be treated in the same way.</p>
+<p>Wouldn’t it be better to use <code>orderID</code>? It’s generic and makes business logic.</p>
+<p>No, it’s not.</p>
+<p>While <code>orderID</code> may seem like the most appropriate option, in Iceberg’s format, the partition key is the core of file granularity, so using <code>orderID</code> as the partition key will result in an endless number of small files scattered across the object store.</p>
+<p>This will not only cause inefficiency in querying but also increase the querying cost significantly.</p>
+<p>How about using <code>tenantID</code> as the partition key? This is generic enough and makes business logic as well. But as we can see from the ER model above, those metadata tables don’t have <code>tenantID</code> at all.</p>
+<p>In that case, we’ll settle for <code>createdAt</code>, which every table has. This may seem like a viable option, but it’s not actually the case. Because the creation date of deliveries, payments, and even order items may not always be the same as the order, this makes it extremely challenging to write a JOIN query using a partition key.</p>
+<p>It seems hard to leverage the existing data pipeline and we have to rethink it.</p>
+<h3 id="Creating-a-cold-data-wide-table"><a href="#Creating-a-cold-data-wide-table" class="headerlink" title="Creating a cold data wide table"></a>Creating a cold data wide table</h3><p>Since the original generic ER model is difficult to model in Iceberg, we need to change our implementation.</p>
+<p>First of all, we survey all the scenarios where cold data is used, and we realized what we need is to use the <code>order</code> table as the aggregation root, and take out all the related metadata at once. Then it’s easy, we just need to create a wide table.</p>
+<p>But who is going to create the wide table?</p>
+<p>Not the data pipeline definitely. Because <code>order</code> as the aggregation root has domain logic, if we let the data pipeline build the wide table, then it means the domain logic has to be copied into the data pipeline as well, which greatly increases the coupling of business logic.</p>
+<p>Finally, we design a new cold down process.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*2Ko9AbzuIf9PJpe3msxXhA.png"></p>
+<p>We first set up a tiny MongoDB as a relay to store the wide tables, so that the data pipeline only needs to receive the results of the aggregation. In conclusion, the data pipeline has no business logic at all, and it’s up to the application to decide what data it wants to collect.</p>
+<p>The application can delete the processed hot data after the aggregation, and any scenario that requires cold data can be obtained directly through Trino.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In fact, the adoption of self-built data lakehouse for data tiering architecture is our first attempt to transform our data infrastructure.</p>
+<p>Architecture transformation is a huge task, through each small task, we can gradually divide and implement the whole big task. In the case of this data tiering, it plays the role of a pioneer, allowing our organization to become familiar with the use of the data lakehouse.</p>
+<p>When we have control over the data lakehouse we have built, we have the capital to move on to the next step.</p>
+<p>As a result, not only did we reduce the space in our main database by 40%, but we also learned how to implement and maintain a data lakehouse. With this experience, we are now able to face more complex challenges.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-shopline-saves-40-space-in-main-database-part-2-a2c3e3420022">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Dockerize-Local-RAG-with-Models/20240915/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/Dockerize-Local-RAG-with-Models/20240915/" class="post-title-link" itemprop="url">Dockerize Local RAG with Models</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-09-16 02:27:26" itemprop="dateCreated datePublished" datetime="2024-09-16T02:27:26+08:00">2024-09-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Dockerize-Local-RAG-with-Models"><a href="#Dockerize-Local-RAG-with-Models" class="headerlink" title="Dockerize Local RAG with Models"></a>Dockerize Local RAG with Models</h3><h4 id="Containerize-with-Ollama-BGE-M3-and-MultiBERT-for-a-complete-local-RAG-system"><a href="#Containerize-with-Ollama-BGE-M3-and-MultiBERT-for-a-complete-local-RAG-system" class="headerlink" title="Containerize with Ollama, BGE-M3, and MultiBERT for a complete local RAG system"></a>Containerize with Ollama, BGE-M3, and MultiBERT for a complete local RAG system</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*uydgLGKA2zKqehQDzLElkw.png"></p>
+<p>Previously, I introduced <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/%E5%81%9A%E4%B8%80%E5%80%8B%E5%8B%99%E5%AF%A6%E7%9A%84rag-pragmatic-rag-65fc63647c51">a generic RAG template</a>, in which I mentioned that there are three cores needed to make a high-quality RAG.</p>
+<ol>
+<li>embedding with semantic understanding</li>
+<li>LLM with contextualized knowledge.</li>
+<li>compression result by rerank.</li>
+</ol>
+<p>When all of these are in place, a high quality RAG will be created, regardless of whether there is fine-tuning or not.</p>
+<p>Add high quality sources and accurate prompts, and you’ve got a complete RAG.</p>
+<p>Simple, right?</p>
+<p>Is it possible to containerize such a simple yet useful implementation and run it completely locally? Yes, of course.</p>
+<p>Let’s take the three models mentioned in the previous template as an example.</p>
+<ol>
+<li><code>Ollama</code> plus <code>TAIDE</code>.</li>
+<li><code>BGE-M3</code> for embedding.</li>
+<li><code>ms-marco-MultiBERT-L-12</code> as reranker</li>
+</ol>
+<h3 id="Ollama-with-Models"><a href="#Ollama-with-Models" class="headerlink" title="Ollama with Models"></a>Ollama with Models</h3><p>Ollama is a completely local LLM framework, you can pull down the LLM model you want to use by <code>ollama pull</code>.</p>
+<p>Ollama itself provides a basic container.</p>
+<p><code>docker pull ollama/ollama</code>.</p>
+<p>Nevertheless, there is no simple way to get this container to mount the model. So here’s a little bit hack, let me demonstrate with a <code>Dockerfile</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FROM ollama/ollama as taide_base  </span><br><span class="line">  </span><br><span class="line">RUN nohup bash -c &quot;ollama serve &amp;&quot; &amp;&amp; sleep 5 &amp;&amp; ollama pull cwchang/llama3-taide-lx-8b-chat-alpha1</span><br></pre></td></tr></table></figure>
+
+<p>We use Ollama’s container directly and wake up the ollama service during the <code>docker build</code> process and download the model directly.</p>
+<p>This way we have an LLM framework with models.</p>
+<h3 id="Packaging-BGE-M3"><a href="#Packaging-BGE-M3" class="headerlink" title="Packaging BGE-M3"></a>Packaging <code>BGE-M3</code></h3><p>The <code>BGE-M3</code> here is a HuggingFace supplied model, so all we need to do is find the HuggingFace model catalog and copy it into the container.</p>
+<p>In my environment (without modifying any settings), the model directory is at</p>
+<blockquote>
+<p><em>~&#x2F;.cache&#x2F;huggingface&#x2F;hub&#x2F;models–BAAI-bge-m3</em></p>
+</blockquote>
+<p>Therefore, we only need to <code>COPY</code> the contents of this directory into the container.</p>
+<p>However, it is important to note that HuggingFace requires <code>config.json</code> when loading models, and this file is very deep.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def init_embeddings():  </span><br><span class="line">    from langchain_huggingface import HuggingFaceEmbeddings  </span><br><span class="line">    HF_EMBEDDING_MODEL = &#x27;./models--BAAI--bge-m3/snapshots/5617a9f61b028005a4858fdac845db406aefb181&#x27;  </span><br><span class="line">  </span><br><span class="line">    return HuggingFaceEmbeddings(  </span><br><span class="line">        model_name=HF_EMBEDDING_MODEL,  </span><br><span class="line">        model_kwargs=&#123;&#x27;device&#x27;: &#x27;cpu&#x27;&#125;,  </span><br><span class="line">        encode_kwargs=&#123;&#x27;normalize_embeddings&#x27;: False&#125;  </span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<p>As we can see from this code, we actually need to specify the snapshot that is used at the moment when using the model.</p>
+<p>Well, we are left with the last one, reranker.</p>
+<h3 id="Packaging-ms-marco-MultiBERT-L-12"><a href="#Packaging-ms-marco-MultiBERT-L-12" class="headerlink" title="Packaging ms-marco-MultiBERT-L-12"></a>Packaging <code>ms-marco-MultiBERT-L-12</code></h3><p>The <code>ms-marco-MultiBERT-L-12</code> used here is integrated by langchain. With the default behavior, langchain’s <code>document_compressors</code> will place the model in <code>/tmp</code>.</p>
+<p>In other words, when we run the following code, it downloads the model into <code>/tmp</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from langchain.retrievers.document_compressors import FlashrankRerank  </span><br><span class="line">compressor = FlashrankRerank(model_name=&#x27;ms-marco-MultiBERT-L-12&#x27;, top_n=5)</span><br></pre></td></tr></table></figure>
+
+<p>So what we need to do is copy <code>/tmp/ms-marco-MultiBERT-L-12</code> into the container.</p>
+<p>But that’s not enough, we need to explicitly specify on the client side that the model’s directory has been changed to the container’s current directory. This is a bit complicated to explain, so let’s just look at an example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from flashrank import Ranker  </span><br><span class="line">from langchain.retrievers.document_compressors import FlashrankRerank  </span><br><span class="line">  </span><br><span class="line">ranker = Ranker(model_name=&#x27;ms-marco-MultiBERT-L-12&#x27;, cache_dir=&#x27;.&#x27;)  </span><br><span class="line">compressor = FlashrankRerank(client=ranker, top_n=5)</span><br></pre></td></tr></table></figure>
+
+<p>All right, we’ve got the three models we need in the container.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Although this article provides a containerized RAG solution, I have to say that the container image is 18 GB.</p>
+<p>If we were to package it with the embedded vectors from the source, it would easily exceed 20 GB.</p>
+<p>Therefore, this container can only be used for simple testing, and is not really capable of scaling, so you need to be more careful when using it.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/dockerize-local-rag-with-models-893c7db6be42">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Turn-Based-Multiplayer-Beer-Game/20240908/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Redis/Turn-Based-Multiplayer-Beer-Game/20240908/" class="post-title-link" itemprop="url">Turn Based Multiplayer Beer Game</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-09-09 01:35:30" itemprop="dateCreated datePublished" datetime="2024-09-09T01:35:30+08:00">2024-09-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Turn-Based-Multiplayer-Beer-Game"><a href="#Turn-Based-Multiplayer-Beer-Game" class="headerlink" title="Turn Based Multiplayer Beer Game"></a>Turn Based Multiplayer Beer Game</h3><h4 id="Explore-supply-chain-strategy-and-systems-thinking-through-a-game"><a href="#Explore-supply-chain-strategy-and-systems-thinking-through-a-game" class="headerlink" title="Explore supply chain strategy and systems thinking through a game"></a>Explore supply chain strategy and systems thinking through a game</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*Dq2j2qL9znqYIgM6SSEd6A.png"></p>
+<p>Since I need to organize a systems thinking workshop in the near future, I need a beer game to start it off.</p>
+<p>The beer game itself consists of four characters: Retailer, Wholesaler, Distributor and Factory. Through the time-delay nature of the logistics to understand the system perspective, and can have a better understanding of the system boundaries.</p>
+<p>As this is a few hours workshop, I want this beer game to fulfill the following features.</p>
+<p><strong>It’s a multiplayer game</strong>.</p>
+<p>The beer game itself will have many participants playing various roles in the supply chain, but I’d like to be able to have multiple supply chains competing at the same time to see who scores higher. Thus, we can learn about their system strategies at the same time.</p>
+<p><strong>The game host should be able to see everyone’s status</strong>.</p>
+<p>Since there are multiple teams competing at the same time, as a host I need to be able to see how each team is progressing and scoring at the moment.</p>
+<p><strong>The game flow has to be simple and easy to control the pace</strong>.</p>
+<p>As I said at the beginning, this is a short workshop, so I need to get everyone up to speed quickly and I need to be able to control the details of each round.</p>
+<p>Moreover, a timer appears in the player’s UI at the beginning of each round, advancing the game pace by counting down.</p>
+<p><strong>Be able to customize the characters</strong>.</p>
+<p>A classic beer game consists of four characters, but the more characters there are, the longer the game will be. So I’d like to adjust the game pace so that it’s better to have three characters.</p>
+<p>After searching around, I found that neither open source projects nor projects that are already online can satisfy these requirement perfectly. So, I’d better make one myself.</p>
+<h3 id="Beer-Game-Project"><a href="#Beer-Game-Project" class="headerlink" title="Beer Game Project"></a>Beer Game Project</h3><p><a target="_blank" rel="noopener" href="https://github.com/wirelessr/beer_game">https://github.com/wirelessr/beer_game</a></p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*CsYJjnT7Cm16xPVk.png"><img src="https://cdn-images-1.medium.com/max/800/0*ASrUEmsFYWjhGzXc.png"></p>
+<p>The entire project is business driven developed and tested with over 90% coverage, so please feel free to use it.</p>
+<h3 id="Preparedness"><a href="#Preparedness" class="headerlink" title="Preparedness"></a>Preparedness</h3><p>Create a file for secrets in the project folder. You should see me copy it in the <code>Dockerfile</code>.</p>
+<p><code>.streamlit/secrets.toml</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[mongo]  </span><br><span class="line">uri = &quot;&lt;your mongo connection&gt;&quot;  </span><br><span class="line">  </span><br><span class="line">[admin]  </span><br><span class="line">key = &quot;&lt;your admin key&gt;&quot;  </span><br><span class="line">  </span><br><span class="line">[player]  </span><br><span class="line">key = &quot;&lt;your player key&gt;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>Since this project is using MongoDB, you have to fill in the link with your account password. In addition, <code>admin.key</code> and <code>player.key</code> correspond to the key fields on the UI.</p>
+<p>After all, I’m uploading the app to the public cloud, so I still need a basic authentication mechanism. If you’re running locally only and find authentication troublesome, you can remove the corresponding source code.</p>
+<h3 id="Installation-and-Use"><a href="#Installation-and-Use" class="headerlink" title="Installation and Use"></a>Installation and Use</h3><p>This project has a <code>Dockerfile</code> attached, so it can be run directly with <code>docker</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build -t beer_game .  </span><br><span class="line">docker run --rm --name beer -p 8501:8501 beer_game</span><br></pre></td></tr></table></figure>
+
+<p>For development, in addition to <code>requiremnts.txt</code>, <code>requirements-test.txt</code>, which runs the unit tests, should also be installed. Then you can run all the unit tests through the <code>Makefile</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requiremnts.txt  </span><br><span class="line">pip install -r requirements-test.txt  </span><br><span class="line">make test</span><br></pre></td></tr></table></figure>
+
+<h3 id="Game-Flow"><a href="#Game-Flow" class="headerlink" title="Game Flow"></a>Game Flow</h3><p>The whole game is divided into a host mode and a participant mode, which correspond to the options in the top corner of the UI.</p>
+<p>The host first assigns a <code>game_id</code> to create the game, and all participants have to fill in the <code>player_game</code> with this id.</p>
+<p>All players on the same supply chain need to use the same <code>player_id</code>, so this id is also known as the supply chain ID, and participants with the same <code>player_id</code> are separated into roles by <code>player_role</code>.</p>
+<p>You can see the status on the host’s screen when a participant joins.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*Zb8DWYqcsKYZ2OE0.png"></p>
+<p>Let’s look at what a full iteration would look like from the host’s point of view.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*4pgEt7p5Pw6QD5WP.png"></p>
+<p>All the components that need to be manipulated are in this picture, and each turn starts by pressing the <code>Refresh</code> button and ends by pressing <code>Next Week</code>.</p>
+<p>As for how many orders to send to all the supply chains in this round, they will be triggered by <code>Place Order</code>.</p>
+<p>It’s worth mentioning that the <code>Place Order</code> itself is idempotent, so it’s fine to change the number and press it again, the last number will be used. The <code>Place Order</code> of each participant’s interface will be idempotent as well.</p>
+<p>Once the host has placed the order, the shop player can take the order.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*_WH25NeLvyV0fz5x.png"></p>
+<p>Similarly, each role in the supply chain starts with <code>Refresh</code> and ends with <code>Place Order</code>, with the shop player taking the action followed by the retailer player, and so on.</p>
+<p>Finally, back to the host, who can press <code>Refresh</code> again to see all the statuses for the round, and <code>Next Week</code> to end the round.</p>
+<h3 id="Game-Detail"><a href="#Game-Detail" class="headerlink" title="Game Detail"></a>Game Detail</h3><p>There are a couple of things actually done during <code>Refresh</code>.</p>
+<ol>
+<li>it refills inventory from downstream based on orders placed four weeks ago.</li>
+<li>it receives orders from upstream.</li>
+<li>decides how much to sell based on what inventory it can sell.</li>
+</ol>
+<p>Since <code>Place Order</code> is idempotent, <code>Refresh</code> itself is idempotent too.</p>
+<h3 id="Future-work"><a href="#Future-work" class="headerlink" title="Future work"></a>Future work</h3><p>It basically meets all of my needs now, but there are some enhancements that could be made.</p>
+<p>For example, although the host can see the status of all the participants, it would be helpful to have a graph to show the change of inventory and cost information over time, which would be useful for reviewing the game after it is over.</p>
+<p>There’s also a more basic problem: the current UI has no test coverage at all, mainly because the current game flow is quite simple. Just a few clicks on the UI will cover all the UI flow, so I don’t rely so much on auto-testing. However, if there is a UI modification, it will still be a bit tedious, so it would be better to have a UI unit test.</p>
+<p>Overall, these requirements are optimizations, but their lack does not affect the functionality.</p>
+<p>If you have additional ideas, you can also just submit a pull request, contributions are welcome.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/turn-based-multiplayer-beer-game-bb469123cdd3">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/How-SHOPLINE-Saves-40-Space-in-Main-Database/20240901/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/How-SHOPLINE-Saves-40-Space-in-Main-Database/20240901/" class="post-title-link" itemprop="url">How SHOPLINE Saves 40 Percent Space in Main Database</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-09-02 01:57:23" itemprop="dateCreated datePublished" datetime="2024-09-02T01:57:23+08:00">2024-09-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="How-SHOPLINE-Saves-40-Space-in-Main-Database"><a href="#How-SHOPLINE-Saves-40-Space-in-Main-Database" class="headerlink" title="How SHOPLINE Saves 40% Space in Main Database"></a>How SHOPLINE Saves 40% Space in Main Database</h3><h4 id="Data-tiering-in-practice-a-guide-to-Hot-and-Cold-data-storage"><a href="#Data-tiering-in-practice-a-guide-to-Hot-and-Cold-data-storage" class="headerlink" title="Data tiering in practice: a guide to Hot and Cold data storage"></a>Data tiering in practice: a guide to Hot and Cold data storage</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*jbjLT8uj_11IiL5AJX3qEA.png"></p>
+<ul>
+<li>Part 1 (this article): <a target="_blank" rel="noopener" href="https://medium.com/stackademic/how-shopline-saves-40-space-in-main-database-9504a1eb2472">Data tiering methodology</a></li>
+<li>Part 2: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/how-shopline-saves-40-space-in-main-database-part-2-a2c3e3420022">Practice detail</a></li>
+</ul>
+<p>Recently, our organization has been driving a technical transformation where we are tiering data and archiving so-called “cold data” to less costly storage.</p>
+<p>Typically, a system must originally use a database that is both fast to access and capable of supporting complex queries, i.e. a database for OLTP scenarios. Inevitably, the unit cost of such a database must be high, which means the more data stored, the more expensive it is, and exponentially so.</p>
+<p>Therefore, it is valuable to move some infrequently used data out of the original OLTP database and store it in a lower cost “place”. This process is called data tiering or data archiving.</p>
+<p>This “place” is sacrificing many features for price advantages, such as poor access performance. Furthermore, the archived data may never be modified again, depending on requirements, and may only be available for viewing.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*d8mm-AkFaF7KxYbKuP_ECw.png"></p>
+<p>The diagram above provides a clear overview.</p>
+<p>Depending on the use case, the application may still have access to all the data, and there may be differences in usage depending on the scenario. However, at the data layer the data has actually been split into two different stores, one fast and costly, the other slow and inexpensive.</p>
+<h3 id="Business-driven-or-Tech-driven"><a href="#Business-driven-or-Tech-driven" class="headerlink" title="Business-driven or Tech-driven?"></a>Business-driven or Tech-driven?</h3><p>Do you feel that this organizational transformation is a tech-driven or a business-driven project?</p>
+<p>To be honest, this would be a business-driven project. The reason is simple: the act of archiving cold data has a significant impact on the user experience.</p>
+<p>When you’re a user of a system, let’s say a bank user, would you want to see all past transactions or just three months of transactions? Undoubtedly, I’m sure you’d want to see all of them, and they’d have to be complete, including time, recipients, amounts, and even notes.</p>
+<p>Suppose your bank originally disclosed all the records of the past years, until one day, the bank realized that the cost of data storage is too high and need to archive the transaction records of three months ago, how would you feel?</p>
+<p>Unhappy, maybe even quit, right? Yes, that’s why data archiving is a business-driven project.</p>
+<h3 id="What-is-Cold-Data"><a href="#What-is-Cold-Data" class="headerlink" title="What is Cold Data?"></a>What is Cold Data?</h3><p>So, here comes another question. How do we define cold data? I mean what data we have to archive in order to have as little impact on the user experience as possible.</p>
+<p>To be able to answer this question, we first need to have observability.</p>
+<ol>
+<li>the distribution of data, i.e., the volume of data as a percentage</li>
+<li>the time distribution of the data</li>
+<li>how users use the data</li>
+<li>the time distribution of the data being used</li>
+</ol>
+<p>With these metrics we can further analyze which tables need to be tiered, and we can also identify the timing of the tiering.</p>
+<p>I believe that the first and second points should be fairly simple, but the critical third and fourth points are almost impossible to obtain without having them built into the system in advance.</p>
+<p>So what should we do?</p>
+<p>Fortunately, we still have one more tactic, which is the fake door test.</p>
+<p>Since we can’t know the context in which the user is using the data, we can make some hypotheses and verify them by making small changes to the application.</p>
+<p>For example, our UI can see all bank transactions, but we want to hide transactions from six months ago. We’re not sure if six months is a good time condition, so we’ll just mask the six months ago data on the UI instead of physically archiving it.</p>
+<p>In addition to masking, we also wanted to know if this would affect the user experience, so we added a <code>Load More</code> button to record user actions. This way, we know how many users need those six-month old records, and how often they need them.</p>
+<p>Moreover, we can take six months as a unit to evaluate how often the data from a year ago or even a year and a half ago is used, so that we can adjust the time hypothesis we set.</p>
+<p>Eventually, we can know what is a reasonable cold data from the results of the fake door test.</p>
+<h3 id="How-to-Cold-Down"><a href="#How-to-Cold-Down" class="headerlink" title="How to Cold Down"></a>How to Cold Down</h3><p>When we have set the scope of cold data, we then need to consider how that cold data will be accessed.</p>
+<p>Once again, this is still not a purely tech-driven issue, but is actually determined by business requirements.</p>
+<p>Although we all know that the low price of cold data comes at the expense of accessibility, how much impact on the user story will significantly determine our decision.</p>
+<p>Here are a few considerations, so let’s discuss them one by one.</p>
+<h3 id="User-scenario"><a href="#User-scenario" class="headerlink" title="User scenario"></a>User scenario</h3><p>Once we have clearly distinguished between hot data and cold data, is there a difference in the usage of these two types of data?</p>
+<p>Usage here is not about the impact of non-functional requirements such as slow responses, but rather whether we would treat cold data and hot data in the same user scenario.</p>
+<p>Continuing with the bank transactions example, let’s assume that transactions older than six months are considered cold.</p>
+<p>Here are a few questions to think about.</p>
+<ol>
+<li>Should records older than 6 months be able to be displayed seamlessly on the list page?</li>
+<li>Should records older than 6 months be able to be displayed via “Load More”?</li>
+<li>Can we allow the editing of notes for transactions older than 6 months?</li>
+<li>Can we not show records older than 6 months at all?</li>
+</ol>
+<p>From top to bottom, we have higher and higher impact on the user story, e.g. in point 3 we allow cold data to be read-only, and even more so in point 4 we allow cold data to be completely inaccessible.</p>
+<p>We can know that the more forward options cost more.</p>
+<h3 id="Functional-limitations"><a href="#Functional-limitations" class="headerlink" title="Functional limitations"></a>Functional limitations</h3><p>In the user scenarios, we consider whether the cold data is visible and modifiable, but this is not enough.</p>
+<p>In the business logic, it is not only about the availability of the records, but also about the aggregation and other operations.</p>
+<p>For example, the transaction records can be summed up by month to show the consumption trend, and the consumption percentage can be categorized by transaction targets. Not to mention, there are also some cross-domain data computation requirements.</p>
+<p>If we store all the cold data in the form of csv in the object storage system, it is true that we can get a very low storage cost, but all the computing requirements must be parsed out of the whole csv, which will dramatically increase the cost of use.</p>
+<p>Therefore, how to balance the cost of storage and the cost of use in terms of functionality is also an important consideration.</p>
+<h3 id="Existing-technical-stacks-and-data-structures"><a href="#Existing-technical-stacks-and-data-structures" class="headerlink" title="Existing technical stacks and data structures"></a>Existing technical stacks and data structures</h3><p>Once we have reached a conclusion on the first two points, the only thing left to do is to fulfill the business requirements within the existing architecture.</p>
+<p>Why is this also a critical consideration?</p>
+<p>Let’s use a case study to illustrate.</p>
+<blockquote>
+<p><em>Suppose we decide to treat half a year as a hot and cold junction, and the cold data should be able to be displayed seamlessly on the list page, but it cannot be written to, only read, and all the business logic should be the same as before.</em></p>
+</blockquote>
+<p>Would this be a harsh condition? It depends. If we’re using Elasticsearch as our main database and defining indexes in terms of time series, then this condition is a piece of cake.</p>
+<p>I’ve explained <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/elasticsearch-index-lifecycle-management-in-a-nutshell-278072a9aab6">the mechanism and concepts of Elasticsearch’s Index Lifecycle Management</a>, aka ILM. Therefore, it is quite easy to fulfill such business requirements.</p>
+<p>However, if our main database is MySQL, then it would take much more effort to accomplish the same business requirement than using Elasticsearch.</p>
+<p>To sum up, how to archive cold data depends a lot on the business requirements, but also on the existing technical stack and implementation.</p>
+<h3 id="Common-Approaches"><a href="#Common-Approaches" class="headerlink" title="Common Approaches"></a>Common Approaches</h3><p>Let’s list some common data tiering technical options and explain the scenarios where they apply using a few of the mentioned business requirements.</p>
+<p>For the sake of simplicity, let’s summarize the requirements. Let’s start with the business requirements and focus on the following three.</p>
+<ul>
+<li>Readable</li>
+<li>Writable</li>
+<li>Aggregatable</li>
+</ul>
+<p>In addition to the functional requirements for business, there are also non-functional requirements, so let’s focus on the three core requirements.</p>
+<ul>
+<li>Storage Cost</li>
+<li>Computing Cost</li>
+<li>Access Latency</li>
+</ul>
+<p>In addition, I would like to add a key non-functional requirement.</p>
+<ul>
+<li>Implementation Complexity</li>
+</ul>
+<h3 id="Native-support"><a href="#Native-support" class="headerlink" title="Native support"></a>Native support</h3><p>As mentioned in the previous section, when using Elasticsearch’s ILM, there is a simple data tiering architecture when dealing with time-series data.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*EAYVUoeLkfGljRrmHhsoOg.png"></p>
+<ul>
+<li>Readable (v)</li>
+<li>Writable (x)</li>
+<li>Aggregatable (v)</li>
+</ul>
+<p>With Elasticsearch’s ILM, it is possible to reduce storage costs by using nodes with poor hardware specifications as cold data nodes, even though the cost is still higher than object storage.</p>
+<p>However, because Elasticsearch can keep indexes, query performance will normally reflect the hardware specification savings, and the worse the hardware specification, the worse the query performance will be. Fortunately, this performance loss is still much better than the performance of object storage.</p>
+<ul>
+<li>Storage Cost （high)</li>
+<li>Computing Cost (low)</li>
+<li>Access Latency (low)</li>
+<li>Implementation Complexity (low)</li>
+</ul>
+<p>In fact, if using a database with built-in lifecycle management such as Elasticsearch, then similar characteristics will be available.</p>
+<h3 id="Application-sharding"><a href="#Application-sharding" class="headerlink" title="Application sharding"></a>Application sharding</h3><p>It is because of Elasticsearch’s built-in ILM that data tiering can be achieved with little or no modification to the application’s implementation. However, applications that do not use Elasticsearch as their main database are not so lucky, and they have to implement their own sharding logic in the application.</p>
+<p>The first step is to prepare two homogeneous databases, one with a high specification for hot data and the other with a low specification.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*tYlyXEYdAatvrcADnlLDjg.png"></p>
+<p>The application determines which database to obtain data from based on the query criteria, and if necessary, it must also do the hot data and cold data join.</p>
+<p>The creation of cold data is usually handled by a background Extract-Transform-Load (ETL) process.</p>
+<ul>
+<li>Readable (v)</li>
+<li>Writable (v)</li>
+<li>Aggregatable (v)</li>
+</ul>
+<p>Since there are two homogeneous databases, the impact of the usage scenario can be minimized and the ability to write cold data is also available.</p>
+<ul>
+<li>Storage Cost （high)</li>
+<li>Computing Cost (low)</li>
+<li>Access Latency (low)</li>
+</ul>
+<p>There is a challenge to be solved in this implementation, there is a time gap between ETL and the application , if this time gap is not dealt with then the user will feel the data loss. A common practice is to reserve a buffer, for example, for an application program to use <code>T</code> for hot&#x2F;cold junction, so <code>T-1</code>, <code>T-2</code> will be the cold data accordingly, and vice versa.</p>
+<p>In order to avoid the time gap, ETL will prepare the data of <code>T</code> at <code>T-1</code> in advance at the launch time. Nevertheless, if the data for the <code>T</code> time period is updated then it is possible to encounter data inconsistencies, which require additional handling.</p>
+<ul>
+<li>Implementation Complexity (medium)</li>
+</ul>
+<h3 id="Cold-data-archiving"><a href="#Cold-data-archiving" class="headerlink" title="Cold data archiving"></a>Cold data archiving</h3><p>The solutions mentioned above are all big technical compromises to minimize business impact, and there is no way to significantly reduce the cost of implementing data tiering in this way.</p>
+<p>If we are willing to sacrifice most of the user stories, can we optimize the cost greatly? Yes, absolutely.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*wDfAZp6RpN2I6By734n8fA.png"></p>
+<p>The architecture is also two storage, but one is a database and the other is an object storage system. When we decide the conditions of the cold data, we can start the archiving.</p>
+<p>Because of the characteristics of object storage, no schema, no index and long access latency, cold data is not a useful option for applications. For applications, cold data is like disappearing suddenly, and the same is true for users.</p>
+<p>This is how the bank transaction records were handled in the first place. Both the application and the user no longer have access to cold data, which is irrelevant in most usage scenarios. Once we need cold data, for example if I want to see a disputed account from a year ago, I have to go to the bank and request a data access.</p>
+<p>The data still exists, it’s just no longer easily accessible.</p>
+<ul>
+<li>Readable (v)</li>
+<li>Writable (x)</li>
+<li>Aggregatable (x)</li>
+</ul>
+<p>Some applications may keep a history export feature, but more often it’s like a bank where the data is removed right from the user interface.</p>
+<p>But this way we get a dramatic cost optimization, because object storage is much less pricey than databases.</p>
+<ul>
+<li>Storage Cost （low)</li>
+<li>Computing Cost (x)</li>
+<li>Access Latency (high)</li>
+</ul>
+<p>We’ve sacrificed the business requirements, and instead, we’ve dramatically reduced costs. We can see that I’ve put a cross in the computing cost column because we no longer need to do computing on cold data. Of course, this way we also get an optimized development cost.</p>
+<ul>
+<li>Implementation Complexity (low)</li>
+</ul>
+<p>If such a trade-off is adopted, do not think about satisfying business requirements, as it will only be counterproductive.</p>
+<h3 id="Data-warehousing"><a href="#Data-warehousing" class="headerlink" title="Data warehousing"></a>Data warehousing</h3><p>The solutions mentioned so far are all extreme, either highly satisfying business requirements or highly dependent on cost optimization. Is there a middle-of-the-spectrum approach?</p>
+<p>Actually, data warehousing is a solution that can satisfy part of the business requirements and achieve part of the cost optimization.</p>
+<p>Data warehousing is the process of putting cold data into a “place” that offers low storage costs and the ability to scale computing resources to provide performance when necessary.</p>
+<p>Data warehousing services are available in various public clouds, such as AWS Redshift and GCP BigQuery; in addition, there are many vendors offering similar solutions, such as Snowflake.</p>
+<p>These data warehousing services have the following characteristics.</p>
+<ol>
+<li>Nearly unlimited and low-cost storage.</li>
+<li>Scale to zero when not in use to save costs.</li>
+<li>Ability to compute large amounts of data.</li>
+<li>Response times are not short, at least much longer than databases.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*2g7P3z9wr4tirVErJlLF5g.png"></p>
+<p>This architecture is pretty similar to simple data archiving, but the difference is that data warehousing provides the ability to perform complex operations, so it can meet some of the business requirements. Of course, everything has a price, these computing power is the cost of exchange.</p>
+<ul>
+<li>Readable (v)</li>
+<li>Writable (x)</li>
+<li>Aggregatable (v)</li>
+</ul>
+<p>The reason why there is only a partial business requirement is limited by the latency of data warehouse responses, which may not be experienced well if it is a user-facing feature, so the user scenario needs to be designed in such a way for users to expect a long wait.</p>
+<p>In addition, although the data warehouse provides the ability to write, it is not suitable for the regular writing of applications. Because of the long latency and the high cost of a single write, batch processing with archiving is often used.</p>
+<ul>
+<li>Storage Cost （medium)</li>
+<li>Computing Cost (high)</li>
+<li>Access Latency (medium)</li>
+</ul>
+<p>It is worth mentioning if the original main database is SQL based, then this transformation is not a major impact on the application, because the data warehouse has SQL support. If the data warehouse and archive are already in place, then the effort of transformation is even less.</p>
+<p>However, the latency faced in obtaining data requires a reasonable process, and if the data warehouse is operated as if it were a database, then problems such as timeout may be encountered frequently. This can be mitigated by redesigning the business process.</p>
+<ul>
+<li>Implementation Complexity (medium)</li>
+</ul>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In the previous section we analyzed the properties and trade-offs of different data tiering approaches, so that we can summarize them in a table and assign a rank to them.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*kendvZgZ1Ty32KOsmNrofQ.png"></p>
+<p><code>[1]</code>: Data warehousing is also through object storage, but because it creates a catalog and supports selectable fields, it is generally more efficient than just object storage.<br><code>[2]</code>: This refers to the fact that the main database is SQL based, which makes it less difficult to implement because of the compromises in the user scenarios. But if the main database is not SQL based, it’s a totally different story.</p>
+<p>In fact, there are many variations of these four solutions, depending on the business and technical trade-offs will be adjusted in some details, but the overall concept is basically the same.</p>
+<p>We can realize that the task of data tiering, which feels very technical-driven, is essentially business-driven. From the beginning of the user behavior research to the subsequent adjustment of business requirements, this series of trade-offs will affect the entire system experience.</p>
+<p>Even so, these trade-offs still require a lot of technical selection behind the scenes, in other words, it is not only a business-driven task.</p>
+<p>We all know that data tiering is important and necessary, but how to get the whole thing launch depends on a lot of communication and mutual trust between the business side and the technical side.</p>
+<p>With the table above, I believe I can provide you with an easy-to-understand overview of how to adjust your business requirements on a case-by-case basis.</p>
+<h3 id="Stackademic-🎓"><a href="#Stackademic-🎓" class="headerlink" title="Stackademic 🎓"></a>Stackademic 🎓</h3><p>Thank you for reading until the end. Before you go:</p>
+<ul>
+<li>Please consider <strong>clapping</strong> and <strong>following</strong> the writer! 👏</li>
+<li>Follow us <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><strong>X</strong></a> | <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><strong>LinkedIn</strong></a> | <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><strong>YouTube</strong></a> | <a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Discord</strong></a></li>
+<li>Visit our other platforms: <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>In Plain English</strong></a> | <a target="_blank" rel="noopener" href="https://cofeed.app/"><strong>CoFeed</strong></a> | <a target="_blank" rel="noopener" href="https://differ.blog/"><strong>Differ</strong></a></li>
+<li>More content at <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>Stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-shopline-saves-40-space-in-main-database-9504a1eb2472">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Database/How-to-Perform-ALTER-TABLE-on-Huge-Table/20240825/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Database/How-to-Perform-ALTER-TABLE-on-Huge-Table/20240825/" class="post-title-link" itemprop="url">How to Perform ALTER TABLE on Huge Table</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-08-26 01:39:06" itemprop="dateCreated datePublished" datetime="2024-08-26T01:39:06+08:00">2024-08-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="How-to-Perform-ALTER-TABLE-on-Huge-Table"><a href="#How-to-Perform-ALTER-TABLE-on-Huge-Table" class="headerlink" title="How to Perform ALTER TABLE on Huge Table"></a>How to Perform ALTER TABLE on Huge Table</h3><h4 id="Avoiding-system-crashes-How-to-safely-alter-large-database-tables"><a href="#Avoiding-system-crashes-How-to-safely-alter-large-database-tables" class="headerlink" title="Avoiding system crashes: How to safely alter large database tables"></a>Avoiding system crashes: How to safely alter large database tables</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*ICjiDbUr9M67hqhTAbd3aA.png"></p>
+<p>I’ve often heard engineers say if the RDBMS table is so large, let’s say millions or even tens of millions of rows, that just adding a new column with a default value will cause the system to crash.</p>
+<p>Actually, it’s not that bad.</p>
+<p>Well, it’s not that bad if you do it correctly.</p>
+<p>Let’s start by understanding why we all have a given idea that this is a dangerous thing to do.</p>
+<p>In Postgres, for example, when we want to add a new column with a default value, we execute the following command.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name  </span><br><span class="line">ADD COLUMN column_name data_type DEFAULT default_value;</span><br></pre></td></tr></table></figure>
+
+<p>When Postgres recognizes this is an <code>ALTER TABLE</code> command and affects the entire table by default, it requests an <code>AccessExclusiveLock</code>. The lock is a table-level lock and is so exclusive that all other locks cannot coexist, including the lowest-level <code>AccessShareLock</code>, and all <code>SELECT</code>s require at least <code>AccessShareLock</code>, which results in the entire table being stuck.</p>
+<p>When this <code>ALTER TABLE</code> is executed on a large table, it means all rows have to be modified and updated to the default values, which also means that it will take a long time and consume a lot of system resources, and then, of course, the system will be crashed.</p>
+<p>But we can’t avoid having to make changes to the table’s columns, especially when the requirements are iterative, so what should we do?</p>
+<h3 id="Easy-for-you-to-say"><a href="#Easy-for-you-to-say" class="headerlink" title="Easy for you to say"></a>Easy for you to say</h3><p>Let’s start with an extreme ideal scenario, although I realize that most of them are not.</p>
+<p>When we expect the table to get this big, we’ll have to partition it.</p>
+<p>Continuing with the Postgres example, suppose our order table grows over time and one day overwhelms Postgres. At some point, we should consider partitioning.</p>
+<p>Assume we have the following order table.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE orders (  </span><br><span class="line">    order_id SERIAL PRIMARY KEY,  </span><br><span class="line">    tenant_id INTEGER,  </span><br><span class="line">    order_date DATE,  </span><br><span class="line">    -- other columns  </span><br><span class="line">) PARTITION BY RANGE (tenant_id);</span><br></pre></td></tr></table></figure>
+
+<p>We can consider partitioning by <code>tenant_id</code> so that the data is spread out in many smaller tables on a tenant basis.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE orders_part1 PARTITION OF orders  </span><br><span class="line">FOR VALUES FROM (1) TO (1000);  </span><br><span class="line">  </span><br><span class="line">CREATE TABLE orders_part2 PARTITION OF orders  </span><br><span class="line">FOR VALUES FROM (1001) TO (2000);</span><br></pre></td></tr></table></figure>
+
+<p>In this example, each child table would only have order information for 1000 tenants, which would effectively prevent the table from growing to a huge size.</p>
+<h3 id="The-reality-is"><a href="#The-reality-is" class="headerlink" title="The reality is"></a>The reality is</h3><p>But it’s a bit unrealistic to think about partitioning right from the beginning, because the management of a partitioned table is also a bit complicated.</p>
+<p>More often cases is the application we developed has grown to be huge without realizing it, and then there is an urgent requirement to iterate, we have to add the columns in a hurry. At this point, it’s too late to create partitions, move data, and rewrite queries.</p>
+<p>What should we do?</p>
+<p>Well, we need to minimize the negative impact of <code>ALTER TABLE</code>.</p>
+<p>First, let’s ignore the default value and set the column to nullable.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name  </span><br><span class="line">ADD COLUMN column_name data_type;</span><br></pre></td></tr></table></figure>
+
+<p>Keep in mind, do not insert in the middle of existing columns.</p>
+<p>This operation is pretty lightweight and can be done in a very short time even for huge tables.</p>
+<p>Next, we’ll start filling in the default values for this new column in batches with the primary key.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPDATE table_name  </span><br><span class="line">SET column_name = default_value  </span><br><span class="line">WHERE primary_key_column BETWEEN start_value AND end_value;</span><br></pre></td></tr></table></figure>
+
+<p>Remember, it has to be a batch, i.e. just a few hundred rows at a time, and we’ll do it in batches until all the new columns in the table have values.</p>
+<p>The reason for the batch is because the lookup of the primary key is extremely efficient, and each update only locks a portion of rows, which on the one hand improves efficiency, and on the other hand reduces the scope of the affected data.</p>
+<p>Finally, we change the columns back to what we wanted at the beginning.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name  </span><br><span class="line">ALTER COLUMN column_name data_type DEFAULT default_value;</span><br></pre></td></tr></table></figure>
+
+<p>This operation will take a little longer than the first step, but it is acceptable.</p>
+<p>Splitting a command with a huge impact into three steps, each step with a limited range of impacts, will allow the avaiability of the system to be increased dramatically.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article we have not only explained the risks of doing an <code>ALTER TABLE</code> on a large table but also suggested specific ways to deal with them.</p>
+<p>Ideally, if you’re using an RDBMS, you’ll want to consider partitioning, or even sharding, before your data grows out of control. Most RDBMS don’t have built-in sharding mechanisms, so you’ll need to use an application to do the sharding.</p>
+<p>But the reality is that we often have to operate on existing large tables, so this article proposes a feasible solution. To make the most reasonable consideration, be cautious but don’t be overtaken by hesitation.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-perform-alter-table-on-huge-table-4b38edd3ade8">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/%E5%81%9A%E4%B8%80%E5%80%8B%E5%8B%99%E5%AF%A6%E7%9A%84RAG-Pragmatic-RAG/20240818/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/%E5%81%9A%E4%B8%80%E5%80%8B%E5%8B%99%E5%AF%A6%E7%9A%84RAG-Pragmatic-RAG/20240818/" class="post-title-link" itemprop="url">做一個務實的RAG (Pragmatic RAG)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-08-19 01:33:51" itemprop="dateCreated datePublished" datetime="2024-08-19T01:33:51+08:00">2024-08-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="不要跟我五四三，回點有用的話來"><a href="#不要跟我五四三，回點有用的話來" class="headerlink" title="不要跟我五四三，回點有用的話來"></a><em>不要跟我五四三，回點有用的話來</em></h4><p><img src="https://cdn-images-1.medium.com/max/800/1*SCnwW02b4ApvfOgu45S9VA.png"></p>
+<p>這篇文章是專門為了繁體中文的 RAG 寫的。</p>
+<p>你有覺得聊天機器人一直在打高空嗎？<br>你有覺得聊天機器人總是瞎掰胡謅嗎？<br>你有覺得聊天機器人經常答非所問嗎？</p>
+<p>如果你使用的 prompt 已經很精準了，卻還常有上述感受，那很有可能你實作的 RAG 出了根本上的問題。</p>
+<p>要讓 RAG 務實有以下幾個重點：</p>
+<ol>
+<li>必須是要懂繁體中文的 embedding</li>
+<li>要有中文語意的分片器</li>
+<li>一定要是用繁體中文訓練的 LLM</li>
+<li>精準的 prompt 連同 system instruction</li>
+<li>沒做 rerank 的效果都差到不行，但 rerank 要懂繁體中文</li>
+</ol>
+<p>能夠做到上述五點，那麼你就可以得到一個穩重且有參考價值的 RAG。</p>
+<h3 id="核心概覽"><a href="#核心概覽" class="headerlink" title="核心概覽"></a>核心概覽</h3><p>以下我會提供一個使用 langchain 實作的繁體中文萬用套餐，最重要的是：本地運行，完全免費。</p>
+<p>既免費又萬用的核心元素是下列：</p>
+<ol>
+<li>懂中文的 embedding：<a target="_blank" rel="noopener" href="https://huggingface.co/BAAI/bge-m3">BGE-M3</a></li>
+<li>中文語意的分片器：<a target="_blank" rel="noopener" href="https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/recursive_text_splitter/#splitting-text-from-languages-without-word-boundaries">RecursiveCharacterTextSplitter</a></li>
+<li>繁體中文訓練的 LLM：<a target="_blank" rel="noopener" href="https://taide.tw/index/download-model">TAIDE</a></li>
+<li>懂繁體中文的 rerank：<a target="_blank" rel="noopener" href="https://github.com/google-research/bert/blob/master/multilingual.md#list-of-languages">ms-marco-MultiBERT-L-12</a></li>
+</ol>
+<p>上述都是免費的，搭配本地運行的框架：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://ollama.com/">Ollama</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/langchain-ai/langchain">Langchain</a></li>
+</ol>
+<p>就可以實作我們要的務實 RAG。</p>
+<h3 id="具體實踐"><a href="#具體實踐" class="headerlink" title="具體實踐"></a>具體實踐</h3><p>把 Ollama 裝好，有 Python 後就開始吧。</p>
+<p>以下我會用一個 <a target="_blank" rel="noopener" href="https://www.atlassian.com/software/confluence">Confluence</a> 的爬蟲做示範，但整個腳本可以套用在任何繁體中文的資料源。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Langchain 的核心套件  </span><br><span class="line">pip install langchain langchain-community langchain-core langchain-huggingface  </span><br><span class="line"># Confluence 爬蟲需要的套件 (根據資料源可替換)  </span><br><span class="line">pip install atlassian-python-api lxml pytesseract docx2txt  </span><br><span class="line"># Rerank 用  </span><br><span class="line">pip install flashrank  </span><br><span class="line"># 向量存儲  </span><br><span class="line">pip install faiss-cpu</span><br></pre></td></tr></table></figure>
+
+<p>Python 套件都安裝完成後的第一步，我們要先準備給 RAG 使用的資料源，以本例來說是 Confluence。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from langchain_community.document_loaders import ConfluenceLoader  </span><br><span class="line">  </span><br><span class="line">CONFLUENCE_TOKEN = &#x27;&lt;your token&gt;&#x27;  </span><br><span class="line">USER = &#x27;&lt;your account&gt;&#x27;  </span><br><span class="line">ROOT_URL = &#x27;&lt;your domain&gt;&#x27;  </span><br><span class="line">SPACE_KEY = &#x27;&lt;your space&gt;&#x27;  </span><br><span class="line">PAGE_ID = &#x27;&lt;your page&gt;&#x27;  </span><br><span class="line">loader = ConfluenceLoader(  </span><br><span class="line">    url=ROOT_URL, username=USER, api_key=CONFLUENCE_TOKEN  </span><br><span class="line">)  </span><br><span class="line">documents = loader.load(space_key=SPACE_KEY,  </span><br><span class="line">    page_id=PAGE_ID, include_attachments=True, limit=50)</span><br></pre></td></tr></table></figure>
+
+<p>到此，Confluence 的資料就全部抓下來並存進 <code>documents</code> 了。</p>
+<p>若你要處理的是別的資料源，就直接從這裡往下，重點是所有資料要放進 <code>documents</code>。接著我們要來做分段，許多英文的教學會使用 token 來做分段，但中文與 token 並沒有很好的對應，效果會非常差。因此，我們依然採用標點符號的分段方式，並且讓上下兩片段是有重疊的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">from langchain.text_splitter import RecursiveCharacterTextSplitter  </span><br><span class="line">  </span><br><span class="line">text_splitter = RecursiveCharacterTextSplitter(  </span><br><span class="line">    chunk_size=800,  </span><br><span class="line">    chunk_overlap=400,  </span><br><span class="line">    length_function=len,  </span><br><span class="line">    is_separator_regex=False,  </span><br><span class="line">    separators=[  </span><br><span class="line">        &quot;\n\n&quot;,  </span><br><span class="line">        &quot;\n&quot;,  </span><br><span class="line">        &quot; &quot;,  </span><br><span class="line">        &quot;.&quot;,  </span><br><span class="line">        &quot;,&quot;,  </span><br><span class="line">        &quot;\u200b&quot;,  # Zero-width space  </span><br><span class="line">        &quot;\uff0c&quot;,  # Fullwidth comma  </span><br><span class="line">        &quot;\u3001&quot;,  # Ideographic comma  </span><br><span class="line">        &quot;\uff0e&quot;,  # Fullwidth full stop  </span><br><span class="line">        &quot;\u3002&quot;,  # Ideographic full stop  </span><br><span class="line">        &quot;&quot;,  </span><br><span class="line">    ],  </span><br><span class="line">)  </span><br><span class="line">texts = text_splitter.split_documents(documents)</span><br></pre></td></tr></table></figure>
+
+<p>上面程式碼可以看到，我們對中文的全型逗號和句號做了額外處理，想要加入更多字元也行。</p>
+<p>另一個關鍵是我們的片段長度是 <code>800</code> 且重疊 <code>400</code> 字，這是我實測下來最理想的長度了，當然也可以根據需求調整。</p>
+<p>接著我們準備開始做 embedding，務必記得，embedding 的模型一定要懂繁體中文。現階段，既免費效果又好的當屬 <code>BAAI/bge-m3</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from langchain_huggingface import HuggingFaceEmbeddings  </span><br><span class="line">from langchain_community.vectorstores import FAISS  </span><br><span class="line">  </span><br><span class="line">HF_EMBEDDING_MODEL = &#x27;BAAI/bge-m3&#x27;  </span><br><span class="line">hf_embeddings = HuggingFaceEmbeddings(  </span><br><span class="line">    model_name=HF_EMBEDDING_MODEL,  </span><br><span class="line">    model_kwargs=&#123;&#x27;device&#x27;: &#x27;cpu&#x27;&#125;,  </span><br><span class="line">    encode_kwargs=&#123;&#x27;normalize_embeddings&#x27;: False&#125;  </span><br><span class="line">)  </span><br><span class="line">vectordb = FAISS.from_documents(texts, hf_embeddings)</span><br></pre></td></tr></table></figure>
+
+<p>現在我們已經有一份完整的向量放在記憶體內了，至於是否需要落地，也是根據需求決定。</p>
+<p>最後就是聊天對話了，讓我們用 langchain 的內建功能快速搭建起來。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">from langchain.prompts import PromptTemplate  </span><br><span class="line">from langchain.chains import RetrievalQA  </span><br><span class="line">from langchain.retrievers.document_compressors import FlashrankRerank  </span><br><span class="line">from langchain.retrievers import ContextualCompressionRetriever  </span><br><span class="line">from langchain_community.llms import Ollama  </span><br><span class="line">  </span><br><span class="line">LLM_MODEL = &#x27;cwchang/llama3-taide-lx-8b-chat-alpha1&#x27;  </span><br><span class="line">RERANK_MODEL = &#x27;ms-marco-MultiBERT-L-12&#x27;  </span><br><span class="line">  </span><br><span class="line">llm = Ollama(model=LLM_MODEL)  </span><br><span class="line">custom_prompt_template = &quot;&quot;&quot;  </span><br><span class="line">&lt;your system instruction&gt;  </span><br><span class="line">&#123;context&#125;  </span><br><span class="line">Question: &#123;question&#125;  </span><br><span class="line">Helpful Answer:&quot;&quot;&quot;  </span><br><span class="line">CUSTOMPROMPT = PromptTemplate(  </span><br><span class="line">    template=custom_prompt_template, input_variables=[&quot;context&quot;, &quot;question&quot;]  </span><br><span class="line">)  </span><br><span class="line">retriever = vectordb.as_retriever(search_type=&quot;similarity&quot;,  </span><br><span class="line">    search_kwargs=&#123;&quot;k&quot;: 100&#125;) # K1, Top100 Snippets  </span><br><span class="line">compressor = FlashrankRerank(model=RERANK_MODEL, top_n=5) # K2, Top5 Answers  </span><br><span class="line">compression_retriever = ContextualCompressionRetriever(  </span><br><span class="line">    base_compressor=compressor, base_retriever=retriever  </span><br><span class="line">)  </span><br><span class="line">qa = RetrievalQA.from_chain_type(llm=llm, chain_type=&quot;stuff&quot;,   </span><br><span class="line">    retriever=compression_retriever, return_source_documents=True)  </span><br><span class="line">## Inject custom prompt   </span><br><span class="line">qa.combine_documents_chain.llm_chain.prompt = CUSTOMPROMPT  </span><br><span class="line">question = &quot;&lt;your question&gt;&quot;  </span><br><span class="line">answer = qa(&#123;&quot;query&quot;: question&#125;)  </span><br><span class="line">print(answer)</span><br></pre></td></tr></table></figure>
+
+<p>上面這段 code 有幾個重點：</p>
+<ol>
+<li>採用 Ollama Hub 內有的 TAIDE 模型 (整合好的比較方便)</li>
+<li>Rerank 模型則是 langchain 整合的 <code>ms-marco-MultiBERT-L-12</code></li>
+<li>先用向量的相似性比對找出前 100 名，接著透過 rerank 找出最佳的 5 個</li>
+<li>雖然 <code>answer</code> 只會有一個答案，但 <code>return_source_documents=True</code> 所以可以看到參考了哪些結果</li>
+</ol>
+<h3 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h3><p>上面那整段 code 都只需要本地運行，硬碟大概需要 10 GB 左右，但因為不需要 GPU ，所以一般手上的電腦都可以跑。</p>
+<p>雖然是以 Confluence 爬蟲作為例子，但相信你們都可以發現，langchain 這個框架其實整合的相當好，大部分的工作都可以簡單幾行 code 就處理掉。即使是需要一定 know-how 的 rerank，也已經有內建的整合可以直接使用。</p>
+<p>至於腳本內沒提到的 prompt 和 system instruction，那個必須根據你的用途和語料來動態調整，所以如果使用這個腳本還碰到不夠精準的回答，那多半是這兩點沒調校好。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/%E5%81%9A%E4%B8%80%E5%80%8B%E5%8B%99%E5%AF%A6%E7%9A%84rag-pragmatic-rag-65fc63647c51">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/When-to-Consider-Design-Patterns/20240804/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/When-to-Consider-Design-Patterns/20240804/" class="post-title-link" itemprop="url">When to Consider Design Patterns</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-08-05 01:44:05" itemprop="dateCreated datePublished" datetime="2024-08-05T01:44:05+08:00">2024-08-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="When-to-Consider-Design-Patterns"><a href="#When-to-Consider-Design-Patterns" class="headerlink" title="When to Consider Design Patterns"></a>When to Consider Design Patterns</h3><h4 id="Balancing-practicality-and-over-engineering-in-software-development"><a href="#Balancing-practicality-and-over-engineering-in-software-development" class="headerlink" title="Balancing practicality and over-engineering in software development"></a>Balancing practicality and over-engineering in software development</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*AMROf0mlE-X7Zqd6tpfwSA.png"></p>
+<p>This week, at the study group, our engineer asked a question: Should we follow the design pattern to design and implement the project from the beginning?</p>
+<p>The design pattern mentioned here refers to GoF’s <code>Design Patterns</code>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*iNMvKrBpAzn0jPK2.png"></p>
+<p>Meanwhile, there is a related context which suggests that our coding should follow <code>SOLID principle</code> as much as possible, especially the first S and the second O, anyway.</p>
+<p>Since SOLID principle should be followed as much as possible, then the design pattern should also be taken into consideration from the very beginning, right?</p>
+<p>No, not really.</p>
+<h3 id="What-are-design-patterns"><a href="#What-are-design-patterns" class="headerlink" title="What are design patterns?"></a>What are design patterns?</h3><blockquote>
+<p><em>The design patterns we often talk about actually refer to those solutions defined by GoF, which are designed to solve the problems often faced in object-oriented programming.</em></p>
+</blockquote>
+<blockquote>
+<p><em>When we want the code to be easy to maintain and easy to modify, i.e., the open and closed principle, we abstract the problems through various encapsulation techniques, and eventually become those interesting design patterns.</em></p>
+</blockquote>
+<p>Did you notice two key points in this paragraph?</p>
+<ol>
+<li>OOP-specific problems</li>
+<li>Ease of maintenance and modification</li>
+</ol>
+<p>If your project has just started and there is still a question mark over whether it will be successful or not, why do you need to think about the flexibility in the long term?</p>
+<p>If your project requirements are fixed, why do you need to worry about maintenance and modification?</p>
+<p>If you’re one of my regular readers, you’ll remember we’ve talked about a similar question before.</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/when-to-consider-clean-architecture-a-practical-guide-6a21fccb5e6b"><em>When to consider clean architecture?</em></a></p>
+</blockquote>
+<p>Even earlier on, we have talked about another similar issue.</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://interviewnoodle.com/do-you-really-need-a-microservice-91a48cbea8c1"><em>Do you really need a microservice?</em></a></p>
+</blockquote>
+<p>Most of time, I’m on the side of “don’t over-engineering”.</p>
+<p>Whether it’s design patterns, clean architecture, or even microservice architecture, they are all means to solve problems, but first, you have to encounter the problem. If you have a clear problem, find the right solution, and don’t do it just for the sake of doing it.</p>
+<h3 id="What-exactly-is-a-Pattern"><a href="#What-exactly-is-a-Pattern" class="headerlink" title="What exactly is a Pattern?"></a>What exactly is a Pattern?</h3><p>By the way, what is pattern?</p>
+<p>As I mentioned at the beginning, the design patterns we often talk about actually refer to the solutions listed in the GoF book.</p>
+<p>Pattern is like a “symptom”, when you have a cold over and over again, you will know that you need to drink more water and take more rest, the same is true when we program. When we see a certain problem over and over again, we will naturally have a corresponding solution, but will this solution be the most effective one?</p>
+<p>The design pattern is the medicine for that symptom. When we come across a symptom, we will find out the corresponding medicine to solve the problem, and therefore, you should not usually take medicine without thinking about it, right? It’s unhealthy to take medicine when you don’t have symptoms.</p>
+<p>In fact, patterns are everywhere.</p>
+<p>Object-oriented programming has its patterns, software architecture has its patterns, and even system architecture has its patterns.</p>
+<p>For example, the following book should not be unfamiliar to you.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*E5DDIVAVxVUTZ0Fa.png"></p>
+<p>This book may feel a little unfamiliar.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*ZdKc7OfUv7vL705D.png"></p>
+<p>Here is a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Pattern-Oriented_Software_Architecture">series of books</a> from Volume 1 to Volume 5.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*LlkHCi-TI0vs5pzG.png"></p>
+<p>These books are all about the patterns encountered in various software development contexts, in short, a list of medicines.</p>
+<p>If we’re sick, we can get something out of it, but if we’ve never been sick, we don’t even know what they’re talking about, not to mention when to consider the patterns.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Software development is a pragmatic process.</p>
+<p>What we are doing is always encountering problems, thinking about them, and finally solving them.</p>
+<p>“This may be needed in the future, so I’m ready for it.” I’ve heard this phrase a lot, but in reality, most of these pre-prepared things don’t work. Because requirements are always changing.</p>
+<p>But if we find requirements have changed and it’s hard for us to implement them, then it’s not too late to consider what medicine we need to take. This is refactoring.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/when-to-consider-design-patterns-7d0507d1c429">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Paradigm-Shift-in-Software-Development-Part-2/20240728/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/Paradigm-Shift-in-Software-Development-Part-2/20240728/" class="post-title-link" itemprop="url">Paradigm Shift in Software Development, Part 2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-07-29 01:50:57" itemprop="dateCreated datePublished" datetime="2024-07-29T01:50:57+08:00">2024-07-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Paradigm-Shift-in-Software-Development-Part-2"><a href="#Paradigm-Shift-in-Software-Development-Part-2" class="headerlink" title="Paradigm Shift in Software Development, Part 2"></a>Paradigm Shift in Software Development, Part 2</h3><h4 id="Addressing-the-limitations-of-GenAI-via-REST-API-function-calling"><a href="#Addressing-the-limitations-of-GenAI-via-REST-API-function-calling" class="headerlink" title="Addressing the limitations of GenAI via REST API function calling"></a>Addressing the limitations of GenAI via REST API function calling</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*R45EJH8jQ-H4IeYMD1OB7Q.png"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/a-paradigm-shift-in-software-development-leveraging-genai-for-direct-business-logic-processing-9929a724cc1c">Paradigm Shift in Software Development, Part 1</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/paradigm-shift-in-software-development-part-2-60703d518ac9">Paradigm Shift in Software Development, Part 2</a></li>
+</ul>
+<p>Last time, we mentioned that GenAI can be used to implement business logic and dramatically increase development productivity and reduce the effort of debugging.</p>
+<p>However, I have to say that GenAI is not suitable for applications that require accurate computation. In other words, the demonstration in the previous article was just a demo and not a recommendation to use GenAI for calculating promotions.</p>
+<p>But that doesn’t mean using GenAI as a business logic is a bad idea. On the contrary, GenAI is really suitable for replacing “some” business logic.</p>
+<p>Maybe you will ask, most of the business logic needs to be calculated and requires accuracy, so what exactly can GenAI help? Well, I’ll tell you, it helps call the APIs that have already been coded.</p>
+<p>The correct way to use GenAI to handle business logic is to encapsulate that business logic directly into a Remote Procedure Call (RPC) and let GenAI prepare the parameters needed for the RPC and call the corresponding RPC correctly.</p>
+<p>Currently, the RPC that is easiest for GenAI to handle is the REST API for the following reasons.</p>
+<ol>
+<li>Plain text style, no matter the URI, HTTP header, HTTP method, query parameter and request payload are all plain text.</li>
+<li>Full specification support. Nowadays, the most straightforward way to describe a REST API is to use a swagger, and the description file of the swagger is also plain text.</li>
+<li>REST is a mature and relatively less dependency choice, on the contrary, such as gRPC and other protocols need to have to install additional drivers.</li>
+</ol>
+<p>Therefore it’s pretty clear what we’re going to do, so let’s follow the steps and explain them. We will still use Gemini as a demonstration as in the previous article, but once again, you can use what you are familiar with.</p>
+<h3 id="Experimental-environment-introduction"><a href="#Experimental-environment-introduction" class="headerlink" title="Experimental environment introduction"></a>Experimental environment introduction</h3><p>I have prepared a web service with basic CRUD.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wirelessr/genai_api_calling">https://github.com/wirelessr/genai_api_calling</a></p>
+<p>Just <code>docker compose up</code> to get the service up.</p>
+<p>This service is a product microservice that handles CRUD for a single product and saves the results in a database. For ease of use, I’m using Redis as the database for this example.</p>
+<p>This service has two entry points.</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://localhost:50000/">http://localhost:50000</a> is the home page of the microservice, with a simple list page and blocks for adding and modifying products.</li>
+<li><a target="_blank" rel="noopener" href="http://localhost:50000/apidocs">http://localhost:50000/apidocs</a> is the swagger home page, which lists all the API descriptions and specifications.</li>
+</ol>
+<p>Then prepare some basic test data.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST &quot;http://localhost:50000/api/product&quot; -H &quot;accept: application/json&quot; -H &quot;Content-Type: application/x-www-form-urlencoded&quot; -d &quot;id=123&amp;name=Apple&amp;description=Fruit&quot;  </span><br><span class="line">curl -X POST &quot;http://localhost:50000/api/product&quot; -H &quot;accept: application/json&quot; -H &quot;Content-Type: application/x-www-form-urlencoded&quot; -d &quot;id=234&amp;name=Bird&amp;description=Animal&quot;  </span><br><span class="line">curl -X POST &quot;http://localhost:50000/api/product&quot; -H &quot;accept: application/json&quot; -H &quot;Content-Type: application/x-www-form-urlencoded&quot; -d &quot;id=345&amp;name=Cat&amp;description=Animal&quot;</span><br></pre></td></tr></table></figure>
+
+<p>It is worth noting that creating a new product and modifying a product are actually the same API: <code>POST /api/product</code>. When the product ID doesn’t exist, the API will create a new product; on the other hand, if the product ID exists, then it will modify the product.</p>
+<p>Remember this, because it’s relevant to the business logic we’re trying to implement.</p>
+<p>The following examples are actually listed in <a target="_blank" rel="noopener" href="https://github.com/wirelessr/genai_api_calling/blob/main/rest_api_calling.ipynb">rest_api_calling.ipynb</a>.</p>
+<h3 id="GenAI-calls-RPC"><a href="#GenAI-calls-RPC" class="headerlink" title="GenAI calls RPC"></a>GenAI calls RPC</h3><p>First, we need to enable GenAI to call RPCs, which is called function calling, and both OpenAI’s ChatGPT and Google’s Gemini have similar capabilities.</p>
+<p>Reference links are listed here.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/function-calling">ChatGPT function calling</a></li>
+<li><a target="_blank" rel="noopener" href="https://ai.google.dev/gemini-api/docs/function-calling">Gemini function calling</a></li>
+</ul>
+<p>The following is an example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">def get_website_content(url: str) -&gt; str:  </span><br><span class="line">  &quot;&quot;&quot;  </span><br><span class="line">  Get the content from a specific URL similar to curl -X GET.Args.  </span><br><span class="line">      url (str, required): The target URL is either remote or local.  </span><br><span class="line">  Returns.  </span><br><span class="line">      str: The raw content from a specific URL.  </span><br><span class="line">  &quot;&quot;&quot;  </span><br><span class="line">  response = requests.get(url)  </span><br><span class="line">  return response.text  </span><br><span class="line">  </span><br><span class="line">def post_request(url: str, data: str) -&gt; dict:  </span><br><span class="line">  &quot;&quot;&quot;  </span><br><span class="line">  Send a request similar to curl -X POST.  </span><br><span class="line">  Args.  </span><br><span class="line">      url (str, required): Target URL.  </span><br><span class="line">      data (str, required): The data of the form in &quot;id=value1&amp;name=value2&amp;description=value3&quot; format.  </span><br><span class="line">  Returns.  </span><br><span class="line">      dict: Dictionary containing the status code and response content.  </span><br><span class="line">  &quot;&quot;&quot;  </span><br><span class="line">  response = requests.post(url, headers=&#123;&quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;&#125;, data=data)  </span><br><span class="line">  try:  </span><br><span class="line">      response_content = response.json()  </span><br><span class="line">  except ValueError:  </span><br><span class="line">      response_content = response.text  </span><br><span class="line">  return &#123;  </span><br><span class="line">      &quot;status_code&quot;: response.status_code,  </span><br><span class="line">      &quot;content&quot;: response_content,  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">system_instruction = &#x27;&#x27;&#x27;You are a professional web crawler and familiar with swagger usage.  </span><br><span class="line">You can get the content you want by yourself through web api,   </span><br><span class="line">and when you utilize web api, you will actively list which api is used.  </span><br><span class="line">If you don&#x27;t know the answer to a question, just answer no, don&#x27;t make up an answer.  </span><br><span class="line">&#x27;&#x27;&#x27;  </span><br><span class="line">  </span><br><span class="line">model = genai.GenerativeModel(model_name=&#x27;gemini-1.5-pro&#x27;,  </span><br><span class="line">                              tools=[get_website_content, post_request],  </span><br><span class="line">                              system_instruction=system_instruction,)</span><br></pre></td></tr></table></figure>
+
+<p>We have designed two tools for Gemini, <code>get_website_content</code> and <code>post_request</code>. The code comments and annotations must be written in detail so that GenAI can realize the use of these tools.</p>
+<p>Now GenAI can use <code>GET</code> and <code>POST</code>.</p>
+<h3 id="GenAI-understands-RPC-specifications"><a href="#GenAI-understands-RPC-specifications" class="headerlink" title="GenAI understands RPC specifications"></a>GenAI understands RPC specifications</h3><p>Once GenAI is able to invoke RPC, we then need to enable GenAI to learn “all” RPC specifications.</p>
+<p>In the case of REST APIs, the simplest way is to use a swagger to describe all the APIs, including their inputs and outputs, as well as their functionality. The more detailed the information, the more GenAI can operate correctly without having to spend a lot of effort tuning prompts.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">chat_session = model.start_chat(  </span><br><span class="line">    enable_automatic_function_calling=True,  </span><br><span class="line">    history=[  </span><br><span class="line">        &#123;  </span><br><span class="line">            &quot;role&quot;: &quot;user&quot;,  </span><br><span class="line">            &quot;parts&quot;: [  </span><br><span class="line">                &quot;I have a website and this website provides full swagger: http://localhost:50000/apispec_1.json Please tell me the features of this website.&quot;  </span><br><span class="line">            ]  </span><br><span class="line">        &#125;,  </span><br><span class="line">        &#123;  </span><br><span class="line">            &quot;role&quot;: &quot;model&quot;,  </span><br><span class="line">            &quot;parts&quot;: [  </span><br><span class="line">                &quot;&quot;&quot;This website provides four API endpoints:- Create or update a product: You can send a POST request to `/api/product` with product ID, name, and description to create or update a product.  </span><br><span class="line">- Delete a product: You can send a POST request to `/api/product/delete/&#123;product_id&#125;` to delete a product by its ID.  </span><br><span class="line">- Get a product: You can send a GET request to `/api/product/&#123;product_id&#125;` to retrieve the details of a product by its ID.  </span><br><span class="line">- Get all products: You can send a GET request to `/api/products` to get a list of all products. &quot;&quot;&quot;  </span><br><span class="line">            ]  </span><br><span class="line">        &#125;  </span><br><span class="line">    ]  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>This is the record I left after talking to Gemini beforehand, it can be used as the history of the prompt.</p>
+<p>You can also do some additional conversations to verify that Gemini has really learned it.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">response = chat_session.send_message(&quot;Create a new product by your own thought&quot;)  </span><br><span class="line">  </span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Practical-Business-Logic"><a href="#Practical-Business-Logic" class="headerlink" title="Practical Business Logic"></a>Practical Business Logic</h3><p>Now we’ve made sure that GenAI knows the basics, we can make GenAI implement business logic based on those basics.</p>
+<p>For example, the current <code>POST /api/product</code> is a combination of creation and modification, with the <code>id</code> determining whether to create or modify. The <code>id</code> is filled in by the client itself, so it is very likely to be wrong.</p>
+<p>Then we can ask GenAI to find out the unused <code>id</code> to add based on the result of <code>list</code>.</p>
+<blockquote>
+<p><em>Avoid the existing ids and create a new product.</em></p>
+</blockquote>
+<p>In this way, the client does not need to fill in the <code>id</code> itself but GenAI is responsible for generating the <code>id</code>.</p>
+<p>Or another use case, right now the <code>description</code> is free format, so it can be written any way we want. But we can use GenAI to provide a template so that all creations and modifications are in a fixed format, such as the following template.</p>
+<blockquote>
+<p>When creating and modifying products, the description must conform to the following format.</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>Category: str, the category of the product.</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Price: int, the price of the product.</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Notes: str, additional information.</li>
+</ul>
+</blockquote>
+<p>The implementation of this business logic doesn’t involve computation, it’s just a matter of letting GenAI call on a known API to accomplish a specific goal.</p>
+<p>You can use your imagination to make more variations.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In the previous article we mentioned that GenAI can be used to implement business logic, and this is true. But in practice, we still need to do some development work to make GenAI able to implement business logic accurately.</p>
+<p>Because GenAI may be good at business logic, but it’s not accurate, so in order to maximize GenAI’s strengths, we need to make GenAI do as little computation as possible. By encapsulating the business logic that needs to be computed and enabling GenAI to execute it exactly according to the instructions we provide, we can maximize productivity.</p>
+<p>Why do we use GenAI to implement business logic?</p>
+<p>Let’s go back and answer this fundamental question. Because GenAI has the ability to understand natural language and execute our predefined scripts or steps, implementing business logic with GenAI becomes software development in natural language.</p>
+<p>Of course, GenAI is not perfect, there are a few core concepts in the development process.</p>
+<ol>
+<li>Integration must be done properly. Although the examples I have provided are all working scripts, in fact, to make GenAI actually put into production environment requires a lot of infrastructure. For example, LLM caching, vector databases, and model repository. Each of these components is a new tech stack for organizations that have never introduced GenAI before.</li>
+<li>Prompts must be good. Although we are developing in natural language, GenAI can easily “learn the wrong way” if we are not precise enough. Moreover, GenAI may perform normally but crash when it encounters a specific pattern, which will be very difficult to debug.</li>
+<li>Testing must be done right. We have already encapsulated business logic into RPC for GenAI, but we still need to make sure that GenAI works properly in all kinds of scenarios, so we must have a high coverage of test cases.</li>
+</ol>
+<p>As we can see, although software development with GenAI may seem attractive, there are many challenges that must be overcome. If we want to become a master of prompting, we still have to be a developer first.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/paradigm-shift-in-software-development-part-2-60703d518ac9">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Another Way to Design Short URL ServiceAn out-of-the-box feature in AWS Short URL service is a common feature, not only does it look better with shorter URLs, but it also has many additional benefits.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Another Way to Design Short URL Service">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Another-Way-to-Design-Short-URL-Service/20230312/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Another Way to Design Short URL ServiceAn out-of-the-box feature in AWS Short URL service is a common feature, not only does it look better with shorter URLs, but it also has many additional benefits.">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*XvJf9qS_o-g26Qit.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*A7xidgJfl3X5g1R9COpX0g.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*7rIFXELCP87GnzE3pM68pg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*5XPFTDviOPLgnb6GNP2_AA.png">
+<meta property="article:published_time" content="2023-03-12T17:48:14.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.820Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*XvJf9qS_o-g26Qit.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Another-Way-to-Design-Short-URL-Service/20230312/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Another-Way-to-Design-Short-URL-Service/20230312/","path":"Architecture/Another-Way-to-Design-Short-URL-Service/20230312/","title":"Another Way to Design Short URL Service"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Another Way to Design Short URL Service | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Another-Way-to-Design-Short-URL-Service"><span class="nav-number">1.</span> <span class="nav-text">Another Way to Design Short URL Service</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#An-out-of-the-box-feature-in-AWS"><span class="nav-number">1.1.</span> <span class="nav-text">An out-of-the-box feature in AWS</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#General-Rules"><span class="nav-number">2.</span> <span class="nav-text">General Rules</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Another-Way"><span class="nav-number">3.</span> <span class="nav-text">Another Way</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">4.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Another-Way-to-Design-Short-URL-Service/20230312/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Another Way to Design Short URL Service | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Another Way to Design Short URL Service
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-03-13 01:48:14" itemprop="dateCreated datePublished" datetime="2023-03-13T01:48:14+08:00">2023-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Another-Way-to-Design-Short-URL-Service"><a href="#Another-Way-to-Design-Short-URL-Service" class="headerlink" title="Another Way to Design Short URL Service"></a>Another Way to Design Short URL Service</h3><h4 id="An-out-of-the-box-feature-in-AWS"><a href="#An-out-of-the-box-feature-in-AWS" class="headerlink" title="An out-of-the-box feature in AWS"></a>An out-of-the-box feature in AWS</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*XvJf9qS_o-g26Qit.png"></p>
+<p>Short URL service is a common feature, not only does it look better with shorter URLs, but it also has many additional benefits. For example, when a commercial website is sending out promotion SMS, shortening the URL can effectively save the cost of SMS.</p>
+<p>In addition, short URL services involve many important concepts of system design and are a common question during technical interviews. To design the architecture of a short URL service, we usually start with the following diagram and discuss some considerations.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*A7xidgJfl3X5g1R9COpX0g.png"></p>
+<h3 id="General-Rules"><a href="#General-Rules" class="headerlink" title="General Rules"></a>General Rules</h3><ul>
+<li>Generation rate: Knowing the rate at the client side to generate short URLs allows us to evaluate what kind of database is needed. In addition, the generation rate also affects whether ACID, i.e. <code>InsertIfNotExisted</code>, is required.</li>
+<li>Read frequency: If it is a system with a large number of reads, we will always need to consider caching.</li>
+<li>Retention period: How long to keep the generated short URLs and the generation rate can be multiplied to know the collision probability of the algorithm and whether the database needs to be sharded.</li>
+<li>Additional features: The need to provide additional features also directly affects the system design, e.g., if we want to track usage, how to update the counters in the case of caching.</li>
+</ul>
+<p>The above is a list of functional requirements, but of course, there are also non-functional requirements.</p>
+<ul>
+<li>Availability: How long does the short URL service allow for downtime, which will determine whether a load balancer needs to be used and whether the database needs to be clustered.</li>
+<li>Scalability: When the usage increases, not only the service itself must be able to scale horizontally, but also the bottleneck of the database must be addressed.</li>
+<li>Consistency: What should be done when two concurrently generated short addresses are the same?</li>
+</ul>
+<p>In the end, in order to achieve a scalable and highly availability short URL service, the architecture diagram usually becomes as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7rIFXELCP87GnzE3pM68pg.png"></p>
+<p>Well, it’s a bit complicated, but it’s actually putting in all the factors mentioned before.</p>
+<p>In order to provide scalability, there is a load balancer to spread the traffic to many API services, and each API generates its own short URL and writes to the corresponding database cluster based on sharding rules. When reading, in order to reduce the database load, we first read from the cache, and then read from the database if it does not exist.</p>
+<p>In addition, we have to consider whether the database is SQL or NoSQL, and if it is SQL, we have to design our own sharding mechanism. If it is NoSQL, how to implement ACID. Oh, we haven’t mentioned the monitoring, the monitoring of API, the monitoring of each database shard, and so on and so forth.</p>
+<p>As for the hashing algorithm, that is not the focus of this article. After all, the system architecture alone is troublesome enough.</p>
+<h3 id="Another-Way"><a href="#Another-Way" class="headerlink" title="Another Way"></a>Another Way</h3><p>In fact, there is a simpler way to achieve a highly scalable and available short URL service.</p>
+<p>Using AWS S3 with AWS Cloudfront, there is a step-by-step tutorial in the following article.</p>
+<p>Briefly, the S3 object setting <code>x-amz-website-redirect-location</code> can automatically convert the read object to <strong>HTTP 301 Redirect</strong>, and then with the built-in integration of AWS Cloudfront and S3, we can do the caching.</p>
+<p>The whole architecture will become very simple.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*5XPFTDviOPLgnb6GNP2_AA.png"></p>
+<p>Because S3 itself is highly available and scalable, and can be treated as unlimited volume, our problem becomes very simple, we just need to manage the creation of the short URL itself.</p>
+<p>Furthermore, both S3 and Cloudfront are monitored by AWS Cloudwatch, so it saves a lot of maintenance effort.</p>
+<p>If we want to know the performance of short URLs, we just need to enable Cloudfront’s access log and analyze it with AWS Athena. <a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html">The official AWS documentation</a> will have enough information.</p>
+<p>One more point to note is that <a target="_blank" rel="noopener" href="https://repost.aws/knowledge-center/s3-503-within-request-rate-prefix">AWS S3 has a built-in rate limit</a>. If short URLs are generated and written directly to the root directory, then the entire service is limited to 3500 short URLs per second.</p>
+<p>However, this can be avoided by a little trick. The rate limit rule is based on the object prefix, so we just need to add slash appropriately after generating short URLs. For example, if the generated short URL is 10 characters, <code>abcdefghij</code>, then the mid slash can effectively avoid the rate limit by turning it into <code>abcde/fghij</code>.</p>
+<p>Another problem is that AWS S3 itself does not have ACID, so when two objects with the same path but different metadata will occur the latter override the former. To avoid this problem is not difficult, we need only to add additional characters into the short URL, e.g. the last few digits of epoch.</p>
+<p>Consider the ten-character short URL <code>abcdefghij</code> with the rate limit problem can become <code>12/abcdefghij</code>.</p>
+<p>This depends on creativity, there is no fixed answer.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Short URL service is a good topic to learn system design, although the function is simple, but can cover most of the system design issues.</p>
+<p>But if we really want to implement a short URL service on our own, then those interesting topics will soon become nightmares. Therefore, I prefer to use some existing solutions, such as AWS S3, rather than building a complete system from scratch.</p>
+<p>However, even with an existing solution, those system design issues must be carefully evaluated, such as rate limit and ACID.</p>
+<p>System design is interesting, especially when there are many alternatives, and the process of weighing the pros and cons is always engaging.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/another-way-to-design-short-url-service-33da05a5548b">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Testing/How-to-Make-Example-based-Testing-Better/20230305/" rel="prev" title="How to Make Example-based Testing Better">
+                  <i class="fa fa-chevron-left"></i> How to Make Example-based Testing Better
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Microservice/Make-any-Website-Authenticated/20230319/" rel="next" title="Make any Website Authenticated">
+                  Make any Website Authenticated <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

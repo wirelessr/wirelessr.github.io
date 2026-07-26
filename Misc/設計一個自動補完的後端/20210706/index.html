@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="問題描述設計一個能夠自動補完的後端系統，就像Google或亞馬遜 設計目的像往常一樣，我們首先須要讓設計目標更加明確。花兩分鐘問自己這些問題：  這個系統需要處理多大的查詢數量(以秒計)？ 期待的延遲？ 這些查詢的文本是無邊界的嗎(像是Google)？或是有一些事先定義好的種類(像是亞馬遜的商品建議)？ 我們想要怎樣顯示這些補全的建議？ 其他  這些問題的答案會引導整個設計的選擇，例如：  如果這">
+<meta property="og:type" content="article">
+<meta property="og:title" content="設計一個自動補完的後端">
+<meta property="og:url" content="https://wirelessr.github.io/Misc/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E8%87%AA%E5%8B%95%E8%A3%9C%E5%AE%8C%E7%9A%84%E5%BE%8C%E7%AB%AF/20210706/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="問題描述設計一個能夠自動補完的後端系統，就像Google或亞馬遜 設計目的像往常一樣，我們首先須要讓設計目標更加明確。花兩分鐘問自己這些問題：  這個系統需要處理多大的查詢數量(以秒計)？ 期待的延遲？ 這些查詢的文本是無邊界的嗎(像是Google)？或是有一些事先定義好的種類(像是亞馬遜的商品建議)？ 我們想要怎樣顯示這些補全的建議？ 其他  這些問題的答案會引導整個設計的選擇，例如：  如果這">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*bKV98GAVXE5uCjWO.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*l1_QxkqKPZW51ri7.png">
+<meta property="article:published_time" content="2021-07-06T05:37:36.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.830Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*bKV98GAVXE5uCjWO.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Misc/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E8%87%AA%E5%8B%95%E8%A3%9C%E5%AE%8C%E7%9A%84%E5%BE%8C%E7%AB%AF/20210706/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Misc/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E8%87%AA%E5%8B%95%E8%A3%9C%E5%AE%8C%E7%9A%84%E5%BE%8C%E7%AB%AF/20210706/","path":"Misc/設計一個自動補完的後端/20210706/","title":"設計一個自動補完的後端"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>設計一個自動補完的後端 | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%8F%E9%A1%8C%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">問題描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E8%A8%88%E7%9B%AE%E7%9A%84"><span class="nav-number">2.</span> <span class="nav-text">設計目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">作法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#K-V-pairs"><span class="nav-number">3.1.</span> <span class="nav-text">K-V pairs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Search-log"><span class="nav-number">3.2.</span> <span class="nav-text">Search log</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Offline-Job"><span class="nav-number">3.3.</span> <span class="nav-text">Offline Job</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Servers"><span class="nav-number">3.4.</span> <span class="nav-text">Servers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%80%8B%E4%BA%BA%E5%8C%96%E8%B3%87%E6%96%99"><span class="nav-number">3.5.</span> <span class="nav-text">個人化資料</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CDN"><span class="nav-number">3.6.</span> <span class="nav-text">CDN</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E8%87%AA%E5%8B%95%E8%A3%9C%E5%AE%8C%E7%9A%84%E5%BE%8C%E7%AB%AF/20210706/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="設計一個自動補完的後端 | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          設計一個自動補完的後端
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-07-06 13:37:36" itemprop="dateCreated datePublished" datetime="2021-07-06T13:37:36+08:00">2021-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="問題描述"><a href="#問題描述" class="headerlink" title="問題描述"></a>問題描述</h3><p>設計一個能夠自動補完的後端系統，就像Google或亞馬遜</p>
+<h3 id="設計目的"><a href="#設計目的" class="headerlink" title="設計目的"></a>設計目的</h3><p>像往常一樣，我們首先須要讓設計目標更加明確。花兩分鐘問自己這些問題：</p>
+<ul>
+<li>這個系統需要處理多大的查詢數量(以秒計)？</li>
+<li>期待的延遲？</li>
+<li>這些查詢的文本是無邊界的嗎(像是Google)？或是有一些事先定義好的種類(像是亞馬遜的商品建議)？</li>
+<li>我們想要怎樣顯示這些補全的建議？</li>
+<li>其他</li>
+</ul>
+<p>這些問題的答案會引導整個設計的選擇，例如：</p>
+<ul>
+<li>如果這個系統是為了一個熱門網站設計的，那麼查詢次數很可能每秒超過100K。這在現實生活中已經是非常大的量了，這個數字告訴我們兩件事：</li>
+</ul>
+<ol>
+<li>這個系統要能夠擴容到支援100K次的查詢，這不是單一台機器能夠承受的量。</li>
+<li>系統需要消化這100K的查詢以便更新整個自動補全的結果，這通常可以透過非同步的方式處理。</li>
+</ol>
+<ul>
+<li>自動補全系統通常對於延遲很敏感，也就是說我們期待他的P95延遲在10ms。這個數字表示我們不必要把所有的資料的快取在記憶體，無論是跨資料中心的網路呼叫或使用SSD的隨機存取都是幾個ms的等級。但是，我們應該盡量多使用記憶體來減少延遲和資料庫的負載。一個小提醒，如果使用的是<em>關係型資料庫</em>例如MySQL，那必須要使用足夠好的機器等級，以<em>AWS RDS</em>來說，需要使用<code>db.r4.8xlarge</code>並且搭配幾個讀取複本來處理每秒100K的查詢。</li>
+<li>假設我們要處理的是純文本輸入像是Google的自動補完，那表示字彙量很可能會很大。</li>
+<li>如果當使用者輸入1到M個字元而我們要顯示最熱門的N個推薦，那麼N和M的值會決定整個設計走向。舉例來說，當<code>N = M = 5</code>，如果我們決定預先計算所有推薦，那我們只需要使用(26 + 262 + 263 + 264 + 265) * 5 * <code>avg_len_of_word</code>的空間，約小於0.5GB，這樣的使用量可以輕鬆被保存在記憶體中。另一方面，當<code>N = M = 10</code>，這就需要超過1K TB的空間，這也就是說我們需要很多機器來將這些資料保存在記憶體。</li>
+</ul>
+<h3 id="作法"><a href="#作法" class="headerlink" title="作法"></a>作法</h3><p>其中一種可行的架構看起來會像：</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*bKV98GAVXE5uCjWO.png"></p>
+<h4 id="K-V-pairs"><a href="#K-V-pairs" class="headerlink" title="K-V pairs"></a>K-V pairs</h4><p>因為有延遲限制的前提，所以動態產生推薦清單不太實際。我們需要預先計算結果，並將其用鍵值對的方式儲存起來；鍵是使用者輸入的前綴，而值是最熱門的推薦清單。例如：<code>(&quot;mic&quot;, [&quot;michael jordan&quot;, &quot;microsoft&quot;])</code>，這表示當前綴是mic的時候，有兩個最熱門的推薦：michael jordan和microsoft。選用鍵值對而不是其他更省空間的作法，如<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Trie">Trie</a>的理由是，鍵值對更方便保存&#x2F;利用。</p>
+<h4 id="Search-log"><a href="#Search-log" class="headerlink" title="Search log"></a>Search log</h4><p>搜尋記錄保留使用者產生的原始資料，這些資料來源是可信任的，之後會被用來計算鍵值對。用上述的例子，如果使用者輸入mic，並且使用者最後要的結果是microsoft，這表示另一個使用者輸入mic也有可能是想要microsoft，這背後的演算法是*貝葉斯推斷(Bayesian inference)*。</p>
+<h4 id="Offline-Job"><a href="#Offline-Job" class="headerlink" title="Offline Job"></a>Offline Job</h4><p>我們需要一個背景任務來將搜尋記錄轉換成鍵值對，這通常是運行一個<code>map-reduce</code>形式的批次處理任務。接著我們將產生的鍵值對推送到一個分散式存儲，例如：Redis或HBase；我們也需要將鍵值對推送到前方的伺服器來更新他們的快取。實務上，我們可以透過<code>MQ</code>如Kafka來可靠的推送結果。我們需要直接更新伺服器的理由是，這樣可以減少熱門資量在資料庫上的負載。</p>
+<h4 id="Servers"><a href="#Servers" class="headerlink" title="Servers"></a>Servers</h4><p>這些伺服器負責快取那些預先計算的結果和處理所有來自使用者的查詢。當輸入的字段沒有命中自己的本地快取，伺服器就查詢後端的分散式鍵值存儲。如果資料量超過一台機器的記憶體所能承受，我們就需要透過雜湊的方式將那些前綴分片在不同機器上，並且，為了能兼顧擴容，我們需要像下圖般維護複本；這個設計很常見也與其他設計問題相似。你可以在我其他文章內找到更多關於分片&#x2F;複本的介紹。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*l1_QxkqKPZW51ri7.png"></p>
+<p>在上圖中，我們使用第一個字母來做分片(這可能導致分片不平衡)。我們儲存所有首字母是a的鍵值對在節點一和節點二，首字母是b的放在節點二和三，而首字母是c的則是放在節點一和三，並且我們將這些資訊放在一個註冊表中。實務上，這個註冊表可以放在支援<code>Paxos-like</code>協定的任何伺服器群集(包含<code>Zab</code>和<code>Raft</code>)。路由層隱藏所有資料分片的複雜度；首先讀取&#x2F;快取註冊表，接著透過輪詢的方式發送請求到對應節點，例如：將a開頭的搜尋關鍵字依序送到節點一和二。</p>
+<h4 id="個人化資料"><a href="#個人化資料" class="headerlink" title="個人化資料"></a>個人化資料</h4><p>在這個架構中，我們並沒有處理個人化資料。如果使用者在Google中搜尋，搜尋結果可能會參考個人興趣，這可以透過結合過去的搜尋歷史來產生。</p>
+<h4 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h4><p>另一個設計選擇是，我們通常會導入CDN來減少延遲。我在這篇文章先忽略這個討論，你可以參考另一篇<a target="_blank" rel="noopener" href="https://www.imperva.com/learn/performance/what-is-cdn-how-it-works/?utm_campaign=Incapsula-moved">文章</a>來了解為什麼需要CDN。</p>
+<p>作者：<a target="_blank" rel="noopener" href="https://medium.com/@morefree7">KKXX</a><br>文章出處：<a target="_blank" rel="noopener" href="https://medium.com/@morefree7/design-the-auto-complete-type-ahead-backend-dc7ec56dc1df">https://medium.com/@morefree7/design-the-auto-complete-type-ahead-backend-dc7ec56dc1df</a><br>譯者：我</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E8%87%AA%E5%8B%95%E8%A3%9C%E5%AE%8C%E7%9A%84%E5%BE%8C%E7%AB%AF-4b26549f0107">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Misc/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E5%8F%AF%E4%BB%A5%E8%BF%BD%E8%B9%A4%E8%AE%9A%E6%95%B8%E7%9A%84%E7%B3%BB%E7%B5%B1/20210706/" rel="prev" title="設計一個可以追蹤讚數的系統">
+                  <i class="fa fa-chevron-left"></i> 設計一個可以追蹤讚數的系統
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Database/How-to-avoid-the-race-condition-and-the-negative-value/20210721/" rel="next" title="How to avoid the race condition and the negative value">
+                  How to avoid the race condition and the negative value <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

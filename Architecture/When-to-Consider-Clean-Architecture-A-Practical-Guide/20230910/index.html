@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Navigating the Path to Clean Code in Real-world Scenarios How to design and implement clean architecture more easily has been described in detail in my previous articles. If you are interested in the">
+<meta property="og:type" content="article">
+<meta property="og:title" content="When to Consider Clean Architecture: A Practical Guide">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/When-to-Consider-Clean-Architecture-A-Practical-Guide/20230910/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Navigating the Path to Clean Code in Real-world Scenarios How to design and implement clean architecture more easily has been described in detail in my previous articles. If you are interested in the">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*YHkb938mevTOgKrm">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*RcaXq__wEjFFy6dx4oGf_w.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*Qnikh3T3Oe0HMpRA-CWQWQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*zEceOXWPW7rIPoXBc9W5kQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*wQ3JXbhO6LoZzsYnOgVZRA.png">
+<meta property="article:published_time" content="2023-09-10T17:55:29.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.830Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*YHkb938mevTOgKrm">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/When-to-Consider-Clean-Architecture-A-Practical-Guide/20230910/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/When-to-Consider-Clean-Architecture-A-Practical-Guide/20230910/","path":"Architecture/When-to-Consider-Clean-Architecture-A-Practical-Guide/20230910/","title":"When to Consider Clean Architecture: A Practical Guide"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>When to Consider Clean Architecture: A Practical Guide | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Navigating-the-Path-to-Clean-Code-in-Real-world-Scenarios"><span class="nav-number">1.</span> <span class="nav-text">Navigating the Path to Clean Code in Real-world Scenarios</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Case-Study"><span class="nav-number"></span> <span class="nav-text">Case Study</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Refactoring"><span class="nav-number"></span> <span class="nav-text">Refactoring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/When-to-Consider-Clean-Architecture-A-Practical-Guide/20230910/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="When to Consider Clean Architecture: A Practical Guide | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          When to Consider Clean Architecture: A Practical Guide
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-09-11 01:55:29" itemprop="dateCreated datePublished" datetime="2023-09-11T01:55:29+08:00">2023-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Navigating-the-Path-to-Clean-Code-in-Real-world-Scenarios"><a href="#Navigating-the-Path-to-Clean-Code-in-Real-world-Scenarios" class="headerlink" title="Navigating the Path to Clean Code in Real-world Scenarios"></a>Navigating the Path to Clean Code in Real-world Scenarios</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*YHkb938mevTOgKrm"></p>
+<p>How to design and implement clean architecture more easily has been described in detail in my previous articles. If you are interested in the details, you can refer to the following series of articles.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">How to Design Software in a Clean Architecture Way</a></li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/combine-domain-driven-design-and-databases-747fa36ec642">Combine Domain-Driven Design and Databases</a></li>
+</ul>
+<p>Instead of deeply diving into how to design and implement a clean architecture, this article will answer a question that we often encounter.</p>
+<blockquote>
+<p><em>When should I consider clean architecture?</em></p>
+</blockquote>
+<p>The main reason for asking this question is we often don’t design code with a clean architecture mindset from the start, but rather decide at some point to do a refactoring and introduce clean architecture.</p>
+<p>This is a natural process because we don’t always have the ability to figure out how to encapsulate the domain in the first place, and we don’t always have the time to have a complete design at the beginning.</p>
+<p>So, when should we refactor? And how? These two questions will be the core of this article.</p>
+<h3 id="Case-Study"><a href="#Case-Study" class="headerlink" title="Case Study"></a>Case Study</h3><p>To answer these two questions we need a practical example, so let me describe my thought process using a chatbot.</p>
+<p>Suppose I want to use a chatbot to implement an accounting program. The reason why I chose chatbot is to avoid complicated interface interactions, I just need to talk to my usual IM App to achieve the goal of accounting.</p>
+<p>The overview of chatbot is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*RcaXq__wEjFFy6dx4oGf_w.png"></p>
+<p>The user sends commands to the chatbot through a conversation, and the chatbot receives the message, encapsulates it and sends it to a web service via a webhook; the web service extracts the content with the corresponding SDK, processes the commands, and then sends the results back to the user. The process of processing the message involves accessing the database.</p>
+<p>The code flow of the app is organized in the following five steps.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Qnikh3T3Oe0HMpRA-CWQWQ.png"></p>
+<ul>
+<li>Extract: Use SDK to extract the received request.</li>
+<li>Parse: Parses the message into a corresponding command.</li>
+<li>Handle: Execute the command and generate the result. Interaction with the database also occurs at this stage.</li>
+<li>Encapsulate: After handling the request, the result is packaged into the correct format by the SDK.</li>
+<li>Send: Finally, the result is sent back to the user.</li>
+</ul>
+<p>The whole core process will be the second and third steps. Without considering the clean architecture, the entire code would look like the following.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if msg == &#x27;ooo&#x27;:  </span><br><span class="line">    ret = user_guide()  </span><br><span class="line">elif msg.count(&#x27;x&#x27;) &gt; 10:  </span><br><span class="line">    ret = insert_items()  </span><br><span class="line">elif &#x27;oxo&#x27; in msg:  </span><br><span class="line">    ret = get_report()  </span><br><span class="line"># and so on</span><br></pre></td></tr></table></figure>
+
+<p>By parsing the msg, we know the command and take the corresponding action, in other words, this is the business logic of the whole program.</p>
+<p>In the above example, we have three kinds of commands and three handlers, which correspond to the three common functions of a accounting program.</p>
+<ol>
+<li>ask how to use the program.</li>
+<li>write in accounts.</li>
+<li>generate reports.</li>
+</ol>
+<p>I believe that adding a fourth command would be too painful for some people, and I would start thinking about refactoring it at about this point.</p>
+<p>So to answer the first question: when should I consider refactoring with clean architecture?</p>
+<p>The answer is simple: <strong>when the requirements keep iterating and the code becomes difficult to maintain</strong>.</p>
+<p>But how to refactor? How to introduce clean architecture?</p>
+<h3 id="Refactoring"><a href="#Refactoring" class="headerlink" title="Refactoring"></a>Refactoring</h3><p>According to the above description, we have two main business logics.</p>
+<ol>
+<li>Parser</li>
+<li>Handler</li>
+</ol>
+<p>Let’s review the onion architecture one more time.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*zEceOXWPW7rIPoXBc9W5kQ.png"></p>
+<p>Calling chain has to go from the outside to the inside, and the most inside is business logic.</p>
+<p>So I will plan the refactored components as shown below.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*wQ3JXbhO6LoZzsYnOgVZRA.png"></p>
+<p>Let me explain these components.</p>
+<ul>
+<li>Controller: Handles the in&#x2F;out of the webhook and gets the actual message and user id of the caller with the SDK.</li>
+<li>Service:</li>
+</ul>
+<ol>
+<li>Call <code>Factory</code> to get concrete command.</li>
+<li>Execute <code>Command</code> directly and get the result, may be a string or an exception.</li>
+</ol>
+<ul>
+<li>Factory: Handles the logic of generating the <code>Command</code>, i.e. the command parser.</li>
+<li>Command: Handles the actual business logic, i.e. the handler, and is responsible for converting the result of the <code>repo</code> to a string.</li>
+<li>Repo: handles database calls and wrapping the database format into a DTO, no logic involved.</li>
+</ul>
+<p>Splitting the domain in this way has several advantages.</p>
+<ol>
+<li><code>Factory</code> unit tests only need to have <code>msg</code> and match <code>Command</code> type, the implementation is quite simple.</li>
+<li><code>Command</code> encapsulates the full behavior of individual commands and isolates the database implementation, so unit testing can easily replace the database through dependency injection and just verify business logic.</li>
+<li><code>Repo</code> provides an interface to the database and wraps the format of the manipulated data into a DTO, providing a common specification.</li>
+</ol>
+<p>Back to the onion architecture, Factory and Command are considered business logic, i.e., Entity, and Service is responsible for calling the Entity in order and doing the corresponding error handling, which belongs to the middle Use Case layer. The outer Controller handles the SDK and web framework, and calls the Service to get the result.</p>
+<p>The only thing need to discuss is the outermost layer of DB, in the class diagram is actually <code>Mongo Impl</code>, through the implementation interface to make it out of the bottom layer of the calling chain, all the classes will only touch the <code>Repo</code> rather than the implementation of MongoDB. How to explain the source of the calling chain, i.e. the outer layer, is the DB?</p>
+<p>The reason is that the outer layer of the code needs to prepare a concrete repo of the <code>Mongo Impl</code> and pass it to the <code>Controller</code>. In my current implementation, I’ve changed my approach a little bit by passing the class type instead of instance.</p>
+<p>A similar implementation can be found in my previous Golang tutorial.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/Clean-Architect-in-Golang/blob/master/server.go#L15">https://github.com/wirelessr/Clean-Architect-in-Golang/blob/master/server.go#L15</a></li>
+</ul>
+<p>Finally, let’s look at the <code>Factory</code> and <code>Command</code> pieces.</p>
+<p>First, the <code>Factory</code> decides what kind of <code>Command</code> to generate based on incoming <code>msg</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class CommandFactory:  </span><br><span class="line">  @staticmethod  </span><br><span class="line">  def generate(msg, uid):  </span><br><span class="line">    if msg.startswith(&quot;/&quot;):  </span><br><span class="line">      if msg == &#x27;/sum&#x27;:  </span><br><span class="line">        return command.SummaryCommand(msg, uid)  </span><br><span class="line">  </span><br><span class="line">      return command.HelpCommand()  </span><br><span class="line">    elif msg.count(&#x27; &#x27;) &gt; 0:  </span><br><span class="line">      return command.InsertManyCommand(msg, uid)  </span><br><span class="line">      </span><br><span class="line">    return command.HelpCommand()</span><br></pre></td></tr></table></figure>
+
+<p>Then the “Command”, where the actual business logic is executed, and the following examples will only pick one of them as a demonstration.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class InsertManyCommand(Command):  </span><br><span class="line">  def execute(self, repo_cls):  </span><br><span class="line">    tokens = [x.strip() for x in self.msg.split(&#x27;,&#x27;)]  </span><br><span class="line">  </span><br><span class="line">    data = []  </span><br><span class="line">    for token in tokens:  </span><br><span class="line">        item, cost = [t(s) for t,s in zip((str,int), token.split())]  </span><br><span class="line">        data.append(Item(item, cost))  </span><br><span class="line">      </span><br><span class="line">    repo = repo_cls(self.uid)  </span><br><span class="line">    success_cnt = repo.insert_many(data)  </span><br><span class="line">    return f&#x27;Successfully wrote &#123;success_cnt&#125; record(s)&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Let’s go back to the title, when should we start considering clean architecture? I feel the answer is obvious, when we need to change the code but we don’t know where to start, that’s a good time to do it.</p>
+<p>Why do I let my business logic consist of <code>Factory</code> and <code>Command</code>? Because once I’ve clarified the behavioral patterns of the bot, I can clearly recognize that two things are necessary: parsing and handling, so these two corresponding entities are created. In addition, when these two things are separated, the difficulty of unit testing is significantly reduced.</p>
+<p>I can fully test parsing messages, and of course I can test every self-contained command completely.</p>
+<p>When we mention clean architecture, will always make people think of hexagonal architecture or domain-driven development and other formal rules, but in practice to make the architecture clean, as long as the basic essentials will be enough, that is, the concept of the onion architecture.</p>
+<p>Some of the design patterns used in this article, such as the factory method or strategy pattern. Even though I didn’t follow the textbook, I was able to achieve a good result.</p>
+<p>When I drew that class diagram, I didn’t actually have a specific design pattern in mind, but rather, it was based on what shape I wanted the code to be organized into. I first thought about how I would like to decouple and individually test a command if I needed to add one, and then I created two components (<code>Factory</code> and <code>Command</code>) with this idea in mind.</p>
+<p>Although <code>Factory</code> has a relatively simple role, I indeed thought for a while about what context <code>Command</code> would be responsible for. Take <code>InsertManyCommand</code> for example, there are these options.</p>
+<ul>
+<li>The <code>Service</code> is responsible for tokenization and conversion to DTO.</li>
+<li>The <code>Repo</code> is responsible for tokenization and writing directly to the database.</li>
+<li>The <code>Service</code> handles the presentation of the result string.</li>
+</ul>
+<p>All of these were eventually put into <code>Command</code>, because how the strings are split and how the results are presented should be part of the business logic, and naturally should be handled by <code>Command</code>, which is the core of the business logic.</p>
+<p>Once we have a concrete idea, we can fill in the details of the class diagram, and then we just need to follow the diagram to write the program exactly as it is designed.</p>
+<p>Lastly, my thoughts on ORMs. In fact, I don’t use ORMs to implement database access, but rather use <code>pymongo</code> with a custom DTO.</p>
+<p>Why don’t I just use an ORM? The reason is that ORM will make developers overlook the existence of database and make clean architecture difficult to achieve.</p>
+<p>From the onion architecture, we know the database is on the outer layer and should not be called by any object, but with ORM, we can easily develop the ORM as an entity into the inner layer of the onion architecture, and it even contains a lot of business logic. This is difficult to test and difficult to maintain, and is the worst situation of all.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/when-to-consider-clean-architecture-a-practical-guide-6a21fccb5e6b">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Misc/Understanding-Use-Cases-for-Pattern-Matching/20230827/" rel="prev" title="Understanding Use Cases for Pattern Matching">
+                  <i class="fa fa-chevron-left"></i> Understanding Use Cases for Pattern Matching
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Architecture/8-Ways-to-Crank-Up-Speed-in-Software-Development/20230927/" rel="next" title="8個提昇軟體開發速度的妙方">
+                  8個提昇軟體開發速度的妙方 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

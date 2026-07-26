@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="MCP Make Me HappyEmpowering productivity with integrated AI tools Recently, the topic of MCP has suddenly become extremely popular, and I guess the main reason is there are a lot of MCP servers in the">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MCP Make Me Happy">
+<meta property="og:url" content="https://wirelessr.github.io/AI/MCP-Make-Me-Happy/20250406/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="MCP Make Me HappyEmpowering productivity with integrated AI tools Recently, the topic of MCP has suddenly become extremely popular, and I guess the main reason is there are a lot of MCP servers in the">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*vjDOHADFvI_1ToZ7FkB1PQ.png">
+<meta property="article:published_time" content="2025-04-06T17:39:09.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.826Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*vjDOHADFvI_1ToZ7FkB1PQ.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/AI/MCP-Make-Me-Happy/20250406/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/AI/MCP-Make-Me-Happy/20250406/","path":"AI/MCP-Make-Me-Happy/20250406/","title":"MCP Make Me Happy"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MCP Make Me Happy | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MCP-Make-Me-Happy"><span class="nav-number">1.</span> <span class="nav-text">MCP Make Me Happy</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Empowering-productivity-with-integrated-AI-tools"><span class="nav-number">1.1.</span> <span class="nav-text">Empowering productivity with integrated AI tools</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Demo"><span class="nav-number">2.</span> <span class="nav-text">Demo</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/MCP-Make-Me-Happy/20250406/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MCP Make Me Happy | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MCP Make Me Happy
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-04-07 01:39:09" itemprop="dateCreated datePublished" datetime="2025-04-07T01:39:09+08:00">2025-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="MCP-Make-Me-Happy"><a href="#MCP-Make-Me-Happy" class="headerlink" title="MCP Make Me Happy"></a>MCP Make Me Happy</h3><h4 id="Empowering-productivity-with-integrated-AI-tools"><a href="#Empowering-productivity-with-integrated-AI-tools" class="headerlink" title="Empowering productivity with integrated AI tools"></a>Empowering productivity with integrated AI tools</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*vjDOHADFvI_1ToZ7FkB1PQ.png"></p>
+<p>Recently, the topic of MCP has suddenly become extremely popular, and I guess the main reason is there are a lot of MCP servers in the eco-system.</p>
+<p>In order to increase productivity, I’ve spent some time to test some MCP combinations. After all, computer resources are limited and I can’t use all MCPs at once, so I’ve picked a few that I find most useful.</p>
+<p>I usually use the <a target="_blank" rel="noopener" href="https://smithery.ai/">Smithery</a> MCP registry, which has a large number of projects posted. Here are my favorite combinations.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://smithery.ai/server/@smithery-ai/server-sequential-thinking">Sequential Thinking</a></li>
+<li><a target="_blank" rel="noopener" href="https://smithery.ai/server/@wonderwhy-er/desktop-commander">Desktop Commander</a></li>
+<li><a target="_blank" rel="noopener" href="https://smithery.ai/server/@nickclyde/duckduckgo-mcp-server">Duckduckgo Search</a></li>
+</ul>
+<p>First of all, sequential thinking I believe is the core, even though nowadays AI models usually have CoT, it is still necessary to ask AI to disassemble the workflow through prompt. By disassembling the workflow, the AI will be able to correctly invoke the corresponding tools to solve the problem. So sequential thinking plays the role of the brain.</p>
+<p>Next, the desktop commander is the body that does all the work. Because the desktop commander can read files, write files, and execute commands, it can do everything a command line can do.</p>
+<p>Finally, there is duckduckgo search, which provides additional information to accomplish specific tasks. I have to say this is not really used very often, but if we need to find the most recent information, a web search can be helpful.</p>
+<h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h3><p>This project is a weather prediction program I built to explain machine learning to team members. It took less than 10 minutes to complete without opening an IDE or writing a single line of code.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wirelessr/scikilearn-demo">https://github.com/wirelessr/scikilearn-demo</a></p>
+<p>The <a target="_blank" rel="noopener" href="https://claude.ai/download">Claude Desktop</a> and the three MCPs mentioned above were used.</p>
+<blockquote>
+<p><em>System instruction: You are a professional ML developer who is familiar with various python ML frameworks and is able to call on various tools to actually operate the computer, e.g. read files, write files and execute commands.</em></p>
+</blockquote>
+<p>We start by setting up the roles and game rules for the AI, and then we actually move on to development.</p>
+<blockquote>
+<p><em>Help me create a scikit-learn demo project on my desktop to predict temperature, need to have test data. Also, this project needs to have a virtual env that does not pollute my system python.</em></p>
+</blockquote>
+<p>At this point Claude will start building a draft of the project, but he has not separated <code>train</code> from <code>predict</code> and has not yet trained the model. Therefore, let’s ask the AI to modify the project and actually build the model.</p>
+<blockquote>
+<p><em>Is this script already trained? How can I use it to predict tomorrow’s temperature? Run the commands directly to build the model.</em></p>
+</blockquote>
+<p>Claude then creates the python environment via virtual env and installs the dependencies via <code>pip</code>. Once the environment is set up, Claude actually runs <code>python src/train.py</code> to train the model.</p>
+<blockquote>
+<p><em>Go to the Internet and look up today’s weather information and use this project to predict tomorrow’s weather.</em></p>
+</blockquote>
+<p>This is where <code>duckduckgo</code> comes in and looks up the required parameters, such as today’s temperature and humidity, and runs <code>python src/predict.py</code> to provide the final result.</p>
+<p>At this point, the project is completed, but for ML teaching is not enough, so I then asked Claude to write a clear description and comments.</p>
+<blockquote>
+<p><em>This is a tutorial project and I need</em> <a target="_blank" rel="noopener" href="http://readme.md/"><em>README.md</em></a> <em>and good comments.</em></p>
+</blockquote>
+<p>In the end, the project is what you see on Github. I didn’t write a single line of code and I didn’t use an IDE, but the project is complete.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/mcp-make-me-happy-c9708231419e">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/AI/Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG/20250316/" rel="prev" title="Evolution of RAG: Baseline RAG, GraphRAG, and KAG">
+                  <i class="fa fa-chevron-left"></i> Evolution of RAG: Baseline RAG, GraphRAG, and KAG
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/AI/Hands-On-WrenAI-Review-Text-to-SQL-Powered-by-RAG/20250420/" rel="next" title="Hands-On WrenAI Review: Text-to-SQL Powered by RAG">
+                  Hands-On WrenAI Review: Text-to-SQL Powered by RAG <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

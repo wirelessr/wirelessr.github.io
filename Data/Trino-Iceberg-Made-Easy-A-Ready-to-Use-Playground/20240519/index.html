@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="A quick-start environment for effortless exploration and learning Earlier I briefly introduced Apache Iceberg and built an out-of-the-box experiment environment. The purpose of the article was to expe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Trino &amp; Iceberg Made Easy: A Ready-to-Use Playground">
+<meta property="og:url" content="https://wirelessr.github.io/Data/Trino-Iceberg-Made-Easy-A-Ready-to-Use-Playground/20240519/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="A quick-start environment for effortless exploration and learning Earlier I briefly introduced Apache Iceberg and built an out-of-the-box experiment environment. The purpose of the article was to expe">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*N9x4AiBHMnLk8O3r">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*UG__C3hQhQzjTRyyZYVipg.png">
+<meta property="article:published_time" content="2024-05-19T17:40:38.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.829Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*N9x4AiBHMnLk8O3r">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Data/Trino-Iceberg-Made-Easy-A-Ready-to-Use-Playground/20240519/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Data/Trino-Iceberg-Made-Easy-A-Ready-to-Use-Playground/20240519/","path":"Data/Trino-Iceberg-Made-Easy-A-Ready-to-Use-Playground/20240519/","title":"Trino & Iceberg Made Easy: A Ready-to-Use Playground"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Trino & Iceberg Made Easy: A Ready-to-Use Playground | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-quick-start-environment-for-effortless-exploration-and-learning"><span class="nav-number">1.</span> <span class="nav-text">A quick-start environment for effortless exploration and learning</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Experiment-environment-introduction"><span class="nav-number"></span> <span class="nav-text">Experiment environment introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Trino-Iceberg-Made-Easy-A-Ready-to-Use-Playground/20240519/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Trino & Iceberg Made Easy: A Ready-to-Use Playground | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Trino & Iceberg Made Easy: A Ready-to-Use Playground
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-05-20 01:40:38" itemprop="dateCreated datePublished" datetime="2024-05-20T01:40:38+08:00">2024-05-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="A-quick-start-environment-for-effortless-exploration-and-learning"><a href="#A-quick-start-environment-for-effortless-exploration-and-learning" class="headerlink" title="A quick-start environment for effortless exploration and learning"></a>A quick-start environment for effortless exploration and learning</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*N9x4AiBHMnLk8O3r"></p>
+<p>Earlier I briefly <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/getting-started-with-flink-sql-apache-iceberg-and-dynamodb-catalog-71b96817e3c3">introduced Apache Iceberg</a> and built an out-of-the-box experiment environment.</p>
+<p>The purpose of the article was to experience the integration of Flink SQL and Iceberg, so that I could quickly move on to the next stage of Flink development. Surprisingly, the article was really popular, and I received a few stars on my Github. It made me realize many people like me find these big data technical stacks tough and want a tutorial.</p>
+<p>So, let’s welcome another big data star, Trino.</p>
+<p>Trino is a popular query engine that provides a single entry point of access to multiple heterogeneous data sources and the ability to query them using SQL. This is a bit abstract, let’s take an example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*UG__C3hQhQzjTRyyZYVipg.png"></p>
+<p>Even though every data source has different query syntax, Trino integrates well and interacts with users using SQL.</p>
+<p>In addition to common databases, Trino also supports Iceberg queries. Thus, let’s experience the integration of Trino and Iceberg, and I will provide a experiment environment as well.</p>
+<h3 id="Experiment-environment-introduction"><a href="#Experiment-environment-introduction" class="headerlink" title="Experiment environment introduction"></a>Experiment environment introduction</h3><p>First, provide the link to the experiment environment.</p>
+<p>Before we get started, let’s take a quick look at the basic structure of Trino, which has three layers: catalog, schema, and finally table. Let’s use MongoDB as an example, where catalog corresponds to a database cluster, schema refers to the name of the database under the cluster. As for table, it simply refers to collection.</p>
+<p>However, the meaning of this catalog is different from that of Iceberg’s. Iceberg’s catalog is just one of Iceberg’s settings, not the one that Trino recognizes as a catalog.</p>
+<p>Sounds confusing? Let’s look at an existing example, <code>example.properties</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">connector.name=iceberg  </span><br><span class="line">iceberg.catalog.type=nessie  </span><br><span class="line">iceberg.nessie-catalog.uri=http://catalog:19120/api/v1  </span><br><span class="line">iceberg.nessie-catalog.default-warehouse-dir=s3://warehouse  </span><br><span class="line">fs.native-s3.enabled=true  </span><br><span class="line">s3.endpoint=http://storage:9000  </span><br><span class="line">s3.region=us-east-1  </span><br><span class="line">s3.path-style-access=true  </span><br><span class="line">s3.aws-access-key=admin  </span><br><span class="line">s3.aws-secret-key=password</span><br></pre></td></tr></table></figure>
+
+<p>This is a Trino catalog setup. We can see this catalog is linked to an Iceberg source. Below we specify the Iceberg-specific catalog as nessie and provide the nessie settings.</p>
+<p>By the way, I wanted to continue to use the previous experiment with Flink SQL and Iceberg, but I found out Trino doesn’t support Iceberg’s <a target="_blank" rel="noopener" href="https://github.com/trinodb/trino/issues/9953">DynamoDB catalog</a>. Therefore, I had to create a new one.</p>
+<p>So far we have created a catalog called example, and we will continue to build the schema and tables under it.</p>
+<p>To initialize the tree structure, we override <a target="_blank" rel="noopener" href="https://github.com/wirelessr/trino-iceberg-playground/blob/26b8ebcff52d51ce661c106523f85cae6aeb7907/docker-compose.yaml#L23">command</a> in <code>docker-compose.yaml</code> so that the Trino container calls <code>post-init.sh</code> on startup.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash  </span><br><span class="line">nohup /usr/lib/trino/bin/run-trino &amp;  </span><br><span class="line">  </span><br><span class="line">sleep 10  </span><br><span class="line">  </span><br><span class="line">trino &lt; /tmp/post-init.sql  </span><br><span class="line">  </span><br><span class="line">tail -f /dev/null</span><br></pre></td></tr></table></figure>
+
+<p>In the script, we first wake up Trino’s original startup script, then wait for 10 seconds for Trino to initialize, and then feed the SQL we want to execute. Finally, it waits until it receives a kill signal.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In the data engineering world, where new technical stacks are constantly being created, it can be difficult just to play with each one once, not to mention comparing the tools.</p>
+<p>So I hope these experiment environments will provide people who want to play around with them a quick experience without actually getting their hands dirty.</p>
+<p>As for comparing tools, it would be great if someone had a more complete benchmark report to share with me. For example, I’d love to know, at this point in time (May 2024), what would be the best choice between the three lakehouses? Or how about Trino and Presto?</p>
+<p>I have an answer in mind, but I’d like more objective numbers, so feel free to discuss.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/trino-iceberg-made-easy-a-ready-to-use-playground-7f4a1f7713ca">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Data/Data-Silos-Understanding-Addressing-Integrating/20240512/" rel="prev" title="Data Silos: Understanding, Addressing, Integrating">
+                  <i class="fa fa-chevron-left"></i> Data Silos: Understanding, Addressing, Integrating
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Database/PostgreSQL-Full-Text-Search-in-a-Nutshell/20240610/" rel="next" title="PostgreSQL Full-Text Search in a Nutshell">
+                  PostgreSQL Full-Text Search in a Nutshell <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在這個病毒肆虐的時間點找工作，有個很大的優勢：全部都是『線上』面試。省去了舟車勞頓的辛苦，時間上也更容易安排，以往面試兩小時可能請假就要直接請個半天，但在居家辦公時期，面試兩小時就只需要請兩小時；甚至可以直接約中午，連假都不用請。  在開始寫這陣子的面試經驗前我先簡單介紹一下背景 6+year嵌入式系統開發經驗(C&#x2F;C++) 4+year後端開發經驗(Python&#x2F;gola">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021上半年後端&#x2F;全端面試經歷">
+<meta property="og:url" content="https://wirelessr.github.io/Misc/2021%E4%B8%8A%E5%8D%8A%E5%B9%B4%E5%BE%8C%E7%AB%AF%E5%85%A8%E7%AB%AF%E9%9D%A2%E8%A9%A6%E7%B6%93%E6%AD%B7/20210627/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="在這個病毒肆虐的時間點找工作，有個很大的優勢：全部都是『線上』面試。省去了舟車勞頓的辛苦，時間上也更容易安排，以往面試兩小時可能請假就要直接請個半天，但在居家辦公時期，面試兩小時就只需要請兩小時；甚至可以直接約中午，連假都不用請。  在開始寫這陣子的面試經驗前我先簡單介紹一下背景 6+year嵌入式系統開發經驗(C&#x2F;C++) 4+year後端開發經驗(Python&#x2F;gola">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*Z2dMflk2KOIuUSUZ.jpg">
+<meta property="article:published_time" content="2021-06-27T01:34:14.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.820Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*Z2dMflk2KOIuUSUZ.jpg">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Misc/2021%E4%B8%8A%E5%8D%8A%E5%B9%B4%E5%BE%8C%E7%AB%AF%E5%85%A8%E7%AB%AF%E9%9D%A2%E8%A9%A6%E7%B6%93%E6%AD%B7/20210627/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Misc/2021%E4%B8%8A%E5%8D%8A%E5%B9%B4%E5%BE%8C%E7%AB%AF%E5%85%A8%E7%AB%AF%E9%9D%A2%E8%A9%A6%E7%B6%93%E6%AD%B7/20210627/","path":"Misc/2021上半年後端全端面試經歷/20210627/","title":"2021上半年後端/全端面試經歷"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>2021上半年後端/全端面試經歷 | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/2021%E4%B8%8A%E5%8D%8A%E5%B9%B4%E5%BE%8C%E7%AB%AF%E5%85%A8%E7%AB%AF%E9%9D%A2%E8%A9%A6%E7%B6%93%E6%AD%B7/20210627/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="2021上半年後端/全端面試經歷 | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2021上半年後端/全端面試經歷
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-06-27 09:34:14" itemprop="dateCreated datePublished" datetime="2021-06-27T09:34:14+08:00">2021-06-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img src="https://cdn-images-1.medium.com/max/800/0*Z2dMflk2KOIuUSUZ.jpg"></p>
+<blockquote>
+<p>在這個病毒肆虐的時間點找工作，有個很大的優勢：全部都是『線上』面試。省去了舟車勞頓的辛苦，時間上也更容易安排，以往面試兩小時可能請假就要直接請個半天，但在居家辦公時期，面試兩小時就只需要請兩小時；甚至可以直接約中午，連假都不用請。</p>
+</blockquote>
+<p>在開始寫這陣子的面試經驗前我先簡單介紹一下背景</p>
+<p><em>6+year嵌入式系統開發經驗(C&#x2F;C++)</em></p>
+<p>4+year後端開發經驗(Python&#x2F;golang)</p>
+<p>1+year前端開發經驗(Node.js&#x2F;Vue.js)</p>
+<p>英文聽說讀寫略懂略懂</p>
+<p>基本上，沒刷題，沒什麼準備，考古題&#x2F;常見題一個也沒看過，面試邀約來了就上。想要找後端相關的工作，內心當中對於offer的排序是：地點、薪資、工作內容。邀約通常來自獵頭，也有些來自HR直接邀約。</p>
+<p>這次認真面試花了兩個月，但從開始面試到確定offer，大概用了半年。總共談了十間公司。接下來按照時間序一個一個紀錄，主要是面試流程和內容，有些因為時間很久了，印象會有點模糊，就略微帶過。至於工作內容之類的，那個不是重點，頂多約略描述。</p>
+<p>1Binance(幣安)，這間是我主動投的。<em><strong>線上面試</strong></em>。那時候數位貨幣水漲船高，我也想進幣圈試試。但幣安的後端開發主要是JAVA，我沒有相關經驗，所以投了DevOps工程師。</p>
+<p>第一關：著重在工作經歷的部分，會對於曾經做過的專案項目進行深入探討，同時也會簡單介紹一下公司，時間大概1–1.5小時。</p>
+<p>第二關：著重在考核DevOps相關的經歷，例如VPC&#x2F;子網怎麼規劃、路由不通怎麼故障排除、內部&#x2F;外部DNS規劃。諸如此類的問題，我其實也沒有相關經驗，回答的都很勉強，時間大概1–1.5小時。</p>
+<p><em><strong>結果：掰</strong></em>。</p>
+<p>2Appier，此時的Appiear要在日本IPO。<em><strong>現場面試</strong></em>。我忘了是我自己投的還是獵頭介紹，總之是面試後端開發的職缺。</p>
+<p>第一關：同樣會深入探討工作經歷，包含做過的專案&#x2F;產品，背後的架構和資料流等，時間大概1–1.5小時。</p>
+<p>第二關：白板題，會出一個情境案例，要根據需求設計一個系統架構。題目是：在客戶端服務上有一個SDK，會把客戶端的使用狀態回報給這個新系統，數據類型是一個JSON，而數據量是海量，而這個新系統要負責從這無數JSON中做一份統計報表。</p>
+<p>這個題目我個人覺得很有趣，畢竟這種考題切合現實，不是像leetcode那種實務上不太會碰到為了考試而考試的題目。但我這關沒有答的很好，當下有點壓力，不過，考官不會施壓，會在旁邊給些提示&#x2F;建議，讓這個系統能夠成型。時間大概1–1.5小時。</p>
+<p><em><strong>結果：掰</strong></em>。</p>
+<p>如果對於題目有興趣，歡迎私訊我，我們也可以一起研討一下，我心裡應該是有個解答了，不過還是可以討論交流看有沒有缺漏。</p>
+<p>上面兩次面試發生的時間很早，在2021年初，距離第三次面試中間間隔兩個月。為什麼空白了這麼久，最大的原因是經過了前兩次面試，我發現我有點廢啊！基本上答題都不甚理想，幣安就算了，畢竟幾乎都在考operation，這我本來就沒什麼經驗，但Appier的系統架構設計還答成那樣，我覺得實在慘，所以花了點時間把一些系統架構的書&#x2F;網站&#x2F;資源K一下。覺得心態平復了，才繼續開始面試。</p>
+<p>3KK Stream，此時的KK Stream看到Appier的成功也正醞釀要日本IPO。這機會是透過獵頭介紹的<em><strong>，</strong></em>後端開發。<em><strong>現場面試</strong></em>。</p>
+<p>第一關：Leetcode，考五題三小時，第一題是git相關的選擇題十題，有git經驗的都可以簡單回答(雖然我錯一個)；後面四題是程式題，難度大概介在easy+~medium，我這種沒刷題的小白也可以輕鬆寫完。</p>
+<p>第二關：技術面試，著重在過往的經驗，會對經手的項目作深入探討，必要的時候需要寫白板，然後，會介紹公司和工作內容。整體面試氣氛輕鬆愉快沒有壓力，時間約2小時。</p>
+<p>第三關：HR電話面試，主要是人格&#x2F;性向之類的訪談，還有介紹薪資福利等。</p>
+<p>第四關：BU主管，也是純聊天，談談生涯規劃，聊聊過往經歷，時間約1小時。</p>
+<p>整個面試的過程我覺得是十場中最愉快的，就真的是在聊聊中結束。但不得不說，KK的面試流程和耗時也是十場最久的。從開始leetcode到package出來，超過一個月。</p>
+<p><em><strong>結果：offer got</strong></em>。</p>
+<p>4AMIS，MaiCoin的姐妹公司，也是獵頭介紹<em><strong>，</strong></em>後端開發。我還是沒放棄進入幣圈。<em><strong>線上面試</strong></em>。先是介紹AMIS的產品和工作內容，然後就我過去的工作經驗做些探討，只能說，就我感覺面試者不太友善，有點不知道哪來的優越感。</p>
+<p><em><strong>結果：掰</strong></em>。</p>
+<p>5Innova Solution，外商醫療支付平台，對方HR主動聯繫。<em><strong>電話面試，</strong></em>後端開發。一開始是HR主動跟我聯絡，因為是純英文工作環境，所以測試一下我的英文能力，就用電話英文面試了一下。雖然沒做過準備，但英文自我介紹我覺得還中規中矩，就是想到什麼說什麼，然後HR簡略介紹一下公司，並且邀約下一次面試。但我之後拒絕了，為什麼呢？我大概有幾個考量，第一Innova Solution沒有自己的品牌，他其實是另外一間公司的研發(外包)中心，所以醫療支付其實是另一間公司的產品；其次是，醫療領域的步調略慢，產業別大概介在傳產和科技業之間，有點像是銀行的感覺。</p>
+<p>綜合考量下，最後我婉拒面試。</p>
+<p>6遊戲橘子，獵頭介紹，架構師。<em><strong>線上面試</strong></em>。從後端切架構師其實這跳有點多，技能樹不太一樣，所以當獵頭推薦我這個機會的時候，我還特別請獵頭去詢問我沒有網路安全的相關經歷，這樣足夠嗎？後來回覆是：可以，所以就接下邀約，過程平和，相談甚歡，但整體面試過程中發現，我的能力其實不足以勝任他們要的這個角色，這算是我的自知之明。最後也證實我的想法是對的。</p>
+<p>有個問題其實我到現在還沒有答案，『微服務vs.單體架構，如果每個module&#x2F;package都可以單獨部署，例如JAVA的.jar或Python的pip，甚至CentOS的RPM，這樣微服務還有什麼優勢？』我當下回答的有點鳥：『微服務的優勢在於損害控管，每個服務獨立上線可以快速釐清問題的死點在哪個服務上』，但直到現在我也不知道怎樣的答案算是標準答案。</p>
+<p><em><strong>結果：掰</strong></em>。</p>
+<p>7Berry AI，獵頭介紹，全端開發。<em><strong>線上面試</strong></em>。Berry AI是台灣上市公司飛捷科技的子公司，是一間不像新創的新創，有燒不完的資金，所以可以慢慢找產品方向。直到本文撰寫完成之際，都還沒有能獲利的產品推出。在開始面試之前，有一次簡單和CTO的線上會談，介紹公司狀況、產品規劃等，確定有意願，才會開始正式的面試流程。</p>
+<p>第一關：CTO，有一份考題，會採用共編的方式作答，有點類似現場面試的白板題，題目涵蓋OS&#x2F;Python&#x2F;C語言，OS的部分偏重multi-thread&#x2F;multi-process，有一題滿有趣的，如何用multi-thread做排序。Python就基本題，decorator的用法和shallow copy的問題。C語言則是call-by-value和指標的運用。整體來說，難度沒有很高，放寬心作答即可。</p>
+<p>第二關：CEO，介紹公司營運狀態和公司歷史，然後做些人格和性向的訪談，包含各時期的轉職心境和規劃。主要是純聊天，態度和善沒有架子。</p>
+<p>第三關：PM，剛剛沒問到的，想知道的秘辛，都可以在這裡發問，如果沒什麼問題，整個流程就結束了。</p>
+<p>總耗時約3小時。</p>
+<p><em><strong>結果：offer got</strong></em>。</p>
+<p>8浪Live，HR邀約。架構師。<em><strong>線上面試</strong></em>。我直到這時候才知道浪Live其實是台灣上市公司，而且除了直播，還有一堆產品。一開始由HR主動聯絡我，並且花了不少時間介紹公司狀況和福利等，除此之外也對之後的職務做了摘要。在接觸這麼多獵頭和公司HR之後，我覺得這個HR的認真程度絕對可以排前幾名。也因此，我答應他們的面試邀請。</p>
+<p>第一關：台灣區的RD頭，就我個人的經歷和經驗做些了解，主要是討論技術問題，包含當初的技術選型原因等。沒有壓力，過程平順。</p>
+<p>第二關：台灣區的HR頭，做些人格和性向的訪談，也是純聊天。</p>
+<p>總耗時約2–2.5小時。整個面試的過程讓我有點意外，畢竟，沒有考試，沒有白板題，幾乎都是聊天，這應該是所有面試中整個最沒壓力的一場。另外，雖然是架構師，但其實還是要經手RD相關的事務。</p>
+<p><em><strong>結果：offer got</strong></em>。</p>
+<p>9Hardcore Tech，或稱GoFreight，獵頭介紹。後端開發。<em><strong>線上面試</strong></em>。穩定獲利的新創，產品主要是物流平台的整合。這間的面試是我覺得十場中最硬核的，難怪叫做Hardcore Tech。</p>
+<p>第一關：HackerRank，線上刷題。兩小時要寫五題，難度約是medium+，對我這種小白說來，痛苦到一個不行。五題只寫完三題，但還是拿到門票了。</p>
+<p>第二關：面試官出兩題白板題，一樣採共編的方法，這兩題白板題應該也是medium＋難度的。上一關的HackerRand就已經要死了，這次白板題直接死去，根本寫不出來，面試官一定覺得我是去鬧的。</p>
+<p>第三關：還是白板題，但這白板題的難度沒有很高，主要是給你一個情境，讓你的程式必須不斷應付新進來的需求，要加參數，寫新function，做design pattern。這算是實務題，本來就是我擅長的，所以答起來還算順暢。</p>
+<p><em><strong>結果：無聲卡</strong></em>。</p>
+<p>10Linc，獵頭介紹，號稱純正矽谷直營台灣分部。全端team lead。<em><strong>線上面試</strong></em>。這也是一間開始穩定獲利的新創，聽獵頭說薪水是純正矽谷等級，做的是電商的後台，例如出貨進度、訊息通知、消費分析、商品推薦。因為是電商後台，所以要整合許多第三方的系統，例如各家不同的物流。</p>
+<p>第一關：也是先要線上考，但有別於leetcode或HackerRank，這間公司選擇自己出題。題目很生活化也很實用，我覺得這種題目才有考的價值。</p>
+<p>第二關：台灣區的RD頭，純英文的技術問答。因為是純外商，所以是全英文工作環境，不免俗就是要測試英文能力。所以技術問題難度不高，有基本的computer science能力都可以回答，主要是英文口說要流暢。然後也有白板題，難度是easy，就是經典的大數相加。最後就是介紹公司狀況，然後部門組成，人選要求，工作內容等。</p>
+<p>第三關：台灣區的PM，因為team lead和PM會經常合作，所以這邊是彼此互相了解。也有幾個情境題，例如兩個月的時間，要如何讓一個全新的系統上線。透過這種方式來了解帶team的方式和經驗。</p>
+<p>第四關：台灣區的另一個team lead。白板題，難度是medium+，也是痛苦到不行，最後沒答完就超時。</p>
+<p><em><strong>結果：無聲卡</strong></em>。</p>
+<p>這次面試耗時巨久，產業各異，甚至連位置都不一樣，有後端、全端、team lead，甚至架構師。面試到後面其實身心俱疲，而戰績也不怎麼理想：3&#x2F;10，不過也有了滿多特別的經驗，例如英文面試和各種白板題。在居家辦公時期，寫白板題的經驗格外有趣，大部分公司都直接用google doc充當白板就直接在上面寫了。</p>
+<p>我對面試的想法是接觸新的人&#x2F;事&#x2F;物以此來認識自己的不足，而事實上我也的確在這過程當中心態爆炸了，覺得我怎麼這麼廢。但畢竟還年輕，所以也算是把握機會長長見識，感謝這些花費時間心力幫助我成長的面試官們。</p>
+<p>也許有人會問，『你都不刷題，還面什麼試啊？』，我這邊說說我的想法。程式碼是溝通交流的工具，好的程式碼可以讓後續接手的人能輕易上手，「重構：改善既有代碼的設計」這本書說，好的程式碼就是文件。在資訊技術這麼發達的現今，已經不是以前對CPU&#x2F;memory錙銖必較的時代了，寫程式的人要做到的不是為了榨出額外那一咪咪的效能而寫程式，而是為了更好的合作和交流。不要誤會，我並不是說刷題不重要，我要說的是，如果兩層for-loop的O(n²)可以更好的讓人看懂，就不需要自以為是的使用各種奇耙寫法硬生出O(n)。</p>
+<p>而刷題說穿了其實就是不斷去洗鍊你思考的流程，讓你能夠逼近那完美解，所以出了各種奇耙問題要你使出各種奇耙解法，這種為了做而做的事我不喜歡。</p>
+<p>所以這次碰到很多有趣的白板題，例如Appier的系統設計或者Linc的實務問題，我覺得這才是面試一個RD應該出的考題，看得出來是有經過思考設計的題目，目的是為了找出他們真正需要的人。即使當下我被按在地上摩擦，但整體經驗是快樂的，而且我也知道該怎麼去補足，這才是有建設性的刷題。</p>
+<p>此外，這次面試也合作了一些獵頭，每個人風格都不太一樣：</p>
+<p>有些人就像房屋仲介一樣貼一堆模糊的資訊在那，然後一直要騙你的聯絡方式，例如就只寫『某知名金融企業招有經驗的後端開發』，沒薪水範圍、也沒職務內容，甚至根本沒職務要求。這種我超厭惡的，不想做就不要做。</p>
+<p>進階一點的會做一些基本的訪談，了解你的需求，知道你的能力，甚至幫你規劃履歷(也許還會幫你加料)。</p>
+<p>再主動一點的，甚至會直接幫你媒合，主動告訴你有些什麼樣的機會，然後詢問你的意願，給建議，並且規劃面試的流程和戰略。</p>
+<p>做的更好的是，每次面試結束，都會詢問整個面試的經過，鉅細彌遺的紀錄，以便給下一個要apply同個職缺的人建議。並且會主動追公司的後續，並持續向你更新狀態。到核心流程的時候也會告知如何談到好的價碼，該怎麼開價才是適合的。</p>
+<p>這次每種類型我都有碰到，其中有一個人我會很願意推薦給別人：<a target="_blank" rel="noopener" href="https://www.linkedin.com/in/ak666/">Solution First的Kevin</a>。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/2021%E4%B8%8A%E5%8D%8A%E5%B9%B4%E5%BE%8C%E7%AB%AF-%E5%85%A8%E7%AB%AF%E9%9D%A2%E8%A9%A6%E7%B6%93%E6%AD%B7-2941b66239e2">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Golang/Leetcode-concurrency-in-golang%E7%B8%BD%E7%B5%90/20210330/" rel="prev" title="Leetcode concurrency in golang總結">
+                  <i class="fa fa-chevron-left"></i> Leetcode concurrency in golang總結
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Misc/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E5%8F%AF%E4%BB%A5%E8%BF%BD%E8%B9%A4%E8%AE%9A%E6%95%B8%E7%9A%84%E7%B3%BB%E7%B5%B1/20210706/" rel="next" title="設計一個可以追蹤讚數的系統">
+                  設計一個可以追蹤讚數的系統 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

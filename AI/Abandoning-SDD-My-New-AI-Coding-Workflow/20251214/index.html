@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Abandoning SDD: My New AI Coding WorkflowDiscover why I ditched SDD for an efficient Vibe Coding workflow I recently made some major optimizations to the workflow I use for running development tasks w">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Abandoning SDD: My New AI Coding Workflow">
+<meta property="og:url" content="https://wirelessr.github.io/AI/Abandoning-SDD-My-New-AI-Coding-Workflow/20251214/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Abandoning SDD: My New AI Coding WorkflowDiscover why I ditched SDD for an efficient Vibe Coding workflow I recently made some major optimizations to the workflow I use for running development tasks w">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*Ho7g9b29SwGNlOOp12xuKQ.png">
+<meta property="article:published_time" content="2025-12-14T17:26:31.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.820Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*Ho7g9b29SwGNlOOp12xuKQ.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/AI/Abandoning-SDD-My-New-AI-Coding-Workflow/20251214/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/AI/Abandoning-SDD-My-New-AI-Coding-Workflow/20251214/","path":"AI/Abandoning-SDD-My-New-AI-Coding-Workflow/20251214/","title":"Abandoning SDD: My New AI Coding Workflow"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Abandoning SDD: My New AI Coding Workflow | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Abandoning-SDD-My-New-AI-Coding-Workflow"><span class="nav-number">1.</span> <span class="nav-text">Abandoning SDD: My New AI Coding Workflow</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Discover-why-I-ditched-SDD-for-an-efficient-Vibe-Coding-workflow"><span class="nav-number">1.1.</span> <span class="nav-text">Discover why I ditched SDD for an efficient Vibe Coding workflow</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Small-changes-are-unnecessary"><span class="nav-number">2.</span> <span class="nav-text">Small changes are unnecessary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Big-changes-aren%E2%80%99t-explained-clearly"><span class="nav-number">3.</span> <span class="nav-text">Big changes aren’t explained clearly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Agents-can%E2%80%99t-fully-absorb-even-clear-documentation"><span class="nav-number">4.</span> <span class="nav-text">Agents can’t fully absorb even clear documentation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Documentation-and-code-drift-apart"><span class="nav-number">5.</span> <span class="nav-text">Documentation and code drift apart</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#How-do-I-do-it-now"><span class="nav-number">6.</span> <span class="nav-text">How do I do it now?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wrap-Up"><span class="nav-number">7.</span> <span class="nav-text">Wrap Up</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Abandoning-SDD-My-New-AI-Coding-Workflow/20251214/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Abandoning SDD: My New AI Coding Workflow | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Abandoning SDD: My New AI Coding Workflow
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-12-15 01:26:31" itemprop="dateCreated datePublished" datetime="2025-12-15T01:26:31+08:00">2025-12-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Abandoning-SDD-My-New-AI-Coding-Workflow"><a href="#Abandoning-SDD-My-New-AI-Coding-Workflow" class="headerlink" title="Abandoning SDD: My New AI Coding Workflow"></a>Abandoning SDD: My New AI Coding Workflow</h3><h4 id="Discover-why-I-ditched-SDD-for-an-efficient-Vibe-Coding-workflow"><a href="#Discover-why-I-ditched-SDD-for-an-efficient-Vibe-Coding-workflow" class="headerlink" title="Discover why I ditched SDD for an efficient Vibe Coding workflow"></a>Discover why I ditched SDD for an efficient Vibe Coding workflow</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*Ho7g9b29SwGNlOOp12xuKQ.png"></p>
+<p>I recently made some major optimizations to the workflow I use for running development tasks with AI agents. I’ve completely abandoned SDD (Spec-driven Development) and shifted to pure vibe coding.</p>
+<p>Even though I used to be a big believer in SDD, I’ve realized its limitations and the new problems it creates over the last few months. I’ll summarize the reasons for the switch and what we’ve found.</p>
+<p>There is actually an article on Martin Fowler’s blog that analyzes SDD tools and processes in depth. I happened to switch my process before seeing that article. It turns out the content mirrored my feelings perfectly, so I highly recommend reading it.</p>
+<p>Back to the main topic. Why give up SDD completely? Let me summarize it in one sentence.</p>
+<blockquote>
+<p>Using SDD for small changes is overkill. Big changes can’t be explained clearly. Even if the documentation is written perfectly, the Agent can’t fully absorb it. Eventually, the documentation and the code drift further apart.</p>
+</blockquote>
+<p>Let’s discuss each of these points in detail.</p>
+<h3 id="Small-changes-are-unnecessary"><a href="#Small-changes-are-unnecessary" class="headerlink" title="Small changes are unnecessary"></a>Small changes are unnecessary</h3><p>The small changes we refer to here are usually things like receiving a bug report or a feature enhancement. This could be tweaking parameters or adjusting part of a flow.</p>
+<p>When we need to execute this kind of small task, let’s take Kiro as an example. Would we use vibe mode or spec mode?</p>
+<p>When I was a devout SDD believer, I always used spec mode. And what did that get us?</p>
+<p>Three lines of code changed. Over three hundred lines of documents generated.</p>
+<p>I don’t know if you’ve had experience using SDD tools, but even for these tiny tasks, their requirement documents still cover backward and forward compatibility, security assessments, performance reviews, and rollout plans.</p>
+<p>Are you kidding? The time it takes to read the generated requirement document far exceeds the time it takes to just jump in and write the code myself.</p>
+<h3 id="Big-changes-aren’t-explained-clearly"><a href="#Big-changes-aren’t-explained-clearly" class="headerlink" title="Big changes aren’t explained clearly"></a>Big changes aren’t explained clearly</h3><p>Big changes are the flip side of small changes.</p>
+<p>When we need to make a change involving thousands of lines (allow me to use numbers for clarity), this scenario is usually where SDD is supposed to shine, right?</p>
+<p>The reality is different. When we give a PRD directly to a spec mode agent, it can’t produce a complete, well-broken-down task list. It easily misses things. And when a massive list actually gets to the agent for implementation, it turns out to be something entirely different.</p>
+<p>If we have to teach the agent to build a complete list through interaction and conversation, why not just grab the list and do it ourselves?</p>
+<p>More importantly, the agent’s context window is limited. When action items aren’t small or precise enough, it will still implement things according to its own ideas, even with a complete design doc.</p>
+<p>This turns into a situation where the agent writes bad specs, and we need to assist it in writing them. Then, once the agent has the specs, it doesn’t follow them well, so we have to supervise it. We basically end up becoming the maintainers of the specs ourselves, which adds a lot of extra effort.</p>
+<h3 id="Agents-can’t-fully-absorb-even-clear-documentation"><a href="#Agents-can’t-fully-absorb-even-clear-documentation" class="headerlink" title="Agents can’t fully absorb even clear documentation"></a>Agents can’t fully absorb even clear documentation</h3><p>There are already many papers analyzing this. I’ve even done quite a few experiments and verifications myself.</p>
+<p>You can refer to my articles and open-source projects for details.</p>
+<p>Simply put, the agent won’t treat the design document as an absolute law. It only treats the design document as a guideline. Sometimes, it doesn’t even read the whole thing.</p>
+<p>The result is that we spend a lot of time discussing a perfect design with the agent. But in the end, we still need to watch over the agent constantly to make sure it doesn’t go off track.</p>
+<h3 id="Documentation-and-code-drift-apart"><a href="#Documentation-and-code-drift-apart" class="headerlink" title="Documentation and code drift apart"></a>Documentation and code drift apart</h3><p>This is the fate of software development. It applies to the past and the future.</p>
+<p>Because documentation only increases and the codebase only gets bigger. No one can remember all the content in the documentation. And no one can update the relevant documents with every single change.</p>
+<p>Whether it’s the Wiki and Confluence of the past or design docs written inside the codebase, they share the same fate. Eventually, they will no longer be consistent with the code.</p>
+<p>The problem lies exactly here. When Wiki or Confluence is inconsistent, we humans might notice it or we might just ignore those documents. But the stuff you write in <code>.kiro/steering</code> gets pulled out and referenced by the agent repeatedly. If the document content is outdated, sadly, the agent’s changes will be a disaster.</p>
+<h3 id="How-do-I-do-it-now"><a href="#How-do-I-do-it-now" class="headerlink" title="How do I do it now?"></a>How do I do it now?</h3><p>Having said so much about the downsides of SDD, how do we handle things now?</p>
+<p>I believe thinking before coding is essential, whether we are using AI coding or not. Therefore, I still keep my past habits. I analyze and design the modifications I’m about to make. The difference is that in the past, we needed to know every aspect of the codebase to make a complete analysis. But now, collaborating with an Agent allows us to analyze the chain of changes and the scope of impact more efficiently.</p>
+<p>Once I’ve run through the simulation in my head, I list all the items to be executed in my own notepad. Then, I tell the agent to execute them one by one using vibe mode.</p>
+<p>Where is the difference? It lies in the granularity. The items in my notepad are precise down to which file, which module, or even which function. And I tell the agent exactly where to make what kind of changes with that same precision.</p>
+<p>Why do we need to be so precise?</p>
+<p>Because I found that AI’s taste in code is still worse than mine. The code it writes looks incredibly ugly to me personally. It has no aesthetic sense at all. So I tell it exactly what to do and how to do it.</p>
+<p>We’ll find that vibe coding is really just a fancier auto-completion for me. But I think that’s enough. Facts have proven that this level of efficiency boost is sufficient.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Why did I make this shift in workflow?</p>
+<p>Thinking back, the straw that broke the camel’s back was that Claude loves writing documents for absolutely everything, big or small. Every document is long and tedious. It got to the point where reading them was painful, but not reading them felt wrong too.</p>
+<p>Instead of torturing ourselves like this, let’s just ditch these intermediate documents. For me, they have no reference value.</p>
+<p>The motivation driving me to slowly transition to this new workflow is something I’ve mentioned before. It’s simply that the code written by AI looks too ugly. It’s full of bad smells.</p>
+<p>Rather than dealing with that, I’d really prefer to write it myself, or make the AI write it strictly according to what I say.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/abandoning-sdd-my-new-ai-coding-workflow-c3ac8627d8be">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/AI/Is-AI-Killing-Traditional-Org-Structures/20251130/" rel="prev" title="Is AI Killing Traditional Org Structures?">
+                  <i class="fa fa-chevron-left"></i> Is AI Killing Traditional Org Structures?
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Python/Solving-Gevent-Pool-Issues-in-Flask-Apps/20251228/" rel="next" title="Solving Gevent Pool Issues in Flask Apps">
+                  Solving Gevent Pool Issues in Flask Apps <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/4/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/4/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/4/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Hands-On-WrenAI-Review-Text-to-SQL-Powered-by-RAG/20250420/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/Hands-On-WrenAI-Review-Text-to-SQL-Powered-by-RAG/20250420/" class="post-title-link" itemprop="url">Hands-On WrenAI Review: Text-to-SQL Powered by RAG</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-04-21 01:34:45" itemprop="dateCreated datePublished" datetime="2025-04-21T01:34:45+08:00">2025-04-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Hands-On-WrenAI-Review-Text-to-SQL-Powered-by-RAG"><a href="#Hands-On-WrenAI-Review-Text-to-SQL-Powered-by-RAG" class="headerlink" title="Hands-On WrenAI Review: Text-to-SQL Powered by RAG"></a>Hands-On WrenAI Review: Text-to-SQL Powered by RAG</h3><h4 id="Deep-dive-into-customization-performance-and-practical-insights-for-seamless-SQL-generation"><a href="#Deep-dive-into-customization-performance-and-practical-insights-for-seamless-SQL-generation" class="headerlink" title="Deep dive into customization, performance, and practical insights for seamless SQL generation"></a>Deep dive into customization, performance, and practical insights for seamless SQL generation</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*UrrdYQD5BaFYxb8QAOi2XA.png"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Canner/WrenAI">WrenAI</a> is a text to sql solution that I’ve been following for a while. Recently, I have some time to try it out, so let me share my experience.</p>
+<p>First of all, according to the <a target="_blank" rel="noopener" href="https://docs.getwren.ai/oss/installation">installation guide</a> provided by the official document, we can generally deploy WrenAI to the local machine. As for the integration with local Ollama, there are some <a target="_blank" rel="noopener" href="https://docs.getwren.ai/oss/ai_service/guide/custom_llm#update-your-configurations">sample configuration files</a> that can be used.</p>
+<p>However, there are still some details to be adjusted that are not mentioned in the document. For example, if we use the <code>ollama/nomic-embed-text</code> mentioned in the document as the embedder, then we need to change the <code>embedding_model_dim</code> of the configuration file from 3072 to 768, which is a detail that can be easily overlooked.</p>
+<p>Just provide the appropriate settings and WrenAI will work fine.</p>
+<p>By the way, I am using MySQL and the official MySQL <a target="_blank" rel="noopener" href="https://github.com/datacharmer/test_db">test dataset</a>.</p>
+<h3 id="WrenAI-Advantage"><a href="#WrenAI-Advantage" class="headerlink" title="WrenAI Advantage"></a>WrenAI Advantage</h3><p>In addition to schema-based chat Q&amp;A, WrenAI has another awesome feature.</p>
+<p>It provides the flexibility to customize prompts, and under WrenAI’s Knowledge page, it is possible to enter pre-designed questions and corresponding SQL answers. In addition, we can also enter additional commands to provide the AI with additional “parameters”.</p>
+<p>After I disassembled WrenAI’s prompt, I realized that these Knowledge play a very important role in determining the final SQL’s appearance. This customization provides a reliable fine tuning opportunity when integrating a usage-based data source like BigQuery.</p>
+<h3 id="WrenAI-Disadvantage"><a href="#WrenAI-Disadvantage" class="headerlink" title="WrenAI Disadvantage"></a>WrenAI Disadvantage</h3><p>This is a fairly new project (0.19.2 at the moment), so there are bound to be some bugs.</p>
+<p>I’ve encountered two problems that I find quite annoying.</p>
+<p>First, when I first logged in the homepage, WrenAI will provide some recommended questions based on the data model, so that users can get into the situation quickly. However, this kind of full model scanning consumes a lot of computing power, and if the model is not strong enough, basically we cannot get the result.</p>
+<p>It doesn’t matter if we can’t get the recommended questions, but WrenAI’s error handle is not well designed, it will provide a lot of unimportant built-in questions, and there is no align project setting for the language. I’ve mentioned a <a target="_blank" rel="noopener" href="https://github.com/Canner/WrenAI/issues/1550">GitHub issue</a> about this.</p>
+<p>Secondly, even though there are not many data models in the source and not many columns, the <code>llama3.1:8b</code> model still has a certain percentage of AI hallucination.</p>
+<p>Since I’m a data engineer, it’s easy for me to read SQL, so it’s easy for me to find the problem, and WrenAI also provides a good correction mechanism to correct the original answer, so I haven’t encountered too many obstacles in using it.</p>
+<p>However, I am worried that people who are not familiar with datasets and SQL may have unexpected surprises if they use it directly.</p>
+<p>Lastly, and this is both a strength and a weakness of WrenAI, WrenAI is based on a RAG implementation to generate SQL, which requires a strong model to support. Take my <code>llama3.1:8b</code> running on MacBook Pro M2, a simple problem (joining a few tables) would take more than 5 minutes, not to mention the complicated problems, and it’s common to run into internal server error.</p>
+<p>I won’t go into the details of some minor Web UI issues and design flaws in the interaction with the backend.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>WrenAI uses RAG as the foundation to implement a pretty good text to sql solution, and because it is based on RAG, there is a lot of flexibility to customize the prompt.</p>
+<p>However, because it is a RAG, the computing power and model capacity are high, and the effect on small model scenes needs to be strengthened.</p>
+<p>I will do more experiments with more powerful models and expect to get better results. Overall, WrenAI is a product worth trying.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/hands-on-wrenai-review-text-to-sql-powered-by-rag-0cecb0bc0239">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/MCP-Make-Me-Happy/20250406/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/MCP-Make-Me-Happy/20250406/" class="post-title-link" itemprop="url">MCP Make Me Happy</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-04-07 01:39:09" itemprop="dateCreated datePublished" datetime="2025-04-07T01:39:09+08:00">2025-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="MCP-Make-Me-Happy"><a href="#MCP-Make-Me-Happy" class="headerlink" title="MCP Make Me Happy"></a>MCP Make Me Happy</h3><h4 id="Empowering-productivity-with-integrated-AI-tools"><a href="#Empowering-productivity-with-integrated-AI-tools" class="headerlink" title="Empowering productivity with integrated AI tools"></a>Empowering productivity with integrated AI tools</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*vjDOHADFvI_1ToZ7FkB1PQ.png"></p>
+<p>Recently, the topic of MCP has suddenly become extremely popular, and I guess the main reason is there are a lot of MCP servers in the eco-system.</p>
+<p>In order to increase productivity, I’ve spent some time to test some MCP combinations. After all, computer resources are limited and I can’t use all MCPs at once, so I’ve picked a few that I find most useful.</p>
+<p>I usually use the <a target="_blank" rel="noopener" href="https://smithery.ai/">Smithery</a> MCP registry, which has a large number of projects posted. Here are my favorite combinations.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://smithery.ai/server/@smithery-ai/server-sequential-thinking">Sequential Thinking</a></li>
+<li><a target="_blank" rel="noopener" href="https://smithery.ai/server/@wonderwhy-er/desktop-commander">Desktop Commander</a></li>
+<li><a target="_blank" rel="noopener" href="https://smithery.ai/server/@nickclyde/duckduckgo-mcp-server">Duckduckgo Search</a></li>
+</ul>
+<p>First of all, sequential thinking I believe is the core, even though nowadays AI models usually have CoT, it is still necessary to ask AI to disassemble the workflow through prompt. By disassembling the workflow, the AI will be able to correctly invoke the corresponding tools to solve the problem. So sequential thinking plays the role of the brain.</p>
+<p>Next, the desktop commander is the body that does all the work. Because the desktop commander can read files, write files, and execute commands, it can do everything a command line can do.</p>
+<p>Finally, there is duckduckgo search, which provides additional information to accomplish specific tasks. I have to say this is not really used very often, but if we need to find the most recent information, a web search can be helpful.</p>
+<h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h3><p>This project is a weather prediction program I built to explain machine learning to team members. It took less than 10 minutes to complete without opening an IDE or writing a single line of code.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wirelessr/scikilearn-demo">https://github.com/wirelessr/scikilearn-demo</a></p>
+<p>The <a target="_blank" rel="noopener" href="https://claude.ai/download">Claude Desktop</a> and the three MCPs mentioned above were used.</p>
+<blockquote>
+<p><em>System instruction: You are a professional ML developer who is familiar with various python ML frameworks and is able to call on various tools to actually operate the computer, e.g. read files, write files and execute commands.</em></p>
+</blockquote>
+<p>We start by setting up the roles and game rules for the AI, and then we actually move on to development.</p>
+<blockquote>
+<p><em>Help me create a scikit-learn demo project on my desktop to predict temperature, need to have test data. Also, this project needs to have a virtual env that does not pollute my system python.</em></p>
+</blockquote>
+<p>At this point Claude will start building a draft of the project, but he has not separated <code>train</code> from <code>predict</code> and has not yet trained the model. Therefore, let’s ask the AI to modify the project and actually build the model.</p>
+<blockquote>
+<p><em>Is this script already trained? How can I use it to predict tomorrow’s temperature? Run the commands directly to build the model.</em></p>
+</blockquote>
+<p>Claude then creates the python environment via virtual env and installs the dependencies via <code>pip</code>. Once the environment is set up, Claude actually runs <code>python src/train.py</code> to train the model.</p>
+<blockquote>
+<p><em>Go to the Internet and look up today’s weather information and use this project to predict tomorrow’s weather.</em></p>
+</blockquote>
+<p>This is where <code>duckduckgo</code> comes in and looks up the required parameters, such as today’s temperature and humidity, and runs <code>python src/predict.py</code> to provide the final result.</p>
+<p>At this point, the project is completed, but for ML teaching is not enough, so I then asked Claude to write a clear description and comments.</p>
+<blockquote>
+<p><em>This is a tutorial project and I need</em> <a target="_blank" rel="noopener" href="http://readme.md/"><em>README.md</em></a> <em>and good comments.</em></p>
+</blockquote>
+<p>In the end, the project is what you see on Github. I didn’t write a single line of code and I didn’t use an IDE, but the project is complete.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/mcp-make-me-happy-c9708231419e">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG/20250316/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG/20250316/" class="post-title-link" itemprop="url">Evolution of RAG: Baseline RAG, GraphRAG, and KAG</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-03-17 02:09:42" itemprop="dateCreated datePublished" datetime="2025-03-17T02:09:42+08:00">2025-03-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG"><a href="#Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG" class="headerlink" title="Evolution of RAG: Baseline RAG, GraphRAG, and KAG"></a>Evolution of RAG: Baseline RAG, GraphRAG, and KAG</h3><h4 id="Enhancing-LLM-accuracy-with-structured-knowledge-inverted-indexes-and-dynamic-retrieval"><a href="#Enhancing-LLM-accuracy-with-structured-knowledge-inverted-indexes-and-dynamic-retrieval" class="headerlink" title="Enhancing LLM accuracy with structured knowledge, inverted indexes, and dynamic retrieval"></a>Enhancing LLM accuracy with structured knowledge, inverted indexes, and dynamic retrieval</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*_9x0HKFjvOS049uYQTjfDA.png"></p>
+<p>This article focuses on the evolution of RAG, so technical details will be skipped to avoid this article being too geeky.</p>
+<p>Using LLM for chatbot is the most common application nowadays, but the answer of LLM is too generalized to serve specific application scenarios.</p>
+<p>Therefore, Retrieval-Augmented Generation, aka RAG, has been developed.</p>
+<p>Simply put, it is to store the specialization data needed by LLM, so that LLM can refer to it when answering.</p>
+<h3 id="Baseline-RAG"><a href="#Baseline-RAG" class="headerlink" title="Baseline RAG"></a>Baseline RAG</h3><p>A traditional RAG process is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*nCSW0eDiejtv4awYliL4gw.png"></p>
+<p>Indexing in the left side means to process the data that LLM needs to refer to in advance, and the processing flow is to first divide the chunks and then vectorize the chunks into the vector database.</p>
+<p>When the user asks a question, he also needs to vectorize the query and take the first few similar results from the vector database, which is usually the order of vector product. These chunks are fed to the LLM along with the query, and the LLM generates a “good” answer.</p>
+<p>From the above flow, it is obvious that traditional RAG encounters several problems.</p>
+<ol>
+<li>Context fragmentation due to chunks.</li>
+<li>Vector product is too simple, losing reasoning ability.</li>
+<li>Vectors do not have verification capability, so it is easily to answer the wrong question.</li>
+</ol>
+<p>In order to improve the reasoning ability and overcome the problem, <a target="_blank" rel="noopener" href="https://microsoft.github.io/graphrag/">GraphRAG</a> was born.</p>
+<h3 id="GraphRAG"><a href="#GraphRAG" class="headerlink" title="GraphRAG"></a>GraphRAG</h3><p>To avoid getting into too much in depth theory, let’s look directly at the process.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*alXWL5MvSGdxB26R6s0XGA.png"></p>
+<p>From the diagram, we can see that GraphRAG has more Graph support (as the name suggests) than traditional RAG.</p>
+<p>In particular, this Graph consists of these three elements.</p>
+<ul>
+<li>Entity</li>
+<li>Relationship</li>
+<li>Statement description</li>
+</ul>
+<p>The following is an example.</p>
+<ul>
+<li>(OpenAI) –[developed]–&gt; (ChatGPT)</li>
+<li>(ChatGPT) –[is a]–&gt; (LLM)</li>
+<li>(ChatGPT) –[published in]–&gt; (2022)</li>
+<li>(ChatGPT) –[uses]–&gt; (Transformer)</li>
+<li>(Transformer) –[is a]–&gt; (deep learning architecture)</li>
+<li>(Transformer) –[published in]–&gt; (2017)</li>
+<li>(Transformer) –[is developed by]–&gt; (Google)</li>
+</ul>
+<p>By extracting key information from chunks and constructing a Knowledge Graph, aka KG, the process is similar to the human brain.</p>
+<p>For example, the hippocampus converts short-term memories into long-term memories by filtering and translating information, so that it can use these memories to get better ideas when it encounters similar situations in the future.</p>
+<p>These KGs are graphs, which are not always easy for LLM to use, so there is another important process in GraphRAG called summarization, where these KGs are summarized into paragraph and paragraph of text.</p>
+<p>With summarization, LLM can have a more full picture and get a relatively accurate answer.</p>
+<p>Nevertheless, GraphRAG has its shortcomings.</p>
+<ol>
+<li>Summaries and KGs can be helpful, but they also have the potential to diffuse specialized knowledge.</li>
+<li>Although summarization can help to expand context, the reasoning ability is still insufficient.</li>
+<li>The noise introduced by summarization can still create hallucination.</li>
+</ol>
+<p>Therefore, the idea of converting from KG to summarization is not feasible. However, KG itself is a valuable design, as it simulates the process of knowledge generation.</p>
+<p>What if we could make AI work more like the human brain? Therefore, we meet the Knowledge Augmented Generation, also known as KAG.</p>
+<h3 id="KAG"><a href="#KAG" class="headerlink" title="KAG"></a>KAG</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*1PDUF4bX_XSWRRGZ.png"></p>
+<p>The DIKW pyramid is a famous model that describes the process of wisdom concentration, and it is what we are trying to do to make RAG accurate.</p>
+<p>So, in the GraphRAG implementation, we filter Information from Data, and then try to build a Knowledge Graph. However, <a target="_blank" rel="noopener" href="https://www.atlantis-press.com/article/2276.pdf">the human brain does not think in one direction</a>, any wisdom is generated with multiple references.</p>
+<p>The KAG paper introduces a lot of complex theories, but in short, KAG tries to allow KG to connect back to the original chunk and add more semantic references to the query rather than just vector references, which results in a significant improvement in domain-specific knowledge.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*9b_Z4xZqWX_IQehgtxiCUw.png"></p>
+<p>In terms of process, KAG adds inverted indexing and full-text search, so it can be more semantically precise. In addition, the extracted KG will become the source of input for LLM, so that LLM can have a more comprehensive knowledge base.</p>
+<p>In GraphRAG, only those summaries are provided to LLM, but KAG does not do summaries, but submits the complete KG together with original text to LLM.</p>
+<p>The ability to accept such a large number of inputs is also due to recent modeling advances, such as Gemini 2.0 Flash.</p>
+<p>KAG has a lot of in-depth technical tuning, which makes it difficult to fully implement. However, just adding KG and full text searching over traditional RAG will already achieve good results, and it’s not too difficult to do both, which is the core value of KAG.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Making LLM accurate is a difficult task, especially if we want to turn LLM into a commercial product, it is even more important to answer the question correctly.</p>
+<p>Traditional RAGs have limited ways to improve the accuracy of LLMs, only chunking, embedding and prompting, and then adding rerank and other mechanisms to allow the Top N to find better results.</p>
+<p>GraphRAG adds the concepts of KG and summarization to the traditional RAG to extend the context.</p>
+<p>KAG, on the other hand, is based on GraphRAG and adds KG’s bi-directional links and inverted indexes.</p>
+<p>All of these techniques are designed to expand the contextual information when LLM generates answers, and gradually enable LLM to be accurate enough in specific scenarios.</p>
+<p>In fact, there are some additional variants, such as <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2401.15884">Corrective RAG</a> aka CRAG. However, this kind of variants do not directly enhance the thinking ability of LLM, but rather assist LLM through some external mechanism, so I did not include them.</p>
+<p>In summary, the evolutions of RAG are as follows.</p>
+<blockquote>
+<p><em>LLM -&gt; RAG -&gt; GraphRAG -&gt; KAG</em></p>
+</blockquote>
+<p>RAG is a concept that has only been around for two years, and it’s exciting to see how quickly it has evolved.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/evolution-of-rag-baseline-rag-graphrag-and-kag-93b6f221bde6">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Rethinking-Microservice-Decomposition-A-Team-Driven-Approach/20250223/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Microservice/Rethinking-Microservice-Decomposition-A-Team-Driven-Approach/20250223/" class="post-title-link" itemprop="url">Rethinking Microservice Decomposition: A Team-Driven Approach</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-02-24 01:40:57" itemprop="dateCreated datePublished" datetime="2025-02-24T01:40:57+08:00">2025-02-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Integrating-project-management-and-technical-trade-offs-for-agile-system-evolution"><a href="#Integrating-project-management-and-technical-trade-offs-for-agile-system-evolution" class="headerlink" title="Integrating project management and technical trade-offs for agile system evolution"></a>Integrating project management and technical trade-offs for agile system evolution</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*E23H_LGJQdvTpfRoPT0KMg.png"></p>
+<p>Recently, I have had some insights about microservice decomposition.</p>
+<p>In the past, when discussing microservices decomposition, we usually start from the technical perspective, identify the domain boundary and then cut into the problem from the technical perspective to find out the appropriate decomposition solution.</p>
+<p>The book <code>Monolith to Microservices</code> describes a number of technical “patterns” that cover most of the scenarios at a high level.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*fE6lwGY9vUwYx423.png"></p>
+<p>In general, there are three approaches:</p>
+<ol>
+<li>Split the database first, then the code</li>
+<li>Split the code first, then the database</li>
+<li>Split them both at once</li>
+</ol>
+<p>However, the third approach is highly discouraged in the book, and in my personal experience as well.</p>
+<p>For example, in the following diagram, when we want to separate module C into a microservice, two new components are created, microservice C and a new database.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*CSySi4bqhebndbFUlMrljA.png"></p>
+<p>Under the first approach, we would have the monolith begin to double-write the two databases and try to make the two databases consistent.</p>
+<p>Once we can ensure that the data is consistent, we will start to develop Microservice C and then transfer some functions from the monolith to the new service.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*YLpP3ISdt71wf_UPhexMGQ.png"></p>
+<p>On the other hand, in the second approach, we will start implementing Microservice C directly, but the new service will still use the original database.</p>
+<p>When the new service is developed and the functionality of the monolith is transferred to the new service, then we will start to handle the database split.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*oQqONXFVMRVwgTb-_DhTaA.png"></p>
+<p>There is a lot of technical selection in the book about which approach to take, and there are advantages and disadvantages to both approaches. Therefore, I highly recommend that book, and I believe that anyone who needs to implement a microservice decomposition needs to read it.</p>
+<p>Nevertheless, I want to approach this issue from a different perspective.</p>
+<h3 id="Team-Topology-Matters"><a href="#Team-Topology-Matters" class="headerlink" title="Team Topology Matters"></a>Team Topology Matters</h3><p>The choice should be based on team topology and project planning.</p>
+<p>If the team topology follows Conway’s Law, i.e., Module C or Microservice C is governed by an independent team, then the second approach is much better.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*PyyMNeynaaSZkrxw2JvVnQ.png"></p>
+<p>The main reason is dealing with database split in the first place will face a lot of real-world challenges, which will inevitably slow down the project tempo and lengthen the development cycle.</p>
+<p>When a system is no down time, it means a continuous write request, and how to keep the database consistent and up-to-date in such a scenario is a difficult problem.</p>
+<p>There are many solutions, but none of them are silver bullets, and all of them need to be designed for a specific scenario.</p>
+<p>For example,</p>
+<ol>
+<li>Use a strong consistency-guaranteed solution such as 2PC or XA. In practice, this is seldom used, because of the performance loss and the limitations.</li>
+<li>Double-write on the write side with continuous compensation. This is because the application’s double-write cannot be guaranteed to be completely consistent, and may be partially successful and partially failure due to an exception or scaling, so a compensation mechanism is needed to correct this on a regular basis.</li>
+<li>Use outbox pattern or event driven. By converting all write requests into events and ensuring event process is idempotent, we can ensure all databases are updated correctly. However, this is a huge change, and the real-time nature of the writes will be degraded.</li>
+</ol>
+<p>The above three solutions are common, but they all have their limitations, and the amount of development is extremely large. Moreover, in order not to affect the data structure, we usually suspend the feature iteration until the database split is finished.</p>
+<p>And that’s not the worst part. The database split is not the end of the story because it still takes time to develop the new service and the original monolith needs time to migrate the functionality.</p>
+<p>In other words, when we do a database split, it will affect the project’s progress, and for a long time.</p>
+<p>So what are the benefits of splitting the code first?</p>
+<p>First of all, when the new service exposes the interfaces, the old monolith will be able to migrate functionality based on these new interfaces. Once the migration is complete, the old monolith can start running subsequent feature iterations without having to wait for the database split.</p>
+<p>The impact of the database split is therefore limited to the microservices team and does not extend to other teams.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Decomposing microservices in a monolith is always a tough challenge.</p>
+<p>Because there is no one-size-fits-all solution, most of them need to be customized based on the scenarios. The only way to become an expert in decomposing microservices is to experience more scenarios.</p>
+<p>Most books only look at this matter from a technical point of view, but as I gain more and more experience, I realize that the technical aspect of decomposing microservices only takes up a small part of the picture, and it’s more about compromises and trade-offs between various realities.</p>
+<p>I’m trying to approach this topic from a project management perspective because I’ve had the experience.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/rethinking-microservice-decomposition-a-team-driven-approach-1aac05286c35">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Benchmarking-Lakehouse-with-TPC-DS/20250209/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Benchmarking-Lakehouse-with-TPC-DS/20250209/" class="post-title-link" itemprop="url">Benchmarking Lakehouse with TPC-DS</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-02-10 01:42:06" itemprop="dateCreated datePublished" datetime="2025-02-10T01:42:06+08:00">2025-02-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Benchmarking-Lakehouse-with-TPC-DS"><a href="#Benchmarking-Lakehouse-with-TPC-DS" class="headerlink" title="Benchmarking Lakehouse with TPC-DS"></a>Benchmarking Lakehouse with TPC-DS</h3><h4 id="A-step-by-step-guide-to-importing-TPC-DS-data-into-Apache-Iceberg"><a href="#A-step-by-step-guide-to-importing-TPC-DS-data-into-Apache-Iceberg" class="headerlink" title="A step-by-step guide to importing TPC-DS data into Apache Iceberg"></a>A step-by-step guide to importing TPC-DS data into Apache Iceberg</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*g6kxtB3DLXoBdOsRHtzFeA.png"></p>
+<p>Apache Iceberg is already a popular lakehouse format that is supported by many query engines. What should we do if we want to make a technical selection among many query engines?</p>
+<p>In the data warehouse domain, the most commonly used standard is <a target="_blank" rel="noopener" href="https://www.tpc.org/tpcds/">TPC-DS</a>, which defines several common scenarios and provides a set of standardized queries. Generally speaking, TPC-DS is the gold standard for benchmarking performance.</p>
+<p>Although TPC-DS is quite popular and there are many common connectors for dumping test data into various databases, and even Trino, a pure computing engine, provides a dedicated <a target="_blank" rel="noopener" href="https://trino.io/docs/current/connector/tpcds.html">catalog</a> for TPC-DS, there is no such thing as a TPC-DS for lakehouse at the moment.</p>
+<p>Lakehouse does not have a good connector for this purpose. Therefore, in this article we will try to describe how to dump the test data of TPC-DS into Iceberg’s lakehouse.</p>
+<h3 id="Experiment-environment-setup"><a href="#Experiment-environment-setup" class="headerlink" title="Experiment environment setup"></a>Experiment environment setup</h3><p>Regarding how to build the TPC-DS tools is not the focus of this article, so I’ll start by assuming that <code>dsdgen</code> is already installed.</p>
+<p>First, let’s generate a test data package.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dsdgen -SCALE 1 -DIR /home/ec2-user/sample</span><br></pre></td></tr></table></figure>
+
+<p>Once we have the test data, we need to build the Iceberg environment and import the data.</p>
+<p>Although I’ve provided some Iceberg playgrounds before, this time I’d like to use tabular’s <a target="_blank" rel="noopener" href="https://www.tabular.io/blog/docker-spark-and-iceberg-the-fastest-way-to-try-iceberg/">experiment environment</a>. The main reason is that the tabular environment also includes a spark notebook, which helps a lot.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">services:  </span><br><span class="line">  spark-iceberg:  </span><br><span class="line">    image: tabulario/spark-iceberg  </span><br><span class="line">    container_name: spark-iceberg  </span><br><span class="line">    build: spark/  </span><br><span class="line">    networks:  </span><br><span class="line">      iceberg_net:  </span><br><span class="line">    depends_on:  </span><br><span class="line">      - rest  </span><br><span class="line">      - minio  </span><br><span class="line">    volumes:  </span><br><span class="line">      - ./warehouse:/home/iceberg/warehouse  </span><br><span class="line">      - ./notebooks:/home/iceberg/notebooks/notebooks  </span><br><span class="line">      - ./sample:/home/iceberg/sample  </span><br><span class="line">    environment:  </span><br><span class="line">      - AWS_ACCESS_KEY_ID=admin  </span><br><span class="line">      - AWS_SECRET_ACCESS_KEY=password  </span><br><span class="line">      - AWS_REGION=us-east-1  </span><br><span class="line">    ports:  </span><br><span class="line">      - 8888:8888  </span><br><span class="line">      - 8080:8080  </span><br><span class="line">      - 10000:10000  </span><br><span class="line">      - 10001:10001  </span><br><span class="line">  rest:  </span><br><span class="line">    image: tabulario/iceberg-rest  </span><br><span class="line">    container_name: iceberg-rest  </span><br><span class="line">    networks:  </span><br><span class="line">      iceberg_net:  </span><br><span class="line">        aliases:  </span><br><span class="line">          - iceberg-rest.minio  </span><br><span class="line">    ports:  </span><br><span class="line">      - 8181:8181  </span><br><span class="line">    environment:  </span><br><span class="line">      - AWS_ACCESS_KEY_ID=admin  </span><br><span class="line">      - AWS_SECRET_ACCESS_KEY=password  </span><br><span class="line">      - AWS_REGION=us-east-1  </span><br><span class="line">      - CATALOG_WAREHOUSE=s3://warehouse/  </span><br><span class="line">      - CATALOG_IO__IMPL=org.apache.iceberg.aws.s3.S3FileIO  </span><br><span class="line">      - CATALOG_S3_ENDPOINT=http://minio:9000  </span><br><span class="line">  minio:  </span><br><span class="line">    image: minio/minio  </span><br><span class="line">    container_name: minio  </span><br><span class="line">    environment:  </span><br><span class="line">      - MINIO_ROOT_USER=admin  </span><br><span class="line">      - MINIO_ROOT_PASSWORD=password  </span><br><span class="line">      - MINIO_DOMAIN=minio  </span><br><span class="line">    networks:  </span><br><span class="line">      iceberg_net:  </span><br><span class="line">        aliases:  </span><br><span class="line">          - warehouse.minio  </span><br><span class="line">    ports:  </span><br><span class="line">      - 9001:9001  </span><br><span class="line">      - 9000:9000  </span><br><span class="line">    command: [&quot;server&quot;, &quot;/data&quot;, &quot;--console-address&quot;, &quot;:9001&quot;]  </span><br><span class="line">  mc:  </span><br><span class="line">    depends_on:  </span><br><span class="line">      - minio  </span><br><span class="line">    image: minio/mc  </span><br><span class="line">    container_name: mc  </span><br><span class="line">    networks:  </span><br><span class="line">      iceberg_net:  </span><br><span class="line">    environment:  </span><br><span class="line">      - AWS_ACCESS_KEY_ID=admin  </span><br><span class="line">      - AWS_SECRET_ACCESS_KEY=password  </span><br><span class="line">      - AWS_REGION=us-east-1  </span><br><span class="line">    entrypoint: &gt;  </span><br><span class="line">      /bin/sh -c &quot;  </span><br><span class="line">      until (/usr/bin/mc config host add minio http://minio:9000 admin password) do echo &#x27;...waiting...&#x27; &amp;&amp; sleep 1; done;  </span><br><span class="line">      /usr/bin/mc rm -r --force minio/warehouse;  </span><br><span class="line">      /usr/bin/mc mb minio/warehouse;  </span><br><span class="line">      /usr/bin/mc policy set public minio/warehouse;  </span><br><span class="line">      tail -f /dev/null  </span><br><span class="line">      &quot;  </span><br><span class="line">networks:  </span><br><span class="line">  iceberg_net:</span><br></pre></td></tr></table></figure>
+
+<p>One small modification we made was to mount the test folder <code>sample</code> into <code>spark-iceberg</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">volumes:  </span><br><span class="line">      - ./warehouse:/home/iceberg/warehouse  </span><br><span class="line">      - ./notebooks:/home/iceberg/notebooks/notebooks  </span><br><span class="line">      - ./sample:/home/iceberg/sample</span><br></pre></td></tr></table></figure>
+
+<h3 id="Import-test-data"><a href="#Import-test-data" class="headerlink" title="Import test data"></a>Import test data</h3><p>After we have created the environment, we need to write the data into Iceberg.</p>
+<p>First, we need to create table schema.</p>
+<p>In general, the <code>tpcds.sql</code> of TPC-DS can be used directly, but there are a few things that need to be modified in the Iceberg experiment.</p>
+<ol>
+<li>Add catalog and database to the original table name, i.e. <code>&lt;catalog&gt;.&lt;db&gt;.&lt;table&gt;</code>.</li>
+<li>the <code>primary key</code> line should be pulled out and declared <code>PARTITIONED BY</code> instead. It’s better to use buckets, so partitioning can be done with <code>PARTITIONED BY (bucket(n_buckets, a_column))</code>, but this is adjustable.</li>
+<li>Now that the <code>primary key</code> has been removed, remember to remove the comma from the previous line as well.</li>
+</ol>
+<p>Here is the table <code>income_band</code> for illustration.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">create table demo.test.income_band      -- rename table  </span><br><span class="line">(  </span><br><span class="line">    ib_income_band_sk  integer  not null,  </span><br><span class="line">    ib_lower_bound     integer          ,  </span><br><span class="line">    ib_upper_bound     integer          -- remove comma: ,  </span><br><span class="line">    -- remove line: primary key (ib_income_band_sk)  </span><br><span class="line">)  </span><br><span class="line">PARTITIONED BY (ib_income_band_sk) -- add line  </span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+
+<p>I have written a Python script to handle this.</p>
+<p><a target="_blank" rel="noopener" href="https://gist.github.com/wirelessr/37b19323664cff6f9af42bd814f05a5d#file-proc_ddl-py">https://gist.github.com/wirelessr/37b19323664cff6f9af42bd814f05a5d#file-proc_ddl-py</a></p>
+<p>When we are done with all the DDLs, then we just need to open the <code>Spark SQL</code> built into the experiment environment to copy and paste those DDLs directly.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it spark-iceberg spark-sql</span><br></pre></td></tr></table></figure>
+
+<p>After the tables are defined, it’s time to start importing the data into Iceberg, which we typically do using the shortcuts provided by Spark SQL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO demo.test.income_band  </span><br><span class="line">SELECT * FROM csv.`file:///home/iceberg/sample/income_band.dat`;</span><br></pre></td></tr></table></figure>
+
+<p>But there is a problem, the column type will not match and cause an error (SQL will treat <code>INT</code> in csv as <code>STRING</code>). So we can do it with PySpark to save some time.</p>
+<p>There is also a ready-made notebook available in the experiment environment.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it spark-iceberg pyspark-notebook</span><br></pre></td></tr></table></figure>
+
+<p>Therefore, we just need to open the notebook and start the task of importing the csv.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">from pyspark.sql import SparkSession  </span><br><span class="line">  </span><br><span class="line">dat = [  </span><br><span class="line">    &#x27;call_center.dat&#x27;,  </span><br><span class="line">    &#x27;catalog_page.dat&#x27;,  </span><br><span class="line">    &#x27;catalog_returns.dat&#x27;,  </span><br><span class="line">    &#x27;catalog_sales.dat&#x27;,  </span><br><span class="line">    &#x27;customer.dat&#x27;,  </span><br><span class="line">    &#x27;customer_address.dat&#x27;,  </span><br><span class="line">    &#x27;customer_demographics.dat&#x27;,  </span><br><span class="line">    &#x27;date_dim.dat&#x27;,  </span><br><span class="line">    # &#x27;dbgen_version.dat&#x27;,  </span><br><span class="line">    &#x27;household_demographics.dat&#x27;,  </span><br><span class="line">    &#x27;income_band.dat&#x27;,  </span><br><span class="line">    &#x27;inventory.dat&#x27;,  </span><br><span class="line">    &#x27;item.dat&#x27;,  </span><br><span class="line">    &#x27;promotion.dat&#x27;,  </span><br><span class="line">    &#x27;reason.dat&#x27;,  </span><br><span class="line">    &#x27;ship_mode.dat&#x27;,  </span><br><span class="line">    &#x27;store.dat&#x27;,  </span><br><span class="line">    &#x27;store_returns.dat&#x27;,  </span><br><span class="line">    &#x27;store_sales.dat&#x27;,  </span><br><span class="line">    &#x27;time_dim.dat&#x27;,  </span><br><span class="line">    &#x27;warehouse.dat&#x27;,  </span><br><span class="line">    &#x27;web_page.dat&#x27;,  </span><br><span class="line">    &#x27;web_returns.dat&#x27;,  </span><br><span class="line">    &#x27;web_sales.dat&#x27;,  </span><br><span class="line">    &#x27;web_site.dat&#x27;  </span><br><span class="line">]  </span><br><span class="line">  </span><br><span class="line">spark = SparkSession.builder.appName(&quot;Import CSV&quot;).getOrCreate()  </span><br><span class="line">  </span><br><span class="line">for f in dat:  </span><br><span class="line">    df = spark.read.csv(f&quot;file:///home/iceberg/sample/&#123;f[:-4]&#125;.dat&quot;, header=False, inferSchema=True, sep=&quot;|&quot;)  </span><br><span class="line">    df = df.drop(df.columns[-1]) # drop the last empty column  </span><br><span class="line">  </span><br><span class="line">    df.write.mode(&quot;append&quot;).insertInto(f&quot;demo.test.&#123;f[:-4]&#125;&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>It’s pretty easy to fill out each table with PySpark’s <code>inferSchema</code> feature. One thing to note is that I intentionally cut off the last column of the csv.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df = df.drop(df.columns[-1])</span><br></pre></td></tr></table></figure>
+
+<p>The reason is that the csv generated by TPC-DS has a separator at the end of each line, which will be wrongly recognized as one more column.</p>
+<p>At this point, we have written all the data into lakehouse, and then we can use various query engines to benchmark the performance of the query predefined by TPC-DS.</p>
+<h3 id="Wrap-up"><a href="#Wrap-up" class="headerlink" title="Wrap up"></a>Wrap up</h3><p>TPC-DS is still a standard on lakehouse, but there are fewer resources on how to test it on lakehouse.</p>
+<p>This article provides a quick overview of how to import data on lakehouse, and I believe that following the steps should be feasible.</p>
+<p>The only thing left to do is to actually query on it, but that’s a less difficult task, so I won’t dive into it.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/benchmarking-lakehouse-with-tpc-ds-106813f9b8e6">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Understanding-Apache-Paimon-Concurrency-Control/20250112/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Understanding-Apache-Paimon-Concurrency-Control/20250112/" class="post-title-link" itemprop="url">Understanding Apache Paimon Concurrency Control</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-01-13 01:35:10" itemprop="dateCreated datePublished" datetime="2025-01-13T01:35:10+08:00">2025-01-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Designing-and-testing-Apache-Paimon-concurrency-control-to-reveal-common-conflict-scenarios"><a href="#Designing-and-testing-Apache-Paimon-concurrency-control-to-reveal-common-conflict-scenarios" class="headerlink" title="Designing and testing Apache Paimon concurrency control to reveal common conflict scenarios"></a>Designing and testing Apache Paimon concurrency control to reveal common conflict scenarios</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*wzRgiCG3OHdi5jRNsmzoRQ.png"></p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/apache-paimon-with-flink-trino-a-streaming-lakehouse-playground-17efdbc713c9">Previously</a>, we tried Apache Paimon at the playground. In the conclusion I mentioned that I would like to know what scenarios <a target="_blank" rel="noopener" href="https://paimon.apache.org/docs/1.0/concepts/concurrency-control/">concurrency control</a> is designed to handle and what happens when there is a conflict.</p>
+<p>This article will design an experiment environment that actually shows what snapshot conflict and files conflict are.</p>
+<p>First, use this more complicated playground.</p>
+<p>If you already have a main branch, you can just checkout to the <strong>jdbc</strong> branch.</p>
+<h3 id="Experiment-Design"><a href="#Experiment-Design" class="headerlink" title="Experiment Design"></a>Experiment Design</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*RHxqh1F6v-c-HNg5qdwrkQ.png"></p>
+<p>We will start two Flink tasks and keep receiving data from Kafka and writing to the same Paimon table.</p>
+<p>The two Flink tasks use different consumer groups, so the amount of data written should be equal.</p>
+<p>Therefore, we run the following script in Flink SQL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE orders (  </span><br><span class="line">    order_number BIGINT,  </span><br><span class="line">    price        DECIMAL(32,2),  </span><br><span class="line">    buyer        STRING  </span><br><span class="line">);  </span><br><span class="line">  </span><br><span class="line">CREATE TEMPORARY TABLE kafka_source1 (  </span><br><span class="line">    order_number BIGINT,  </span><br><span class="line">    price        DECIMAL(32,2)  </span><br><span class="line">) WITH (  </span><br><span class="line">    &#x27;connector&#x27; = &#x27;kafka&#x27;,  </span><br><span class="line">    &#x27;topic&#x27; = &#x27;test_topic&#x27;,  </span><br><span class="line">    &#x27;properties.bootstrap.servers&#x27; = &#x27;broker:29092&#x27;,  </span><br><span class="line">    &#x27;properties.group.id&#x27; = &#x27;session1&#x27;,  </span><br><span class="line">    &#x27;scan.startup.mode&#x27; = &#x27;earliest-offset&#x27;,  </span><br><span class="line">    &#x27;format&#x27; = &#x27;json&#x27;  </span><br><span class="line">);  </span><br><span class="line">INSERT INTO orders  </span><br><span class="line">SELECT  </span><br><span class="line">    *,  </span><br><span class="line">    &#x27;session1&#x27; AS buyer  </span><br><span class="line">FROM kafka_source1;  </span><br><span class="line">CREATE TEMPORARY TABLE kafka_source2 (  </span><br><span class="line">    order_number BIGINT,  </span><br><span class="line">    price        DECIMAL(32,2)  </span><br><span class="line">) WITH (  </span><br><span class="line">    &#x27;connector&#x27; = &#x27;kafka&#x27;,  </span><br><span class="line">    &#x27;topic&#x27; = &#x27;test_topic&#x27;,  </span><br><span class="line">    &#x27;properties.bootstrap.servers&#x27; = &#x27;broker:29092&#x27;,  </span><br><span class="line">    &#x27;properties.group.id&#x27; = &#x27;session2&#x27;,  </span><br><span class="line">    &#x27;scan.startup.mode&#x27; = &#x27;earliest-offset&#x27;,  </span><br><span class="line">    &#x27;format&#x27; = &#x27;json&#x27;  </span><br><span class="line">);  </span><br><span class="line">INSERT INTO orders  </span><br><span class="line">SELECT  </span><br><span class="line">    *,  </span><br><span class="line">    &#x27;session2&#x27; AS buyer  </span><br><span class="line">FROM kafka_source2;</span><br></pre></td></tr></table></figure>
+
+<p>As you can see from the script, I used two kafka sources and wrote to the same orders table, only the <code>buyer</code> field is different. In the end, all we need to do is <code>GROUP BY buyer</code> to know if the two tasks are the same.</p>
+<p>Here are some ingest samples.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;order_number&quot;: 1, &quot;price&quot;: 100&#125;  </span><br><span class="line">&#123;&quot;order_number&quot;: 2, &quot;price&quot;: 200&#125;  </span><br><span class="line">...  </span><br><span class="line">&#123;&quot;order_number&quot;: 100, &quot;price&quot;: 10000&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Experiment-Result"><a href="#Experiment-Result" class="headerlink" title="Experiment Result"></a>Experiment Result</h3><p>In the scene where <code>file</code> is used as a metastore, it is easy to see that Flink’s task is constantly restarting.</p>
+<p>There are two types of error cases mentioned in the document.</p>
+<p>The first one is snapshot conflict.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*JxYOrevDKk81UycX.png"></p>
+<p>This will result in a direct data loss, which will be reflected in the following error on Flink.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java.lang.RuntimeException: Exception occurs when committing snapshot #19 (path s3://warehouse/flink/default.db/Orders/snapshot/snapshot-19) by user 2439e7bb-506d-4ff3-a204-ab66610dd75d with identifier 3265 and kind APPEND. Cannot clean up because we can&#x27;t determine the success.  </span><br><span class="line">	at org.apache.paimon.operation.FileStoreCommitImpl.tryCommitOnce(FileStoreCommitImpl.java:986)  </span><br><span class="line">	at org.apache.paimon.operation.FileStoreCommitImpl.tryCommit(FileStoreCommitImpl.java:715)  </span><br><span class="line">	at org.apache.paimon.operation.FileStoreCommitImpl.commit(FileStoreCommitImpl.java:301)  </span><br><span class="line">  </span><br><span class="line">the rest omitted</span><br></pre></td></tr></table></figure>
+
+<p>Another scenario is files conflict.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*B33PEiAHQKEPp-KI.png"></p>
+<p>This will also cause the Flink task to restart with the following error.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java.lang.RuntimeException: This exception is intentionally thrown after committing the restored checkpoints. By restarting the job we hope that writers can start writing based on these new commits.  </span><br><span class="line">	at org.apache.paimon.flink.sink.RestoreAndFailCommittableStateManager.recover(RestoreAndFailCommittableStateManager.java:84)  </span><br><span class="line">	at org.apache.paimon.flink.sink.RestoreAndFailCommittableStateManager.initializeState(RestoreAndFailCommittableStateManager.java:77)  </span><br><span class="line">	at org.apache.paimon.flink.sink.CommitterOperator.initializeState(CommitterOperator.java:153)  </span><br><span class="line">      </span><br><span class="line">the rest omitted</span><br></pre></td></tr></table></figure>
+
+<p>Either type of conflict will affect the real time ability to write data, or worse, data will be lost in a snapshot conflict.</p>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p>Of course, Paimon also provides a solution to this problem, which is to use a metastore that can be locked, such as MySQL.</p>
+<p>So in our experiment, we need to change the practice of <code>CREATE CATALOG</code>. The correct CATALOG is shown in <a target="_blank" rel="noopener" href="https://github.com/wirelessr/paimon-trino-flink-playground/tree/jdbc?tab=readme-ov-file#mysql-catalog">README.md</a>, and the key point is to add the following line.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;lock.enabled&#x27; = &#x27;true&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>When we re-run the experiment using MySQL Catalog, we find that both Flink tasks run stably, no longer restarting, and the data in paimon is no longer lost.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this experiment, we can see that when using two writers to write to the same table, it is very easy to generate conflict even if the amount of data is not large and the write speed is not fast.</p>
+<p>If this is the case, it is important to use a metastore that can be locked in any case.</p>
+<p>Nevertheless, as of today Trino still does not support jdbc metastore, which will greatly affect the popularity of Paimon, after all, not everyone has <code>Hive</code> in this era.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/understanding-apache-paimon-concurrency-control-a7363b30c2a0">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Deconstructing-AB-Test/20241215/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/Deconstructing-AB-Test/20241215/" class="post-title-link" itemprop="url">Deconstructing A/B Test</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-12-16 02:00:05" itemprop="dateCreated datePublished" datetime="2024-12-16T02:00:05+08:00">2024-12-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Deconstructing-A-B-Test"><a href="#Deconstructing-A-B-Test" class="headerlink" title="Deconstructing A&#x2F;B Test"></a>Deconstructing A&#x2F;B Test</h3><h4 id="A-practical-guide-to-building-custom-A-B-test-frameworks-without-overhead"><a href="#A-practical-guide-to-building-custom-A-B-test-frameworks-without-overhead" class="headerlink" title="A practical guide to building custom A&#x2F;B test frameworks without overhead"></a><em>A practical guide to building custom A&#x2F;B test frameworks without overhead</em></h4><p><img src="https://cdn-images-1.medium.com/max/800/1*ajM9L0etqm0O-zM3eQmYzw.png"></p>
+<p>When talking about A&#x2F;B test, many organizations always think of the need for “certain” commercial tools, as if those tools are the only way to implement A&#x2F;B test.</p>
+<p>In fact, in the previous article, we talked about <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/what-exactly-is-systems-thinking-ee2c177b52cb">systems thinking</a>, and the most important aspect of any system change is a shared vision, followed by a mental model, and the specific tools are at the surface level.</p>
+<p>Therefore, the problem with the introduction of the A&#x2F;B test is the mindset, not the tools.</p>
+<p>This article aims to deconstruct the A&#x2F;B test process and make the introduction of A&#x2F;B test easier and more natural, without having to rely on a huge enterprise solution.</p>
+<h3 id="Breaking-Down-the-A-B-Test-Workflow"><a href="#Breaking-Down-the-A-B-Test-Workflow" class="headerlink" title="Breaking Down the A&#x2F;B Test Workflow"></a>Breaking Down the A&#x2F;B Test Workflow</h3><p>An A&#x2F;B test experiment consists of the following four core elements.</p>
+<ol>
+<li>Setting up experiment conditions: Someone needs to design an experiment situation to verify the hypotheses, e.g. we want to test whether the new version of checkout process will increase the conversion rate.</li>
+<li>Implementing experiment behaviors: The application implements different workflows based on group information.</li>
+<li>Event logging: Events need to be sent out in different workflows and these events need to contain group information.</li>
+<li>Post-analysis: Based on the event logs, the analysis is done to determine whether the initial hypothesis is correct or not, and whether the initial experiment conditions are appropriate or not.</li>
+</ol>
+<p>Let’s describe an A&#x2F;B test interaction with a complete time sequence.</p>
+<ol>
+<li>Front-end receives group information from somewhere.</li>
+<li>Front-end interacts with back-end with this group information.</li>
+<li>Either front-end or back-end needs to do something based on the group information.</li>
+<li>Throughout the process, the events with the group information are sent to the event collector based on the tracking points.</li>
+<li>The event collector will store all the events for subsequent analysis.</li>
+</ol>
+<p>This completes an A&#x2F;B test interaction, and there will be enough information to analyze it continuously.</p>
+<h3 id="Identifying-and-Addressing-Gaps"><a href="#Identifying-and-Addressing-Gaps" class="headerlink" title="Identifying and Addressing Gaps"></a>Identifying and Addressing Gaps</h3><p>Let’s abstract this whole process to see what components are essential.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*xhj_o7bUlRrGF44a.png"></p>
+<p>I believe front-end and back-end should both exist, so there are three key components.</p>
+<ol>
+<li>Rule Manager: This is the role to manage the experiments and rules, which is what the first step of the time sequence above refers to somewhere.</li>
+<li>Event Collector: This is the event collection platform, i.e., the receiver of events sent from front-end or back-end.</li>
+<li>Event Store: This is where events are stored, either as part of the event collector or as a dataset pulled down through ETL.</li>
+</ol>
+<p>For an application developed over a period of time, I feel that event collector and event store should already be in place, after all, even if no A&#x2F;B test needs, there will be a need for various types of event management.</p>
+<p>But for some projects that are just starting out, these two roles may be unfamiliar. However, I have to say that for small projects, the implementation of these two roles can be very simple.</p>
+<p>Event collector is actually an api service, and event store is a database. Of course, as the project gets bigger and there are more events, the volume of the event store is likely to become huge, but BigQuery or Redshift can solve many of the difficulties.</p>
+<p>So the only thing that really matters is the rule manager.</p>
+<h3 id="What-is-Rule-Manager"><a href="#What-is-Rule-Manager" class="headerlink" title="What is Rule Manager?"></a>What is Rule Manager?</h3><p>A rule is a relatively abstract concept that describes a sequence of logical branches from which we can derive the final result from the inputs.</p>
+<p>A rule manager, as you can tell from its name, is a role that manages a rule set and processes the inputs and produces the outputs through a rule engine.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*YqnQpqe_mXioBlhI.png"></p>
+<p>Martin Fowler also has an excellent article on <a target="_blank" rel="noopener" href="https://martinfowler.com/bliki/RulesEngine.html">rule engine</a>.</p>
+<p>Let’s use a concrete example to describe what a rule manager does.</p>
+<p>Suppose we want to design an experiment to verify the checkout behavior of adult customers in all stores that have the “A” feature. In this case, we want to set 60% of users who meet the criteria to be A, 40% to be B, and any who do not meet the criteria to be recognized as B by default.</p>
+<p>This is an experiment scenario, and we can create a configuration file based on this experiment scenario.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- experiment: test_checkout  </span><br><span class="line">  A:  </span><br><span class="line">    - &quot;a_func = true&quot;  </span><br><span class="line">    - &quot;age &gt;= 18&quot;  </span><br><span class="line">    - &quot;percentage: 60%&quot;  </span><br><span class="line">  default: B</span><br></pre></td></tr></table></figure>
+
+<p>This configuration file creates three rules and relates them to the experiment <code>test_checkout</code>.</p>
+<p>Accordingly, we need to create a <code>context</code> on the client side that contains the necessary information for the rule engine to operate on the rules.</p>
+<p>Here is a possible <code>context</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">  &quot;session_id&quot;: &lt;str&gt;,  </span><br><span class="line">  &quot;a_func&quot;: &lt;boolean&gt;,  </span><br><span class="line">  &quot;age&quot;: &lt;int&gt;,  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Because we have three rules, the context needs to contain three fields, of which <code>session_id</code> is a special one. The other two fields are easy to understand, but what is <code>session_id</code>?</p>
+<p>This usually refers to the user’s GUID, which may be <code>user_id</code> or <code>device_id</code> or some other kind of GUID, in order to avoid the possibility that users may be assigned to different groups during a sequence of operations, which would not only pollute the experimentation data, but also make for an inconsistent experience for the users.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*xdUu80oJn6ndvpc5ub5GDQ.png"></p>
+<p>In an experiment where we need to assign a specific percentage of users to different groups, there are two ways to accomplish this.</p>
+<ol>
+<li>Having a record of all the users allows us to accurately assign the ratio.</li>
+<li>We can get the relative ratio by using a consistent hashing algorithm with a <code>mod</code>.</li>
+</ol>
+<p>It is much more difficult to realize the precise ratio than the second approach, so most of the rule engine adopts the relative ratio.</p>
+<p>The implementation of a whole rule engine is more difficult depending on the number of supported rules, but if we keep a good code structure, I’m sure it won’t complicate the rule manager.</p>
+<p>The following is a simple example, since it uses Chain of Responsibility pattern, it is not difficult to add more rules in the future.</p>
+<h3 id="Why-Avoid-Commercial-Tools"><a href="#Why-Avoid-Commercial-Tools" class="headerlink" title="Why Avoid Commercial Tools?"></a>Why Avoid Commercial Tools?</h3><p>Why do we need to deconstruct the A&#x2F;B test process? Wouldn’t it be better to just use a ready-made tool?</p>
+<p>By deconstruct the A&#x2F;B test process, we should be able to understand that A&#x2F;B test is not complicated, and that the function of each component is quite simple. If there are already existing components in the organization that can be reused, even better.</p>
+<p>The biggest problem with introducing commercial tools is integration. Those enterprise solutions are end-to-end solutions and require some rewriting of the entire application.</p>
+<p>At the initial stage of introducing A&#x2F;B test, if we are not even familiar with the mentality and methodology of A&#x2F;B test, we will make drastic changes, which will only result in a greater Resistance to Change.</p>
+<p>Moreover, at the beginning, the experiment scenario we design must not be too large and complicated, and we don’t need a very complete solution to realize it.</p>
+<p>Take the example in this article as an example, the rules of comparison, equality, and percentage, which are commonly used in A&#x2F;B tests, can be implemented in just a few lines of code.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>I understand that those commercial tools have their strengths and specialties, and I agree that in most cases it’s important not to reinvent the wheel.</p>
+<p>However, when we learn from systems thinking that it’s more important to be at the bottom of the iceberg model than at the top, we should look back and see if our current needs are really a wheel.</p>
+<p>Or can we actually build a pyramid with a sledge?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*nUJN6hbideFX7r11.png"></p>
+<p>From my point of view, purchasing an enterprise product involves going through layers and layers of financial reviews, and convincing departments to change existing applications one by one, which involves a huge amount of risk when the results are impossible to estimate.</p>
+<p>Therefore, I would choose a relatively simple approach to achieve almost the same result.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/deconstructing-a-b-test-801dfab1ff4b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/What-Exactly-is-Systems-Thinking/20241201/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/What-Exactly-is-Systems-Thinking/20241201/" class="post-title-link" itemprop="url">What Exactly is Systems Thinking?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-12-02 01:36:42" itemprop="dateCreated datePublished" datetime="2024-12-02T01:36:42+08:00">2024-12-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Systems-Thinking-makes-software-development-more-efficient"><a href="#Systems-Thinking-makes-software-development-more-efficient" class="headerlink" title="Systems Thinking makes software development more efficient"></a>Systems Thinking makes software development more efficient</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*tSzFkn7cZmiCdcwekaGFRg.png"></p>
+<p>This week I held a few workshops within my organization to explain what Systems Thinking is and some of the common tools used in Systems Thinking, supported by an ongoing classic case study from my organization.</p>
+<p>While gathering material for these workshops, two common questions often came up.</p>
+<ol>
+<li>Will you guide us through the design of an e-commerce system, an instant messaging system, or any system in this workshop?</li>
+<li>We don’t usually have the opportunity to redesign a system, so do we still need to learn systems thinking?</li>
+</ol>
+<p>These questions are closely related. Essentially, they both ask whether Systems Thinking is the same as software architecture design.</p>
+<p>The answer is definitely no.</p>
+<p>Systems Thinking is a methodology that goes beyond software architecture design and can be applied to any situation and any problem.</p>
+<blockquote>
+<p><em>So, what exactly is Systems Thinking? How does this relate to our daily routine?</em></p>
+</blockquote>
+<h3 id="What-is-System"><a href="#What-is-System" class="headerlink" title="What is System?"></a>What is System?</h3><p>Before explaining the importance of Systems Thinking, let’s talk about what a system is.</p>
+<p>Simply put, a system is a group of entities that are “interrelated” yet “independent,” working together toward a “common goal.”</p>
+<p>The most important part of this sentence is the common goal.</p>
+<p>A Chinese proverb describes “a plate of loose sand”, meaning even though everyone in the group is sand and on the same plate, you wouldn’t call it a system because there’s no goal.</p>
+<p>Is a baseball team a system? Absolutely. Each member has specific roles, like infielders, outfielders, or pitchers, but they share the common goal of winning.</p>
+<p>Now you know a system is not a software architecture.</p>
+<h3 id="What-Are-the-Benefits-of-Learning-Systems-Thinking"><a href="#What-Are-the-Benefits-of-Learning-Systems-Thinking" class="headerlink" title="What Are the Benefits of Learning Systems Thinking?"></a>What Are the Benefits of Learning Systems Thinking?</h3><p>Let’s go back to the second question at the beginning of this article.</p>
+<p>Why do we need to learn Systems Thinking? How will it be applied in daily routine?</p>
+<p>While we may rarely get the chance to redesign software architecture — whether through decomposition or changes in data structure — we, as developers, frequently face the challenge of implementing various features and functionalities.</p>
+<p>Have you ever thought about how to improve the productivity of your development when you have a large-scale project taking several months to complete?</p>
+<p>How do you plan project progress when changes affect multiple files, modules, or even services? How can you batch tasks effectively or minimize the impact radius during a critical failure?</p>
+<p>These are all areas of Systems Thinking, and they are issues that every engineer needs to face.</p>
+<p>I have written an article in <a target="_blank" rel="noopener" href="https://lazypro.medium.com/introducing-decision-making-process-cbb68e3b5f7">introduction to the decision making process</a>, which is actually a practical application of Systems Thinking.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*XNV_DxIlxphmjIj5.png"></p>
+<p>At the top of the pyramid is the “common goal” of the system.</p>
+<p>The following diagram shows the iceberg model of Systems Thinking.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*WVQ61CVvxd9CEzLn.png"></p>
+<p>The events we observe in daily routine are just the surface. When things go wrong, how can we address them? Systems Thinking emphasizes that the deeper we delve into the underlying structures and mental models, the greater our influence becomes.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>I’m not going to dig into the details of Systems Thinking too much in this article, after all, it’s not something to cover in a few words.</p>
+<p>But this article should quickly answer two common questions.</p>
+<ul>
+<li>What is Systems Thinking?</li>
+<li>What are the benefits of learning Systems Thinking?</li>
+</ul>
+<p>As software development becomes more complex and chaotic, it feels like venturing into darkness without direction. What we need is a light — a guiding beacon to illuminate our path and help us find clarity. That light is Systems Thinking.</p>
+<p>Systems Thinking isn’t a skill limited to architects or managers; it’s a mindset every engineer, product owner, and leader can benefit from. Whether you’re tackling a multi-month project or debugging a critical issue, systems thinking can help you see the bigger picture and guide your decisions with clarity.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/what-exactly-is-systems-thinking-ee2c177b52cb">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Apache-Paimon-with-Flink-Trino-A-Streaming-Lakehouse-Playground/20241117/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Apache-Paimon-with-Flink-Trino-A-Streaming-Lakehouse-Playground/20241117/" class="post-title-link" itemprop="url">Apache Paimon with Flink & Trino: A Streaming Lakehouse Playground</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-11-18 01:46:06" itemprop="dateCreated datePublished" datetime="2024-11-18T01:46:06+08:00">2024-11-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="A-hands-on-guide-to-integrating-Apache-Paimon-Flink-and-Trino-for-efficient-streaming-and-querying-in-data-lakehouses"><a href="#A-hands-on-guide-to-integrating-Apache-Paimon-Flink-and-Trino-for-efficient-streaming-and-querying-in-data-lakehouses" class="headerlink" title="A hands-on guide to integrating Apache Paimon, Flink, and Trino for efficient streaming and querying in data lakehouses."></a>A hands-on guide to integrating Apache Paimon, Flink, and Trino for efficient streaming and querying in data lakehouses.</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*00-VCVqXDzfqRweB-fLqsw.png"></p>
+<p><a target="_blank" rel="noopener" href="https://paimon.apache.org/">Apache Paimon</a> is a new data lakehouse format that focuses on solving the challenges of streaming scenarios, but also supports batch processing. Overall, Paimon has the potential to replace the existing Iceberg as the new standard for data lakehousing.</p>
+<p>Why Iceberg and not the other two (Hudi and Delta Lake)?</p>
+<p>Iceberg is the most widely supported by various open-source engines, including pure query engines (e.g., Trino), New SQL databases (e.g., StarRocks, Doris), and streaming frameworks (e.g., Flink, Spark), all of which support Iceberg.</p>
+<p>However, Iceberg faces several problems in streaming scenarios, the most serious one is the fragmentation of small files. Queries in data lakehouses rely heavily on file reads, and if a query has to scan many files at once, it will of course perform poorly.</p>
+<p>To address this issue, an external orchestrator is required to regularly merge files. Paimon is designed with a built-in merge mechanism, and many other optimizations for mass writes, making it more adaptable to streaming scenarios.</p>
+<h3 id="Experiment-environment"><a href="#Experiment-environment" class="headerlink" title="Experiment environment"></a>Experiment environment</h3><p>In order to learn more about Iceberg, I have set up two experimental environments.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/flink-iceberg-playground">Iceberg + Flink</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/trino-iceberg-playground">Iceberg + Trino</a></li>
+</ul>
+<p>This time I also built a playground for Paimon, which also includes Trino and Flink.</p>
+<p>In addition, StarRocks was also put in as a representative of New SQL.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*wEKEG2_InrfRhR8Nnjrerw.png"></p>
+<p>Because neither Trino nor StarRocks support streaming writes at this stage, Paimon’s writes come from Flink.</p>
+<h3 id="How-to-use"><a href="#How-to-use" class="headerlink" title="How to use"></a>How to use</h3><blockquote>
+<p><em>NOTE: Since some of the links to the official Paimon files are not working, I’ve put the files into this repo. However, some of the files are huge, so I put them in via LFS, so be sure to install</em> <code>git-lfs</code><em>.</em></p>
+</blockquote>
+<p>Trino driver is in <code>paimon-trino-427-0.8-20241112.000605-197-plugin.tar.gz</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf paimon-trino-427-0.8-20241112.000605-197-plugin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>Then it will run normally with <code>docker compose up -d</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
+
+<h3 id="Flink"><a href="#Flink" class="headerlink" title="Flink"></a>Flink</h3><p>Let’s start by connecting to Flink SQL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker compose exec flink-jobmanager ./bin/sql-client.sh  </span><br><span class="line">./bin/sql-client.sh</span><br></pre></td></tr></table></figure>
+
+<p>To write data using Flink we first need to create the correct catalog.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE CATALOG my_catalog WITH (  </span><br><span class="line">    &#x27;type&#x27; = &#x27;paimon&#x27;,  </span><br><span class="line">    &#x27;warehouse&#x27; = &#x27;s3://warehouse/flink&#x27;,  </span><br><span class="line">    &#x27;s3.endpoint&#x27; = &#x27;http://storage:9000&#x27;,  </span><br><span class="line">    &#x27;s3.access-key&#x27; = &#x27;admin&#x27;,  </span><br><span class="line">    &#x27;s3.secret-key&#x27; = &#x27;password&#x27;,  </span><br><span class="line">    &#x27;s3.path.style.access&#x27; = &#x27;true&#x27;  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>As shown in the above commands, we’re using the <code>MinIO</code> as an <code>S3</code> to store the Paimon.</p>
+<p>The next step in creating the table and writing the data is quite simple, just run the commands according to the <a target="_blank" rel="noopener" href="https://paimon.apache.org/docs/0.9/flink/quick-start/">official documentat</a>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">USE CATALOG my_catalog;  </span><br><span class="line">  </span><br><span class="line">-- create a word count table  </span><br><span class="line">CREATE TABLE word_count (  </span><br><span class="line">    word STRING PRIMARY KEY NOT ENFORCED,  </span><br><span class="line">    cnt BIGINT  </span><br><span class="line">);  </span><br><span class="line">-- create a word data generator table  </span><br><span class="line">CREATE TEMPORARY TABLE word_table (  </span><br><span class="line">    word STRING  </span><br><span class="line">) WITH (  </span><br><span class="line">    &#x27;connector&#x27; = &#x27;datagen&#x27;,  </span><br><span class="line">    &#x27;fields.word.length&#x27; = &#x27;1&#x27;  </span><br><span class="line">);  </span><br><span class="line">-- paimon requires checkpoint interval in streaming mode  </span><br><span class="line">SET &#x27;execution.checkpointing.interval&#x27; = &#x27;10 s&#x27;;  </span><br><span class="line">-- write streaming data to dynamic table  </span><br><span class="line">INSERT INTO word_count SELECT word, COUNT(*) FROM word_table GROUP BY word;</span><br></pre></td></tr></table></figure>
+
+<p>Then we actually read it and see the result of what we’ve written.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-- use tableau result mode  </span><br><span class="line">SET &#x27;sql-client.execution.result-mode&#x27; = &#x27;tableau&#x27;;  </span><br><span class="line">-- switch to batch mode  </span><br><span class="line">RESET &#x27;execution.checkpointing.interval&#x27;;  </span><br><span class="line">SET &#x27;execution.runtime-mode&#x27; = &#x27;batch&#x27;;  </span><br><span class="line">-- olap query the table  </span><br><span class="line">SELECT * FROM word_count;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Trino"><a href="#Trino" class="headerlink" title="Trino"></a>Trino</h3><p>Let’s go to Trino’s cli first.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose exec trino trino</span><br></pre></td></tr></table></figure>
+
+<p>Trino’s paimon catalog is already set up, but I didn’t add a new schema but just used the default one.</p>
+<p>So we can query the Flink write result directly.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM paimon.default.word_count;</span><br></pre></td></tr></table></figure>
+
+<p>We should see something similar to the Flink query.</p>
+<h3 id="StarRocks"><a href="#StarRocks" class="headerlink" title="StarRocks"></a>StarRocks</h3><p>This is an extra, just to show how much attention Paimon is getting now that many New SQL databases are starting to support it.</p>
+<p>Prepare a <code>mysql</code> client locally to connect to StarRocks.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -P 9030 -h 127.0.0.1 -u root --prompt=&quot;StarRocks &gt; &quot;</span><br></pre></td></tr></table></figure>
+
+<p>We still need to create a catalog.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE EXTERNAL CATALOG paimon_catalog_flink  </span><br><span class="line">PROPERTIES  </span><br><span class="line">(  </span><br><span class="line">    &quot;type&quot; = &quot;paimon&quot;,  </span><br><span class="line">    &quot;paimon.catalog.type&quot; = &quot;filesystem&quot;,  </span><br><span class="line">    &quot;paimon.catalog.warehouse&quot; = &quot;s3://warehouse/flink&quot;,  </span><br><span class="line">    &quot;aws.s3.enable_path_style_access&quot; = &quot;true&quot;,  </span><br><span class="line">    &quot;aws.s3.endpoint&quot; = &quot;http://storage:9000&quot;,  </span><br><span class="line">    &quot;aws.s3.access_key&quot; = &quot;admin&quot;,  </span><br><span class="line">    &quot;aws.s3.secret_key&quot; = &quot;password&quot;  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>The mysql client should not support Trino’s table locator format: <code>&lt;catalog&gt;. &lt;schema&gt;. &lt;table&gt;</code>, so we have to switch to the db before we can query.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USE paimon_catalog_flink.default;  </span><br><span class="line">SELECT * FROM word_count;</span><br></pre></td></tr></table></figure>
+
+<p>The results here will be similar to the above.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Although Paimon supports many kinds of metastore as follows.</p>
+<ul>
+<li>filesystem</li>
+<li>hive metastore</li>
+<li>jdbc</li>
+</ul>
+<p>For the sake of simplicity, I didn’t use extra components, so I only use S3 aka filesystem as metastore. Although the function is fine, according to the <a target="_blank" rel="noopener" href="https://paimon.apache.org/docs/0.9/concepts/concurrency-control/">official document</a>, using S3 as warehouse needs to be paired with Hive or JDBC metastore to ensure consistency.</p>
+<blockquote>
+<p><em>But for object storage such as OSS and S3, their ‘RENAME’ does not have atomic semantic. We need to configure Hive or jdbc metastore and enable ‘lock.enabled’ option for the catalog. Otherwise, there may be a chance of losing the snapshot.</em></p>
+</blockquote>
+<p>My future experiments will focus on understanding the scenarios that require this level of consistency.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/apache-paimon-with-flink-trino-a-streaming-lakehouse-playground-17efdbc713c9">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Is-there-an-Alternative-to-Debezium-Kafka/20241103/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Is-there-an-Alternative-to-Debezium-Kafka/20241103/" class="post-title-link" itemprop="url">Is there an Alternative to Debezium + Kafka?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-11-04 01:23:14" itemprop="dateCreated datePublished" datetime="2024-11-04T01:23:14+08:00">2024-11-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Is-there-an-Alternative-to-Debezium-Kafka"><a href="#Is-there-an-Alternative-to-Debezium-Kafka" class="headerlink" title="Is there an Alternative to Debezium + Kafka?"></a>Is there an Alternative to Debezium + Kafka?</h3><h4 id="Evaluating-open-source-options-to-improve-performance-and-scalability-in-CDC-pipelines"><a href="#Evaluating-open-source-options-to-improve-performance-and-scalability-in-CDC-pipelines" class="headerlink" title="Evaluating open-source options to improve performance and scalability in CDC pipelines"></a>Evaluating open-source options to improve performance and scalability in CDC pipelines</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*E29Qz6t-stViDDtBGem1pg.png"></p>
+<p>I asked this question on <a target="_blank" rel="noopener" href="https://www.reddit.com/r/dataengineering/comments/1fv186f/is_there_an_alternative_to_debezium_kafka/">Reddit</a> a while back and received lots of valuable answers.</p>
+<p>Therefore, I’ve looked into each answer and documented the results in this article.</p>
+<h4 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h4><p>No, Debezium dominates the market at the moment, despite some drawbacks.</p>
+<h3 id="Background-Explanation"><a href="#Background-Explanation" class="headerlink" title="Background Explanation"></a>Background Explanation</h3><p>Why would we want to find an alternative to Debezium? The main reason is we encountered a challenging scenario.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*gu1kCRklam07TGLx78hyNg.png"></p>
+<p>This is a typical scenario for Debezium, where any modifications to the data source are captured and fed into Kafka for downstream processing.</p>
+<p>The advantage of this architecture is simple and efficient, ensuring all downstream processes are as real-time as possible.</p>
+<p>If the source has a large number of updates, Debezium can scale horizontally until a large number of updates are concentrated in a single table. This is where Debezium hits its limits.</p>
+<p>Even though Debezium can scale horizontally, it means the updates originally handled by one process can be distributed to multiple processes. If each table already has a dedicated process, horizontal scaling is no longer feasible.</p>
+<p>We are in such a situation, in our environment, even if the machine specification is stretched, the CDC throughput of a single table is capped at 25 MB&#x2F;s.</p>
+<p>This is certainly not a regular case, after all, 25 MB&#x2F;s change for a single table is quite significant. However, if we encounter a data source that is doing large-scale data migration, this limit can be easily breached.</p>
+<p>In order to ensure the real-time performance of our data pipeline downstream, we can only ask the upstream to be merciful when encountering this level of data migration, and try to do a good job of rate limiting.</p>
+<p>However, this limitation will greatly reduce the productivity of the upstream developers. On the one hand, they have to add auditing process to their regular maintenance, and on the other hand, they need to develop an additional rate limit for each maintenance.</p>
+<p>So let’s find a solution.</p>
+<h3 id="Solution-Overview"><a href="#Solution-Overview" class="headerlink" title="Solution Overview"></a>Solution Overview</h3><p>The following solutions were gathered from that Reddit article.</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://estuary.dev/vs-debezium/">Estuary Flow</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.striim.com/">Striim</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.fivetran.com/data-movement">Fivetran HVR</a></li>
+<li>Proprietary CDC</li>
+<li><a target="_blank" rel="noopener" href="https://conduit.io/">Conduit</a></li>
+</ol>
+<p>The first three solutions are enterprise services without open source, so they’re not going to work for us. After all, we’re trying to solve a partial use case, not a complete do-over.</p>
+<p>Although Estuary Flow says they have a local deployment approach, I couldn’t find any information about it.</p>
+<p>The fourth solution was to develop a new tool ourselves, which I believe would be a fundamental solution to the problem. After all, Debezium is developed in JAVA, and we should be able to achieve better performance with Golang, Rust, or even C&#x2F;C++. However, the development cost was too high for us, and it was difficult to start from scratch.</p>
+<p>The first four options didn’t meet our needs, but the fifth option caught my attention as a promising solution.</p>
+<p>Conduit is an open source data migration platform developed in Golang, and provides a variety of connectors to integrate many data stores. In addition, we can also develop our own converter to do data format preprocessing.</p>
+<p>Therefore, I started to test the performance of Conduit.</p>
+<h3 id="Expirement-Environment"><a href="#Expirement-Environment" class="headerlink" title="Expirement Environment"></a>Expirement Environment</h3><p>To keep things simple, I used Kafka Connect in place of Debezium. The two are essentially the same but with different dispatchers, and behind the scenes they all use the same <a target="_blank" rel="noopener" href="https://github.com/mongodb/mongo-kafka">library</a>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*h4QTwMPu5qI6cNgeTkfbVg.png"></p>
+<p>Locust is responsible for generating MongoDB changes, then Conduit and Kafka Connect will write to different Kafka topics.</p>
+<p>We can observe the writing speed of Kafka topics to determine who has better performance.</p>
+<p>The whole experiment environment is as follows.</p>
+<p>I use two of my own packaged images, Conduit and Kafka Connect, which have MongoDB connectors.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/conduit-mongo-connect">Conduit + Mongo connector</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/mongodb-kafka-connect">Kafka Connect + Mongo connector</a></li>
+</ul>
+<p>It’s easy to generate a large amount of change by stuffing MongoDB with a bunch of fat documents and then just changing the value of a field in all the documents.</p>
+<p>The locust script used is as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">import time  </span><br><span class="line">  </span><br><span class="line">from locust import User, task, between  </span><br><span class="line">import pymongo  </span><br><span class="line">  </span><br><span class="line">class MongoDBUser(User):  </span><br><span class="line">    wait_time = between(1, 5)  </span><br><span class="line">  </span><br><span class="line">    def __init__(self, environment):  </span><br><span class="line">        super().__init__(environment)  </span><br><span class="line">        self.env = environment  </span><br><span class="line">  </span><br><span class="line">    def on_start(self):  </span><br><span class="line">        self.client = pymongo.MongoClient(self.host)  </span><br><span class="line">        self.db = self.client[&quot;test&quot;]  </span><br><span class="line">        self.collection = self.db[&quot;test_new&quot;]  </span><br><span class="line">      </span><br><span class="line">    @task  </span><br><span class="line">    def incr_seq(self):  </span><br><span class="line">        response = None  </span><br><span class="line">        exception = None  </span><br><span class="line">        start_perf_counter = time.perf_counter()  </span><br><span class="line">        response_length = 0  </span><br><span class="line">  </span><br><span class="line">        try:  </span><br><span class="line">            response = self.collection.update_many(  </span><br><span class="line">                &#123;&#125;,  </span><br><span class="line">                &#123;&quot;$inc&quot;: &#123;&quot;seq&quot;: 1&#125;&#125;  </span><br><span class="line">            )  </span><br><span class="line">            response_length = response.matched_count  </span><br><span class="line">        except Exception as e:  </span><br><span class="line">            exception = e  </span><br><span class="line">  </span><br><span class="line">        self.env.events.request.fire(  </span><br><span class="line">            request_type=&quot;mongo&quot;,  </span><br><span class="line">            name=&quot;incr seq&quot;,  </span><br><span class="line">            response_time=(time.perf_counter() - start_perf_counter) * 1000,  </span><br><span class="line">            response_length=response_length,  </span><br><span class="line">            response=response,  </span><br><span class="line">            context=None,  </span><br><span class="line">            exception=exception,  </span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
+
+<h3 id="Load-Test-Result"><a href="#Load-Test-Result" class="headerlink" title="Load Test Result"></a>Load Test Result</h3><p>For this test, I used a local machine without fully stressing its CPU or memory, leaving some resources available to avoid errors from performance bottlenecks.</p>
+<p>In other words, this test shows the regular ability of a single process to handle a single table load.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*wx2LwtN4oUPwbOC2.png"><img src="https://cdn-images-1.medium.com/max/800/0*W_ugqkV_Doh43U9o.png"></p>
+<p>As the results show, Kafka Connect’s throughput significantly outperforms Conduit’s when system resources are sufficient.</p>
+<p>I was a bit confused about this result, so I repeated the test a few times, but I got similar numbers.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Back to the question in the title.</p>
+<blockquote>
+<p><em>Is there an alternative to Debezium + Kafka?</em></p>
+</blockquote>
+<p>Not at the moment — at least, not among open-source tools.</p>
+<p>I’ve asked on Reddit, but maybe Medium will have a different answer, so feel free to offer your solutions.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/is-there-an-alternative-to-debezium-kafka-0ff112db83a9">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

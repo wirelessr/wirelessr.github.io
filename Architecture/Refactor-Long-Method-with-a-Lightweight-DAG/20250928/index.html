@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Tame complex workflows and simplify testing with the Command design pattern Reviewing some legacy code lately has given me a headache. The main issue is one massive function crammed with every piece o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Refactor Long Method with a Lightweight DAG">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Refactor-Long-Method-with-a-Lightweight-DAG/20250928/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Tame complex workflows and simplify testing with the Command design pattern Reviewing some legacy code lately has given me a headache. The main issue is one massive function crammed with every piece o">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*tcU611MD19oGjo6esmgANA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*D7MHu7huriH_BBP-kYjgTQ.png">
+<meta property="article:published_time" content="2025-09-28T16:18:03.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.828Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*tcU611MD19oGjo6esmgANA.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Refactor-Long-Method-with-a-Lightweight-DAG/20250928/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Refactor-Long-Method-with-a-Lightweight-DAG/20250928/","path":"Architecture/Refactor-Long-Method-with-a-Lightweight-DAG/20250928/","title":"Refactor Long Method with a Lightweight DAG"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Refactor Long Method with a Lightweight DAG | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Tame-complex-workflows-and-simplify-testing-with-the-Command-design-pattern"><span class="nav-number">1.</span> <span class="nav-text">Tame complex workflows and simplify testing with the Command design pattern</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Abstraction"><span class="nav-number"></span> <span class="nav-text">Abstraction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Where%E2%80%99s-the-problem"><span class="nav-number"></span> <span class="nav-text">Where’s the problem?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Command-Design-Pattern"><span class="nav-number"></span> <span class="nav-text">Command Design Pattern</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DAG-Builder"><span class="nav-number"></span> <span class="nav-text">DAG Builder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DAG-Runner"><span class="nav-number"></span> <span class="nav-text">DAG Runner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-message-from-our-Founder"><span class="nav-number"></span> <span class="nav-text">A message from our Founder</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Refactor-Long-Method-with-a-Lightweight-DAG/20250928/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Refactor Long Method with a Lightweight DAG | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Refactor Long Method with a Lightweight DAG
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-09-29 00:18:03" itemprop="dateCreated datePublished" datetime="2025-09-29T00:18:03+08:00">2025-09-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Tame-complex-workflows-and-simplify-testing-with-the-Command-design-pattern"><a href="#Tame-complex-workflows-and-simplify-testing-with-the-Command-design-pattern" class="headerlink" title="Tame complex workflows and simplify testing with the Command design pattern"></a>Tame complex workflows and simplify testing with the Command design pattern</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*tcU611MD19oGjo6esmgANA.png"></p>
+<p>Reviewing some legacy code lately has given me a headache.</p>
+<p>The main issue is one massive function crammed with every piece of logic spread out flat inside it. I have to say, this is what I consider the worst kind of “code smell.”</p>
+<p>You might ask, “But this function works fine, so what’s wrong with it?”</p>
+<p>If it were a static function with no further iterations needed, that’d be fine. But if this function still requires iterations, or worse, isn’t even stable yet with a bunch of process bugs still needing fixing, then it’s absolutely terrible.</p>
+<p>Modifying the flow of a massive function is challenging, whether adding conditional checks or introducing new steps. First, developers must understand every existing process to grasp the context and make changes.</p>
+<p>After spending tremendous effort to understand the function and complete the modification, the next problem is how to test it.</p>
+<p>If it’s a massive function, I believe its unit tests are likely filled with various mocks. Once part of the logic is modified, the worst-case is that all unit tests fail. Moreover, these failures aren’t due to test scenario issues, but simply because the mocks no longer work.</p>
+<p>The book Refactoring also ranks Long Methods very high among code smells.</p>
+<p>To sum up, a massive function causes numerous problems. So, are there any effective approaches to mitigate this?</p>
+<h3 id="Abstraction"><a href="#Abstraction" class="headerlink" title="Abstraction"></a>Abstraction</h3><p>Software development is essentially a series of abstraction processes.</p>
+<p>Therefore, the most common approach to solving the Long Method problem is to encapsulate each process node into a sub-method. Through effective naming of these sub-methods, we can more easily understand the original complete workflow.</p>
+<p>Each sub-method also facilitates unit testing. By ensuring each sub-method functions correctly, the overall behavior remains correct as long as the flow is accurate.</p>
+<p>Abstracting a massive function resolves the first issue: maintainability. New team members can grasp the flow faster and continue development.</p>
+<p>However, sub-methods alone cannot solve every problem.</p>
+<p>For example, in the following example we break down a complex <code>handle_order</code> into a clear, step-by-step process, making it easy for anyone taking over to understand it.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def handle_order(order_data):   </span><br><span class="line">    ok = validateOrder(order_data)  </span><br><span class="line">    if not ok: raise ValidateException()  </span><br><span class="line">  </span><br><span class="line">    ok = processPayment(order_data)  </span><br><span class="line">    if not ok: raise ProcessException()  </span><br><span class="line">      </span><br><span class="line">    ok = sendNotification(order_data)  </span><br><span class="line">    if not ok: raise NotificationException()</span><br></pre></td></tr></table></figure>
+
+<p>Now, we want to add a new process, which is when the order amount exceeds 1000, we need to incorporate an approval step.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def handle_order(order_data):   </span><br><span class="line">    ok = validateOrder(order_data)  </span><br><span class="line">    if not ok: raise ValidateException()  </span><br><span class="line">  </span><br><span class="line">    ok = processPayment(order_data)  </span><br><span class="line">    if not ok: raise ProcessException()  </span><br><span class="line">      </span><br><span class="line">    if order_data[&#x27;amount&#x27;] &gt; 1000:  </span><br><span class="line">        ok = approval(order_data)  </span><br><span class="line">        if not ok: raise ApprovalException()  </span><br><span class="line">      </span><br><span class="line">    ok = sendNotification(order_data)  </span><br><span class="line">    if not ok: raise NotificationException()</span><br></pre></td></tr></table></figure>
+
+<p>Looks fine, right?</p>
+<p>My first thought is it looks a bit tricky to write tests for.</p>
+<p>Let’s write a classic Python test case to demonstrate the underlying logic behind testing.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">@patch(&#x27;orders.sendNotification&#x27;)  </span><br><span class="line">@patch(&#x27;orders.approval&#x27;)  </span><br><span class="line">@patch(&#x27;orders.processPayment&#x27;)  </span><br><span class="line">@patch(&#x27;orders.validateOrder&#x27;)  </span><br><span class="line">def test_approval_is_called_when_amount_is_high(self, mock_validate, mock_payment, mock_approval, mock_notification):  </span><br><span class="line">    # 1. Arrange  </span><br><span class="line">    mock_validate.return_value = True  </span><br><span class="line">    mock_payment.return_value = True  </span><br><span class="line">    mock_approval.return_value = True  </span><br><span class="line">    mock_notification.return_value = True  </span><br><span class="line">  </span><br><span class="line">    order_data = &#123;&#x27;amount&#x27;: 1500, &#x27;user_id&#x27;: &#x27;U123&#x27;&#125;  </span><br><span class="line">  </span><br><span class="line">    # 2. Act  </span><br><span class="line">    handle_order(order_data)  </span><br><span class="line">  </span><br><span class="line">    # 3. Assert  </span><br><span class="line">    mock_validate.assert_called_once()  </span><br><span class="line">    mock_payment.assert_called_once()  </span><br><span class="line">    mock_notification.assert_called_once()  </span><br><span class="line">      </span><br><span class="line">    # Core assert  </span><br><span class="line">    mock_approval.assert_called_once()</span><br></pre></td></tr></table></figure>
+
+<p>This test presents several challenges for me.</p>
+<ol>
+<li>An overwhelming number of mocks, making them extremely difficult to manage</li>
+<li>The use of <code>assert_called_once</code> to validate logic feels counterintuitive</li>
+<li>When if-else conditions multiply, such test cases become highly confusing.</li>
+</ol>
+<p>Therefore, simply extracting sub-methods is insufficient for achieving a high level of abstraction.</p>
+<h3 id="Where’s-the-problem"><a href="#Where’s-the-problem" class="headerlink" title="Where’s the problem?"></a>Where’s the problem?</h3><p>I believe most software development or refactoring actually stops at the previous step. Then layers upon layers get stacked between sub-methods, and eventually spaghetti code emerges.</p>
+<p>Because we haven’t achieved true abstraction.</p>
+<blockquote>
+<p><em>The purpose of abstraction is not to be vague, but to create a new semantic level in which one can be absolutely precise. — Edsger Dijkstra</em></p>
+</blockquote>
+<p>We only handled the syntax but not the semantics.</p>
+<p>If it were me, I would do it this way.</p>
+<p>First, we abstract these tasks to be executed into individual tasks.</p>
+<p>So we would have an abstract list (A, B, C, D), which is the ultimate expression of abstraction.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">commands = &#123;  </span><br><span class="line">    &#x27;A&#x27;: validateOrder,  </span><br><span class="line">    &#x27;B&#x27;: processPayment,  </span><br><span class="line">    &#x27;C&#x27;: approval,  </span><br><span class="line">    &#x27;D&#x27;: sendNotification,  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>We’ve transformed the entire handle order process into the following two types.</p>
+<ol>
+<li>A -&gt; B -&gt; D</li>
+<li>A -&gt; B -&gt; C -&gt; D</li>
+</ol>
+<p>This essentially forms a directed acyclic graph (DAG).</p>
+<p>Consequently, our subsequent tasks involve DAG operations, where any workflow modification simply adds a node or an edge. Our validation no longer needs to focus on what each node does; we only need to verify that the DAG matches our expectations.</p>
+<p>In other words, we are comparing whether <code>assert(workflow == “A -&gt; B -&gt; C -&gt; D”)</code> holds true under specific conditions.</p>
+<h3 id="Command-Design-Pattern"><a href="#Command-Design-Pattern" class="headerlink" title="Command Design Pattern"></a>Command Design Pattern</h3><p>We have now abstracted the process into a DAG, but this is still insufficient.</p>
+<p>For each node, its interface is not standardized, so we cannot treat all nodes equally. Therefore, we need to introduce a common interface for these nodes. In design patterns, there is one that fits this scenario perfectly, called Command.</p>
+<p>Since these nodes are essentially operations, using Command also satisfies the semantic requirements.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class OrderProcessingReceiver:  </span><br><span class="line">    def validate_order(self, context): print(&quot;Step A: validate order&quot;)  </span><br><span class="line">    def process_payment(self, context): print(&quot;Step B: process payment&quot;)  </span><br><span class="line">    def manual_approval(self, context): print(&quot;Step C: approval&quot;)  </span><br><span class="line">    def send_notification(self, context): print(&quot;Step D: send notification&quot;)  </span><br><span class="line">  </span><br><span class="line">class Command(ABC):  </span><br><span class="line">    def __init__(self, receiver): self._receiver = receiver  </span><br><span class="line">      </span><br><span class="line">    @abstractmethod  </span><br><span class="line">    def execute(self, context): pass  </span><br><span class="line">  </span><br><span class="line">class ValidateOrderCommand(Command):  </span><br><span class="line">    def execute(self, context): self._receiver.validate_order(context)  </span><br><span class="line">      </span><br><span class="line">class ProcessPaymentCommand(Command):  </span><br><span class="line">    def execute(self, context): self._receiver.process_payment(context)  </span><br><span class="line">      </span><br><span class="line">class ManualApprovalCommand(Command):  </span><br><span class="line">    def execute(self, context): self._receiver.manual_approval(context)  </span><br><span class="line">      </span><br><span class="line">class SendNotificationCommand(Command):  </span><br><span class="line">    def execute(self, context): self._receiver.send_notification(context)</span><br></pre></td></tr></table></figure>
+
+<p>We consolidated all logic under a single class, <code>OrderProcessingReceiver</code>, to prevent workflow logic from being scattered across multiple locations.</p>
+<p>Next, we defined the standard Command interface method <code>execute</code>. With this Command, we can create the operation classes for the four nodes on the DAG, which will later be converted into nodes A, B, C, and D.</p>
+<h3 id="DAG-Builder"><a href="#DAG-Builder" class="headerlink" title="DAG Builder"></a>DAG Builder</h3><p>Once we have our operations, we proceed to create the DAG.</p>
+<p>First, we need methods to create nodes and edges. In fact, Python 3.9 and later includes a built-in library <code>graphlib</code> that already handles this. We don’t need to reinvent the wheel ourselves.</p>
+<p>However, the data structures used by <code>graphlib</code> are a bit ugly, and I’m not particularly comfortable with them.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph = &#123;  </span><br><span class="line">    &#x27;A&#x27;: set(),  </span><br><span class="line">    &#x27;B&#x27;: &#123;&#x27;A&#x27;&#125;,  </span><br><span class="line">    &#x27;C&#x27;: &#123;&#x27;B&#x27;&#125;,  </span><br><span class="line">    &#x27;D&#x27;: &#123;&#x27;C&#x27;&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The DAG generated by the graph above would be A -&gt; B -&gt; C -&gt; D. However, you may notice that this definition reverses the order of the DAG, which I personally find counterintuitive. Therefore, I referenced <a target="_blank" rel="noopener" href="https://airflow.apache.org/">Airflow</a>’s notation and made some modifications.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class DAGBuilder:  </span><br><span class="line">    def __init__(self):   </span><br><span class="line">        self.graph, self._nodes = &#123;&#125;, &#123;&#125;  </span><br><span class="line">      </span><br><span class="line">    def task(self, name):  </span><br><span class="line">        if name not in self._nodes:  </span><br><span class="line">            self.graph.setdefault(name, set())  </span><br><span class="line">            self._nodes[name] = self._Node(self, name)  </span><br><span class="line">        return self._nodes[name]  </span><br><span class="line">      </span><br><span class="line">    def build(self):   </span><br><span class="line">        return self.graph  </span><br><span class="line">      </span><br><span class="line">    class _Node:  </span><br><span class="line">        def __init__(self, builder, name):   </span><br><span class="line">            self.builder, self.name = builder, name  </span><br><span class="line">              </span><br><span class="line">        def __rshift__(self, other):  </span><br><span class="line">            self.builder.graph[other.name].add(self.name)  </span><br><span class="line">            return other</span><br></pre></td></tr></table></figure>
+
+<p>Within the node, I overrode <code>__rshift__</code>. This is purely to make the edges in the entire DAG resemble Airflow’s style. Using it is essentially syntactic sugar.</p>
+<p>By combining our original example with this <code>DAGBuilder</code>, we can now implement a workflow that generates a DAG.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">def create_workflow_blueprint(order_data: dict) -&gt; dict:  </span><br><span class="line">    builder = DAGBuilder()  </span><br><span class="line">    task_a = builder.task(&#x27;A&#x27;)  </span><br><span class="line">    task_b = builder.task(&#x27;B&#x27;)  </span><br><span class="line">    task_c = builder.task(&#x27;C&#x27;)  </span><br><span class="line">    task_d = builder.task(&#x27;D&#x27;)  </span><br><span class="line">  </span><br><span class="line">    task_a &gt;&gt; task_b  </span><br><span class="line">    if order_data[&#x27;amount&#x27;] &gt; 1000:  </span><br><span class="line">        task_b &gt;&gt; task_c  </span><br><span class="line">        task_c &gt;&gt; task_d  </span><br><span class="line">    else:  </span><br><span class="line">        task_b &gt;&gt; task_d  </span><br><span class="line">          </span><br><span class="line">    return builder.build()</span><br></pre></td></tr></table></figure>
+
+<p>At this point, we can abstract the entire process into a unified notation. But we need to execute this workflow, right?</p>
+<p>So let’s continue.</p>
+<h3 id="DAG-Runner"><a href="#DAG-Runner" class="headerlink" title="DAG Runner"></a>DAG Runner</h3><p>We have previously performed numerous abstractions.</p>
+<ol>
+<li>Abstracting the workflow into a DAG</li>
+<li>Abstracting operations into Commands</li>
+</ol>
+<p>Now, we will combine these two to transform this DAG into an executable sequence of Commands.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from graphlib import TopologicalSorter  </span><br><span class="line">  </span><br><span class="line">class DAGRunner:  </span><br><span class="line">    def __init__(self, graph_definition, commands):  </span><br><span class="line">        self.ts = TopologicalSorter(graph_definition)  </span><br><span class="line">        self.commands = commands  </span><br><span class="line">          </span><br><span class="line">    def run(self):  </span><br><span class="line">        context = &#123;&#125;  </span><br><span class="line">        self.ts.prepare()  </span><br><span class="line">        for task_name in self.ts.static_order():  </span><br><span class="line">            self.commands[task_name].execute(context)  </span><br><span class="line">        return context</span><br></pre></td></tr></table></figure>
+
+<p>This runner doesn’t do anything special. It simply takes the DAG we just generated and our defined commands, feeds them in, and executes them in order using the <code>TopologicalSorter</code>.</p>
+<p>The <code>TopologicalSorter</code> correctly extracts the node that should be executed at any given moment based on the DAG’s content, then finds the corresponding operation in the command list and executes it.</p>
+<p>Finally, let’s see what <code>handle_order</code> will look like.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def handle_order(order_data):  </span><br><span class="line">    graph_def = create_workflow_blueprint(order_data)  </span><br><span class="line">      </span><br><span class="line">    receiver = OrderProcessingReceiver()  </span><br><span class="line">    commands = &#123;  </span><br><span class="line">        &#x27;A&#x27;: ValidateOrderCommand(receiver),  </span><br><span class="line">        &#x27;B&#x27;: ProcessPaymentCommand(receiver),  </span><br><span class="line">        &#x27;C&#x27;: ManualApprovalCommand(receiver),   </span><br><span class="line">        &#x27;D&#x27;: SendNotificationCommand(receiver),  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    runner = DAGRunner(graph_def, commands)  </span><br><span class="line">    runner.run()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>From the final <code>handle_order</code> method, we can see that when abstraction is taken to its extreme, the main program contains no “impurities.” All workflow logic is defined in <code>create_workflow_blueprint</code>, while all operations reside in <code>OrderProcessingReceiver</code>.</p>
+<p>When writing tests, unit tests only need to focus on the internal implementation of each Command, ensuring each Command is correct. Integration tests become even simpler, requiring only verification that <code>create_workflow_blueprint</code> produces the expected DAG.</p>
+<p>For example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">def test_blueprint_for_high_value_order():  </span><br><span class="line">    # Arrange  </span><br><span class="line">    high_value_order = &#123;&#x27;amount&#x27;: 1500, &#x27;customer_id&#x27;: &#x27;vip-001&#x27;&#125;  </span><br><span class="line">      </span><br><span class="line">    expected_blueprint = &#123;  </span><br><span class="line">        &#x27;A&#x27;: set(),  </span><br><span class="line">        &#x27;B&#x27;: &#123;&#x27;A&#x27;&#125;,  </span><br><span class="line">        &#x27;C&#x27;: &#123;&#x27;B&#x27;&#125;,  </span><br><span class="line">        &#x27;D&#x27;: &#123;&#x27;C&#x27;&#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    # Act  </span><br><span class="line">    actual_blueprint = create_workflow_blueprint(high_value_order)  </span><br><span class="line">      </span><br><span class="line">    # Assert  </span><br><span class="line">    assert actual_blueprint == expected_blueprint</span><br></pre></td></tr></table></figure>
+
+<p>Compared to our initial test full of mock objects, this test is straightforward and easy to understand, and it’s also easier to maintain. That’s the power of abstraction.</p>
+<p>Besides making the process easier to understand and tests easier to write, what other benefits does this kind of abstraction offer?</p>
+<p>Of course it does, and plenty of them.</p>
+<p>When we abstract each operation, all operations become equivalent to the <code>DAGRunner</code>. This allows us to add more functionality to the <code>DAGRunner</code>. For example, we can make each operation retry-capable. Without this abstraction layer, adding retry functionality would require modifying every sub-method individually.</p>
+<p>Moreover, we can even implement rollback using the Command pattern. If you’re familiar with the Command pattern, you’ll notice that besides the required <code>execute</code> interface, we can also introduce a <code>redo</code> method. This allows <code>DAGRunner</code> to perform a sequential rollback after a Command fails.</p>
+<p>Furthermore, we can introduce additional parallel processing. Let’s use the following DAG as an example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*D7MHu7huriH_BBP-kYjgTQ.png"></p>
+<p>After task A completes, tasks B and C can run concurrently until both finish, at which point task D is processed. This mechanism can also be implemented within <code>DAGRunner</code>.</p>
+<p>Since today’s article is already quite large, I can save these follow-up points for the next article if needed.</p>
+<p>Let’s call it a day.</p>
+<h3 id="A-message-from-our-Founder"><a href="#A-message-from-our-Founder" class="headerlink" title="A message from our Founder"></a>A message from our Founder</h3><p><strong>Hey,</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>Sunil</strong></a> <strong>here.</strong> I wanted to take a moment to thank you for reading until the end and for being a part of this community.</p>
+<p>Did you know that our team run these publications as a volunteer effort to over 3.5m monthly readers? <strong>We don’t receive any funding, we do this to support the community. ❤️</strong></p>
+<p>If you want to show some love, please take a moment to <strong>follow me on</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>LinkedIn</strong></a><strong>,</strong> <a target="_blank" rel="noopener" href="https://tiktok.com/@messyfounder"><strong>TikTok</strong></a>, <a target="_blank" rel="noopener" href="https://instagram.com/sunilsandhu"><strong>Instagram</strong></a>. You can also subscribe to our <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>weekly newsletter</strong></a>.</p>
+<p>And before you go, don’t forget to <strong>clap</strong> and <strong>follow</strong> the writer️!</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/refactor-long-method-with-a-lightweight-dag-d5fda0ae2f04">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Testing/Boost-Microservice-Testing-with-DNS-Hijack/20250914/" rel="prev" title="Boost Microservice Testing with DNS Hijack">
+                  <i class="fa fa-chevron-left"></i> Boost Microservice Testing with DNS Hijack
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Development/Python-DAG-Retries-Rollbacks-Parallel-Runs/20251005/" rel="next" title="Python DAG: Retries, Rollbacks & Parallel Runs">
+                  Python DAG: Retries, Rollbacks & Parallel Runs <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

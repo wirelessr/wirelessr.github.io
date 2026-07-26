@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Put on your software architecture hat Last two weeks, there was a gathering of architects, in which we talked about e-commerce websites actually having some regular patterns, so if you want to quickly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Design an E-commerce Website From a High-level Perspective">
+<meta property="og:url" content="https://wirelessr.github.io/Microservice/Design-an-E-commerce-Website-From-a-High-level-Perspective/20220417/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Put on your software architecture hat Last two weeks, there was a gathering of architects, in which we talked about e-commerce websites actually having some regular patterns, so if you want to quickly">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*W7YBIiPi7xBHFTvQ">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*jtY6iexEvE_m9yN6h0SWxw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*x4cwl2bzztJeW-cn8c3O2w.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*fiY_vLMN-fZhBOic1EEA_A.png">
+<meta property="article:published_time" content="2022-04-17T16:41:17.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.822Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*W7YBIiPi7xBHFTvQ">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Microservice/Design-an-E-commerce-Website-From-a-High-level-Perspective/20220417/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Microservice/Design-an-E-commerce-Website-From-a-High-level-Perspective/20220417/","path":"Microservice/Design-an-E-commerce-Website-From-a-High-level-Perspective/20220417/","title":"Design an E-commerce Website From a High-level Perspective"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Design an E-commerce Website From a High-level Perspective | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Put-on-your-software-architecture-hat"><span class="nav-number">1.</span> <span class="nav-text">Put on your software architecture hat</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Define-Basic-Domain-Services"><span class="nav-number"></span> <span class="nav-text">Define Basic Domain Services</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Define-Databases"><span class="nav-number"></span> <span class="nav-text">Define Databases</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Define-Communications"><span class="nav-number"></span> <span class="nav-text">Define Communications</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sketch-Workflow"><span class="nav-number"></span> <span class="nav-text">Sketch Workflow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#But-Not-Enough"><span class="nav-number"></span> <span class="nav-text">But, Not Enough</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#But-Still-Not-Enough"><span class="nav-number"></span> <span class="nav-text">But, Still Not Enough</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Design-an-E-commerce-Website-From-a-High-level-Perspective/20220417/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Design an E-commerce Website From a High-level Perspective | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Design an E-commerce Website From a High-level Perspective
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-04-18 00:41:17" itemprop="dateCreated datePublished" datetime="2022-04-18T00:41:17+08:00">2022-04-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Put-on-your-software-architecture-hat"><a href="#Put-on-your-software-architecture-hat" class="headerlink" title="Put on your software architecture hat"></a>Put on your software architecture hat</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*W7YBIiPi7xBHFTvQ"></p>
+<p>Last two weeks, there was a gathering of architects, in which we talked about e-commerce websites actually having some regular patterns, so if you want to quickly provide a high-level design, how would you do it?</p>
+<p>This article is a record of that discussion, I will list our ideas based on my impressions, and then present the thinking of architects on this classic design pattern.</p>
+<h3 id="Define-Basic-Domain-Services"><a href="#Define-Basic-Domain-Services" class="headerlink" title="Define Basic Domain Services"></a>Define Basic Domain Services</h3><p>Usually, for a startup system or architecture, I would recommend starting with a monolith. After constructing the MVP (minimum viable product), the architecture evolves depending on the functional and non-functional requirements to see whether it should be decomposed into microservices or the more popular Service-oriented architecture a few years ago.</p>
+<p>But in any case, there will be a monolith as the basis for a quick launch and validation of the idea.</p>
+<p>However, for an e-commerce site, there is no need for quick validation because the success of an e-commerce site depends on the products and exposure strategy rather than the features. Therefore, for e-commerce sites, it is more important to be able to solve the problems that will be encountered in the foreseeable future.</p>
+<p>Here are a few practical examples.</p>
+<p>With the rapid growth of users, the demand for user management will increase significantly, so it is necessary for user-related functions to become a separate service to facilitate fast iteration of the development cycle.</p>
+<p>Inventory, as the number of users on the site rises, the product-related features will drive most of the traffic. Customers are always looking for the products they want on the site and viewing the inventory, so in order to handle the high volume of traffic, it must be able to scale horizontally on its own. Therefore, inventory will also become a standalone service.</p>
+<p>Another core function of an e-commerce website is the purchase and order management. When a customer places an order, external services such as cash flow and logistics must be integrated behind the scenes, and new functions such as connecting different cash flows need to be implemented continuously. However, this development cycle is obviously different from user-related functions, and the need for testing and integration is completely different from the user services, that is, the order must also become a service.</p>
+<p>Finally, we will define basic domain services as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*jtY6iexEvE_m9yN6h0SWxw.png"></p>
+<h3 id="Define-Databases"><a href="#Define-Databases" class="headerlink" title="Define Databases"></a>Define Databases</h3><p>In the previous section we mentioned that we have three independent services, User, Order and Inventory. Then we had to decide what database they should be using.</p>
+<p>For a system that is just starting up, I always recommend using the most mature technology that the team is most familiar with, while taking into account the various use cases.</p>
+<p>For this reason, I believe MySQL should be the best choice for services like Order Service and Inventory Service that require strong consistency. Although MySQL has always been criticized for its lack of horizontal scalability, there have been many new breakthroughs in recent years, and more and more distributed SQL is appearing. If the traffic of an e-commerce site rises to a bottleneck, then the pain of migrating from MySQL to distributed SQL will not be too much, after all, the applications barely need to be modified.</p>
+<p>In the case of User Service, this is more interesting. User-related management functions usually do not have strong consistency requirements, and user information and other data structures are varied and plentiful. As a document-based database, MongoDB can support various kinds of rich data presentation and provide a lot of management convenience. Of course, you can also use MySQL for User Service, but you need to put a little more effort into data normalization.</p>
+<p>Besides, if you use MongoDB to implement User Service, even if you have the need of strong consistency in the future, for example, if you want to give customers discount coupons, MongoDB can still provide enough strong consistency guarantee, since MongoDB also has transactions. However, it must be said that MongoDB transactions are not easy to code, which will increase the development effort.</p>
+<h3 id="Define-Communications"><a href="#Define-Communications" class="headerlink" title="Define Communications"></a>Define Communications</h3><p>Now we have three services in charge of their domain, but how do they communicate with each other? For instance, when a customer selects a product, then dispatches the order, billing and shipping, the three services must communicate with each other to complete the scenario.</p>
+<p>From my point of view, I would recommend that these three services be asynchronous. Although the overall process must ensure consistency, which dramatically increases the implementation effort, only asynchronization can tolerate high availability and high scalability. Availability and scalability are mandatory non-functional requirements for running an e-commerce site.</p>
+<p>For example, in the Black Friday promotion, there will be a large number of customers rushing to the website and placing a large number of orders, assuming that the three services communicate with each other synchronously, then the three services must scale at the same rate, which is obviously unreasonable.</p>
+<p>In addition, when an order must be served by all three services, and any one of them fails temporarily or the network is temporarily down, the whole order will fail. In other words, only through asynchronous communication can we ensure the availability and scalability required for e-commerce sites.</p>
+<p>At this point, we had a prototype of our system architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*x4cwl2bzztJeW-cn8c3O2w.png"></p>
+<p>However, there is one component that we haven’t decided yet, and that is what kind of queue system should be used for asynchronization. In my opinion, we should use <code>Kafka</code>. Why not use a pure message queue like <code>RabbitMQ</code>? One important reason is that, <code>Kafka</code> has higher throughput when it comes to handling large traffic from a promotion event.</p>
+<p>Moreover, for behaviors like order and payment, we all know it is sequential. To preserve the message order while a large number of messages are flooding the queue, it is necessary to scale horizontally through <code>Kafka</code>’s consumer groups so that messages can be handled faster and in order at the same time.</p>
+<h3 id="Sketch-Workflow"><a href="#Sketch-Workflow" class="headerlink" title="Sketch Workflow"></a>Sketch Workflow</h3><p>Once we have a simple system architecture, we begin to sketch out the entire order placement process.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*fiY_vLMN-fZhBOic1EEA_A.png"></p>
+<p>At the beginning, the customer places an order with the inventory service, and the inventory service only handles inventory-related tasks, e.g., pre-deducting inventory. The purpose of reducing inventory before the payment is to avoid competition when a large number of users are consuming, and if the inventory is not actually reduced until the last stage, then there is a high risk that a consumer will buy air.</p>
+<p>When the inventory service has finished processing, the order service is notified that it has taken over the entire transaction while informing the customer that the order has been placed. At this moment, only the order is established, and the payment must be redirected through the frontend so that the customer can properly communicate with the order service to proceed the billing.</p>
+<p>When the payment is completed, the order service will notify the user service. User service can then proceed with user-related tasks, like coupon issuance or user level upgrade. Finally, the inventory service and the order service are informed that the transaction has been successfully completed.</p>
+<p>Or if there is an error in the order service or user service, a message must be sent to inform the other participating services. Then the service that receives the notification can handle it accordingly, for example, the inventory service must add back the pre-reduced inventory.</p>
+<h3 id="But-Not-Enough"><a href="#But-Not-Enough" class="headerlink" title="But, Not Enough"></a>But, Not Enough</h3><p>Readers who have been subscribing to my articles should have seen this is a very typical <a target="_blank" rel="noopener" href="https://betterprogramming.pub/design-distributed-transaction-with-practical-examples-7b1d93fddb63">distributed transaction</a>, and the proper approach to distributed transaction is to always be resilient, i.e., resilient to the errors.</p>
+<p>As I described in my previous article, <a target="_blank" rel="noopener" href="https://betterprogramming.pub/implement-event-driven-architecture-with-minimal-effort-182c3bbe5524">to handle distributed transactions in an event-driven architecture</a>, an arbiter (crontab) is desired. The crontab detects periodically which events have not been handled correctly and takes corresponding actions to repair them.</p>
+<p>The specific details will not be explained again in this article. But we can know in addition to the three domain services, there is another service that monitors the entire workflow.</p>
+<h3 id="But-Still-Not-Enough"><a href="#But-Still-Not-Enough" class="headerlink" title="But, Still Not Enough"></a>But, Still Not Enough</h3><p>Because the entire transaction process is asynchronous, the user must be able to know exactly what the status of the order is, what stage it is at, and so on. Therefore, it is also necessary to have a service that subscribes to the messages sent by each service, and has its own database to record and store the status of all transactions.</p>
+<p>This approach is also known as <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">CQRS</a>. The entire workflow is observed through a standalone cross-domain service, but unlike an arbiter, this observer does not actually participate in the workflow, nor does it make any kind of changes to the workflow.</p>
+<p>The observer exists only to allow the customer to get a proper overview of the workflow.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>E-commerce websites can be considered as the textbook of all backend architectures. All kinds of problems that backend engineers need to deal with will appear on e-commerce websites, but the books currently available on the market often only provide a monolithic solution, and focus on how to implement those functional requirements.</p>
+<p>But as backend experts, we all know using a monolith to run an e-commerce site is ultimately a dead end. Unless the product is completely unsellable, it will sooner or later face the challenge of traffic and availability.</p>
+<p>Although this article is a casual conversation among architects, it is actually a look at the challenges we encounter on a daily routine from a different perspective. Why does a startup e-commerce site need to have five services?</p>
+<ul>
+<li>To add new features more quickly and to have independent integration and testing processes, microservices must be segmented into domains.</li>
+<li>To have high availability and scalability, the coupling between domains must be reduced.</li>
+<li>For better fault tolerance, a resilient error recovery mechanism must be established.</li>
+<li>For a better user experience, a comprehensive presentation of the whole picture must be implemented.</li>
+</ul>
+<p>Previously, I often mentioned the drawbacks of microservices, eg <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/original-sin-of-microservices-part-1-90461ddcefb">Original Sin of Microservices, Part 1</a> and <a target="_blank" rel="noopener" href="https://lazypro.medium.com/original-sin-of-microservices-part-2-8856c0e8426d">Original Sin of Microservices, Part 2</a>.</p>
+<p>But this does not mean I totally reject microservices, instead I hope we can all face microservices with a correct attitude, not as the holy grail but also not as the devil.</p>
+<p>The right trade-off is always the most important core concept of software architecture.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-an-e-commerce-website-from-a-high-level-perspective-184618741ee8">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Development/Unleash-vs-LaunchDarkly-A-Look-at-Feature-Toggling-Solutions/20220410/" rel="prev" title="Unleash vs. LaunchDarkly: A Look at Feature Toggling Solutions">
+                  <i class="fa fa-chevron-left"></i> Unleash vs. LaunchDarkly: A Look at Feature Toggling Solutions
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/MongoDB/The-Mystery-of-MongoDB-Indexing/20220424/" rel="next" title="The Mystery of MongoDB Indexing">
+                  The Mystery of MongoDB Indexing <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

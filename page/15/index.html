@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/15/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/15/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/15/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Original-Sin-of-Microservices-Part-2/20220327/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Microservice/Original-Sin-of-Microservices-Part-2/20220327/" class="post-title-link" itemprop="url">Original Sin of Microservices, Part 2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-03-28 01:17:38" itemprop="dateCreated datePublished" datetime="2022-03-28T01:17:38+08:00">2022-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Original-Sin-of-Microservices-Part-2"><a href="#Original-Sin-of-Microservices-Part-2" class="headerlink" title="Original Sin of Microservices, Part 2"></a>Original Sin of Microservices, Part 2</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*HO6bSdlPnOyQgZtl.jpg"></p>
+<p>Last time, we talked about <a target="_blank" rel="noopener" href="https://lazypro.medium.com/original-sin-of-microservices-part-1-90461ddcefb">8 fallacies of distributed computing</a> and why our systems end up being more complex than we ever imagined. In our last conclusion, we mentioned that two nodes already have a lot of aspects to consider, let alone a microservice architecture.</p>
+<p>Microservice architectures have many additional dilemmas to face. Therefore, in this article, we will introduce what are the challenges of designing a microservice architecture.</p>
+<h3 id="9-challenges-of-distributed-architecture"><a href="#9-challenges-of-distributed-architecture" class="headerlink" title="9 challenges of distributed architecture"></a>9 challenges of distributed architecture</h3><p>When designing a microservice architecture, there are 9 things that must be carefully considered, and these 9 things are the source of the complexity of microservice architecture. In order to design a microservice architecture correctly, there are many factors that must be aware, such as data consistency, architecture scalability, system availability, etc., in addition to avoiding the fallacies mentioned in the previous article.</p>
+<h3 id="Service-Granularity"><a href="#Service-Granularity" class="headerlink" title="Service Granularity"></a>Service Granularity</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*MhLAkdIGogY4Nn0pF2Ymwg.png"><img src="https://cdn-images-1.medium.com/max/800/1*6dKuJfhSY-YkwizM95a13g.png"></p>
+<p>When we want to implement a notification service, suppose that there are three types of notifications, email, sms and mobile notifications. So should the granularity of this microservice include all three types of notifications, or should the three types of notifications be separated into a standalone microservice? How to make the right choice?</p>
+<p>There are several points to deliberate. First, will these codes need to be changed very often? If not, then it seems feasible to put all notifications into the same notification service. On the contrary, if the content of emails needs to be changed very often, then perhaps emails can be separated out into a standalone microservice.</p>
+<p>In addition, if sms has a large number of notifications, then sms may need to be horizontally scaled independently, i.e., sms can be a separate microservice.</p>
+<p>How do you determine the correct granularity of microservices? It’s hard, isn’t it? This is the first challenge.</p>
+<h3 id="Shard-Functionality"><a href="#Shard-Functionality" class="headerlink" title="Shard Functionality"></a>Shard Functionality</h3><blockquote>
+<p><em>Shared service vs. Shared code</em></p>
+</blockquote>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*fIMu7U0_uedYNTKM5wG2qw.png"><img src="https://cdn-images-1.medium.com/max/800/1*FNeS9KgPX1Sr4trKWbGweg.png"></p>
+<p>When there are shared functions, how do you decide where to place them? For example, when A, B and C all have an authentication function, should there be a microservice for authentication or should the authentication code be replicated in each microservice?</p>
+<p>There are also some aspects to think about here. If there is a shared authentication service, who will authenticate the authentication service? When the authentication service goes down, will it result in a single point of failure (SPOF)? What happens when more and more services need to be authenticated and the authentication service can’t hold up?</p>
+<p>On the other hand, if the code is copied to each service, how can we make online improvements if the logic of authentication has changed? In fact, the same problem can happen to data. When there is data needed by three microservices, should the data be shared with each other in a separate database or duplicated to each service?</p>
+<p>Remember the ideal microservice mentioned at the beginning? No sharing of data. So here, I prefer to use the second approach, replicating the code instead of sharing the service.</p>
+<h3 id="Communication-Protocols"><a href="#Communication-Protocols" class="headerlink" title="Communication Protocols"></a>Communication Protocols</h3><blockquote>
+<p><em>Synchronous vs. Asynchronous</em></p>
+</blockquote>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*XcZ70vpfF-9et2gj90H8-A.png"><img src="https://cdn-images-1.medium.com/max/800/1*k0_P1Rl4nR1vlww7THFZQw.png"></p>
+<p>Should the communication between two services be synchronous or asynchronous? There are many factors to consider.</p>
+<p>Asynchronous has the obvious benefit of being more efficient and less coupled with each other. When there is a need to scale horizontally, each microservice can also scale according to its own needs.</p>
+<p>But synchronization also has the advantage that <code>Service A</code> can respond more quickly when <code>Service B</code> fails. In other words, synchronization can have higher consistency.</p>
+<p>There is no standard answer between synchronous and asynchronous, it depends on the context.</p>
+<h3 id="Workflow-Management"><a href="#Workflow-Management" class="headerlink" title="Workflow Management"></a>Workflow Management</h3><blockquote>
+<p><em>Orchestration vs. Choreography</em></p>
+</blockquote>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*gtD2WVw8lmfabO_oHtcgLw.png"><img src="https://cdn-images-1.medium.com/max/800/1*xR_gawaJknn8I-wl0mfy-w.png"></p>
+<p>Again, these are two very different types of workflow management. Similar to synchronous and asynchronous above, when orchestration is chosen, it is easier to control the entire workflow, and when any task fails, the top <code>Service A</code> has a way to know and take the correct action, i.e., orchestration makes it easier to get higher data consistency.</p>
+<p>On the other hand, choreography can have better scalability and availability because of the low coupling between each other. Even when there are functions that need to be implemented, choreography is more productive because it does not need to be initiated by <code>Service A</code>. Each microservice communicates with each other through messages and only needs to implement new message processors.</p>
+<h3 id="Monolithic-Decomposition"><a href="#Monolithic-Decomposition" class="headerlink" title="Monolithic Decomposition"></a>Monolithic Decomposition</h3><blockquote>
+<p><em>Component-based vs. Tactical forking</em></p>
+</blockquote>
+<p>When we want to decompose a monolith to microservices, there are two different strategies that can be used. Component-based decomposition is a traditional domain-driven development that first correctly recognizes the function and size of each component, then analyzes the dependencies between the components, and finally tries to decompose the components according to a domain-based manner and generate domain-sized microservices.</p>
+<p>In contrast, tactical forking is a completely different process.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*rwte3OBqsYpQ8FkM5JMlXw.png"></p>
+<p>First insert a proxy between the original client and the monolith. Have you noticed? The topology is not immutable, in order to compose the microservice, the topology is changed. Then, the original monolith is replicated exactly, and the two different functions are pointed to different targets in the proxy. Finally, according to the characteristics of the two functions, the original monolith is individually reduced to produce two different microservices.</p>
+<p>Similarly, the two different strategies also have their own advantages and disadvantages. If component-based decomposition is used, there is a longer lead time, but the whole system can be decomposed with the right domain perspective, and in fact, the process must involve refactoring. In opposite, tactical forking does not have this refactoring process, but in return it is a much faster modification process.</p>
+<h3 id="Contract-Management"><a href="#Contract-Management" class="headerlink" title="Contract Management"></a>Contract Management</h3><blockquote>
+<p><em>Strict vs. Loose</em></p>
+</blockquote>
+<p>Contract management refers to what kind of data format should be used to communicate between two services? If you use a loose contract, such as JSON or XML, the coupling between the services will be tighter, and it will not be easy to manage the versioning and achieve forward-backward compatibility. But the advantage is that it is easier to develop, especially since JSON is already the main data format for frontend and backend communication, so JSON will also work more naturally with the service.</p>
+<p>On the other hand, using a strict contract, such as Avro or protocol buffer, then the services only need to understand each other through the schema. The old and new versions of the service can also coexist easily.</p>
+<h3 id="Database-Style"><a href="#Database-Style" class="headerlink" title="Database Style"></a>Database Style</h3><p>This is also a very popular topic. First you have to choose from PACELC, then ACID or BASE, and finally there are various options depending on the storage structure, such as K-V, columnar, row-based or graph.</p>
+<p>The biggest drawback of choosing a relational database in the past was its lack of horizontal scalability, but recently there has been a new breakthrough with more distributed SQL options. But again, there is no perfect solution, you still need to understand what distributed SQL can do and what it lacks.</p>
+<p>Behind each of these choices is a lot of experience and domain knowledge, and it’s really hard.</p>
+<h3 id="Architecture-Style"><a href="#Architecture-Style" class="headerlink" title="Architecture Style"></a>Architecture Style</h3><p>Choosing the architecture type is interesting. There are many types of architectures alone, such as service-oriented architectures, microservice architectures, event-driven architectures, and so on.</p>
+<p>In fact, a system does not have only one architecture style, but usually a hybrid system. There are many aspects to determine when choosing event-driven and when choosing microservices for a “function”.</p>
+<h3 id="Distributed-Transaction"><a href="#Distributed-Transaction" class="headerlink" title="Distributed Transaction"></a>Distributed Transaction</h3><p>The last challenge is distributed transactions. I mentioned in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/design-distributed-transaction-with-practical-examples-7b1d93fddb63">my previous article</a> that there are 3 factors should be considered when designing a distributed transaction.</p>
+<ul>
+<li>Consistency: Atomic vs. Eventual Consistency</li>
+<li>Communication: Synchronous vs. Asynchronous</li>
+<li>Coordination: Orchestration vs. Choreography</li>
+</ul>
+<p>Therefore, there are 8 combinations, each of which has a different structure also pros and cons. According to the conclusion of <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/distributed-transaction-introduction-1cd105c830a2">distributed transaction introduction</a>, we should choose between eventual consistency and asynchronous, but then we still have to choose between orchestration and choreography.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_pxrC5YVDm5FEmp1SYGPUw.png"><img src="https://cdn-images-1.medium.com/max/800/1*aYjvID-xwNRRmKjykJHwVg.png"></p>
+<p>In the conclusion of the last article, it was stated that if you choose choreography you can get a better decouple and better scalability, but there will be a higher complexity of implementation. This is because it is very difficult to maintain the workflow of the whole transaction in choreography.</p>
+<h3 id="Complexity-is-killing-software-developers"><a href="#Complexity-is-killing-software-developers" class="headerlink" title="Complexity is killing software developers"></a><a target="_blank" rel="noopener" href="https://www.infoworld.com/article/3639050/complexity-is-killing-software-developers.html">Complexity is killing software developers</a></h3><p>After discussing so many challenges and fallacies, I’m sure you’ll agree how difficult and complex it is to design a microservice system correctly, right? So, in recent seminars, the topic has slowly shifted from microservices implementation to microservices challenges.</p>
+<p>Complexity is the pitfall of modern software architectures. But how do we evaluate complexity? We’ve talked about a lot of complex stuff today, so I’ll just offer a simple suggestion to measure it from my own experience.</p>
+<blockquote>
+<p><em>When you want to make a change but are very hesitant because you don’t know the consequences of doing so.</em></p>
+</blockquote>
+<p>Then, the complexity is pretty high.</p>
+<p>Are there any specific evaluation criteria? Yes, there are. One of the methods is to analyze the degree of coupling. I have introduced instability in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-prepare-a-design-review-like-an-expert-85d2ab85d7f5">a previous article</a>. This is one of the formulas to evaluate the coupling degree.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*vPqm1fbneYU-V42WcnepHw.png"></p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>We talked a lot about the challenges and problems of designing a microservice architecture, or a distributed system. Every architect has had a journey from believing in microservices to questioning them. In order to prove the change of architect’s mindset, I list the sessions of <em>Worldwide Software Architecture Summit ’22</em> I cited in these two articles, and also provide you with a reference.</p>
+<ul>
+<li>Software architecture in a non-enterprise world — a practical approach</li>
+<li>Correctly Built Distributed Systems</li>
+<li>What not to do on your next cloud-native architecture</li>
+<li>Software observability: Visualize Code Quality at Scale</li>
+<li>Designing Pragmatic Observability that Works: Avoiding Pitfalls</li>
+<li>Complexity is the Problem</li>
+<li>Microservices anti-patterns and pitfalls</li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/original-sin-of-microservices-part-2-8856c0e8426d">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Original-Sin-of-Microservices-Part-1/20220320/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Microservice/Original-Sin-of-Microservices-Part-1/20220320/" class="post-title-link" itemprop="url">Original Sin of Microservices, Part 1</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-03-21 00:51:37" itemprop="dateCreated datePublished" datetime="2022-03-21T00:51:37+08:00">2022-03-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Original-Sin-of-Microservices-Part-1"><a href="#Original-Sin-of-Microservices-Part-1" class="headerlink" title="Original Sin of Microservices, Part 1"></a>Original Sin of Microservices, Part 1</h3><ul>
+<li>Part 1, 8 fallacies of distributed computing</li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/original-sin-of-microservices-part-2-8856c0e8426d">Part 2, 9 challenges of distributed architecture</a></li>
+</ul>
+<p>This series of articles is a summary of <code>Worldwide Software Architecture Summit&#39;22</code>, thus most of the contents are coming from the seminar. Of course, there are also some insights from my understanding.</p>
+<p>Microservice architecture had been a popular topic for several years, and there were various sessions to talk about how to deploy, manage and implement microservices at every seminar about software architecture. However, such a trend in the last six months to a year of time sharply frozen, more and more people noticed that although microservices is a good approach, but not a total solution.</p>
+<p>It is beneficial to use microservices, but it also comes at a cost, such as complexity.</p>
+<h3 id="What’s-the-ideal-microservice"><a href="#What’s-the-ideal-microservice" class="headerlink" title="What’s the ideal microservice?"></a>What’s the ideal microservice?</h3><p>Before talking about the original sin of microservices, let’s define what the ideal microservice would look like.</p>
+<p>Ideally,</p>
+<ul>
+<li>Non-shared code</li>
+<li>Non-shared data</li>
+<li>With bounded context in a specific domain</li>
+<li>Deployment separately</li>
+<li>Single responsibility principle</li>
+</ul>
+<p>It may look like as follows in an architecture diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*E-YJ9HTcDZSOcN_eg7E-Gw.png"></p>
+<p>When clients communicate with backend services, backend usually routes the request to the corresponding microservice through a <code>API gateway</code>. And, this microservice is able to process this request correctly by its own data and response to the clients.</p>
+<h3 id="What’s-the-real-world"><a href="#What’s-the-real-world" class="headerlink" title="What’s the real world?"></a>What’s the real world?</h3><p>But the real world is often not as rosy as we think.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*opqk8tbPJg1HfF1s.jpg"></p>
+<p>Do you know what kind of animal this is?</p>
+<p>As far as I know, there are at least three possibilities, which could be a horse, a donkey or a mule.</p>
+<p>Why is it painted like this?</p>
+<p>At first, we designed the whole architecture according to our ideal or textbook style and started to implement it, and everything looked so perfect. But as time went on, more and more requirements were added and we were forced to make it work in a limited time frame, even if there were mistakes to be fixed. In the end, the horse-like animal became more and more sketchy.</p>
+<p>If there was a good design and planning, we can at least tell from the back half that it might have been a horse. On the other hand, if there was no design at all, no one would probably know what you were trying to draw.</p>
+<p>If we represent it in an architecture diagram, it would probably look something like this. Welcome to the real world.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*qCGHy6219nV_w97fzztK7g.png"></p>
+<p>A, B and C all have their own responsibility to handle their own bounded context, but as the requirement grows, A finds that it needs B’s data, and B needs C’s cooperation, and even C has to call A. Finally, it becomes a big ball of mud.</p>
+<p>There are several reasons.</p>
+<ol>
+<li>Usually, there are no architects. So there is no way to evolve the system correctly with each requirement.</li>
+<li>Even because there was no architect, architecture is not clearly defined.</li>
+<li>Focus on fast delivery of features, and ignore non-functional requirements.</li>
+<li>Feedback cycle is very short, and we must respond to requests or incidents within a short period of time.</li>
+<li>It’s all online and real-time without any downtime until the requirements are eliminated.</li>
+</ol>
+<h3 id="8-fallacies-of-distributed-computing"><a href="#8-fallacies-of-distributed-computing" class="headerlink" title="8 fallacies of distributed computing"></a>8 fallacies of distributed computing</h3><p>After understanding why systems, in reality, are the way they are, let’s look at 8 fallacies of distributed computing. These are the most commonly overlooked pitfalls of microservice architecture.</p>
+<h3 id="The-network-is-reliable"><a href="#The-network-is-reliable" class="headerlink" title="The network is reliable"></a>The network is reliable</h3><p>People wishfully assume that the network between two endpoints is reliable. But the truth is that packets may drop and connections may be broken. Therefore, there should be a retry mechanism between the two endpoints to improve the reliability as much as possible.</p>
+<h3 id="Latency-is-zero"><a href="#Latency-is-zero" class="headerlink" title="Latency is zero"></a>Latency is zero</h3><p>There is an unconscious belief that the latency between two endpoints is zero, and this leads to many simple functions being spread out to other endpoints. Unfortunately, the latency between any endpoints is never zero, even on an intranet. So when making remote calls, it is always important to consider setting a timeout, even for connections to internal databases.</p>
+<p>In addition, when frequent operations are required on Redis, mechanisms such as Redis pipeline are always used to reduce the round trip time (RTT) between endpoints.</p>
+<h3 id="Bandwidth-is-infinite"><a href="#Bandwidth-is-infinite" class="headerlink" title="Bandwidth is infinite"></a>Bandwidth is infinite</h3><p>People usually feel that the network bandwidth between two endpoints is unlimited, so there is no restraint when transferring data. In fact, the bandwidth is much smaller than you think.</p>
+<p>In particular, if you use MySQL’s <code>select *</code> often, you may run out of bandwidth without realizing it. As a MySQL table grows with requirements, there may be many more costs you don’t realize, such as BLOB or TEXT, and such data structures often store huge amounts of data to further consume bandwidth.</p>
+<h3 id="The-network-is-secure"><a href="#The-network-is-secure" class="headerlink" title="The network is secure"></a>The network is secure</h3><p>This is a very common pitfall, people always believe that the intranet is secure. But this is absolutely unrealistic, and this is why the concept of zero trust has been proposed in recent years.</p>
+<h3 id="Topology-doesn’t-change"><a href="#Topology-doesn’t-change" class="headerlink" title="Topology doesn’t change"></a>Topology doesn’t change</h3><p>This fallacy is a bit interesting. People feel that the topology of a network does not change, meaning that the two endpoints are always written to each other’s location, whether it is FQDN or IP, but in reality, network topology changes for many reasons, such as VPC segmentation, public cloud migration, and even system evolution.</p>
+<h3 id="There-is-one-administrator"><a href="#There-is-one-administrator" class="headerlink" title="There is one administrator"></a>There is one administrator</h3><p>You would expect that there would be at least one administrator maintaining each service, right? Usually, in every organization, there is an operation role that is responsible for maintaining the system. Therefore, operation plays the role of an administrator, and if there is a problem with the system, operation is definitely the first to know.</p>
+<p>Wrong, absolutely wrong.</p>
+<p>Any system must implement its own observability, and system developers must have the ability to identify potential problems from these observabilities. There are four most common types of observability.</p>
+<ol>
+<li>Logging: The logs left by system execution are usually related to system behavior.</li>
+<li>Tracing: The execution cycle of a task. If it is a distributed system, you must be able to track the telemetries on each system, e.g., jaeger or OpenTracing.</li>
+<li>Metrics: The measurable status left by the system run, such as the number of API executions, the number of failures, etc.</li>
+<li>Profiling: Resource consumption behind the system like CPU and memory, etc.</li>
+</ol>
+<h3 id="Transport-cost-is-zero"><a href="#Transport-cost-is-zero" class="headerlink" title="Transport cost is zero"></a>Transport cost is zero</h3><p>This is absolutely the most serious fallacy. You have to understand that any remote call has a cost, especially on a public cloud, which is even more pricey. Even if it’s a database access or an outbound HTTP call, these all cost money.</p>
+<p>So, no matter what the remote call is, it must always be optimized, both in terms of frequency and data size.</p>
+<h3 id="The-network-is-homogeneous"><a href="#The-network-is-homogeneous" class="headerlink" title="The network is homogeneous"></a>The network is homogeneous</h3><p>This is an easy pitfall to overlook. The network is absolutely heterogeneous, so when one endpoint calls another endpoint in series, you cannot guarantee that the order of arrival is the same as the order you sent it. In other words, any assumptions about order should not exist.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Alright, after this discussion, I believe we can all agree that distributed systems are really complex. There are so many factors that must be considered for just two endpoints, not to mention microservices.</p>
+<p>Microservices are composed of countless endpoints, and each endpoint has to consider just those factors, and at the same time, microservice architectures have their own issues to face, such as data consistency, system scalability, and so on.</p>
+<p>Since this article is already a bit overloaded, I will schedule the challenges of microservices for the next article. In that time, we will discuss how difficult it is to design a microservice correctly, and we will also recognize why the recent seminars are emphasizing the shortcomings of microservices.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/original-sin-of-microservices-part-1-90461ddcefb">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Design-Distributed-Transaction-With-Practical-Examples/20220313/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Design-Distributed-Transaction-With-Practical-Examples/20220313/" class="post-title-link" itemprop="url">Design Distributed Transaction With Practical Examples</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-03-14 00:55:15" itemprop="dateCreated datePublished" datetime="2022-03-14T00:55:15+08:00">2022-03-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="What-a-design-review-actually-looks-like"><a href="#What-a-design-review-actually-looks-like" class="headerlink" title="What a design review actually looks like"></a>What a design review actually looks like</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*AFKbOvu2LxfS5Dlq"></p>
+<p>Last time, we have discussed, <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-prepare-a-design-review-like-an-expert-85d2ab85d7f5">how to prepare a design review like an expert</a>. There are three items that should be prepared:</p>
+<ul>
+<li>C4 model</li>
+<li>User stories and use cases</li>
+<li>Design decisions</li>
+</ul>
+<p>In this article, I will use a practical example to show you what is a design review looks like. Some discussions with too many details will be skipped, and only demonstrate the critical designs.</p>
+<h3 id="User-Stories"><a href="#User-Stories" class="headerlink" title="User Stories"></a>User Stories</h3><p>First, we are going to define the user story. Like the previous article mentioned, user story aligns with the context perspective in C4 model. Therefore, we write down the user stories clearly.</p>
+<p>This time we are going to do the function of giving gifts. And, the whole story is as follows.</p>
+<ul>
+<li>A User can decide how many of the same gifts they want to give to others at a time.</li>
+<li>As long as the user has enough money, then there is no limit to the number of people giving gifts.</li>
+<li>After finishing giving gifts, it must inform both sender and receivers that everything has been done.</li>
+</ul>
+<h3 id="Use-cases"><a href="#Use-cases" class="headerlink" title="Use cases"></a>Use cases</h3><p>The entire gift-giving scene is clearly described in the user story, however, there are some details that are not sufficiently described. For example,</p>
+<ul>
+<li>If the user’s balance is not enough, then all gifts will fail and cannot be partially successful.</li>
+<li>Finishing giving gifts represents all receivers have received the gift.</li>
+<li>The content of the notification must contain sender, total amount of gifts and all receivers.</li>
+<li>No matter how many people to give, the entire process should be finished in a few minutes.</li>
+</ul>
+<p>As we can see above, in the use cases, we added details that were not in the story, and presented the whole scene in more detail.</p>
+<h3 id="C4-Model"><a href="#C4-Model" class="headerlink" title="C4 Model"></a>C4 Model</h3><p>Now, we can draw the C4 model of the entire design.</p>
+<h3 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*WFOdotUY2mTKPaBZiGhM6Q.png"></p>
+<p>Based on the user story, we draw a context to describe the interaction between the user and the system. From the context, we know that there are several key points that must be fully discussed.</p>
+<ol>
+<li>The line that contains the <code>gift</code></li>
+<li>Behavior of the <code>Server</code> itself</li>
+<li>The line containing the <code>notify</code></li>
+</ol>
+<p>You may ask how about the <code>notification service</code> and <code>receivers</code>. The answer is simple. That is a third party service, and we cannot control its behavior. Therefore, there is no need to discuss it in a design review on the topic of giving gifts. Of course, if there is any concern about the notification, we can hold another design review to dig in.</p>
+<h3 id="Container"><a href="#Container" class="headerlink" title="Container"></a>Container</h3><p>Once we have the context, we start to dive into the three points listed above and expand them in the form of a container.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*QREa2DjREx-ZIYZL_vdLjA.png"></p>
+<p>Finally we got this diagram, this is what it looks like when it is finished. There are many design decisions here, but in this section, I will only introduce the meaning of this diagram. As for the design decisions, we will leave the analysis in depth in the later sections.</p>
+<ol>
+<li>Users send gift requests, including what to send and whom to send.</li>
+<li>After receiving the request, <code>Server</code> first debits the user’s wallet and responds directly to <code>nak</code> if the balance is not enough, then divides the request into batches of fixed size and writes the batch information to the database. After that, the batch task is sent to the worker for execution asynchronously with the serial number of the transaction.</li>
+<li>Although the process is not complete, the preparations have been done, so reply to the user <code>ack</code> to show that the whole process is in progress.</li>
+<li>When the worker receives the command, it focuses on the batch task it is assigned, and when it finishes, it deducts the <code>counter</code> from the database. If the worker encounters any errors, just retry the task itself.</li>
+<li>When the <code>counter</code> is found to be 0 after deducting the counter, which means everyone has finished the task, then the last worker will notify all the receivers.</li>
+</ol>
+<h3 id="Component-and-Code"><a href="#Component-and-Code" class="headerlink" title="Component and Code"></a>Component and Code</h3><p>From the perspective of the container, the next steps are component and code, but these are already related to some implementation details, and each system faces different problems, so I won’t go into more detail here.</p>
+<h3 id="Design-Decisions"><a href="#Design-Decisions" class="headerlink" title="Design Decisions"></a>Design Decisions</h3><p>We found many details in the container diagram. As I did in the previous article, we will use the <code>why do A instead of B</code> formula to ask a lot of questions.</p>
+<ol>
+<li>Why sender and server communicate with each other in a semi-asynchronous way (between synchronous and asynchronous)?</li>
+<li>Why is the server divided into an orchestration and workers?</li>
+<li>Why orchestration and workers are completely asynchronous?</li>
+<li>Why is the worker notifying the receivers?</li>
+<li>Maybe you are able to consider some questions I have never listed.</li>
+</ol>
+<p>All of these questions should be told from the original architecture.</p>
+<p>At the beginning, we have already the feature of giving a gift to a person. So, the simplest way is performing a for-loop to send all receivers through the one-to-one gift regardless of the receiver number.</p>
+<p>This is fine when there are only a few receivers, but once the number of receivers starts to increase, performance will be a serious challenge. In our measurements, it takes about <code>100-200 ms</code> to deliver a person, not including notifications, which means that when the number of people reaches <code>10</code>, it will reach the second-magnitude. This is obviously unacceptable.</p>
+<p>It seems that the batching is inevitable, so someone drew up the first architecture diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*lkjVYSjjwNEJgKtUhMU65g.png"></p>
+<p>From the diagram, we can find that the orchestration has already been appeared. However, the communication with the worker is still synchronized, and the notification will be sent only when all the tasks are done. It will not reply to the user until all the tasks are finished. This may seem to have significantly reduced the performance bottleneck, but it hasn’t gotten better at all.</p>
+<p>Let’s do a simple math. Suppose we want to send gifts to 1000 people, how do we set the batch size and the number of workers?</p>
+<p>To finish it in seconds, the maximum batch size is <code>10</code>, so <code>100</code> workers need to be generated at the same time to handle a gift request. This is a very strict challenge for the system, and it is not an easy task to generate <code>100</code> workers in an instant. Because of this, it is difficult to keep users waiting in a fully synchronized manner. So, what happens when it is completely asynchronized?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*xvFJZLlgVPS_x_8rO5WicQ.png"></p>
+<p>In the second attempt, we changed the orchestration to choreography, so that the user could get the response in a very quick time and the gift could be sent smoothly. But, is it really so?</p>
+<p>What happens if the middle worker fails? The whole chain is broken, and the user may not feel it without notification. It is fine, but for the giver, the middle successful worker has already deducted the user’s money, but the notification is not sent. Moreover, back to the first point of the use cases, partial success is not allowed.</p>
+<p>Choreography compared to orchestration will indeed have better performance and better scalability, but will get more complex workflow control. Therefore, in this use case, orchestration would be more appropriate.</p>
+<p>So let’s implement full asynchronization through orchestration.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*o3UlbgaffqqfhnWNL_5KoA.png"></p>
+<p>This architecture encounters two problems immediately.</p>
+<ol>
+<li>Who should send the notification?</li>
+<li>How to do if the money is not enough in the half way?</li>
+</ol>
+<p>The problem of sending notifications is well solved, as in the previous container view in the C4 model, has actually solved the problem of who to send notifications. Nevertheless, it is basically impossible to handle the error in the half way to a completely asynchronous architecture.</p>
+<p>Due to this reason, we finally adopted a semi-asynchronous approach. First, the orchestration determines whether the balance is enough to send, and in order to avoid the racing condition, the money is deducted directly. So the worker only needs to handle sending the gift, not to deduct the money from the giver, not even to check the balance.</p>
+<h3 id="Error-Handle-and-Disaster-Recovery"><a href="#Error-Handle-and-Disaster-Recovery" class="headerlink" title="Error Handle and Disaster Recovery"></a>Error Handle and Disaster Recovery</h3><p>Under the such architecture, there is a huge trouble.</p>
+<blockquote>
+<p><em>How about the worker failed?</em></p>
+</blockquote>
+<p>If it is occurred due to database congestion, it should be okay after just retrying several times. Otherwise, if there is a malfunction in the implementation, it cannot be resolved even though retry many times.</p>
+<p>As a result, an additional monitoring system needs to exist to periodically check which asynchronous tasks have failed, and retry those that can be retried, or notify human intervention if they cannot recover by retries. The <a target="_blank" rel="noopener" href="https://betterprogramming.pub/implement-event-driven-architecture-with-minimal-effort-182c3bbe5524">applicable solution</a> is in a previous article I have already introduced, so I won’t explain too much here.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>To sum up, the system breaks down gift-giving into several steps.</p>
+<ol>
+<li>The user sends the request synchronously and the balance is deducted in advance.</li>
+<li>All processes of giving gifts are performed asynchronously.</li>
+<li>The process of giving gifts can be consistent eventually, and the money deducted is equal to the money issued.</li>
+</ol>
+<p>In this article, we discuss challenges while designing a distributed system in a practical example.</p>
+<ul>
+<li>Synchronous vs. Asynchronous</li>
+<li>Orchestration vs. Choreography</li>
+<li>Atomic vs. Eventual consistency</li>
+</ul>
+<p>In fact, those items are the trade-offs in a typical distributed transaction as well. These aspects can significantly affect the overall distributed transaction model. I have introduced distributed transactions in <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/distributed-transaction-introduction-1cd105c830a2">my previous article</a>. Next time, I’ll take a closer look at the challenges and issues faced when designing a distributed system.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-distributed-transaction-with-practical-examples-7b1d93fddb63">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Career/Books-that-Developers-Should-Read/20220306/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Career/Books-that-Developers-Should-Read/20220306/" class="post-title-link" itemprop="url">Books that Developers Should Read</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-03-07 01:43:01" itemprop="dateCreated datePublished" datetime="2022-03-07T01:43:01+08:00">2022-03-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Career/" itemprop="url" rel="index"><span itemprop="name">Career</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Books-that-Developers-Should-Read"><a href="#Books-that-Developers-Should-Read" class="headerlink" title="Books that Developers Should Read"></a>Books that Developers Should Read</h3><p>There are many posts on medium that are recommending must-read books for developers, but I find that most of the lists are biased towards specific technologies or specific languages, like <em>Fluent Python</em> or <em>Microservices Patterns</em>.</p>
+<p>I don’t deny that these books are really good, but not everyone needs to learn a specific language or a specific technology. In the case of microservices, many seminars in the past few years have talked about how to manage, how to deploy, how to develop, but more recently, more and more seminars are talking about</p>
+<blockquote>
+<p><em>Complexity is killing software developers.</em></p>
+</blockquote>
+<p>by <a target="_blank" rel="noopener" href="https://www.infoworld.com/article/3639050/complexity-is-killing-software-developers.html">Scott Carey</a>.</p>
+<p>Therefore, building the right background knowledge is far more important than studying a particular technology.</p>
+<p>In the next section, I will recommend books for the two stages of a developer’s career, first from junior developer to senior developer, and then from senior developer to the next milestone, perhaps architect or principle engineer.</p>
+<h3 id="Junior-Developer-to-Senior-Developer"><a href="#Junior-Developer-to-Senior-Developer" class="headerlink" title="Junior Developer to Senior Developer"></a>Junior Developer to Senior Developer</h3><p>In the junior phase, developers need to write code well and build a proper understanding of the system. So there are several types of books that you can try to read.</p>
+<p>For example, to improve the ability to write programs.</p>
+<h3 id="Refactoring-Improving-the-Design-of-Existing-Code"><a href="#Refactoring-Improving-the-Design-of-Existing-Code" class="headerlink" title="Refactoring: Improving the Design of Existing Code"></a>Refactoring: Improving the Design of Existing Code</h3><p>by Martin Fowler</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*AI3h9a8lVusrgM2q.png"></p>
+<p>Or, to improve knowledge of the architecture and to design applications that can be easily modified and extended.</p>
+<h3 id="Clean-Architecture-A-Craftsman’s-Guide-to-Software-Structure-and-Design"><a href="#Clean-Architecture-A-Craftsman’s-Guide-to-Software-Structure-and-Design" class="headerlink" title="Clean Architecture: A Craftsman’s Guide to Software Structure and Design"></a>Clean Architecture: A Craftsman’s Guide to Software Structure and Design</h3><p>by Robert C. Martin</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*bK67tv-HS6yawcuF.jpg"></p>
+<p>Even, in order to speed up software development, you need to know what background knowledge is available, such as telemetries, CI&#x2F;CD pipelines, feature toggles, etc.</p>
+<h3 id="The-DevOps-Handbook：-How-to-Create-World-Class-Agility-Reliability-and-Security-in-Technology-Organizations"><a href="#The-DevOps-Handbook：-How-to-Create-World-Class-Agility-Reliability-and-Security-in-Technology-Organizations" class="headerlink" title="The DevOps Handbook： How to Create World-Class Agility, Reliability, and Security in Technology Organizations"></a>The DevOps Handbook： How to Create World-Class Agility, Reliability, and Security in Technology Organizations</h3><p>by Gene Kim</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*QoNNwY6n4TvT-LJt.jpg"></p>
+<h3 id="Senior-Developer-to-Architect"><a href="#Senior-Developer-to-Architect" class="headerlink" title="Senior Developer to Architect"></a>Senior Developer to Architect</h3><p>Then, when you have become proficient in development and understand the entire development process and background knowledge of the application, you are ready to be promoted to senior developer.</p>
+<p>What you need at this stage is to be able to design the system architecture correctly, understand the strengths and weaknesses behind each design, and make the right trade-offs.</p>
+<p>This requires an understanding of the different architectural paradigms and the risks behind distributed systems.</p>
+<h3 id="Fundamentals-of-Software-Architecture-An-Engineering-Approach"><a href="#Fundamentals-of-Software-Architecture-An-Engineering-Approach" class="headerlink" title="Fundamentals of Software Architecture: An Engineering Approach"></a>Fundamentals of Software Architecture: An Engineering Approach</h3><p>by Mark Richards</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*TCOghpauPyd9TbuA.png"></p>
+<h3 id="Software-Architecture-The-Hard-Parts-Modern-Trade-Off-Analyses-for-Distributed-Architectures"><a href="#Software-Architecture-The-Hard-Parts-Modern-Trade-Off-Analyses-for-Distributed-Architectures" class="headerlink" title="Software Architecture: The Hard Parts: Modern Trade-Off Analyses for Distributed Architectures"></a>Software Architecture: The Hard Parts: Modern Trade-Off Analyses for Distributed Architectures</h3><p>by Neal Ford</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*Igo-Qrt6g3n4enit.png"></p>
+<p>Once you have a proper understanding of distributed systems, it’s time to understand the details of distributed storage.</p>
+<h3 id="Designing-Data-Intensive-Applications"><a href="#Designing-Data-Intensive-Applications" class="headerlink" title="Designing Data-Intensive Applications"></a>Designing Data-Intensive Applications</h3><p>by Martin Kleppmann</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*6JB3XMksRhgtbeOc.png"></p>
+<p>At this point, you should already have good technical skills and the ability to make the right decision, but also to evolve the system.</p>
+<p>In addition, an engineer who specializes in development needs to have not only technical skills, but also a lot of soft skills.</p>
+<h3 id="The-Pragmatic-Programmer"><a href="#The-Pragmatic-Programmer" class="headerlink" title="The Pragmatic Programmer"></a>The Pragmatic Programmer</h3><p>by Andrew Hunt</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*YbIsMSviqsDfSSRF.png"></p>
+<h3 id="The-Effective-Engineer-How-to-Leverage-Your-Efforts-In-Software-Engineering-to-Make-a-Disproportionate-and-Meaningful-Impact"><a href="#The-Effective-Engineer-How-to-Leverage-Your-Efforts-In-Software-Engineering-to-Make-a-Disproportionate-and-Meaningful-Impact" class="headerlink" title="The Effective Engineer: How to Leverage Your Efforts In Software Engineering to Make a Disproportionate and Meaningful Impact"></a>The Effective Engineer: How to Leverage Your Efforts In Software Engineering to Make a Disproportionate and Meaningful Impact</h3><p>by Edmond Lau</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*qULGMiOoPV0SE_fv.png"></p>
+<p>Of course, there are many other good books that should be read. But everyone has different career goals, so I’ll just list the soft&#x2F;hard skills needed to move from a novice developer to a significant position.</p>
+<p>My normal articles are a compilation of materials I’ve accumulated through leading teams. But this week I’m at Worldwide Software Architecture Summit 22, and I don’t have much time with the team. So I take this opportunity to compile a list of books that I’ve been asked to read in order to become an architect.</p>
+<p>If anyone would like to hear about a specific topic or discuss a design problem you’ve encountered, please feel free to DM me on twitter, @LazyProMedium.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/books-that-developers-should-read-24ce2d3a8028">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/How-to-Prepare-a-Design-Review-Like-an-Expert/20220228/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/How-to-Prepare-a-Design-Review-Like-an-Expert/20220228/" class="post-title-link" itemprop="url">How to Prepare a Design Review Like an Expert?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-02-28 08:28:06" itemprop="dateCreated datePublished" datetime="2022-02-28T08:28:06+08:00">2022-02-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="How-to-Prepare-a-Design-Review-Like-an-Expert"><a href="#How-to-Prepare-a-Design-Review-Like-an-Expert" class="headerlink" title="How to Prepare a Design Review Like an Expert?"></a>How to Prepare a Design Review Like an Expert?</h3><h4 id="Know-the-three-main-items-of-a-good-design-review"><a href="#Know-the-three-main-items-of-a-good-design-review" class="headerlink" title="Know the three main items of a good design review"></a>Know the three main items of a good design review</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*7Ryt_IvNlgSGjBFg.png"></p>
+<p>This article will take backend development as an example, but the same concepts can be applied to various fields.</p>
+<p>Before explaining how to prepare a good design review, let’s first introduce what a design review should have. As an architect, I’m going to tell you what I want to see.</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://c4model.com/">C4 model</a></li>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">User stories and use cases</a></li>
+<li>Design decisions</li>
+</ol>
+<p>As an architect, what I want to see the most is the above three items, not code flow nor database schema even nor RESTful API spec.</p>
+<p>And the most important of them is the C4 model.</p>
+<h3 id="C4-Model"><a href="#C4-Model" class="headerlink" title="C4 Model"></a>C4 Model</h3><p>Why is the C4 model so important? Before explaining, let’s briefly introduce the C4 model.</p>
+<p>The C4 model contains four <strong>C</strong>s.</p>
+<ol>
+<li>Context: This is an overview of the system that describes how users interact with whole system. It will be displayed from the user’s view, so the details of the system will not be shown.</li>
+<li>Container: Containers here do not refer to container virtualization like docker. A container in the C4 model refers to an entity that can be deployed separately, such as an API server, database, message queue, etc.</li>
+<li>Component: Components are the modules under a container. It contains the interaction between modules or the association between domains in the domain-driven design.</li>
+<li>Code: The last is the source code under the component. But when describing the architecture, we will not show the details of the code, it is enough to be able to describe the relationship between objects.</li>
+</ol>
+<p>From above description, the purpose of the C4 model is to explain interactions and relationships within the system. From the largest unit, user interaction, to the interaction between objects and objects, these interactions help architects get a complete picture of the entire system and know if such interactions are appropriate.</p>
+<p>For example, a small application might look like this from the container’s perspective.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*PEkVngC60vSac2xHYD-8zA.png"></p>
+<p>Some developers may think that such a diagram is too simple, however, such a simple diagram is enough for architects to discover possible problems.</p>
+<ol>
+<li>Scalability: When the number of users increases, is there any way for the API to handle it? Even if API can satisfy the throughput, what about the database?</li>
+<li>Reliability: When the API crashes, is there a risk of a SPOF (single point of failure)?</li>
+<li>Efficiency: When the amount of data increases and the response time of the database becomes slower, how will users feel?</li>
+</ol>
+<p>Such non-functional requirements can be analyzed from a relationship diagram. The above are just a few common non-functional requirements, see the full list in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Non-functional_requirement">wiki</a>.</p>
+<p>Then, take the perspective of components as an example. A simple social media might be as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*AVAlLR9vrguTtn3Ni5aaZA.png"></p>
+<p>This is also a very intuitive diagram. It looks like it just lists the various modules. Is such a diagram really worth it?</p>
+<p>Yes. Absolutely.</p>
+<p>When we assess the degree of coupling of an architecture, we usually use <code>instability</code> as an indicator.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*5z0QY1a4vuQL0fqUSBFtVQ.png"></p>
+<p><code>Ce</code> refers to the number of efferent couplings and <code>Ca</code> refers to the number of afferent couplings. The closer to <code>0</code> the more stable the module is, and vice versa. Regarding coupling, <a target="_blank" rel="noopener" href="https://betterprogramming.pub/temporal-coupling-in-code-e74899f7a48f">I have an article</a> that specifically describes the problem of coupling.</p>
+<p>For this social media, its <code>instability</code> of Recommendation module is <code>0.8</code>. This means that the recommendation is unstable. As long as any dependency module is modified, no matter the interface or behavior, it will directly or indirectly affect the recommendation system.</p>
+<p>The architect analyzes the entire architecture through such a simple diagram. Based on different fields and different architectures, there will be completely different decoupling methods. Without a complete view of the existing architecture, the architect can only provide some innocuous comments.</p>
+<h3 id="User-stories-and-use-cases"><a href="#User-stories-and-use-cases" class="headerlink" title="User stories and use cases"></a>User stories and use cases</h3><p>How to write good user stories and use cases I have covered in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">previous article</a>.</p>
+<p>In this section I just echo the C4 model above. In fact, the user story also corresponds to the context in the C4 model. To have a good story, there is a way to draw the correct context.</p>
+<h3 id="Design-decisions"><a href="#Design-decisions" class="headerlink" title="Design decisions"></a>Design decisions</h3><p>Design decisions are at the heart of the entire design review. The whole design review is about examining whether each design decision is the right one. The C4 model, user stories and use cases mentioned earlier are only meant to provide background information for the whole review, in order to understand the meaning and risks behind each decision.</p>
+<p>But what is the design decision?</p>
+<p>It feels like a simple word, but in practice it is hard to feel it. So I offer a simple formula:</p>
+<blockquote>
+<p><em>Why do</em> A <em>(instead of</em> B*)?*</p>
+</blockquote>
+<p>For instance,</p>
+<ol>
+<li>Why use MySQL instead of MongoDB?</li>
+<li>Why use cache? (instead of accessing the database directly)</li>
+<li>Why use the synchronous restful API instead of the asynchronous CQRS?</li>
+</ol>
+<p>The questions mentioned above are a bit broad, so let’s continue to narrow them down.</p>
+<ol>
+<li>Why do we want the recommendation system to use synchronous calls to get data from the post system?</li>
+<li>Why is this function split into two sub-functions?</li>
+<li>Why is this line of source code written like this?</li>
+</ol>
+<p>Have you noticed? It’s all design decisions, from system orientation to the reason for each line of code, except that in a design review you may not actually be asked what the reason for each line is. Thus, what kind of decisions should be brought up for discussion?</p>
+<p>My opinion is that the first three <strong>C</strong>’s of the C4 model are worthy targets for discussion. By writing down the C4 model and listing the purpose and reason for each line and block, architects will be able to identify potential problems and hidden risks among the many functional and non-functional requirements.</p>
+<p>As for the last <strong>C</strong>, code, let’s leave it to the developers to find out during the code review.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article explains the three main items of a good design review. The C4 model gives the architect a quicker overview of the system; then the user stories and use cases that the feature will address so that the architect understands what the functional requirements are; and finally the developers’ design decisions so that the architect knows the trade-offs behind each decision.</p>
+<p>In this way, everyone is on the same page. The architect can make his recommendations and point out the risks behind the system, and the developers can understand the direction of the system’s evolution and the problems that need to be solved.</p>
+<p>It’s important to remember to provide enough information so that the architect can make the right recommendations, otherwise you’ll just get hot air.</p>
+<p>In my previous articles, I have actually explained the different design decisions, hoping that the analysis will make you aware of where decisions need to be made and how they should be made.</p>
+<ul>
+<li>Why do we need to define a repo? <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/whats-difference-between-unit-test-and-integration-test-aae6ef13220">Dependency Injection</a></li>
+<li>Why do we need layers? <a target="_blank" rel="noopener" href="https://lazypro.medium.com/layered-architecture-clarification-e55b69d60e98">Layered Architecture</a></li>
+<li>How to evolve a system? <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">Shift from Monolith to CQRS</a></li>
+<li>How to decouple? <a target="_blank" rel="noopener" href="https://betterprogramming.pub/temporal-coupling-in-code-e74899f7a48f">Event-driven architecture</a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-prepare-a-design-review-like-an-expert-85d2ab85d7f5">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Implement-Event-driven-Architecture-With-Minimal-Effort/20220220/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Implement-Event-driven-Architecture-With-Minimal-Effort/20220220/" class="post-title-link" itemprop="url">Implement Event-driven Architecture With Minimal Effort</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-02-21 01:16:29" itemprop="dateCreated datePublished" datetime="2022-02-21T01:16:29+08:00">2022-02-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Implement-Event-driven-Architecture-With-Minimal-Effort"><a href="#Implement-Event-driven-Architecture-With-Minimal-Effort" class="headerlink" title="Implement Event-driven Architecture With Minimal Effort"></a>Implement Event-driven Architecture With Minimal Effort</h3><h4 id="Temporal-coupling-is-the-most-overlooked-pitfall"><a href="#Temporal-coupling-is-the-most-overlooked-pitfall" class="headerlink" title="Temporal coupling is the most overlooked pitfall"></a><em>Temporal coupling is the most overlooked pitfall</em></h4><p><img src="https://cdn-images-1.medium.com/max/800/0*WLldaPqvSOjRmN8s"></p>
+<p>Last time, we <a target="_blank" rel="noopener" href="https://betterprogramming.pub/temporal-coupling-in-code-e74899f7a48f">explained that temporal coupling</a> can be effectively solved through event-driven architecture. Among them, we discussed the three approaches separately. Starting with the lowest reliability, simply using the event emitter can solve most of the cases with the least effort; secondly, in order to further improve the reliability, a message queue can be introduced to ensure that the event will be executed at least once. Finally, implement event sourcing to ensure that events are not lost at all.</p>
+<p>Nevertheless, in organizations with some resource constraints, message queues seem to be out of reach. The resources here include human resources and organizational budget, whether there is no extra manpower to maintain a new messaging service or no extra funds to start a messaging service. Message queuing is one of the high price systems in restricted organizations.</p>
+<p>Therefore, in this article, I will introduce how to achieve decoupling through event-driven architecture with minimal resources.</p>
+<h3 id="System-Overview"><a href="#System-Overview" class="headerlink" title="System Overview"></a>System Overview</h3><p>Why this topic is born? Because one of our products belongs to this restricted organization. Therefore, in the process of system evolution, we gradually improve the reliability by making lots of design decisions.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*K25enigwiBGTjRrQnfCPDQ.png"></p>
+<p>The overall architecture above is the final look of our system. We can see from the picture, there is no message queue. Even so, we still achieve high reliability. At least, if something goes wrong, there is a way to recover.</p>
+<p>The components, alert manager, crontab and DB are all existing in the system, and no additional components are added. We just split the unit originally executed by a function into an emitter and a handler.</p>
+<p>In the next section, I’ll explain how we did it step by step.</p>
+<h3 id="System-Evolution"><a href="#System-Evolution" class="headerlink" title="System Evolution"></a>System Evolution</h3><p>The entire system evolution process has gone through four stages, and we have gradually improved the reliability of the entire system.</p>
+<ul>
+<li>Best effort: In the beginning, we simply split the function into emitter and handler, that’s all. This is the most basic practice, all events are fire-and-forget. Of course, if there is no accident occurred, such an implementation is actually not bad. Decoupling can be done with minimal resources. But as mentioned in the previous article, there are two main problems, <strong>event loss</strong> and <strong>emit loss</strong>.</li>
+<li>Integrate with Alert Manager: Then we add an alert when the handler fails to execute. By writing the necessary information into <code>Elastic Search</code> and presenting it on <code>Kibana</code>, the person in charge can take corresponding actions after receiving an alert from slack. That is to say, we resolve <strong>event loss</strong> through manual recovery.</li>
+</ul>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*iOo7d75YrvR94pEsY9U0LA.png"></p>
+<ul>
+<li>Event sourcing: In order to track events more completely to avoid <strong>event loss</strong> and <strong>emit loss</strong>, we use the existing database to implement a simplified version of event sourcing. Before emitting the event, the emitter writes a metadata into the database and marks the expected handler. If the writing to the database fails, it is regarded as an event emission failure, and the alert manager will be triggered. The handler also updates itself into the database when it completes the event. For the example mentioned above, the metadata of the event looks like this:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    eventName: &quot;purchased&quot;,  </span><br><span class="line">    createAt: &quot;2022/01/01 1:11:11&quot;,  </span><br><span class="line">    expected: [&quot;giveCoupon&quot;, &quot;lottery&quot;],  </span><br><span class="line">    status: 0, // 0: emitted, 1: timeout, 2: processed  </span><br><span class="line">    done: [],  </span><br><span class="line">    args: [&quot;user A&quot;, 5000]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*EURDW5EBuwGQbdqIsU692A.png"></p>
+<ul>
+<li>Apply crontab plus event idempotency: At this moment, it is the same as the previous complete architecture diagram. All the above steps have a fatal flaw, and it needs to be manually recovered by humans. Although this can make sure that the problem can be solved eventually, the mean time to recovery (MTTR) will be pretty long. Therefore, the entire recovery mechanism can be further enhanced, through the workflow event pattern introduced in <a target="_blank" rel="noopener" href="https://lazypro.medium.com/design-patterns-of-event-driven-architecture-bf0121cfda7b">my previous article</a>. Periodically check which events are not executed correctly through a crontab, and then rerun it.</li>
+</ul>
+<p>There are two important points worth noting. First, the processing of each event must be idempotent, which is very important even when using message queues. Because message queues provide the guarantee of at-least-once, not exactly-once. Second, even with idempotency, there should be an upper bound on retries. If the retry fails several times, we still have to notify the person in charge to deal with follow-up matters.</p>
+<h3 id="Trade-off"><a href="#Trade-off" class="headerlink" title="Trade-off"></a>Trade-off</h3><p>In fact, the above architecture has a lot to discuss. For example,</p>
+<ul>
+<li>Know which handlers are expected when the emitter writes to the database. In other words, the emitter is somehow coupled to the handler. However, in my opinion, such coupling is acceptable. As long as the coupling can be reduced through appropriate coding, for instance, there is a global mapping table to have the relationship between each event and handlers, so this can be regarded as a configuration rather than a coupling.</li>
+<li>Retry in the handler instead of crontab. Each has its own advantages. Retrying in the handler can recover the error as soon as possible, but sometimes the main reason for the failure of the handler is database congestion, and retrying immediately will further increase the load on the database.</li>
+<li>The data are inconsistent. The handler executes successfully but the update fails. Using idempotency to ensure that even repeated execution will not cause problems. On the other hand, the task of the emitter is executed successfully but fails to write to the database, which has to be re-emitted manually. This can be done with a more complex mechanism to implement automatic retries, but at the cost of more complexity, I don’t feel it’s worth it for the corner case where the write fails.</li>
+</ul>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we discuss some of the trade-offs some restricted organizations face with event-driven architecture. It has to be said that event-driven architecture itself is a highly complex architecture, and whether it is really suitable in small organizations has always been a matter of debate. However, this article provides a simple way to implement event-driven architecture on a small system. In addition to not creating new components, it does not generate too much coding complexity, and it is an easy-to-practice implementation.</p>
+<p>Still, it’s not easy to find the right approach for each organization in this long list of design decisions. Behind every straightforward answer, there are many considerations and possible risks. When I’m designing a system, especially a distributed system, I always remind myself to be careful with FLP Theorem.</p>
+<blockquote>
+<p><em>No completely asynchronous consensus protocol can tolerate even a single unannounced process death</em></p>
+</blockquote>
+<p>In simple english, it is Murphy’s law.</p>
+<blockquote>
+<p><em>Anything that can go wrong will go wrong.</em></p>
+</blockquote>
+<p>How to be as reliable as possible with limited resources, whether in terms of time, manpower, or cost, is the most interesting part of system design.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/implement-event-driven-architecture-with-minimal-effort-182c3bbe5524">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Understand-Temporal-Coupling-in-Code/20220213/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Understand-Temporal-Coupling-in-Code/20220213/" class="post-title-link" itemprop="url">Understand Temporal Coupling in Code</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-02-14 01:00:51" itemprop="dateCreated datePublished" datetime="2022-02-14T01:00:51+08:00">2022-02-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Understand-Temporal-Coupling-in-Code"><a href="#Understand-Temporal-Coupling-in-Code" class="headerlink" title="Understand Temporal Coupling in Code"></a>Understand Temporal Coupling in Code</h3><h4 id="We-often-talk-about-coupling-what-exactly-is-coupling"><a href="#We-often-talk-about-coupling-what-exactly-is-coupling" class="headerlink" title="We often talk about coupling, what exactly is coupling?"></a><em>We often talk about coupling, what exactly is coupling?</em></h4><p><img src="https://cdn-images-1.medium.com/max/800/0*UrvZqN0L9uK6XzO4"></p>
+<p>Generally, there are three types of component coupling.</p>
+<ol>
+<li>Afferent coupling: The task of the A component must depend on the implementation of B, C, and D.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*SSCMX0zM8-8Gws4VXwep5g.png"></p>
+<ol start="2">
+<li>Efferent coupling: After the task of the A component is completed, B, C, D must be executed.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*rLqf9u2kJOHIGL8LcEBgVg.png"></p>
+<ol start="3">
+<li>Temporal coupling: After the task of the A component is completed, B and C must be executed. In addition, B is earlier than C.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*tjkqnGevNGSW5zLVn-sJkw.png"></p>
+<p>The components mentioned here can be source code level, module level or even service level based on the granularity.</p>
+<p>In this article we will dive into the temporal coupling in particular, because this is the most common and most overlooked pitfall. First we describe in Node.js as follows:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*toZFte37Li_5D7I_g203bw.png"></p>
+<p>At this point, we found that this is really generic. Almost all of our code looks like this. It is normal to do three things in sequence in a method, isn’t it?</p>
+<p>Let’s take a more concrete example. Suppose we have an e-commerce with a function, <code>purchase</code>. Therefore, we begin to code in a simple way.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Bq3Btv9FvTOmWN0h4hKuMQ.png"></p>
+<p>First summarize the price of all items in the cart. And then call the payment service to deal with the credit card. Simple, right?</p>
+<p>Alright, the marketing team wants to let people who spend over 1,000 dollars get a discount coupon, so we continue to modify our <code>purchase</code>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*LlZYz55Pw54uoS6Zsy2CaA.png"></p>
+<p>This feature is also quite common, and then the sales team found that coupon is a good promotion method, so they proposed that people who reached 5,000 dollars could get a lottery chance. This <code>purchase</code> keeps growing.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*izql41NdZm2gQhxaFdCGyQ.png"></p>
+<p>This is a temporal coupling. Either <code>giveCoupon</code> or <code>lottery</code> actually depend on <code>purchase</code>, which must be done within the life cycle of <code>purchase</code>. Once the feature requirement becomes larger and larger, the performance of the entire <code>purchase</code> will be continuously dragged down. Especially, the <code>lottery</code> usually requires huge calculations, and the <code>purchase</code> is forced to wait for the <code>lottery</code> success to be considered a success.</p>
+<h3 id="De-couple-timing-by-domain-events"><a href="#De-couple-timing-by-domain-events" class="headerlink" title="De-couple timing by domain events"></a>De-couple timing by domain events</h3><p>From the previous section, we learned that <code>purchase</code> should only need to process payments, the rest of the behavior is additional, and should not be in the same life cycle as <code>purchase</code>. In other words, even if the <code>giveCoupon</code> fails, it should not affect <code>purchase</code> or <code>lottery</code>.</p>
+<p>There is a method in domain-driven development called domain events. When a task is completed, it will issue an event, and the handler that cares about the event can take the corresponding action after receiving the event. By the way, this approach is also called the <em>Observer Pattern</em> in the design pattern. In domain-driven development, the “notification” contains the domain’s ubiquitous language, hence the notification is named domain events.</p>
+<p>Therefore, let’s modify <code>purchase</code> a little bit in the Node’s way.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*0lcfBJKz0ywUgRvhfb-kFg.png"></p>
+<p>With events, we can completely decouple <code>giveCoupon</code> and <code>lottery</code> from <code>purchase</code>. Even if any one of the handler fails, it does not impact the original payment flow.</p>
+<p>Whereas <code>purchase</code> only needs to concentrate on the payment process. When the payment is successful, emit the event and let other functions take over.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*6UY2qnE1kDwMGvAvxIij7w.png"></p>
+<p>If there are more needs in the future, there is no need to change the original <code>purchase</code>, just add a new handler. And this is the concept of decoupling. Here we remove the code-level coupling and timing-level coupling.</p>
+<h3 id="How-to-handle-event-loss"><a href="#How-to-handle-event-loss" class="headerlink" title="How to handle event loss"></a>How to handle event loss</h3><p>In <a target="_blank" rel="noopener" href="https://towardsdev.com/resilient-caching-in-redis-a5b3c1a49f14">my previous article</a>, we mentioned that whenever failures can happen, we have to expect them and handle them gracefully. This is called <a target="_blank" rel="noopener" href="https://www.bmc.com/blogs/resilience-engineering/">resilience engineering</a>.</p>
+<p>When we decouple the coupons and lottery through domain events, we will immediately face a problem. What if the event is lost? The payment is finish, but the coupon has not been issued, which is definitely a big problem for the customer.</p>
+<p>In other words, how do we ensure that the emitted event will be executed. This is exactly why message queues were introduced into the system.</p>
+<p>We discussed the <a target="_blank" rel="noopener" href="https://selectfrom.dev/message-queue-in-redis-9efe0de2c39c">message queue</a> before, there are three different levels of guarantees in message delivery, which are:</p>
+<ul>
+<li>At most once</li>
+<li>At least once</li>
+<li>Exactly once</li>
+</ul>
+<p>Most message queues have the at-least-once guarantee. That is to say, through the message queue we can make sure that all events can be executed at least once. This also ensures that messages are not lost.</p>
+<p>Thus, to avoid event loss, we will change <code>emitter.emit</code> to a queue submission with like RabbitMQ or Kafka. At this stage, we have introduced decoupling at the system level, i.e., make event producers and consumers belong to different execution units.</p>
+<h3 id="How-to-handle-emitting-loss"><a href="#How-to-handle-emitting-loss" class="headerlink" title="How to handle emitting loss"></a>How to handle emitting loss</h3><p>The story isn’t over yet. We can already ensure that emitted events are executed. What if the event isn’t sent at all? Continue to take <code>purchase</code> as an example, when <code>payByCreditCard</code> has been successful, but it doesn’t send the event due to the system crashes for unexpected reasons. Then, even with a message queue, we still get the incorrect result.</p>
+<p>In order to avoid this problem, we can leverage the event sourcing. In <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/distributed-transaction-introduction-1cd105c830a2">Distributed Transaction</a> and <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">CQRS</a>, I have described the core concept of event sourcing.</p>
+<p>Before the event is emitted, store the event into a storage first. After the handler finishes processing the event, then mark the event in the storage as “processed”.</p>
+<p>There is one thing should be aware, the writing of events and the payment must be under the same transaction. In this way, as long as the payment is successful, the event will also be written successfully. Finally, we can periodically monitor for overdue events to know what went wrong.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This time we are still going through a step-by-step evolution of the system as we did in <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">Shift from Monolith to CQRS</a> to let you know how to decouple when systems become large and complex. At the beginning, we first decoupled source code and execution timing through domain events; then we introduced message queues with message producers and consumers to achieve system-level decoupling.</p>
+<p>As I said before, a system evolves to solve a problem, but it also creates new problems. We can only choose the most acceptable solution and seek compromises in complexity, performance, productivity and other factors.</p>
+<p>Splitting a complete action into different execution units must encounter inconsistencies. In resolving inconsistencies, there are many considerations, such as:</p>
+<ul>
+<li>Regardless of whether the event will be lost or not, just use the simplest architecture, <code>EventEmitter</code>. This approach is the simplest, and there may be no problem in 80% of the cases, but what should we do if there is a problem?</li>
+<li>Attempting to be as reliable as possible, so introduce message queues, which should be 99% sure that there will be no problems. But there is still 1%, is such a risk bearable?</li>
+<li>Implementing event sourcing comes at the cost of increased complexity and performance may be affected. Is this acceptable?</li>
+</ul>
+<p>Just like I always say, there is no perfect solution to system design. Each organization has a different level of risk tolerance. In various indicators, we look for the most acceptable solution for ourselves and think about the risks and failures we face at any time. As a result, everyone should be able to build a resilient system.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/temporal-coupling-in-code-e74899f7a48f">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum/20220206/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum/20220206/" class="post-title-link" itemprop="url">How Kanban Works and Why I Prefer It Over Scrum</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-02-07 01:19:06" itemprop="dateCreated datePublished" datetime="2022-02-07T01:19:06+08:00">2022-02-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum"><a href="#How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum" class="headerlink" title="How Kanban Works and Why I Prefer It Over Scrum"></a>How Kanban Works and Why I Prefer It Over Scrum</h3><h4 id="Improve-work-productivity-by-using-Agile-development"><a href="#Improve-work-productivity-by-using-Agile-development" class="headerlink" title="Improve work productivity by using Agile development"></a>Improve work productivity by using Agile development</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*YYnxYV9xvzWkFkwd"></p>
+<p>We have talked about using <a target="_blank" rel="noopener" href="https://lazypro.medium.com/trunk-based-development-can-help-4bb425595c00">trunk-based development</a> to improve software development productivity. In fact, to dramatically increase productivity, you must apply multiple methods, which is why there are so many agile methodologies, two of which are well-known agile methods: Scrum and Kanban.</p>
+<p>Scrum is currently the most used by most organizations. Nevertheless, it is not easy to use Scrum well. In the many agile methodologies, Scrum is the most variant, and it can be said that there are a hundred Scrum practices in a hundred organizations.</p>
+<p>This is because the original Scrum has many “rules”, which cannot perfectly match the existing organizational structure of each organization. According to <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Conway%27s_law">Conway’s law</a>, most software architectures are closely related to organizational structures, resulting in various agile methods that can only provide the prototype and cannot be applied entirely.</p>
+<p>This article will briefly introduce the purpose of the agile method and Scrum, as well as the problems encountered by running Scrum, and then describe the main topic: Kanban.</p>
+<h3 id="Why-not-Waterfall"><a href="#Why-not-Waterfall" class="headerlink" title="Why not Waterfall?"></a>Why not Waterfall?</h3><blockquote>
+<p><em>Why do we need agile methods?<br>What exactly needs to be agile?</em></p>
+</blockquote>
+<p>First, let’s define what agile is.</p>
+<p>The purpose of agile is to generate value “faster”. So, what is the value? Frankly speaking, it is something that can make money. In other words, it usually exists in the form of features on a product. That is to say, only when the feature or product is delivered to the customer can generate the real value, and the purpose of agile development is to accelerate the delivery of this value stream.</p>
+<p>When we evaluate the delivery speed of the value stream, one indicator is usually used: lead time. The entire time from a feature request is generated to the requirement is actually delivered to the customer is called lead time.</p>
+<p>Under traditional waterfall development, this lead time can take several months, which doesn’t sound agile at all. Moreover, if this requirement is implemented halfway, it turns out that this is not what the customer wants, then all the resources invested are wasted.</p>
+<p>Therefore, modern software development focuses on dividing requirements into small pieces, and each small pieces has its own value. By continuously delivering these small values, the product iteration cycle can be faster.</p>
+<h3 id="Scrum"><a href="#Scrum" class="headerlink" title="Scrum"></a>Scrum</h3><p>I believe most of you have heard or even experienced the Scrum development process. From the conclusion of the previous section, we can know the core spirit of Scrum is to decompose large requirements into small requirements through a preset short cycle: Sprint. And, each small requirement is mapped in the form of a user story. It is important to have deliverable outputs at the end of each Sprint.</p>
+<p>There are three roles in Scrum.</p>
+<ol>
+<li>Product Owner: Obviously, this role is the owner of the product . He is like the traditional PM and sales, as a gateway between the development team and the customer, to find out what the customer desires.</li>
+<li>Scrum Master: The person, who is the most familiar with the Scrum process in the Scrum team, is responsible for hosting every “Scrum-defined” event, and must also act as the coordinator of product requirements and the development teams.</li>
+<li>Functional Teams: This role represents the development teams, the people who implement the product requirements. There are many different divisions depending on the team size and nature of the teams, such as frontend, backend, QA, etc.</li>
+</ol>
+<p>A Sprint consists of several different events.</p>
+<ol>
+<li>Planning: This event is used to decide what requirements should be taken in this Sprint. At this stage, each small requirement is usually made into a card with its cost points. Each fixed Sprint is equipped with a fixed number of points, that is to say, in this cycle, which tasks should be completed according to the number of points and priorities.</li>
+<li>Developing: After each member receives the assigned card, they start to work.</li>
+<li>Retroactive: At the end of Sprint, review the status of everyone’s cards and ensure the value that this Sprint can deliver, as well as review the performance of this Sprint.</li>
+</ol>
+<p>The above description briefly describes a complete Scrum development process. As far as we know, Scrum is complex, there are many dedicated roles and events, and there are many overheads for Scrum. Taking the team I used to work for as an example, Planning will take half a day, and Retroactive will also take half a day, plus there are regular meetings such as stand-up in the morning, the basic expenses alone can take two working days.</p>
+<p>In addition, estimating the number of points is also an imprecise practice. Who should set the price? Who will assign it? How much points can a cycle handle? It takes a long time to get used to each other before we can gradually get on the right way.</p>
+<p>Furthermore, how should the allocation of roles be configured? Each organization usually already has a basic organizational structure, and it is extremely difficult to extract roles that can adapt to Scrum.</p>
+<p>All of the above situations are even worse if there are several parallel Scrums. Especially when someone is in multiple Scrum teams, regular meetings can take up most of the time.</p>
+<h3 id="Kanban"><a href="#Kanban" class="headerlink" title="Kanban"></a>Kanban</h3><p>To sum up, Scrum is not efficient for small teams. Therefore, the teams I lead use another agile method: Kanban.</p>
+<p>Compared with Scrum, Kanban is used by fewer teams. The main reason is that most teams don’t use Kanban correctly and thus don’t see the benefits of Kanban. Most people just plan the various stages of the Kanban board, and then place the cards on the lanes like Scrum, and then move them through stage by stage. In the end, they didn’t get any benefit, just using Kanban in form, and then going back to Scrum, after all, the card making method is the same.</p>
+<p>Because of this, in this section I will first introduce the purpose of Kanban, then explain the key to using Kanban, and finally describe the development process of Kanban.</p>
+<h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*JXSc23QMyPMqu92dBPKZvg.png"></p>
+<p>Kanban is just like its appearance, it is actually a view of the value stream, and each stage of the value stream should be presented in Kanban. Assuming that your organization’s development process is, analysis, design, implementation, testing, and release, then there should be five stages on the Kanban board.</p>
+<p>As mentioned in the first section, the agile method is to accelerate the value stream; therefore, Kanban presents the entire value stream in a concrete way, and can also see the spending time of each task. When there is a card that cannot move to the next stage for a long time, it means that there is a problem, and the task status should be checked immediately and appropriate measures should be taken right away.</p>
+<p>For example, If the task content covered by the card is too large, the card should be divided into two immediately. And, let someone take over the small cards that are divided out. By checking the status of each card, the delivery of value can be accelerated.</p>
+<h3 id="Keys"><a href="#Keys" class="headerlink" title="Keys"></a>Keys</h3><p>There are only three key points to using Kanban correctly without any defined events.</p>
+<ol>
+<li>Cards can only be moved backward, not forward. Each stage of Kanban represents the stage of the value stream. Like the flow of water, water only flows down, and value only flows up to the customer. For instance, suppose one of the stages is development and the other is testing, even if a bug is found during testing, the card will not go back to development, instead, it should remain in testing.</li>
+<li>Define the Definition of Done (DoD): DoD is important for Kanban, what conditions must be met to go from one stage to the next is about quality. Taking development and testing as an example again, if the condition of DoD is that the unit test coverage reaches 80%, the card cannot enter the testing phase until this condition is met. On the other hand, it is also important to define a “measurable” DoD. It is recommended to turn the DoD of each stage into a checklist, which can make sure that every card movement is compliant and qualified.</li>
+<li>Determine Work-in-Progress (WIP): WIP is arguably the most important concept of using Kanban. Each stage must define its WIP, that is, the maximum number of cards that can be accepted. If the WIP of the next stage is full, even if the DoD has been completed, the card still cannot move to the next stage. The purpose of WIP is to be able to see at a glance where the value stream is stuck. As mentioned in the previous section, once a value stream gets stuck, immediate action must be taken. How do you know it’s stuck? The spending time of a certain card is an indicator, but when the number of cards is large, this indicator is easily ignored. Therefore, WIP is a more effective enforcement measure, as long as you see that the WIP is full and the card is forced to wait, then there is something blocking.</li>
+</ol>
+<h3 id="Working-Flow"><a href="#Working-Flow" class="headerlink" title="Working Flow"></a>Working Flow</h3><p>In this section, I will explain how my team uses Kanban. First of all, the Kanban boards we used are: open, to-do, design, develop, test, released, and closed.</p>
+<ul>
+<li>Open: All the feature requirements will be placed here after they are issued. At this time, the content of this card will be huge, and the time-consuming and so on are not estimated.</li>
+<li>To-do: According to the priority, the cards are taken out from the open, evaluated and split, and a large card will be split into several small cards and put into to-do. The working time per card is about 1–2 weeks. The WIP of the to-do will be set slightly larger, which represents the capacity of my team. We will queue up to do it. If the to-do is full, it means that my team has currently exceeded the load.</li>
+<li>Design: In the to-do stage, the due date of each card should be planned, and the design stage will further determine the spending time of the card in each stage. If it gets stuck on a stage in the future, it means that something is wrong. The DoD in the design stage is to produce the design documents included in the user story and use cases mentioned in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">my previous article</a>.</li>
+<li>Develop: After entering the development stage, it is the time for the feature development. At this time, the focus is whether the expected time and WIP are exceeded. WIP is defined here as roughly twice the size of the team. As for DoD, the unit test is completed, and the integration test on the local environment must be passed.</li>
+<li>Test: Cards in this stage have actually deployed to the staging or pre-production environment. Due to <a target="_blank" rel="noopener" href="https://lazypro.medium.com/trunk-based-development-can-help-4bb425595c00">trunk-based development</a>, every code commits into the trunk, and each test environment is released from the trunk. It is tested by QA in a pre-production environment, and after completion, it is ready to the release stage.</li>
+<li>Released: The feature has deployed to the production environment. At this stage, we will pay attention to a period of time to clarify whether the feature is working properly, and the time is DoD. If the observation time is satisfied, the card will enter the final stage: closed.</li>
+<li>Closed: Features in this stage are basically working normally, and every once in a while we will review the number of deliveries as our performance and then achieve.</li>
+</ul>
+<h3 id="Why-do-I-Prefer-Kanban"><a href="#Why-do-I-Prefer-Kanban" class="headerlink" title="Why do I Prefer Kanban?"></a>Why do I Prefer Kanban?</h3><p>As you know from the description in previous sections, the use of Kanban is flexible and can be easily applied regardless of the organizational structure. There will be no fixed regular meetings and no dedicated roles, and everyone can still develop like before. The Kanban board is just a visual tool that provides managers with an intuitive view of the progress of the work.</p>
+<p>The whole Kanban approach has no complicated rules, just the value stream, DoD, and WIP defined by each organization based on their existed working processes. By mastering the purpose and principles of Kanban, it is easy for organizations to implement their own customizations on Kanban, which is also the benefit of Kanban.</p>
+<p>As a leader experienced with Scrum and Kanban, I will continue to lead my team with the Kanban method in the future. After all, meetings are such a waste of time.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/improve-the-productivity-by-using-agile-development-778c7f069c6a">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/" class="post-title-link" itemprop="url">Designing Software Using Clean Architecture: Domain-Driven Design</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-01-31 00:38:31" itemprop="dateCreated datePublished" datetime="2022-01-31T00:38:31+08:00">2022-01-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Explained-with-a-code-sample"><a href="#Explained-with-a-code-sample" class="headerlink" title="Explained with a code sample"></a>Explained with a code sample</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*M0ppuIun1CRj3WJX"></p>
+<p>This article is the last of this series. We have already described the problem encountered in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">data-oriented design</a>. In this article, we will introduce a better way to tackle a feature requirement.</p>
+<p>We continue the previous example, a sign-in mission, and try a different design flow. Before we start, let’s review the onion architecture again.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*xAqzUzJ40tAvdG2Q.jpg"></p>
+<p>In order to make it easier to understand the process to be introduced later, let’s first define several important legends of this diagram.</p>
+<ul>
+<li>Entity: In clean architecture, entity means the business logic. Different from the entity in domain-driven design, the entity here can be realized as the domain in domain-driven design.</li>
+<li>Use cases: With the domain, the outer layer is use cases, which refers to clients who use domain knowledge to fulfill specific needs. In domain-driven design, it is also known as the domain service.</li>
+<li>Controller: The Controller is quite simple. It is responsible for managing the ingress and egress of the entire domain, including input checking, and converting domain knowledge into a data structure that is presented on the client side.</li>
+<li>DB: The outermost layer is the external dependencies of the system, including the database.</li>
+<li>Arrows: The arrow pointing from the outside to the inside is a reference. The outer module can reference the inner module, but it cannot be referenced from the inside to the outside.</li>
+</ul>
+<p>According to this description, we can know that the order of design should be from the inside to the outside. After the inner layer is established, and then it is able to be referenced by the outer layer. In other words, to complete a design in a clean architecture way, the domain behavior must be defined first, and the database design should be the last. This is the exact opposite of data-oriented design.</p>
+<h3 id="Domain-driven-Design"><a href="#Domain-driven-Design" class="headerlink" title="Domain-driven Design"></a>Domain-driven Design</h3><p>Before starting the actual design, let me explain my usual design process, which also echos the onion architecture.</p>
+<ol>
+<li>Discover user stories (entities)</li>
+<li>Design use cases</li>
+<li>Model domain objects</li>
+<li>Implement unit tests</li>
+<li>Code</li>
+</ol>
+<p>In later sections, I will also design with this process. The problem we want to solve is to build a sign-in mission mentioned earlier.</p>
+<h3 id="Discover-user-stories"><a href="#Discover-user-stories" class="headerlink" title="Discover user stories"></a>Discover user stories</h3><p>To start a design, we must be able to understand the whole picture of the entire requirement, and user stories are a language that can describe the requirements. In our needs this time, the stories are similar to the following.</p>
+<ol>
+<li>Get corresponding rewards when you sign in consecutively.</li>
+<li>Display the sign-in status and received rewards for this cycle.</li>
+<li>Get 100 diamonds when opening the gift box.</li>
+</ol>
+<p>We convert the descriptions in the requirements document into semantics that developers can understand through an ubiquitous language. With any requirement, there must be a story behind it, and the designer’s job is to discover those stories. On the other hand, for the developers, they implement those stories in coding.</p>
+<h3 id="Design-use-cases"><a href="#Design-use-cases" class="headerlink" title="Design use cases"></a>Design use cases</h3><p>With the story, then we need design the use cases that the story faces. Unlike a story, a use case refers to the outcome of a given user scenario. For example:</p>
+<ol>
+<li>Sign in: When a user signs in for four consecutive days, the first sign-in on the fifth day can get 30 diamonds and a gift box. But the second sign-in got nothing.</li>
+<li>Open the gift box: When opening the gift box, you can get 100 diamonds, but it cannot be opened again.</li>
+</ol>
+<p>From the above description, use cases are actually an extension of user stories and describe details that are not defined in the story. Therefore, from the use cases, we can draw a flowchart to explain the whole user scenario in detail. Let’s take sign-in as an example with a flowchart.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*WtFC6OlXrCqrmlsffaYV4g.png"></p>
+<p>Starting from the top starting point, it is the moment when the sign-in action occurs, so it is represented by <code>SignIn: now</code>. Next, we need to know how long is the difference between this sign-in and the “last sign-in” in days. If it is 0 days, it means that you have already signed in, and there is no reward to get. Or the difference is greater than 1, indicating that the sign-in is not continuous this time, and the entire cycle needs to be reset. In case of 1 exactly, it is continuous sign-in, thus the continuous date is incremented, and the current time is recorded.</p>
+<p>Finally, check the table according to the number of consecutive days to know how many rewards you will get.</p>
+<p>It is also easy to display how many consecutive days you have signed in. Suppose we use list to represent the signed-in records.</p>
+<ul>
+<li>Only sign in for one day: <code>[1, 0, 0, 0, 0, 0, 0]</code></li>
+<li>Sign in for three consecutive days: <code>[1, 1, 1, 0, 0, 0, 0]</code></li>
+</ul>
+<p>Therefore, we can know how many <code>1</code> to insert to the list from <code>counter</code>.</p>
+<p>The flow of opening the gift box is similar, so I won’t explain too much here. The final code will include opening the gift box.</p>
+<h3 id="Model-domain-objects"><a href="#Model-domain-objects" class="headerlink" title="Model domain objects"></a>Model domain objects</h3><p>From the use cases we can know that we will need two very important variables: <code>counter</code> and <code>last</code>. In fact, the rest of the state is determined by these two variables, so we can start modeling.</p>
+<p>In order to describe the entire sign-in mission, I believe that each user will have its own state, so we encapsulate the user state into a domain object called <code>SignInRepo</code>. The Repository in <code>DDD</code> is used here. Then with the user state, we can describe the whole story. There are two actions in the story, <code>signIn</code> and <code>getTimeline</code>, which represent story 1 and story 2 respectively.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7Ayrd6xhBnn8UefYeG6oQg.png"></p>
+<p>Because <code>SignInRepo</code> is defined on the basis of use cases, it is part of the entity in the onion architecture. According to the flowchart, it has two private variables and two public methods. The reason why <code>update</code> has a parameter is that we can see from the flowchart that we only have one operation <code>counter++, set last=now</code>, and <code>now</code> must be passed in from the outside. As for <code>SignInService</code>, it can be known from the name that it belongs to the domain service.</p>
+<p>Once we have domain objects, we can start developing in test-driven development, TDD.</p>
+<h3 id="Implement-unit-tests"><a href="#Implement-unit-tests" class="headerlink" title="Implement unit tests"></a>Implement unit tests</h3><p>In the development process of TDD, we write the corresponding tests according to our user stories at first, and then the actual coding is carried out. Hence, in this section, we’ll explain how to write unit tests with our defined stories and models. Let’s take a regular story as an example, suppose we’ve signed in for six days continuously, and on the seventh day, we’ll get 100 diamonds and a gift box.</p>
+<p>First, write a test based on our story.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">describe(&quot;step1&quot;, () =&gt; &#123;  </span><br><span class="line">  it(&quot;continuous 6d and signin 7th day&quot;, () =&gt; &#123;  </span><br><span class="line">    const user = &quot;User A&quot;;  </span><br><span class="line">    const now = &quot;2022-01-07 1:11:11&quot;;  </span><br><span class="line">    const service = new SignInService(user);  </span><br><span class="line">      </span><br><span class="line">    const timeline1 = service.getTimeline();  </span><br><span class="line">    expect(timeline1).to.deep.equal([1, 1, 1, 1, 1, 1, 0]);  </span><br><span class="line">      </span><br><span class="line">    const result = service.signIn(now);  </span><br><span class="line">    expect(result).to.be.equal(100);  </span><br><span class="line">      </span><br><span class="line">    const timeline2 = service.getTimeline();  </span><br><span class="line">    expect(timeline2).to.deep.equal([1, 1, 1, 1, 1, 1, 1]);  </span><br><span class="line">        </span><br><span class="line">    const result = service.signIn(now);  </span><br><span class="line">    expect(result).to.be.equal(0);  </span><br><span class="line">  &#125;);  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>One of the stories is briefly described above, there is a user, A, who has signed in for six consecutive days, and when he signs in at <code>2022-01-07 1:11:11</code>, it is the seventh day to sign in. He gets 100 diamonds as our expectation.</p>
+<p>But such a story is not complete, because six consecutive sign-ins have not been defined. So let’s modify the test a bit.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">describe(&quot;step2&quot;, () =&gt; &#123;  </span><br><span class="line">  it(&quot;continuous 6d and signin 7th day&quot;, () =&gt; &#123;  </span><br><span class="line">    const user = &quot;User A&quot;;  </span><br><span class="line">    const now = &quot;2022-01-07 1:11:11&quot;;  </span><br><span class="line">    const repo = new SignInRepo(user);  </span><br><span class="line">    repo.restoreSingInRecord(6, &quot;2022-01-06 5:55:55&quot;);  </span><br><span class="line">    const service = new SignInService(repo);  </span><br><span class="line">  </span><br><span class="line">    const timeline1 = service.getTimeline();  </span><br><span class="line">    expect(timeline1).to.deep.equal([1, 1, 1, 1, 1, 1, 0]);  </span><br><span class="line">      </span><br><span class="line">    const result = service.signIn(now);  </span><br><span class="line">    expect(result).to.be.equal(100);  </span><br><span class="line">      </span><br><span class="line">    const timeline2 = service.getTimeline();  </span><br><span class="line">    expect(timeline2).to.deep.equal([1, 1, 1, 1, 1, 1, 1]);  </span><br><span class="line">        </span><br><span class="line">    const result = service.signIn(now);  </span><br><span class="line">    expect(result).to.be.equal(0);  </span><br><span class="line">  &#125;);  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>In order to restore the entire use cases, we newly defined a repo and added an auxiliary method: <code>restoreSingInRecord</code>. This helper can also be used as an interface to retrieve values from the database in future implementations. Subsequently, such a story is complete and can begin to go into the production code.</p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p>In the previous section, we have a complete unit test, and then start implementing <code>SignInRepo</code> and <code>SignInService</code>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*zIdOV_9FZ1y1PUF4-IDhyw.png"></p>
+<p><code>SignInRepo</code> is easy to implement when there is no database, just follow the flowchart to finish <code>update</code> and <code>reset</code>. <code>SignInService</code> is totally implemented in accordance with the use cases, and the flowchart is converted into the actual code.</p>
+<p>In this way, this requirement is half completed, and the remaining process of opening the gift box is basically the same, so I will just post the final result. The full implementation can be seen as follows.</p>
+<h3 id="Summary-of-Domain-driven-Design"><a href="#Summary-of-Domain-driven-Design" class="headerlink" title="Summary of Domain-driven Design"></a>Summary of Domain-driven Design</h3><p>In fact, the above implementation just borrows some DDD terminologies, and does not fully implement DDD’s “prescriptions”. From my point of view, DDD provides a concept that enables people to know the importance of the domain and has the ability to abstract the domain.</p>
+<p>That is to say, it is up to you whether to follow the textbook to implement Entity, Value Object, Aggregate, and Repository or not. It needn’t implement in DDD by following the textbook approach. The implementation depends on the proficiency and understanding of needs.</p>
+<p>In this article, a standard design process is provided, so that everyone can disassemble the original requirements and convert them into models with domain knowledge by following this process.</p>
+<p>The process of implementing the model, it begins with the corresponding tests to achieve test-driven development.</p>
+<p>Of course, in the real world, it is not as simple as the example in this article. But the design process is the same, starting from the story, defining the use cases through the story, then modeling according to the use cases, writing tests according to the stories, and finally implementing it.</p>
+<p>By the way, I explained some design details a while ago, such as:</p>
+<ul>
+<li>Q1: Why do we need to define a repo? <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/whats-difference-between-unit-test-and-integration-test-aae6ef13220">Dependency Injection</a></li>
+<li>Q2: Why do we need layers? <a target="_blank" rel="noopener" href="https://lazypro.medium.com/layered-architecture-clarification-e55b69d60e98">Layered Architecture</a></li>
+<li>Q3: How to evolve a system? <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">Shift from Monolith to CQRS</a></li>
+</ul>
+<p>If you encounter software design problems, you are also welcome to discuss them with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/How-to-Design-Software-in-a-Clean-Architecture-Way/20220123/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/How-to-Design-Software-in-a-Clean-Architecture-Way/20220123/" class="post-title-link" itemprop="url">How to Design Software in a Clean Architecture Way</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-01-24 01:11:28" itemprop="dateCreated datePublished" datetime="2022-01-24T01:11:28+08:00">2022-01-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="A-look-at-the-data-oriented-design-approach"><a href="#A-look-at-the-data-oriented-design-approach" class="headerlink" title="A look at the data-oriented design approach"></a>A look at the data-oriented design approach</h4><ul>
+<li>Part 1, <a target="_blank" rel="noopener" href="https://lazypro.medium.com/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">Data-oriented Design</a></li>
+<li>Part 2, <a target="_blank" rel="noopener" href="https://lazypro.medium.com/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">Domain-driven Design</a></li>
+</ul>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*fdnh2MllxpiW0mcK.jpg"></p>
+<p>There are many articles and books talking about <em>Clean Architecture</em>, but the focus is on why and what, such as why to use an onion architecture, what each layer represents, and what is the <code>SOLID</code> principle.</p>
+<p>However, developers actually want to pay more attention to how, that is, how to write a good program architecture according to those design principles.</p>
+<p>In this article, we try to solve a common architectural problem in a clean architectural way.</p>
+<p>In many mobile games or commercial websites, in order to improve user retention, a sign-in mission is designed. If you sign in, you will get some rewards. When you sign in continuously for a certain number of days, there will be additional <strong>gift boxes</strong> that can be opened, and you will get bonuses after opening. Let’s try to fulfill this requirement together.</p>
+<h3 id="Problem-Domain"><a href="#Problem-Domain" class="headerlink" title="Problem Domain"></a>Problem Domain</h3><p>Users who log in continuously will get diamonds, as shown in the following table:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_AmFxl_4bLq0Vi1m4eTf9w.png"></p>
+<p>To simplify the problem, let’s get a fixed amount of 100 diamonds the gift box is opened each time. For example, if a user signs in for four consecutive days, the user can get 30 and a gift box on the fifth day of sign-in.</p>
+<p>Every time the user enters the homepage, he will see a sign-in map, telling the user how many consecutive sign-ins have been completed in this cycle and how many rewards have been received.</p>
+<h3 id="Design-Phase"><a href="#Design-Phase" class="headerlink" title="Design Phase"></a>Design Phase</h3><p>There are two different design approaches, data-oriented design and domain-driven design. We will start talking about data-oriented design and tell you why it’s not a mainstream design solution.</p>
+<h3 id="Data-oriented-Design-Can’t-Say-Good-Approach"><a href="#Data-oriented-Design-Can’t-Say-Good-Approach" class="headerlink" title="Data-oriented Design (Can’t Say Good Approach)"></a>Data-oriented Design (Can’t Say Good Approach)</h3><p>The data-oriented design means that when we see a problem, we first think about how to store the data, and then manipulate the defined data format to try to solve the original problem.</p>
+<p>Therefore, after getting the question, the first step is to think about what database to use, what schema it will have, and what format the data will exist in.</p>
+<p>Let’s take the sign-in mission as an example. Suppose we design on a small monolith, usually with a relational database, so we first define a table to realize our problem. Define a sign-in table to store the time of each sign-in, so that you can know how many rewards you can get based on the previous sign-in records.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*bVsEN_OV0l2mHsfLfSia3w.png"></p>
+<p>From the above table, if today is <code>2022-01-04</code>, then John can get 15 diamonds when he signs in, and Mary will start a new cycle because she has not signed in consecutively and only get 10 diamonds.</p>
+<p>The logic of the mission will be to filter the sign-in date of a specific user and sort them by date, then retrieve the latest <code>N</code> records. By calculating the total days of the consecutive sign-ins, and then you can know what reward to get this time.</p>
+<p>There is a problem with such design. When the user’s sign-in is not interrupted at all, i.e., the number of consecutive sign-in days is greater than <code>N</code>, then the amount of data is not enough to determine the current reward. Nevertheless, we do not want to expand <code>N</code> to avoid pulling too much data makes the database a bottleneck. Thus, we should try making some changes to the original schema, such as adding a new field, diamond.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*aECKyWRW9iLDbj54SnbvYw.png"></p>
+<p>For John, signing in on <code>2022-01-09</code> will get 10 diamonds because we know the end of the previous cycle was <code>2022-01-07</code>.</p>
+<p>The story is not over yet. When the number of users grow, the performance of RDBMS will be tough. Every time you enter the homepage, you have to pull data from the database, run a complex calculation, and finally see the result. This process is very inefficient.</p>
+<p>In order to improve the efficiency of the homepage, most projects will introduce a cache to record the status of the entire sign-in. However, how do you know if the cache is invalid? Or the cache is actually not invalid, but distorted. I have covered this problem in a previous article <a target="_blank" rel="noopener" href="https://towardsdev.com/resilient-caching-in-redis-a5b3c1a49f14">Resilient Caching</a>. By adding integrity, we can distinguish whether the data is reliable. Once the data is corrupted, we will rebuild the data from the RDBMS.</p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>From the above introduction, we found that even the cache has many aspects to consider, the whole data-oriented design is very complicated, and the process is very struggled.</p>
+<p>Hence, the domain-driven design was born.</p>
+<p>In part 2, we will start designing from Entity, covering use cases, then implementing the unit tests like TDD, and finally completing our mission. I will provide a better design process, and you can follow the steps to simplify every user stories you will encounter. Let’s call it a day. Until next time</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/14/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/16/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

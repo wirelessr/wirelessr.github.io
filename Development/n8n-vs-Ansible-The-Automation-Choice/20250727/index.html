@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Discover why n8n’s visual workflow design beats Ansible for personal automation Recently, n8n has been highly popular on the web, one of the reasons is riding on the AI trend, and the other is because">
+<meta property="og:type" content="article">
+<meta property="og:title" content="n8n vs. Ansible: The Automation Choice">
+<meta property="og:url" content="https://wirelessr.github.io/Development/n8n-vs-Ansible-The-Automation-Choice/20250727/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Discover why n8n’s visual workflow design beats Ansible for personal automation Recently, n8n has been highly popular on the web, one of the reasons is riding on the AI trend, and the other is because">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*MHDiaSrnbJRA_ulNufXKEw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*T1-Imt8DpLO-l1vi.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*Sb5m7Jh4UppFSNll.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*pZVR044r827yPa_d.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*-CdVQSejn_p-DDcV.png">
+<meta property="article:published_time" content="2025-07-27T17:44:02.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.830Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*MHDiaSrnbJRA_ulNufXKEw.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Development/n8n-vs-Ansible-The-Automation-Choice/20250727/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Development/n8n-vs-Ansible-The-Automation-Choice/20250727/","path":"Development/n8n-vs-Ansible-The-Automation-Choice/20250727/","title":"n8n vs. Ansible: The Automation Choice"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>n8n vs. Ansible: The Automation Choice | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Discover-why-n8n%E2%80%99s-visual-workflow-design-beats-Ansible-for-personal-automation"><span class="nav-number">1.</span> <span class="nav-text">Discover why n8n’s visual workflow design beats Ansible for personal automation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What%E2%80%99s-good-about-n8n"><span class="nav-number"></span> <span class="nav-text">What’s good about n8n?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-did-I-abandon-ansible"><span class="nav-number"></span> <span class="nav-text">Why did I abandon ansible?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wrap-Up"><span class="nav-number"></span> <span class="nav-text">Wrap Up</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thank-you-for-being-a-part-of-the-community"><span class="nav-number"></span> <span class="nav-text">Thank you for being a part of the community</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/n8n-vs-Ansible-The-Automation-Choice/20250727/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="n8n vs. Ansible: The Automation Choice | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          n8n vs. Ansible: The Automation Choice
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-07-28 01:44:02" itemprop="dateCreated datePublished" datetime="2025-07-28T01:44:02+08:00">2025-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Discover-why-n8n’s-visual-workflow-design-beats-Ansible-for-personal-automation"><a href="#Discover-why-n8n’s-visual-workflow-design-beats-Ansible-for-personal-automation" class="headerlink" title="Discover why n8n’s visual workflow design beats Ansible for personal automation"></a>Discover why n8n’s visual workflow design beats Ansible for personal automation</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*MHDiaSrnbJRA_ulNufXKEw.png"></p>
+<p>Recently, n8n has been highly popular on the web, one of the reasons is riding on the AI trend, and the other is because n8n has an excellent GUI.</p>
+<p>I used to use Ansible as my main workflow management tool, but I took the opportunity to try n8n for a couple of recent requirements, and I decided to give up ansible on the spot and use n8n only for personal use in the future. Why? Let’s check it out.</p>
+<p>Before we get into the main topic, let’s talk about why we need a workflow management tool such as ansible or n8n.</p>
+<p>When we have a task that we do over and over and over again, we can use a workflow management tool to automate this repeated operation.</p>
+<p>There are many possible scenarios for duplication. For example, when we are doing an approval, and we receive a request for an approval, we will look up the data somewhere and then verify the eligibility of a certain place and then approve or disapprove it.</p>
+<p>On the other hand, when we are managing many homogeneous systems, such as multiple k8s clusters, what we may do is to switch the kube context and then connect to it to find out the specific pod and then play the command to see the result. If there are 10 clusters, then do it 10 times.</p>
+<p>Either way, it’s a duplication that can be automated with a workflow management tool.</p>
+<h3 id="What’s-good-about-n8n"><a href="#What’s-good-about-n8n" class="headerlink" title="What’s good about n8n?"></a>What’s good about n8n?</h3><p>Let’s use the above example to do a demo.</p>
+<p>I need to upload a script to all k8s clusters that collects the state of a pod in each cluster. The collected state is stored in a csv file on the pod, so I have to download the results back. Each cluster has to do this cycle once, so here is my workflow.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*T1-Imt8DpLO-l1vi.png"></p>
+<p>For those who are familiar with n8n, you can see that I don’t use any special node at all, it’s almost all <code>Execute Command</code> and <code>Code</code> nodes, and then interspersed with some control nodes, such as <code>Loop</code> and <code>If</code>.</p>
+<p>This way the whole thing can be automated, I just need to use a n8n built-in form, yes, even the form can be automatically generated by n8n to input parameters and drive the whole process.</p>
+<p>The parameters are just the label of the pod, and some file parameters, such as where to upload the script, where to upload the script to, where to download the file, and where to download the file to. If we feel the built-in form is not pretty, we can write our own webpage to do some file dialog, so we don’t need to write the path by hand.</p>
+<p>You might say that ansible can do it, and that skilled people write ansible very quickly. In fact, I did start out using ansible. Don’t look at this workflow as simple, but ansible is a playbook of almost a thousand lines, mainly for the following reasons.</p>
+<p>Whether you are uploading or downloading, remote or local, you need to determine if the file exists. Determining the existence of a file is not difficult, but passing the status in ansible is quite cumbersome. The state is passed through <code>register</code>, and we have to be careful to avoid repeating keywords, which can lead to hidden problems.</p>
+<p>In addition to state passing, another big problem in ansible is the handling of loops. How to make a task fail with a retry, but continue to run after the retry fails, only to record the state so that it can generate a report on the execution. This is also a headache. It can be done, but it’s a bit of a pain in the ass.</p>
+<p>Let’s take a look at the two scenarios mentioned above and see what they look like in n8n.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*Sb5m7Jh4UppFSNll.png"></p>
+<p>The last two nodes are <code>Execute Command</code> nodes, which are BASH nodes. What they’re trying to do is something like this.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl exec   </span><br><span class="line">--kubeconfig &#123;&#123; $(&#x27;Pick one&#x27;).item.json.kubeconf &#125;&#125;  </span><br><span class="line">&#123;&#123; $(&#x27;Pick one&#x27;).item.json.name &#125;&#125;   </span><br><span class="line">-n &#123;&#123; $(&#x27;Pick one&#x27;).item.json.namespace &#125;&#125;   </span><br><span class="line">-c &#123;&#123; $(&#x27;Pick one&#x27;).item.json.container &#125;&#125;   </span><br><span class="line">-- &#123;&#123; $(&#x27;Keep loop items&#x27;).item.json.command &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>These variables framed in curly brackets are actually the outputs of the previous nodes, and I can specify which node I want to fetch which output from, or even just drag and drop it on the UI.</p>
+<p>Another case is loop processing.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*pZVR044r827yPa_d.png"></p>
+<p>After the previous node generates the list of kube context, simply call a <code>Loop</code> node and iterate. Although n8n has its pitfalls in loop handling, for example, you need to have a node to enrich the loop items, otherwise the node after the <code>Loop</code> will not see the fixed constants.</p>
+<p>But this is much easier to deal with than ansible.</p>
+<h3 id="Why-did-I-abandon-ansible"><a href="#Why-did-I-abandon-ansible" class="headerlink" title="Why did I abandon ansible?"></a>Why did I abandon ansible?</h3><p>Troubleshooting was the final straw for me.</p>
+<p>When I write a huge ansible playbook and run it with high expectations, it fails. The reason for the failure is when the pod I’ve locked with a label in the previous step just dies, then all the subsequent steps will fail. It doesn’t matter, just let it pick the next pod and start again.</p>
+<p>In fact, that’s what I was thinking. But I suddenly realized that I couldn’t change ansible much, because it’s too big and it was written without design, so it’s badly modularized. I didn’t know where to start with a round robin requirement. At that moment, I decided to switch to n8n.</p>
+<p>I’m actually a newbie to n8n, I’ve never used it before, so I followed the instructions on the official website and installed it and started writing.</p>
+<p>First, I reproduced the full playbook, which took me less than half a day to complete by dragging and dropping it through the UI. Then we came to implement the annoying round robin mechanism. That’s the fallback line you see in the workflow.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*-CdVQSejn_p-DDcV.png"></p>
+<p>I simply used redis to make a counter to keep adding up, but during the <code>Pick one</code> phase I would mod the number of running pods, which simply created a round robin mechanism. It really only took me a few minutes to add this mechanism, which I believe is the biggest advantage of n8n.</p>
+<p>How to test such a fast modification can really work, after all, there are not always pods going down, right? In n8n, there is a mechanism called mock output, which requires only one UI click to open and conduct localized tests on the workflow.</p>
+<p>Indeed, there is a similar mechanism in ansible, but the workflow has to be well modularized, otherwise it’s hard to do something similar.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Ansible is a great workflow tool, and I’ve always thought so.</p>
+<p>But the premise is that each workflow must know the whole picture, and be well designed and modularized in order to respond to the subsequent needs.</p>
+<p>In n8n, we don’t need that kind of design. A fancy UI solves a lot of problems. Take the partial test as an example, n8n is so easy to do partial test, each node can be executed individually, and even the output can be simulated directly.</p>
+<p>If the workflow implementation process found that some processes are not taken into account, it is also an easy way to process change in the whole overview.</p>
+<p>It can be said, a well-designed UI solves a lot of difficulties and complexity in ansible development, which is also the reason I abandoned ansible. Sometimes we have a quick idea that needs to be validated, and it’s extremely easy to implement a POC and iterate on the requirements on n8n.</p>
+<p>However, on ansible, just the preliminary design phase alone will take a lot of time and effort.</p>
+<p>Therefore, in the future, I can say as long as it’s a personal requirement, I will always prioritize n8n over ansible, which is what I’ve been using most often in the past.</p>
+<h3 id="Thank-you-for-being-a-part-of-the-community"><a href="#Thank-you-for-being-a-part-of-the-community" class="headerlink" title="Thank you for being a part of the community"></a>Thank you for being a part of the community</h3><p><em>Before you go:</em></p>
+<ul>
+<li>Be sure to <strong>clap</strong> and <strong>follow</strong> the writer ️👏️<strong>️</strong></li>
+<li>Follow us: <a target="_blank" rel="noopener" href="https://x.com/inPlainEngHQ"><strong>X</strong></a> | <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/inplainenglish/"><strong>LinkedIn</strong></a> | <a target="_blank" rel="noopener" href="https://www.youtube.com/@InPlainEnglish"><strong>YouTube</strong></a> | <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>Newsletter</strong></a> | <a target="_blank" rel="noopener" href="https://open.spotify.com/show/7qxylRWKhvZwMz2WuEoua0"><strong>Podcast</strong></a> | <a target="_blank" rel="noopener" href="https://twitch.tv/inplainenglish"><strong>Twitch</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://differ.blog/"><strong>Start your own free AI-powered blog on Differ</strong></a> 🚀</li>
+<li><a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Join our content creators community on Discord</strong></a> 🧑🏻‍💻</li>
+<li>For more content, visit <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>plainenglish.io</strong></a> + <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/n8n-vs-ansible-the-automation-choice-8888c7fd6020">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Development/3-Dev-Tools-That-Transformed-My-Onboarding/20250720/" rel="prev" title="3 Dev Tools That Transformed My Onboarding">
+                  <i class="fa fa-chevron-left"></i> 3 Dev Tools That Transformed My Onboarding
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/AI/SpecForge-The-CLI-Shell-Spec-Driven-Agent/20250810/" rel="next" title="SpecForge: The CLI, Shell & Spec-Driven Agent">
+                  SpecForge: The CLI, Shell & Spec-Driven Agent <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

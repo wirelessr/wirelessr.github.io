@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="According to the report, we can see the event-driven model is a hot topic for the system design. However, designing a good event-driven architecture is quite challenging. We are familiar with the sync">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Design Patterns of Event-driven Architecture">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Design-Patterns-of-Event-driven-Architecture/20211014/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="According to the report, we can see the event-driven model is a hot topic for the system design. However, designing a good event-driven architecture is quite challenging. We are familiar with the sync">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*__KCJ15dla1qq0Rb.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*TzGIitumPt_dW98W.png">
+<meta property="article:published_time" content="2021-10-14T01:45:39.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.822Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*__KCJ15dla1qq0Rb.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Design-Patterns-of-Event-driven-Architecture/20211014/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Design-Patterns-of-Event-driven-Architecture/20211014/","path":"Architecture/Design-Patterns-of-Event-driven-Architecture/20211014/","title":"Design Patterns of Event-driven Architecture"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Design Patterns of Event-driven Architecture | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Channel-monitoring-pattern"><span class="nav-number">1.</span> <span class="nav-text">Channel monitoring pattern</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consumer-supervisor-pattern"><span class="nav-number">2.</span> <span class="nav-text">Consumer supervisor pattern</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Producer-control-flow-pattern"><span class="nav-number">3.</span> <span class="nav-text">Producer control flow pattern</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thread-delegate-pattern"><span class="nav-number">4.</span> <span class="nav-text">Thread delegate pattern</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Workflow-event-pattern"><span class="nav-number">5.</span> <span class="nav-text">Workflow event pattern</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary"><span class="nav-number">6.</span> <span class="nav-text">Summary</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Design-Patterns-of-Event-driven-Architecture/20211014/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Design Patterns of Event-driven Architecture | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Design Patterns of Event-driven Architecture
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-10-14 09:45:39" itemprop="dateCreated datePublished" datetime="2021-10-14T09:45:39+08:00">2021-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>According to the <a target="_blank" rel="noopener" href="https://www.gartner.com/ngw/globalassets/en/information-technology/documents/top-10-strategic-technology-trends-for-2018.pdf">report</a>, we can see the event-driven model is a hot topic for the system design. However, designing a good event-driven architecture is quite challenging. We are familiar with the synchronization models, which request and response directly, but the stories are totally different in the asynchronization schemes. Nevertheless, here are some architecture patterns for reference.</p>
+<p>The blueprint comes from the <a target="_blank" rel="noopener" href="https://youtu.be/dc20BQ9izs8">video</a> and shows the whole vision on a well-defined event-driven architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*__KCJ15dla1qq0Rb.png"></p>
+<p>I will briefly introduce those terminologies in the later sections.</p>
+<h3 id="Channel-monitoring-pattern"><a href="#Channel-monitoring-pattern" class="headerlink" title="Channel monitoring pattern"></a>Channel monitoring pattern</h3><p>The channel monitoring pattern define a role called channel monitor to watch the usage and utilization of the main queue. It monitors some metrics like the amount of pending messages, the amount of consumers and the consuming rate.</p>
+<p>Having those metrics helps to understand the workload and the healthy of the system. Moreover, the information can let the system be able to self-healing by adjusting the amount of consumers and throttling the producer.</p>
+<h3 id="Consumer-supervisor-pattern"><a href="#Consumer-supervisor-pattern" class="headerlink" title="Consumer supervisor pattern"></a>Consumer supervisor pattern</h3><p>This supervisor is responsible for adjusting the amount of consumers. It listens to the channel monitor and determines if the current consumers can handle the events. If the supervisor thinks the throughput of consumers is not enough, it will call more consumers to help, and vise versa.</p>
+<h3 id="Producer-control-flow-pattern"><a href="#Producer-control-flow-pattern" class="headerlink" title="Producer control flow pattern"></a>Producer control flow pattern</h3><p>In the previous section, the supervisor improves the throughput by making more consumers. However, if the cost is a concern, using more consumers obviously is infeasible.</p>
+<p>Therefore, there is another approach, producer control flow pattern. When the consuming rate cannot align to the producing rate, a controller will send a signal to the producer to slow down the event generation. After the pending events are processed, the producer can disable the throttling to restore the normal state.</p>
+<h3 id="Thread-delegate-pattern"><a href="#Thread-delegate-pattern" class="headerlink" title="Thread delegate pattern"></a>Thread delegate pattern</h3><p>The thread delegate pattern is a useful pattern not only in the event-driven architecture but the other types of the system design.</p>
+<p>The pattern has two purposes:</p>
+<ol>
+<li>Preserve the message order</li>
+<li>Track the metrics of event processing, ex. response time.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*TzGIitumPt_dW98W.png"></p>
+<p>Let’s begin from the first purpose. When a huge amounts of events enter the queue, we are used to bring up more consumers to handle them, aka scale-out. This method is common in the stateless scenarios. But, some kind of events are stateful, the order of events must be addressed. For instance,</p>
+<ul>
+<li>Put some items in the cart</li>
+<li>Clean up the cart</li>
+<li>Put other items in the same cart</li>
+<li>Charge it</li>
+</ul>
+<p>The event order must be kept; otherwise, you may buy the wrong items. Thus, how to handle the events on multiple consumers? In thread delegate pattern, it introduces a new role, event dispatcher, and the dispatcher dispatch an event to the corresponding consumer based on the event type. In other words, all events with the same type will be in the same place, and the order can be ensured.</p>
+<p>So, the dispatcher maintains a mapping table to record which type of event belongs to who. After the consumer finishes an event, it callback to the dispatcher. The dispatcher knows all processing results of consumers, i.e., it can track the response time as well.</p>
+<h3 id="Workflow-event-pattern"><a href="#Workflow-event-pattern" class="headerlink" title="Workflow event pattern"></a>Workflow event pattern</h3><p>When event consumer encounter an error while processing, it may not fix the error due to many reasons like the malformed event, transaction conflicts, etc. Hence, the consumer emit this event to another queue handled by workflow processor. The processor will either fix the event or store the event in the storage. In addition, the processor can display the event on the dashboard and inform the human to take over the case. The human can fix the situation manually and resend this event to the queue.</p>
+<p>It is worth to mention that if the event is resent to the queue, the order cannot be guaranteed.</p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>We walk through several design patterns of an event-driven architecture. We can design a self-monitoring and self-healing system leverage those patterns. The system is scalable, robust, efficient, and fault-tolerant. However, there are some noteworthy patterns that have not been covered. I will introduce them in the future.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-patterns-of-event-driven-architecture-bf0121cfda7b">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Distributed-Transaction-Introduction/20211001/" rel="prev" title="Distributed Transaction Introduction">
+                  <i class="fa fa-chevron-left"></i> Distributed Transaction Introduction
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Architecture/Kafka-vs-RabbitMQ/20211019/" rel="next" title="Kafka vs. RabbitMQ">
+                  Kafka vs. RabbitMQ <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

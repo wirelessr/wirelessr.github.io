@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="How to Learn AI from ScratchA practical guide for software engineers to start using and building with AI In today’s era of generative AI, there are countless ways to get started with AI. However, for">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Learn AI from Scratch">
+<meta property="og:url" content="https://wirelessr.github.io/AI/How-to-Learn-AI-from-Scratch/20250615/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="How to Learn AI from ScratchA practical guide for software engineers to start using and building with AI In today’s era of generative AI, there are countless ways to get started with AI. However, for">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*-6ch550uawuWgpalHOatcA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*ovL2tnR-FsitDEpb.png">
+<meta property="article:published_time" content="2025-06-15T18:01:54.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.825Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*-6ch550uawuWgpalHOatcA.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/AI/How-to-Learn-AI-from-Scratch/20250615/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/AI/How-to-Learn-AI-from-Scratch/20250615/","path":"AI/How-to-Learn-AI-from-Scratch/20250615/","title":"How to Learn AI from Scratch"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>How to Learn AI from Scratch | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#How-to-Learn-AI-from-Scratch"><span class="nav-number">1.</span> <span class="nav-text">How to Learn AI from Scratch</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-practical-guide-for-software-engineers-to-start-using-and-building-with-AI"><span class="nav-number">1.1.</span> <span class="nav-text">A practical guide for software engineers to start using and building with AI</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#How-to-Use"><span class="nav-number">2.</span> <span class="nav-text">How to Use</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vibe-Coding"><span class="nav-number">3.</span> <span class="nav-text">Vibe Coding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#How-to-Develop"><span class="nav-number">4.</span> <span class="nav-text">How to Develop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-selection"><span class="nav-number">5.</span> <span class="nav-text">Model selection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AI-Application"><span class="nav-number">6.</span> <span class="nav-text">AI Application</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">7.</span> <span class="nav-text">Conclusion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thank-you-for-being-a-part-of-the-community"><span class="nav-number">8.</span> <span class="nav-text">Thank you for being a part of the community</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/How-to-Learn-AI-from-Scratch/20250615/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="How to Learn AI from Scratch | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          How to Learn AI from Scratch
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-06-16 02:01:54" itemprop="dateCreated datePublished" datetime="2025-06-16T02:01:54+08:00">2025-06-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="How-to-Learn-AI-from-Scratch"><a href="#How-to-Learn-AI-from-Scratch" class="headerlink" title="How to Learn AI from Scratch"></a>How to Learn AI from Scratch</h3><h4 id="A-practical-guide-for-software-engineers-to-start-using-and-building-with-AI"><a href="#A-practical-guide-for-software-engineers-to-start-using-and-building-with-AI" class="headerlink" title="A practical guide for software engineers to start using and building with AI"></a>A practical guide for software engineers to start using and building with AI</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*-6ch550uawuWgpalHOatcA.png"></p>
+<p>In today’s era of generative AI, there are countless ways to get started with AI. However, for engineers without a background in AI or machine learning, the overwhelming number of buzzwords can make it hard to know where to begin.</p>
+<p>That said, there’s no denying the productivity gap between those who know how to use AI and those who don’t.</p>
+<p>This article aims to give software engineers a fast-track introduction — a practical guide to navigating and thriving in this new landscape.</p>
+<p>The mind map below outlines the flow of the article. We’ll start with how to use AI effectively, then move into how to build things with it, touching on key concepts along the way. Let’s dive in.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*ovL2tnR-FsitDEpb.png"></p>
+<h3 id="How-to-Use"><a href="#How-to-Use" class="headerlink" title="How to Use"></a>How to Use</h3><p>When people talk about using AI, it’s impossible not to bring up how it all started — <strong>ChatGPT</strong> was the moment generative AI really hit the mainstream. After that, every major company started launching their own chat models.</p>
+<p>I’ve listed four models I personally use almost every day. You might wonder why I switch between them. Simple reason: free plans come with limits, so rotating helps me stay productive without paying.</p>
+<ul>
+<li>ChatGPT — This is the one I use the most. Whether I’m writing, editing, brainstorming, or just trying to get a fresh idea out, ChatGPT usually gets the first draft going.</li>
+<li>Claude — When it comes to quick scripts or anything related to the command line, Claude feels the easiest to work with. For instance, if I need a curl command to upload a JSON file with auth, I’ll ask Claude.</li>
+<li>Gemini — I use this mainly for more in-depth research. It gives off a more grounded vibe, which helps when I need something solid to work with.</li>
+<li>Grok — Once I hit Gemini’s limit for the day, Grok usually takes over.</li>
+</ul>
+<p>These tools make it really easy to fold AI into everyday tasks. For most situations, this setup covers everything I need. But when I’m working on something more specific — like building a presentation — I’ll bring in different tools.</p>
+<p>One I rely on a lot is <a target="_blank" rel="noopener" href="https://gamma.app/">Gamma.app</a>. It’s changed how I make slides.</p>
+<p>I already had a pretty good rhythm from doing talks regularly, so I can usually outline things quickly. But Gamma takes it even further. I just give it a prompt, let it build a rough version, and then tweak the parts I want to improve. Something that used to take half a day now takes me about an hour.</p>
+<p>Another one I keep coming back to is <a target="_blank" rel="noopener" href="https://www.perplexity.ai/">Perplexity</a>.</p>
+<p>Since generative AI is basically predicting what words come next, it’s not always accurate. That’s where Perplexity helps — it’s the tool I use to cross-check facts or dig up references. Sure, other AI tools have similar features, but I’ve set Perplexity as my browser’s default search engine, so it’s the quickest for me.</p>
+<p>I use a few other tools depending on the project. For example, if you work with Confluence Cloud, Rovo Chat is a solid option that fits nicely into that workflow.</p>
+<h3 id="Vibe-Coding"><a href="#Vibe-Coding" class="headerlink" title="Vibe Coding"></a>Vibe Coding</h3><p>For software engineers, vibe coding has become a key part of using AI effectively to boost productivity. But getting good at it takes a lot of hands-on practice — and even just picking the right IDE and agent can take serious trial and error.</p>
+<p>Beyond that, no matter which agent you go with, you’ll still need to plug it into the right ecosystem to unlock its full potential. Some rely on MCP-style control flows, others on rule templates. Here are a few specific needs I personally care a lot about:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/eyaltoledano/claude-task-master">Task master</a>: If your instructions to the AI aren’t clear enough, it’s easy for the model to get stuck — wasting tokens without producing anything useful. This was highlighted in <a target="_blank" rel="noopener" href="https://ml-site.cdn-apple.com/papers/the-illusion-of-thinking.pdf">Apple’s paper</a>, which shows that as task complexity increases, model performance can collapse entirely. That’s why task decomposition is essential. Task master is a solid open-source option for that.</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/vanzan01/cursor-memory-bank">Memory bank</a>: Since LLMs have limited context windows, they tend to forget past mistakes or important task details. A persistent memory mechanism helps address that gap.</li>
+</ul>
+<p>There are plenty of other tools that can be added, depending on your development habits and how far you’ve gone with vibe coding. It’s really about building the setup that fits your workflow.</p>
+<p>Underneath all of this is prompt engineering — everything starts with how you communicate your intent to the model. Getting that part right matters a lot. Fortunately, Google has published a pretty thorough <a target="_blank" rel="noopener" href="https://www.kaggle.com/whitepaper-prompt-engineering">whitepaper</a> that’s worth reading if you’re looking to understand the fundamentals.</p>
+<p>If you want to go deeper, there’s a growing body of research too.</p>
+<p>For example, <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2312.16171v1">this paper</a> summarizes 26 different techniques for improving prompts — worth checking out if you’re serious about refining your workflow.</p>
+<p>Vibe coding is half tools, half mindset — and prompt engineering is the bridge between the two.</p>
+<h3 id="How-to-Develop"><a href="#How-to-Develop" class="headerlink" title="How to Develop"></a>How to Develop</h3><p>Once you’ve got the hang of using AI, the natural next step — especially for engineers — is to start experimenting with what AI can actually do for you. Personally, I’ve built a handful of small tools that I now use regularly at work, like a code review agent and a text-to-command-line agent.</p>
+<p>These tools each focus on solving very specific problems with AI. So how do you even start building something like that?</p>
+<h3 id="Model-selection"><a href="#Model-selection" class="headerlink" title="Model selection"></a>Model selection</h3><p>The first step is understanding what resources are available. By “resources,” I mean which AI services expose endpoints that you can actually call.</p>
+<p>If you’re willing to pay, then the big-name providers are all viable. But if you’re trying to keep costs low, what are your options? Turns out — plenty. Here are a few I actively use:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://openrouter.ai/">OpenRouter</a>: This platform gives you access to a wide range of models, including quite a few with free quotas. In fact, even models like Google’s Gemma 3:27B have a free tier here.</li>
+<li><a target="_blank" rel="noopener" href="https://ollama.com/">Ollama</a>: If you’re worried about running through OpenRouter’s quotas, you can always fall back to local setups. Ollama is plug-and-play and runs locally. The only trade-off? Heavy models are tough to handle on a local machine — but smaller models are often too limited.</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/snailyp/gemini-balance">gemini-balance</a>: This one’s kind of clever. Gemini offers a free tier that’s actually free — it doesn’t sneak in charges once you pass a usage limit. The catch is, the quota’s small. But if you can cycle through enough free-tier tokens, you can effectively run things at zero cost. That’s exactly what gemini-balance helps with.</li>
+</ul>
+<p>Here’s how I’ve set things up:</p>
+<ul>
+<li>For important tasks, I rely on gemini-balance. The Gemini 2.0 models are just that good — I trust them with higher-stakes stuff.</li>
+<li>For lighter tasks, I go with OpenRouter, especially when I want to use Gemma 3:27B. It’s a strong model, but OpenRouter doesn’t support function calling for Gemma, so I keep it for simpler jobs.</li>
+<li>For embedding, I use Ollama locally. Embedding isn’t very compute-intensive, but I run it at scale, so I’d rather not worry about hitting quotas.</li>
+</ul>
+<p>As you can probably tell, picking a model isn’t just about performance — it’s also about constraints, access, and cost. Each model comes with its own trade-offs, so understanding those is key to building something reliable.</p>
+<h3 id="AI-Application"><a href="#AI-Application" class="headerlink" title="AI Application"></a>AI Application</h3><p>Once you’re familiar with the tools, the next step is figuring out what kind of applications you want to build.</p>
+<p>This is where imagination comes in — but regardless of what you’re building, you’ll eventually run into the concept of RAG.</p>
+<p>RAG (Retrieval-Augmented Generation) is one of the most effective ways to unlock real-world utility from LLMs.</p>
+<p>Why?</p>
+<p>Because language models can’t access huge documents directly — their input limits are real. But many tasks (like customer support) require deep background context. That’s exactly what RAG helps with.</p>
+<p>I won’t go deep into RAG architecture here. If you’re curious, I wrote a more detailed piece: <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/evolution-of-rag-baseline-rag-graphrag-and-kag-93b6f221bde6">Evolution of RAG: Baseline RAG, GraphRAG, and KAG</a>.</p>
+<p>No matter what kind of app you’re building, sooner or later, you’ll hit the need for fine-tuning. Most base models are trained for general tasks, but real applications require customization — your data, your workflows. That’s where fine-tuning comes in. Of course, fine-tuning isn’t trivial — it assumes some background in ML. I’ll cover that in another post.</p>
+<p>And then there’s evaluation and observability — two things you must consider when your AI app is live. You need to know if the model is doing its job, and why it failed when it didn’t. Tools like <a target="_blank" rel="noopener" href="https://www.langchain.com/langsmith">LangSmith</a> and <a target="_blank" rel="noopener" href="https://langfuse.com/">LangFuse</a> can help with this, but you’ll need to spend time experimenting with what works best for your stack.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>So yeah — diving into AI development is a big journey.</p>
+<p>From picking tools, to writing prompts, to deploying apps, there’s a huge surface area of decisions.</p>
+<p>But don’t let that intimidate you. AI is still new, and most of us are learning as we go.</p>
+<p>My advice: start with problems from your day-to-day life. That’s the best way to learn. You’ll naturally uncover more tools, more patterns, and more techniques as you build.</p>
+<p>Eventually, you’ll develop your own set of “survival skills” for the AI era.</p>
+<p>This article includes a pretty massive mind map — it touches on nearly every major area in the Gen AI space.</p>
+<p>You don’t need to master everything — not even close. Just start with what you care about, build one small thing, and the rest will follow.</p>
+<p>In this new AI era, curiosity and momentum matter way more than credentials.</p>
+<h3 id="Thank-you-for-being-a-part-of-the-community"><a href="#Thank-you-for-being-a-part-of-the-community" class="headerlink" title="Thank you for being a part of the community"></a>Thank you for being a part of the community</h3><p><em>Before you go:</em></p>
+<ul>
+<li>Be sure to <strong>clap</strong> and <strong>follow</strong> the writer ️👏<strong>️️</strong></li>
+<li>Follow us: <a target="_blank" rel="noopener" href="https://x.com/inPlainEngHQ"><strong>X</strong></a> | <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/inplainenglish/"><strong>LinkedIn</strong></a> | <a target="_blank" rel="noopener" href="https://www.youtube.com/@InPlainEnglish"><strong>YouTube</strong></a> | <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>Newsletter</strong></a> | <a target="_blank" rel="noopener" href="https://open.spotify.com/show/7qxylRWKhvZwMz2WuEoua0"><strong>Podcast</strong></a> | <a target="_blank" rel="noopener" href="https://twitch.tv/inplainenglish"><strong>Twitch</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://differ.blog/"><strong>Start your own free AI-powered blog on Differ</strong></a> 🚀</li>
+<li><a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Join our content creators community on Discord</strong></a> 🧑🏻‍💻</li>
+<li>For more content, visit <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>plainenglish.io</strong></a> + <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-learn-ai-from-scratch-32c125cd39c3">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/AI/How-to-Read-Paper-Efficiently/20250601/" rel="prev" title="How to Read Paper Efficiently">
+                  <i class="fa fa-chevron-left"></i> How to Read Paper Efficiently
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Career/The-Software-Engineers-Epic-Career-Adventure/20250622/" rel="next" title="The Software Engineer’s Epic Career Adventure">
+                  The Software Engineer’s Epic Career Adventure <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

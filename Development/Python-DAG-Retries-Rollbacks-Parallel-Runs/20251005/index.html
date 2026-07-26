@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Python DAG: Retries, Rollbacks &amp; Parallel RunsEnhance lightweight DAG with robust features for production-ready workflows The previous article stopped at building a lightweight DAG with the Comman">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python DAG: Retries, Rollbacks &amp; Parallel Runs">
+<meta property="og:url" content="https://wirelessr.github.io/Development/Python-DAG-Retries-Rollbacks-Parallel-Runs/20251005/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Python DAG: Retries, Rollbacks &amp; Parallel RunsEnhance lightweight DAG with robust features for production-ready workflows The previous article stopped at building a lightweight DAG with the Comman">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*4kEIO3ATDrkfzHSwtKE5FA.png">
+<meta property="article:published_time" content="2025-10-05T17:37:53.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.827Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*4kEIO3ATDrkfzHSwtKE5FA.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Development/Python-DAG-Retries-Rollbacks-Parallel-Runs/20251005/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Development/Python-DAG-Retries-Rollbacks-Parallel-Runs/20251005/","path":"Development/Python-DAG-Retries-Rollbacks-Parallel-Runs/20251005/","title":"Python DAG: Retries, Rollbacks & Parallel Runs"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Python DAG: Retries, Rollbacks & Parallel Runs | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-DAG-Retries-Rollbacks-Parallel-Runs"><span class="nav-number">1.</span> <span class="nav-text">Python DAG: Retries, Rollbacks &amp; Parallel Runs</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Enhance-lightweight-DAG-with-robust-features-for-production-ready-workflows"><span class="nav-number">1.1.</span> <span class="nav-text">Enhance lightweight DAG with robust features for production-ready workflows</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Handling-retries-without-polluting-business-logic"><span class="nav-number">2.</span> <span class="nav-text">Handling retries without polluting business logic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rolling-back-after-a-failed-step"><span class="nav-number">3.</span> <span class="nav-text">Rolling back after a failed step</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Unlocking-parallel-branches"><span class="nav-number">4.</span> <span class="nav-text">Unlocking parallel branches</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wrap-Up"><span class="nav-number">5.</span> <span class="nav-text">Wrap Up</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-message-from-our-Founder"><span class="nav-number">6.</span> <span class="nav-text">A message from our Founder</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Python-DAG-Retries-Rollbacks-Parallel-Runs/20251005/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Python DAG: Retries, Rollbacks & Parallel Runs | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python DAG: Retries, Rollbacks & Parallel Runs
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-10-06 01:37:53" itemprop="dateCreated datePublished" datetime="2025-10-06T01:37:53+08:00">2025-10-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Python-DAG-Retries-Rollbacks-Parallel-Runs"><a href="#Python-DAG-Retries-Rollbacks-Parallel-Runs" class="headerlink" title="Python DAG: Retries, Rollbacks &amp; Parallel Runs"></a>Python DAG: Retries, Rollbacks &amp; Parallel Runs</h3><h4 id="Enhance-lightweight-DAG-with-robust-features-for-production-ready-workflows"><a href="#Enhance-lightweight-DAG-with-robust-features-for-production-ready-workflows" class="headerlink" title="Enhance lightweight DAG with robust features for production-ready workflows"></a>Enhance lightweight DAG with robust features for production-ready workflows</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*4kEIO3ATDrkfzHSwtKE5FA.png"></p>
+<p>The <a target="_blank" rel="noopener" href="https://medium.com/stackademic/refactor-long-method-with-a-lightweight-dag-d5fda0ae2f04">previous article</a> stopped at building a lightweight DAG with the Command pattern. That alone already made long functions more approachable and easier to test. Over the past week I kept iterating on the idea, because real systems rarely end with a single happy-path runner.</p>
+<p>Three concerns show up almost immediately in production code: transient failures, partial completion, and throughput. They translate nicely into three extensions on top of the original runner: <strong>retry</strong>, <strong>rollback</strong>, and <strong>parallel execution</strong>.</p>
+<p>Before diving into the new capabilities, here is the baseline runner from last week that simply walks the graph in topological order:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from graphlib import TopologicalSorter  </span><br><span class="line">  </span><br><span class="line">class DAGRunner:  </span><br><span class="line">    def __init__(self, graph_definition: dict, commands: dict):  </span><br><span class="line">        self.ts = TopologicalSorter(graph_definition)  </span><br><span class="line">        self.commands = commands  </span><br><span class="line">  </span><br><span class="line">    def run(self):  </span><br><span class="line">        context = &#123;&#125;  </span><br><span class="line">        self.ts.prepare()  </span><br><span class="line">        for task_name in self.ts.static_order():  </span><br><span class="line">            self.commands[task_name].execute(context)  </span><br><span class="line">        return context</span><br></pre></td></tr></table></figure>
+
+<p>This runner is the foundation for every extension in this article.</p>
+<p>What matters here is that all three enhancements live inside the runner. The commands stay thin, the workflow definition stays declarative, and the abstraction keeps paying off. Let’s walk through each scenario.</p>
+<h3 id="Handling-retries-without-polluting-business-logic"><a href="#Handling-retries-without-polluting-business-logic" class="headerlink" title="Handling retries without polluting business logic"></a>Handling retries without polluting business logic</h3><p>External integrations fail from time to time. The naive solution is to wrap every command in its own retry loop, but that instantly clutters the code we just spent effort to clean up. Moving retries into the runner keeps the commands focused while letting us tune policies centrally.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import time  </span><br><span class="line">from graphlib import TopologicalSorter  </span><br><span class="line">  </span><br><span class="line">class DAGRunnerWithRetry:  </span><br><span class="line">    def __init__(self, graph_definition: dict, commands: dict, *, max_retries: int = 3, retry_delay: float = 1.0):  </span><br><span class="line">        self.ts = TopologicalSorter(graph_definition)  </span><br><span class="line">        self.commands = commands  </span><br><span class="line">        self.max_retries = max_retries  </span><br><span class="line">        self.retry_delay = retry_delay  </span><br><span class="line">  </span><br><span class="line">    def run(self):  </span><br><span class="line">        context = &#123;&#125;  </span><br><span class="line">        self.ts.prepare()  </span><br><span class="line">        for task_name in self.ts.static_order():  </span><br><span class="line">            command = self.commands[task_name]  </span><br><span class="line">            last_error = None  </span><br><span class="line">            for attempt in range(1, self.max_retries + 1):  </span><br><span class="line">                try:  </span><br><span class="line">                    command.execute(context)  </span><br><span class="line">                    last_error = None  </span><br><span class="line">                    break  </span><br><span class="line">                except Exception as exc:  </span><br><span class="line">                    last_error = exc  </span><br><span class="line">                    if attempt &lt; self.max_retries:  </span><br><span class="line">                        time.sleep(self.retry_delay)  </span><br><span class="line">            if last_error is not None:  </span><br><span class="line">                raise last_error  </span><br><span class="line">        return context</span><br></pre></td></tr></table></figure>
+
+<p>The graph still decides the order, while the runner handles the repeated attempts. Any transient exception is retried in place; once the configured attempts are exhausted, the original error propagates.</p>
+<h3 id="Rolling-back-after-a-failed-step"><a href="#Rolling-back-after-a-failed-step" class="headerlink" title="Rolling back after a failed step"></a>Rolling back after a failed step</h3><p>The next requirement is undoing work if a later step fails. The Command pattern already hinted at this with its symmetric interface, so introducing <code>undo</code> is a natural extension. The runner simply needs to record the successful commands and process them in reverse when an error bubbles up.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">from graphlib import TopologicalSorter  </span><br><span class="line">  </span><br><span class="line">class DAGRunnerWithRollback:  </span><br><span class="line">    def __init__(self, graph_definition: dict, commands: dict):  </span><br><span class="line">        self.ts = TopologicalSorter(graph_definition)  </span><br><span class="line">        self.commands = commands  </span><br><span class="line">  </span><br><span class="line">    def run(self):  </span><br><span class="line">        context = &#123;&#125;  </span><br><span class="line">        successful_commands = []  </span><br><span class="line">        try:  </span><br><span class="line">            self.ts.prepare()  </span><br><span class="line">            for task_name in self.ts.static_order():  </span><br><span class="line">                command = self.commands[task_name]  </span><br><span class="line">                command.execute(context)  </span><br><span class="line">                successful_commands.append(command)  </span><br><span class="line">        except Exception as exc:  </span><br><span class="line">            for command in reversed(successful_commands):  </span><br><span class="line">                command.undo(context)  </span><br><span class="line">            raise exc  </span><br><span class="line">        return context</span><br></pre></td></tr></table></figure>
+
+<p>Each command now implements both <code>execute</code> and <code>undo</code>. When a later task fails, the runner cleans up previously completed work in last-in-first-out order, mirroring the graph execution.</p>
+<h3 id="Unlocking-parallel-branches"><a href="#Unlocking-parallel-branches" class="headerlink" title="Unlocking parallel branches"></a>Unlocking parallel branches</h3><p>Many workflows contain independent branches that can safely run side by side once their prerequisites finish. The original runner executes nodes sequentially even when the graph exposes available concurrency. Switching to a thread pool allows the runner to schedule every ready node without rewriting the business logic.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">from concurrent.futures import ThreadPoolExecutor, as_completed  </span><br><span class="line">from graphlib import TopologicalSorter  </span><br><span class="line">  </span><br><span class="line">class DAGRunnerWithParallel:  </span><br><span class="line">    def __init__(self, graph_definition: dict, commands: dict):  </span><br><span class="line">        self.ts = TopologicalSorter(graph_definition)  </span><br><span class="line">        self.commands = commands  </span><br><span class="line">  </span><br><span class="line">    def run(self):  </span><br><span class="line">        context = &#123;&#125;  </span><br><span class="line">        self.ts.prepare()  </span><br><span class="line">        with ThreadPoolExecutor() as executor:  </span><br><span class="line">            futures = &#123;&#125;  </span><br><span class="line">            while self.ts.is_active():  </span><br><span class="line">                for task_name in self.ts.get_ready():  </span><br><span class="line">                    command = self.commands[task_name]  </span><br><span class="line">                    futures[executor.submit(command.execute, context)] = task_name  </span><br><span class="line">                for future in as_completed(list(futures)):  </span><br><span class="line">                    task_name = futures.pop(future)  </span><br><span class="line">                    try:  </span><br><span class="line">                        future.result()  </span><br><span class="line">                        self.ts.done(task_name)  </span><br><span class="line">                    except Exception:  </span><br><span class="line">                        for pending in futures:  </span><br><span class="line">                            pending.cancel()  </span><br><span class="line">                        raise  </span><br><span class="line">        return context</span><br></pre></td></tr></table></figure>
+
+<p>The runner keeps asking the topological sorter for ready nodes, submits them to the executor, and marks each task as complete once the future finishes. If any parallel branch fails, the remaining futures are cancelled and the error is surfaced immediately.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>All three extensions reuse the same two abstractions introduced earlier: the DAG encodes dependency, and Command encapsulates each operation behind a stable interface. Because the runner owns orchestration, we can iteratively add capabilities such as retry strategies, rollback semantics, and parallel scheduling without rewriting domain logic.</p>
+<p>That’s the real payoff of the abstraction. Once the seams are in place, new requirements stay localized, the codebase remains comprehensible, and future experiments can continue to build on the same foundation.</p>
+<h3 id="A-message-from-our-Founder"><a href="#A-message-from-our-Founder" class="headerlink" title="A message from our Founder"></a>A message from our Founder</h3><p><strong>Hey,</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>Sunil</strong></a> <strong>here.</strong> I wanted to take a moment to thank you for reading until the end and for being a part of this community.</p>
+<p>Did you know that our team run these publications as a volunteer effort to over 3.5m monthly readers? <strong>We don’t receive any funding, we do this to support the community. ❤️</strong></p>
+<p>If you want to show some love, please take a moment to <strong>follow me on</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>LinkedIn</strong></a><strong>,</strong> <a target="_blank" rel="noopener" href="https://tiktok.com/@messyfounder"><strong>TikTok</strong></a>, <a target="_blank" rel="noopener" href="https://instagram.com/sunilsandhu"><strong>Instagram</strong></a>. You can also subscribe to our <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>weekly newsletter</strong></a>.</p>
+<p>And before you go, don’t forget to <strong>clap</strong> and <strong>follow</strong> the writer️!</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/python-dag-retries-rollbacks-parallel-runs-5a5362353ea5">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Refactor-Long-Method-with-a-Lightweight-DAG/20250928/" rel="prev" title="Refactor Long Method with a Lightweight DAG">
+                  <i class="fa fa-chevron-left"></i> Refactor Long Method with a Lightweight DAG
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/AI/Vibe-Coding-is-Cooling-Off-Fast/20251026/" rel="next" title="Vibe Coding is Cooling Off, Fast">
+                  Vibe Coding is Cooling Off, Fast <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

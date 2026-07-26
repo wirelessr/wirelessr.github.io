@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Easy to understand what is streaming architecture The purpose of this article is to introduce stream processing in an easy-to-understand way, so it does not dive too deep into the technical details, n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stream Processing Introduction">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Stream-Processing-Introduction/20220821/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Easy to understand what is streaming architecture The purpose of this article is to introduce stream processing in an easy-to-understand way, so it does not dive too deep into the technical details, n">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*mMsRDE9XQ6abWUEI">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*dxpS_mvEQNgKzuQv.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*L-Kn6bGZ1POF3PH2.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*HbEb7ZCscU5L_Aua.png">
+<meta property="article:published_time" content="2022-08-21T17:18:09.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.829Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*mMsRDE9XQ6abWUEI">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Stream-Processing-Introduction/20220821/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Stream-Processing-Introduction/20220821/","path":"Architecture/Stream-Processing-Introduction/20220821/","title":"Stream Processing Introduction"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Stream Processing Introduction | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Easy-to-understand-what-is-streaming-architecture"><span class="nav-number">1.</span> <span class="nav-text">Easy to understand what is streaming architecture</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Batch-processing"><span class="nav-number"></span> <span class="nav-text">Batch processing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stream-processing"><span class="nav-number"></span> <span class="nav-text">Stream processing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tumbling-window"><span class="nav-number"></span> <span class="nav-text">Tumbling window</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sliding-window"><span class="nav-number"></span> <span class="nav-text">Sliding window</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Session-window"><span class="nav-number"></span> <span class="nav-text">Session window</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary"><span class="nav-number"></span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Stream-Processing-Introduction/20220821/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Stream Processing Introduction | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Stream Processing Introduction
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-08-22 01:18:09" itemprop="dateCreated datePublished" datetime="2022-08-22T01:18:09+08:00">2022-08-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Easy-to-understand-what-is-streaming-architecture"><a href="#Easy-to-understand-what-is-streaming-architecture" class="headerlink" title="Easy to understand what is streaming architecture"></a>Easy to understand what is streaming architecture</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*mMsRDE9XQ6abWUEI"></p>
+<p>The purpose of this article is to introduce stream processing in an easy-to-understand way, so it does not dive too deep into the technical details, nor does it mention specific frameworks. However, a few popular frameworks will be used as examples to illustrate.</p>
+<p>Before we start to introduce stream processing, let’s talk about batch processing, i.e., the opposing concept of stream processing.</p>
+<h3 id="Batch-processing"><a href="#Batch-processing" class="headerlink" title="Batch processing"></a>Batch processing</h3><p>I believe most of you are familiar with batch processing, in which a large scale data processing is performed after a given period of data and the final result is produced. This is the actual operation of batch processing, and the expertise area of batch processing is fixed amount of data processing.</p>
+<p>However, in an event-driven architecture, the data, i.e., the events, are endless, that is to say, it is difficult to define a fixed amount. Therefore, the compromise is to change the fixed amount to a fixed time, so that the amount of data can be expected after a given time interval, and batch processing can be applied.</p>
+<p>In other words, batch processing can be summarized in several characteristics.</p>
+<ol>
+<li>Fixed. Whether it is fixed time or fixed volume, the key is to make the amount of data predictable.</li>
+<li>Discrete. The data is computed in a specific interval, and the intervals are not related to each other at all.</li>
+</ol>
+<p>The most typical approach is to process the data at the moment per second&#x2F;minute&#x2F;hr&#x2F;day.</p>
+<h3 id="Stream-processing"><a href="#Stream-processing" class="headerlink" title="Stream processing"></a>Stream processing</h3><p>However, there is a difference in the approach of stream processing.</p>
+<p>First of all, there is no concept of fixation in stream processing. Imagine it as a river, where water keeps flowing down from upstream, and if you don’t catch it where you are at, the water will flow away.</p>
+<p>The same is happening with data. The data source keeps generating data into the stream, and the application has to retrieve what it needs in the stream and use it.</p>
+<p>Unlike batch processing, which is fixed time or fixed volume, if there is no given time interval, then the amount of data can be considered basically infinite. On the other hand, since the data is not divided into several time intervals by batching, there is a context between the data.</p>
+<p>We can also summarize several characteristics for stream processing, which are exactly the opposite of batch processing.</p>
+<ol>
+<li>Infinite. In the lack of a specified time interval, both the amount of data and the time can be considered infinite.</li>
+<li>Continuous. The data in the data stream are related to each other.</li>
+</ol>
+<p>Nevertheless, applications do not work that way, or perhaps it should be said that the human brain cannot understand the concept of continuous infinity. When we develop an application, we always give the input, compute it, and produce the output.</p>
+<p>Therefore, when we develop stream processing applications, we take some techniques to make the data stream fit our mind as much as possible, in other words, we slice the data stream. The method of slicing is called windows.</p>
+<p>There are three common types of windows.</p>
+<ol>
+<li>Tumbling window</li>
+<li>Sliding window</li>
+<li>Session window</li>
+</ol>
+<h3 id="Tumbling-window"><a href="#Tumbling-window" class="headerlink" title="Tumbling window"></a>Tumbling window</h3><p>The first method of data slicing is tumbling window also known as micro-batch.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*dxpS_mvEQNgKzuQv.png"></p>
+<p>The continuous data is processed by dividing the data into intervals of a fixed time. This is the same concept as batch processing, but the only difference is the length of the time interval. In batch processing, the time span is larger than the tumbling window.</p>
+<p>In this way, data streams can be processed in a batch manner. Most of the streaming frameworks support this technique, e.g. Apache Spark Streaming, Apache Flink, Apache Samza, etc.</p>
+<h3 id="Sliding-window"><a href="#Sliding-window" class="headerlink" title="Sliding window"></a>Sliding window</h3><p>The second approach is the sliding window.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*L-Kn6bGZ1POF3PH2.png"></p>
+<p>Given a window size and a window slide to move the window, a sliding window will be created. As you can see from the diagram, it is possible to overlap data between windows, and therefore to discover the context of the data.</p>
+<p>The tumbling window mentioned in the previous section is actually a special case of a sliding window. When the window size is equal to the window slide, the sliding window becomes a tumbling window.</p>
+<p>This is a very common data slicing pattern used in streaming, and not every streaming framework supports it; Apache Spark has streaming capabilities, but it only supports micro-batches.</p>
+<h3 id="Session-window"><a href="#Session-window" class="headerlink" title="Session window"></a>Session window</h3><p>The third approach is the session window.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*HbEb7ZCscU5L_Aua.png"></p>
+<p>Unlike the previous two methods, the session window does not have a fixed window size; instead, it has to wait until the data stops for a period of time, which is called session gap.</p>
+<p>After the data is stopped for a period of time, the received data segments are processed, so the real-time performance is slightly worse than the previous two methods. However, since the data is grouped in advance and accumulated for a period of time, it is easier to process.</p>
+<p>In addition, the session window provides an additional information about the data density at this point by the amount of data collected.</p>
+<p>Again, this is not supported by every streaming framework, and Apache Spark does not support it.</p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>It sounds like stream processing is the same as traditional message queue processing, where a broker stores the message and assigns it to a handler responsible for execution.</p>
+<p>Is the difference only that one is a single message and another is a data stream?</p>
+<p>In fact, this is only one of the differences. Stream processing has three advantages over traditional message workers.</p>
+<ol>
+<li>Understand the context of the data. Although this depends on the window setting, due to the nature of data streams, they are able to express much more semantically than a single message.</li>
+<li>Stream processing has state. To enable faster processing of message streams, streaming frameworks provide internal state management and also state persistence.</li>
+<li>Simultaneous processing of concurrent data streams. In a message queue worker architecture, it would be a challenge to handle multiple messages simultaneously, but in a stream processing framework, it is possible. Furthermore, the framework provides more methods for handling multiple event streams, such as join operations.</li>
+</ol>
+<p>Overall, stream processing can be regarded as an advanced version of the message queue worker architecture.</p>
+<p>There are two core components in the entire stream processing. The first one is Kafka as a broker and the other one is the streaming framework.</p>
+<p>Kafka is able to provide very good functionality, including fault tolerance, persistence and ensuring message order, while also providing very high throughput.</p>
+<p>On the other hand, the streaming framework is to provide a higher level of abstraction based on Kafka. It can make it easier for developers to get started, including the various windowing methods mentioned in this article and concurrent event stream processing.</p>
+<p>More importantly, the streaming framework provides an exactly-once guarantee. in the message queue worker architecture, often only at-least-once guarantee, but in the streaming framework can further support exactly-once.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Traditional data processing architectures are very complex and often require various technologies, for example, ETL technology is required to extract and transform data from various data stores into a unified data warehouse or data lake, and various batch processing methods such as Map-reduce must be used to transform data into a useful format during analysis.</p>
+<p>In order to solve the real-time problem of batch processing, different message queue processing frameworks are integrated to aggregate the batch dataset with the real-time dataset under specific real-time requirements.</p>
+<p>The entire data processing architecture involves a variety of storage, message queues, scheduling and processing technologies. It is difficult to become master of all of them, and new requirements have to be developed to continue stacking on top of this complex architecture, which also affects productivity.</p>
+<p>Streaming architectures were created to address these complexities. It is possible to use only two core components, Kafka and the streaming framework, to accomplish various feature requirements that previously required various technology stacks.</p>
+<p>Of course, no technical selection is perfect.</p>
+<p>To me, the biggest problem with stream processing is that it’s not easy, either to understand or to develop. As described earlier in this article, the concept of continuous infinity is not intuitive to humans. Even if it is possible to collapse the stack of techniques into a single solution, it requires developers to have more experience and overcome a learning curve. Moreover, when problems are encountered that cannot be solved by a framework, there is still a need to mix solutions.</p>
+<p>Nevertheless, the streaming framework still offers a good entry point to meet most development needs with minimal overhead.</p>
+<p>The next article will introduce a common streaming design pattern, which is enrichments. Let’s call it a day.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/stream-processing-introduction-796f15061880">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Database/Understanding-String-Comparison-of-Databases/20220814/" rel="prev" title="Understanding String Comparison of Databases">
+                  <i class="fa fa-chevron-left"></i> Understanding String Comparison of Databases
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Architecture/Design-Pattern-of-Streaming-Enrichment/20220828/" rel="next" title="Design Pattern of Streaming Enrichment">
+                  Design Pattern of Streaming Enrichment <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

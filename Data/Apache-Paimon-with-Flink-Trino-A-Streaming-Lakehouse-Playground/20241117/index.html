@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="A hands-on guide to integrating Apache Paimon, Flink, and Trino for efficient streaming and querying in data lakehouses. Apache Paimon is a new data lakehouse format that focuses on solving the challe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Apache Paimon with Flink &amp; Trino: A Streaming Lakehouse Playground">
+<meta property="og:url" content="https://wirelessr.github.io/Data/Apache-Paimon-with-Flink-Trino-A-Streaming-Lakehouse-Playground/20241117/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="A hands-on guide to integrating Apache Paimon, Flink, and Trino for efficient streaming and querying in data lakehouses. Apache Paimon is a new data lakehouse format that focuses on solving the challe">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*00-VCVqXDzfqRweB-fLqsw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*wEKEG2_InrfRhR8Nnjrerw.png">
+<meta property="article:published_time" content="2024-11-17T17:46:06.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.820Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*00-VCVqXDzfqRweB-fLqsw.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Data/Apache-Paimon-with-Flink-Trino-A-Streaming-Lakehouse-Playground/20241117/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Data/Apache-Paimon-with-Flink-Trino-A-Streaming-Lakehouse-Playground/20241117/","path":"Data/Apache-Paimon-with-Flink-Trino-A-Streaming-Lakehouse-Playground/20241117/","title":"Apache Paimon with Flink & Trino: A Streaming Lakehouse Playground"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Apache Paimon with Flink & Trino: A Streaming Lakehouse Playground | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-hands-on-guide-to-integrating-Apache-Paimon-Flink-and-Trino-for-efficient-streaming-and-querying-in-data-lakehouses"><span class="nav-number">1.</span> <span class="nav-text">A hands-on guide to integrating Apache Paimon, Flink, and Trino for efficient streaming and querying in data lakehouses.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Experiment-environment"><span class="nav-number"></span> <span class="nav-text">Experiment environment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#How-to-use"><span class="nav-number"></span> <span class="nav-text">How to use</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink"><span class="nav-number"></span> <span class="nav-text">Flink</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trino"><span class="nav-number"></span> <span class="nav-text">Trino</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StarRocks"><span class="nav-number"></span> <span class="nav-text">StarRocks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Apache-Paimon-with-Flink-Trino-A-Streaming-Lakehouse-Playground/20241117/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Apache Paimon with Flink & Trino: A Streaming Lakehouse Playground | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Apache Paimon with Flink & Trino: A Streaming Lakehouse Playground
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-11-18 01:46:06" itemprop="dateCreated datePublished" datetime="2024-11-18T01:46:06+08:00">2024-11-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="A-hands-on-guide-to-integrating-Apache-Paimon-Flink-and-Trino-for-efficient-streaming-and-querying-in-data-lakehouses"><a href="#A-hands-on-guide-to-integrating-Apache-Paimon-Flink-and-Trino-for-efficient-streaming-and-querying-in-data-lakehouses" class="headerlink" title="A hands-on guide to integrating Apache Paimon, Flink, and Trino for efficient streaming and querying in data lakehouses."></a>A hands-on guide to integrating Apache Paimon, Flink, and Trino for efficient streaming and querying in data lakehouses.</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*00-VCVqXDzfqRweB-fLqsw.png"></p>
+<p><a target="_blank" rel="noopener" href="https://paimon.apache.org/">Apache Paimon</a> is a new data lakehouse format that focuses on solving the challenges of streaming scenarios, but also supports batch processing. Overall, Paimon has the potential to replace the existing Iceberg as the new standard for data lakehousing.</p>
+<p>Why Iceberg and not the other two (Hudi and Delta Lake)?</p>
+<p>Iceberg is the most widely supported by various open-source engines, including pure query engines (e.g., Trino), New SQL databases (e.g., StarRocks, Doris), and streaming frameworks (e.g., Flink, Spark), all of which support Iceberg.</p>
+<p>However, Iceberg faces several problems in streaming scenarios, the most serious one is the fragmentation of small files. Queries in data lakehouses rely heavily on file reads, and if a query has to scan many files at once, it will of course perform poorly.</p>
+<p>To address this issue, an external orchestrator is required to regularly merge files. Paimon is designed with a built-in merge mechanism, and many other optimizations for mass writes, making it more adaptable to streaming scenarios.</p>
+<h3 id="Experiment-environment"><a href="#Experiment-environment" class="headerlink" title="Experiment environment"></a>Experiment environment</h3><p>In order to learn more about Iceberg, I have set up two experimental environments.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/flink-iceberg-playground">Iceberg + Flink</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/trino-iceberg-playground">Iceberg + Trino</a></li>
+</ul>
+<p>This time I also built a playground for Paimon, which also includes Trino and Flink.</p>
+<p>In addition, StarRocks was also put in as a representative of New SQL.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*wEKEG2_InrfRhR8Nnjrerw.png"></p>
+<p>Because neither Trino nor StarRocks support streaming writes at this stage, Paimon’s writes come from Flink.</p>
+<h3 id="How-to-use"><a href="#How-to-use" class="headerlink" title="How to use"></a>How to use</h3><blockquote>
+<p><em>NOTE: Since some of the links to the official Paimon files are not working, I’ve put the files into this repo. However, some of the files are huge, so I put them in via LFS, so be sure to install</em> <code>git-lfs</code><em>.</em></p>
+</blockquote>
+<p>Trino driver is in <code>paimon-trino-427-0.8-20241112.000605-197-plugin.tar.gz</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf paimon-trino-427-0.8-20241112.000605-197-plugin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>Then it will run normally with <code>docker compose up -d</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
+
+<h3 id="Flink"><a href="#Flink" class="headerlink" title="Flink"></a>Flink</h3><p>Let’s start by connecting to Flink SQL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker compose exec flink-jobmanager ./bin/sql-client.sh  </span><br><span class="line">./bin/sql-client.sh</span><br></pre></td></tr></table></figure>
+
+<p>To write data using Flink we first need to create the correct catalog.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE CATALOG my_catalog WITH (  </span><br><span class="line">    &#x27;type&#x27; = &#x27;paimon&#x27;,  </span><br><span class="line">    &#x27;warehouse&#x27; = &#x27;s3://warehouse/flink&#x27;,  </span><br><span class="line">    &#x27;s3.endpoint&#x27; = &#x27;http://storage:9000&#x27;,  </span><br><span class="line">    &#x27;s3.access-key&#x27; = &#x27;admin&#x27;,  </span><br><span class="line">    &#x27;s3.secret-key&#x27; = &#x27;password&#x27;,  </span><br><span class="line">    &#x27;s3.path.style.access&#x27; = &#x27;true&#x27;  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>As shown in the above commands, we’re using the <code>MinIO</code> as an <code>S3</code> to store the Paimon.</p>
+<p>The next step in creating the table and writing the data is quite simple, just run the commands according to the <a target="_blank" rel="noopener" href="https://paimon.apache.org/docs/0.9/flink/quick-start/">official documentat</a>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">USE CATALOG my_catalog;  </span><br><span class="line">  </span><br><span class="line">-- create a word count table  </span><br><span class="line">CREATE TABLE word_count (  </span><br><span class="line">    word STRING PRIMARY KEY NOT ENFORCED,  </span><br><span class="line">    cnt BIGINT  </span><br><span class="line">);  </span><br><span class="line">-- create a word data generator table  </span><br><span class="line">CREATE TEMPORARY TABLE word_table (  </span><br><span class="line">    word STRING  </span><br><span class="line">) WITH (  </span><br><span class="line">    &#x27;connector&#x27; = &#x27;datagen&#x27;,  </span><br><span class="line">    &#x27;fields.word.length&#x27; = &#x27;1&#x27;  </span><br><span class="line">);  </span><br><span class="line">-- paimon requires checkpoint interval in streaming mode  </span><br><span class="line">SET &#x27;execution.checkpointing.interval&#x27; = &#x27;10 s&#x27;;  </span><br><span class="line">-- write streaming data to dynamic table  </span><br><span class="line">INSERT INTO word_count SELECT word, COUNT(*) FROM word_table GROUP BY word;</span><br></pre></td></tr></table></figure>
+
+<p>Then we actually read it and see the result of what we’ve written.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-- use tableau result mode  </span><br><span class="line">SET &#x27;sql-client.execution.result-mode&#x27; = &#x27;tableau&#x27;;  </span><br><span class="line">-- switch to batch mode  </span><br><span class="line">RESET &#x27;execution.checkpointing.interval&#x27;;  </span><br><span class="line">SET &#x27;execution.runtime-mode&#x27; = &#x27;batch&#x27;;  </span><br><span class="line">-- olap query the table  </span><br><span class="line">SELECT * FROM word_count;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Trino"><a href="#Trino" class="headerlink" title="Trino"></a>Trino</h3><p>Let’s go to Trino’s cli first.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose exec trino trino</span><br></pre></td></tr></table></figure>
+
+<p>Trino’s paimon catalog is already set up, but I didn’t add a new schema but just used the default one.</p>
+<p>So we can query the Flink write result directly.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM paimon.default.word_count;</span><br></pre></td></tr></table></figure>
+
+<p>We should see something similar to the Flink query.</p>
+<h3 id="StarRocks"><a href="#StarRocks" class="headerlink" title="StarRocks"></a>StarRocks</h3><p>This is an extra, just to show how much attention Paimon is getting now that many New SQL databases are starting to support it.</p>
+<p>Prepare a <code>mysql</code> client locally to connect to StarRocks.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -P 9030 -h 127.0.0.1 -u root --prompt=&quot;StarRocks &gt; &quot;</span><br></pre></td></tr></table></figure>
+
+<p>We still need to create a catalog.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE EXTERNAL CATALOG paimon_catalog_flink  </span><br><span class="line">PROPERTIES  </span><br><span class="line">(  </span><br><span class="line">    &quot;type&quot; = &quot;paimon&quot;,  </span><br><span class="line">    &quot;paimon.catalog.type&quot; = &quot;filesystem&quot;,  </span><br><span class="line">    &quot;paimon.catalog.warehouse&quot; = &quot;s3://warehouse/flink&quot;,  </span><br><span class="line">    &quot;aws.s3.enable_path_style_access&quot; = &quot;true&quot;,  </span><br><span class="line">    &quot;aws.s3.endpoint&quot; = &quot;http://storage:9000&quot;,  </span><br><span class="line">    &quot;aws.s3.access_key&quot; = &quot;admin&quot;,  </span><br><span class="line">    &quot;aws.s3.secret_key&quot; = &quot;password&quot;  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>The mysql client should not support Trino’s table locator format: <code>&lt;catalog&gt;. &lt;schema&gt;. &lt;table&gt;</code>, so we have to switch to the db before we can query.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USE paimon_catalog_flink.default;  </span><br><span class="line">SELECT * FROM word_count;</span><br></pre></td></tr></table></figure>
+
+<p>The results here will be similar to the above.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Although Paimon supports many kinds of metastore as follows.</p>
+<ul>
+<li>filesystem</li>
+<li>hive metastore</li>
+<li>jdbc</li>
+</ul>
+<p>For the sake of simplicity, I didn’t use extra components, so I only use S3 aka filesystem as metastore. Although the function is fine, according to the <a target="_blank" rel="noopener" href="https://paimon.apache.org/docs/0.9/concepts/concurrency-control/">official document</a>, using S3 as warehouse needs to be paired with Hive or JDBC metastore to ensure consistency.</p>
+<blockquote>
+<p><em>But for object storage such as OSS and S3, their ‘RENAME’ does not have atomic semantic. We need to configure Hive or jdbc metastore and enable ‘lock.enabled’ option for the catalog. Otherwise, there may be a chance of losing the snapshot.</em></p>
+</blockquote>
+<p>My future experiments will focus on understanding the scenarios that require this level of consistency.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/apache-paimon-with-flink-trino-a-streaming-lakehouse-playground-17efdbc713c9">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Data/Is-there-an-Alternative-to-Debezium-Kafka/20241103/" rel="prev" title="Is there an Alternative to Debezium + Kafka?">
+                  <i class="fa fa-chevron-left"></i> Is there an Alternative to Debezium + Kafka?
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Development/What-Exactly-is-Systems-Thinking/20241201/" rel="next" title="What Exactly is Systems Thinking?">
+                  What Exactly is Systems Thinking? <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Explaining how to achieve end-to-end exactly-once guarantee Previously, when discussing message queues, we mentioned that when selecting a message queue, we should consider its delivery guarantee. Dep">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Understanding Exactly-once Semantics">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Understanding-Exactly-once-Semantics/20221030/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Explaining how to achieve end-to-end exactly-once guarantee Previously, when discussing message queues, we mentioned that when selecting a message queue, we should consider its delivery guarantee. Dep">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*LFngB3Juj-a2xErh">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*DHa-QK5vqP4oPqh6O2KRuA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*H1EtHr2h0kRGBqj5iUBbdQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*BI7_kNugq6tdvRGX9jOQlA.png">
+<meta property="article:published_time" content="2022-10-30T17:21:29.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.829Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*LFngB3Juj-a2xErh">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Understanding-Exactly-once-Semantics/20221030/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Understanding-Exactly-once-Semantics/20221030/","path":"Architecture/Understanding-Exactly-once-Semantics/20221030/","title":"Understanding Exactly-once Semantics"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Understanding Exactly-once Semantics | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Explaining-how-to-achieve-end-to-end-exactly-once-guarantee"><span class="nav-number">1.</span> <span class="nav-text">Explaining how to achieve end-to-end exactly-once guarantee</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Producer-Perspective"><span class="nav-number"></span> <span class="nav-text">Producer Perspective</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consumer-Perspective"><span class="nav-number"></span> <span class="nav-text">Consumer Perspective</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sink-Perspective"><span class="nav-number"></span> <span class="nav-text">Sink Perspective</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Understanding-Exactly-once-Semantics/20221030/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Understanding Exactly-once Semantics | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Understanding Exactly-once Semantics
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-10-31 01:21:29" itemprop="dateCreated datePublished" datetime="2022-10-31T01:21:29+08:00">2022-10-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Explaining-how-to-achieve-end-to-end-exactly-once-guarantee"><a href="#Explaining-how-to-achieve-end-to-end-exactly-once-guarantee" class="headerlink" title="Explaining how to achieve end-to-end exactly-once guarantee"></a>Explaining how to achieve end-to-end exactly-once guarantee</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*LFngB3Juj-a2xErh"></p>
+<p>Previously, when <a target="_blank" rel="noopener" href="https://selectfrom.dev/message-queue-in-redis-9efe0de2c39c">discussing message queues</a>, we mentioned that when selecting a message queue, we should consider its delivery guarantee. Depending on the needs, there are different requirements for the delivery guarantee. The more critical the application, the higher level of guarantee is required.</p>
+<p>There are three different levels of delivery guarantees, ranging from weak to strong as follows.</p>
+<ol>
+<li>At most once</li>
+<li>At least once</li>
+<li>Exactly once</li>
+</ol>
+<p>When we define a delivery guarantee, in fact, we need to understand the scope of the guarantee. In an end-to-end delivery guarantee, there are three different paths that work together to define a complete end-to-end delivery guarantee.</p>
+<p>These three paths are as follows.</p>
+<ul>
+<li>Producer Perspective</li>
+<li>Consumer Perspective</li>
+<li>Sink Perspective</li>
+</ul>
+<p>An end-to-end delivery guarantee is actually determined by the weakest of these three paths. For example, if the producer has an exactly-once guarantee, but the consumer can only achieve at-least once, and the sink has at-least once too, then end-to-end is at-least once guaranteed.</p>
+<p>In this article, we will focus on how to achieve an exactly-once guarantee. Therefore, it is necessary to understand the meaning of these three paths and how to handle failures.</p>
+<h3 id="Producer-Perspective"><a href="#Producer-Perspective" class="headerlink" title="Producer Perspective"></a>Producer Perspective</h3><p>From the producer’s point of view, we always want any message that is sent to be delivered.</p>
+<p>Most message queues are able to tell the producer whether the message was sent successfully or not, and when the message is sent successfully, the producer will receive a response. We can be sure that if we receive a response, it was successful, and if we don’t receive it, it’s basically a failure.</p>
+<p>However, if we just lose the response but send it successfully, we have a problem.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*DHa-QK5vqP4oPqh6O2KRuA.png"></p>
+<p>The diagram above shows a common error process, so how do we avoid sending twice?</p>
+<p>There are several approaches.</p>
+<p>The first approach is for the producer to maintain a unique constraint on the message, e.g. <code>(producer_id, msg_id)</code>. When a send failure occurs, the producer goes to the broker and queries the broker’s internal storage to determine whether the send failed or the response was lost.</p>
+<p>Nevertheless, not every message queue supports this approach. If the message disappears as soon as it is taken away by the consumer, such as RabbitMQ, then this approach will not work. Conversely, systems like Kafka, which store messages as logs, can provide producers with queries.</p>
+<p>In the second approach, the producer does not identify if a response is lost, instead resending the message anyway, but leaving a GUID (globally unique ID) on the message. On the other hand, the consumer receives the message and has to determine if the GUID has been processed, or simply ignore it if it has been processed.</p>
+<p>If using Kafka, there is another approach to guarantee exactly-once, that is, through message transactions.</p>
+<p>Just like a relational database, declare <code>START TRANSACTION</code> before sending a message, and declare <code>COMMIT</code> after the message is sent. If any of the intermediate messages fail, then the producer does not <code>COMMIT</code> but simply aborts the entire transaction and resends it. In this way, a failed resend does not result in a duplicate send.</p>
+<h3 id="Consumer-Perspective"><a href="#Consumer-Perspective" class="headerlink" title="Consumer Perspective"></a>Consumer Perspective</h3><p>This is the scenario that all message queues focus on. The delivery guarantee provided by the message queue is only a part of the overall end-to-end delivery guarantee from the consumer perspective.</p>
+<p>Most message queues can only provide at-least once guarantee. Once the consumer has correctly processed the message, an acknowledgment is sent to the message queue, and the message is removed only when the message queue receives the acknowledgment.</p>
+<p>And, the flow of the problem is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*H1EtHr2h0kRGBqj5iUBbdQ.png"></p>
+<p>When Consumer 1 handles Message A and an acknowledgment is lost, then Consumer 2 can continue to get the same Message A and handle it, resulting in handling twice.</p>
+<p>Basically, this is a common problem for messages queues that are supported at-least once.</p>
+<p><em><strong>Idempotent Updates</strong></em></p>
+<p>In general, developers try to make messages as idempotent as possible so that they do not cause problems no matter how many times a message is handled.</p>
+<p>As mentioned in the previous section, putting a GUID inside each message is an obvious solution. Consumers store handled messages in a durable storage, and each consumer must verify whether a message has been handled before handling it.</p>
+<p>In addition, consumers must avoid duplicate updates when updating the storage by using transactions.</p>
+<p>Let’s take MySQL as an example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">START TRANSACTION;  </span><br><span class="line">$RET = UPDATE event SET handled = true WHERE msg_id = 123 AND handled = false;  </span><br><span class="line">if $RET == 1:  </span><br><span class="line">    Do whatever you want;  </span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
+
+<p>Please notice in the first line after the transaction, in addition to <code>msg_id</code> in the <code>WHERE</code> clause we must also add <code>handled = false</code>, this is one of the ways to avoid MySQL having racing conditions. If we don’t add this check condition, it is still possible to process the same message twice under race conditions.</p>
+<p>There is a detailed explanation of how MySQL handles race conditions in my previous article, if you want to know the details you can refer to the following.</p>
+<p>Nevertheless, it is not easy to make the message idempotent. In addition to the consumer, it often requires the cooperation of the producer, which adds to the coupling and complexity.</p>
+<p><em><strong>Event Sourcing</strong></em></p>
+<p>Another approach is to use event sourcing. To implement event sourcing, the message queue must support querying message logs, such as Kafka.</p>
+<p>Event sourcing means that the current state of the consumer is generated by replaying all events, so any event handling failure can be recovered by simply replaying the event from the beginning.</p>
+<p>However, this approach creates two problems.</p>
+<ol>
+<li>The efficiency of replaying from scratch is not good.</li>
+<li>It is difficult to get a list of several current states.</li>
+</ol>
+<p>To solve the first problem, a checkpoint mechanism is usually used. Take snapshots of the states and record offsets at regular time intervals or for each batch of messages handled.</p>
+<p>When a problem occurs, just restore the last snapshot and replay the last offset to the latest data. Through the checkpoint mechanism, we can greatly improve the replay efficiency.</p>
+<p>The second problem is usually solved by using CQRS, so that a variety of different read requirements have a snapshot available for reference. For more information on how to evolve the CQRS architecture, please refer to my previous article.</p>
+<p>To sum up, in order to achieve an exactly-once guarantee by using event sourcing, the consumer must be able to record the handled states and offsets; when each error occurs, the consumer discards the current result and tries to replay it from the previous state snapshot to get the correct result.</p>
+<h3 id="Sink-Perspective"><a href="#Sink-Perspective" class="headerlink" title="Sink Perspective"></a>Sink Perspective</h3><p>Sink means downstream of the message. In fact, the sink perspective is a special case of the customer perspective.</p>
+<p>Suppose the sink is a database, the consumer itself can already achieve exactly-once guarantee through the event sourcing.</p>
+<p>But this is not enough, because in the process of recovering the consumer will propagate the event to the next again, resulting in downstream receiving duplicate results of the same event.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*BI7_kNugq6tdvRGX9jOQlA.png"></p>
+<p>In the above process, the consumer itself can guarantee exactly-once by restoring the state, but the downstream database has been written twice, which is still a problem.</p>
+<p>Honestly, there is no silver bullet in sink that can completely achieve exactly-once guarantee without side effects.</p>
+<p>Let’s check Solution 1, we only output the accumulated results after the consumer has successfully created a checkpoint.</p>
+<p>Since consumers are guaranteed exactly-once through the checkpoint mechanism, we only output the results when the checkpoint is created, thus ensuring consistency between consumer and sink. It is important to make the checkpoint creation and output be transactional.</p>
+<p>However, Solution 1 has an obvious drawback. The message handling loses its real-time nature and generates spikes in the database. Because the checkpoints are created in batches, not for each message, i.e., there are no current results in the database. In addition, the output process is also batch, which results in a large number of writes to the database at regular intervals.</p>
+<p>So, let’s see Solution 2, which makes the database update idempotent.</p>
+<p>It is straightforward to simply make each database update have a primary key and overwrite the rows with the same primary key.</p>
+<p>However, Solution 2 also has drawbacks. Firstly, it is not easy to define the primary key for each update. Secondly, when a consumer fails to handle and starts a replay, the saved results may time travel and be reverted back to the past then updated again.</p>
+<p>This inconsistency depends on how often the checkpoints are created and how efficiently they are replayed, which can take up to a couple of minutes.</p>
+<p>Both Solution 1 and Solution 2 have their potential risks, but if I had to choose, I would prefer Solution 2 more.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we take a closer look at the semantics of exactly-once and understand how end-to-end exactly-once can be implemented.</p>
+<p>Starting with the message producer at the beginning, the message is sent and enters the message queue, then is read and handled by the consumer, and finally the result is output downstream.</p>
+<p>I have to say exactly-once guarantee is a very difficult holy grail to achieve, and it has to be done correctly at every stage of the message flow in order to fully achieve end-to-end exactly-once guarantee.</p>
+<p>I believe there must be some original designs besides listed in this article that I have never noticed, if you have your own implementation, please feel free to share with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/understanding-exactly-once-semantics-338a56d8ba6a">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Data/Playing-PyFlink-in-a-Nutshell/20221023/" rel="prev" title="Playing PyFlink in a Nutshell">
+                  <i class="fa fa-chevron-left"></i> Playing PyFlink in a Nutshell
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Architecture/What-pattern-is-considered-CQRS/20221106/" rel="next" title="What pattern is considered CQRS?">
+                  What pattern is considered CQRS? <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/10/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/10/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/10/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Making-Debezium-2x-Support-Confluent-Schema-Registry/20230416/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Making-Debezium-2x-Support-Confluent-Schema-Registry/20230416/" class="post-title-link" itemprop="url">Making Debezium 2.x Support Confluent Schema Registry</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-04-17 01:46:33" itemprop="dateCreated datePublished" datetime="2023-04-17T01:46:33+08:00">2023-04-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Making-Debezium-2-x-Support-Confluent-Schema-Registry"><a href="#Making-Debezium-2-x-Support-Confluent-Schema-Registry" class="headerlink" title="Making Debezium 2.x Support Confluent Schema Registry"></a>Making Debezium 2.x Support Confluent Schema Registry</h3><h4 id="Build-a-Debezium-2-0-connect-image-with-Avro-support"><a href="#Build-a-Debezium-2-0-connect-image-with-Avro-support" class="headerlink" title="Build a Debezium 2.0 connect image with Avro support"></a>Build a Debezium 2.0 connect image with Avro support</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*GoqxJ6u9Yg9dI-dN"></p>
+<p>We have talked about <a target="_blank" rel="noopener" href="https://medium.com/better-programming/real-time-data-infra-stack-73c597ed05ee">how to design a real-time data pipeline</a>, and one of the important components is Debezium. In order to load OLTP databases from various microservices into the data warehouse seamlessly, we often rely on Debezium to do this task.</p>
+<p>In addition, in <a target="_blank" rel="noopener" href="https://hackmd.io/HAAXxvRkRguU2gAO9_-49g">previous article</a>, we mentioned the evolutionary features of Apache Avro and the usage of Confluent Schema Registry, which can be integrated to build a more automated real-time data pipeline.</p>
+<p>Nevertheless, since Debezium 2.0, it removes the native Confluent support, and if we want to use Debezium with Confluent schema registry, we have to build the Debezium Connect images manually.</p>
+<p>The reference is as follows.</p>
+<p>The original image repository is at <a target="_blank" rel="noopener" href="https://github.com/debezium/container-images.git">GitHub</a>. We can follow the Dockerfile of <code>connect-base/2.0</code> to build the <code>connect-base</code> image.</p>
+<p>In addition to the original dependencies, we need more about Confluent supports.</p>
+<ul>
+<li>kafka-connect-avro-converter</li>
+<li>kafka-connect-avro-data</li>
+<li>kafka-avro-serializer</li>
+<li>kafka-schema-serializer</li>
+<li>kafka-schema-registry-client</li>
+<li>common-config</li>
+<li>common-utils</li>
+</ul>
+<p>Therefore, Dockerfile should be as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">ARG DEBEZIUM_DOCKER_REGISTRY_PRIMARY_NAME  </span><br><span class="line">FROM $DEBEZIUM_DOCKER_REGISTRY_PRIMARY_NAME/kafka:2.0  </span><br><span class="line">  </span><br><span class="line">LABEL maintainer=&quot;Debezium Community&quot;  </span><br><span class="line">  </span><br><span class="line">USER root  </span><br><span class="line">RUN microdnf -y install libaio &amp;&amp; microdnf clean all  </span><br><span class="line">USER kafka  </span><br><span class="line">EXPOSE 8083  </span><br><span class="line">VOLUME [&quot;/kafka/data&quot;,&quot;/kafka/logs&quot;,&quot;/kafka/config&quot;]  </span><br><span class="line">COPY docker-entrypoint.sh /  </span><br><span class="line">COPY --chown=kafka:kafka log4j.properties $KAFKA_HOME/config/log4j.properties  </span><br><span class="line">COPY docker-maven-download.sh /usr/local/bin/docker-maven-download  </span><br><span class="line">#  </span><br><span class="line"># Set up the plugins directory ...  </span><br><span class="line">#  </span><br><span class="line">ENV KAFKA_CONNECT_PLUGINS_DIR=$KAFKA_HOME/connect \  </span><br><span class="line">    EXTERNAL_LIBS_DIR=$KAFKA_HOME/external_libs \  </span><br><span class="line">    CONNECT_PLUGIN_PATH=$KAFKA_CONNECT_PLUGINS_DIR \  </span><br><span class="line">    MAVEN_DEP_DESTINATION=$KAFKA_HOME/libs \  </span><br><span class="line">    CONFLUENT_VERSION=7.0.1 \  </span><br><span class="line">    AVRO_VERSION=1.10.1 \  </span><br><span class="line">    APICURIO_VERSION=2.2.5.Final \  </span><br><span class="line">    GUAVA_VERSION=31.0.1-jre  </span><br><span class="line">RUN mkdir &quot;$KAFKA_CONNECT_PLUGINS_DIR&quot; &quot;$EXTERNAL_LIBS_DIR&quot;  </span><br><span class="line">#  </span><br><span class="line"># The `docker-entrypoint.sh` script will automatically discover the child directories  </span><br><span class="line"># within the $KAFKA_CONNECT_PLUGINS_DIR directory (e.g., `/kafka/connect`), and place  </span><br><span class="line"># all of the files in those child directories onto the Java classpath.  </span><br><span class="line">#  </span><br><span class="line"># The general recommendation is to create a separate child directory for each connector  </span><br><span class="line"># (e.g., &quot;debezium-connector-mysql&quot;), and to place that connector&#x27;s JAR files  </span><br><span class="line"># and other resource files in that child directory.  </span><br><span class="line">#  </span><br><span class="line"># However, use a single directory for connectors when those connectors share dependencies.  </span><br><span class="line"># This will prevent the classes in the shared dependencies from appearing in multiple JARs  </span><br><span class="line"># on the classpath, which results in arcane NoSuchMethodError exceptions.  </span><br><span class="line">#  </span><br><span class="line">RUN docker-maven-download confluent kafka-connect-avro-converter &quot;$CONFLUENT_VERSION&quot; fd03a1436f29d39e1807e2fb6f8e415a &amp;&amp; \  </span><br><span class="line">    docker-maven-download confluent kafka-connect-avro-data &quot;$CONFLUENT_VERSION&quot; d27f30e9eca4ef1129289c626e9ce1f1 &amp;&amp; \  </span><br><span class="line">    docker-maven-download confluent kafka-avro-serializer &quot;$CONFLUENT_VERSION&quot; c72420603422ef54d61f493ca338187c &amp;&amp; \  </span><br><span class="line">    docker-maven-download confluent kafka-schema-serializer &quot;$CONFLUENT_VERSION&quot; 9c510db58119ef66d692ae172d5b1204 &amp;&amp; \  </span><br><span class="line">    docker-maven-download confluent kafka-schema-registry-client &quot;$CONFLUENT_VERSION&quot; 7449df1f5c9a51c3e82e776eb7814bf1 &amp;&amp; \  </span><br><span class="line">    docker-maven-download confluent common-config &quot;$CONFLUENT_VERSION&quot; aab5670de446af5b6f10710e2eb86894 &amp;&amp; \  </span><br><span class="line">    docker-maven-download confluent common-utils &quot;$CONFLUENT_VERSION&quot; 74bf5cc6de2748148f5770bccd83a37c &amp;&amp; \  </span><br><span class="line">    docker-maven-download central org/apache/avro avro &quot;$AVRO_VERSION&quot; 35469fee6d74ecbadce4773bfe3a204c &amp;&amp; \  </span><br><span class="line">    docker-maven-download apicurio &quot;$APICURIO_VERSION&quot; f7874b2e2a59dfa829242d9a52b44230 &amp;&amp; \  </span><br><span class="line">    docker-maven-download central com/google/guava guava &quot;$GUAVA_VERSION&quot; bb811ca86cba6506cca5d415cd5559a7  </span><br><span class="line">ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]  </span><br><span class="line">CMD [&quot;start&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>There are three required environments to specify those versions of dependencies.</p>
+<ul>
+<li>CONFLUENT_VERSION: 7.0.1</li>
+<li>AVRO_VERSION: 1.10.1</li>
+<li>GUAVA_VERSION: 31.0.1</li>
+</ul>
+<blockquote>
+<p><em>Confluent packages rely on Guava, which is a common util package.</em></p>
+</blockquote>
+<p>The <a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/io.confluent/kafka-schema-registry-client?repo=confluent-packages">latest Confluent version</a> is 7.3.3 until now.</p>
+<p><a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/org.apache.avro/avro">Avro</a> and <a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/com.google.guava/guava">Guava</a> are located at official maven repo.</p>
+<p>After having <code>connect-base</code>, we can build <code>connect</code> like <a target="_blank" rel="noopener" href="https://github.com/debezium/container-images/blob/main/connect/2.0/Dockerfile">main Dockerfile</a> except the base image, which should be our owned.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Once the image is built, how do we verify the image works?</p>
+<p>Here is an official Debezium tutorial.</p>
+<p>If the built image can pass the tutorial, then the image works.</p>
+<p>By the way, if you need a Debezium 2.0 with Confluent 7.0.1 image, here’s a ready-made.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/making-debezium-2-x-support-confluent-schema-registry-43435a564f21">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Testing-Apache-Avro-Compatibility/20230409/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Testing-Apache-Avro-Compatibility/20230409/" class="post-title-link" itemprop="url">Testing Apache Avro Compatibility</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-04-10 01:42:48" itemprop="dateCreated datePublished" datetime="2023-04-10T01:42:48+08:00">2023-04-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Experimenting-in-Python-with-specific-Avro-compatibility-scenarios"><a href="#Experimenting-in-Python-with-specific-Avro-compatibility-scenarios" class="headerlink" title="Experimenting in Python with specific Avro compatibility scenarios"></a>Experimenting in Python with specific Avro compatibility scenarios</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*NQoDMVQ824tJeGeV"></p>
+<p>There is a complete article on Avro compatibility and what should we do in the various compatibility modes.</p>
+<p>In my opinion, this article is really good and makes it easy to understand how to make a breaking change with Avro format. But I still want to actually test what results these steps will have, so this article records my experimental process.</p>
+<p>First, we build an experimental environment, basically we only need a schema registry. I choose Confluent Schema Registry, mainly because it’s simple to deploy and use, and the <a target="_blank" rel="noopener" href="https://github.com/confluentinc/cp-all-in-one">Confluent official document</a> provides a complete local experimental environment. Nevertheless, I only need two core components, the broker and the schema-registry.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">version: &#x27;2&#x27;  </span><br><span class="line">services:  </span><br><span class="line">  zookeeper:  </span><br><span class="line">    image: confluentinc/cp-zookeeper:7.2.1  </span><br><span class="line">    hostname: zookeeper  </span><br><span class="line">    container_name: zookeeper  </span><br><span class="line">    ports:  </span><br><span class="line">      - &quot;2181:2181&quot;  </span><br><span class="line">    environment:  </span><br><span class="line">      ZOOKEEPER_CLIENT_PORT: 2181  </span><br><span class="line">      ZOOKEEPER_TICK_TIME: 2000  </span><br><span class="line">  </span><br><span class="line">  broker:  </span><br><span class="line">    image: confluentinc/cp-server:7.2.1  </span><br><span class="line">    hostname: broker  </span><br><span class="line">    container_name: broker  </span><br><span class="line">    depends_on:  </span><br><span class="line">      - zookeeper  </span><br><span class="line">    ports:  </span><br><span class="line">      - &quot;9092:9092&quot;  </span><br><span class="line">      - &quot;9101:9101&quot;  </span><br><span class="line">    environment:  </span><br><span class="line">      KAFKA_BROKER_ID: 1  </span><br><span class="line">      KAFKA_ZOOKEEPER_CONNECT: &#x27;zookeeper:2181&#x27;  </span><br><span class="line">      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT  </span><br><span class="line">      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://0.0.0.0:9092  </span><br><span class="line">      KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter  </span><br><span class="line">      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1  </span><br><span class="line">      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0  </span><br><span class="line">      KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1  </span><br><span class="line">      KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1  </span><br><span class="line">      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1  </span><br><span class="line">      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1  </span><br><span class="line">      KAFKA_JMX_PORT: 9101  </span><br><span class="line">      KAFKA_JMX_HOSTNAME: localhost  </span><br><span class="line">      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://schema-registry:8081  </span><br><span class="line">      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: broker:29092  </span><br><span class="line">      CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1  </span><br><span class="line">      CONFLUENT_METRICS_ENABLE: &#x27;true&#x27;  </span><br><span class="line">      CONFLUENT_SUPPORT_CUSTOMER_ID: &#x27;anonymous&#x27;  </span><br><span class="line">        </span><br><span class="line">  schema-registry:  </span><br><span class="line">    image: confluentinc/cp-schema-registry:7.2.1  </span><br><span class="line">    hostname: schema-registry  </span><br><span class="line">    container_name: schema-registry  </span><br><span class="line">    depends_on:  </span><br><span class="line">      - broker  </span><br><span class="line">    ports:  </span><br><span class="line">      - &quot;8081:8081&quot;  </span><br><span class="line">    environment:  </span><br><span class="line">      SCHEMA_REGISTRY_HOST_NAME: schema-registry  </span><br><span class="line">      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: &#x27;broker:29092&#x27;  </span><br><span class="line">      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081</span><br></pre></td></tr></table></figure>
+
+<p>Next, let’s follow the steps in the reference document to actually evolve a field, in other words, evolve a string field into a record field.</p>
+<p>I wonder what happens in the following scenarios in the default <code>BACKWARD</code> compatibility mode, and also how the unworkable scenarios described in the article will be presented.</p>
+<ol>
+<li>The consumer is fully engaged in the producer’s schema.</li>
+<li>The consumer only uses the initial schema.</li>
+<li>The consumer lags behind the producer’s version.</li>
+</ol>
+<p>The whole experiment process is as follows.</p>
+<p>To run this script needs to install the dependency first.</p>
+<blockquote>
+<p><em>pip install confluent-kafka fastavro</em></p>
+</blockquote>
+<p>The execution results are actually as expected, i.e., there are no problems, and the consumer only parses the parts that can be understood.</p>
+<p>In addition, if the compatibility mode is <code>BACKWARD_TRANSITIVE</code>, the following error will be encountered.</p>
+<blockquote>
+<p><em>SchemaRegistryError: Schema being registered is incompatible with an earlier schema for subject “example.test.BACKWARD_TRANSITIVE-value”, details: [Incompatibility{type:READER_FIELD_MISSING_DEFAULT_VALUE, location:&#x2F;fields&#x2F;0, message:person_name, reader:{“type”:“record”,“name”:“Person”,“namespace”:“example.test.BACKWARD_TRANSITIVE”,“fields”:[{“name”:“person_name”,“type”:{“type”:“record”,“name”:“Name”,“fields”:[{“name”:“first_name”,“type”:“string”},{“name”:“last_name”,“type”:“string”}]}}]}, writer:{“type”:“record”,“name”:“Person”,“namespace”:“example.test.BACKWARD_TRANSITIVE”,“fields”:[{“name”:“name”,“type”:“string”,“default”:“<DEPRECATED>”}]}}] (HTTP status code 409, SR code 409)</em></p>
+</blockquote>
+<p>On the other hand, if it is <code>FORWARD_TRANSITIVE</code>, we will encounter the following.</p>
+<blockquote>
+<p><em>SchemaRegistryError: Schema being registered is incompatible with an earlier schema for subject “example.test.FORWARD_TRANSITIVE-value”, details: [Incompatibility{type:READER_FIELD_MISSING_DEFAULT_VALUE, location:&#x2F;fields&#x2F;0, message:name, reader:{“type”:“record”,“name”:“Person”,“namespace”:“example.test.FORWARD_TRANSITIVE”,“fields”:[{“name”:“name”,“type”:“string”}]}, writer:{“type”:“record”,“name”:“Person”,“namespace”:“example.test.FORWARD_TRANSITIVE”,“fields”:[{“name”:“person_name”,“type”:{“type”:“record”,“name”:“Name”,“fields”:[{“name”:“first_name”,“type”:“string”,“default”:“&lt;NOT_IN_USE&gt;”},{“name”:“last_name”,“type”:“string”,“default”:“&lt;NOT_IN_USE&gt;”}]},“default”:{“first_name”:“<??>”,“last_name”:“<??>”}}]}}] (HTTP status code 409, SR code 409)</em></p>
+</blockquote>
+<p>The above error also occurs at the corresponding step and cannot be continued, as stated in the reference document.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article is mainly about the experimental process, but after experiencing it, it is also better to understand the best practices that should be followed for schema evolution.</p>
+<p>The best practice principles for schema evolution are mentioned in this article.</p>
+<ol>
+<li>Make your primary key required.</li>
+<li>Give default values to all the fields that could be removed in the future.</li>
+<li>Be very careful when using ENUM as the can not evolve over time.</li>
+<li>Do not rename fields. You can add aliases instead.</li>
+<li>When evolving schema, ALWAYS give default values.</li>
+<li>When evolving schema, NEVER remove, rename of the required field or change the type.</li>
+</ol>
+<p>I’m not sure where his source is from, but the descriptions match my past experience quite well.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/testing-apache-avro-compatibility-6bc82f6fe1b3">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Make-any-Website-Authenticated/20230319/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Microservice/Make-any-Website-Authenticated/20230319/" class="post-title-link" itemprop="url">Make any Website Authenticated</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-03-20 01:52:03" itemprop="dateCreated datePublished" datetime="2023-03-20T01:52:03+08:00">2023-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="A-practical-example-of-authentication-via-Google"><a href="#A-practical-example-of-authentication-via-Google" class="headerlink" title="A practical example of authentication via Google"></a>A practical example of authentication via Google</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*LKmjdue4WOogzdXj.jpg"></p>
+<p>Authentication is always an important topic, basically, any website needs authentication function. Traditionally, we need to maintain our own database, frontend, backend and middleware to achieve complete authentication. But thanks to OAuth, we now have many easy options, such as using Google accounts for authentication.</p>
+<p>In this article, we would like to introduce a way to make any website have Google authentication without any modification.</p>
+<p>Why is there a need for this? Sometimes we can easily deploy a tool to the cloud, but we don’t want the tool to be available for public access, so we want to add authentication to it. However, we don’t want to modify the tool’s code, so we’re attempting to find a more efficient way to do this.</p>
+<p>For example, <a target="_blank" rel="noopener" href="https://flink.apache.org/">Apache Flink</a> is a powerful and easy to develop streaming framework that provides a fully functional web portal. Nevertheless, the web portal has no authentication mechanism, so anyone who can access it can upload jobs.</p>
+<p>The <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.16/docs/deployment/security/security-ssl/#external--rest-connectivity">official documentation</a> recommends several approaches to mitigate this downside, but those approaches are too lightweight, on the other hand, to provide a full authentication mechanism, Flink supports Kerberos integration which is too heavy. Therefore, we need a plugin that makes it easy for a website to support common authentication.</p>
+<h3 id="Solution-Concept"><a href="#Solution-Concept" class="headerlink" title="Solution Concept"></a>Solution Concept</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*hvOn2InPBQV2hoqYyE3_dA.png"></p>
+<p>From the above diagram, we can find out a user does not access the service directly, but through a Proxy, which verifies and determines whether to allow access.</p>
+<p>Therefore, we do not need to modify the code of the service, we just need to plug a Proxy in front to achieve our goal.</p>
+<p>In fact, there are many Proxies that provide this function, in this article we choose the most common one <a target="_blank" rel="noopener" href="https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview">OAuth2 Proxy</a>, and use Google OAuth as an example.</p>
+<h3 id="Setup-Step-by-Step"><a href="#Setup-Step-by-Step" class="headerlink" title="Setup Step by Step"></a>Setup Step by Step</h3><p>First, we need to go to <a target="_blank" rel="noopener" href="https://console.cloud.google.com/">Google Cloud Console</a> to create a new project, the process is not difficult, just fill it out.</p>
+<p>Next, navigate to <code>Credentials</code> under <code>API &amp; Service</code> and create a new credential. There is only one field that needs careful consideration, <code>Redirect URL</code>, here fill in the <code>http://localhost:4180/oauth2/callback</code> that is needed for the example.</p>
+<p>Please remember the <code>Client ID</code> and <code>Client Secret</code> after you finish creating, we will need them later.</p>
+<p>Now, let’s use a simple web app as an example, which is the <code>hello-app</code> provided by Google.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">version: &#x27;3&#x27;  </span><br><span class="line">  </span><br><span class="line">services:  </span><br><span class="line">  hello-world:  </span><br><span class="line">    image: gcr.io/google-samples/hello-app:1.0  </span><br><span class="line">    ports:  </span><br><span class="line">      - &quot;8080:8080&quot;</span><br></pre></td></tr></table></figure>
+
+<p>Running this <code>docker-compose.yml</code> should start hello world, and you can see the corresponding message at <code>http://localhost:8080</code>. At this point, the web app is working without authentication.</p>
+<p>Let’s add a Proxy to implement authentication.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">services:  </span><br><span class="line">  oauth2-proxy:  </span><br><span class="line">    ports:  </span><br><span class="line">      - &quot;4180:4180&quot;  </span><br><span class="line">    image: bitnami/oauth2-proxy:7.3.0  </span><br><span class="line">    command:  </span><br><span class="line">      - --http-address  </span><br><span class="line">      - 0.0.0.0:4180  </span><br><span class="line">    environment:  </span><br><span class="line">      OAUTH2_PROXY_UPSTREAMS: &quot;http://hello-world:8080/&quot;  </span><br><span class="line">      OAUTH2_PROXY_CLIENT_ID: &lt;YOUR_CLIENT_ID&gt;  </span><br><span class="line">      OAUTH2_PROXY_CLIENT_SECRET: &lt;YOUR_CLIENT_SECRET&gt;  </span><br><span class="line">      OAUTH2_PROXY_COOKIE_SECRET: &lt;A_STORNG_SALT&gt;  </span><br><span class="line">      OAUTH2_PROXY_HTTPS_REDIRECT: &quot;false&quot;  </span><br><span class="line">      OAUTH2_PROXY_EMAIL_DOMAINS: &quot;*&quot;  </span><br><span class="line">      OAUTH2_PROXY_PROVIDER: &quot;google&quot;  </span><br><span class="line">      OAUTH2_PROXY_REDIRECT_URL: &quot;http://localhost:4180/oauth2/callback&quot;  </span><br><span class="line">    restart: always</span><br></pre></td></tr></table></figure>
+
+<p>There are three fields to fill in this example, including the <code>Client ID</code> and <code>Client Secret</code> just mentioned, as well as the secret needed by a proxy, if there is no special need, then just generate it. I am using a Python script to generate, in fact, there are many ways, choose the one you are familiar with.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import secrets  </span><br><span class="line">print(secrets.token_hex(16))</span><br></pre></td></tr></table></figure>
+
+<p>Just launch this docker compose directly after completion. You can find that if you access <code>http://localhost:4180</code>, you will be redirected to Google Authentication. Once authenticated, you can see the original hello world result.</p>
+<p>Finally, we can close the originally opened 8080 port. Here is a complete <code>docker-compose.yml</code>, copy and paste it directly with minor modifications and it will work.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">version: &#x27;3&#x27;  </span><br><span class="line">  </span><br><span class="line">services:  </span><br><span class="line">  hello-world:  </span><br><span class="line">    image: gcr.io/google-samples/hello-app:1.0  </span><br><span class="line">    ports:  </span><br><span class="line">      - &quot;8080&quot;  </span><br><span class="line">  oauth2-proxy:  </span><br><span class="line">    ports:  </span><br><span class="line">      - &quot;4180:4180&quot;  </span><br><span class="line">    image: bitnami/oauth2-proxy:7.3.0  </span><br><span class="line">    command:  </span><br><span class="line">      - --http-address  </span><br><span class="line">      - 0.0.0.0:4180  </span><br><span class="line">    environment:  </span><br><span class="line">      OAUTH2_PROXY_UPSTREAMS: &quot;http://hello-world:8080/&quot;  </span><br><span class="line">      OAUTH2_PROXY_CLIENT_ID: &lt;YOUR_CLIENT_ID&gt;  </span><br><span class="line">      OAUTH2_PROXY_CLIENT_SECRET: &lt;YOUR_CLIENT_SECRET&gt;  </span><br><span class="line">      OAUTH2_PROXY_COOKIE_SECRET: &lt;A_STORNG_SALT&gt;  </span><br><span class="line">      OAUTH2_PROXY_HTTPS_REDIRECT: &quot;false&quot;  </span><br><span class="line">      OAUTH2_PROXY_EMAIL_DOMAINS: &quot;*&quot;  </span><br><span class="line">      OAUTH2_PROXY_PROVIDER: &quot;google&quot;  </span><br><span class="line">      OAUTH2_PROXY_REDIRECT_URL: &quot;http://localhost:4180/oauth2/callback&quot;  </span><br><span class="line">    restart: always</span><br></pre></td></tr></table></figure>
+
+<p>If the function is not working properly, it is possible that Google’s OAuth client needs start time, wait for it a little.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article is a real example of what can be done, and it is quite straightforward.</p>
+<p>Nevertheless, it is important to accomplish our goal to add authentication to any web app. For this example, we chose Google OAuth as the easiest to implement, but actually OAuth Proxy supports a lot of IDPs, and there is a complete list in the <a target="_blank" rel="noopener" href="https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider">official document</a>.</p>
+<p>To understand this article, you don’t even need any background knowledge of OAuth, just follow the steps. Enjoy.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/make-any-website-authenticated-7ec69fd63c84">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Another-Way-to-Design-Short-URL-Service/20230312/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Another-Way-to-Design-Short-URL-Service/20230312/" class="post-title-link" itemprop="url">Another Way to Design Short URL Service</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-03-13 01:48:14" itemprop="dateCreated datePublished" datetime="2023-03-13T01:48:14+08:00">2023-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Another-Way-to-Design-Short-URL-Service"><a href="#Another-Way-to-Design-Short-URL-Service" class="headerlink" title="Another Way to Design Short URL Service"></a>Another Way to Design Short URL Service</h3><h4 id="An-out-of-the-box-feature-in-AWS"><a href="#An-out-of-the-box-feature-in-AWS" class="headerlink" title="An out-of-the-box feature in AWS"></a>An out-of-the-box feature in AWS</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*XvJf9qS_o-g26Qit.png"></p>
+<p>Short URL service is a common feature, not only does it look better with shorter URLs, but it also has many additional benefits. For example, when a commercial website is sending out promotion SMS, shortening the URL can effectively save the cost of SMS.</p>
+<p>In addition, short URL services involve many important concepts of system design and are a common question during technical interviews. To design the architecture of a short URL service, we usually start with the following diagram and discuss some considerations.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*A7xidgJfl3X5g1R9COpX0g.png"></p>
+<h3 id="General-Rules"><a href="#General-Rules" class="headerlink" title="General Rules"></a>General Rules</h3><ul>
+<li>Generation rate: Knowing the rate at the client side to generate short URLs allows us to evaluate what kind of database is needed. In addition, the generation rate also affects whether ACID, i.e. <code>InsertIfNotExisted</code>, is required.</li>
+<li>Read frequency: If it is a system with a large number of reads, we will always need to consider caching.</li>
+<li>Retention period: How long to keep the generated short URLs and the generation rate can be multiplied to know the collision probability of the algorithm and whether the database needs to be sharded.</li>
+<li>Additional features: The need to provide additional features also directly affects the system design, e.g., if we want to track usage, how to update the counters in the case of caching.</li>
+</ul>
+<p>The above is a list of functional requirements, but of course, there are also non-functional requirements.</p>
+<ul>
+<li>Availability: How long does the short URL service allow for downtime, which will determine whether a load balancer needs to be used and whether the database needs to be clustered.</li>
+<li>Scalability: When the usage increases, not only the service itself must be able to scale horizontally, but also the bottleneck of the database must be addressed.</li>
+<li>Consistency: What should be done when two concurrently generated short addresses are the same?</li>
+</ul>
+<p>In the end, in order to achieve a scalable and highly availability short URL service, the architecture diagram usually becomes as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7rIFXELCP87GnzE3pM68pg.png"></p>
+<p>Well, it’s a bit complicated, but it’s actually putting in all the factors mentioned before.</p>
+<p>In order to provide scalability, there is a load balancer to spread the traffic to many API services, and each API generates its own short URL and writes to the corresponding database cluster based on sharding rules. When reading, in order to reduce the database load, we first read from the cache, and then read from the database if it does not exist.</p>
+<p>In addition, we have to consider whether the database is SQL or NoSQL, and if it is SQL, we have to design our own sharding mechanism. If it is NoSQL, how to implement ACID. Oh, we haven’t mentioned the monitoring, the monitoring of API, the monitoring of each database shard, and so on and so forth.</p>
+<p>As for the hashing algorithm, that is not the focus of this article. After all, the system architecture alone is troublesome enough.</p>
+<h3 id="Another-Way"><a href="#Another-Way" class="headerlink" title="Another Way"></a>Another Way</h3><p>In fact, there is a simpler way to achieve a highly scalable and available short URL service.</p>
+<p>Using AWS S3 with AWS Cloudfront, there is a step-by-step tutorial in the following article.</p>
+<p>Briefly, the S3 object setting <code>x-amz-website-redirect-location</code> can automatically convert the read object to <strong>HTTP 301 Redirect</strong>, and then with the built-in integration of AWS Cloudfront and S3, we can do the caching.</p>
+<p>The whole architecture will become very simple.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*5XPFTDviOPLgnb6GNP2_AA.png"></p>
+<p>Because S3 itself is highly available and scalable, and can be treated as unlimited volume, our problem becomes very simple, we just need to manage the creation of the short URL itself.</p>
+<p>Furthermore, both S3 and Cloudfront are monitored by AWS Cloudwatch, so it saves a lot of maintenance effort.</p>
+<p>If we want to know the performance of short URLs, we just need to enable Cloudfront’s access log and analyze it with AWS Athena. <a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html">The official AWS documentation</a> will have enough information.</p>
+<p>One more point to note is that <a target="_blank" rel="noopener" href="https://repost.aws/knowledge-center/s3-503-within-request-rate-prefix">AWS S3 has a built-in rate limit</a>. If short URLs are generated and written directly to the root directory, then the entire service is limited to 3500 short URLs per second.</p>
+<p>However, this can be avoided by a little trick. The rate limit rule is based on the object prefix, so we just need to add slash appropriately after generating short URLs. For example, if the generated short URL is 10 characters, <code>abcdefghij</code>, then the mid slash can effectively avoid the rate limit by turning it into <code>abcde/fghij</code>.</p>
+<p>Another problem is that AWS S3 itself does not have ACID, so when two objects with the same path but different metadata will occur the latter override the former. To avoid this problem is not difficult, we need only to add additional characters into the short URL, e.g. the last few digits of epoch.</p>
+<p>Consider the ten-character short URL <code>abcdefghij</code> with the rate limit problem can become <code>12/abcdefghij</code>.</p>
+<p>This depends on creativity, there is no fixed answer.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Short URL service is a good topic to learn system design, although the function is simple, but can cover most of the system design issues.</p>
+<p>But if we really want to implement a short URL service on our own, then those interesting topics will soon become nightmares. Therefore, I prefer to use some existing solutions, such as AWS S3, rather than building a complete system from scratch.</p>
+<p>However, even with an existing solution, those system design issues must be carefully evaluated, such as rate limit and ACID.</p>
+<p>System design is interesting, especially when there are many alternatives, and the process of weighing the pros and cons is always engaging.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/another-way-to-design-short-url-service-33da05a5548b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Testing/How-to-Make-Example-based-Testing-Better/20230305/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Testing/How-to-Make-Example-based-Testing-Better/20230305/" class="post-title-link" itemprop="url">How to Make Example-based Testing Better</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-03-06 01:50:13" itemprop="dateCreated datePublished" datetime="2023-03-06T01:50:13+08:00">2023-03-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Testing/" itemprop="url" rel="index"><span itemprop="name">Testing</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="How-to-Make-Example-based-Testing-Better"><a href="#How-to-Make-Example-based-Testing-Better" class="headerlink" title="How to Make Example-based Testing Better"></a>How to Make Example-based Testing Better</h3><h4 id="Writing-maintainable-unit-tests"><a href="#Writing-maintainable-unit-tests" class="headerlink" title="Writing maintainable unit tests"></a>Writing maintainable unit tests</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*OGPlI3M-2QWFBLZ9.png"></p>
+<p>I have <a target="_blank" rel="noopener" href="https://medium.com/better-programming/property-based-testing-framework-for-node-1ca702ad30bc">introduced property-based testing</a> before and mentioned that property-based testing is designed to cover the shortcomings of example-based testing. Since it is difficult to generate examples to hit various edge cases and boundary conditions, we generate a large number of examples in an automated way to cover the tests completely.</p>
+<p>Nevertheless, there is a big challenge in property-based testing, how to write a validation condition?</p>
+<p>We can’t expect what kind of input will be there, so it’s like we have to rewrite the original test target in a different way to be able to verify it. For example, if we want to verify the function <code>add</code> by a property-based test, then our verification condition will be as follows.</p>
+<blockquote>
+<p><em>a + b &#x3D;&#x3D; add(a, b)</em></p>
+</blockquote>
+<p>When the test target is complicated enough, writing such a condition is extremely hard, not to mention, if I have a way to write the verification condition, why didn’t I write the test target in that way?</p>
+<p>Anyway, the example-based test still has its value.</p>
+<p>Then, how to write a good example-based test? I’m not sure you have ever encountered a problem when there are too many examples in a unit test, making it almost impossible to modify the unit test.</p>
+<p>When we are not the author of a unit test, it is difficult to understand the author’s thinking in a complex unit test, and it is also difficult to understand a complex test case completely.</p>
+<p>Therefore, this article introduces a few ways to make example-based testing easier.</p>
+<h3 id="Table-based-Testing"><a href="#Table-based-Testing" class="headerlink" title="Table-based Testing"></a>Table-based Testing</h3><p>First of all, before simplifying the unit test, we need to understand the structure of the unit test, which I call the 3A principle.</p>
+<ul>
+<li>Arrange: At the beginning, we need to prepare test data and test preconditions.</li>
+<li>Act: Then the actual execution of the test target.</li>
+<li>Assert: Finally, we verify that the execution results are as expected.</li>
+</ul>
+<p>No matter what kind of unit test is used, it basically involves these three steps. There are several reasons why unit testing becomes complicated.</p>
+<ol>
+<li>Expected results are hard to produce.</li>
+<li>The number of test cases becomes larger over time.</li>
+<li>Relationship between the arrangement and the assessment cannot be identified.</li>
+<li>Arrangement workload is huge.</li>
+</ol>
+<p>The root cause of the first one is usually the complexity of the test target, which means the unit itself is too large, so it is necessary to reduce the scope of the unit test.</p>
+<p>The second reason is the focus of this article. When writing unit tests, we often add a corresponding test when we encounter a new bug, resulting in a test case getting larger and larger. Here is a simple example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">def test_calculator():  </span><br><span class="line">    # 1st  </span><br><span class="line">    expression = &quot;2 + 3&quot;  </span><br><span class="line">    ret = calculator(expression)  </span><br><span class="line">    assert ret == 5  </span><br><span class="line">    # 2nd  </span><br><span class="line">    expression = &quot;2 + 3 * 4&quot;  </span><br><span class="line">    ret = calculator(expression)  </span><br><span class="line">    assert ret == 14  </span><br><span class="line">    # 3rd  </span><br><span class="line">    expression = &quot;(2 + 3) * 4&quot;  </span><br><span class="line">    ret = calculator(expression)  </span><br><span class="line">    assert ret == 20  </span><br><span class="line">    # and so on</span><br></pre></td></tr></table></figure>
+
+<p>Such a case will get larger and it is not difficult to find plenty of duplicate codes that differ only in parameters. So how should we simplify it?</p>
+<p>Building a table.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def test_calculator():  </span><br><span class="line">    table = [  </span><br><span class="line">        (&quot;2 + 3&quot;, 5),  </span><br><span class="line">        (&quot;2 + 3 * 4&quot;, 14),  </span><br><span class="line">        (&quot;(2 + 3) * 4&quot;, 20),  </span><br><span class="line">        # and so on  </span><br><span class="line">    ]  </span><br><span class="line">    for expression, expected in table:  </span><br><span class="line">        ret = calculator(expression)  </span><br><span class="line">        assert ret == expected</span><br></pre></td></tr></table></figure>
+
+<p>By building a table, all we need to do for adding new cases in the future is to add the corresponding entries to the table. There is a more elegant solution to this approach in the PyTest framework: <code>parametrize</code>. Here is a PyTest example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import pytest  </span><br><span class="line">  </span><br><span class="line">@pytest.mark.parametrize(&quot;expression,expected&quot;,  </span><br><span class="line">    [  </span><br><span class="line">        (&quot;2 + 3&quot;, 5),  </span><br><span class="line">        (&quot;2 + 3 * 4&quot;, 14),  </span><br><span class="line">        (&quot;(2 + 3) * 4&quot;, 20),  </span><br><span class="line">        # and so on  </span><br><span class="line">    ]  </span><br><span class="line">)  </span><br><span class="line">def test_calculator(expression, expected):  </span><br><span class="line">    ret = calculator(expression)  </span><br><span class="line">    assert ret == expected</span><br></pre></td></tr></table></figure>
+
+<p>With <code>parametrize</code>, it can handle loops directly, so the code is much more simple. Of course, I feel building a table is enough to achieve our goal.</p>
+<p>Building a table also solves problem 3, so we can easily know in the table what are the changing conditions of the test and how to relate them to the expected results.</p>
+<p>And what is problem 4? Let’s continue with the calculator example as an extension. Suppose our calculator is able to remember the results, how should we test it?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def test_calculator():  </span><br><span class="line">    calculator = Calculator()  </span><br><span class="line">    expression1 = &quot;x = 5 * 10&quot;  </span><br><span class="line">    calculator.calculate(expression1)  </span><br><span class="line">    expression2 = &quot;y = 2 + 3&quot;  </span><br><span class="line">    calculator.calculate(expression2)  </span><br><span class="line">    expression3 = &quot;x / y&quot;  </span><br><span class="line">    ret = calculator.calculate(expression3)  </span><br><span class="line">    assert ret == 10</span><br></pre></td></tr></table></figure>
+
+<p>From the above example, we know the state of the target will change with time and input, so how to build a table?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def test_calculator():  </span><br><span class="line">    table = [  </span><br><span class="line">        (&quot;x = 2&quot;, &quot;y = 3&quot;, &quot;x + y&quot;, 5),  </span><br><span class="line">        (&quot;x = 2&quot;, &quot;y = 3 * 4&quot;, &quot;x + y&quot;, 14),  </span><br><span class="line">        # and so on  </span><br><span class="line">    ]  </span><br><span class="line">    for *expressions, expected in table:  </span><br><span class="line">        calculator = Calculator() # no init params  </span><br><span class="line">        for expression in expressions:  </span><br><span class="line">            ret = calculator.calculate(expression)  </span><br><span class="line">          </span><br><span class="line">        assert ret == expected  </span><br><span class="line">        calculator.reset() # important</span><br></pre></td></tr></table></figure>
+
+<p>It still seems to work, but this simple example already makes the test logic a bit complicated. If our target changes its state not only with the input, but also with the initialization state and many external conditions, then the table will have more and more columns and complexity will arise.</p>
+<p>Is there a way to simplify it even further? So that people who need to add new cases in the future will know what to do at a glance?</p>
+<p>Yes, I call it config-based testing.</p>
+<h3 id="Config-based-Testing"><a href="#Config-based-Testing" class="headerlink" title="Config-based Testing"></a>Config-based Testing</h3><p>Let’s continue to look at the example of this calculator.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">scenario:  </span><br><span class="line">  - calculator_test1:  </span><br><span class="line">    expressions:  </span><br><span class="line">      - x = 2  </span><br><span class="line">      - y = 3  </span><br><span class="line">      - x + y  </span><br><span class="line">    execute: calculate  </span><br><span class="line">    expect:  </span><br><span class="line">      result: 5  </span><br><span class="line">  - calculator_test2:  </span><br><span class="line">    expressions:  </span><br><span class="line">      - x = 2  </span><br><span class="line">      - y = 3 * 4  </span><br><span class="line">      - x + y  </span><br><span class="line">    execute: calculate  </span><br><span class="line">    expect:  </span><br><span class="line">      result: 14</span><br></pre></td></tr></table></figure>
+
+<p>By writing a human-readable configuration file, we can simply describe the test scenario we want, and in addition, we can read the purpose of the past cases. I believe maintaining a configuration is more relaxing than maintaining code.</p>
+<p>Of course, in the beginning, we have to use a parser to handle the configuration, but it is worth such an investment. Moreover, when the behavior of the target is affected by many factors, we only need to add descriptive fields to the configuration file.</p>
+<p>Frankly speaking, such a configuration file will not be any difficult even if it is written by someone who does not know how to write programs, and anyone can help us improve the test coverage.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>It is not hard to write a unit test, but it takes a lot of effort to write a unit test that is easy to maintain.</p>
+<p>When we write a unit test, we often look at the test case from the author’s point of view, but in fact, it is often someone else who maintains the case. That other person does not have the original idea of the author, which makes it very difficult for us to maintain the unit test.</p>
+<p>Even worse, when the test cases become large, the functional evolution is seriously affected. Have you ever changed a little bit of code and the unit test exploded: a lot of red lights, and you wanted to fix it but found that you couldn’t understand what it was testing?</p>
+<p>Sometimes, we document the purpose of these test cases in a file, but document synchronization is a major challenge, and the documents are often not up-to-date.</p>
+<p>It is better to let the file itself be an executable object. It is far more efficient to write documents as a unit test than to “explore” the concept of testing afterward.</p>
+<p>This article uses an interesting feature of PyTest, but actually, PyTest is very deep and profound, so if you have more great uses for PyTest, please feel free to share them with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-make-example-based-testing-better-99dbfbbe5b8c">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Orchestrating-DBT-with-Airflow/20230219/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Orchestrating-DBT-with-Airflow/20230219/" class="post-title-link" itemprop="url">Orchestrating DBT with Airflow</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-02-20 02:02:46" itemprop="dateCreated datePublished" datetime="2023-02-20T02:02:46+08:00">2023-02-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Orchestrating-DBT-with-Airflow"><a href="#Orchestrating-DBT-with-Airflow" class="headerlink" title="Orchestrating DBT with Airflow"></a>Orchestrating DBT with Airflow</h3><h4 id="Make-an-easy-management-data-pipeline"><a href="#Make-an-easy-management-data-pipeline" class="headerlink" title="Make an easy management data pipeline"></a>Make an easy management data pipeline</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*wSiyV-t8Rv4TvWtn"></p>
+<p><a target="_blank" rel="noopener" href="https://airflow.apache.org/">Airflow</a> is one of the great orchestrator today. It is a highly scalable and available framework for orchestrating, and more importantly, it is developed in Python. Therefore, developers can develop in Python based on the various operators provided by Airflow. In addition, the Airflow community is quite active, and many operators are constantly added to the ecosystem.</p>
+<p>These advantages make Airflow the preferred choice for data engineers working on ETL or ELT, although there are many other frameworks for orchestrating workflows, such as <a target="_blank" rel="noopener" href="https://argoproj.github.io/argo-workflows/">Argo workflow</a>, but for engineers who rely heavily on Python development, Airflow is much easier to harness and maintain.</p>
+<p>But Airflow is not without drawbacks, one of the biggest problems is it is a monolith. When workflows are continuously added, this monolith will sooner or later become a big ball of mud. Another problem is that Airflow is a distributed framework and it is not easy to verify a complete workflow in local development. There are many tools that improve on Airflow’s shortcomings, such as <a target="_blank" rel="noopener" href="https://dagster.io/">Dagster</a>, but the fact of the monolith remains unresolved.</p>
+<p>Although Airflow has been widely used in a diversity of data engineering domains, the role of the data domain has been further differentiated as the domain has become increasingly popular. In addition to the traditional Data Engineer, Data Analyst and ML Engineer, a new role has recently become more common and is called Analytical Engineer.</p>
+<p>Let’s briefly describe the responsibilities and capabilities of these roles.</p>
+<ul>
+<li>Data Engineers: are responsible for developing and managing the entire data pipeline lifecycle, i.e. they are the main developers of ETL and ELT. They are mainly proficient in distributed architectures, programming (mainly Python), and data storage and its declarative language (mainly SQL).</li>
+<li>Data Analyst: End-user of data, using already structured data for analysis in various business situations. Very good at using SQL and various data visualization tools.</li>
+<li>ML Engineer: This role is interesting and has a different position in each organization, but in general, work related to machine learning, such as tagging data, data cleansing, data normalization will be involved, so there are opportunities to develop ETL&#x2F;ELT, but the main responsibility is still the framework and model of machine learning, of course, is mainly in Python.</li>
+</ul>
+<p>So, what is the position of an Analytical Engineer?</p>
+<p>They are also responsible for managing the lifecycle of the data pipeline, but the biggest difference between them and data engineers is their lack of the concept of distributed architecture and the ability to develop programs.</p>
+<p>Well, how to develop a data pipeline without programming? Thanks to the various tools in the data ecosystem, especially <a target="_blank" rel="noopener" href="https://www.getdbt.com/">dbt</a>, even if you don’t know programming, you can still implement data pipelines as long as you are familiar with SQL.</p>
+<p>The emergence of such a role brings a new perspective into the data world.</p>
+<p>Traditionally, in an Airflow-based data pipeline, although most of the business logic is made up of SQL, there is a lot of code that must surround the SQL in order to make it work. For example</p>
+<ol>
+<li>the declaration of the DAG.</li>
+<li>database connections, including credentials, connection pools, etc.</li>
+<li>implementation of SQL calls through PythonOperator or the corresponding database operator.</li>
+<li>defining the upstream and downstream dependencies of the DAG</li>
+</ol>
+<p>In Airflow, all these must be developed in Python, but it is undoubtedly a big challenge for those who do not know how to program.</p>
+<h3 id="Decomposing-the-data-pipeline"><a href="#Decomposing-the-data-pipeline" class="headerlink" title="Decomposing the data pipeline"></a>Decomposing the data pipeline</h3><p>It’s time to decompose Airflow, but before we talk about decomposition, let’s talk about why we need Airflow still instead of replacing it.</p>
+<p>Airflow is a competent orchestrator, i.e., workflow manager. Have you wondered before</p>
+<blockquote>
+<p><em>What exactly is an orchestrator?</em></p>
+</blockquote>
+<p>Let me illustrate with a simple example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*UjXuA67G7kvYQLNqJwWSlw.png"></p>
+<p>From the above diagram, this is a typical ETL, the following tasks cannot be executed until the previous task is done, and there is a dependency relationship between all tasks, which is a workflow. The purpose of the orchestrator is to ensure that each task can follow the instructions, one after the other.</p>
+<p>What if the previous job fails? Then it automatically retries. The orchestrator will make sure that the entire workflow follows the direction you have planned. If it does fail, it can also send a notification to inform the developer something wrong.</p>
+<p>From the above description, we know it cannot be solved by replacing Airflow, although it is feasible to move all the business logic from Airflow to dbt. If we put all the processing into dbt, we will immediately encounter a problem: what should we do if something goes wrong after executing <code>dbt run</code>?</p>
+<p>Do we execute <code>dbt run</code> again?</p>
+<p>A huge package of retries has several issues as follows.</p>
+<ul>
+<li>It can take a long time</li>
+<li>The development must be done with extra care, all models must be idempotence.</li>
+<li>The cost of accessing the database and the cost of network transmission are not low when the volume of data is high.</li>
+</ul>
+<p>Therefore, decomposing Airflow seems to be a more reliable solution.</p>
+<p>The tasks can be delivered to dbt are done by dbt, but the whole workflow is still under Airflow’s control.</p>
+<p>Oops, that’s a loop, isn’t it? We still need Airflow and we still need programming. No, not really, we can still do complete development on dbt, we just need a mechanism to enable Airflow to understand the model composition and relationships within dbt, and then Airflow can trigger dbt.</p>
+<h3 id="Back-to-the-topic"><a href="#Back-to-the-topic" class="headerlink" title="Back to the topic"></a>Back to the topic</h3><p>What we want to do is exactly as the title is orchestrating DBT with Airflow.</p>
+<p>In fact, we have surveyed many solutions in this process, all of which are not ideal. But finally, we found a relatively reliable solution.</p>
+<p>Here is the reference we found, which is a trilogy and similar to the problem we are trying to solve.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.astronomer.io/blog/airflow-dbt-1">Building a Scalable Analytics Architecture With Airflow and dbt</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.astronomer.io/blog/airflow-dbt-2/">Building a Scalable Analytics Architecture With Airflow and dbt: Part 2</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.astronomer.io/blog/airflow-dbt-3/">Building a Scalable Analytics Architecture With Airflow and dbt: Part 3</a></li>
+</ul>
+<p>Let me summarize briefly.</p>
+<p>First, we still use dbt for complete development, which also solves the problem that Airflow is not good at local development.</p>
+<p>Then, the CI&#x2F;CD pipeline is triggered to execute <code>dbt compile</code> when we commit the dbt-related code into the version control system, in order to get the artifact <code>manifest.json</code> under the <code>target</code> folder.</p>
+<p>With <code>manifest.json</code>, we can get the dbt model dependencies by reading the file in Airflow, then we only need to write the basic conversion framework, and then we can call the dbt corresponding models through Airflow’s BashOperator.</p>
+<p>The whole development process can be dbt-based, and take full advantage of Airflow’s workflow management capabilities.</p>
+<h3 id="Conslusion"><a href="#Conslusion" class="headerlink" title="Conslusion"></a>Conslusion</h3><p>Decomposing monoliths is the trend of complex software development nowadays, just like the rise of microservices architecture, there will be a need for decomposing in the big data area.</p>
+<p>However, in the big data area, decomposition is not just a clear cut of each domain based on domain-driven development. After all, when doing data analysis, we always want to have a centralized data warehouse.</p>
+<p>Therefore, the data engineer’s approach to decomposition will be different from the software engineer’s. In this case, although we are decomposing Airflow, we still have a new dbt as a monolith, except Airflow calls dbt by model.</p>
+<p>The decomposition is done at the level of the model and the execution period, which is a new attempt. I feel this concept can also be introduced into software development.</p>
+<p>There is also a decomposition approach that is introduced from microservices architecture into the big data area, i.e. data mesh. But this article is already too long, let’s save the data mesh for the future.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/orchestrating-dbt-with-airflow-72c49d4be62">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Microservices-start-Here-Chassis-Pattern/20230212/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Microservice/Microservices-start-Here-Chassis-Pattern/20230212/" class="post-title-link" itemprop="url">Microservices start Here: Chassis Pattern</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-02-13 01:58:09" itemprop="dateCreated datePublished" datetime="2023-02-13T01:58:09+08:00">2023-02-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Microservices-start-Here-Chassis-Pattern"><a href="#Microservices-start-Here-Chassis-Pattern" class="headerlink" title="Microservices start Here: Chassis Pattern"></a>Microservices start Here: Chassis Pattern</h3><h4 id="A-good-service-template-is-the-top-priority"><a href="#A-good-service-template-is-the-top-priority" class="headerlink" title="A good service template is the top priority"></a>A good service template is the top priority</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*2tInONkKydGYHRSg"></p>
+<p>When we talk about microservices, we have to understand that <strong>the number of services within the microservices architecture is significant</strong>; in some large organizations where the number of microservices is even in the tens of thousands.</p>
+<p>If each service setup has to go through a complicated programming process, then it will be a huge overhead to develop a large number of microservices just to build them. Therefore, we would like to have a service template that can be applied across the organization, so that <strong>we can develop a new service without the complicated “first step” and start directly from the functionality.</strong></p>
+<p>Such a design pattern is called a microservice chassis.</p>
+<p>Nevertheless, there is no standard definition of what should be included in the chassis, but a few essential items are listed in <a target="_blank" rel="noopener" href="https://microservices.io/book">some books</a>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*ConOfNBBR1LGJ7VG.png"></p>
+<ul>
+<li>Security</li>
+<li>Externalized configuration</li>
+<li>Logging</li>
+<li>Health check</li>
+<li>Metrics</li>
+<li>Distributed tracing</li>
+</ul>
+<p>Indeed, these are the keys to running a microservice, but from my point of view, they are far from enough. Because, in an organization, there is a lot of additional works must be handled when setting up a service.</p>
+<p>So, this article will describe what my ideal chassis should contain. I will divide these items into three parts: <strong>must-have</strong>, <strong>nice-to-have</strong>, and <strong>best-effort</strong>, and explain the meaning of each item.</p>
+<h3 id="Must-have"><a href="#Must-have" class="headerlink" title="Must-have"></a><code>Must-have</code></h3><p>Let’s start with the must-have items, which can be divided into several categories within the must-have items.</p>
+<ul>
+<li>CI&#x2F;CD related</li>
+<li>Function related</li>
+<li>Troubleshooting related</li>
+</ul>
+<p><em><strong>CI&#x2F;CD related</strong></em></p>
+<p>Items under this category are when a new source code repository is created and there are established rules based on organizational specifications or team practices, so whether it is a microservice or not, these items should be available as long as the code is managed.</p>
+<ol>
+<li><strong>Linter</strong>: Whatever the programming language is, there are actually corresponding development specifications, for example, Python has PEP8, Javascript has ESLint’s Airbnb rules, etc.</li>
+<li><strong>Formatter</strong>: In addition to code writing conventions, there are also conventions for code layout, such as Golang’s built-in gofmt.</li>
+<li><strong>Folder structure</strong>: The structure of folders has some fixed conventions in various programming languages or frameworks, for example, Golang has <a target="_blank" rel="noopener" href="https://github.com/golang-standards/project-layout">standard project layout</a>.</li>
+<li><strong>Unit testing</strong>: Of course, as long as the software is developed, it should be tested, so each source code repository needs to have a well-defined test framework. In addition to the test suite that must be installed, it is also necessary to define where the test files should be placed, such as in the <code>src/tests</code> directory or on the same level as the source code.</li>
+<li><strong>Integration testing</strong>: With unit testing, integration testing is also important. If you are not sure how to distinguish between the two, please refer to <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/whats-difference-between-unit-test-and-integration-test-aae6ef13220">my previous article</a>. Integration testing will need to prepare application dependencies, such as databases, etc. A common practice is to define the entire test environment through <code>docker-compose.yml</code>.</li>
+<li><strong>Package management</strong>: Each language has a corresponding package management tool, such as <code>pip</code> or <code>poetry</code> for Python, <code>npm</code> or <code>yarn</code> for Javascript, etc. In addition to the package management tool, it is also necessary to prepare a lock file to fix the versions of the dependent packages.</li>
+<li><strong>Dockerfile</strong>: In the microservices architecture now mostly exists in the container system, so it is important to prepare a <code>Dockerfile</code> developed based on best practices, in order to make containers more secure and efficient. <a target="_blank" rel="noopener" href="https://pythonspeed.com/docker/#articles-best-practices-for-production">Here are</a> some best practices for building Python containers.</li>
+<li><strong>Pipeline template</strong>: When the Dockerfile is available, I believe it should be possible to publish at least one of the simplest applications. Then, depending on the version control system or release system used by the organization and the organization’s defined release specifications, a basic CI&#x2F;CD release pipeline can be written. Because each organization uses a different system, it should be prepared to meet the needs of the moment, such as Bitbucket pipeline, Gitlab CI, Github Action, etc. They all use different formats.</li>
+<li><strong>Static application analysis</strong>: The last item is static analysis, which is divided into code level analysis and application level analysis. Common code analysis includes test coverage, memory leaks, package dependencies, etc. Application-level analysis is for possible vulnerabilities, such as the use of <a target="_blank" rel="noopener" href="https://snyk.io/">Synk</a>.</li>
+</ol>
+<p><em><strong>Function related</strong></em></p>
+<p>There are many items listed above, but they are not finished yet.</p>
+<p>Those items focus on CI&#x2F;CD, but application development is the core, so there will be some preconditions in the software development.</p>
+<ol>
+<li><strong>Config loader</strong>: An application’s configuration may come from many different sources, for example, the default configuration file can be overwritten by environment variables, and even specify the path to a new configuration file. Take the Postgres container as an example, it is possible to create a database through <code>POSTGRES_DB</code>, and if we want to create multiple databases, then we can mount the sql files under <code>docker-entrypoint-initdb.d</code>. These rules should be part of the template when setting up a new application, so we don’t need to write each once again.</li>
+<li><strong>Feature toggle loader</strong>: The feature toggle and its use are described in <a target="_blank" rel="noopener" href="https://medium.com/better-programming/feature-toggle-introduction-68d58f5c709">my previous article</a>. Feature toggles are already a common strategy in software development, so they should be pre-defined in the similar way as the config loader.</li>
+<li><strong>Web framework</strong>: The most important thing in a microservice chassis is of course to choose the front&#x2F;back end framework. I believe that the same framework should be used cross the same organization, then the framework should be from the template.</li>
+</ol>
+<p><em><strong>Troubleshooting related</strong></em></p>
+<p>When there is a function that can be published, what happens when there is a problem in the production environment? Especially when there are a large number of microservices under the microservice architecture, it is necessary to provide sufficient observability to identify the root cause of the problem.</p>
+<ol>
+<li><strong>Distributed tracing</strong>: It is a common requirement for microservice architectures to be able to trace the processing rate between each service, and even the time share of database calls within each service, so that the entire service mesh can be mapped. There are many common tools, such as the open sourced Open Telemetry or the commercial New Relic, Elastic APM, etc. These tools require an agent to be installed in the application, and therefore the package and initialization need to be defined.</li>
+<li><strong>Logger</strong>: In order to analyze the behavior of applications, logging plays a significant role. How to record logs, how logs are collected and the format of logs are all related to the team practice, so how logger should be implemented will also be a standard process.</li>
+<li><strong>Health check</strong>: Among the tens of thousands of microservices, how to know each service is still alive? The most common practice is to define a fixed REST API for monitoring, so this fixed API will be defined by the template, but the implementation still has to be developed based on each service’s characteristics.</li>
+<li><strong>Metric exporter</strong>: Although distributed tracing is already available to collect general metrics, some application-related behaviors cannot be collected, and some distributed tracing frameworks provide the ability to customize metrics, so how the application’s custom metrics are exported also needs to be defined.</li>
+<li><strong>Local development environment</strong>: In the VM era or earlier machine era, we used to debug directly on the production environment and even reproduce the problems on it, but in the microservice era, we should develop and debug locally. After all, with thousands of microservices and many instances of each service, it is impractical to run them in the production environment, so how to develop and debug locally? I believe templates also need to provide the corresponding capabilities.</li>
+</ol>
+<p>In fact, all these items are closely related to organizational specifications or team practices, so each different organization should have a service template of its own, and there may be a corresponding template for each programming language.</p>
+<p>But the above list is the basic requirements of microservice development, and I will list some more advanced items. However, whether these advanced items are needed depends on the size of the organization and the nature of the service.</p>
+<h3 id="Nice-to-have"><a href="#Nice-to-have" class="headerlink" title="Nice-to-have"></a><code>Nice-to-have</code></h3><p>In order to build a stable, robust and secure service, there are many items to consider.</p>
+<p><em><strong>Robustness related</strong></em></p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/previous-versions/msp-n-p/dn589784%28v=pandp.10%29"><strong>Circuit breaker</strong></a>: One of the issues we need to consider in a microservice architecture is that when a downstream service fails, it will not cause an avalanche, i.e., a cascade failure. Circuit breaker is a common strategy we use to ensure the system will not crash even if the downstream service fails, please refer to the link for more details.</li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/previous-versions/msp-n-p/dn589798%28v=pandp.10%29"><strong>Rate limiter</strong></a>: On the other hand, when our service is faced with a large number of requests, can the service handle it? Some services may rely on external gateways to block excess traffic, but I believe that every service should know its capacity and act on excess traffic, so a rate limiter is a worthy option.</li>
+<li><strong>Authenticator</strong>: External communication sessions or JWT tokens, which require specific packages to be installed, and access control for each interface is also a topic that usually requires middlewares or decorators to be added to the API development, which should also be included in the templates. Furthermore, APIs often need to have Role-based access control, which requires domain experts to participate during development.</li>
+</ol>
+<p>I believe there are many organizations that have a practice of cutting internal and external services over a physical network, so internal services use a full trust model without any authentication or even using unencrypted channels to communicate, which is not really appropriate.</p>
+<p>In recent years, the concept of <a target="_blank" rel="noopener" href="https://www.microsoft.com/en/security/business/zero-trust">Zero Trust</a> has emerged that any service should have basic authentication capabilities to avoid unexpected access.</p>
+<p><em><strong>Security related</strong></em></p>
+<p>If the service is for external users also need security mechanisms other than authentication, including CSRF and CORS, the details and principles are not the focus of this article, but all these security features should be provided by the service template.</p>
+<ol>
+<li>CSRF</li>
+<li>CORS</li>
+</ol>
+<h3 id="Best-effort"><a href="#Best-effort" class="headerlink" title="Best-effort"></a><code>Best-effort</code></h3><p>In addition to the items listed above, a service usually requires many external dependencies, such as various databases, message queues, and so on. For example, Python with Postgres may be SQLAlchemy and nothing else, and the version number will be fixed.</p>
+<p>A complete service template should also include the various drivers used within the organization, although not every service will need to use the full toolset.</p>
+<p>Therefore, some large organizations use scaffolding to allow developers to set options when applying templates, such as whether they need databases, message queues, programming languages, etc.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*Tj9GeemUHzl9Xx8X.png"></p>
+<p>The example above is Netflix’s job generator, NEWT.</p>
+<p>A complete project can be generated with simple commands and interactive options. This is the ultimate in service templates.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article we have introduced the items needed to build a microservice, which <strong>should not be built manually by the developer</strong>, but rather as a turnkey solution. Ideally, the developer should be able to interactively build the entire project in one shot, depending on the requirements.</p>
+<p>Although we have listed many items, these are actually a checklist of production-ready microservices, compiled from my past experience. If there are items that you are not entirely sure what they mean, I suggest looking at the links in the article or the information in the relevant books. After all, the items listed in this article are not super tricky concepts, but rather design patterns for general purposes.</p>
+<p>Of course, if you or your organization has other items in the service templates, feel free to share them with me. I’d be glad to know more about design patterns.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/microservices-start-here-chassis-pattern-f1be783c522b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Introducing-Decision-Making-Process/20230205/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/Introducing-Decision-Making-Process/20230205/" class="post-title-link" itemprop="url">Introducing Decision Making Process</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-02-06 01:54:00" itemprop="dateCreated datePublished" datetime="2023-02-06T01:54:00+08:00">2023-02-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Introducing-Decision-Making-Process"><a href="#Introducing-Decision-Making-Process" class="headerlink" title="Introducing Decision Making Process"></a>Introducing Decision Making Process</h3><h4 id="Top-down-and-Bottom-up-which-one-is-better"><a href="#Top-down-and-Bottom-up-which-one-is-better" class="headerlink" title="Top-down and Bottom-up, which one is better"></a>Top-down and Bottom-up, which one is better</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*g9F0dE12dKgQfnsf.png"></p>
+<p>Last time we talked about <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-make-a-technical-selection-f1b21b24c503">how to do technical selection</a>, the key is to understand the requirements completely, so that we can pick the most fit among the options. Remember, it’s the right fit, not the best, because there is no perfect solution.</p>
+<p>Nevertheless, sometimes we don’t just make one selection, we have to make a series of decisions, especially when doing a paradigm shift. For example, if we want to decompose a monolith into microservices, then in addition to making technical selections among many databases and backend frameworks, we must also make decisions about service boundaries, communication contracts, and so on.</p>
+<p>This series of decisions will ultimately achieve what we started with: decomposing the monolith.</p>
+<p>In fact, such a decision making process is called top-down decision making.</p>
+<h3 id="Top-Down-Decision-Making"><a href="#Top-Down-Decision-Making" class="headerlink" title="Top Down Decision Making"></a>Top Down Decision Making</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*Llm4KqkC_SnY9cki.png"></p>
+<p>At first, we know exactly what we are aiming for, as we evaluated microservices as a more appropriate architecture for the moment, with a high flexibility and scalability. At the same time, to avoid getting further away from the best practices, we learned the details of microservices and the steps of decomposition from various books and articles.</p>
+<p>After making a series of decisions to define the final service blueprint, that is, the <em>N</em> microservices, we then carefully develop a migration plan on how to implement those services from a monolith step by step. The whole process is established from top to bottom.</p>
+<p>When designing an architecture, we tend to use top-down decision making.</p>
+<p>The most important reason is we know exactly what to do and how to do it right. In order to avoid confusion, we set a complete plan at the beginning and implement it step by step to achieve our goal.</p>
+<p>In fact, many of my previous articles on paradigm shift were written with a top-down decision making process.</p>
+<p>These articles cover how to scale a service, how to decompose a service, and even introduce the evolution of a data architecture. The common point in all these decision making processes is to evolve the system when the current architecture encounters a problem that cannot be solved, but we know how to do it better.</p>
+<h3 id="Bottom-Up-Decision-Making"><a href="#Bottom-Up-Decision-Making" class="headerlink" title="Bottom Up Decision Making"></a>Bottom Up Decision Making</h3><p>Since there is top-down decision making, is there the opposite? Of course yes, that is, bottom-up decision making.</p>
+<p>But this is a strange process, isn’t it? We first define which services we want to do, then we decide the communication medium between the services, and finally we define the service boundaries.</p>
+<p>Well, it’s incorrect.</p>
+<p>Because in this context, a bottom-up decision process “doesn’t fit”.</p>
+<p>What kind of context is right for bottom-up decision making? Let’s take another example.</p>
+<p>Suppose we want to build a complete online environment monitoring, with the goal that any problems are detected and started to be solved before they are aware by the customer, then the customer may not even feel the problem or report it and it is solved in a very short time.</p>
+<p>First, we try to use top-down decision making to see what happens.</p>
+<p>In general, we might start building a monitoring and alerting system that generates alerts and gets people involved when any problem occurs. Hardware metrics such as CPU, memory, and network throughput are basic requirements, while service response latency, error rates, and exception logs are common software metrics.</p>
+<p>But is that enough?</p>
+<p>One very common malfunction is not covered, i.e., data consistency. In addition, I believe there are various software behavior problems that cannot be disclosed by the basic metrics.</p>
+<p>This is where the bottom-up decision process comes into play. First, we analyze the many problems that have been reported, and then set a goal of detecting the same problem next time without being reported.</p>
+<p>Through these practices, we can categorize the types of problems and the corresponding practices, and finally generate a set of rules that can be applied to achieve our original goals.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*2CTw7U-26352ihTX.png"></p>
+<p>Such a process is a classic bottom-up decision. We cannot define a complete framework to achieve our goals at the beginning, whether the scope is too large to focus or the impact level is too large to cause a big bang, so we eventually find a reasonable framework boundary by accumulating successful practices.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The top-down and bottom-up decision making processes are fundamentally different and therefore apply in different contexts. So how do we know from the start whether to go top-down or bottom-up?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*QGEdwYUA7-Qj-TNd.png"></p>
+<p>Let me borrow the above diagram to explain, although what I want to express is not equal to the source diagram.</p>
+<p>In the context of Box 1 and Box 2, we would use top-down, and conversely, in Box 3, we would use bottom-up. As for Box 4, I believe that we rarely need to touch this box in software development.</p>
+<p>Back to the first example of decomposing a monolith, we were convinced that microservices was the most fitting approach and we understood the details of microservices and decomposing a monolith, so we landed at Box 1.</p>
+<p>Even so, we may use unfamiliar databases, software frameworks and even programming languages in the process of implementing microservices, so there must be many problems that need to be experienced, and that would land at Box 2, but that does not affect our migration plan, at most we need to make more decisions and experiment more.</p>
+<p>But if we only have a practice direction, know how to do it better, but do not have an overall view, then we will fall in Box 3. At this point, what we need to do is to accumulate more successful practices, and then find the rules to make those unknowns known.</p>
+<p>Of course, these are ideal scenarios, and most of the time we need to make additional trade-offs in terms of human resources and time, so sometimes the top-down process has to become a bottom-up process. But, no matter what the decision making process is, it is important to choose what is most appropriate at the moment.</p>
+<blockquote>
+<p><em>Never shoot for the best architecture, but rather the least worst architecture.<br> — Neal Ford</em></p>
+</blockquote>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/introducing-decision-making-process-cbb68e3b5f7">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/How-to-Make-a-Technical-Selection/20230122/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/How-to-Make-a-Technical-Selection/20230122/" class="post-title-link" itemprop="url">How to Make a Technical Selection?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-01-23 01:52:13" itemprop="dateCreated datePublished" datetime="2023-01-23T01:52:13+08:00">2023-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="There-are-so-many-tradeoffs-how-to-carry-on"><a href="#There-are-so-many-tradeoffs-how-to-carry-on" class="headerlink" title="There are so many tradeoffs, how to carry on?"></a>There are so many tradeoffs, how to carry on?</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*6FYZM1uKNUSB3jTu"></p>
+<p>Last week, an engineer asked me how to make a technical selection. And he provided a real-world example. Their organization wanted to implement an event-driven architecture, and there were three options available right now — MQTT, AMQP, and Kafka — but he didn’t know how to make a decision.</p>
+<p>My answer, as always, was “it depends”.</p>
+<blockquote>
+<p><em>“Everything in software architecture is a tradeoff”. — Mark Richards</em></p>
+</blockquote>
+<p>Because of the tradeoffs, there will never be a standard answer, in other words, there will never be a silver bullet.</p>
+<p>However, we always have to make a decision, what are the tradeoffs? At that moment, I turned back to him and asked.</p>
+<ul>
+<li>Do you understand your requirements completely?</li>
+<li>Do you know what these three techniques are exactly doing?</li>
+</ul>
+<p>Take message queues as an example, I have written an article previously on what use cases to consider when choosing a message queue.</p>
+<ul>
+<li>Propagation: Can fan-out be supported?</li>
+<li>Delivery: What kind of delivery guarantee does it have? At least once or exactly once?</li>
+<li>Persistence: Can messages be persisted?</li>
+<li>Consumer group: Does the receiver scale horizontally?</li>
+</ul>
+<p>These are the generic requirements for a message queue, and even if you don’t choose a message queue, listing the generic requirements for a technical stack can more or less filter out some options.</p>
+<p>Then, after filtering by generic requirements, further filtering could be done based on the specific use cases. For instance.</p>
+<ul>
+<li>Is there a large volume of messages to be written?</li>
+<li>Is there a limit to the bandwidth that can be transferred?</li>
+<li>What kind of security is required?</li>
+<li>What programming languages are expected to be integrated?</li>
+</ul>
+<p>To answer questions such as these, in addition to a precise understanding of the requirements, we must also have a clear understanding of the technical stack candidates.</p>
+<p>Therefore, architects use a similar thought process when making a technical selection to clarify requirements and learn about the technical stack, and finally make a decision. The decision is not about choosing the latest technique, or just playing around with it as if it works.</p>
+<p>Nevertheless, we will always encounter the situation that all needs are well met, after all, nowadays technology is developing rapidly, and many of our needs have already been implemented, so what should we do? Throw the dice?</p>
+<p>Wait, you can ask more questions.</p>
+<ul>
+<li>Should we maintain this technical stack ourselves or purchase a managed service?</li>
+<li>Is there a budget limit?</li>
+<li>How do we monitor it, whether we operate it ourselves or buy a managed service?</li>
+<li>Do we have any experience in using it?</li>
+</ul>
+<p>When there is no more question to ask to filter, then the last thing to do is to choose what we love and love what we choose, and not to waver from one option to another.</p>
+<p>Any technical stack from finalization to production environment must go through time, experience and learning in the process of use. If we change our choices easily, it’s hard to become an expert.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-make-a-technical-selection-f1b21b24c503">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Data-Pipeline-From-ETL-to-EL-Plus-T/20230108/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Data-Pipeline-From-ETL-to-EL-Plus-T/20230108/" class="post-title-link" itemprop="url">Data Pipeline: From ETL to EL Plus T</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-01-09 02:12:35" itemprop="dateCreated datePublished" datetime="2023-01-09T02:12:35+08:00">2023-01-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Data-Pipeline-From-ETL-to-EL-Plus-T"><a href="#Data-Pipeline-From-ETL-to-EL-Plus-T" class="headerlink" title="Data Pipeline: From ETL to EL Plus T"></a>Data Pipeline: From ETL to EL Plus T</h3><h4 id="New-challenges-lead-to-new-tools-then-new-challenges"><a href="#New-challenges-lead-to-new-tools-then-new-challenges" class="headerlink" title="New challenges lead to new tools, then new challenges?"></a>New challenges lead to new tools, then new challenges?</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*bJUifR2TtbI7hmA7"></p>
+<p>In the data pipeline, we often talk about ETL, aka Extract-Transform-Load, which is actually a very simple process as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*r_MNWhwg7nVKZm-_B-2JtA.png"></p>
+<p>Given an application extracts data from a source and saves it to another data storage after some processing and conversion, this is what ETL does. This is a complete ETL process, and to be honest, most non-ETL applications are doing something like that.</p>
+<p>Let me use a simple Python example to demonstrate the implementation of ETL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># Open the CSV file containing the data  </span><br><span class="line">with open(&quot;orders.csv&quot;, &quot;r&quot;) as file:  </span><br><span class="line">  # Use the CSV module to read the data  </span><br><span class="line">  reader = csv.DictReader(file)  </span><br><span class="line">  </span><br><span class="line">  # Iterate over the rows in the CSV file  </span><br><span class="line">  for row in reader:  </span><br><span class="line">    # Extract the data from the row  </span><br><span class="line">    order_id = row[&quot;order_id&quot;]  </span><br><span class="line">    customer_name = row[&quot;customer_name&quot;]  </span><br><span class="line">    order_date = row[&quot;order_date&quot;]  </span><br><span class="line">    order_total = row[&quot;order_total&quot;]  </span><br><span class="line">    # Insert the data into the database  </span><br><span class="line">    cursor = db.cursor()  </span><br><span class="line">    cursor.execute(  </span><br><span class="line">      &quot;INSERT INTO orders (order_id, customer_name, order_date, order_total) VALUES (%s, %s, %s, %s)&quot;,  </span><br><span class="line">      (order_id, customer_name, order_date, order_total)  </span><br><span class="line">    )  </span><br><span class="line">    db.commit()</span><br></pre></td></tr></table></figure>
+
+<p>This is a simple ETL example, we extract each line from a CSV file (data source), and convert the order details from CSV format to the corresponding columns in the database, and finally write to the database.</p>
+<p>As the database evolves, this process also evolves, and the ETL also has a variation, ELT, which seems to be a sequential exchange of T and L. But behind the scenes, the database has actually become more powerful.</p>
+<p>Let’s continue with the above example, and see how would ELT be handled?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">with open(&quot;orders.csv&quot;, &quot;r&quot;) as file:  </span><br><span class="line">  # Use the LOAD DATA INFILE statement to load the data into the database  </span><br><span class="line">  cursor = db.cursor()  </span><br><span class="line">  cursor.execute(  </span><br><span class="line">    &quot;LOAD DATA INFILE &#x27;orders.csv&#x27; INTO TABLE orders FIELDS TERMINATED BY &#x27;,&#x27; ENCLOSED BY &#x27;\&quot;&#x27; LINES TERMINATED BY &#x27;\n&#x27; IGNORE 1 ROWS&quot;  </span><br><span class="line">  )  </span><br><span class="line">  db.commit()</span><br></pre></td></tr></table></figure>
+
+<p>In this example, we use MySQL’s <code>LOAD DATA</code> command to write a CSV file directly into the database, converting it during the writing process, rather than converting the format first and then writing it to the database.</p>
+<p>In the data pipeline, it is actually various combinations of ETL and ELT, and eventually we will produce a data structure to fit the analysis and utilization.</p>
+<p>This process is the same concept in the big data domain, except that the data pipeline of big data multiplies a much larger volume of data and needs to face a more diverse data storage.</p>
+<h3 id="From-ETL-to-EL-plus-T"><a href="#From-ETL-to-EL-plus-T" class="headerlink" title="From ETL to EL plus T"></a>From ETL to EL plus T</h3><p>In my previous articles, we have already discussed the implementation of many big data pipeline architectures.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/evolutionary-data-infrastructure-4ddce2ec8a7e" title="https://betterprogramming.pub/evolutionary-data-infrastructure-4ddce2ec8a7e">Evolutionary Data Infrastructure</a></li>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/real-time-data-infra-stack-73c597ed05ee" title="https://betterprogramming.pub/real-time-data-infra-stack-73c597ed05ee">The Infrastructure Stack for Real-Time Data Analysis</a></li>
+</ul>
+<p>For the data source part, we rely heavily on <a target="_blank" rel="noopener" href="https://debezium.io/">Debezium</a> to capture data changes (CDC).</p>
+<p>The process underlying Debezium is that a group of workers extracts the binlogs of various databases, restores the binlogs to the original data, and identifies the contents of the schema to be passed on to the next data storage.</p>
+<p>In other words, each data source must have a group of Debezium workers to be responsible for it.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*iMSO6zO4Wh1RgowDIeVbgA.png"></p>
+<p>When the number of data sources is large, it is a huge effort just to build and maintain the corresponding Debezium. After all, the software does not work properly when left alone, but also requires a complete monitoring and alerting mechanism, which will eventually create a huge operation overhead.</p>
+<p>In fact, E and L in ETL are the most worthless things in a pipeline. For a pipeline to be effective, the most important thing is to produce effective data based on business logic, and T should be the part we should be focusing on.</p>
+<p>However, we have to take a lot of time on E and L in the operation of the pipeline, which is not what we expect.</p>
+<p>So, is there a solution to this dilemma?</p>
+<p>Yes, absolutely, <a target="_blank" rel="noopener" href="https://airbyte.com/">Airbyte</a>, and there are many similar solutions, but Airbyte is open source and relatively easy to use.</p>
+<p>Let’s take MongoDB to Kafka as an example, as soon as the setup is done it will be like the example below.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*m2lRwue0sdFazt45.png"></p>
+<p>Airbyte can sync automatically or manually according to the settings, and it can choose incremental sync or full sync. Each sync record is listed, and the sync process can be seen after expanding logs.</p>
+<p>As a result, the creation of data pipelines is effectively simplified, and data storage can be integrated smoothly through Airbyte’s Web UI.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article is not to promote Airbyte, nor is it to introduce the Airbyte architecture in depth, but from the standpoint of an architect, we will find that in the domain of big data, we will face various challenges, and each challenge has a corresponding solution, but also requires high learning costs.</p>
+<p>In fact, Airbyte also has its limitations, for example, the synchronization period must specify a regular time interval, such as every hour, even though it can use <a target="_blank" rel="noopener" href="https://crontab.guru/">cron representation</a>, but still limited by the fixed time, can not do the real streaming, i.e., once the data is triggered.</p>
+<p>In addition, when relying on additional tools, it can be frustrating to encounter this problem.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*bGwrLDPiDy3z6igO.png"></p>
+<p>Once the problem occurs, where to start to troubleshoot, and how to clarify the scope of the disaster, all need to experience and in-depth learning before there is a way to deal with.</p>
+<p>Learning these tools is also the biggest challenge for data engineers and data architects, there are many tools to solve many problems. However, big data is really big, and learning all tools is almost impossible.</p>
+<p>Finally, let me conclude with a picture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*5i9hq78ueoNhPD1d.jpg"></p>
+<p>What’s the next?</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/data-pipeline-from-etl-to-el-plus-t-4cbf3d5a6c1e">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/11/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="不要跟我五四三，回點有用的話來 這篇文章是專門為了繁體中文的 RAG 寫的。 你有覺得聊天機器人一直在打高空嗎？你有覺得聊天機器人總是瞎掰胡謅嗎？你有覺得聊天機器人經常答非所問嗎？ 如果你使用的 prompt 已經很精準了，卻還常有上述感受，那很有可能你實作的 RAG 出了根本上的問題。 要讓 RAG 務實有以下幾個重點：  必須是要懂繁體中文的 embedding 要有中文語意的分片器 一定要是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="做一個務實的RAG (Pragmatic RAG)">
+<meta property="og:url" content="https://wirelessr.github.io/AI/%E5%81%9A%E4%B8%80%E5%80%8B%E5%8B%99%E5%AF%A6%E7%9A%84RAG-Pragmatic-RAG/20240818/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="不要跟我五四三，回點有用的話來 這篇文章是專門為了繁體中文的 RAG 寫的。 你有覺得聊天機器人一直在打高空嗎？你有覺得聊天機器人總是瞎掰胡謅嗎？你有覺得聊天機器人經常答非所問嗎？ 如果你使用的 prompt 已經很精準了，卻還常有上述感受，那很有可能你實作的 RAG 出了根本上的問題。 要讓 RAG 務實有以下幾個重點：  必須是要懂繁體中文的 embedding 要有中文語意的分片器 一定要是">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*SCnwW02b4ApvfOgu45S9VA.png">
+<meta property="article:published_time" content="2024-08-18T17:33:51.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.830Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*SCnwW02b4ApvfOgu45S9VA.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/AI/%E5%81%9A%E4%B8%80%E5%80%8B%E5%8B%99%E5%AF%A6%E7%9A%84RAG-Pragmatic-RAG/20240818/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/AI/%E5%81%9A%E4%B8%80%E5%80%8B%E5%8B%99%E5%AF%A6%E7%9A%84RAG-Pragmatic-RAG/20240818/","path":"AI/做一個務實的RAG-Pragmatic-RAG/20240818/","title":"做一個務實的RAG (Pragmatic RAG)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>做一個務實的RAG (Pragmatic RAG) | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E8%B7%9F%E6%88%91%E4%BA%94%E5%9B%9B%E4%B8%89%EF%BC%8C%E5%9B%9E%E9%BB%9E%E6%9C%89%E7%94%A8%E7%9A%84%E8%A9%B1%E4%BE%86"><span class="nav-number">1.</span> <span class="nav-text">不要跟我五四三，回點有用的話來</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E8%A6%BD"><span class="nav-number"></span> <span class="nav-text">核心概覽</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E9%AB%94%E5%AF%A6%E8%B8%90"><span class="nav-number"></span> <span class="nav-text">具體實踐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number"></span> <span class="nav-text">結論</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/%E5%81%9A%E4%B8%80%E5%80%8B%E5%8B%99%E5%AF%A6%E7%9A%84RAG-Pragmatic-RAG/20240818/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="做一個務實的RAG (Pragmatic RAG) | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          做一個務實的RAG (Pragmatic RAG)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-08-19 01:33:51" itemprop="dateCreated datePublished" datetime="2024-08-19T01:33:51+08:00">2024-08-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="不要跟我五四三，回點有用的話來"><a href="#不要跟我五四三，回點有用的話來" class="headerlink" title="不要跟我五四三，回點有用的話來"></a><em>不要跟我五四三，回點有用的話來</em></h4><p><img src="https://cdn-images-1.medium.com/max/800/1*SCnwW02b4ApvfOgu45S9VA.png"></p>
+<p>這篇文章是專門為了繁體中文的 RAG 寫的。</p>
+<p>你有覺得聊天機器人一直在打高空嗎？<br>你有覺得聊天機器人總是瞎掰胡謅嗎？<br>你有覺得聊天機器人經常答非所問嗎？</p>
+<p>如果你使用的 prompt 已經很精準了，卻還常有上述感受，那很有可能你實作的 RAG 出了根本上的問題。</p>
+<p>要讓 RAG 務實有以下幾個重點：</p>
+<ol>
+<li>必須是要懂繁體中文的 embedding</li>
+<li>要有中文語意的分片器</li>
+<li>一定要是用繁體中文訓練的 LLM</li>
+<li>精準的 prompt 連同 system instruction</li>
+<li>沒做 rerank 的效果都差到不行，但 rerank 要懂繁體中文</li>
+</ol>
+<p>能夠做到上述五點，那麼你就可以得到一個穩重且有參考價值的 RAG。</p>
+<h3 id="核心概覽"><a href="#核心概覽" class="headerlink" title="核心概覽"></a>核心概覽</h3><p>以下我會提供一個使用 langchain 實作的繁體中文萬用套餐，最重要的是：本地運行，完全免費。</p>
+<p>既免費又萬用的核心元素是下列：</p>
+<ol>
+<li>懂中文的 embedding：<a target="_blank" rel="noopener" href="https://huggingface.co/BAAI/bge-m3">BGE-M3</a></li>
+<li>中文語意的分片器：<a target="_blank" rel="noopener" href="https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/recursive_text_splitter/#splitting-text-from-languages-without-word-boundaries">RecursiveCharacterTextSplitter</a></li>
+<li>繁體中文訓練的 LLM：<a target="_blank" rel="noopener" href="https://taide.tw/index/download-model">TAIDE</a></li>
+<li>懂繁體中文的 rerank：<a target="_blank" rel="noopener" href="https://github.com/google-research/bert/blob/master/multilingual.md#list-of-languages">ms-marco-MultiBERT-L-12</a></li>
+</ol>
+<p>上述都是免費的，搭配本地運行的框架：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://ollama.com/">Ollama</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/langchain-ai/langchain">Langchain</a></li>
+</ol>
+<p>就可以實作我們要的務實 RAG。</p>
+<h3 id="具體實踐"><a href="#具體實踐" class="headerlink" title="具體實踐"></a>具體實踐</h3><p>把 Ollama 裝好，有 Python 後就開始吧。</p>
+<p>以下我會用一個 <a target="_blank" rel="noopener" href="https://www.atlassian.com/software/confluence">Confluence</a> 的爬蟲做示範，但整個腳本可以套用在任何繁體中文的資料源。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Langchain 的核心套件  </span><br><span class="line">pip install langchain langchain-community langchain-core langchain-huggingface  </span><br><span class="line"># Confluence 爬蟲需要的套件 (根據資料源可替換)  </span><br><span class="line">pip install atlassian-python-api lxml pytesseract docx2txt  </span><br><span class="line"># Rerank 用  </span><br><span class="line">pip install flashrank  </span><br><span class="line"># 向量存儲  </span><br><span class="line">pip install faiss-cpu</span><br></pre></td></tr></table></figure>
+
+<p>Python 套件都安裝完成後的第一步，我們要先準備給 RAG 使用的資料源，以本例來說是 Confluence。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from langchain_community.document_loaders import ConfluenceLoader  </span><br><span class="line">  </span><br><span class="line">CONFLUENCE_TOKEN = &#x27;&lt;your token&gt;&#x27;  </span><br><span class="line">USER = &#x27;&lt;your account&gt;&#x27;  </span><br><span class="line">ROOT_URL = &#x27;&lt;your domain&gt;&#x27;  </span><br><span class="line">SPACE_KEY = &#x27;&lt;your space&gt;&#x27;  </span><br><span class="line">PAGE_ID = &#x27;&lt;your page&gt;&#x27;  </span><br><span class="line">loader = ConfluenceLoader(  </span><br><span class="line">    url=ROOT_URL, username=USER, api_key=CONFLUENCE_TOKEN  </span><br><span class="line">)  </span><br><span class="line">documents = loader.load(space_key=SPACE_KEY,  </span><br><span class="line">    page_id=PAGE_ID, include_attachments=True, limit=50)</span><br></pre></td></tr></table></figure>
+
+<p>到此，Confluence 的資料就全部抓下來並存進 <code>documents</code> 了。</p>
+<p>若你要處理的是別的資料源，就直接從這裡往下，重點是所有資料要放進 <code>documents</code>。接著我們要來做分段，許多英文的教學會使用 token 來做分段，但中文與 token 並沒有很好的對應，效果會非常差。因此，我們依然採用標點符號的分段方式，並且讓上下兩片段是有重疊的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">from langchain.text_splitter import RecursiveCharacterTextSplitter  </span><br><span class="line">  </span><br><span class="line">text_splitter = RecursiveCharacterTextSplitter(  </span><br><span class="line">    chunk_size=800,  </span><br><span class="line">    chunk_overlap=400,  </span><br><span class="line">    length_function=len,  </span><br><span class="line">    is_separator_regex=False,  </span><br><span class="line">    separators=[  </span><br><span class="line">        &quot;\n\n&quot;,  </span><br><span class="line">        &quot;\n&quot;,  </span><br><span class="line">        &quot; &quot;,  </span><br><span class="line">        &quot;.&quot;,  </span><br><span class="line">        &quot;,&quot;,  </span><br><span class="line">        &quot;\u200b&quot;,  # Zero-width space  </span><br><span class="line">        &quot;\uff0c&quot;,  # Fullwidth comma  </span><br><span class="line">        &quot;\u3001&quot;,  # Ideographic comma  </span><br><span class="line">        &quot;\uff0e&quot;,  # Fullwidth full stop  </span><br><span class="line">        &quot;\u3002&quot;,  # Ideographic full stop  </span><br><span class="line">        &quot;&quot;,  </span><br><span class="line">    ],  </span><br><span class="line">)  </span><br><span class="line">texts = text_splitter.split_documents(documents)</span><br></pre></td></tr></table></figure>
+
+<p>上面程式碼可以看到，我們對中文的全型逗號和句號做了額外處理，想要加入更多字元也行。</p>
+<p>另一個關鍵是我們的片段長度是 <code>800</code> 且重疊 <code>400</code> 字，這是我實測下來最理想的長度了，當然也可以根據需求調整。</p>
+<p>接著我們準備開始做 embedding，務必記得，embedding 的模型一定要懂繁體中文。現階段，既免費效果又好的當屬 <code>BAAI/bge-m3</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from langchain_huggingface import HuggingFaceEmbeddings  </span><br><span class="line">from langchain_community.vectorstores import FAISS  </span><br><span class="line">  </span><br><span class="line">HF_EMBEDDING_MODEL = &#x27;BAAI/bge-m3&#x27;  </span><br><span class="line">hf_embeddings = HuggingFaceEmbeddings(  </span><br><span class="line">    model_name=HF_EMBEDDING_MODEL,  </span><br><span class="line">    model_kwargs=&#123;&#x27;device&#x27;: &#x27;cpu&#x27;&#125;,  </span><br><span class="line">    encode_kwargs=&#123;&#x27;normalize_embeddings&#x27;: False&#125;  </span><br><span class="line">)  </span><br><span class="line">vectordb = FAISS.from_documents(texts, hf_embeddings)</span><br></pre></td></tr></table></figure>
+
+<p>現在我們已經有一份完整的向量放在記憶體內了，至於是否需要落地，也是根據需求決定。</p>
+<p>最後就是聊天對話了，讓我們用 langchain 的內建功能快速搭建起來。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">from langchain.prompts import PromptTemplate  </span><br><span class="line">from langchain.chains import RetrievalQA  </span><br><span class="line">from langchain.retrievers.document_compressors import FlashrankRerank  </span><br><span class="line">from langchain.retrievers import ContextualCompressionRetriever  </span><br><span class="line">from langchain_community.llms import Ollama  </span><br><span class="line">  </span><br><span class="line">LLM_MODEL = &#x27;cwchang/llama3-taide-lx-8b-chat-alpha1&#x27;  </span><br><span class="line">RERANK_MODEL = &#x27;ms-marco-MultiBERT-L-12&#x27;  </span><br><span class="line">  </span><br><span class="line">llm = Ollama(model=LLM_MODEL)  </span><br><span class="line">custom_prompt_template = &quot;&quot;&quot;  </span><br><span class="line">&lt;your system instruction&gt;  </span><br><span class="line">&#123;context&#125;  </span><br><span class="line">Question: &#123;question&#125;  </span><br><span class="line">Helpful Answer:&quot;&quot;&quot;  </span><br><span class="line">CUSTOMPROMPT = PromptTemplate(  </span><br><span class="line">    template=custom_prompt_template, input_variables=[&quot;context&quot;, &quot;question&quot;]  </span><br><span class="line">)  </span><br><span class="line">retriever = vectordb.as_retriever(search_type=&quot;similarity&quot;,  </span><br><span class="line">    search_kwargs=&#123;&quot;k&quot;: 100&#125;) # K1, Top100 Snippets  </span><br><span class="line">compressor = FlashrankRerank(model=RERANK_MODEL, top_n=5) # K2, Top5 Answers  </span><br><span class="line">compression_retriever = ContextualCompressionRetriever(  </span><br><span class="line">    base_compressor=compressor, base_retriever=retriever  </span><br><span class="line">)  </span><br><span class="line">qa = RetrievalQA.from_chain_type(llm=llm, chain_type=&quot;stuff&quot;,   </span><br><span class="line">    retriever=compression_retriever, return_source_documents=True)  </span><br><span class="line">## Inject custom prompt   </span><br><span class="line">qa.combine_documents_chain.llm_chain.prompt = CUSTOMPROMPT  </span><br><span class="line">question = &quot;&lt;your question&gt;&quot;  </span><br><span class="line">answer = qa(&#123;&quot;query&quot;: question&#125;)  </span><br><span class="line">print(answer)</span><br></pre></td></tr></table></figure>
+
+<p>上面這段 code 有幾個重點：</p>
+<ol>
+<li>採用 Ollama Hub 內有的 TAIDE 模型 (整合好的比較方便)</li>
+<li>Rerank 模型則是 langchain 整合的 <code>ms-marco-MultiBERT-L-12</code></li>
+<li>先用向量的相似性比對找出前 100 名，接著透過 rerank 找出最佳的 5 個</li>
+<li>雖然 <code>answer</code> 只會有一個答案，但 <code>return_source_documents=True</code> 所以可以看到參考了哪些結果</li>
+</ol>
+<h3 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h3><p>上面那整段 code 都只需要本地運行，硬碟大概需要 10 GB 左右，但因為不需要 GPU ，所以一般手上的電腦都可以跑。</p>
+<p>雖然是以 Confluence 爬蟲作為例子，但相信你們都可以發現，langchain 這個框架其實整合的相當好，大部分的工作都可以簡單幾行 code 就處理掉。即使是需要一定 know-how 的 rerank，也已經有內建的整合可以直接使用。</p>
+<p>至於腳本內沒提到的 prompt 和 system instruction，那個必須根據你的用途和語料來動態調整，所以如果使用這個腳本還碰到不夠精準的回答，那多半是這兩點沒調校好。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/%E5%81%9A%E4%B8%80%E5%80%8B%E5%8B%99%E5%AF%A6%E7%9A%84rag-pragmatic-rag-65fc63647c51">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/When-to-Consider-Design-Patterns/20240804/" rel="prev" title="When to Consider Design Patterns">
+                  <i class="fa fa-chevron-left"></i> When to Consider Design Patterns
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Database/How-to-Perform-ALTER-TABLE-on-Huge-Table/20240825/" rel="next" title="How to Perform ALTER TABLE on Huge Table">
+                  How to Perform ALTER TABLE on Huge Table <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

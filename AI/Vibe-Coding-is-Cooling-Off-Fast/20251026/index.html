@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Vibe Coding is Cooling Off, FastAI is great for PoCs, but fails at creating maintainable software The title might sound a bit like clickbait, but even the guy who coined the term “vibe coding,” Andrej">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vibe Coding is Cooling Off, Fast">
+<meta property="og:url" content="https://wirelessr.github.io/AI/Vibe-Coding-is-Cooling-Off-Fast/20251026/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Vibe Coding is Cooling Off, FastAI is great for PoCs, but fails at creating maintainable software The title might sound a bit like clickbait, but even the guy who coined the term “vibe coding,” Andrej">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*BnB0HCqXINZ2n3rSgiD0VQ.png">
+<meta property="article:published_time" content="2025-10-26T17:14:33.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.829Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*BnB0HCqXINZ2n3rSgiD0VQ.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/AI/Vibe-Coding-is-Cooling-Off-Fast/20251026/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/AI/Vibe-Coding-is-Cooling-Off-Fast/20251026/","path":"AI/Vibe-Coding-is-Cooling-Off-Fast/20251026/","title":"Vibe Coding is Cooling Off, Fast"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Vibe Coding is Cooling Off, Fast | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Vibe-Coding-is-Cooling-Off-Fast"><span class="nav-number">1.</span> <span class="nav-text">Vibe Coding is Cooling Off, Fast</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AI-is-great-for-PoCs-but-fails-at-creating-maintainable-software"><span class="nav-number">1.1.</span> <span class="nav-text">AI is great for PoCs, but fails at creating maintainable software</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Factory-Pattern-in-Practice"><span class="nav-number">2.</span> <span class="nav-text">The Factory Pattern in Practice</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Here%E2%80%99s-Another-Thing-the-Agent-Won%E2%80%99t-Tell-Us"><span class="nav-number">3.</span> <span class="nav-text">Here’s Another Thing the Agent Won’t Tell Us</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wrap-Up"><span class="nav-number">4.</span> <span class="nav-text">Wrap Up</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-message-from-our-Founder"><span class="nav-number">5.</span> <span class="nav-text">A message from our Founder</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Vibe-Coding-is-Cooling-Off-Fast/20251026/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Vibe Coding is Cooling Off, Fast | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vibe Coding is Cooling Off, Fast
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-10-27 01:14:33" itemprop="dateCreated datePublished" datetime="2025-10-27T01:14:33+08:00">2025-10-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Vibe-Coding-is-Cooling-Off-Fast"><a href="#Vibe-Coding-is-Cooling-Off-Fast" class="headerlink" title="Vibe Coding is Cooling Off, Fast"></a>Vibe Coding is Cooling Off, Fast</h3><h4 id="AI-is-great-for-PoCs-but-fails-at-creating-maintainable-software"><a href="#AI-is-great-for-PoCs-but-fails-at-creating-maintainable-software" class="headerlink" title="AI is great for PoCs, but fails at creating maintainable software"></a>AI is great for PoCs, but fails at creating maintainable software</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*BnB0HCqXINZ2n3rSgiD0VQ.png"></p>
+<p>The title might sound a bit like clickbait, but even the guy who coined the term “vibe coding,” Andrej Karpathy, just pointed out that he hand-wrote his latest project. Whatever his reasons, the bottom line is: vibe coding just wasn’t good enough.</p>
+<ul>
+<li><strong>Feb 3, 2025:</strong> The term “<a target="_blank" rel="noopener" href="https://x.com/karpathy/status/1886192184808149383" title="null">Vibe coding</a>” is born.</li>
+<li><strong>Oct 13, 2025:</strong> Andrej Karpathy gives an <a target="_blank" rel="noopener" href="https://x.com/karpathy/status/1977758204139331904" title="null">update</a> on vibe coding.</li>
+</ul>
+<p>That’s barely half a year. What the hell happened?</p>
+<p>We were just celebrating how insanely capable Claude 4.5 and GPT-5 are, and suddenly the script flips?</p>
+<p>Honestly, I’ve also been hitting the hard limits of vibe coding myself lately.</p>
+<p>Let me provide a real-world example.</p>
+<p>Let’s say we have a huge project and we need to introduce a behavior change. Whether it’s for A&#x2F;B testing or feature toggling, we’re essentially just wrapping the old code in an <code>if-else</code> block to introduce the new behavior, right?</p>
+<p>That’s a bit abstract, so let’s look at some pseudo-code.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if is_enabled(&quot;feature A&quot;):  </span><br><span class="line">    # new behavior / new feature  </span><br><span class="line">    something_new()  </span><br><span class="line">else:  </span><br><span class="line">    # original codeflow  </span><br><span class="line">    something_old()</span><br></pre></td></tr></table></figure>
+
+<p>Super easy to understand, right?</p>
+<p>Now, when this feature is big enough, these <code>if-else</code> blocks are going to be scattered all over the codebase. What do we think an AI Agent will do?</p>
+<p>Yes. Exactly. It’s going to slap an <code>if-else</code> on every single place that needs to change. So, what happens when the feature toggle rollout is complete and it’s time to clean up the codebase?</p>
+<p>Right again. The Agent will just go back and rip out all those <code>if-else</code> statements. What’s the problem with that? If that <code>if-else</code> is spread across 100 different files, this “housekeeping” task is now touching 100 files. Would we feel safe pushing that change to production?</p>
+<p>So, what’s the right way to do it?</p>
+<p>I mentioned this in a <a target="_blank" rel="noopener" href="https://medium.com/better-programming/feature-toggle-introduction-68d58f5c709" title="null">previous article on feature toggling</a>: the correct practice is to introduce the <strong>Factory Pattern</strong>.</p>
+<p>The beauty of this is that after the code is refactored, the actual feature flag check is hidden inside the factory. When it’s time for cleanup, we only have to modify the factory. We don’t have to touch all the integration points.</p>
+<p>Let’s look at a concrete example.</p>
+<h3 id="The-Factory-Pattern-in-Practice"><a href="#The-Factory-Pattern-in-Practice" class="headerlink" title="The Factory Pattern in Practice"></a>The Factory Pattern in Practice</h3><p>Let’s say we have some business logic for getting user data. The old implementation queries the database directly. The new implementation uses a dedicated microservice. We need to migrate all the database queries to the new REST API.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def get_user_profile(customer_id: str, email: str):      </span><br><span class="line">    if feature_flags.is_enabled(customer_id, &#x27;USE_NEW_USER_SERVICE_FF&#x27;):  </span><br><span class="line">        # If the flag is on, call the new API service  </span><br><span class="line">        user_data = call_new_api_service(email)  </span><br><span class="line">    else:  </span><br><span class="line">        # Otherwise, query the old database  </span><br><span class="line">        user_data = query_legacy_database(email)  </span><br><span class="line">          </span><br><span class="line">    return user_data</span><br></pre></td></tr></table></figure>
+
+<p>If we also have functions to get group info by <code>user_id</code> or other queries, we can imagine this <code>if-else</code> getting scattered everywhere.</p>
+<p>This is where we bring in the Factory Pattern. It has three core components: an Interface, Concrete Implementations, and a Factory.</p>
+<p>First, we define an abstract <code>UserProvider</code> interface. It defines the methods that all “user data providers” must have. This way, the calling code doesn’t need to care if the data is coming from a database or an API.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from abc import ABC, abstractmethod  </span><br><span class="line">from typing import Optional, Dict, List, Tuple  </span><br><span class="line">  </span><br><span class="line">class UserProvider(ABC):  </span><br><span class="line">    &quot;&quot;&quot;  </span><br><span class="line">    Abstract interface for a user data provider.  </span><br><span class="line">    Defines methods all concrete providers must implement.  </span><br><span class="line">    &quot;&quot;&quot;  </span><br><span class="line">    @abstractmethod  </span><br><span class="line">    def get_user_by_email(self, customer_id: str, email: str) -&gt; Optional[Dict]:  </span><br><span class="line">        &quot;&quot;&quot;Gets user data by Email&quot;&quot;&quot;  </span><br><span class="line">        pass  </span><br><span class="line">  </span><br><span class="line">    @abstractmethod  </span><br><span class="line">    def get_user_groups(self, customer_id: str, user_id: str) -&gt; List[str]:  </span><br><span class="line">        &quot;&quot;&quot;Gets a list of groups for a user ID&quot;&quot;&quot;  </span><br><span class="line">        pass</span><br></pre></td></tr></table></figure>
+
+<p>Next, we create concrete classes for the old and new services, both of which implement the <code>UserProvider</code> interface.</p>
+<p>The old database service:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class OldDatabaseUserProvider(UserProvider):  </span><br><span class="line">    &quot;&quot;&quot;  </span><br><span class="line">    Implementation for fetching user data from the legacy database.  </span><br><span class="line">    &quot;&quot;&quot;  </span><br><span class="line">    def get_user_by_email(self, customer_id: str, email: str) -&gt; Optional[Dict]:  </span><br><span class="line">        print(f&quot;--- (Legacy System) Querying DB for Email: &#123;email&#125; ---&quot;)  </span><br><span class="line">        # Simulate DB query...  </span><br><span class="line">        if email == &quot;test@example.com&quot;:  </span><br><span class="line">            return &#123;&#x27;user_id&#x27;: &#x27;db_123&#x27;, &#x27;email&#x27;: email, &#x27;name&#x27;: &#x27;DB User&#x27;&#125;  </span><br><span class="line">        return None  </span><br><span class="line">  </span><br><span class="line">    def get_user_groups(self, customer_id: str, user_id: str) -&gt; List[str]:  </span><br><span class="line">        print(f&quot;--- (Legacy System) Querying DB for User ID: &#123;user_id&#125;&#x27;s groups ---&quot;)  </span><br><span class="line">        # Simulate query...  </span><br><span class="line">        return [&#x27;group_a_db&#x27;, &#x27;group_b_db&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>The new API service:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class NewAPIUserProvider(UserProvider):  </span><br><span class="line">    &quot;&quot;&quot;  </span><br><span class="line">    Implementation for fetching user data from the new microservice API.  </span><br><span class="line">    &quot;&quot;&quot;  </span><br><span class="line">    def get_user_by_email(self, customer_id: str, email: str) -&gt; Optional[Dict]:  </span><br><span class="line">        print(f&quot;--- (New System) Calling API for Email: &#123;email&#125; ---&quot;)  </span><br><span class="line">        # Simulate API call...  </span><br><span class="line">        if email == &quot;test@example.com&quot;:  </span><br><span class="line">            return &#123;&#x27;user_id&#x27;: &#x27;api_xyz&#x27;, &#x27;email&#x27;: email, &#x27;name&#x27;: &#x27;API User&#x27;&#125;  </span><br><span class="line">        return None  </span><br><span class="line">  </span><br><span class="line">    def get_user_groups(self, customer_id: str, user_id: str) -&gt; List[str]:  </span><br><span class="line">        print(f&quot;--- (New System) Calling API for User ID: &#123;user_id&#125;&#x27;s groups ---&quot;)  </span><br><span class="line">        # Simulate API call...  </span><br><span class="line">        return [&#x27;group_x_api&#x27;, &#x27;group_y_api&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>Finally, we create a <code>UserProviderFactory</code>. Its only job is to decide which concrete <code>UserProvider</code> instance to return based on the given conditions (here, the <code>customer_id</code> and his feature flag).</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class UserProviderFactory:  </span><br><span class="line">    def __init__(self):  </span><br><span class="line">        # Pre-build and cache the instances to avoid re-creation  </span><br><span class="line">        self._providers = &#123;  </span><br><span class="line">            &#x27;database&#x27;: OldDatabaseUserProvider(),  </span><br><span class="line">            &#x27;api&#x27;: NewAPIUserProvider()  </span><br><span class="line">        &#125;  </span><br><span class="line">      </span><br><span class="line">    def get_provider(self, customer_id: str) -&gt; UserProvider:  </span><br><span class="line">        &quot;&quot;&quot;  </span><br><span class="line">        Decides which provider to return based on the feature flag.  </span><br><span class="line">        This is the core of the pattern, centralizing the &quot;decision logic&quot;.  </span><br><span class="line">        &quot;&quot;&quot;  </span><br><span class="line">        if feature_flags.is_enabled(customer_id, &#x27;USE_NEW_USER_SERVICE_FF&#x27;):  </span><br><span class="line">            print(&quot;Factory Decision: Using NewAPIUserProvider&quot;)  </span><br><span class="line">            return self._providers[&#x27;api&#x27;]  </span><br><span class="line">        else:  </span><br><span class="line">            print(&quot;Factory Decision: Using OldDatabaseUserProvider&quot;)  </span><br><span class="line">            return self._providers[&#x27;database&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>Now, we’ve completely encapsulated the object creation and selection logic within the factory.</p>
+<p>After implementing the factory, the business logic function that was full of <code>if-else</code> statements becomes way simpler.</p>
+<p>The client code no longer needs to care about “which service to use” or “how to build the service object.” It just asks the factory for a usable <code>UserProvider</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">user_provider_factory = UserProviderFactory()  </span><br><span class="line">provider = user_provider_factory.get_provider(customer_id)  </span><br><span class="line">      </span><br><span class="line">user_data = provider.get_user_by_email(customer_id, email)</span><br></pre></td></tr></table></figure>
+
+<p>In the future, when it’s time to clean up, we only need to touch the <code>feature_flags.is_enabled</code> line in the factory and delete the legacy <code>OldDatabaseUserProvider</code>. This ensures all client code is unaffected and dramatically shrinks the cleanup’s blast radius.</p>
+<h3 id="Here’s-Another-Thing-the-Agent-Won’t-Tell-Us"><a href="#Here’s-Another-Thing-the-Agent-Won’t-Tell-Us" class="headerlink" title="Here’s Another Thing the Agent Won’t Tell Us"></a>Here’s Another Thing the Agent Won’t Tell Us</h3><p>Let’s do one more example.</p>
+<p>Today’s AI agents are smart. They even write tests for their code. But if we actually look at the tests they write, we’ll find they are full of duplicated code, especially when they’re trying to cover a bunch of corner cases.</p>
+<p>These kinds of unit tests are basically unmaintainable. A future logic change could instantly break a ton of test cases.</p>
+<p>What’s the right way to do it? As I’ve explained in a <a target="_blank" rel="noopener" href="https://www.google.com/search?q=https://medium.com/better-programming/how-to-make-example-based-testing-better-99dbfbbe5b8c" title="null">previous article</a>, we need to use <strong>table-driven testing</strong> to consolidate all the test cases.</p>
+<p>A unit test follows the Arrange-Act-Assert (AAA) pattern. For different test cases, the only parts that really change are ‘Arrange’ (the inputs) and ‘Assert’ (the expected outputs). So, we can just build a table (an array) of all the cases and run them all through a single loop.</p>
+<p>In fact, a lot of testing frameworks have-built in support for this. For example, <code>pytest</code> does this with <code>mark.parametrize</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import pytest  </span><br><span class="line">  </span><br><span class="line">@pytest.mark.parametrize(&quot;expression,expected&quot;,  </span><br><span class="line">    [  </span><br><span class="line">        (&quot;2 + 3&quot;, 5),  </span><br><span class="line">        (&quot;2 + 3 * 4&quot;, 14),  </span><br><span class="line">        (&quot;(2 + 3) * 4&quot;, 20),  </span><br><span class="line">        # and so on  </span><br><span class="line">    ]  </span><br><span class="line">)  </span><br><span class="line">def test_calculator(expression, expected):  </span><br><span class="line">    ret = calculator(expression)  </span><br><span class="line">    assert ret == expected</span><br></pre></td></tr></table></figure>
+
+<p>The agent won’t tell us any of this.</p>
+<p>Not unless we explicitly tell it: “I want us to implement the Factory Pattern” or “I want us to use table-driven testing.”</p>
+<p>And this is the limit of vibe coding. I’ve spent a lot of time in the past discussing the practical details of vibe coding, and I was an early adopter of spec-driven development workflows.</p>
+<p>But when I seriously review the AI’s output, I find that even with something as powerful as Claude 4.5, the code it produces is still full of redundancy. This redundant code might be correct, and it might even work, but over time, it will become completely unmaintainable.</p>
+<p>Both humans and AI have a limited context window.</p>
+<blockquote>
+<p><em><strong>Ultimately, software development still comes back to good software engineering practices.</strong></em></p>
+</blockquote>
+<p>We need to discuss design patterns. We need to consider feature onboarding and all the other real-world architecture problems. Vibe coding is great for building a PoC (Proof of Concept) really fast. But a PoC is <strong>not</strong> an MVP. The moment we need to turn that PoC into a real product, we still have to rely on the experience and wisdom of a human software engineer to solve those real-world problems.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>We used two concrete examples to explain the limits of vibe coding: one with design patterns and one with table-driven testing.</p>
+<p>We might be thinking, “Well, can’t we just define all these rules in the system instructions?” That’s… yes and no.</p>
+<p>There are so many design patterns. If we don’t specify which one, can the AI really pick the right one? What we call “design patterns” are split into three major categories — Creational, Structural, and Behavioral — each with dozens of different patterns.</p>
+<p>Remember, the AI has a limited context. In a massive codebase, it needs to identify the problem, break it down, and propose the right solution. I don’t need to tell us how hard that is.</p>
+<p>And that’s just talking about the narrow definition of design patterns. That’s not even getting into Pattern-Oriented Software Architecture or all the higher-level architectural problems like microservices, event-driven architecture, etc.</p>
+<p>These are not problems an AI can solve just by glancing at a codebase or reading a detailed spec.</p>
+<p>Don’t get me wrong, I’m still going to use vibe coding. But for me, its value right now has been reduced to just a super-powered auto-complete.</p>
+<p>To put it bluntly, the auto-complete that AI gives me is just a lot more flexible than the old-school, rule-based completion. But at the end of the day, that’s all it is.</p>
+<h3 id="A-message-from-our-Founder"><a href="#A-message-from-our-Founder" class="headerlink" title="A message from our Founder"></a>A message from our Founder</h3><p><strong>Hey,</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>Sunil</strong></a> <strong>here.</strong> I wanted to take a moment to thank you for reading until the end and for being a part of this community.</p>
+<p>Did you know that our team run these publications as a volunteer effort to over 3.5m monthly readers? <strong>We don’t receive any funding, we do this to support the community. ❤️</strong></p>
+<p>If you want to show some love, please take a moment to <strong>follow me on</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>LinkedIn</strong></a><strong>,</strong> <a target="_blank" rel="noopener" href="https://tiktok.com/@messyfounder"><strong>TikTok</strong></a>, <a target="_blank" rel="noopener" href="https://instagram.com/sunilsandhu"><strong>Instagram</strong></a>. You can also subscribe to our <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>weekly newsletter</strong></a>.</p>
+<p>And before you go, don’t forget to <strong>clap</strong> and <strong>follow</strong> the writer️!</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/vibe-coding-is-cooling-off-fast-bd1ea2aa4adb">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Development/Python-DAG-Retries-Rollbacks-Parallel-Runs/20251005/" rel="prev" title="Python DAG: Retries, Rollbacks & Parallel Runs">
+                  <i class="fa fa-chevron-left"></i> Python DAG: Retries, Rollbacks & Parallel Runs
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/AI/How-Gen-AI-2x-My-Developer-Productivity/20251109/" rel="next" title="How Gen AI 2x My Developer Productivity">
+                  How Gen AI 2x My Developer Productivity <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

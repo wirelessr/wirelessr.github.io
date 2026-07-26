@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/12/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/12/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/12/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Playing-PyFlink-in-a-Nutshell/20221023/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Playing-PyFlink-in-a-Nutshell/20221023/" class="post-title-link" itemprop="url">Playing PyFlink in a Nutshell</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-10-24 01:52:55" itemprop="dateCreated datePublished" datetime="2022-10-24T01:52:55+08:00">2022-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Playing-PyFlink-in-a-Nutshell"><a href="#Playing-PyFlink-in-a-Nutshell" class="headerlink" title="Playing PyFlink in a Nutshell"></a>Playing PyFlink in a Nutshell</h3><h4 id="Understanding-the-power-of-PyFlink"><a href="#Understanding-the-power-of-PyFlink" class="headerlink" title="Understanding the power of PyFlink"></a>Understanding the power of PyFlink</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*93z652Elyzx7s7Or"></p>
+<p>Last week, we introduced <a target="_blank" rel="noopener" href="https://blog.devgenius.io/playing-pyflink-from-scratch-65c18908c366">how to build a PyFlink experiment environment</a>, and today we will use that experimental environment to explore the possibilities of PyFlink.</p>
+<p>PyFlink is a general purpose streaming framework and abstracts streaming processing into four levels.</p>
+<ol>
+<li>SQL</li>
+<li>Table API</li>
+<li>DataStream</li>
+<li>Stateful Stream Processing</li>
+</ol>
+<p>The closer to the bottom the more flexibility is available, but also requiring writing more code. I would like to be able to do almost everything with PyFlink, so let’s get started with the basic concepts of PyFlink development from a DataStream perspective.</p>
+<p>This article will introduce a few key points of PyFlink development with simple descriptions and examples, but will not mention the implementation details of Flink.</p>
+<h3 id="DataStream-Concept"><a href="#DataStream-Concept" class="headerlink" title="DataStream Concept"></a>DataStream Concept</h3><p>The development of DataStream will follow the following process.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*scE7_-sNF8-KvDa3x6WXOA.png"></p>
+<p>Basically, we get streaming data from a source, process it, and output it to somewhere.</p>
+<p>This is expressed in PyFlink as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ds = env.add_source(kafka_consumer)  </span><br><span class="line">ds = ds.map(transform, output_type=output_type_info)  </span><br><span class="line">ds.add_sink(kafka_producer)</span><br></pre></td></tr></table></figure>
+
+<p>Source and sink are easy to understand, but the key is what processing can be used?</p>
+<p>In the official document there is a list of all available operations.<br><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.15/docs/dev/datastream/operators/overview/">https://nightlies.apache.org/flink/flink-docs-release-1.15/docs/dev/datastream/operators/overview/</a></p>
+<p>For the above example, we used <code>map</code>.</p>
+<p>There is also an example of the operation in the Flink artifact, the code is placed at <code>./examples/python/datastream/basic_operations.py</code>。</p>
+<h3 id="What-is-the-difference-between-map-and-flat-map"><a href="#What-is-the-difference-between-map-and-flat-map" class="headerlink" title="What is the difference between map and flat_map?"></a>What is the difference between <code>map</code> and <code>flat_map</code>?</h3><p>There are two similar operations in the operation list, <code>map</code> and <code>flat_map</code>, what is the difference between these two operations?</p>
+<p>The difference is in the number of generated outputs.</p>
+<p>In the case of <code>map</code>, an input event generates one and only one output event; on the other hand, <code>flat_map</code> can generate zero to many output events.</p>
+<p>Let’s use the actual code as an example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def map_transform(i: int):  </span><br><span class="line">  return i * i  </span><br><span class="line">    </span><br><span class="line">def flat_map_transform(i: int):  </span><br><span class="line">  for idx in range(i):  </span><br><span class="line">    yield idx  </span><br><span class="line">      </span><br><span class="line">ds.map(map_transform, output_type=Types.INT())  </span><br><span class="line">ds.flat_map(flat_map_transform, output_type=Types.INT())</span><br></pre></td></tr></table></figure>
+
+<p>In this example, <code>map</code> squares all the input integers and passes them out, one input corresponds to one output. However, <code>flat_map</code> outputs a series of events, and the number of output events is determined by the input events.</p>
+<p>If the input is <code>0</code>, then <code>yield</code> of <code>flat_map</code> will not be triggered, and nothing will be generated.</p>
+<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><p>State is the best feature of Flink.</p>
+<p>Although we have various operations available, many of them actually produce results based on previous events. How do we keep the previous events? This is where <code>State</code> comes in.</p>
+<p>State can be considered as an internal storage in order to persist data, and the size of State is the summary of every node’s memory.</p>
+<p>Nevertheless, State can be persisted in a durable storage like <code>RocksDB</code> to gain more scalability.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from pyflink.datastream import StreamExecutionEnvironment, EmbeddedRocksDBStateBackend</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">env = StreamExecutionEnvironment.get_execution_environment()  </span><br><span class="line">env.set_state_backend(EmbeddedRocksDBStateBackend())</span><br></pre></td></tr></table></figure>
+
+<p>To use State in Flink framework, there are two key points worth noting.</p>
+<ol>
+<li>State can only be used in “Keyed Data Stream”.</li>
+<li>State is based on operations and not able to share with others.</li>
+</ol>
+<p>All available States and the reference are listing below.<br><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.15/docs/dev/datastream/fault-tolerance/state/">https://nightlies.apache.org/flink/flink-docs-release-1.15/docs/dev/datastream/fault-tolerance/state/</a></p>
+<p>In fact, an example at <code>./examples/python/datastream/state_access.py</code> also provides a good demonstration.</p>
+<h3 id="Connect-Shared-State"><a href="#Connect-Shared-State" class="headerlink" title="Connect (Shared State)"></a>Connect (Shared State)</h3><p>As mentioned in the previous section, states are operation-based and cannot be shared, but sometimes we indeed need to combine two different streaming states, so what should we do?</p>
+<p>Fortunately, Flink provides <code>connect</code> to enable us to share the states of different streams within the same job.</p>
+<p>By using <code>connect</code>, we can combine different streams and use the same operation, so that we can share the same operation state.</p>
+<p>To be more concrete, let me provide a practical example. There are two streams.</p>
+<ul>
+<li>Stream 1 provides a mapping between the item identifiers and the item names. When the item name changes, an event <code>(item_id, item_name)</code> is sent into the stream, so we just need to save the latest status.</li>
+<li>Stream 2 is the transaction history, including which item was sold and the number of items ordered.</li>
+</ul>
+<p>What we want to do is, when any purchase is entered, then we have to sum it up and append the latest item name to it.</p>
+<p>This is the classic streaming enrichment pattern, and I explained the enrichment design pattern in detail in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/design-pattern-of-streaming-enrichment-17a9eb065eca">my previous article</a>.</p>
+<p>Here is the full program example.</p>
+<p>In <code>flat_map1</code> the stream 1 is handled, that is to say, the mapping of item number and item name is maintained, so this stream does not need to generate output events.</p>
+<p>The core of the whole application is in <code>flat_map2</code>. We take the accumulated quantity from <code>self.cnt_state</code> and not only add the new quantity but also update it back to the state. Then, in the output process, we take the corresponding name from <code>self.state</code> and finally we output the enriched events.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In the last example, we demonstrate the operation, state, and merging of streams.</p>
+<p>From this example, we can easily understand that Flink can do anything we want as long as we write the program correctly.</p>
+<p>We will continue to do some experiments on stream processing and will continue to publish any further updates if there are any.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/playing-pyflink-in-a-nutshell-3abd16467677">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Playing-PyFlink-from-Scratch/20221016/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Playing-PyFlink-from-Scratch/20221016/" class="post-title-link" itemprop="url">Playing PyFlink from Scratch</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-10-17 07:31:29" itemprop="dateCreated datePublished" datetime="2022-10-17T07:31:29+08:00">2022-10-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Playing-PyFlink-from-Scratch"><a href="#Playing-PyFlink-from-Scratch" class="headerlink" title="Playing PyFlink from Scratch"></a>Playing PyFlink from Scratch</h3><h4 id="Understanding-PyFlink-1-15-2-on-Kubernetes"><a href="#Understanding-PyFlink-1-15-2-on-Kubernetes" class="headerlink" title="Understanding PyFlink 1.15.2 on Kubernetes"></a>Understanding PyFlink 1.15.2 on Kubernetes</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*rV-9-Gx4yDrGNssM"></p>
+<p>I am trying to play with PyFlink recently, but there is not much information available on the Internet, and most of the information is a bit outdated. So I’ll document how I set up the environment and actually experiment with PyFlink.</p>
+<p>Before starting, let’s set the experiment goals.</p>
+<ol>
+<li>To run PyFlink instead of Flink, because I can’t code in JAVA.</li>
+<li>To run on K8s, not docker or standalone.</li>
+<li>Use the latest version of Flink, 1.15.2.</li>
+</ol>
+<p>I briefly describe the entire experimental process.</p>
+<ol>
+<li>Create a K8s cluster.</li>
+<li>Deploy PyFlink cluster.</li>
+<li>Upload the job from the local machine.</li>
+<li>Check the job status in the dashboard.</li>
+</ol>
+<p>Now, I believe you all understand the experimental process, so let’s start preparing the preconditions.</p>
+<ul>
+<li>Do not use M1 chips. <a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/FLINK-25188">The current stable version 1.15.2 does not support M1 chips</a>, so installing PyFlink on M1 would be suffering.</li>
+<li>JAVA 11</li>
+<li>Python 3.6–3.8</li>
+</ul>
+<p>Once all is ready, let’s get started!</p>
+<h3 id="Create-a-K8s-cluster"><a href="#Create-a-K8s-cluster" class="headerlink" title="Create a K8s cluster"></a>Create a K8s cluster</h3><p>My personal preference is to use <a target="_blank" rel="noopener" href="https://k3s.io/">K3s</a> to create clusters rather than minikube.</p>
+<p>There are several reasons.</p>
+<ol>
+<li>It is easier to share the environment. My experimental environment is on EC2, so anyone who knows the location can use it.</li>
+<li>It is more resource efficient. minikube has high system requirements, while K3s itself is designed for IoT devices and is relatively resource efficient.</li>
+<li>K3s is a regular K8s, there are no special features.</li>
+</ol>
+<p>After setting up the cluster according to the <a target="_blank" rel="noopener" href="https://docs.k3s.io/quick-start">official document</a>, some extra settings are required.</p>
+<p>Create a namespace.</p>
+<ul>
+<li><code>kubectl create ns flink</code></li>
+</ul>
+<p>Create a service account.</p>
+<ul>
+<li><code>kubectl create serviceaccount flink -n flink</code></li>
+</ul>
+<p>Grant authorization for the service account.</p>
+<ul>
+<li><code>kubectl create clusterrolebinding flink-role-bind --clusterrole=edit --serviceaccount=flink:flink</code></li>
+</ul>
+<h3 id="Build-a-PyFlink-cluster"><a href="#Build-a-PyFlink-cluster" class="headerlink" title="Build a PyFlink cluster"></a>Build a PyFlink cluster</h3><p>To build a PyFlink cluster we need to prepare the container image to support PyFlink first as follows.</p>
+<p><a target="_blank" rel="noopener" href="https://hub.docker.com/r/wirelessr/pyflink">https://hub.docker.com/r/wirelessr/pyflink</a></p>
+<p>The <code>Dockerfile</code> to build the container is also available in Dockerhub.</p>
+<p>Next, download the latest stable version of flink artifact locally.</p>
+<p><a target="_blank" rel="noopener" href="https://www.apache.org/dyn/closer.lua/flink/flink-1.15.2/flink-1.15.2-bin-scala_2.12.tgz">https://www.apache.org/dyn/closer.lua/flink/flink-1.15.2/flink-1.15.2-bin-scala_2.12.tgz</a></p>
+<p>After decompression we have to add <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/68761409/jcapemkeyconverter-is-provided-by-bouncycastle-an-optional-dependency-to-use-s">some fat jar that is required</a> but not packaged into it.</p>
+<p>Download bcprov-jdk15on and bcpkix-jdk15on jar files at</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on">https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on</a></li>
+<li><a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on">https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on</a></li>
+</ul>
+<p>Then move them to the folder</p>
+<blockquote>
+<p><em>.&#x2F;flink-1.15.2&#x2F;lib</em></p>
+</blockquote>
+<p>When everything is ready, we can run the PyFlink cluster on K8s.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">./bin/kubernetes-session.sh \  </span><br><span class="line"> -Dkubernetes.namespace=flink \  </span><br><span class="line"> -Dkubernetes.jobmanager.service-account=flink \  </span><br><span class="line"> -Dkubernetes.rest-service.exposed.type=NodePort \  </span><br><span class="line"> -Dkubernetes.cluster-id=flink-cluster \  </span><br><span class="line"> -Dkubernetes.jobmanager.cpu=0.2 \  </span><br><span class="line"> -Djobmanager.memory.process.size=1024m \  </span><br><span class="line"> -Dresourcemanager.taskmanager-timeout=3600000 \  </span><br><span class="line"> -Dkubernetes.taskmanager.cpu=0.2 \  </span><br><span class="line"> -Dtaskmanager.memory.process.size=1024m \  </span><br><span class="line"> -Dtaskmanager.numberOfTaskSlots=1 \  </span><br><span class="line"> -Dkubernetes.container.image=wirelessr/pyflink:1.15.2-scala_2.12-python_3.7</span><br></pre></td></tr></table></figure>
+
+<p>There are two key points noteworthy.</p>
+<ol>
+<li><code>rest-service.exposed.type=NodePort</code>. In order to allow users to access the PyFlink cluster, and to simplify the experiment process, we choose to use <code>NodePort</code> as the external interface.</li>
+<li>We must specify the <code>container.image</code> that can support PyFlink, in this case, the <a target="_blank" rel="noopener" href="https://hub.docker.com/r/wirelessr/pyflink">Dockerhub</a> mentioned earlier.</li>
+</ol>
+<p>By using <code>kubectl get svc -n flink</code> we can know which port the dashboard (flink-cluster-rest) is running on. This dashboard location will also be the entry point for the jobs we want to submit later.</p>
+<h3 id="Submit-a-job"><a href="#Submit-a-job" class="headerlink" title="Submit a job"></a>Submit a job</h3><p>Most of the Flink examples will use <code>examples/batch/WordCount.jar</code> as the first Hello World.</p>
+<p>So we can also use this Jar file to test whether Flink can run correctly.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./bin/flink run \  </span><br><span class="line">  -m $&#123;flink-cluster-rest&#125;:$&#123;port&#125; \  </span><br><span class="line">  examples/batch/WordCount.jar</span><br></pre></td></tr></table></figure>
+
+<p>After submitting, we can check the result in the dashboard, normally, it will be executed successfully. But this example is JAVA-based, so we’ll proceed with a Python-based example to verify PyFlink.</p>
+<p>Before we start, we need to install the PyFlink package locally.</p>
+<blockquote>
+<p><em>pip3 install apache-flink&#x3D;&#x3D;1.15.2</em></p>
+</blockquote>
+<p>If we are not using M1 chip, this command should install successfully without any problems.</p>
+<p>Same as the WordCount example, Python also has a corresponding WordCount example in <code>examples/python/table/word_count.py</code>.</p>
+<p>However, the Python example needs to be modified a bit to work properly. Find this comment line：</p>
+<blockquote>
+<p><em>remove .wait if submitting to a remote cluster</em></p>
+</blockquote>
+<p>Follow the instructions to remove the <code>.wait</code> above, and then we try to submit the Python job.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./bin/flink run \  </span><br><span class="line">  -m $&#123;flink-cluster-rest&#125;:$&#123;port&#125; \  </span><br><span class="line">  -py ./examples/python/table/word_count.py</span><br></pre></td></tr></table></figure>
+
+<p>Returning to the dashboard should show the job is also performing properly.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>There is very little information about PyFLink, both in terms of environment installation and coding reference, so I hope this article will be helpful to you.</p>
+<p>However, this article does not explain the details of Flink cluster and how to develop PyFlink in detail, I’ll leave those details for a future article.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/playing-pyflink-from-scratch-65c18908c366">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Building-Apache-Pinot-and-Presto/20221009/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Building-Apache-Pinot-and-Presto/20221009/" class="post-title-link" itemprop="url">Building Apache Pinot and Presto</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-10-10 01:23:05" itemprop="dateCreated datePublished" datetime="2022-10-10T01:23:05+08:00">2022-10-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Building-Apache-Pinot-and-Presto"><a href="#Building-Apache-Pinot-and-Presto" class="headerlink" title="Building Apache Pinot and Presto"></a>Building Apache Pinot and Presto</h3><h4 id="Working-on-streaming-database-step-by-step"><a href="#Working-on-streaming-database-step-by-step" class="headerlink" title="Working on streaming database step by step"></a>Working on streaming database step by step</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*Tn-BXidTMfiRl91I"></p>
+<p>Recently, we have been surveying some streaming database solutions and the primary target is <a target="_blank" rel="noopener" href="https://pinot.apache.org/">Apache Pinot</a>, which fits our needs from the description and is therefore the primary target.</p>
+<blockquote>
+<p><em>Apache Pinot, a real-time distributed OLAP datastore, purpose-built for low-latency high throughput analytics, perfect for user-facing analytical workloads.</em></p>
+</blockquote>
+<p>However, some of the <a target="_blank" rel="noopener" href="https://docs.pinot.apache.org/">official documents</a> are actually missing, so I found some information on the Internet and finally was able to do some experiments. These processes were not documented at that time, so I am not sure what reference materials were actually used.</p>
+<p>Currently, the entire experimental infrastructure is built with <code>docker-compose</code>, and the complete codes in Github repository is as follows.<br><a target="_blank" rel="noopener" href="https://github.com/wirelessr/pinot-plus-presto">https://github.com/wirelessr/pinot-plus-presto</a></p>
+<h3 id="Apache-Pinot"><a href="#Apache-Pinot" class="headerlink" title="Apache Pinot"></a>Apache Pinot</h3><p>To explain the core components first, let’s take a look at <code>docker-compose.yml</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">services:  </span><br><span class="line">  zookeeper:  </span><br><span class="line">    image: zookeeper:3.5.6  </span><br><span class="line">      </span><br><span class="line">  pinot-controller:  </span><br><span class="line">    image: apachepinot/pinot:0.9.3  </span><br><span class="line">    ports:  </span><br><span class="line">      - &quot;9000:9000&quot;  </span><br><span class="line">      - &quot;8888&quot;  </span><br><span class="line">    environment:  </span><br><span class="line">      JAVA_OPTS: &quot;-javaagent:/opt/pinot/etc/jmx_prometheus_javaagent/jmx_prometheus_javaagent-0.12.0.jar=8888:/opt/pinot/etc/jmx_prometheus_javaagent/configs/pinot.yml -Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log&quot;  </span><br><span class="line">      </span><br><span class="line">  pinot-broker:  </span><br><span class="line">    image: apachepinot/pinot:0.9.3  </span><br><span class="line">    ports:  </span><br><span class="line">      - &quot;8099:8099&quot;  </span><br><span class="line">      - &quot;8888&quot;  </span><br><span class="line">    environment:  </span><br><span class="line">      JAVA_OPTS: &quot;-javaagent:/opt/pinot/etc/jmx_prometheus_javaagent/jmx_prometheus_javaagent-0.12.0.jar=8888:/opt/pinot/etc/jmx_prometheus_javaagent/configs/pinot.yml -Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log&quot;  </span><br><span class="line">      </span><br><span class="line">  pinot-server:  </span><br><span class="line">    image: apachepinot/pinot:0.9.3  </span><br><span class="line">    ports:  </span><br><span class="line">      - &quot;8098:8098&quot;  </span><br><span class="line">      - &quot;8888&quot;  </span><br><span class="line">    environment:  </span><br><span class="line">      JAVA_OPTS: &quot;-javaagent:/opt/pinot/etc/jmx_prometheus_javaagent/jmx_prometheus_javaagent-0.12.0.jar=8888:/opt/pinot/etc/jmx_prometheus_javaagent/configs/pinot.yml -Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log&quot;</span><br></pre></td></tr></table></figure>
+
+<p>The above are the four basic services needed to construct a Pinot, most of the same as the official document are omitted and only the parts I modified are listed. By the way, I have changed the image version to the new one, but let’s keep the official version in the example.</p>
+<p>The main changes are to the <code>ports</code> and <code>environment</code> of the three Pinot services, in order to make Pinot’s metrics available by Prometheus.</p>
+<p>Therefore, <code>ports</code> opens an additional <code>8888</code> and adds an additional <code>javaagent</code> parameter to <code>JAVA_OPTS</code>. The purpose of the <code>javaagent</code> is to enable the original Pinot JMX metrics to be web-based and exposed to Prometheus.</p>
+<p>So far, the <code>jmx_prometheus_javaagent.jar</code> in the official document does not include the version number, but I could not find the corresponding file from the official container, so I have to use the <code>jmx_prometheus_javaagent-0.12.0.jar</code> instead.</p>
+<h3 id="Monitoring"><a href="#Monitoring" class="headerlink" title="Monitoring"></a>Monitoring</h3><p>In order to observe the state of the services, we also need to build <code>Prometheus</code> and <code>Grafana</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">prometheus:  </span><br><span class="line">    image: prom/prometheus  </span><br><span class="line">    container_name: monitoring-prometheus  </span><br><span class="line">    restart: unless-stopped  </span><br><span class="line">    volumes:  </span><br><span class="line">    - monitoring-prometheus-data-1:/prometheus  </span><br><span class="line">    - ./volumes/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml  </span><br><span class="line">    ports:  </span><br><span class="line">    - &quot;9090:9090&quot;  </span><br><span class="line">  grafana:  </span><br><span class="line">    image: grafana/grafana  </span><br><span class="line">    volumes:  </span><br><span class="line">    - ./volumes/grafana/provisioning:/etc/grafana/provisioning  </span><br><span class="line">    - ./volumes/grafana/dashboards:/var/lib/grafana/dashboards  </span><br><span class="line">    ports:  </span><br><span class="line">    - &quot;3000:3000&quot;  </span><br><span class="line">    environment:  </span><br><span class="line">      GF_SERVER_ROOT_URL: https://localhost:3000  </span><br><span class="line">      GF_SECURITY_ADMIN_PASSWORD: password</span><br></pre></td></tr></table></figure>
+
+<p>In <code>volumes</code> we define the required configuration files for these two services.</p>
+<ul>
+<li>Prometheus needs to know where to fetch the metrics from, so it needs to set the FQDNs of the three Pinot services.</li>
+<li>Grafana requires data source settings and a Pinot-specific dashboard.</li>
+</ul>
+<p>After running <code>docker-compose</code>, we can view the dashboard from <code>https://localhost:3000</code>. The account and password are simply <code>admin</code> and <code>password</code>.</p>
+<h3 id="Apache-Presto"><a href="#Apache-Presto" class="headerlink" title="Apache Presto"></a>Apache Presto</h3><p>The last service is <a target="_blank" rel="noopener" href="https://prestodb.io/">Presto</a>.</p>
+<p>Why do we need Presto? Because Pinot supports SQL, but in fact Pinot does not support <code>JOIN</code>. If there is a need to merge two tables, it must be provided by an external SQL engine.</p>
+<p>Presto is a SQL engine that supports ANSI SQL and multiple data sources, including Pinot of course, so I chose to use Presto in my experiment.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">presto-coordinator:  </span><br><span class="line">    image: apachepinot/pinot-presto  </span><br><span class="line">    restart: unless-stopped  </span><br><span class="line">    ports:  </span><br><span class="line">    - &quot;18080:8080&quot;</span><br></pre></td></tr></table></figure>
+
+<p>Presto has two roles, coordinator and worker. In the experimental environment, we simply use the built-in worker of the coordinator.</p>
+<p>The official container <code>apachepinot/pinot-presto</code> is the coordinator by default without any settings, and already uses the FQDN <code>pinot-controller:9000</code>, so there is no need to change anything, we can use it directly.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>After cloning the Github repository, we can run <code>docker-compose up -d</code> directly to get the experimental environment up and running well.</p>
+<p>The whole experimental environment contains three key points.</p>
+<ol>
+<li>Apache Pinot: the streaming database itself.</li>
+<li>Prometheus and Grafana: the monitoring system that emulates the production environment.</li>
+<li>Apache Presto: a query capability that is not available in Pinot.</li>
+</ol>
+<p>By the way, the official document does not introduce how to use Kafka with security, only Kafka without security as an example.</p>
+<p>In the case of <a target="_blank" rel="noopener" href="https://www.confluent.io/">Confluent</a>, Kafka has built-in <code>SASL_SSL</code>, I refer to this article to set up Kafka’s account and password.<br><a target="_blank" rel="noopener" href="https://dev.startree.ai/docs/pinot/recipes/kafka-sasl">https://dev.startree.ai/docs/pinot/recipes/kafka-sasl</a></p>
+<p>This experimental environment may be expanded for some of my needs, such as adding Presto workers.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/building-apache-pinot-and-presto-bf91388c7df5">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Evolutionary-from-Batching-to-Streaming/20221002/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Evolutionary-from-Batching-to-Streaming/20221002/" class="post-title-link" itemprop="url">Evolutionary from Batching to Streaming</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-10-03 00:48:20" itemprop="dateCreated datePublished" datetime="2022-10-03T00:48:20+08:00">2022-10-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Start-from-a-small-step"><a href="#Start-from-a-small-step" class="headerlink" title="Start from a small step"></a>Start from a small step</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*iQy2PLCpXZfqodgR"></p>
+<p>Last time we talked about the <a target="_blank" rel="noopener" href="https://lazypro.medium.com/evolutionary-data-infrastructure-4ddce2ec8a7e">evolution of the data infrastructure</a>, the whole evolution process is as follows.</p>
+<ul>
+<li>Stage 0: None</li>
+<li>Stage 1: Batching</li>
+<li>Stage 2: Streaming</li>
+<li>Stage 3: Integrated</li>
+<li>Stage 4: Automation</li>
+<li>Stage 5: Decentralization</li>
+</ul>
+<p>But remember? The evolution from stage 1 to stage 2 was a bit weird in that we just dropped the batch processing we were using and built a new stream processing.</p>
+<p>In fact, a product that is already on production environment not make such a drastic change, but would choose an incremental migration process instead.</p>
+<p>Therefore, in this article, we will explain in detail how the migration from stage 1 to stage 2 will work in practice.</p>
+<h3 id="Stage-1-Batching"><a href="#Stage-1-Batching" class="headerlink" title="Stage 1: Batching"></a>Stage 1: Batching</h3><p>Let’s review the batch architecture again.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*VFCOm1n2s2IvBz_LI95seg.png"></p>
+<p>Under this architecture, we have a batch processing role responsible for archiving data from various services to the data warehouse. And batch processing also performs data pre-processing to generate structured data for accelerated analysis purposes.</p>
+<p>However, in order to support real-time analytics, we knew from the previous article that we had to introduce a streaming architecture, but at the same time we wanted to leave the original analytics functionality as is.</p>
+<p>In other words, it was necessary to add additional real-time analytics capabilities while maintaining the existing architecture and functionality.</p>
+<p>So, let’s start trying to add streaming architecture.</p>
+<h3 id="Stage-1-5-Batching-Streaming"><a href="#Stage-1-5-Batching-Streaming" class="headerlink" title="Stage 1.5: Batching + Streaming"></a>Stage 1.5: Batching + Streaming</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*-44jMZyW1Fb-yWb6q_Ihdw.png"></p>
+<p>In the previous article, we took an aggressive approach by simply dropping batch processing and replacing it with streaming. This would make the architecture simple, but comes at the cost of a complete rewrite of all the analysis, since the data from streaming is not in the same format as the data from batch processing.</p>
+<p>Therefore, we add an extra 1.5 stage to allow batch and streaming to coexist for a while until we could change the analysis framework to use streaming data sources for all subsequent analyses.</p>
+<p>The advantage of this is of course that we don’t need to do a Big Bang.</p>
+<blockquote>
+<p><em>As Martin Fowler reportedly said, “the only thing a Big Bang rewrite guarantees is a Big Bang!”.</em></p>
+</blockquote>
+<p>However, the drawback is obvious, when there is any requirement for modification, we have to implement both batch processing and streaming processing, which greatly increases the difficulty of maintenance.</p>
+<p>Therefore, although there is a 1.5 stage, it is important to realize that this is only a transition period and should not be considered as a solution.</p>
+<h3 id="Stage-2-Streaming"><a href="#Stage-2-Streaming" class="headerlink" title="Stage 2: Streaming"></a>Stage 2: Streaming</h3><p>Once we have a transition period, we can evolve more smoothly from batch processing to streaming processing. In the previous stage, we will gradually move all the functionality from batch processing to streaming processing.</p>
+<p>At the end, it’s just easier to take away the batch processing.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*ZIln13MG_xNyiLiT10GurA.png"></p>
+<p>But as I stated in <a target="_blank" rel="noopener" href="https://lazypro.medium.com/evolutionary-data-infrastructure-4ddce2ec8a7e">my previous article</a>, batch processing still has its value, so even if it is taken out of the main data pipeline, we will still have batch processing there.</p>
+<p>It will just change from being the primary data producer to a secondary one, regularly reorganizing the data in the data warehouse to improve data utilization. Of course, batch processing can also be used to move out-of-date data from the data warehouse to cold storage, further saving storage costs.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The whole evolutionary process should be smooth and gradual.</p>
+<p>In order to avoid a Big Bang, it is a difficult choice to move from one architecture to another. Each migration should have as small impact as possible, but at the same time, it should not be too small to make the pain period too long.</p>
+<p>Overall, every organization has a different tempo. For an organization with sufficient human resources, this forward movement can be aggressive and fast, or on the contrary, measured.</p>
+<p>But in any case, it is important to understand the dilemma and come up with a reasonable enough approach and, more importantly, a complete migration plan.</p>
+<p>This planning process is actually as important as the architecture change.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/evolutionary-from-batching-to-streaming-7a9a7942922">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Evolutionary-Data-Infrastructure/20220925/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Evolutionary-Data-Infrastructure/20220925/" class="post-title-link" itemprop="url">Evolutionary Data Infrastructure</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-09-26 01:49:22" itemprop="dateCreated datePublished" datetime="2022-09-26T01:49:22+08:00">2022-09-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="From-Monolith-to-Self-service-Platform"><a href="#From-Monolith-to-Self-service-Platform" class="headerlink" title="From Monolith to Self-service Platform"></a>From Monolith to Self-service Platform</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*-SLCYT8CoQ_oMra8"></p>
+<p>All systems start as a small monolith. In the beginning, when resources and manpower are not sufficient, the monolith is the choice we have to make, even the data infrastructure is no exception.</p>
+<p>But as requirements increase, there are more and more scenarios that cannot be achieved by the current architecture, and the system must therefore evolve. Each time the system evolves, it is to solve the problems encountered, so it is necessary to understand the different aspects that need to be considered, and to use the most efficient engineering methods to achieve the goal.</p>
+<p>In this article, we will still start with a monolith, as we have done before.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">Shift from Monolith to CQRS</a></li>
+</ul>
+<p>But this time, our goal is not to serve a production environment, but to provide the data infrastructure behind all production environments.</p>
+<p>A data infrastructure is a “place” where all kinds of data are stored, either structured data or time series data or even raw data. The purpose of this big data (and they are really big) is to provide material for data analysis, business intelligence or machine learning.</p>
+<p>In addition to internal uses, there may also be user-facing functions, for example, a list of recommended products on an e-commerce website. The recommendation function is the most commonly used customer scenario for big data, such as recommended products in e-commerce websites and recommended videos in video platforms like Youtube. All of these are the result of analyzing, aggregating, and compiling after storing various user actions.</p>
+<p>After knowing today’s topic, let’s get to work.</p>
+<h3 id="Monolithic-architecture"><a href="#Monolithic-architecture" class="headerlink" title="Monolithic architecture"></a>Monolithic architecture</h3><p>Let’s begin with a monolithic architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*fnfQubpK1W0csgLyyeF2SQ.png"></p>
+<p>Whatever the service is, a typical monolithic architecture is a service paired with a database. All data analysis, business intelligence and machine learning run directly on this database.</p>
+<p>This is the simplest practice, but it is also the beginning of all products.</p>
+<p>Why do we show it in monolithic style? Wouldn’t it be better to do more?</p>
+<p>Well, if the product dies before it is popular, then the monolith will be enough to maintain full features. In order to avoid over-engineering and the investment cost getting exploded, we prefer to start with the easiest proof-of-concept monoliths.</p>
+<p>Of course, this architecture is sure to encounter problems. There are three common problems.</p>
+<ol>
+<li>The analysis affects the production performance.</li>
+<li>If the microservices are introduced, running analysis on each microservice’s database is suffered.</li>
+<li>It is very difficult to perform cross-service analysis.</li>
+</ol>
+<p>Various analyses inevitably take up a lot of database resources, so customers directly feel the poor performance during that time.</p>
+<p>In addition, when product requirements increase, we usually adopt microservices for rapid iteration, which means many service and database pairings are created. In order to be able to analyze various product requirements, it is necessary to build several analysis frameworks on every database.</p>
+<p>Moreover, even if each service can be analyzed individually, we cannot easily obtain a global view because the analytics are independent of each other.</p>
+<p>Therefore it is necessary to perform the first evolution.</p>
+<h3 id="Batch-processing"><a href="#Batch-processing" class="headerlink" title="Batch processing"></a>Batch processing</h3><p>We have two goals, firstly to have independent data storage so it does not directly affect the production environment, and secondly to be able to perform cross-service analysis.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_PWM4c8ojy06v3MKlfraOA.png"></p>
+<p>To achieve these goals, we set up a centralized data warehouse so that all data can be stored in one place. All analyses were migrated from the databases of each service to the data warehouse.</p>
+<p>We also need a batch processing role to collect data and even pre-process data periodically so that the data warehouse contains not only raw data but also structured data to speed up the analysis.</p>
+<p>For batch processing, I recommend using <a target="_blank" rel="noopener" href="https://airflow.apache.org/">Apache Airflow</a>, which is easy to manage and easy to script for various DAGs to address the needs of multiple batch processing scenarios.</p>
+<p>Such an architecture is simple but powerful enough to handle a wide range of analysis and reporting scenarios. Nevertheless, there are two drawbacks that cannot be easily solved.</p>
+<ol>
+<li>lack of real time</li>
+<li>lack of schema</li>
+</ol>
+<p>Due to the periodic batch tasks, we can’t do real-time analysis. If we run the task once an hour, then the data we see in the data warehouse is a snapshot of the previous hour’s data.</p>
+<p>In addition, batch tasks require knowledge of the data schema of each service in order to get the data correctly and save it to the corresponding warehouse table. Assuming our data warehouse is <a target="_blank" rel="noopener" href="https://cloud.google.com/bigquery">GCP BigQuery</a>, the schema in the warehouse table also needs to be created and modified manually.</p>
+<p>When the number of services is very large, just knowing the schema can take a lot of time, not to mention managing it.</p>
+<p>So, let’s do a second evolution.</p>
+<h3 id="Stream-processing"><a href="#Stream-processing" class="headerlink" title="Stream processing"></a>Stream processing</h3><p>To solve the real-time problem, the most straightforward idea is to use a streaming architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*MU10qBeAHHTmXSQ_kfG-Vw.png"></p>
+<p>First, all the database changes of the service are captured, then the changes are sent to the stream, and finally the stream is archived to the warehouse.</p>
+<p>But is there a way to solve the schema problem? The answer is, yes, through <a target="_blank" rel="noopener" href="https://github.com/confluentinc/kafka-connect-bigquery">KCBQ</a>.</p>
+<p>Let’s take a closer look at the internal architecture of streaming.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*9OSSVYgtWGiKqDT0luYXDQ.png"></p>
+<p>We use <a target="_blank" rel="noopener" href="https://debezium.io/">Debezium</a> to capture changes to each database and send the streams to Kafka, and later KCBQ subscribes to the Kafka streams and archives them to BigQuery.</p>
+<p>It is worth noting that KCBQ can automatically update the internal schema of BigQuery (setting needs to be enabled, and AVRO format must be used).</p>
+<p>At this stage, we have a complete data set for analysis, and we have enough data to process for all kinds of data analysis, both real time and batch. However, in the previous stage, we were able to accelerate the analysis by batching pre-processing to generate structured data, and we still want to retain this capability.</p>
+<p>In addition, although the data analysis is working properly, we are currently unable to support external customers to access the data. The main reason is the slow response time of data warehouse, which is a big problem when we need to interact with external customers. For example, if a recommendation list takes 5 minutes to be generated, the effectiveness of the recommendation will be close to zero.</p>
+<p>Furthermore, when the number of features to be provided to external customers increases, data warehouse can be difficult to handle. For example, search is a common feature, but the search performance of data warehouse is very poor.</p>
+<p>Therefore, we have to integrate batch processing and streaming processing so that this data infrastructure can flexibly support various customer-oriented functions.</p>
+<h3 id="Integrated-architecture"><a href="#Integrated-architecture" class="headerlink" title="Integrated architecture"></a>Integrated architecture</h3><p>We already have a batch architecture and a streaming architecture, now let’s integrate them properly.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*N_PMvKyt7o28zRWo3kYuwA.png"></p>
+<p>We still archive the changes from each database to the data warehouse through streaming, but we periodically use batch processing to pre-process the raw data for data analysis.</p>
+<p>At the same time, the streaming framework not only archives, but also aggregates the streams to generate real-time customer-facing data storage. For example, <code>ElasticSearch</code> is often used in search contexts, while the event-sourced view is used to provide customer-facing functions, e.g., recommendation lists.</p>
+<p>But these functions usually also require fact tables, which can be migrated from data warehouses if they are static, otherwise, they need to be implemented through <a target="_blank" rel="noopener" href="https://betterprogramming.pub/design-pattern-of-streaming-enrichment-17a9eb065eca">stream enrichment</a>.</p>
+<p>So let’s further have a look at the internals of streaming architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*fOuIl3-3-pTc9Wxk2MpRXw.png"></p>
+<p>The framework is basically the same as the previous one, but with a new role, <code>StreamAPI</code>.</p>
+<p>There is no specific framework specified in <code>StreamAPI</code>, even if using Kafka’s native library is fine.</p>
+<p>But if using the stream processing framework can save a lot of implementation efforts, such as data partitioning, fault tolerance, state persistence, and so on.</p>
+<p>Therefore, I still recommend using a streaming framework such as <a target="_blank" rel="noopener" href="https://flink.apache.org/">Apache Flink</a> or <a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/streams/">Apache Kafka Streams</a>.</p>
+<p>At this point, the entire data infrastructure is fully functional. Whether it is for internal data analysis or for external customers, this framework can meet the requirements.</p>
+<p>However, this architecture doesn’t mean that it’s done once and for all.</p>
+<p>The next problem is the management problem. So far, the most common task we need to do is not feature development, but the configuration and operation of so many middleware. For each new service, we need to build <code>Debezium</code>, add Kafka topic, configure the streaming framework, and determine the final <code>sink</code>. This process also applies to a new feature request.</p>
+<p>In addition, managing the permissions between all data stores is also a problem. When a new person comes into the organization, each participant in the framework has to grant some permissions. Similarly, when a new service or feature is launched, the permissions between services need to be managed.</p>
+<p>What’s more, when all the data is dumped into the data warehouse, we have to encrypt or mask the PII (personally identifiable information) to be compliant with legal requirements, such as GDPR.</p>
+<p>These tasks rely on a lot of manual work or semi-automatic scripts, which undoubtedly add a heavy load to a busy organization.</p>
+<h3 id="Automation-Self-service-Platform"><a href="#Automation-Self-service-Platform" class="headerlink" title="Automation (Self-service Platform)"></a>Automation (Self-service Platform)</h3><p>Therefore, it is necessary to establish a fully automated mechanism to solve all management issues of the data infrastructure.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*zfx9WYTuaqVWCX9iS7V6zg.png"></p>
+<p>Of course, this automation mechanism should ideally be self-service, and the most successful example I have seen is <a target="_blank" rel="noopener" href="https://netflixtechblog.com/keystone-real-time-stream-processing-platform-a3ee651812a">Netflix’s Keystone</a>.</p>
+<p>This automation platform involves very deep technical details, not an article can simply explain, so I only provide the features of this platform should have, as for the implementation details will depend on the practice of each organization.</p>
+<p>At the infrastructure level, in order to automate the establishment of settings and monitoring, it is necessary to achieve fully automated deployment through IaC (Infrastructure as Code).</p>
+<p>In order to address the issue of data ownership, there are three permission-related controls that should also be included in the IaC as follows.</p>
+<ul>
+<li>Identity Access Management, IAM</li>
+<li>Role Based Access Control, RBAC</li>
+<li>Access Control List, ACL</li>
+</ul>
+<p>Privacy issues require an easy-to-use interface that can be configured to determine what data must be masked. Data Loss Prevention, aka DLP, is also a very popular data privacy topic nowadays.</p>
+<p>As you can see from the above description, there are a lot of implementation details to achieve a fully automated management platform, and there are no shortcuts — implementation, implementation and lots of implementation.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article is about the evolution of a monolithic architecture into a fully automated and fully functional data platform through continuous problem solving.</p>
+<p>However, there are still a lot of detailed technical selections in the evolution process, such as what data storage to use, what batch processing, and what real-time processing are all worthy of attention.</p>
+<p>Such an evolution requires a lot of human resources and time, so it is unlikely to be achieved in one step. If and only if we encounter a problem that cannot be solved, we will be forced to move to the next stage.</p>
+<p>In fact, even if we achieve an automated platform, the evolution is still not over.</p>
+<p>When all kinds of business requirements and all kinds of products and services have to rely on a single data engineer department, then human resources will encounter a bottleneck. How to solve it?</p>
+<p>Since we have a fully automated management platform, we can let each product department maintain its own data warehouse and data pipeline. The data engineer becomes the provider of the platform solution, not the owner of the data.</p>
+<blockquote>
+<p><em>The Data Mesh is born.</em></p>
+</blockquote>
+<p>However, there are many different approaches to the Data Mesh implementation, and there is no one-size-fits-all architecture pattern.</p>
+<p>This is all about the evolution of data infrastructure. If you have any special practices, please feel free to share them with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/evolutionary-data-infrastructure-4ddce2ec8a7e">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/Archiving-MongoDB-Changes-to-AWS-S3/20220918/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/MongoDB/Archiving-MongoDB-Changes-to-AWS-S3/20220918/" class="post-title-link" itemprop="url">Archiving MongoDB Changes to AWS S3</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-09-19 01:28:50" itemprop="dateCreated datePublished" datetime="2022-09-19T01:28:50+08:00">2022-09-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Archiving-MongoDB-Changes-to-AWS-S3"><a href="#Archiving-MongoDB-Changes-to-AWS-S3" class="headerlink" title="Archiving MongoDB Changes to AWS S3"></a>Archiving MongoDB Changes to AWS S3</h3><h4 id="Understanding-Hot-Cold-Separation"><a href="#Understanding-Hot-Cold-Separation" class="headerlink" title="Understanding Hot-Cold Separation"></a>Understanding Hot-Cold Separation</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*56Tzkt4dh5wRxRCi"></p>
+<p>In this article, we are going to introduce how to archive the audit logs stored in MongoDB to AWS S3, but before we start, let’s understand why we need it and the meaning of the need.</p>
+<p>Audit logs are records of user actions on the system, including signing in and out, modifying data, enabling a feature, and so on. These records are kept as part of the system security, and recent data is made available for users to view. Users may be interested in the last three months of related operations, but not in records older than that.</p>
+<p>Therefore, data that is older than three months is classified as hot data, while data that is older than three months gradually becomes warmer, i.e., rarely accessed, perhaps sometimes still. Data older than six months will be completely cold and will not be accessed except for data analysis and internal system auditing, and users will not care about the existence of such data.</p>
+<p>That is to say, if these cold data are still in the original database, it will consume a lot of resources, including hard disk space and indexes. So, we need a way to archive these data to a lower cost storage space, but we still need to make the cold data directly available when they are to be analyzed, instead of doing further migration.</p>
+<p>So, today’s title tells you that we will archive the data in MongoDB to AWS S3.</p>
+<p>There are several advantages to S3, first of all, the data in AWS S3 can be easily analyzed and SQL-compatible queries can be performed through AWS Athena.</p>
+<p>In addition, S3 is also a storage option supported by many data analytics platforms, such as Apache Spark.</p>
+<p>Furthermore, storage cost of S3 is very low. Moreover, if it is determined that the data in S3 is for preservation purposes only and not for query purposes, it can be easily transferred to much lower cost storage, such as AWS Glacier.</p>
+<h3 id="Hot-Cold-Separation-on-MongoDB"><a href="#Hot-Cold-Separation-on-MongoDB" class="headerlink" title="Hot-Cold Separation on MongoDB"></a>Hot-Cold Separation on MongoDB</h3><p>Now let’s review the requirement again.</p>
+<p>In order to reduce the storage cost, we need to move the past audit logs from MongoDB to AWS S3. In addition, we want this to be fully automated, and I don’t believe anyone wants to manually migrate data periodically.</p>
+<p>So what’s the best way to do this? Yes, through streaming.</p>
+<p>We have three things to do.</p>
+<ol>
+<li>Pass the events from the new audit log through MongoDB’s CDC (and ignore the delete events).</li>
+<li>The stream processor archives the stream events into AWS S3.</li>
+<li>Use MongoDB’s TTL index to automatically delete expired data when adding audit logs.</li>
+</ol>
+<p>By the way, the MongoDB mentioned here is not a self-hosted database, but a managed platform through Atlas. However, the same approach still applies to self-hosted databases, just with a little more setup and implementation than the managed platform.</p>
+<p>After knowing what to do, let’s work out a solution.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*84TBqEDTbTZ-ksnX.png"></p>
+<h3 id="Approach-Details"><a href="#Approach-Details" class="headerlink" title="Approach Details"></a>Approach Details</h3><p>Then, let’s explain the whole solution in detail and provide some key points worth discussing.</p>
+<p>The front services and databases are original to the architecture, only the back of the streaming chain is new. The entire chain ends with our destination, AWS S3.</p>
+<p>The first thing to do is to turn on Atlas’ built-in feature, <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/atlas/triggers/eventbridge/">EventBridge Triggers</a>, and since it is a built-in feature, it only requires a few simple settings following the official documentation. There are a few key points to note here, first we only need to send INSERT events, and we need to turn on the option to send full documents so that we can save the complete audit data.</p>
+<p>Next, we need to add a new rule to EventBridge’s third-party rules: all incoming events are sent to Kinesis, so that the source of the stream is established.</p>
+<p>In order to fully automate S3 archiving and save transmission costs as much as possible, we add Kinesis Firehose as the stream aggregator in the middle of Kinesis and S3. Through Firehose, we can aggregate a stream of events into a batch, and write to S3 in a batch process to save S3’s transmission cost.</p>
+<p>In this way, a fully automatic archiving is accomplished. All audit logs written to MongoDB will be archived into AWS S3 through streams.</p>
+<p>Let’s discuss a few topics.</p>
+<h3 id="Why-not-just-let-the-service-write-S3-directly"><a href="#Why-not-just-let-the-service-write-S3-directly" class="headerlink" title="Why not just let the service write S3 directly?"></a>Why not just let the service write S3 directly?</h3><p>There are two reasons.</p>
+<p>The first is that we can achieve the purpose without changing the original application by such modification.</p>
+<p>The other reason is that audit logs usually require transactional consistency, and it is difficult to ensure that MongoDB and AWS S3 are consistent when the primary database is MongoDB. What if writing MongoDB succeeds, but writing S3 fails?</p>
+<h3 id="Why-Kinesis-and-Firehose"><a href="#Why-Kinesis-and-Firehose" class="headerlink" title="Why Kinesis and Firehose?"></a>Why Kinesis and Firehose?</h3><p>In fact, we can retain one of them, if we want to keep only one I propose to keep Firehose, because we can reduce transmission costs through batch processing.</p>
+<p>But Kinesis has a benefit, if we later want to introduce event-driven architecture or streaming processing architecture, Kinesis can provide a very good extensibility.</p>
+<h3 id="Does-MongoDB’s-TTL-index-affect-database-performance"><a href="#Does-MongoDB’s-TTL-index-affect-database-performance" class="headerlink" title="Does MongoDB’s TTL index affect database performance?"></a>Does MongoDB’s TTL index affect database performance?</h3><p>Yes, it does, but the impact is limited in this context. This is because we will only keep the data for a certain period of time, for example, three months.</p>
+<p>Therefore, the amount of data is limited and the impact on the database is manageable.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Streaming can empower the scalability of the entire system design.</p>
+<p>Whether it’s through database CDC or events from microservices, it can effectively improve system availability and decouple business logic from data. That’s why I’ve been sharing the streaming architecture for the last few weeks.</p>
+<p>This time we experienced the convenience of streaming through the managed platform provided by AWS, a fully automated archiving system. Without the help of streaming, we would have to find a way to activate some scheduled mechanisms, such as a crontab, and get up once a day to check what audit logs needs to be moved, and to do large-scale data migration.</p>
+<p>If we use such a batch design, we will immediately encounter a problem, lack of real time. When we do data migration through periodic tasks, there is a data lag, for example, one day. Any data analysis performed on S3 will not get immediate results, but rather a snapshot of some point in time in the past, which is the biggest problem with batching.</p>
+<p>But we haven’t actually introduced some of the famous streaming framework yet, so maybe we’ll have a chance to do that in the future, but rather than actually operating streaming, I feel I’d share some more topics related to architecture and system design.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/archiving-mongodb-changes-to-aws-s3-9537f793d5a8">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Reducing-Database-Loading/20220911/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Reducing-Database-Loading/20220911/" class="post-title-link" itemprop="url">Reducing Database Loading</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-09-12 01:37:46" itemprop="dateCreated datePublished" datetime="2022-09-12T01:37:46+08:00">2022-09-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Reducing-Database-Loading"><a href="#Reducing-Database-Loading" class="headerlink" title="Reducing Database Loading"></a>Reducing Database Loading</h3><h4 id="Three-approaches-to-improve-database-elasticity"><a href="#Three-approaches-to-improve-database-elasticity" class="headerlink" title="Three approaches to improve database elasticity"></a>Three approaches to improve database elasticity</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*6tX29iYZM7ndHxkx"></p>
+<p>Last week we talked about <a target="_blank" rel="noopener" href="https://betterprogramming.pub/scalability-vs-elasticity-cfae2d7a19b">the difference between scalability and elasticity</a>, and the concept of solutions was mentioned at a high level. In this article, let’s take a look at some practical solutions.</p>
+<p>First, if you haven’t read <a target="_blank" rel="noopener" href="https://betterprogramming.pub/scalability-vs-elasticity-cfae2d7a19b">the last article</a>, I suggest you read it first. This time we are solving the elasticity problem rather than scalability. As mentioned before, the two most common solutions to the elasticity problem are caching and messaging.</p>
+<p>Therefore, in this article, we will list some common practical solutions and briefly analyze the advantages and disadvantages. Let’s get started.</p>
+<h3 id="Read-aside-Cache"><a href="#Read-aside-Cache" class="headerlink" title="Read-aside Cache"></a>Read-aside Cache</h3><p>When talking about caching, the most commonly used mechanism is the read-aside cache.</p>
+<p>The advantage is that it is very easy to understand and implement, and already provides a good consistency level. I’ve explained how it works in <a target="_blank" rel="noopener" href="https://medium.com/starbugs/consistency-between-cache-and-database-part-1-f64f4a76720">my previous article</a>, but let’s review it again.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*NyvutdsOM3g_lZsTLQwufw.png"></p>
+<p>The read mechanism of the read-aside cache is very simple: first try to get the data from the cache, and if you cannot get it, then get it from the database instead, and save it back to the cache. In this way, the next request for the same data can be taken directly from the cache.</p>
+<p>How to ensure that the cached data is up-to-date (consistency)?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uQumE0FrrikkRVczieqrjA.png"></p>
+<p>After updating the database, the corresponding records of the cache should be cleared immediately. When the same request comes in next time, it will be taken from the database first and the latest result will be written back to the cache.</p>
+<p>It looks like both read and write are perfect, so the read-aside cache should have a high degree of consistency! In fact, not really.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*v2lfsRIEgmJxRnKLcE9xAg.png"></p>
+<p>According to the above sequential diagram, we can find that both A and B are behaving correctly, but put together, they make an error, and B gets inconsistent data. This is the first problem.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*bMNgQafYbgkKtjBxiXCuxw.png"></p>
+<p>The second type of error is more intuitive, when A wants to update the data, A is killed after finishing the database update, probably due to bugs or application upgrade and so on. Then the data in the cache will remain inconsistent for a long time, until the next update or timeout.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*gH283i-SpUYWimTznDnZag.png"></p>
+<p>The third error is similar to the first one in that the individual actions of A and B are correct, but put together they are wrong. This inconsistent cache data will also remain for a while until the next update.</p>
+<p>These details have been explained in <a target="_blank" rel="noopener" href="https://medium.com/starbugs/consistency-between-cache-and-database-part-1-f64f4a76720">my previous article</a>, if you want to know more can also be used as a reference.</p>
+<p>In fact, problems 1 and 3 can be greatly mitigated by modifying the implementation of the application. In the first problem, when A finished writing the data, don’t do anything else, then clean up the cache quickly to reduce the possibility of being touched by B.</p>
+<p>The same is true for problem 3. When A finishes querying, don’t do too much processing and write back the cache as soon as possible, which can also greatly reduce the chance of occurring after B.</p>
+<p>However, there are three potential problems with read-aside caching.</p>
+<ol>
+<li>If a cache has a large scope of content, it can be difficult to determine when to clean it and to implement it. On the other hand, when many places have to be cleaned up, it may make the cache less effective.</li>
+<li>Dog pile effect. This refers to when a high-traffic system accesses cache frequently, if it encounters clearing cache or cache expiration, these traffic will still occur on the database. And the database may not be able to hold up.</li>
+<li>No graceful shutdown. Problems 1 and 3 can be improved by modifying the application, but problem 2 is not always possible, especially when the application fails, there is basically nothing to do.</li>
+</ol>
+<h3 id="Denormalization"><a href="#Denormalization" class="headerlink" title="Denormalization"></a>Denormalization</h3><blockquote>
+<p><em>If we have to take data from many places, it is ideal to put it all together and take it only once.</em></p>
+</blockquote>
+<p>Conventionally, in order to avoid data duplication in RDBMS, we would create individual tables according to the data type, and then join each other through foreign keys.</p>
+<p>But this will cause a problem, if it is an aggregated data must be pulled from each table, in the traffic and data volume of the system is not large, this approach is reasonable, and will have good performance. However, in a big data scenario, such performance is tragic.</p>
+<p>The performance of JOIN is not good enough for large data, and it is even worse if it is a subquery.</p>
+<p>Therefore, the idea of denormalization is to put all the data together and pull all the required data through a single query. Common practices include Facts Tables, etc., but this article does not focus on data modeling, but on system architecture.</p>
+<p>However, the problem is that reading from one place is possible, but what about writing to it? The original tables are already in use by clients, so do we need to find all the clients to modify them? No, it’s too much work!</p>
+<p>There are two ways, synchronization and asynchronization.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*pcxw2zhD391pIZoNloTRBA.png"></p>
+<p>This is an architecture of synchronization. The following DBs can be treated as databases or tables or even caches.</p>
+<p>When the service needs to write data, originally only <code>DB1</code>, <code>DB2</code> and <code>DB3</code> need to be written, in order to achieve denormalization, but also need to write <code>NewDB</code> in code, and <code>NewDB</code> is the result of aggregation.</p>
+<p>If someone needs to aggregate results, they can pull them directly from <code>NewDB</code>. If the owners of these DBs all belong to the same functional team, then this implementation looks acceptable.</p>
+<p>On the contrary, if the team that needs to consolidate the results is another functional team, such an architecture will not work. First, the other functional team has to find all the updates, then they have to make changes within the service, and they have to do it transactionally.</p>
+<p>For a cross-functional team, such a workflow is unrealistic and impossible. Hence, asynchronous data replication is introduced.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Jvc3ig-S14dPkr0FdlmgLQ.png"></p>
+<p>This architecture should be very common in my previous articles, it is in fact CQRS.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">Shift from Monolith to CQRS</a></li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/solve-performance-bottleneck-through-cqrs-3fd456df1551">Solve Performance Bottleneck through CQRS</a></li>
+</ul>
+<p>Nevertheless, there are various practices to implement CQRS, some of which are listed below. The following is a list of common practices from long to short time intervals.</p>
+<p><em><strong>ETL</strong></em></p>
+<blockquote>
+<p><em>DBs -&gt; Batching -&gt; Materialized View</em></p>
+</blockquote>
+<p>This is the most common practice nowadays, and almost all data engineers do it this way. Data is migrated from one place to another through batch processing, whether it is Hadoop or Spark.</p>
+<p>Some transformations and business logic may be added in the process. In order to make the data more accessible, if RDBMS is used as the NewDB, then <code>Materialized View</code> may be added. The data is snapshotted by predefined rules, and if the data is updated, it is refreshed to respond to the calculation of new data.</p>
+<p>But data migration is a very costly practice, so ETL does not happen all the time, instead, it happens once an hour or even once a day.</p>
+<p>Therefore, the data obtained from NewDB will not be the latest, but a snapshot at a certain point in time.</p>
+<p><em><strong>CDC</strong></em></p>
+<p>In order to keep the data as up-to-date as possible, we know that ETL is not enough. Therefore, CDC is another common practice.</p>
+<blockquote>
+<p><em>DBs -&gt; Debezium -&gt; Kafka -&gt; Streaming DB</em></p>
+</blockquote>
+<p>When data is updated, it is captured by <a target="_blank" rel="noopener" href="https://debezium.io/">Debezium</a>, streamed out to Kafka, and finally written to a streaming database.</p>
+<p>The streaming database is made available to external users, so the streaming database must be able to support not only streaming writes, but also rapid query capabilities.</p>
+<p>There are many mainstream streaming databases, and <a target="_blank" rel="noopener" href="https://pinot.apache.org/">Apache Pinot</a> is the most popular one recently.</p>
+<p>Because CDC streams are updated in real time, external users can get almost real-time data.</p>
+<p><em><strong>Streaming</strong></em></p>
+<p>Another mechanism for real time streaming comes from the service that originally wrote the data.</p>
+<blockquote>
+<p><em>Service -&gt; Kafka -&gt; Stream Handler -&gt; RocksDB</em></p>
+</blockquote>
+<p>When the service finishes updating the original database, it actively sends an event to Kafka and Kafka dispatches it.</p>
+<p>In such a system, it is most common to use a streaming framework to do the pre-processing of the streams and store them in the database. Common streaming frameworks include Apache Flink or Apache Samza, and of course the recent Kafka Stream.</p>
+<p>For the backend database, we choose a state persistence mechanism that can match the streaming processing framework, and RocksDB is the best choice for several common streaming processing frameworks.</p>
+<p>In this way, we can also get the latest data, but from the query point of view, the query capability provided by the streaming processing framework is not comparable to streaming database.</p>
+<p>The above three are common data replication methods, and it is worth mentioning that the components of each method can be exchanged or even extended to each other, so that different architectures can be built based on requirements.</p>
+<p>However, there are potential problems with asynchronous data replication.</p>
+<ol>
+<li>If there is a wide range of data to be used, it is a big problem to define the data to be replicated. Just as it is difficult to determine the cleanup time for a read-aside cache, it is difficult to define the scope of data replication.</li>
+<li>In addition, whether it is pre-processing through streaming framework or defining query through streaming database, the complexity is obviously high when it comes to complex data structure and complicated computation.</li>
+<li>Among these three methods, ETL has the lowest complexity, but ETL loses data real-time.</li>
+</ol>
+<h3 id="Asynchronous-requests-responses"><a href="#Asynchronous-requests-responses" class="headerlink" title="Asynchronous requests&#x2F;responses"></a>Asynchronous requests&#x2F;responses</h3><p>We all know the traditional request&#x2F;response model as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uGPTmseC78Rh1BdeSUuung.png"></p>
+<p>Although this is a function call here, it can also be a remote call across services.</p>
+<p>After the client sends a request, the server responds to the request through a series of processing, which is the traditional approach. How can we do this asynchronously?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7-XxlbHa-6YYAUrW07npRA.png"></p>
+<p>The answer is to make the implementation of the function behind the server asynchronous.</p>
+<p>What are the benefits of doing this?</p>
+<ol>
+<li>Handle events by using event handlers, then we can control the number of handlers to determine the pressure on the backend system or database. In the synchronization model, when a large number of client requests come in, the server will fork threads accordingly and put pressure on the backend system. However, when the number of event handlers is controllable, the pressure on the backend system can be controlled as well.</li>
+<li>Request dedup. Since all requests from clients are entered into the message queue, event handlers have the ability to perform deduplication according to specific rules.</li>
+<li>Further, if a streaming framework is used, then the third approach from the previous section can be followed to achieve further denormalization.</li>
+</ol>
+<p>However, such an architecture also has drawbacks.</p>
+<ol>
+<li>Such an architecture must be based on the assumption that users will refresh the page a lot in a short period of time in order to be able to play the benefits of dedup. This architecture does not mean that it is only applicable to this context, but if there is no matching context, then the implementation will be too much pain and too little gain.</li>
+<li>Implementation overhead. The server must have the ability to wait for asynchronous messages, which is simple to say, but there are many aspects of the implementation. For example, should we use a temporary queue or a permanent queue? How long should I wait? Questions like these need to be carefully considered.</li>
+<li>Starvation. In order to control the number of concurrent messages, we don’t enable handlers unlimitedly, but this also means that some people can’t wait for processing and time out.</li>
+</ol>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article describes some approaches to improve the elasticity of a database.</p>
+<p>Unlike the approaches to improve scalability, scalability can be achieved through database-oriented approaches such as query optimization, indexing, and data sharding.</p>
+<p>However, improving elasticity cannot be accomplished through databases alone, but must be accompanied by architectural adjustments, so this article lists some common approaches.</p>
+<p>In fact, there are many more useful practices than that, and this article is aimed at small to medium-sized organizations. With a limited number of people and a limited budget, it is not possible to make large-scale changes, so we can only optimize on the original practices.</p>
+<p>Nevertheless, I believe these approaches should provide good insights for further evolution of the system, after all, all methodologies are similar.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/reducing-database-loading-b54f2d8edb39">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Scalability-vs-Elasticity/20220904/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Scalability-vs-Elasticity/20220904/" class="post-title-link" itemprop="url">Scalability vs. Elasticity</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-09-05 01:40:48" itemprop="dateCreated datePublished" datetime="2022-09-05T01:40:48+08:00">2022-09-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Understanding-the-main-difference-between-scalability-and-elasticity"><a href="#Understanding-the-main-difference-between-scalability-and-elasticity" class="headerlink" title="Understanding the main difference between scalability and elasticity"></a>Understanding the main difference between scalability and elasticity</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*P_sNDP3G-T3YHj_Y"></p>
+<p>In system design, there are two single words are confusing, which are scalability and elasticity. They are so similar that we don’t distinguish them correctly.</p>
+<p>However, when we want to solve the issues caused by these two non-functional requirements individually, we need completely different approaches.</p>
+<p>Therefore, in order to design the right approach we have to know them and recognize their properties. In this article, we will talk about what scalability and elasticity are and how to treat the symptoms.</p>
+<h3 id="Scalability"><a href="#Scalability" class="headerlink" title="Scalability"></a>Scalability</h3><p>We often talked about horizontal scalability and vertical scalability, i. e., scale-out, and scale-up.</p>
+<p>But what’s good and bad for scalability?</p>
+<p>Let’s take a look at an example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*RUAuNB-u9yy3ELnS.png"></p>
+<p>CPU grows with the time. This is normal. As the system grows, the number of users increases, the feature requirements increase, and thus the resource consumption increases as well. In this case, resources refer to CPU, but it can be applied to other resources, such as memory, response time, etc.</p>
+<p>So, if this diagram indicates a normal situation, what diagram indicates a problem?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*qGSKtxooiJ14GsLj.png"></p>
+<p>When resource usage does not rise linearly, but exponentially, something is wrong. It could be a bottleneck in usage that results in additional overhead, or a dramatic drop in performance when the amount of data exceeds a certain amount.</p>
+<p>On the other hand, what kind of shape represents good scalability?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*7h5Y68D3yQOzlBzT.png"></p>
+<p>Similarly, resource usage rises over time, but the rate of increase shrinks, which means that scalability becomes better. The ideal state is a horizontal line, where the resource usage remains constant regardless of the number of users and the increase in feature requirements.</p>
+<p>In other words, how to make this line as straight and as close to the horizontal as possible is the issue to be addressed in solving the scalability.</p>
+<h3 id="Elasticity"><a href="#Elasticity" class="headerlink" title="Elasticity"></a>Elasticity</h3><p>After talking about scalability, let’s look at an example of elasticity.</p>
+<p>First, let’s also look at the normal situation of a system.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*6APHPIwZ9_H8vmUh.png"></p>
+<p>Resource usage fluctuates dramatically over time, with spikes occurring at certain times. It is easy to understand why this happens. Take an e-commerce site for example, when there is a Black Friday sale or Christmas coming up, the system usage will be much higher than usual. Or a ticketing site, when a top singer is going to have a concert, will also attract a large number of people to come to grab tickets.</p>
+<p>So what is good elasticity? It’s about eliminating those spikes, of course.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*yyLOWcLR-drgjx_L.png"></p>
+<p>There are two key points in this diagram.</p>
+<ol>
+<li>The red line is more stable than the blue line, but the red line is not a horizontal line.</li>
+<li>The red line is significantly higher than the blue line after the occurrence of a spike.</li>
+</ol>
+<p>The reason for the first point is simple, because the system usage is not fixed, so the use of resources will vary with the system usage. But in general, it can still be maintained in a stable state and there will be no significant ups and downs.</p>
+<p>The second point, I believe, is not difficult to understand: the reason why we can flatten the blue line as much as possible is not to reject all the user requests, but to postpone the instantaneous usage through “a sort of mechanism”. Therefore, after the spike, there will always be a period of digestion, causing the red line to be higher than the blue line.</p>
+<p>You may ask, though, the system can handle so many users without elasticity, so is it still necessary to improve the elasticity to make the effect of the red line?</p>
+<p>The answer is, definitely. Why?</p>
+<p>Because the highest point of the blue line is the limit of what the system can record, and more rejected user requests cannot enter the system and are not recorded. In the moment of the spike, the system’s maximum capacity is defined there, and all requests exceeding it are rejected.</p>
+<p>On the other hand, a more elastic system has a smoother resource usage and can handle more user requests without crashing the system.</p>
+<h3 id="The-Myth-of-Autoscaling"><a href="#The-Myth-of-Autoscaling" class="headerlink" title="The Myth of Autoscaling"></a>The Myth of Autoscaling</h3><p>Now, we understand the scalability and elasticity. So, can you answer one question?</p>
+<blockquote>
+<p><em>Ask, does autoscaling address the need for scalability or elasticity?</em></p>
+</blockquote>
+<p>The answer is, scalability.</p>
+<p>First of all, the principle of autoscaling is to track specific metrics by sampling and start scaling when the threshold is exceeded for a period of time.</p>
+<p>Therefore, it is already a while after the spike has occurred before scaling can begin. In addition, scaling is not immediately available; even containerized applications have to go through several steps to scale, such as loading the container image and cold-starting it on a new instance. A complex application can take a few minutes from the time it decides to scale to the time it is launched.</p>
+<p>As a result, autoscaling is not about elasticity, but about scalability.</p>
+<p>More importantly, autoscaling does not improve the whole system. In other words, autoscaling only allows the system to continue to grow with its original scalability, but does not make it better.</p>
+<p>One exception is that if elastic requirements can be predicted, then autoscaling can be effectively applied.</p>
+<p>For example, if the system receives a large number of requests at the beginning of the workday (e.g., 9:00 a.m.), then the system can be autoscaled by activating it at regular intervals. In this example, setting the time of the autoscaling between 8:30 am and 9:30 am can effectively solve the elasticity problem faced during that time.</p>
+<p>However, in general, the autoscaling faces the issue of scalability.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we introduced scalability and elasticity and explained what it looks like after improvement.</p>
+<p>Nevertheless, this article does not describe how to improve scalability, because scalability is a systemic issue and there is no one specific solution that can solve it all at once.</p>
+<p>First, bottlenecks must be identified, then the root causes must be figured out, and finally different solutions must be proposed for each bottleneck. This requires an extra investment of time and human resources to enable the system evolution, and autoscaling is a compromise to buy time. By spending additional money, the system is given time to evolve and is not shut down by the inability to scale.</p>
+<p>But autoscaling is not a long-term solution, and additional analysis, design and implementation costs are required to fundamentally solve the scalability issue.</p>
+<p>On the other hand, how to solve the elasticity issue?</p>
+<p>The answer is relatively simple, through caching or messaging. In order to tolerate a large number of requests in a moment, there must be a mechanism to postpone the current spike, and the most commonly used practice is caching.</p>
+<p>However, there are many different ways to implement caching, and the balance between caching and consistency is an important issue. I have introduced several caching practices.</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://medium.com/starbugs/consistency-between-cache-and-database-part-1-f64f4a76720">Consistency between Cache and Database, Part 1</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/starbugs/consistency-between-cache-and-database-part-2-e28fc7f8a7c3">Consistency between Cache and Database, Part 2</a></li>
+</ol>
+<p>These are the basic versions of caching, but there are many more advanced caching practices that will be mentioned in subsequent articles.</p>
+<p>The purpose of this article is only to explain the two words that are easily confused, and the only way to find a feasible solution among the many approaches is to correctly understand scalability and elasticity.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/scalability-vs-elasticity-cfae2d7a19b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Design-Pattern-of-Streaming-Enrichment/20220828/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Design-Pattern-of-Streaming-Enrichment/20220828/" class="post-title-link" itemprop="url">Design Pattern of Streaming Enrichment</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-08-29 01:15:34" itemprop="dateCreated datePublished" datetime="2022-08-29T01:15:34+08:00">2022-08-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Understanding-the-concept-of-streaming-architecture"><a href="#Understanding-the-concept-of-streaming-architecture" class="headerlink" title="Understanding the concept of streaming architecture"></a>Understanding the concept of streaming architecture</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*gwm6shsOymkXvJPF"></p>
+<p>Last time, we <a target="_blank" rel="noopener" href="https://lazypro.medium.com/stream-processing-introduction-796f15061880">introduced streaming processing</a>. In order to be able to handle batch and real-time data with a more pure infrastructure, we introduced Kafka and the streaming framework.</p>
+<p>In this article, we will introduce a common design pattern for streaming, enrichment, and examine what benefits the streaming framework can bring.</p>
+<p>What is enrichment? Briefly, it is the implementation of extending the original events to meet the new feature requirements.</p>
+<h3 id="Feature-Description"><a href="#Feature-Description" class="headerlink" title="Feature Description"></a>Feature Description</h3><p>Similar features are available on many social media platforms.</p>
+<ol>
+<li>Who visits me</li>
+<li>Others are also viewing</li>
+<li>What is the identity to view me</li>
+</ol>
+<p>The first feature is how many people have viewed my profile in a given time period. For example, how many times my profile has been viewed in a week.</p>
+<p>The second feature is an advanced version of the previous feature, who else did these people view? For example, 10 people viewed my profile in a week, and they also viewed Elon Musk.</p>
+<p>The third feature is a derivative of the first one. What is the identity of these people who viewed me? For example, 10 people viewed my profile in a week, and three of them were google employees.</p>
+<h3 id="Who-visits-me-Others-are-also-viewing"><a href="#Who-visits-me-Others-are-also-viewing" class="headerlink" title="Who visits me &amp; Others are also viewing"></a>Who visits me &amp; Others are also viewing</h3><p>The first and second features can be easily implemented using event streaming techniques. First, let’s define a “view” event.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    eventType: &quot;PageView&quot;,  </span><br><span class="line">    timestamp: 1660270009,  </span><br><span class="line">    viewerId: 1234,  </span><br><span class="line">    viewedId: 5678  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This event includes the time of occurrence and who viewed who. Then we just need to create a stream that collects all view events to analyze the features we need.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*TirXw-Z-2iyoHmgd.png"></p>
+<p>In the above diagram, suppose my user id is 4567, then it is easy to find two users who have viewed me from the event stream, which are 2345 and 1234.</p>
+<p>Further from the stream record, we can also understand that 2345 has viewed 1234, while 1234 has viewed 5678 and 2345.</p>
+<p>Putting this information together, we can answer.</p>
+<ol>
+<li>Who visits me? 2345 and 1234.</li>
+<li>Others are also viewing 1234, 5678, and 2345.</li>
+</ol>
+<p>With all the event streams recorded by the streaming framework, we can perform a simple analysis to get the desired features.</p>
+<h3 id="What-is-the-identity-to-view-me"><a href="#What-is-the-identity-to-view-me" class="headerlink" title="What is the identity to view me?"></a>What is the identity to view me?</h3><p>However, it is not so simple to know what the identity to view my profile is.</p>
+<p>Because our original event did not define additional attributes, only the id. Well, it is necessary to modify the original implementation to add new features.</p>
+<h3 id="Add-metadata-in-events"><a href="#Add-metadata-in-events" class="headerlink" title="Add metadata in events"></a>Add metadata in events</h3><p>Let’s add the job to the original event. When the user is viewing, in addition to sending the event with the id, the job must also be attached.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    eventType: &quot;PageView&quot;,  </span><br><span class="line">    timestamp: 1660270009,  </span><br><span class="line">    viewerId: 1234,  </span><br><span class="line">    viewedId: 5678,  </span><br><span class="line">    viewerJob: &quot;Google&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The problem seems to be solved, but is it really so?</p>
+<p>There are several obvious issues with such a solution. Firstly, modifying the event format directly affects all downstream consumers. Under an event-driven architecture, the producer would not know the consumer’s use cases because the two are decoupled.</p>
+<p>Secondly, events become larger, and each original event must add this new field, whether the consumer needs it or not. In other words, the overhead has gotten bigger, not just in terms of storage overhead, but also transmission overhead.</p>
+<p>Moreover, what to do if we want to add new features? In addition to the job, the feature requires a new title, age, and so on. Then the issues mentioned above will happen again and again.</p>
+<p>Therefore, we know this is not a good approach.</p>
+<h3 id="Query-from-external-datastores"><a href="#Query-from-external-datastores" class="headerlink" title="Query from external datastores"></a>Query from external datastores</h3><p>Since modifying the original event is not a good approach, we will query the required data from elsewhere as soon as we receive the event.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*RO4y1Z5g8mZWnMY4.png"></p>
+<p>Although it is stated in the diagram as a database, it can also be a microservice or any platform that can provide information.</p>
+<p>Basically, this is the most typical implementation of an event-driven architecture. When workers take events from the message queue, they process the data, either by getting the necessary information from other data sources or by storing the results in a data store, and finally by sending the enriched events to the next one.</p>
+<p>This implementation is fine in a message queue architecture. However, in a streaming framework, such an implementation creates a performance bottleneck. Let’s say a streaming framework has an average throughput of more than ten times of a database. If every event had to rely on external data sources, the overall throughput would become <code>1/10</code>.</p>
+<p>In addition, there is an existing issue with such an architecture.</p>
+<p>When a worker cluster or streaming processing cluster crashes, this is very likely to happen, after all, errors are everywhere. At this point, events will continue to accumulate because no consumer will be able to handle them. This is still the normal situation.</p>
+<p>Once the worker cluster is repaired and all workers are online, all workers will start digesting the message at full speed and a spike will hit the data source and most likely shut it down.</p>
+<p>Own failure affects other services in a cascading manner. This tight coupling is to be avoided in the system design. Therefore, such a solution is not good enough.</p>
+<h3 id="Merge-events"><a href="#Merge-events" class="headerlink" title="Merge events"></a>Merge events</h3><p>No new metadata into the event and can not be queried from external sources, then how to deal with the enrichment? This is the streaming framework to deliver the advantages.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*Ap2LAwIOIrq_r3Ob.png"></p>
+<p>In this example, we have chosen Apache Samza as an illustration, but in fact there are many good alternatives, such as Apache Flink.</p>
+<p>In addition to changing the handler mentioned in the previous section to a stream processing framework, there is a new event source, <code>ProfileEdit</code>.</p>
+<p>This modification event can either come from the Change Data Capture (CDC) of the database, or the modification event can be sent from the user service, but the details are not the focus of this article.</p>
+<p>The database from the previous section becomes the state in the stream processing framework. This state can be considered as a memory space for each worker, and is therefore very efficient. In addition, each worker shares the state, so the capacity is much larger than a single instance’s memory.</p>
+<p>When Samza receives <code>ProfileEdit</code>, it can save the latest state of each user. Once <code>PageView</code> is received, it can pull out the required information from the saved state, and assemble new events.</p>
+<p>This approach solves the problem of tight coupling and significantly improves processing performance. More importantly, Samza provides an exactly-once guarantee to avoid duplication of events due to failure of external data sources.</p>
+<p>Although the state is shared by multiple instances, it is still possible to hit the upper limit. How to solve the scalability issue?</p>
+<p>In Kafka, a message partitioning mechanism is provided, where messages with the same key are assigned to the same partition and processed by the same consumer group. In the streaming framework, the partitioning mechanism still exists and has been abstracted to a higher level. Different streams can share the same key space, i.e., as long as <code>PageView</code> and <code>ProfileEdit</code> have the same key, they can be processed by the same workers.</p>
+<p>In this way, the state can be stored by horizontal scalability.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we introduce a common design pattern that both traditional message queue architecture and modern stream processing architecture encounter the same issue, i. e., event enrichment.</p>
+<p>When designing a system, it is important to take into account the robustness and performance of the system in addition to the feature implementation. This is why streaming frameworks are on the rise. Streaming offers the possibility to handle real-time heavy traffic, while streaming frameworks additionally provide a variety of useful tools to make development easy.</p>
+<p>As mentioned in the <a target="_blank" rel="noopener" href="https://lazypro.medium.com/stream-processing-introduction-796f15061880">previous article on streaming architecture</a>, the streaming architecture has the ability to collapse many technology stacks into two core components: Kafka and the streaming processing framework. Therefore, I recommend that every developer, even if you are not a data engineer, should learn about the streaming framework. I believe having more insight will lead to a more reliable system design.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-pattern-of-streaming-enrichment-17a9eb065eca">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Stream-Processing-Introduction/20220821/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Stream-Processing-Introduction/20220821/" class="post-title-link" itemprop="url">Stream Processing Introduction</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-08-22 01:18:09" itemprop="dateCreated datePublished" datetime="2022-08-22T01:18:09+08:00">2022-08-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Easy-to-understand-what-is-streaming-architecture"><a href="#Easy-to-understand-what-is-streaming-architecture" class="headerlink" title="Easy to understand what is streaming architecture"></a>Easy to understand what is streaming architecture</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*mMsRDE9XQ6abWUEI"></p>
+<p>The purpose of this article is to introduce stream processing in an easy-to-understand way, so it does not dive too deep into the technical details, nor does it mention specific frameworks. However, a few popular frameworks will be used as examples to illustrate.</p>
+<p>Before we start to introduce stream processing, let’s talk about batch processing, i.e., the opposing concept of stream processing.</p>
+<h3 id="Batch-processing"><a href="#Batch-processing" class="headerlink" title="Batch processing"></a>Batch processing</h3><p>I believe most of you are familiar with batch processing, in which a large scale data processing is performed after a given period of data and the final result is produced. This is the actual operation of batch processing, and the expertise area of batch processing is fixed amount of data processing.</p>
+<p>However, in an event-driven architecture, the data, i.e., the events, are endless, that is to say, it is difficult to define a fixed amount. Therefore, the compromise is to change the fixed amount to a fixed time, so that the amount of data can be expected after a given time interval, and batch processing can be applied.</p>
+<p>In other words, batch processing can be summarized in several characteristics.</p>
+<ol>
+<li>Fixed. Whether it is fixed time or fixed volume, the key is to make the amount of data predictable.</li>
+<li>Discrete. The data is computed in a specific interval, and the intervals are not related to each other at all.</li>
+</ol>
+<p>The most typical approach is to process the data at the moment per second&#x2F;minute&#x2F;hr&#x2F;day.</p>
+<h3 id="Stream-processing"><a href="#Stream-processing" class="headerlink" title="Stream processing"></a>Stream processing</h3><p>However, there is a difference in the approach of stream processing.</p>
+<p>First of all, there is no concept of fixation in stream processing. Imagine it as a river, where water keeps flowing down from upstream, and if you don’t catch it where you are at, the water will flow away.</p>
+<p>The same is happening with data. The data source keeps generating data into the stream, and the application has to retrieve what it needs in the stream and use it.</p>
+<p>Unlike batch processing, which is fixed time or fixed volume, if there is no given time interval, then the amount of data can be considered basically infinite. On the other hand, since the data is not divided into several time intervals by batching, there is a context between the data.</p>
+<p>We can also summarize several characteristics for stream processing, which are exactly the opposite of batch processing.</p>
+<ol>
+<li>Infinite. In the lack of a specified time interval, both the amount of data and the time can be considered infinite.</li>
+<li>Continuous. The data in the data stream are related to each other.</li>
+</ol>
+<p>Nevertheless, applications do not work that way, or perhaps it should be said that the human brain cannot understand the concept of continuous infinity. When we develop an application, we always give the input, compute it, and produce the output.</p>
+<p>Therefore, when we develop stream processing applications, we take some techniques to make the data stream fit our mind as much as possible, in other words, we slice the data stream. The method of slicing is called windows.</p>
+<p>There are three common types of windows.</p>
+<ol>
+<li>Tumbling window</li>
+<li>Sliding window</li>
+<li>Session window</li>
+</ol>
+<h3 id="Tumbling-window"><a href="#Tumbling-window" class="headerlink" title="Tumbling window"></a>Tumbling window</h3><p>The first method of data slicing is tumbling window also known as micro-batch.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*dxpS_mvEQNgKzuQv.png"></p>
+<p>The continuous data is processed by dividing the data into intervals of a fixed time. This is the same concept as batch processing, but the only difference is the length of the time interval. In batch processing, the time span is larger than the tumbling window.</p>
+<p>In this way, data streams can be processed in a batch manner. Most of the streaming frameworks support this technique, e.g. Apache Spark Streaming, Apache Flink, Apache Samza, etc.</p>
+<h3 id="Sliding-window"><a href="#Sliding-window" class="headerlink" title="Sliding window"></a>Sliding window</h3><p>The second approach is the sliding window.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*L-Kn6bGZ1POF3PH2.png"></p>
+<p>Given a window size and a window slide to move the window, a sliding window will be created. As you can see from the diagram, it is possible to overlap data between windows, and therefore to discover the context of the data.</p>
+<p>The tumbling window mentioned in the previous section is actually a special case of a sliding window. When the window size is equal to the window slide, the sliding window becomes a tumbling window.</p>
+<p>This is a very common data slicing pattern used in streaming, and not every streaming framework supports it; Apache Spark has streaming capabilities, but it only supports micro-batches.</p>
+<h3 id="Session-window"><a href="#Session-window" class="headerlink" title="Session window"></a>Session window</h3><p>The third approach is the session window.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*HbEb7ZCscU5L_Aua.png"></p>
+<p>Unlike the previous two methods, the session window does not have a fixed window size; instead, it has to wait until the data stops for a period of time, which is called session gap.</p>
+<p>After the data is stopped for a period of time, the received data segments are processed, so the real-time performance is slightly worse than the previous two methods. However, since the data is grouped in advance and accumulated for a period of time, it is easier to process.</p>
+<p>In addition, the session window provides an additional information about the data density at this point by the amount of data collected.</p>
+<p>Again, this is not supported by every streaming framework, and Apache Spark does not support it.</p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>It sounds like stream processing is the same as traditional message queue processing, where a broker stores the message and assigns it to a handler responsible for execution.</p>
+<p>Is the difference only that one is a single message and another is a data stream?</p>
+<p>In fact, this is only one of the differences. Stream processing has three advantages over traditional message workers.</p>
+<ol>
+<li>Understand the context of the data. Although this depends on the window setting, due to the nature of data streams, they are able to express much more semantically than a single message.</li>
+<li>Stream processing has state. To enable faster processing of message streams, streaming frameworks provide internal state management and also state persistence.</li>
+<li>Simultaneous processing of concurrent data streams. In a message queue worker architecture, it would be a challenge to handle multiple messages simultaneously, but in a stream processing framework, it is possible. Furthermore, the framework provides more methods for handling multiple event streams, such as join operations.</li>
+</ol>
+<p>Overall, stream processing can be regarded as an advanced version of the message queue worker architecture.</p>
+<p>There are two core components in the entire stream processing. The first one is Kafka as a broker and the other one is the streaming framework.</p>
+<p>Kafka is able to provide very good functionality, including fault tolerance, persistence and ensuring message order, while also providing very high throughput.</p>
+<p>On the other hand, the streaming framework is to provide a higher level of abstraction based on Kafka. It can make it easier for developers to get started, including the various windowing methods mentioned in this article and concurrent event stream processing.</p>
+<p>More importantly, the streaming framework provides an exactly-once guarantee. in the message queue worker architecture, often only at-least-once guarantee, but in the streaming framework can further support exactly-once.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Traditional data processing architectures are very complex and often require various technologies, for example, ETL technology is required to extract and transform data from various data stores into a unified data warehouse or data lake, and various batch processing methods such as Map-reduce must be used to transform data into a useful format during analysis.</p>
+<p>In order to solve the real-time problem of batch processing, different message queue processing frameworks are integrated to aggregate the batch dataset with the real-time dataset under specific real-time requirements.</p>
+<p>The entire data processing architecture involves a variety of storage, message queues, scheduling and processing technologies. It is difficult to become master of all of them, and new requirements have to be developed to continue stacking on top of this complex architecture, which also affects productivity.</p>
+<p>Streaming architectures were created to address these complexities. It is possible to use only two core components, Kafka and the streaming framework, to accomplish various feature requirements that previously required various technology stacks.</p>
+<p>Of course, no technical selection is perfect.</p>
+<p>To me, the biggest problem with stream processing is that it’s not easy, either to understand or to develop. As described earlier in this article, the concept of continuous infinity is not intuitive to humans. Even if it is possible to collapse the stack of techniques into a single solution, it requires developers to have more experience and overcome a learning curve. Moreover, when problems are encountered that cannot be solved by a framework, there is still a need to mix solutions.</p>
+<p>Nevertheless, the streaming framework still offers a good entry point to meet most development needs with minimal overhead.</p>
+<p>The next article will introduce a common streaming design pattern, which is enrichments. Let’s call it a day.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/stream-processing-introduction-796f15061880">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/11/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/13/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

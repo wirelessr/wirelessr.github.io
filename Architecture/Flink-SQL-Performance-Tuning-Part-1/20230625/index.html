@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Flink SQL Performance Tuning, Part 1Explaining the concept of reduce sub plan, mini batch and Local-Global aggregation  Flink SQL Performance Tuning, Part 1 Flink SQL Performance Tuning, Part 2  Befor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flink SQL Performance Tuning, Part 1">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-1/20230625/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Flink SQL Performance Tuning, Part 1Explaining the concept of reduce sub plan, mini batch and Local-Global aggregation  Flink SQL Performance Tuning, Part 1 Flink SQL Performance Tuning, Part 2  Befor">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*3omIjk3XZOlpX8Z8">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*fb2k2PK_Lkm1-Ykm9iPuhg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*212V1L7af9jC2-VrjrimZw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*Xvf-gmBSO_norc8CTjr21Q.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*zeWnVE-AoEBqZVYwKbuCBg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*Afp6IrI5T5PM721my6GEog.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*QA_kV30-7fPG745x.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*URiwZKU1iTrr7Ds0.png">
+<meta property="article:published_time" content="2023-06-25T17:51:42.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.823Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*3omIjk3XZOlpX8Z8">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-1/20230625/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-1/20230625/","path":"Architecture/Flink-SQL-Performance-Tuning-Part-1/20230625/","title":"Flink SQL Performance Tuning, Part 1"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Flink SQL Performance Tuning, Part 1 | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink-SQL-Performance-Tuning-Part-1"><span class="nav-number">1.</span> <span class="nav-text">Flink SQL Performance Tuning, Part 1</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Explaining-the-concept-of-reduce-sub-plan-mini-batch-and-Local-Global-aggregation"><span class="nav-number">1.1.</span> <span class="nav-text">Explaining the concept of reduce sub plan, mini batch and Local-Global aggregation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reuse-Sub-Plan"><span class="nav-number">2.</span> <span class="nav-text">Reuse Sub Plan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MiniBatch-Aggregation"><span class="nav-number">3.</span> <span class="nav-text">MiniBatch Aggregation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Local-Global-Aggregation"><span class="nav-number">4.</span> <span class="nav-text">Local-Global Aggregation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">5.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-1/20230625/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Flink SQL Performance Tuning, Part 1 | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flink SQL Performance Tuning, Part 1
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-06-26 01:51:42" itemprop="dateCreated datePublished" datetime="2023-06-26T01:51:42+08:00">2023-06-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Flink-SQL-Performance-Tuning-Part-1"><a href="#Flink-SQL-Performance-Tuning-Part-1" class="headerlink" title="Flink SQL Performance Tuning, Part 1"></a>Flink SQL Performance Tuning, Part 1</h3><h4 id="Explaining-the-concept-of-reduce-sub-plan-mini-batch-and-Local-Global-aggregation"><a href="#Explaining-the-concept-of-reduce-sub-plan-mini-batch-and-Local-Global-aggregation" class="headerlink" title="Explaining the concept of reduce sub plan, mini batch and Local-Global aggregation"></a>Explaining the concept of reduce sub plan, mini batch and Local-Global aggregation</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*3omIjk3XZOlpX8Z8"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/flink-sql-performance-tuning-part-1-f71a0a0ee91">Flink SQL Performance Tuning, Part 1</a></li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/flink-sql-performance-tuning-part-2-c102177b1ce1">Flink SQL Performance Tuning, Part 2</a></li>
+</ul>
+<p>Before talking about the tuning, we have to understand how Flink SQL works. In general, there are several steps as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*fb2k2PK_Lkm1-Ykm9iPuhg.png"></p>
+<p>After receiving a SQL command, it is first parsed into a logical plan, and then the execution plan is generated by the optimizer. With the execution plan, the actual code for execution can be generated and finally turned into a job.</p>
+<p>The only step we can control on the whole process is the optimizer.</p>
+<p>And, the following are factors affecting Optimizer.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*212V1L7af9jC2-VrjrimZw.png"></p>
+<ul>
+<li>LogicalPlan: Generated from SQL parser, it can be said that a good writing style basically solves most of the performance problems.</li>
+<li>FlinkConf: In Flink, there are many optimizer-related <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/config/">settings</a> that can be adjusted.</li>
+<li>SchemaDesign: Of course, the schema design also determines some of the performance, such as the primary key.</li>
+<li>Hints: Although the optimizer will try to cover as many scenarios as possible, sometimes we still need to “tell” the optimizer what to do, and that can be done through <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/hints/">hints</a>.</li>
+</ul>
+<p>Thus, this article will introduce a few common scenarios on how to tune.</p>
+<h3 id="Reuse-Sub-Plan"><a href="#Reuse-Sub-Plan" class="headerlink" title="Reuse Sub Plan"></a>Reuse Sub Plan</h3><p>In Flink’s settings, <code>table.optimizer.reuse-sub-plan-enabled</code> is turned on by default. The functionality of this setting can be explained by a simple example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO sink1 SELECT * FROM table WHERE a &gt; 0;  </span><br><span class="line">INSERT INTO sink2 SELECT * FROM table WHERE a &gt; 0 AND b &lt; 0;</span><br></pre></td></tr></table></figure>
+
+<p>First, convert the above two SQL commands into a logical plan.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Xvf-gmBSO_norc8CTjr21Q.png"></p>
+<p>Then, after the <code>reuse-sub-plan</code> of the optimizer, the following execution plan will be generated.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*zeWnVE-AoEBqZVYwKbuCBg.png"></p>
+<p>What the optimizer does is to merge the same parts, so that there is no need to repeat the process. But from our naked eyes, we can still see one identical part can be merged.</p>
+<blockquote>
+<p><em>WHERE a &gt; 0</em></p>
+</blockquote>
+<p>However, the optimizer does not recognize this clause, so we need to rewrite the original SQL to make the optimizer understand the merging rules for this filter.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE TEMPORARY VIEW v SELECT * FROM table WHERE a &gt; 0;  </span><br><span class="line">INSERT INTO sink1 SELECT * FROM v;  </span><br><span class="line">INSERT INTO sink2 SELECT * FROM v WHERE b &lt; 0;</span><br></pre></td></tr></table></figure>
+
+<p>By creating a temporary view, the optimizer can generate a more efficient execution plan.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Afp6IrI5T5PM721my6GEog.png"></p>
+<h3 id="MiniBatch-Aggregation"><a href="#MiniBatch-Aggregation" class="headerlink" title="MiniBatch Aggregation"></a><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/tuning/#minibatch-aggregation">MiniBatch Aggregation</a></h3><p>Mini batch is a built-in performance optimization mechanism for Flink. The mechanism behind is explained in the <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/tuning/#minibatch-aggregation">official document</a>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*QA_kV30-7fPG745x.png"></p>
+<p>The above diagram shows an overview of a mini batch, in plain English, mini batch drastically reduces the number of accesses to the state.</p>
+<p>Let’s use a practical example to explain this.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT color, SUM(id)  </span><br><span class="line">FROM T  </span><br><span class="line">GROUP BY color</span><br></pre></td></tr></table></figure>
+
+<p>This is a typical SQL aggregation operation, in fact, the internal operation of Flink is each event must access the state once, so it can be summed up.</p>
+<p>It is written in Python as pseudocode as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def process(input):  </span><br><span class="line">    color, id = extract(input)  </span><br><span class="line">    ret = state.get(color)  </span><br><span class="line">    ret += id  </span><br><span class="line">    state.update(color, ret)  </span><br><span class="line">    yield ret</span><br></pre></td></tr></table></figure>
+
+<p>When inputting an event, first of all we find its <code>color</code>, then we take out the previous summation result, then we add the <code>id</code> to it, and finally we write the result back to the state. The next event comes in and repeats the process.</p>
+<p>Such a iteration will be extremely frequent to access the state, resulting in performance impact. So mini batch collects events and accesses the state only once for each specific <code>color</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def mini_batch_process(batch):  </span><br><span class="line">    for color in batch:  </span><br><span class="line">        ret = state.get(color)  </span><br><span class="line">        for id in batch[color]:  </span><br><span class="line">            ret += id  </span><br><span class="line">        state.update(color, ret)  </span><br><span class="line">        yield ret</span><br></pre></td></tr></table></figure>
+
+<p>As you can see from the code above, the process of mini batch is to collect the events of the same <code>color</code>, so the sum of the same <code>color</code> can be done at once, without the need to access the state frequently.</p>
+<p>To enable mini batch is as simple as turning on the settings of the optimizer.</p>
+<ul>
+<li>table.exec.mini-batch.enabled</li>
+<li>table.exec.mini-batch.allow-latency</li>
+<li>table.exec.mini-batch.size</li>
+</ul>
+<p>The first setting is on&#x2F;off, the rest is to determine the size of the batch, which can be based on the amount or duration.</p>
+<h3 id="Local-Global-Aggregation"><a href="#Local-Global-Aggregation" class="headerlink" title="Local-Global Aggregation"></a><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/tuning/#local-global-aggregation">Local-Global Aggregation</a></h3><p>There is a further optimization approach to <code>GROUP BY</code>, called Local-Global aggregation, which is an extension of mini batch.</p>
+<p>The biggest problem of mini batch is that it will be grouped by <code>color</code>. If a particular <code>color</code> is especially large, then the downstream operator assigned to this <code>color</code> will have to process much more data, which is also called data skew. Therefore, Flink provides a mechanism to perform pre-aggregation in the mini batch in order to reduce the downstream load.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*URiwZKU1iTrr7Ds0.png"></p>
+<p>From the above diagram, we can see that after turning on Local-Global aggregation, the summation operation will be done inside the mini batch, and the last data aggregation will be done with a small amount of data. In the example red <em>Agg</em>, the amount of processed data will be changed from 12 to 3, i.e., the data skewing problem is solved.</p>
+<p>To enable Local-Global aggregation, it is necessary to use the following settings in addition to the mini batch already enabled.</p>
+<blockquote>
+<p><em>table.optimizer.agg-phase-strategy: “TWO_PHASE”</em></p>
+</blockquote>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article first introduces three of Flink’s built-in optimization mechanisms:</p>
+<ul>
+<li>Reduce sub plan</li>
+<li>MiniBatch aggregation</li>
+<li>Local-Global aggregation</li>
+</ul>
+<p>Only the first one is enabled by default, but there is still room for manual optimization. The other two are turned off by default, especially the Local-Global aggregation, which requires an additional mini batch to be enabled in addition to the two phases.</p>
+<p>Since these mechanisms look so good, why are they not turned on by default?</p>
+<p>Because, these mechanisms are not without cost.</p>
+<p>In the case of mini batch, when mini batch is turned on, it means the freshness of data will be affected, depending on the mini batch settings.</p>
+<p>In addition, Local-Global aggregation is not available for all operations. It is only used for aggregations that can be merged, such as <code>SUM</code>, <code>MAX</code>, <code>COUNT</code>, etc., and not for <code>DISTINCT</code>. Moreover, Local-Global aggregation increases the computation complexity and therefore consumes additional computing resources, which is not always reasonable if the data skew is not large.</p>
+<p>These optimization mechanisms must be understood before using in order to use them correctly, and turning them all on unconditionally may lead to counterproductive results.</p>
+<p>Of course, Flink’s optimization mechanism is not just these, next time we will talk about <code>DISTINCT</code> and <code>JOIN</code> which are not covered in this article.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/flink-sql-performance-tuning-part-1-f71a0a0ee91">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Elasticsearch/Best-Practices-of-Using-ElasticSearch/20230604/" rel="prev" title="Best Practices of Using ElasticSearch">
+                  <i class="fa fa-chevron-left"></i> Best Practices of Using ElasticSearch
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Architecture/Flink-SQL-Performance-Tuning-Part-2/20230702/" rel="next" title="Flink SQL Performance Tuning, Part 2">
+                  Flink SQL Performance Tuning, Part 2 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

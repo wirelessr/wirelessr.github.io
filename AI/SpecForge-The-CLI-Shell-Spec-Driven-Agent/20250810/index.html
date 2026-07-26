@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="A powerful new AI agent for spec-driven development, all within your terminal Recently, there have been several popular programming agents, namely Kiro, Claude Code, and mini SWE Agent. Each of these">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpecForge: The CLI, Shell &amp; Spec-Driven Agent">
+<meta property="og:url" content="https://wirelessr.github.io/AI/SpecForge-The-CLI-Shell-Spec-Driven-Agent/20250810/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="A powerful new AI agent for spec-driven development, all within your terminal Recently, there have been several popular programming agents, namely Kiro, Claude Code, and mini SWE Agent. Each of these">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*9fnlYBvcwBwUtHJZDUraOA.png">
+<meta property="article:published_time" content="2025-08-10T16:58:38.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.828Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*9fnlYBvcwBwUtHJZDUraOA.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/AI/SpecForge-The-CLI-Shell-Spec-Driven-Agent/20250810/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/AI/SpecForge-The-CLI-Shell-Spec-Driven-Agent/20250810/","path":"AI/SpecForge-The-CLI-Shell-Spec-Driven-Agent/20250810/","title":"SpecForge: The CLI, Shell & Spec-Driven Agent"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SpecForge: The CLI, Shell & Spec-Driven Agent | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-powerful-new-AI-agent-for-spec-driven-development-all-within-your-terminal"><span class="nav-number">1.</span> <span class="nav-text">A powerful new AI agent for spec-driven development, all within your terminal</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kiro"><span class="nav-number"></span> <span class="nav-text">Kiro</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Code"><span class="nav-number"></span> <span class="nav-text">Claude Code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mini-SWE-Agent"><span class="nav-number"></span> <span class="nav-text">Mini SWE Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpecForge-Agent"><span class="nav-number"></span> <span class="nav-text">SpecForge Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-message-from-our-Founder"><span class="nav-number"></span> <span class="nav-text">A message from our Founder</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/SpecForge-The-CLI-Shell-Spec-Driven-Agent/20250810/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SpecForge: The CLI, Shell & Spec-Driven Agent | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpecForge: The CLI, Shell & Spec-Driven Agent
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-08-11 00:58:38" itemprop="dateCreated datePublished" datetime="2025-08-11T00:58:38+08:00">2025-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="A-powerful-new-AI-agent-for-spec-driven-development-all-within-your-terminal"><a href="#A-powerful-new-AI-agent-for-spec-driven-development-all-within-your-terminal" class="headerlink" title="A powerful new AI agent for spec-driven development, all within your terminal"></a>A powerful new AI agent for spec-driven development, all within your terminal</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*9fnlYBvcwBwUtHJZDUraOA.png"></p>
+<p>Recently, there have been several popular programming agents, namely <a target="_blank" rel="noopener" href="https://kiro.dev/">Kiro</a>, Claude Code, and <a target="_blank" rel="noopener" href="https://github.com/SWE-agent/mini-swe-agent">mini SWE Agent</a>.</p>
+<p>Each of these agents has its own unique features and areas of expertise. I will briefly introduce these projects and then explain the <a target="_blank" rel="noopener" href="https://github.com/wirelessr/SpecForge-Agent">side project</a> I am currently working on.</p>
+<p>However, to summarize, the side project I am currently working on was inspired by these three agents and developed further, combining the unique features of each agent while also possessing strong project development capabilities.</p>
+<h3 id="Kiro"><a href="#Kiro" class="headerlink" title="Kiro"></a>Kiro</h3><p>Kiro is currently undergoing public review, and I had the opportunity to participate in this test. I have to say, the quality of the code written by Kiro far exceeded my expectations. This is a product that truly gives me confidence in using vibe coding in a production environment.</p>
+<p>Kiro’s greatest advantage lies in its spec-driven development. It is the first product to divide the development process into four stages. When a request is broken down into requirements, design, planning, and implementation, we can collaborate with the agent to define the optimal “shape” for each detail.</p>
+<p>As we engage in in-depth discussions with the agent at each stage, our role shifts from developer to project owner, resembling that of an architect. Review becomes a significant component of the development process, far more important than coding itself.</p>
+<p>This design pattern fully aligns with the concept of context engineering. Each phase of the agent’s tasks is grounded in sufficient context, which on one hand limits the agent’s freedom to improvise, and on the other hand makes it easier for reviewers to understand the agent’s approach.</p>
+<p>Just as in code reviews, we must first understand the coder’s design intent to conduct a review. Through the specification, we can precisely grasp the agent’s intent.</p>
+<h3 id="Claude-Code"><a href="#Claude-Code" class="headerlink" title="Claude Code"></a>Claude Code</h3><p>The standout feature of Claude Code is its complete reliance on CLI-based interaction, eliminating the need for human-agent collaboration to be integrated through a bulky IDE.</p>
+<p>Additionally, Claude Code utilizes models based on Claude 4 or higher, allowing us to have greater confidence in the quality of the output. It is precisely because the model’s capabilities are sufficiently robust that we can confidently collaborate with the agent on development even in a CLI-only environment.</p>
+<p>Of course, Claude Code is evolving rapidly, and its ecosystem is growing increasingly expansive. As a result, an ever-growing array of new features continues to develop and expand around this CLI-centric concept.</p>
+<h3 id="Mini-SWE-Agent"><a href="#Mini-SWE-Agent" class="headerlink" title="Mini SWE Agent"></a>Mini SWE Agent</h3><p>This project is less well-known, as it is not a commercial product and does not have any superpowers. However, it has a really special feature, as stated in its GitHub title.</p>
+<blockquote>
+<p><em>The 100-line AI agent that solves GitHub issues and more</em></p>
+</blockquote>
+<p>It can accomplish many complex tasks with minimal code, and its core functionality is based on <code>SHELL</code>. Essentially, shell is capable of handling any task, which is why the mini SWE agent relies solely on shell to perform its functions.</p>
+<p>This design allows the mini SWE Agent’s core code to remain extremely concise yet highly effective.</p>
+<h3 id="SpecForge-Agent"><a href="#SpecForge-Agent" class="headerlink" title="SpecForge Agent"></a>SpecForge Agent</h3><p><a target="_blank" rel="noopener" href="https://github.com/wirelessr/SpecForge-Agent">https://github.com/wirelessr/SpecForge-Agent</a></p>
+<p>This is my recent side project, called SpecForge Agent.</p>
+<p>This project combines the features of the three agents mentioned above to create an execution and thinking framework for open source solutions.</p>
+<ul>
+<li>Spec-driven development: This project strictly follows the four-phase development process of requirements, design, planning, and implementation, which is the process learned from Kiro. During the requirements phase, the EARS standard is strictly applied, while the design phase clearly outlines the architecture and data flow.</li>
+<li>CLI only: Like Claude Code, this project relies solely on CLI operations for the development process, eliminating all UI interactions. It truly achieves a CLI-only design, advancing all development processes through the CLI.</li>
+<li>SHELL only: Since there is nothing a shell cannot do, in this project, I also tried to make the core guiding principle of the agent “shell-first.” If there is a need to use MCP, I did it this way: I turned the MCP client into a command-line tool so that the project knows how to execute it.</li>
+</ul>
+<p>Through these three principles, the capabilities of the SpecForge Agent are far more powerful than I had imagined.</p>
+<p>In addition, this project has the following features.</p>
+<ul>
+<li>SpecForge Agent actively remembers what it thinks it needs to learn, and humans can also establish guidelines for it, as in the MCP example above. If we write the usage of the MCP command line into its memory, it will correctly call the corresponding tool.</li>
+<li>Since spec-driven development uses a large number of tokens, it is easy for context overload to occur after multiple rounds of work. This phenomenon is also observed in Kiro, but manually compressing the context in Kiro is very cumbersome, so this project adopts automatic compression. When the context exceeds the threshold, SpecForge Agent will automatically initiate the compression process.</li>
+<li>Most importantly, this project uses an OpenAI-compatible model, so it is compatible with OpenRouter or other free solutions.</li>
+</ul>
+<p>During Kiro’s public review period, I will continue to optimize this project. While its current architecture is modular, there are still many redundant segments in between.</p>
+<p>Furthermore, there is room for improvement in terms of functionality. I have implemented a quality testing framework to measure the quality of each output. After several rounds of optimization, we can see a significant improvement in performance.</p>
+<p>However, there is still room for improvement, so I will continue to optimize the implementation phase.</p>
+<p>If you have any ideas, please feel free to raise them in an issue. Of course, contributions are also welcome.</p>
+<p>In the project documentation, I have clearly documented the entire project architecture and testing methods. I hope the quality of this project can reach a level where it can optimize itself.</p>
+<p>Reference documents.</p>
+<ul>
+<li>Project architecture and usage instructions</li>
+</ul>
+<h3 id="A-message-from-our-Founder"><a href="#A-message-from-our-Founder" class="headerlink" title="A message from our Founder"></a>A message from our Founder</h3><p><strong>Hey,</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>Sunil</strong></a> <strong>here.</strong> I wanted to take a moment to thank you for reading until the end and for being a part of this community.</p>
+<p>Did you know that our team run these publications as a volunteer effort to over 3.5m monthly readers? <strong>We don’t receive any funding, we do this to support the community. ❤️</strong></p>
+<p>If you want to show some love, please take a moment to <strong>follow me on</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>LinkedIn</strong></a><strong>,</strong> <a target="_blank" rel="noopener" href="https://tiktok.com/@messyfounder"><strong>TikTok</strong></a>, <a target="_blank" rel="noopener" href="https://instagram.com/sunilsandhu"><strong>Instagram</strong></a>. You can also subscribe to our <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>weekly newsletter</strong></a>.</p>
+<p>And before you go, don’t forget to <strong>clap</strong> and <strong>follow</strong> the writer️!</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/specforge-the-cli-shell-spec-driven-agent-7276b1f8a784">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Development/n8n-vs-Ansible-The-Automation-Choice/20250727/" rel="prev" title="n8n vs. Ansible: The Automation Choice">
+                  <i class="fa fa-chevron-left"></i> n8n vs. Ansible: The Automation Choice
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/AI/GitHub-Copilot-Agent-A-Disappointing-Review/20250824/" rel="next" title="GitHub Copilot Agent: A Disappointing Review">
+                  GitHub Copilot Agent: A Disappointing Review <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

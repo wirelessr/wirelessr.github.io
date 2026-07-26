@@ -4,79 +4,7 @@
   <url>
     <loc>https://wirelessr.github.io/tags/index.html</loc>
     
-    <lastmod>2024-01-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/Architecture/Backfill-Streaming-Data-Pipelines-in-Kappa-Architecture/20240119/</loc>
-    
-    <lastmod>2024-01-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/Elasticsearch/Boosting-Elasticsearch-Cluster-Performance/20230512/</loc>
-    
-    <lastmod>2024-01-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/Career/Engineering-Ladders/20230428/</loc>
-    
-    <lastmod>2024-01-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/Architecture/HTAP-learning-from-Xiaohongshu/20230505/</loc>
-    
-    <lastmod>2024-01-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/hexo/Hello-Hexo-with-Next/20230419/</loc>
-    
-    <lastmod>2024-01-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/Architecture/How-Netflix-Handle-Hourly-Pipeline-Delay/20231129/</loc>
-    
-    <lastmod>2024-01-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/Architecture/How-Shopify-Black-Friday-Cyber-Monday/20230421/</loc>
-    
-    <lastmod>2024-01-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/Architecture/How-Uber-Achieves-Excellence-Data-Quality/20230526/</loc>
-    
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -85,25 +13,97 @@
   <url>
     <loc>https://wirelessr.github.io/Career/What-is-Staff-Engineer/20230425/</loc>
     
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/Architecture/8-Ways-to-Crank-Up-Speed-in-Software-Development/20230927/</loc>
+    <loc>https://wirelessr.github.io/Development/What-Exactly-is-Systems-Thinking/20241201/</loc>
     
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/about/index.html</loc>
+    <loc>https://wirelessr.github.io/Architecture/What-pattern-is-considered-CQRS/20221106/</loc>
     
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/When-to-Consider-Clean-Architecture-A-Practical-Guide/20230910/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Testing/Whats-Difference-Between-Unit-Test-and-Integration-Test/20211107/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/When-to-Consider-Design-Patterns/20240804/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Career/Why-So-Few-Qualified-Architects/20240204/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/n8n-vs-Ansible-The-Automation-Choice/20250727/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/%E5%81%9A%E4%B8%80%E5%80%8B%E5%8B%99%E5%AF%A6%E7%9A%84RAG-Pragmatic-RAG/20240818/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Misc/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E5%8F%AF%E4%BB%A5%E8%BF%BD%E8%B9%A4%E8%AE%9A%E6%95%B8%E7%9A%84%E7%B3%BB%E7%B5%B1/20210706/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Misc/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E8%87%AA%E5%8B%95%E8%A3%9C%E5%AE%8C%E7%9A%84%E5%BE%8C%E7%AB%AF/20210706/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -112,7 +112,1627 @@
   <url>
     <loc>https://wirelessr.github.io/categories/index.html</loc>
     
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/about/index.html</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Stream-Processing-Introduction/20220821/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/The-Infrastructure-Stack-for-Real-Time-Data-Analysis/20221204/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Testing-Apache-Avro-Compatibility/20230409/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/MongoDB/The-Mystery-of-MongoDB-Indexing/20220424/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Career/The-Software-Engineers-Epic-Career-Adventure/20250622/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Trino-Iceberg-Made-Easy-A-Ready-to-Use-Playground/20240519/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/Trunk-based-Development-Can-Help/20211110/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Redis/Turn-Based-Multiplayer-Beer-Game/20240908/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Understand-Temporal-Coupling-in-Code/20220213/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Understanding-Apache-Paimon-Concurrency-Control/20250112/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Understanding-Exactly-once-Semantics/20221030/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Database/Understanding-Partial-Indexing/20220807/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Database/Understanding-String-Comparison-of-Databases/20220814/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Misc/Understanding-Use-Cases-for-Pattern-Matching/20230827/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/MongoDB/Unique-Array-in-MongoDB-Document/20211121/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/Unleash-vs-LaunchDarkly-A-Look-at-Feature-Toggling-Solutions/20220410/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Vibe-Coding-is-Cooling-Off-Fast/20251026/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Refactor-Long-Method-with-a-Lightweight-DAG/20250928/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Misc/Replacing-Medium-with-Hexo/20230423/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Redis/Resilient-Caching-in-Redis/20220109/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Microservice/Rethinking-Microservice-Decomposition-A-Team-Driven-Approach/20250223/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Scalability-vs-Elasticity/20220904/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Database/Seamless-Transition-Handling-Exhausted-Auto-Increment-IDs/20231119/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Shift-from-Monolith-to-CQRS/20220102/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Microservice/Simplify-Web-App-Development-Code-Lite-Create-Big/20240225/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Misc/Socketio-with-TLS/20190225/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Solve-Performance-Bottleneck-through-CQRS/20220522/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Database/Solve-Phantom-Read-in-MySQL/20220508/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Solving-Dogpile-Effect-Using-Python/20221120/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Solving-Dogpile-Effect/20221113/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Python/Solving-Gevent-Pool-Issues-in-Flask-Apps/20251228/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/SpecForge-The-CLI-Shell-Spec-Driven-Agent/20250810/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/Speed-Up-Software-Development-Accelerate-Your-Code-Creation/20231003/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/MongoDB/Squeezing-out-MongoDBs-available-storage/20231015/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Stop-Using-Markdown-with-Claude-Code/20260524/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Orchestrating-DBT-with-Airflow/20230219/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Microservice/Original-Sin-of-Microservices-Part-1/20220320/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Microservice/Original-Sin-of-Microservices-Part-2/20220327/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/Paradigm-Shift-in-Software-Development-Leveraging-GenAI-for-Direct-Business-Logi/20240714/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/Paradigm-Shift-in-Software-Development-Part-2/20240728/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Playing-PyFlink-from-Scratch/20221016/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Playing-PyFlink-in-a-Nutshell/20221023/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Database/Playing-Window-Function-in-Postgres/20221225/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Database/PostgreSQL-17s-JSON-TABLE-isnt-Particularly-Powerful/20241006/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Database/PostgreSQL-Full-Text-Search-in-a-Nutshell/20240610/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Testing/Property-Based-Testing-Framework-for-Node/20220515/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/Python-DAG-Retries-Rollbacks-Parallel-Runs/20251005/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/MongoDB/Read-after-write-Consistency-in-MongoDB/20211114/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Redis/Redis-as-a-Lock-Are-You-Sure/20220501/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Redis/Redis-helps-avoiding-racing-conditions/20210814/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Reducing-Database-Loading/20220911/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Kiro-Workflow-for-Copilot-Claude-More/20250907/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Layered-Architecture-Clarification/20211128/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Golang/Leetcode-concurrency-1114-Print-in-Order-in-golang/20210325/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Golang/Leetcode-concurrency-1115-Print-FooBar-Alternately-in-golang/20210325/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Golang/Leetcode-concurrency-1116-Print-Zero-Even-Odd-in-golang/20210326/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Golang/Leetcode-concurrency-1117-Building-H2O-in-golang/20210329/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Golang/Leetcode-concurrency-1195-Fizz-Buzz-Multithreaded-in-golang/20210329/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Golang/Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang/20210329/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Golang/Leetcode-concurrency-in-golang%E7%B8%BD%E7%B5%90/20210330/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/MCP-Make-Me-Happy/20250406/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Golang/Make-SQL-Scan-result-be-map-in-golang/20210928/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Microservice/Make-any-Website-Authenticated/20230319/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Making-Debezium-2x-Support-Confluent-Schema-Registry/20230416/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Making-Gemini-a-Tarot-Master/20240331/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Master-Vibe-Coding-AI-Powered-Workflow/20250511/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Redis/Message-Queue-in-Redis-Part-2/20220619/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Microservice/Microservices-start-Here-Chassis-Pattern/20230212/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Redis/Message-Queue-in-Redis/20211118/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Misc/My-2022-Review-About-Data-Centric/20221229/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/NotebookLM-Saved-My-Life/20241027/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Elasticsearch/Optimizing-Elasticsearch-Reindex-without-Downtime/20231224/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/How-to-Learn-AI-from-Scratch/20250615/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Testing/How-to-Make-Example-based-Testing-Better/20230305/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/How-to-Make-a-Technical-Selection/20230122/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Database/How-to-Perform-ALTER-TABLE-on-Huge-Table/20240825/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/How-to-Prepare-a-Design-Review-Like-an-Expert/20220228/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/How-to-Read-Paper-Efficiently/20250601/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/MongoDB/How-to-choose-a-MongoDB-shard-key/20211024/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Database/How-to-avoid-the-race-condition-and-the-negative-value/20210721/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Misc/I-think-you-might-have-misunderstood-a-few-things/20260517/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Implement-Event-driven-Architecture-With-Minimal-Effort/20220220/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Microservice/Implementing-API-Versioning/20230806/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Interesting-so-weve-evolved-from-the-Agile-Manifesto-to-the-Agile-Vibe-Coding-Ma/20260321/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/Introducing-Decision-Making-Process/20230205/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/Introduction-to-Feature-Toggling-Types-Use-Cases-and-Implementation/20220403/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Is-AI-Killing-Traditional-Org-Structures/20251130/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Is-there-an-Alternative-to-Debezium-Kafka/20241103/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/JavaScript/JavaScript-Format-String/20180619/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Career/Journey-from-Software-Developer-to-Software-Architect/20211205/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Kafka-vs-RabbitMQ/20211019/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Handling-Stale-Sets-and-Thundering-Herds-of-Cache/20231022/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Hands-On-WrenAI-Review-Text-to-SQL-Powered-by-RAG/20250420/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/hexo/Hello-Hexo-with-Next/20230419/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Misc/Hello-Medium/20180613/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Hexagonal-Architecture-The-Best-AI-Vibe-Coding-Guide/20260301/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/How-Gen-AI-2x-My-Developer-Productivity/20251109/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum/20220206/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/How-Netflix-Handle-Hourly-Pipeline-Delay/20231129/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/How-SHOPLINE-Saves-40-Space-in-Main-Database-Part-2/20240922/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/How-SHOPLINE-Saves-40-Space-in-Main-Database/20240901/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/How-Shopify-Black-Friday-Cyber-Monday/20230421/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/How-Uber-Achieves-Excellence-Data-Quality/20230526/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/How-to-Design-Software-in-a-Clean-Architecture-Way/20220123/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Testing/How-to-Determine-API-Slow-Downs-Part-2/20240623/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Testing/How-to-Determine-API-Slow-Downs/20221211/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/How-to-Fix-the-AI-Vibe-in-Tech-RCAs/20260607/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Elasticsearch/Elasticsearch-Index-Lifecycle-Management-in-a-Nutshell/20240421/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Career/Engineer-Happiness-Matters/20221127/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Career/Engineering-Ladders/20230428/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG/20250316/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Evolutionary-Data-Infrastructure/20220925/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Evolutionary-from-Batching-to-Streaming/20221002/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Redis/Explain-Redlock-in-Depth/20220612/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Elasticsearch/Explaining-Pagination-in-ElasticSearch/20221218/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-1/20230625/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-2/20230702/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Misc/Game-Prototype/20180614/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Golang/Generating-Avro-Schemas-from-Go-types/20240114/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Getting-Started-with-Flink-SQL-Apache-Iceberg-and-DynamoDB-Catalog/20231217/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/GitHub-Copilot-Agent-A-Disappointing-Review/20250824/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Testing/Gitlab-CI-for-Node-Testing-and-Coverage/20220605/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/HTAP-Learning-from-Xiaohongshu-Medium/20230507/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/HTAP-learning-from-Xiaohongshu/20230505/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Consistency-between-Cache-and-Database-Part-2/20220710/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Context-Engineering-The-Next-Software-Paradigm-Shift/20250706/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/MongoDB/Data-Persistence-in-MongoDB/20211103/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Redis/Data-Persistence-in-Redis/20211031/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Data-Pipeline-From-ETL-to-EL-Plus-T/20230108/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Data-Silos-Understanding-Addressing-Integrating/20240512/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/Deconstructing-AB-Test/20241215/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Design-Distributed-Transaction-With-Practical-Examples/20220313/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Design-Pattern-of-Streaming-Enrichment/20220828/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Design-Patterns-of-Event-driven-Architecture-Part-2/20211026/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Design-Patterns-of-Event-driven-Architecture/20211014/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Microservice/Design-an-E-commerce-Website-From-a-High-level-Perspective/20220417/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/Diagram-as-Code-from-Mermaid-to-D2/20250427/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Distributed-Transaction-Introduction/20211001/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Microservice/Do-you-really-need-a-microservice/20220116/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Dockerize-Local-RAG-with-Models/20240915/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/MongoDB/Dont-be-Afraid-of-MongoDB-Cross-shard-Queries/20230813/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Testing/Boost-Microservice-Testing-with-DNS-Hijack/20250914/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Elasticsearch/Boosting-Elasticsearch-Cluster-Performance-3-Proven-Tips/20230521/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Elasticsearch/Boosting-Elasticsearch-Cluster-Performance/20230512/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/Build-Free-Web-Scrapers-with-GitHub-Actions/20260510/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/DevOps/Build-a-small-TA-Lib-container-image/20210221/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Building-Apache-Pinot-and-Presto/20221009/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch-Day-2/20220724/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch-Day-3/20220731/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch/20220717/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Building-a-SNOWPLOW-Playground/20230723/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Redis/Cardinality-Counting-in-Redis/20211212/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Claude-Code-to-Pi-A-5x-Cheaper-AI-Toolchain/20260628/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Claude-Code-to-Pi-Advanced-AI-Agent-Migration-Guide/20260719/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Claude-Code-vs-Copilot-My-2026-AI-Workflow/20260215/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/JavaScript/Client-side-L10n/20180626/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Combine-Domain-Driven-Design-and-Databases/20220626/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Consistency-between-Cache-and-Database-Part-1/20220703/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Golang/Common-interface-for-query-functions-in-sqlDB-and-sqlTx/20210930/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/100k-RPS-System-Design-The-Ultimate-Interview-Guide/20260315/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Misc/2021%E4%B8%8A%E5%8D%8A%E5%B9%B4%E5%BE%8C%E7%AB%AF%E5%85%A8%E7%AB%AF%E9%9D%A2%E8%A9%A6%E7%B6%93%E6%AD%B7/20210627/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/3-Dev-Tools-That-Transformed-My-Onboarding/20250720/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/AI-Agents-for-Complex-Codebase-Analysis/20250831/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/8-Ways-to-Crank-Up-Speed-in-Software-Development/20230927/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Accelerating-API-Responses-with-Smart-Architecture/20240310/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/AI/Abandoning-SDD-My-New-AI-Coding-Workflow/20251214/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Development/Agile-Evolution-Beyond-Methods/20231203/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Analyze-How-to-Scale-Web-Services-From-Various-Perspectives/20220529/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Another-Way-to-Design-Short-URL-Service/20230312/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Apache-Paimon-with-Flink-Trino-A-Streaming-Lakehouse-Playground/20241117/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/MongoDB/Archiving-MongoDB-Changes-to-AWS-S3/20220918/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Are-Design-Pattern-and-Clean-Code-Useful/20211219/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/MongoDB/Array-Operation-in-MongoDB/20211226/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Backfill-Streaming-Data-Pipelines-in-Kappa-Architecture/20240119/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Architecture/Balancing-Timeliness-and-Accuracy-in-Software-Architecture/20240505/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Data/Benchmarking-Lakehouse-with-TPC-DS/20250209/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Elasticsearch/Best-Practices-of-Using-ElasticSearch/20230604/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/Career/Books-that-Developers-Should-Read/20220306/</loc>
+    
+    <lastmod>2026-07-26</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -121,99 +1741,99 @@
 
   <url>
     <loc>https://wirelessr.github.io/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Netflix/</loc>
-    <lastmod>2024-01-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Data/</loc>
-    <lastmod>2024-01-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://wirelessr.github.io/tags/Architecture/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://wirelessr.github.io/tags/Elasticsearch/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://wirelessr.github.io/tags/Performance/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://wirelessr.github.io/tags/Database/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Netflix/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Data/</loc>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://wirelessr.github.io/tags/Staff/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://wirelessr.github.io/tags/Career/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://wirelessr.github.io/tags/TiDB/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://wirelessr.github.io/tags/Shopify/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://wirelessr.github.io/tags/Scalability/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://wirelessr.github.io/tags/Availability/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://wirelessr.github.io/tags/Uber/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -222,28 +1842,126 @@
   
   <url>
     <loc>https://wirelessr.github.io/categories/Architecture/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/Misc/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/Development/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/AI/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/Data/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/MongoDB/</loc>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://wirelessr.github.io/categories/Elasticsearch/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://wirelessr.github.io/categories/Career/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/Testing/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/DevOps/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/Ruby/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/Redis/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/JavaScript/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/Golang/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/Microservice/</loc>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://wirelessr.github.io/categories/hexo/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/Database/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/categories/Python/</loc>
+    <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

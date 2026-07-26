@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Message Queue in Redis, Part 2 A while ago, I mentioned that I’m in a budget-constrained organization, so we can’t afford to use a true message queue. Instead, we have chosen to use a second-best appr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Message Queue in Redis, Part 2">
+<meta property="og:url" content="https://wirelessr.github.io/Redis/Message-Queue-in-Redis-Part-2/20220619/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Message Queue in Redis, Part 2 A while ago, I mentioned that I’m in a budget-constrained organization, so we can’t afford to use a true message queue. Instead, we have chosen to use a second-best appr">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*wzEJNGsUN1hOnCvp.jpg">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*R2ImsAsRSRFm0ixO.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*yauK1vgMO0y-BLRU.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*6AmYB1IKIkF7zya0.png">
+<meta property="article:published_time" content="2022-06-19T17:26:55.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.826Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*wzEJNGsUN1hOnCvp.jpg">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Redis/Message-Queue-in-Redis-Part-2/20220619/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Redis/Message-Queue-in-Redis-Part-2/20220619/","path":"Redis/Message-Queue-in-Redis-Part-2/20220619/","title":"Message Queue in Redis, Part 2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Message Queue in Redis, Part 2 | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Message-Queue-in-Redis-Part-2"><span class="nav-number">1.</span> <span class="nav-text">Message Queue in Redis, Part 2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bull-js"><span class="nav-number">2.</span> <span class="nav-text">Bull.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis-Cluster"><span class="nav-number">3.</span> <span class="nav-text">Redis Cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Leakage"><span class="nav-number">4.</span> <span class="nav-text">Memory Leakage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">5.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Message-Queue-in-Redis-Part-2/20220619/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Message Queue in Redis, Part 2 | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Message Queue in Redis, Part 2
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-06-20 01:26:55" itemprop="dateCreated datePublished" datetime="2022-06-20T01:26:55+08:00">2022-06-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Message-Queue-in-Redis-Part-2"><a href="#Message-Queue-in-Redis-Part-2" class="headerlink" title="Message Queue in Redis, Part 2"></a>Message Queue in Redis, Part 2</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*wzEJNGsUN1hOnCvp.jpg"></p>
+<p>A while ago, I mentioned that I’m in a budget-constrained organization, so we can’t afford to use a true message queue. Instead, we have chosen to use a second-best approach to meet our immediate needs and a simple solution to implement, using Redis.</p>
+<p>Nevertheless, there are still <a target="_blank" rel="noopener" href="https://selectfrom.dev/message-queue-in-redis-9efe0de2c39c">many different ways to implement</a> Redis as a message broker. At that time, we chose the option which was the fastest to get up and running with the least implementation effort: lists. However, as the system evolved and new feature requests were made, the original solution no longer worked.</p>
+<p>The advantages of the list are</p>
+<ol>
+<li>easy to implement</li>
+<li>support for consumer groups</li>
+<li>the ability to decouple producers and consumers</li>
+</ol>
+<p>The disadvantages are also obvious.</p>
+<ul>
+<li>At-most-once guarantee</li>
+</ul>
+<p>Now, we need <em>at-least-once guarantee</em>, and lists don’t cover this need. The <em>Redis Stream</em> mentioned in the previous article was not adopted because of the large implementation effort. So we started looking for a new alternative.</p>
+<h3 id="Bull-js"><a href="#Bull-js" class="headerlink" title="Bull.js"></a><a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull">Bull.js</a></h3><p>After some comparisons, we finally chose <em>Bull.js</em>.</p>
+<p>The reasons are as follows.</p>
+<ol>
+<li>support <em>at-least-once guarantee</em>.</li>
+<li>it has a lower implementation effort and provides many monitoring tools, e.g., <a target="_blank" rel="noopener" href="https://github.com/UpHabit/bull_exporter">Bull Exporter</a>.</li>
+<li>full-featured, including retry, time delay, etc.</li>
+<li>even support rate limit.</li>
+</ol>
+<p>However, in the working process, I have to say that the official document is not detailed enough and it took us some time to try it successfully. In this article I will show the two most important issues we encountered and explain the solutions.</p>
+<h3 id="Redis-Cluster"><a href="#Redis-Cluster" class="headerlink" title="Redis Cluster"></a>Redis Cluster</h3><p><em>Bull</em> is supported for Redis clusters. Unfortunately, the description is scattered in several places in the document.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queue">Queue Constructor</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/PATTERNS.md#redis-cluster">Redis Cluster Config</a></li>
+</ul>
+<p>First, the description from the constructor’s document needs to provide the parameter <code>createClient</code>, and the rule is</p>
+<blockquote>
+<p><em>(type: ‘client’ | ‘subscriber’ | ‘bclient’, config?: Redis.RedisOptions): Redis.Redis | Redis.Cluster;</em></p>
+</blockquote>
+<p><code>Redis.Redis</code> and <code>Redis.Cluster</code> at the end of the rule actually refer to the <a target="_blank" rel="noopener" href="https://github.com/luin/ioredis">ioredis</a> constructors, so to set them up, we must use the ioredis constructors.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const Redis = require(&quot;ioredis&quot;);  </span><br><span class="line">Redis.Redis  </span><br><span class="line">Redis.Cluster</span><br></pre></td></tr></table></figure>
+
+<p>Even so, I don’t understand what kind of format <code>createClient</code> needs to provide, is it an object? What are the keys to <code>Redis.Redis</code> and <code>Redis.Cluster</code>?</p>
+<p>Finally, I found out from another section of the document, <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/PATTERNS.md#reusing-redis-connections">Reusing Redis Connections</a> I realized that it was a function. Anyway, put the pieces together.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const Redis = require(&#x27;ioredis&#x27;);  </span><br><span class="line">let client;  </span><br><span class="line">let subscriber;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const opts = &#123;  </span><br><span class="line">  // redisOpts here will contain at least a property of connectionName which will identify the queue based on its name  </span><br><span class="line">  createClient: function (type, redisOpts) &#123;  </span><br><span class="line">    switch (type) &#123;  </span><br><span class="line">      case &#x27;client&#x27;:  </span><br><span class="line">        if (!client) &#123;  </span><br><span class="line">          client = new Redis.Cluster(REDIS_URL, redisOpts);  </span><br><span class="line">        &#125;  </span><br><span class="line">        return client;  </span><br><span class="line">      case &#x27;subscriber&#x27;:  </span><br><span class="line">        if (!subscriber) &#123;  </span><br><span class="line">          subscriber = new Redis.Cluster(REDIS_URL, redisOpts);  </span><br><span class="line">        &#125;  </span><br><span class="line">        return subscriber;  </span><br><span class="line">      case &#x27;bclient&#x27;:  </span><br><span class="line">        return new Redis.Cluster(REDIS_URL, redisOpts);  </span><br><span class="line">      default:  </span><br><span class="line">        throw new Error(&#x27;Unexpected connection type: &#x27;, type);  </span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;,  </span><br><span class="line">  prefix: &#x27;&#123;myprefix&#125;&#x27;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const queueFoo = new Queue(&#x27;foobar&#x27;, opts);</span><br></pre></td></tr></table></figure>
+
+<p>In this way, Redis clusters can be used as brokers.</p>
+<h3 id="Memory-Leakage"><a href="#Memory-Leakage" class="headerlink" title="Memory Leakage"></a>Memory Leakage</h3><p>Once we got over the cluster issue, we pulled <em>Bull</em> online and started testing. Then we ran into a serious problem where the underlying Redis started leaking memory.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*R2ImsAsRSRFm0ixO.png"></p>
+<p>As you can see from the figure, Redis memory usage has been skyrocketing since it was enabled.</p>
+<p>So we took a closer look at the document to find out what we missed, and finally found a hint in the <a target="_blank" rel="noopener" href="https://optimalbits.github.io/bull/">tutorial</a>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*yauK1vgMO0y-BLRU.png"></p>
+<p>A job begins as <code>Job Added</code> and ends up as <code>Job Finished</code>, regardless of whether it succeeds or fails. In other words, as soon as the job enters Redis, it stays there, regardless of whether it succeeds or fails. How do we solve this?</p>
+<p>Specify the parameters <code>removeOnComplete</code> and <code>removeOnFail</code> in <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueadd">add</a> to ensure jobs do not stay in the last finish state. I believe that <code>removeOnComplete</code> can definitely be set, but <code>removeOnFail</code> depends on the needs of each user, e.g., whether they want a failure count, whether they want a manual recovery from failure, etc. In our case, we don’t need to keep the job even if it fails, so both parameters are <code>true</code>.</p>
+<p>What about the jobs left online? <em>Bull</em> also provides a way to <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueclean">clean jobs</a>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//cleans all jobs that completed over 5 seconds ago.  </span><br><span class="line">await queue.clean(5000);  </span><br><span class="line">//clean all jobs that failed over 10 seconds ago.  </span><br><span class="line">await queue.clean(10000, &#x27;failed&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>After running online, you will see an extremely significant drop in usage.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*6AmYB1IKIkF7zya0.png"></p>
+<p>The first half remains horizontal because we have already added <code>removeOnComplete</code> and <code>removeOnFail</code>, so no more increases are made. The vertical line in the middle is the process of <code>clean</code>.</p>
+<p>It is worth mentioned that the <code>clean</code> process locks the entire message queue, so it may affect the online functions and is not recommended to perform it under production environment. The duration of the lock depends on the number of jobs to be cleaned.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>I always talked about the evolution of systems. As you should have noticed from my previous articles, in a limited organization, we do not always have enough manpower, budget or even knowledge to build the perfect system, or to be more precise, no system is perfect.</p>
+<p>Every time we design a system, we choose the relatively acceptable solution among many factors, which means we have to face the potential problems. For me, I always take the most achievable implementation, but with the understanding that such choices are not static and retain the flexibility to meet future requirements.</p>
+<p>For many people, the replacement of the message queue is a very huge exercise. But for my organization, it’s a simple implementation by a few people, and then it’s done. The reason why I always mention domain-driven design and decoupling is to make it easier to do system evolution when needed.</p>
+<p><em>Bull</em> currently meets all of our needs, is reliable enough, and even offers a monitoring solution. I believe we will probably be able to stop worrying about message queues for a long time.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/message-queue-in-redis-part-2-61c0d22735fe">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Redis/Explain-Redlock-in-Depth/20220612/" rel="prev" title="Explain Redlock in Depth">
+                  <i class="fa fa-chevron-left"></i> Explain Redlock in Depth
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Architecture/Combine-Domain-Driven-Design-and-Databases/20220626/" rel="next" title="Combine Domain-Driven Design and Databases">
+                  Combine Domain-Driven Design and Databases <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

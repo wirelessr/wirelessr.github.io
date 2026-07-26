@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="How Kanban Works and Why I Prefer It Over ScrumImprove work productivity by using Agile development We have talked about using trunk-based development to improve software development productivity. In">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How Kanban Works and Why I Prefer It Over Scrum">
+<meta property="og:url" content="https://wirelessr.github.io/Development/How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum/20220206/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="How Kanban Works and Why I Prefer It Over ScrumImprove work productivity by using Agile development We have talked about using trunk-based development to improve software development productivity. In">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*YYnxYV9xvzWkFkwd">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*JXSc23QMyPMqu92dBPKZvg.png">
+<meta property="article:published_time" content="2022-02-06T17:19:06.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.824Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*YYnxYV9xvzWkFkwd">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Development/How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum/20220206/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Development/How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum/20220206/","path":"Development/How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum/20220206/","title":"How Kanban Works and Why I Prefer It Over Scrum"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>How Kanban Works and Why I Prefer It Over Scrum | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum"><span class="nav-number">1.</span> <span class="nav-text">How Kanban Works and Why I Prefer It Over Scrum</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Improve-work-productivity-by-using-Agile-development"><span class="nav-number">1.1.</span> <span class="nav-text">Improve work productivity by using Agile development</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-not-Waterfall"><span class="nav-number">2.</span> <span class="nav-text">Why not Waterfall?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scrum"><span class="nav-number">3.</span> <span class="nav-text">Scrum</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kanban"><span class="nav-number">4.</span> <span class="nav-text">Kanban</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Objective"><span class="nav-number">5.</span> <span class="nav-text">Objective</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Keys"><span class="nav-number">6.</span> <span class="nav-text">Keys</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Working-Flow"><span class="nav-number">7.</span> <span class="nav-text">Working Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-do-I-Prefer-Kanban"><span class="nav-number">8.</span> <span class="nav-text">Why do I Prefer Kanban?</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum/20220206/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="How Kanban Works and Why I Prefer It Over Scrum | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          How Kanban Works and Why I Prefer It Over Scrum
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-02-07 01:19:06" itemprop="dateCreated datePublished" datetime="2022-02-07T01:19:06+08:00">2022-02-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum"><a href="#How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum" class="headerlink" title="How Kanban Works and Why I Prefer It Over Scrum"></a>How Kanban Works and Why I Prefer It Over Scrum</h3><h4 id="Improve-work-productivity-by-using-Agile-development"><a href="#Improve-work-productivity-by-using-Agile-development" class="headerlink" title="Improve work productivity by using Agile development"></a>Improve work productivity by using Agile development</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*YYnxYV9xvzWkFkwd"></p>
+<p>We have talked about using <a target="_blank" rel="noopener" href="https://lazypro.medium.com/trunk-based-development-can-help-4bb425595c00">trunk-based development</a> to improve software development productivity. In fact, to dramatically increase productivity, you must apply multiple methods, which is why there are so many agile methodologies, two of which are well-known agile methods: Scrum and Kanban.</p>
+<p>Scrum is currently the most used by most organizations. Nevertheless, it is not easy to use Scrum well. In the many agile methodologies, Scrum is the most variant, and it can be said that there are a hundred Scrum practices in a hundred organizations.</p>
+<p>This is because the original Scrum has many “rules”, which cannot perfectly match the existing organizational structure of each organization. According to <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Conway%27s_law">Conway’s law</a>, most software architectures are closely related to organizational structures, resulting in various agile methods that can only provide the prototype and cannot be applied entirely.</p>
+<p>This article will briefly introduce the purpose of the agile method and Scrum, as well as the problems encountered by running Scrum, and then describe the main topic: Kanban.</p>
+<h3 id="Why-not-Waterfall"><a href="#Why-not-Waterfall" class="headerlink" title="Why not Waterfall?"></a>Why not Waterfall?</h3><blockquote>
+<p><em>Why do we need agile methods?<br>What exactly needs to be agile?</em></p>
+</blockquote>
+<p>First, let’s define what agile is.</p>
+<p>The purpose of agile is to generate value “faster”. So, what is the value? Frankly speaking, it is something that can make money. In other words, it usually exists in the form of features on a product. That is to say, only when the feature or product is delivered to the customer can generate the real value, and the purpose of agile development is to accelerate the delivery of this value stream.</p>
+<p>When we evaluate the delivery speed of the value stream, one indicator is usually used: lead time. The entire time from a feature request is generated to the requirement is actually delivered to the customer is called lead time.</p>
+<p>Under traditional waterfall development, this lead time can take several months, which doesn’t sound agile at all. Moreover, if this requirement is implemented halfway, it turns out that this is not what the customer wants, then all the resources invested are wasted.</p>
+<p>Therefore, modern software development focuses on dividing requirements into small pieces, and each small pieces has its own value. By continuously delivering these small values, the product iteration cycle can be faster.</p>
+<h3 id="Scrum"><a href="#Scrum" class="headerlink" title="Scrum"></a>Scrum</h3><p>I believe most of you have heard or even experienced the Scrum development process. From the conclusion of the previous section, we can know the core spirit of Scrum is to decompose large requirements into small requirements through a preset short cycle: Sprint. And, each small requirement is mapped in the form of a user story. It is important to have deliverable outputs at the end of each Sprint.</p>
+<p>There are three roles in Scrum.</p>
+<ol>
+<li>Product Owner: Obviously, this role is the owner of the product . He is like the traditional PM and sales, as a gateway between the development team and the customer, to find out what the customer desires.</li>
+<li>Scrum Master: The person, who is the most familiar with the Scrum process in the Scrum team, is responsible for hosting every “Scrum-defined” event, and must also act as the coordinator of product requirements and the development teams.</li>
+<li>Functional Teams: This role represents the development teams, the people who implement the product requirements. There are many different divisions depending on the team size and nature of the teams, such as frontend, backend, QA, etc.</li>
+</ol>
+<p>A Sprint consists of several different events.</p>
+<ol>
+<li>Planning: This event is used to decide what requirements should be taken in this Sprint. At this stage, each small requirement is usually made into a card with its cost points. Each fixed Sprint is equipped with a fixed number of points, that is to say, in this cycle, which tasks should be completed according to the number of points and priorities.</li>
+<li>Developing: After each member receives the assigned card, they start to work.</li>
+<li>Retroactive: At the end of Sprint, review the status of everyone’s cards and ensure the value that this Sprint can deliver, as well as review the performance of this Sprint.</li>
+</ol>
+<p>The above description briefly describes a complete Scrum development process. As far as we know, Scrum is complex, there are many dedicated roles and events, and there are many overheads for Scrum. Taking the team I used to work for as an example, Planning will take half a day, and Retroactive will also take half a day, plus there are regular meetings such as stand-up in the morning, the basic expenses alone can take two working days.</p>
+<p>In addition, estimating the number of points is also an imprecise practice. Who should set the price? Who will assign it? How much points can a cycle handle? It takes a long time to get used to each other before we can gradually get on the right way.</p>
+<p>Furthermore, how should the allocation of roles be configured? Each organization usually already has a basic organizational structure, and it is extremely difficult to extract roles that can adapt to Scrum.</p>
+<p>All of the above situations are even worse if there are several parallel Scrums. Especially when someone is in multiple Scrum teams, regular meetings can take up most of the time.</p>
+<h3 id="Kanban"><a href="#Kanban" class="headerlink" title="Kanban"></a>Kanban</h3><p>To sum up, Scrum is not efficient for small teams. Therefore, the teams I lead use another agile method: Kanban.</p>
+<p>Compared with Scrum, Kanban is used by fewer teams. The main reason is that most teams don’t use Kanban correctly and thus don’t see the benefits of Kanban. Most people just plan the various stages of the Kanban board, and then place the cards on the lanes like Scrum, and then move them through stage by stage. In the end, they didn’t get any benefit, just using Kanban in form, and then going back to Scrum, after all, the card making method is the same.</p>
+<p>Because of this, in this section I will first introduce the purpose of Kanban, then explain the key to using Kanban, and finally describe the development process of Kanban.</p>
+<h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*JXSc23QMyPMqu92dBPKZvg.png"></p>
+<p>Kanban is just like its appearance, it is actually a view of the value stream, and each stage of the value stream should be presented in Kanban. Assuming that your organization’s development process is, analysis, design, implementation, testing, and release, then there should be five stages on the Kanban board.</p>
+<p>As mentioned in the first section, the agile method is to accelerate the value stream; therefore, Kanban presents the entire value stream in a concrete way, and can also see the spending time of each task. When there is a card that cannot move to the next stage for a long time, it means that there is a problem, and the task status should be checked immediately and appropriate measures should be taken right away.</p>
+<p>For example, If the task content covered by the card is too large, the card should be divided into two immediately. And, let someone take over the small cards that are divided out. By checking the status of each card, the delivery of value can be accelerated.</p>
+<h3 id="Keys"><a href="#Keys" class="headerlink" title="Keys"></a>Keys</h3><p>There are only three key points to using Kanban correctly without any defined events.</p>
+<ol>
+<li>Cards can only be moved backward, not forward. Each stage of Kanban represents the stage of the value stream. Like the flow of water, water only flows down, and value only flows up to the customer. For instance, suppose one of the stages is development and the other is testing, even if a bug is found during testing, the card will not go back to development, instead, it should remain in testing.</li>
+<li>Define the Definition of Done (DoD): DoD is important for Kanban, what conditions must be met to go from one stage to the next is about quality. Taking development and testing as an example again, if the condition of DoD is that the unit test coverage reaches 80%, the card cannot enter the testing phase until this condition is met. On the other hand, it is also important to define a “measurable” DoD. It is recommended to turn the DoD of each stage into a checklist, which can make sure that every card movement is compliant and qualified.</li>
+<li>Determine Work-in-Progress (WIP): WIP is arguably the most important concept of using Kanban. Each stage must define its WIP, that is, the maximum number of cards that can be accepted. If the WIP of the next stage is full, even if the DoD has been completed, the card still cannot move to the next stage. The purpose of WIP is to be able to see at a glance where the value stream is stuck. As mentioned in the previous section, once a value stream gets stuck, immediate action must be taken. How do you know it’s stuck? The spending time of a certain card is an indicator, but when the number of cards is large, this indicator is easily ignored. Therefore, WIP is a more effective enforcement measure, as long as you see that the WIP is full and the card is forced to wait, then there is something blocking.</li>
+</ol>
+<h3 id="Working-Flow"><a href="#Working-Flow" class="headerlink" title="Working Flow"></a>Working Flow</h3><p>In this section, I will explain how my team uses Kanban. First of all, the Kanban boards we used are: open, to-do, design, develop, test, released, and closed.</p>
+<ul>
+<li>Open: All the feature requirements will be placed here after they are issued. At this time, the content of this card will be huge, and the time-consuming and so on are not estimated.</li>
+<li>To-do: According to the priority, the cards are taken out from the open, evaluated and split, and a large card will be split into several small cards and put into to-do. The working time per card is about 1–2 weeks. The WIP of the to-do will be set slightly larger, which represents the capacity of my team. We will queue up to do it. If the to-do is full, it means that my team has currently exceeded the load.</li>
+<li>Design: In the to-do stage, the due date of each card should be planned, and the design stage will further determine the spending time of the card in each stage. If it gets stuck on a stage in the future, it means that something is wrong. The DoD in the design stage is to produce the design documents included in the user story and use cases mentioned in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">my previous article</a>.</li>
+<li>Develop: After entering the development stage, it is the time for the feature development. At this time, the focus is whether the expected time and WIP are exceeded. WIP is defined here as roughly twice the size of the team. As for DoD, the unit test is completed, and the integration test on the local environment must be passed.</li>
+<li>Test: Cards in this stage have actually deployed to the staging or pre-production environment. Due to <a target="_blank" rel="noopener" href="https://lazypro.medium.com/trunk-based-development-can-help-4bb425595c00">trunk-based development</a>, every code commits into the trunk, and each test environment is released from the trunk. It is tested by QA in a pre-production environment, and after completion, it is ready to the release stage.</li>
+<li>Released: The feature has deployed to the production environment. At this stage, we will pay attention to a period of time to clarify whether the feature is working properly, and the time is DoD. If the observation time is satisfied, the card will enter the final stage: closed.</li>
+<li>Closed: Features in this stage are basically working normally, and every once in a while we will review the number of deliveries as our performance and then achieve.</li>
+</ul>
+<h3 id="Why-do-I-Prefer-Kanban"><a href="#Why-do-I-Prefer-Kanban" class="headerlink" title="Why do I Prefer Kanban?"></a>Why do I Prefer Kanban?</h3><p>As you know from the description in previous sections, the use of Kanban is flexible and can be easily applied regardless of the organizational structure. There will be no fixed regular meetings and no dedicated roles, and everyone can still develop like before. The Kanban board is just a visual tool that provides managers with an intuitive view of the progress of the work.</p>
+<p>The whole Kanban approach has no complicated rules, just the value stream, DoD, and WIP defined by each organization based on their existed working processes. By mastering the purpose and principles of Kanban, it is easy for organizations to implement their own customizations on Kanban, which is also the benefit of Kanban.</p>
+<p>As a leader experienced with Scrum and Kanban, I will continue to lead my team with the Kanban method in the future. After all, meetings are such a waste of time.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/improve-the-productivity-by-using-agile-development-778c7f069c6a">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/" rel="prev" title="Designing Software Using Clean Architecture: Domain-Driven Design">
+                  <i class="fa fa-chevron-left"></i> Designing Software Using Clean Architecture: Domain-Driven Design
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Architecture/Understand-Temporal-Coupling-in-Code/20220213/" rel="next" title="Understand Temporal Coupling in Code">
+                  Understand Temporal Coupling in Code <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

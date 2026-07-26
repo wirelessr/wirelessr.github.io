@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Explained with a code sample This article is the last of this series. We have already described the problem encountered in data-oriented design. In this article, we will introduce a better way to tack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Designing Software Using Clean Architecture: Domain-Driven Design">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Explained with a code sample This article is the last of this series. We have already described the problem encountered in data-oriented design. In this article, we will introduce a better way to tack">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*M0ppuIun1CRj3WJX">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*xAqzUzJ40tAvdG2Q.jpg">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*WtFC6OlXrCqrmlsffaYV4g.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*7Ayrd6xhBnn8UefYeG6oQg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*zIdOV_9FZ1y1PUF4-IDhyw.png">
+<meta property="article:published_time" content="2022-01-30T16:38:31.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.822Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*M0ppuIun1CRj3WJX">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/","path":"Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/","title":"Designing Software Using Clean Architecture: Domain-Driven Design"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Designing Software Using Clean Architecture: Domain-Driven Design | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Explained-with-a-code-sample"><span class="nav-number">1.</span> <span class="nav-text">Explained with a code sample</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Domain-driven-Design"><span class="nav-number"></span> <span class="nav-text">Domain-driven Design</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discover-user-stories"><span class="nav-number"></span> <span class="nav-text">Discover user stories</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Design-use-cases"><span class="nav-number"></span> <span class="nav-text">Design use cases</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-domain-objects"><span class="nav-number"></span> <span class="nav-text">Model domain objects</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Implement-unit-tests"><span class="nav-number"></span> <span class="nav-text">Implement unit tests</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Code"><span class="nav-number"></span> <span class="nav-text">Code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary-of-Domain-driven-Design"><span class="nav-number"></span> <span class="nav-text">Summary of Domain-driven Design</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Designing Software Using Clean Architecture: Domain-Driven Design | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Designing Software Using Clean Architecture: Domain-Driven Design
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-01-31 00:38:31" itemprop="dateCreated datePublished" datetime="2022-01-31T00:38:31+08:00">2022-01-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Explained-with-a-code-sample"><a href="#Explained-with-a-code-sample" class="headerlink" title="Explained with a code sample"></a>Explained with a code sample</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*M0ppuIun1CRj3WJX"></p>
+<p>This article is the last of this series. We have already described the problem encountered in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">data-oriented design</a>. In this article, we will introduce a better way to tackle a feature requirement.</p>
+<p>We continue the previous example, a sign-in mission, and try a different design flow. Before we start, let’s review the onion architecture again.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*xAqzUzJ40tAvdG2Q.jpg"></p>
+<p>In order to make it easier to understand the process to be introduced later, let’s first define several important legends of this diagram.</p>
+<ul>
+<li>Entity: In clean architecture, entity means the business logic. Different from the entity in domain-driven design, the entity here can be realized as the domain in domain-driven design.</li>
+<li>Use cases: With the domain, the outer layer is use cases, which refers to clients who use domain knowledge to fulfill specific needs. In domain-driven design, it is also known as the domain service.</li>
+<li>Controller: The Controller is quite simple. It is responsible for managing the ingress and egress of the entire domain, including input checking, and converting domain knowledge into a data structure that is presented on the client side.</li>
+<li>DB: The outermost layer is the external dependencies of the system, including the database.</li>
+<li>Arrows: The arrow pointing from the outside to the inside is a reference. The outer module can reference the inner module, but it cannot be referenced from the inside to the outside.</li>
+</ul>
+<p>According to this description, we can know that the order of design should be from the inside to the outside. After the inner layer is established, and then it is able to be referenced by the outer layer. In other words, to complete a design in a clean architecture way, the domain behavior must be defined first, and the database design should be the last. This is the exact opposite of data-oriented design.</p>
+<h3 id="Domain-driven-Design"><a href="#Domain-driven-Design" class="headerlink" title="Domain-driven Design"></a>Domain-driven Design</h3><p>Before starting the actual design, let me explain my usual design process, which also echos the onion architecture.</p>
+<ol>
+<li>Discover user stories (entities)</li>
+<li>Design use cases</li>
+<li>Model domain objects</li>
+<li>Implement unit tests</li>
+<li>Code</li>
+</ol>
+<p>In later sections, I will also design with this process. The problem we want to solve is to build a sign-in mission mentioned earlier.</p>
+<h3 id="Discover-user-stories"><a href="#Discover-user-stories" class="headerlink" title="Discover user stories"></a>Discover user stories</h3><p>To start a design, we must be able to understand the whole picture of the entire requirement, and user stories are a language that can describe the requirements. In our needs this time, the stories are similar to the following.</p>
+<ol>
+<li>Get corresponding rewards when you sign in consecutively.</li>
+<li>Display the sign-in status and received rewards for this cycle.</li>
+<li>Get 100 diamonds when opening the gift box.</li>
+</ol>
+<p>We convert the descriptions in the requirements document into semantics that developers can understand through an ubiquitous language. With any requirement, there must be a story behind it, and the designer’s job is to discover those stories. On the other hand, for the developers, they implement those stories in coding.</p>
+<h3 id="Design-use-cases"><a href="#Design-use-cases" class="headerlink" title="Design use cases"></a>Design use cases</h3><p>With the story, then we need design the use cases that the story faces. Unlike a story, a use case refers to the outcome of a given user scenario. For example:</p>
+<ol>
+<li>Sign in: When a user signs in for four consecutive days, the first sign-in on the fifth day can get 30 diamonds and a gift box. But the second sign-in got nothing.</li>
+<li>Open the gift box: When opening the gift box, you can get 100 diamonds, but it cannot be opened again.</li>
+</ol>
+<p>From the above description, use cases are actually an extension of user stories and describe details that are not defined in the story. Therefore, from the use cases, we can draw a flowchart to explain the whole user scenario in detail. Let’s take sign-in as an example with a flowchart.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*WtFC6OlXrCqrmlsffaYV4g.png"></p>
+<p>Starting from the top starting point, it is the moment when the sign-in action occurs, so it is represented by <code>SignIn: now</code>. Next, we need to know how long is the difference between this sign-in and the “last sign-in” in days. If it is 0 days, it means that you have already signed in, and there is no reward to get. Or the difference is greater than 1, indicating that the sign-in is not continuous this time, and the entire cycle needs to be reset. In case of 1 exactly, it is continuous sign-in, thus the continuous date is incremented, and the current time is recorded.</p>
+<p>Finally, check the table according to the number of consecutive days to know how many rewards you will get.</p>
+<p>It is also easy to display how many consecutive days you have signed in. Suppose we use list to represent the signed-in records.</p>
+<ul>
+<li>Only sign in for one day: <code>[1, 0, 0, 0, 0, 0, 0]</code></li>
+<li>Sign in for three consecutive days: <code>[1, 1, 1, 0, 0, 0, 0]</code></li>
+</ul>
+<p>Therefore, we can know how many <code>1</code> to insert to the list from <code>counter</code>.</p>
+<p>The flow of opening the gift box is similar, so I won’t explain too much here. The final code will include opening the gift box.</p>
+<h3 id="Model-domain-objects"><a href="#Model-domain-objects" class="headerlink" title="Model domain objects"></a>Model domain objects</h3><p>From the use cases we can know that we will need two very important variables: <code>counter</code> and <code>last</code>. In fact, the rest of the state is determined by these two variables, so we can start modeling.</p>
+<p>In order to describe the entire sign-in mission, I believe that each user will have its own state, so we encapsulate the user state into a domain object called <code>SignInRepo</code>. The Repository in <code>DDD</code> is used here. Then with the user state, we can describe the whole story. There are two actions in the story, <code>signIn</code> and <code>getTimeline</code>, which represent story 1 and story 2 respectively.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7Ayrd6xhBnn8UefYeG6oQg.png"></p>
+<p>Because <code>SignInRepo</code> is defined on the basis of use cases, it is part of the entity in the onion architecture. According to the flowchart, it has two private variables and two public methods. The reason why <code>update</code> has a parameter is that we can see from the flowchart that we only have one operation <code>counter++, set last=now</code>, and <code>now</code> must be passed in from the outside. As for <code>SignInService</code>, it can be known from the name that it belongs to the domain service.</p>
+<p>Once we have domain objects, we can start developing in test-driven development, TDD.</p>
+<h3 id="Implement-unit-tests"><a href="#Implement-unit-tests" class="headerlink" title="Implement unit tests"></a>Implement unit tests</h3><p>In the development process of TDD, we write the corresponding tests according to our user stories at first, and then the actual coding is carried out. Hence, in this section, we’ll explain how to write unit tests with our defined stories and models. Let’s take a regular story as an example, suppose we’ve signed in for six days continuously, and on the seventh day, we’ll get 100 diamonds and a gift box.</p>
+<p>First, write a test based on our story.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">describe(&quot;step1&quot;, () =&gt; &#123;  </span><br><span class="line">  it(&quot;continuous 6d and signin 7th day&quot;, () =&gt; &#123;  </span><br><span class="line">    const user = &quot;User A&quot;;  </span><br><span class="line">    const now = &quot;2022-01-07 1:11:11&quot;;  </span><br><span class="line">    const service = new SignInService(user);  </span><br><span class="line">      </span><br><span class="line">    const timeline1 = service.getTimeline();  </span><br><span class="line">    expect(timeline1).to.deep.equal([1, 1, 1, 1, 1, 1, 0]);  </span><br><span class="line">      </span><br><span class="line">    const result = service.signIn(now);  </span><br><span class="line">    expect(result).to.be.equal(100);  </span><br><span class="line">      </span><br><span class="line">    const timeline2 = service.getTimeline();  </span><br><span class="line">    expect(timeline2).to.deep.equal([1, 1, 1, 1, 1, 1, 1]);  </span><br><span class="line">        </span><br><span class="line">    const result = service.signIn(now);  </span><br><span class="line">    expect(result).to.be.equal(0);  </span><br><span class="line">  &#125;);  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>One of the stories is briefly described above, there is a user, A, who has signed in for six consecutive days, and when he signs in at <code>2022-01-07 1:11:11</code>, it is the seventh day to sign in. He gets 100 diamonds as our expectation.</p>
+<p>But such a story is not complete, because six consecutive sign-ins have not been defined. So let’s modify the test a bit.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">describe(&quot;step2&quot;, () =&gt; &#123;  </span><br><span class="line">  it(&quot;continuous 6d and signin 7th day&quot;, () =&gt; &#123;  </span><br><span class="line">    const user = &quot;User A&quot;;  </span><br><span class="line">    const now = &quot;2022-01-07 1:11:11&quot;;  </span><br><span class="line">    const repo = new SignInRepo(user);  </span><br><span class="line">    repo.restoreSingInRecord(6, &quot;2022-01-06 5:55:55&quot;);  </span><br><span class="line">    const service = new SignInService(repo);  </span><br><span class="line">  </span><br><span class="line">    const timeline1 = service.getTimeline();  </span><br><span class="line">    expect(timeline1).to.deep.equal([1, 1, 1, 1, 1, 1, 0]);  </span><br><span class="line">      </span><br><span class="line">    const result = service.signIn(now);  </span><br><span class="line">    expect(result).to.be.equal(100);  </span><br><span class="line">      </span><br><span class="line">    const timeline2 = service.getTimeline();  </span><br><span class="line">    expect(timeline2).to.deep.equal([1, 1, 1, 1, 1, 1, 1]);  </span><br><span class="line">        </span><br><span class="line">    const result = service.signIn(now);  </span><br><span class="line">    expect(result).to.be.equal(0);  </span><br><span class="line">  &#125;);  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>In order to restore the entire use cases, we newly defined a repo and added an auxiliary method: <code>restoreSingInRecord</code>. This helper can also be used as an interface to retrieve values from the database in future implementations. Subsequently, such a story is complete and can begin to go into the production code.</p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p>In the previous section, we have a complete unit test, and then start implementing <code>SignInRepo</code> and <code>SignInService</code>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*zIdOV_9FZ1y1PUF4-IDhyw.png"></p>
+<p><code>SignInRepo</code> is easy to implement when there is no database, just follow the flowchart to finish <code>update</code> and <code>reset</code>. <code>SignInService</code> is totally implemented in accordance with the use cases, and the flowchart is converted into the actual code.</p>
+<p>In this way, this requirement is half completed, and the remaining process of opening the gift box is basically the same, so I will just post the final result. The full implementation can be seen as follows.</p>
+<h3 id="Summary-of-Domain-driven-Design"><a href="#Summary-of-Domain-driven-Design" class="headerlink" title="Summary of Domain-driven Design"></a>Summary of Domain-driven Design</h3><p>In fact, the above implementation just borrows some DDD terminologies, and does not fully implement DDD’s “prescriptions”. From my point of view, DDD provides a concept that enables people to know the importance of the domain and has the ability to abstract the domain.</p>
+<p>That is to say, it is up to you whether to follow the textbook to implement Entity, Value Object, Aggregate, and Repository or not. It needn’t implement in DDD by following the textbook approach. The implementation depends on the proficiency and understanding of needs.</p>
+<p>In this article, a standard design process is provided, so that everyone can disassemble the original requirements and convert them into models with domain knowledge by following this process.</p>
+<p>The process of implementing the model, it begins with the corresponding tests to achieve test-driven development.</p>
+<p>Of course, in the real world, it is not as simple as the example in this article. But the design process is the same, starting from the story, defining the use cases through the story, then modeling according to the use cases, writing tests according to the stories, and finally implementing it.</p>
+<p>By the way, I explained some design details a while ago, such as:</p>
+<ul>
+<li>Q1: Why do we need to define a repo? <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/whats-difference-between-unit-test-and-integration-test-aae6ef13220">Dependency Injection</a></li>
+<li>Q2: Why do we need layers? <a target="_blank" rel="noopener" href="https://lazypro.medium.com/layered-architecture-clarification-e55b69d60e98">Layered Architecture</a></li>
+<li>Q3: How to evolve a system? <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">Shift from Monolith to CQRS</a></li>
+</ul>
+<p>If you encounter software design problems, you are also welcome to discuss them with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/How-to-Design-Software-in-a-Clean-Architecture-Way/20220123/" rel="prev" title="How to Design Software in a Clean Architecture Way">
+                  <i class="fa fa-chevron-left"></i> How to Design Software in a Clean Architecture Way
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Development/How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum/20220206/" rel="next" title="How Kanban Works and Why I Prefer It Over Scrum">
+                  How Kanban Works and Why I Prefer It Over Scrum <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

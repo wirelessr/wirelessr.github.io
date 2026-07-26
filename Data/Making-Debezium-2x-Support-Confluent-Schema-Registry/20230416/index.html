@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Making Debezium 2.x Support Confluent Schema RegistryBuild a Debezium 2.0 connect image with Avro support We have talked about how to design a real-time data pipeline, and one of the important compone">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Making Debezium 2.x Support Confluent Schema Registry">
+<meta property="og:url" content="https://wirelessr.github.io/Data/Making-Debezium-2x-Support-Confluent-Schema-Registry/20230416/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Making Debezium 2.x Support Confluent Schema RegistryBuild a Debezium 2.0 connect image with Avro support We have talked about how to design a real-time data pipeline, and one of the important compone">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*GoqxJ6u9Yg9dI-dN">
+<meta property="article:published_time" content="2023-04-16T17:46:33.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.826Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*GoqxJ6u9Yg9dI-dN">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Data/Making-Debezium-2x-Support-Confluent-Schema-Registry/20230416/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Data/Making-Debezium-2x-Support-Confluent-Schema-Registry/20230416/","path":"Data/Making-Debezium-2x-Support-Confluent-Schema-Registry/20230416/","title":"Making Debezium 2.x Support Confluent Schema Registry"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Making Debezium 2.x Support Confluent Schema Registry | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Making-Debezium-2-x-Support-Confluent-Schema-Registry"><span class="nav-number">1.</span> <span class="nav-text">Making Debezium 2.x Support Confluent Schema Registry</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Build-a-Debezium-2-0-connect-image-with-Avro-support"><span class="nav-number">1.1.</span> <span class="nav-text">Build a Debezium 2.0 connect image with Avro support</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">2.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Making-Debezium-2x-Support-Confluent-Schema-Registry/20230416/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Making Debezium 2.x Support Confluent Schema Registry | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Making Debezium 2.x Support Confluent Schema Registry
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-04-17 01:46:33" itemprop="dateCreated datePublished" datetime="2023-04-17T01:46:33+08:00">2023-04-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Making-Debezium-2-x-Support-Confluent-Schema-Registry"><a href="#Making-Debezium-2-x-Support-Confluent-Schema-Registry" class="headerlink" title="Making Debezium 2.x Support Confluent Schema Registry"></a>Making Debezium 2.x Support Confluent Schema Registry</h3><h4 id="Build-a-Debezium-2-0-connect-image-with-Avro-support"><a href="#Build-a-Debezium-2-0-connect-image-with-Avro-support" class="headerlink" title="Build a Debezium 2.0 connect image with Avro support"></a>Build a Debezium 2.0 connect image with Avro support</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*GoqxJ6u9Yg9dI-dN"></p>
+<p>We have talked about <a target="_blank" rel="noopener" href="https://medium.com/better-programming/real-time-data-infra-stack-73c597ed05ee">how to design a real-time data pipeline</a>, and one of the important components is Debezium. In order to load OLTP databases from various microservices into the data warehouse seamlessly, we often rely on Debezium to do this task.</p>
+<p>In addition, in <a target="_blank" rel="noopener" href="https://hackmd.io/HAAXxvRkRguU2gAO9_-49g">previous article</a>, we mentioned the evolutionary features of Apache Avro and the usage of Confluent Schema Registry, which can be integrated to build a more automated real-time data pipeline.</p>
+<p>Nevertheless, since Debezium 2.0, it removes the native Confluent support, and if we want to use Debezium with Confluent schema registry, we have to build the Debezium Connect images manually.</p>
+<p>The reference is as follows.</p>
+<p>The original image repository is at <a target="_blank" rel="noopener" href="https://github.com/debezium/container-images.git">GitHub</a>. We can follow the Dockerfile of <code>connect-base/2.0</code> to build the <code>connect-base</code> image.</p>
+<p>In addition to the original dependencies, we need more about Confluent supports.</p>
+<ul>
+<li>kafka-connect-avro-converter</li>
+<li>kafka-connect-avro-data</li>
+<li>kafka-avro-serializer</li>
+<li>kafka-schema-serializer</li>
+<li>kafka-schema-registry-client</li>
+<li>common-config</li>
+<li>common-utils</li>
+</ul>
+<p>Therefore, Dockerfile should be as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">ARG DEBEZIUM_DOCKER_REGISTRY_PRIMARY_NAME  </span><br><span class="line">FROM $DEBEZIUM_DOCKER_REGISTRY_PRIMARY_NAME/kafka:2.0  </span><br><span class="line">  </span><br><span class="line">LABEL maintainer=&quot;Debezium Community&quot;  </span><br><span class="line">  </span><br><span class="line">USER root  </span><br><span class="line">RUN microdnf -y install libaio &amp;&amp; microdnf clean all  </span><br><span class="line">USER kafka  </span><br><span class="line">EXPOSE 8083  </span><br><span class="line">VOLUME [&quot;/kafka/data&quot;,&quot;/kafka/logs&quot;,&quot;/kafka/config&quot;]  </span><br><span class="line">COPY docker-entrypoint.sh /  </span><br><span class="line">COPY --chown=kafka:kafka log4j.properties $KAFKA_HOME/config/log4j.properties  </span><br><span class="line">COPY docker-maven-download.sh /usr/local/bin/docker-maven-download  </span><br><span class="line">#  </span><br><span class="line"># Set up the plugins directory ...  </span><br><span class="line">#  </span><br><span class="line">ENV KAFKA_CONNECT_PLUGINS_DIR=$KAFKA_HOME/connect \  </span><br><span class="line">    EXTERNAL_LIBS_DIR=$KAFKA_HOME/external_libs \  </span><br><span class="line">    CONNECT_PLUGIN_PATH=$KAFKA_CONNECT_PLUGINS_DIR \  </span><br><span class="line">    MAVEN_DEP_DESTINATION=$KAFKA_HOME/libs \  </span><br><span class="line">    CONFLUENT_VERSION=7.0.1 \  </span><br><span class="line">    AVRO_VERSION=1.10.1 \  </span><br><span class="line">    APICURIO_VERSION=2.2.5.Final \  </span><br><span class="line">    GUAVA_VERSION=31.0.1-jre  </span><br><span class="line">RUN mkdir &quot;$KAFKA_CONNECT_PLUGINS_DIR&quot; &quot;$EXTERNAL_LIBS_DIR&quot;  </span><br><span class="line">#  </span><br><span class="line"># The `docker-entrypoint.sh` script will automatically discover the child directories  </span><br><span class="line"># within the $KAFKA_CONNECT_PLUGINS_DIR directory (e.g., `/kafka/connect`), and place  </span><br><span class="line"># all of the files in those child directories onto the Java classpath.  </span><br><span class="line">#  </span><br><span class="line"># The general recommendation is to create a separate child directory for each connector  </span><br><span class="line"># (e.g., &quot;debezium-connector-mysql&quot;), and to place that connector&#x27;s JAR files  </span><br><span class="line"># and other resource files in that child directory.  </span><br><span class="line">#  </span><br><span class="line"># However, use a single directory for connectors when those connectors share dependencies.  </span><br><span class="line"># This will prevent the classes in the shared dependencies from appearing in multiple JARs  </span><br><span class="line"># on the classpath, which results in arcane NoSuchMethodError exceptions.  </span><br><span class="line">#  </span><br><span class="line">RUN docker-maven-download confluent kafka-connect-avro-converter &quot;$CONFLUENT_VERSION&quot; fd03a1436f29d39e1807e2fb6f8e415a &amp;&amp; \  </span><br><span class="line">    docker-maven-download confluent kafka-connect-avro-data &quot;$CONFLUENT_VERSION&quot; d27f30e9eca4ef1129289c626e9ce1f1 &amp;&amp; \  </span><br><span class="line">    docker-maven-download confluent kafka-avro-serializer &quot;$CONFLUENT_VERSION&quot; c72420603422ef54d61f493ca338187c &amp;&amp; \  </span><br><span class="line">    docker-maven-download confluent kafka-schema-serializer &quot;$CONFLUENT_VERSION&quot; 9c510db58119ef66d692ae172d5b1204 &amp;&amp; \  </span><br><span class="line">    docker-maven-download confluent kafka-schema-registry-client &quot;$CONFLUENT_VERSION&quot; 7449df1f5c9a51c3e82e776eb7814bf1 &amp;&amp; \  </span><br><span class="line">    docker-maven-download confluent common-config &quot;$CONFLUENT_VERSION&quot; aab5670de446af5b6f10710e2eb86894 &amp;&amp; \  </span><br><span class="line">    docker-maven-download confluent common-utils &quot;$CONFLUENT_VERSION&quot; 74bf5cc6de2748148f5770bccd83a37c &amp;&amp; \  </span><br><span class="line">    docker-maven-download central org/apache/avro avro &quot;$AVRO_VERSION&quot; 35469fee6d74ecbadce4773bfe3a204c &amp;&amp; \  </span><br><span class="line">    docker-maven-download apicurio &quot;$APICURIO_VERSION&quot; f7874b2e2a59dfa829242d9a52b44230 &amp;&amp; \  </span><br><span class="line">    docker-maven-download central com/google/guava guava &quot;$GUAVA_VERSION&quot; bb811ca86cba6506cca5d415cd5559a7  </span><br><span class="line">ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]  </span><br><span class="line">CMD [&quot;start&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>There are three required environments to specify those versions of dependencies.</p>
+<ul>
+<li>CONFLUENT_VERSION: 7.0.1</li>
+<li>AVRO_VERSION: 1.10.1</li>
+<li>GUAVA_VERSION: 31.0.1</li>
+</ul>
+<blockquote>
+<p><em>Confluent packages rely on Guava, which is a common util package.</em></p>
+</blockquote>
+<p>The <a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/io.confluent/kafka-schema-registry-client?repo=confluent-packages">latest Confluent version</a> is 7.3.3 until now.</p>
+<p><a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/org.apache.avro/avro">Avro</a> and <a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/com.google.guava/guava">Guava</a> are located at official maven repo.</p>
+<p>After having <code>connect-base</code>, we can build <code>connect</code> like <a target="_blank" rel="noopener" href="https://github.com/debezium/container-images/blob/main/connect/2.0/Dockerfile">main Dockerfile</a> except the base image, which should be our owned.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Once the image is built, how do we verify the image works?</p>
+<p>Here is an official Debezium tutorial.</p>
+<p>If the built image can pass the tutorial, then the image works.</p>
+<p>By the way, if you need a Debezium 2.0 with Confluent 7.0.1 image, here’s a ready-made.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/making-debezium-2-x-support-confluent-schema-registry-43435a564f21">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Data/Testing-Apache-Avro-Compatibility/20230409/" rel="prev" title="Testing Apache Avro Compatibility">
+                  <i class="fa fa-chevron-left"></i> Testing Apache Avro Compatibility
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/hexo/Hello-Hexo-with-Next/20230419/" rel="next" title="Hello Hexo with Next">
+                  Hello Hexo with Next <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

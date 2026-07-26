@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="What a design review actually looks like Last time, we have discussed, how to prepare a design review like an expert. There are three items that should be prepared:  C4 model User stories and use case">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Design Distributed Transaction With Practical Examples">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Design-Distributed-Transaction-With-Practical-Examples/20220313/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="What a design review actually looks like Last time, we have discussed, how to prepare a design review like an expert. There are three items that should be prepared:  C4 model User stories and use case">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*AFKbOvu2LxfS5Dlq">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*WFOdotUY2mTKPaBZiGhM6Q.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*QREa2DjREx-ZIYZL_vdLjA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*lkjVYSjjwNEJgKtUhMU65g.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*xvFJZLlgVPS_x_8rO5WicQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*o3UlbgaffqqfhnWNL_5KoA.png">
+<meta property="article:published_time" content="2022-03-13T16:55:15.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.822Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*AFKbOvu2LxfS5Dlq">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Design-Distributed-Transaction-With-Practical-Examples/20220313/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Design-Distributed-Transaction-With-Practical-Examples/20220313/","path":"Architecture/Design-Distributed-Transaction-With-Practical-Examples/20220313/","title":"Design Distributed Transaction With Practical Examples"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Design Distributed Transaction With Practical Examples | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#What-a-design-review-actually-looks-like"><span class="nav-number">1.</span> <span class="nav-text">What a design review actually looks like</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#User-Stories"><span class="nav-number"></span> <span class="nav-text">User Stories</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-cases"><span class="nav-number"></span> <span class="nav-text">Use cases</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C4-Model"><span class="nav-number"></span> <span class="nav-text">C4 Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Context"><span class="nav-number"></span> <span class="nav-text">Context</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Container"><span class="nav-number"></span> <span class="nav-text">Container</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Component-and-Code"><span class="nav-number"></span> <span class="nav-text">Component and Code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Design-Decisions"><span class="nav-number"></span> <span class="nav-text">Design Decisions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Error-Handle-and-Disaster-Recovery"><span class="nav-number"></span> <span class="nav-text">Error Handle and Disaster Recovery</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Design-Distributed-Transaction-With-Practical-Examples/20220313/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Design Distributed Transaction With Practical Examples | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Design Distributed Transaction With Practical Examples
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-03-14 00:55:15" itemprop="dateCreated datePublished" datetime="2022-03-14T00:55:15+08:00">2022-03-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="What-a-design-review-actually-looks-like"><a href="#What-a-design-review-actually-looks-like" class="headerlink" title="What a design review actually looks like"></a>What a design review actually looks like</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*AFKbOvu2LxfS5Dlq"></p>
+<p>Last time, we have discussed, <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-prepare-a-design-review-like-an-expert-85d2ab85d7f5">how to prepare a design review like an expert</a>. There are three items that should be prepared:</p>
+<ul>
+<li>C4 model</li>
+<li>User stories and use cases</li>
+<li>Design decisions</li>
+</ul>
+<p>In this article, I will use a practical example to show you what is a design review looks like. Some discussions with too many details will be skipped, and only demonstrate the critical designs.</p>
+<h3 id="User-Stories"><a href="#User-Stories" class="headerlink" title="User Stories"></a>User Stories</h3><p>First, we are going to define the user story. Like the previous article mentioned, user story aligns with the context perspective in C4 model. Therefore, we write down the user stories clearly.</p>
+<p>This time we are going to do the function of giving gifts. And, the whole story is as follows.</p>
+<ul>
+<li>A User can decide how many of the same gifts they want to give to others at a time.</li>
+<li>As long as the user has enough money, then there is no limit to the number of people giving gifts.</li>
+<li>After finishing giving gifts, it must inform both sender and receivers that everything has been done.</li>
+</ul>
+<h3 id="Use-cases"><a href="#Use-cases" class="headerlink" title="Use cases"></a>Use cases</h3><p>The entire gift-giving scene is clearly described in the user story, however, there are some details that are not sufficiently described. For example,</p>
+<ul>
+<li>If the user’s balance is not enough, then all gifts will fail and cannot be partially successful.</li>
+<li>Finishing giving gifts represents all receivers have received the gift.</li>
+<li>The content of the notification must contain sender, total amount of gifts and all receivers.</li>
+<li>No matter how many people to give, the entire process should be finished in a few minutes.</li>
+</ul>
+<p>As we can see above, in the use cases, we added details that were not in the story, and presented the whole scene in more detail.</p>
+<h3 id="C4-Model"><a href="#C4-Model" class="headerlink" title="C4 Model"></a>C4 Model</h3><p>Now, we can draw the C4 model of the entire design.</p>
+<h3 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*WFOdotUY2mTKPaBZiGhM6Q.png"></p>
+<p>Based on the user story, we draw a context to describe the interaction between the user and the system. From the context, we know that there are several key points that must be fully discussed.</p>
+<ol>
+<li>The line that contains the <code>gift</code></li>
+<li>Behavior of the <code>Server</code> itself</li>
+<li>The line containing the <code>notify</code></li>
+</ol>
+<p>You may ask how about the <code>notification service</code> and <code>receivers</code>. The answer is simple. That is a third party service, and we cannot control its behavior. Therefore, there is no need to discuss it in a design review on the topic of giving gifts. Of course, if there is any concern about the notification, we can hold another design review to dig in.</p>
+<h3 id="Container"><a href="#Container" class="headerlink" title="Container"></a>Container</h3><p>Once we have the context, we start to dive into the three points listed above and expand them in the form of a container.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*QREa2DjREx-ZIYZL_vdLjA.png"></p>
+<p>Finally we got this diagram, this is what it looks like when it is finished. There are many design decisions here, but in this section, I will only introduce the meaning of this diagram. As for the design decisions, we will leave the analysis in depth in the later sections.</p>
+<ol>
+<li>Users send gift requests, including what to send and whom to send.</li>
+<li>After receiving the request, <code>Server</code> first debits the user’s wallet and responds directly to <code>nak</code> if the balance is not enough, then divides the request into batches of fixed size and writes the batch information to the database. After that, the batch task is sent to the worker for execution asynchronously with the serial number of the transaction.</li>
+<li>Although the process is not complete, the preparations have been done, so reply to the user <code>ack</code> to show that the whole process is in progress.</li>
+<li>When the worker receives the command, it focuses on the batch task it is assigned, and when it finishes, it deducts the <code>counter</code> from the database. If the worker encounters any errors, just retry the task itself.</li>
+<li>When the <code>counter</code> is found to be 0 after deducting the counter, which means everyone has finished the task, then the last worker will notify all the receivers.</li>
+</ol>
+<h3 id="Component-and-Code"><a href="#Component-and-Code" class="headerlink" title="Component and Code"></a>Component and Code</h3><p>From the perspective of the container, the next steps are component and code, but these are already related to some implementation details, and each system faces different problems, so I won’t go into more detail here.</p>
+<h3 id="Design-Decisions"><a href="#Design-Decisions" class="headerlink" title="Design Decisions"></a>Design Decisions</h3><p>We found many details in the container diagram. As I did in the previous article, we will use the <code>why do A instead of B</code> formula to ask a lot of questions.</p>
+<ol>
+<li>Why sender and server communicate with each other in a semi-asynchronous way (between synchronous and asynchronous)?</li>
+<li>Why is the server divided into an orchestration and workers?</li>
+<li>Why orchestration and workers are completely asynchronous?</li>
+<li>Why is the worker notifying the receivers?</li>
+<li>Maybe you are able to consider some questions I have never listed.</li>
+</ol>
+<p>All of these questions should be told from the original architecture.</p>
+<p>At the beginning, we have already the feature of giving a gift to a person. So, the simplest way is performing a for-loop to send all receivers through the one-to-one gift regardless of the receiver number.</p>
+<p>This is fine when there are only a few receivers, but once the number of receivers starts to increase, performance will be a serious challenge. In our measurements, it takes about <code>100-200 ms</code> to deliver a person, not including notifications, which means that when the number of people reaches <code>10</code>, it will reach the second-magnitude. This is obviously unacceptable.</p>
+<p>It seems that the batching is inevitable, so someone drew up the first architecture diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*lkjVYSjjwNEJgKtUhMU65g.png"></p>
+<p>From the diagram, we can find that the orchestration has already been appeared. However, the communication with the worker is still synchronized, and the notification will be sent only when all the tasks are done. It will not reply to the user until all the tasks are finished. This may seem to have significantly reduced the performance bottleneck, but it hasn’t gotten better at all.</p>
+<p>Let’s do a simple math. Suppose we want to send gifts to 1000 people, how do we set the batch size and the number of workers?</p>
+<p>To finish it in seconds, the maximum batch size is <code>10</code>, so <code>100</code> workers need to be generated at the same time to handle a gift request. This is a very strict challenge for the system, and it is not an easy task to generate <code>100</code> workers in an instant. Because of this, it is difficult to keep users waiting in a fully synchronized manner. So, what happens when it is completely asynchronized?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*xvFJZLlgVPS_x_8rO5WicQ.png"></p>
+<p>In the second attempt, we changed the orchestration to choreography, so that the user could get the response in a very quick time and the gift could be sent smoothly. But, is it really so?</p>
+<p>What happens if the middle worker fails? The whole chain is broken, and the user may not feel it without notification. It is fine, but for the giver, the middle successful worker has already deducted the user’s money, but the notification is not sent. Moreover, back to the first point of the use cases, partial success is not allowed.</p>
+<p>Choreography compared to orchestration will indeed have better performance and better scalability, but will get more complex workflow control. Therefore, in this use case, orchestration would be more appropriate.</p>
+<p>So let’s implement full asynchronization through orchestration.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*o3UlbgaffqqfhnWNL_5KoA.png"></p>
+<p>This architecture encounters two problems immediately.</p>
+<ol>
+<li>Who should send the notification?</li>
+<li>How to do if the money is not enough in the half way?</li>
+</ol>
+<p>The problem of sending notifications is well solved, as in the previous container view in the C4 model, has actually solved the problem of who to send notifications. Nevertheless, it is basically impossible to handle the error in the half way to a completely asynchronous architecture.</p>
+<p>Due to this reason, we finally adopted a semi-asynchronous approach. First, the orchestration determines whether the balance is enough to send, and in order to avoid the racing condition, the money is deducted directly. So the worker only needs to handle sending the gift, not to deduct the money from the giver, not even to check the balance.</p>
+<h3 id="Error-Handle-and-Disaster-Recovery"><a href="#Error-Handle-and-Disaster-Recovery" class="headerlink" title="Error Handle and Disaster Recovery"></a>Error Handle and Disaster Recovery</h3><p>Under the such architecture, there is a huge trouble.</p>
+<blockquote>
+<p><em>How about the worker failed?</em></p>
+</blockquote>
+<p>If it is occurred due to database congestion, it should be okay after just retrying several times. Otherwise, if there is a malfunction in the implementation, it cannot be resolved even though retry many times.</p>
+<p>As a result, an additional monitoring system needs to exist to periodically check which asynchronous tasks have failed, and retry those that can be retried, or notify human intervention if they cannot recover by retries. The <a target="_blank" rel="noopener" href="https://betterprogramming.pub/implement-event-driven-architecture-with-minimal-effort-182c3bbe5524">applicable solution</a> is in a previous article I have already introduced, so I won’t explain too much here.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>To sum up, the system breaks down gift-giving into several steps.</p>
+<ol>
+<li>The user sends the request synchronously and the balance is deducted in advance.</li>
+<li>All processes of giving gifts are performed asynchronously.</li>
+<li>The process of giving gifts can be consistent eventually, and the money deducted is equal to the money issued.</li>
+</ol>
+<p>In this article, we discuss challenges while designing a distributed system in a practical example.</p>
+<ul>
+<li>Synchronous vs. Asynchronous</li>
+<li>Orchestration vs. Choreography</li>
+<li>Atomic vs. Eventual consistency</li>
+</ul>
+<p>In fact, those items are the trade-offs in a typical distributed transaction as well. These aspects can significantly affect the overall distributed transaction model. I have introduced distributed transactions in <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/distributed-transaction-introduction-1cd105c830a2">my previous article</a>. Next time, I’ll take a closer look at the challenges and issues faced when designing a distributed system.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-distributed-transaction-with-practical-examples-7b1d93fddb63">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Career/Books-that-Developers-Should-Read/20220306/" rel="prev" title="Books that Developers Should Read">
+                  <i class="fa fa-chevron-left"></i> Books that Developers Should Read
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Microservice/Original-Sin-of-Microservices-Part-1/20220320/" rel="next" title="Original Sin of Microservices, Part 1">
+                  Original Sin of Microservices, Part 1 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/6/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/6/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Paradigm-Shift-in-Software-Development-Leveraging-GenAI-for-Direct-Business-Logi/20240714/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/Paradigm-Shift-in-Software-Development-Leveraging-GenAI-for-Direct-Business-Logi/20240714/" class="post-title-link" itemprop="url">Paradigm Shift in Software Development: Leveraging GenAI for Direct Business Logic Processing</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-07-15 01:57:52" itemprop="dateCreated datePublished" datetime="2024-07-15T01:57:52+08:00">2024-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Generative-AI-transforms-the-way-we-handle-business-logic"><a href="#Generative-AI-transforms-the-way-we-handle-business-logic" class="headerlink" title="Generative AI transforms the way we handle business logic"></a>Generative AI transforms the way we handle business logic</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*WkHdTB5MqJHHWexcgqNblA.png"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/a-paradigm-shift-in-software-development-leveraging-genai-for-direct-business-logic-processing-9929a724cc1c">Paradigm Shift in Software Development, Part 1</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/paradigm-shift-in-software-development-part-2-60703d518ac9">Paradigm Shift in Software Development, Part 2</a></li>
+</ul>
+<p>If you read the title and thought I am going to introduce Copilot, you are wrong.</p>
+<p>Before we start the topic, let’s start with a case study of an e-commerce platform.</p>
+<p>Suppose the shopping cart looks like the following.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[  </span><br><span class="line">  &#123;  </span><br><span class="line">    &quot;product_id&quot;: 123,  </span><br><span class="line">    &quot;amount&quot;: 2,  </span><br><span class="line">    &quot;price&quot;: 10.99,  </span><br><span class="line">    &quot;category_id&quot;: 1  </span><br><span class="line">  &#125;,  </span><br><span class="line">  &#123;  </span><br><span class="line">    &quot;product_id&quot;: 456,  </span><br><span class="line">    &quot;amount&quot;: 1,  </span><br><span class="line">    &quot;price&quot;: 29.99,  </span><br><span class="line">    &quot;category_id&quot;: 2  </span><br><span class="line">  &#125;,  </span><br><span class="line">  &#123;  </span><br><span class="line">    &quot;product_id&quot;: 789,  </span><br><span class="line">    &quot;amount&quot;: 5,  </span><br><span class="line">    &quot;price&quot;: 1.99,  </span><br><span class="line">    &quot;category_id&quot;: 3  </span><br><span class="line">  &#125;  </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>Each field should be simple enough to contain the item purchased, the quantity purchased, the price of the single item, and the category it belongs to.</p>
+<p>I have 3 promotions.</p>
+<ol>
+<li>$5 off a $20 purchase, which continues to accrue after qualifying.</li>
+<li>buy 2 get 1 free on category_id 1 items.</li>
+<li>30% off the total price of category_id 3 items.</li>
+</ol>
+<ul>
+<li>What is the total price after calculation?</li>
+<li>How much of the discount is allocated to each item?</li>
+</ul>
+<p>To implement such promotions, please answer the following questions.</p>
+<ul>
+<li>How long would it take you to implement this logic?</li>
+<li>Can you make the logic better than O(n²)?</li>
+</ul>
+<p>The first question is easy to understand, but what does the second question mean?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*85pLUC4GnD0IzJfF.png"></p>
+<p>We have three promotions, and to be able to determine the impact of every promotion we need to scan the entire shopping cart for every item. So, in the example above, that’s <code>3 * 3 = 9</code>, i.e. O(n²).</p>
+<h3 id="Then"><a href="#Then" class="headerlink" title="Then"></a>Then</h3><p>What if I told you:</p>
+<ul>
+<li>I could do it in just a few minutes.</li>
+<li>And it’s O(1).</li>
+</ul>
+<p>Would you believe me?</p>
+<p>Guess how I did it.</p>
+<h3 id="GenAI-can-help"><a href="#GenAI-can-help" class="headerlink" title="GenAI can help"></a>GenAI can help</h3><p>Although GenAI was mentioned, if you thought I am going to introduce Copilot or similar tools, you are very wrong.</p>
+<p>It’s true that those code generation tools can produce business logic in a matter of minutes, but the business logic they produce will still work the way we think, which means it will still be O(n²).</p>
+<p>So what do we do with GenAI? The answer is simple: let GenAI learn business logic and then answer the results directly.</p>
+<p>Sounds unbelievable, right? Let’s see how I did it.</p>
+<p><a target="_blank" rel="noopener" href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221l57m9Y-lzOoiVLVSej8RSPlquod_QnFl%22%5D,%22action%22:%22open%22,%22userId%22:%22112447852159053274838%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing">GEMINI DEMO LINK</a> (a google account required.)</p>
+<p>Even though I’m using Gemini as an example, actually, you can use any model.</p>
+<h3 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h3><p>First, I’ll tell Gemini his role using <code>System Instructions</code>.</p>
+<blockquote>
+<p><em>You are an e-commerce expert who is well versed in all kinds of promotions and understands how shopping cart profits are calculated.</em></p>
+</blockquote>
+<h3 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h3><p>Next, ask Gemini to explain the structure of a shopping cart that I dropped in. It’s important to ask him to explain this. Instead of telling him what it is, it’s better to let him understand it for himself so that he can get a more accurate mental model.</p>
+<blockquote>
+<p><em>Let’s describe a shopping cart in JSON, here’s an example.</em></p>
+</blockquote>
+<h3 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h3><p>Tell Gemini what he needs to know about the promotion, and explain in detail what we need. This echoes the question at the beginning of this article. The point of this step, by the way, is not just to explain the promotion, but also to tell him what results to send back.</p>
+<h3 id="Step-4"><a href="#Step-4" class="headerlink" title="Step 4"></a>Step 4</h3><p>Based on Gemini’s thought process, we have to keep correcting it until his understanding and calculations are correct. Fortunately, GenAI doesn’t hide anything. He tells us step by step what he’s thinking, so it’s easy to find mistakes in the middle. I have to say, it’s much easier to debug a natural language than a programming language.</p>
+<h3 id="Step-5"><a href="#Step-5" class="headerlink" title="Step 5"></a>Step 5</h3><p>Ask Gemini to generate a response structure that corresponds to the requirements in step 3, which is why I said we should tell him what we want as early as possible. Otherwise, we may need to go back and adjust his thought process at this step, which would be ineffective.</p>
+<h3 id="Final-step"><a href="#Final-step" class="headerlink" title="Final step"></a>Final step</h3><p>Because GenAI will still keep “describing” his answer, we have to tell him, “I don’t want to see the process, I just want to see the result, and I don’t want any description”.</p>
+<p>Finally, the business logic is complete.</p>
+<p>Wait, that’s a little weird. We don’t deal with business logic this way by interacting with GenAI.</p>
+<p>Yes, that’s right! The first step to the last step are all pre-defined “prompts”, and we can get the result by wrapping all these prompts and business logic inputs in the same question and asking GenAI.</p>
+<p>In fact, it looks like this.</p>
+<p>The <code>INSERT_INPUT_HERE</code> is actually the original structure of our shopping cart promotion calculation.</p>
+<p>This process is exactly the same as the popular prompt engineering nowadays.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article we have shown a case study of using GenAI to accomplish business logic.</p>
+<p>Let’s organize the whole process again.</p>
+<ol>
+<li>Inform about the role of GenAI</li>
+<li>Explain the input of the business logic.</li>
+<li>Describe the requirements of the business logic.</li>
+<li>Correct GenAI’s errors.</li>
+<li>Generate the output of the business logic.</li>
+<li>Prune all descriptive statements.</li>
+</ol>
+<p>These steps are all centered around prompt engineering, and the more you are familiar with prompt engineering, the quicker the process will be.</p>
+<p>The benefits of this process are not only that we can make O(n²) business logic processing become O(1) as mentioned at the beginning, but also that we can make business logic easier to debug. As I said, it’s much easier to catch human speech defects than it is to find bugs in a program.</p>
+<p>Nevertheless, there is one important thing to realize about this development process. We have to realize that GenAI is actually a Large Language Model, or LLM, which is not good at computation. So when we use GenAI to write business logic, we still need to have full unit testing to make sure the results are what we expect.</p>
+<p>In other words, the importance of unit testing increases rather than decreases with this development process.</p>
+<p>When we think of GenAI for software development, we always think of Copilot, but it’s much simpler to let GenAI implement business logic directly without generating code.</p>
+<h3 id="Stackademic-🎓"><a href="#Stackademic-🎓" class="headerlink" title="Stackademic 🎓"></a>Stackademic 🎓</h3><p>Thank you for reading until the end. Before you go:</p>
+<ul>
+<li>Please consider <strong>clapping</strong> and <strong>following</strong> the writer! 👏</li>
+<li>Follow us <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><strong>X</strong></a> | <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><strong>LinkedIn</strong></a> | <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><strong>YouTube</strong></a> | <a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Discord</strong></a></li>
+<li>Visit our other platforms: <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>In Plain English</strong></a> | <a target="_blank" rel="noopener" href="https://cofeed.app/"><strong>CoFeed</strong></a> | <a target="_blank" rel="noopener" href="https://differ.blog/"><strong>Differ</strong></a></li>
+<li>More content at <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>Stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/a-paradigm-shift-in-software-development-leveraging-genai-for-direct-business-logic-processing-9929a724cc1c">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Testing/How-to-Determine-API-Slow-Downs-Part-2/20240623/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Testing/How-to-Determine-API-Slow-Downs-Part-2/20240623/" class="post-title-link" itemprop="url">How to Determine API Slow Downs, Part 2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-06-24 01:26:29" itemprop="dateCreated datePublished" datetime="2024-06-24T01:26:29+08:00">2024-06-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Testing/" itemprop="url" rel="index"><span itemprop="name">Testing</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="How-to-Determine-API-Slow-Downs-Part-2"><a href="#How-to-Determine-API-Slow-Downs-Part-2" class="headerlink" title="How to Determine API Slow Downs, Part 2"></a>How to Determine API Slow Downs, Part 2</h3><h4 id="Understanding-PELT-algorithm-and-its-applications-in-Change-Point-Detection"><a href="#Understanding-PELT-algorithm-and-its-applications-in-Change-Point-Detection" class="headerlink" title="Understanding PELT algorithm and its applications in Change Point Detection"></a>Understanding PELT algorithm and its applications in Change Point Detection</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*1QPqZ7bdeZGT4o8qz4Da3Q.png"></p>
+<p>A long time ago I wrote an article on <a target="_blank" rel="noopener" href="https://medium.com/better-programming/how-to-know-api-is-slowing-down-2957b9e1341d">how to determine an API is slowing down</a> using simple statistics known as linear regression.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*VhGPg5mEJPxhsfGR.png"></p>
+<p>In the conclusion of that article, it was mentioned some challenges in applying linear regression.</p>
+<ol>
+<li>It is hard to define the reference point.</li>
+<li>Difficulty in defining the angle of the regression lines.</li>
+</ol>
+<p>The reference point means we need two regression lines to know whether the current situation is normal or abnormal, and the angle between the regression lines is the basis for our judgment.</p>
+<p>For those who are familiar with statistics or math, this approach is a bit naive. In fact, I have not formally studied statistics, so I can only use the most straightforward approach, which has been proven to be feasible in practice, but the process of fine-tuning in the early stages will be tough.</p>
+<p>After several years of continuous studies, I found a simpler way to do this, which is Changepoint Detection.</p>
+<p>Before going into the details, let’s use a diagram to see what Changepoint Detection can do.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*f0Q-mScC-Bp2hGHR.png"></p>
+<p>The source code is linked <a target="_blank" rel="noopener" href="https://gist.github.com/wirelessr/c2b6f6a6ec882bb1706ec5c26af8ad6d">here</a>.</p>
+<p>As we can see from the diagram, our API slows down twice, and our tool detects the exact point in time. Although I have done smoothing here, in practice it is fine without it, only the detection thresholds need to be adjusted accordingly.</p>
+<h3 id="Solution-Details"><a href="#Solution-Details" class="headerlink" title="Solution Details"></a>Solution Details</h3><p>Originally we needed to solve two problems, but now we no longer need a reference point, so only the threshold needs to be defined. I have to say no matter what the mechanism is, thresholds are inevitable, to have an alarm is to need a threshold.</p>
+<p>Well, let’s see how the magic happens.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">model = Pelt(model=&quot;rbf&quot;).fit(np.array(df[&#x27;smoothed_latency&#x27;]).reshape(-1, 1))  </span><br><span class="line">changepoints = model.predict(pen=5)</span><br></pre></td></tr></table></figure>
+
+<p>The source code is a bit long, but the core of the program is these two lines.</p>
+<p>We use a famous Changepoint Detection algorithm: Pruned Exact Linear Time aka <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1101.1438">PELT</a>. This is the algorithm proposed by Killick in 2012.</p>
+<p>The whole process is actually three steps.</p>
+<ol>
+<li>Decide what model to use, in this case we use <code>rbf</code>.</li>
+<li>Feed data points into the model.</li>
+<li>Predict the changes through the model.</li>
+</ol>
+<p>Let’s continue to break down these steps.</p>
+<h3 id="How-to-choose-the-right-model"><a href="#How-to-choose-the-right-model" class="headerlink" title="How to choose the right model?"></a>How to choose the right model?</h3><p>In <code>ruptures.Pelt</code>, there are <a target="_blank" rel="noopener" href="https://centre-borelli.github.io/ruptures-docs/code-reference/costs/costl1-reference/">many models</a> (cost functions) are available, the following three are more commonly used.</p>
+<h3 id="l2（least-squared-deviation）"><a href="#l2（least-squared-deviation）" class="headerlink" title="l2（least squared deviation）"></a>l2（least squared deviation）</h3><p>This model is useful mainly for scenarios where there is a change in the average and if there is a significant change in the average, then this model is good to use.</p>
+<p>For example, if there is a significant increase in the average latency after a certain release, e.g. 100ms to 200ms, then <code>l2</code> can easily capture this version.</p>
+<h3 id="rbf（Radial-Basis-Function）"><a href="#rbf（Radial-Basis-Function）" class="headerlink" title="rbf（Radial Basis Function）"></a>rbf（Radial Basis Function）</h3><p><code>rbf</code> is more commonly used in the case of irregular variations, such as where both the average and the trend are changing.</p>
+<p>For example, a latency in a complex system can be affected by a number of factors, and <code>rbf</code> can be used to find the more “subtle” changes.</p>
+<h3 id="normal"><a href="#normal" class="headerlink" title="normal"></a>normal</h3><p>The term <code>normal</code> refers to a normal distribution or Gaussian distribution. The key to a normal distribution is the mean and standard deviation, so this is used in the context of distributional change.</p>
+<p>For example, network traffic during peak hours not only increases in average but also in volatility, which is a kind of distributional change.</p>
+<h3 id="How-to-set-the-penalty"><a href="#How-to-set-the-penalty" class="headerlink" title="How to set the penalty?"></a>How to set the penalty?</h3><p>In the second line of the code, there is a <code>pen=5</code>, where <code>pen</code> refers to the penalty.</p>
+<p>Briefly, the larger the penalty, the tighter the model will be, and the fewer changepoints can be found, and vice versa.</p>
+<p>So it is still a matter of experimentation as to what value to set, just as we did with linear regression, where we needed to experiment with how to define the angle of the regression lines. Even with PELT, we still need to consider how to set the penalty.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In fact we want to do exactly the same thing as before, we want to detect when the API is slowing down and it is slowing down because of a defect.</p>
+<p>At first, we used the angle between the two regression lines to determine this. But this approach, as we mentioned, requires a lot of experimentation to determine how to define the reference point and the threshold of the angle. Although the concept is simple and not difficult to implement, it is not easy to make it work in practice.</p>
+<p>In order to reduce the number of experiments, we change the factors from two to one, and only need to determine the penalty through experiments, which is a necessary process no matter what solution is used. In other words, we have greatly reduced the complexity of the API monitoring system.</p>
+<p>You may ask, don’t we need to experiment to choose the model? No, not at all.</p>
+<p>Because these models have a clear purpose, as long as you know what patterns you want to check, you will naturally choose the corresponding model. The reason we chose <code>rbf</code> is because we want to know if the API is abnormal as it slows down, which involves not only the average change but also a lot of additional factors, and only <code>rbf</code> is more fitting.</p>
+<p>The source code is quite simple, the core is the two lines introduced in this article. But I have to say, to be able to write these two lines requires a huge accumulation of knowledge, and I also deeply realize that programmer is not just about writing code ONCE AGAIN.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-determine-api-slow-downs-part-2-5c3858fdafda">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Database/PostgreSQL-Full-Text-Search-in-a-Nutshell/20240610/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Database/PostgreSQL-Full-Text-Search-in-a-Nutshell/20240610/" class="post-title-link" itemprop="url">PostgreSQL Full-Text Search in a Nutshell</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-06-10 10:32:47" itemprop="dateCreated datePublished" datetime="2024-06-10T10:32:47+08:00">2024-06-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="PostgreSQL-Full-Text-Search-in-a-Nutshell"><a href="#PostgreSQL-Full-Text-Search-in-a-Nutshell" class="headerlink" title="PostgreSQL Full-Text Search in a Nutshell"></a>PostgreSQL Full-Text Search in a Nutshell</h3><h4 id="Discover-how-to-implement-efficient-and-powerful-text-search-capabilities-in-your-PostgreSQL-database"><a href="#Discover-how-to-implement-efficient-and-powerful-text-search-capabilities-in-your-PostgreSQL-database" class="headerlink" title="Discover how to implement efficient and powerful text search capabilities in your PostgreSQL database"></a>Discover how to implement efficient and powerful text search capabilities in your PostgreSQL database</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*2bKENg_xASuLmKBp"></p>
+<p>If you ask me to choose a database for microservices, I would probably say PostgreSQL.</p>
+<p>On one hand, PostgreSQL is a popular open source database with many mature practices, both on the server side and the client side. On the other hand, PostgreSQL is very “scalable”. Scalability of course includes non-functional requirements such as traffic and data volume, as well as functional requirements such as full-text search.</p>
+<p>In the early stages of planning a microservice, we may not be sure what features it needs to have. I have to say those tutorials always telling us microservices need to have clear boundaries early in design are nonsense.</p>
+<p>Most of the time, as a microservice goes live, there are more requirements and more iterations, and those requirements don’t care about the boundaries you define at the beginning.</p>
+<p>Full-text search is a good example. In the early days of a service, we might be able to work just fine with a exact match or prefix match of text. Until one day, you get a request. “Hey, let’s add a search feature!”</p>
+<p>If the database you chose in the beginning doesn’t have a search function, then that’s a big problem.</p>
+<p>I’m sure you wouldn’t introduce a database like Elasticsearch, which specializes in full-text search, for this sudden need. So what to do?</p>
+<p>Fortunately, PostgreSQL has a solution.</p>
+<h3 id="PostgreSQL-Built-In-Features"><a href="#PostgreSQL-Built-In-Features" class="headerlink" title="PostgreSQL Built-In Features"></a>PostgreSQL Built-In Features</h3><p>In the <a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/current/textsearch.html">official document</a> there is a large chapter on how to do full-text searching with PostgreSQL.</p>
+<p>Let’s skip all the technical details and go straight to the how-to.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT id, title, body, author, created_at, updated_at, published,  </span><br><span class="line">       ts_rank(tsv, to_tsquery(&#x27;english&#x27;, &#x27;excited | trends&#x27;)) AS rank  </span><br><span class="line">FROM blog_posts  </span><br><span class="line">WHERE tsv @@ to_tsquery(&#x27;english&#x27;, &#x27;excited | trends&#x27;)  </span><br><span class="line">ORDER BY rank DESC;</span><br></pre></td></tr></table></figure>
+
+<p><code>blog_posts</code> is a table of stored blog posts, where <code>tsv</code> is a special column. It is not a metadata that a blog needs, it is a column that we create for searching purposes.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE blog_posts ADD COLUMN tsv tsvector;  </span><br><span class="line">UPDATE blog_posts SET tsv = to_tsvector(&#x27;english&#x27;, title || &#x27; &#x27; || body);</span><br></pre></td></tr></table></figure>
+
+<p>As we can see, <code>tsv</code> is the result set when we join <code>title</code> and <code>body</code> and do the English stemming.</p>
+<p>The methods <code>to_tsvector</code> and <code>to_tsquery</code> are the core of this query. It is through these two methods that you can efficiently create the synonyms from the built-in dictionary. If you’re familiar with Elasticsearch, then what these two methods are doing corresponds to <code>analyzer</code>.</p>
+<p>Let’s explain this with a flowchart.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*IQc7nr5dIqQuMjQY982e8A.png"></p>
+<p>The <code>tsvector</code> is the result that we store in advance through tokenizer and token filter operations. The same is applied to <code>tsquery</code>, but it is lighter. Then we compare <code>tsquery</code> and <code>tsvector</code> by using the matching operator <code>@@</code>, which produces a dataset containing the query results. Finally, the score is calculated and sorted by <code>ts_rank</code>.</p>
+<p>In fact, the whole process is the same as what Elasticsearch does, except that PostgreSQL takes away the ability to customize and relies on the built-in dictionary.</p>
+<p>It’s worth mentioning that the <code>tsv</code> column needs to be indexed with a <code>GIN</code> type index, otherwise the performance will be poor.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE INDEX idx_fts ON blog_posts USING gin(tsv);</span><br></pre></td></tr></table></figure>
+
+<p>Elasticsearch is efficient not because it has a powerful <code>analyzer</code>, but because it uses inverted indexes at the backend. In PostgreSQL’s case, it’s GIN, Generalized Inverted Index.</p>
+<p>Again, the technical detail is not the focus of this article, so I’ll skip it.</p>
+<h3 id="Non-built-in-PostgreSQL-catalogs"><a href="#Non-built-in-PostgreSQL-catalogs" class="headerlink" title="Non-built-in PostgreSQL catalogs"></a>Non-built-in PostgreSQL catalogs</h3><p>It is not difficult to list all currently supported languages for PostgreSQL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT cfgname FROM pg_ts_config;</span><br></pre></td></tr></table></figure>
+
+<p>As of today (PostgreSQL 16), there are only 29 in total.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">postgres=# SELECT cfgname FROM pg_ts_config;  </span><br><span class="line">  cfgname  </span><br><span class="line">------------  </span><br><span class="line"> simple  </span><br><span class="line"> arabic  </span><br><span class="line"> armenian  </span><br><span class="line"> basque  </span><br><span class="line"> catalan  </span><br><span class="line"> danish  </span><br><span class="line"> dutch  </span><br><span class="line"> english  </span><br><span class="line"> finnish  </span><br><span class="line"> french  </span><br><span class="line"> german  </span><br><span class="line"> greek  </span><br><span class="line"> hindi  </span><br><span class="line"> hungarian  </span><br><span class="line"> indonesian  </span><br><span class="line"> irish  </span><br><span class="line"> italian  </span><br><span class="line"> lithuanian  </span><br><span class="line"> nepali  </span><br><span class="line"> norwegian  </span><br><span class="line"> portuguese  </span><br><span class="line"> romanian  </span><br><span class="line"> russian  </span><br><span class="line"> serbian  </span><br><span class="line"> spanish  </span><br><span class="line"> swedish  </span><br><span class="line"> tamil  </span><br><span class="line"> turkish  </span><br><span class="line"> yiddish  </span><br><span class="line">(29 rows)</span><br></pre></td></tr></table></figure>
+
+<p>As seen, there is no CJK language at all, i.e. there is no ability to handle double-byte characters.</p>
+<p>For languages without built-in support, they can be handled by extensions. Take Chinese as an example, <code>pg_jieba</code> is a widely used extension.</p>
+<p>After installing the extension, we just need to modify the catalog in PostgreSQL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE EXTENSION pg_jieba;  </span><br><span class="line">UPDATE blog_posts SET tsv = to_tsvector(&#x27;jieba&#x27;, title || &#x27; &#x27; || body);</span><br></pre></td></tr></table></figure>
+
+<p>The above is an example of <code>to_tsvector</code>, and of course, <code>to_tsquery</code> is the same.</p>
+<p>So languages without built-in support can find language extensions to enhance PostgreSQL’s capabilities. This is one of the great things about PostgreSQL, it has a rich ecosystem of additional features.</p>
+<h3 id="What-about-AWS-RDS"><a href="#What-about-AWS-RDS" class="headerlink" title="What about AWS RDS?"></a>What about AWS RDS?</h3><p>In the previous section we mentioned that we can install additional extensions to support more languages, however, AWS RDS cannot customize extensions.</p>
+<p>In this case, we have to transfer the server-side effort to the client-side.</p>
+<p>In other words, we need to implement the language-specific stems on the client side and write <code>tsv</code> on the client side.</p>
+<p>Let’s continue with <code>jieba</code> as an example. This is the main program logic for <code>pg_jieba</code>, which is also a Python package, so let’s use Python for the example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import jieba  </span><br><span class="line">  </span><br><span class="line">def tokenize(text):  </span><br><span class="line">    return &#x27; &#x27;.join(jieba.cut(text))  </span><br><span class="line">  </span><br><span class="line">cur.execute(&quot;&quot;&quot;  </span><br><span class="line">    INSERT INTO blog_posts (title, body, author, tsv)  </span><br><span class="line">    VALUES (%s, %s, %s, to_tsvector(&#x27;english&#x27;, %s))  </span><br><span class="line">&quot;&quot;&quot;, (title, body, author, tokenize(title + &#x27; &#x27; + body)))</span><br></pre></td></tr></table></figure>
+
+<p>Similarly, the query is also done by <code>jieba.cut</code> and then <code>to_tsquery</code>. One interesting thing is we still use <code>english</code> as the catalog in this example, but it doesn’t really matter what we use. I just need the ability to split text with whitespace.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we can see the power of PostgreSQL.</p>
+<p>It has many useful features and a rich ecosystem. Even if these readymade implementations are not enough, we can still implement on our own through its stable and flexible design.</p>
+<p>That’s why I prefer PostgreSQL.</p>
+<p>If we don’t think about something clearly in the beginning, there are many chances that we can fix it without getting stuck in a mess.</p>
+<p>This article provided an example of full-text searching, and I’ll provide an additional interesting example. At one time, I was using PostgreSQL for a microservice and focused on its ACID capabilities. However, the requirements changed so drastically that ACID was no longer a priority, but rather the ability to flexibly support a variety of data types.</p>
+<p>Suddenly, PostgreSQL can be transformed into a document database, storing all kinds of nested JSON through <code>JSONB</code>.</p>
+<p>Thanks to the flexibility of PostgreSQL, it has saved my life many times, and I would like to provide a reference for you.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/postgresql-full-text-search-in-a-nutshell-1efc744267d3">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Trino-Iceberg-Made-Easy-A-Ready-to-Use-Playground/20240519/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Trino-Iceberg-Made-Easy-A-Ready-to-Use-Playground/20240519/" class="post-title-link" itemprop="url">Trino & Iceberg Made Easy: A Ready-to-Use Playground</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-05-20 01:40:38" itemprop="dateCreated datePublished" datetime="2024-05-20T01:40:38+08:00">2024-05-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="A-quick-start-environment-for-effortless-exploration-and-learning"><a href="#A-quick-start-environment-for-effortless-exploration-and-learning" class="headerlink" title="A quick-start environment for effortless exploration and learning"></a>A quick-start environment for effortless exploration and learning</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*N9x4AiBHMnLk8O3r"></p>
+<p>Earlier I briefly <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/getting-started-with-flink-sql-apache-iceberg-and-dynamodb-catalog-71b96817e3c3">introduced Apache Iceberg</a> and built an out-of-the-box experiment environment.</p>
+<p>The purpose of the article was to experience the integration of Flink SQL and Iceberg, so that I could quickly move on to the next stage of Flink development. Surprisingly, the article was really popular, and I received a few stars on my Github. It made me realize many people like me find these big data technical stacks tough and want a tutorial.</p>
+<p>So, let’s welcome another big data star, Trino.</p>
+<p>Trino is a popular query engine that provides a single entry point of access to multiple heterogeneous data sources and the ability to query them using SQL. This is a bit abstract, let’s take an example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*UG__C3hQhQzjTRyyZYVipg.png"></p>
+<p>Even though every data source has different query syntax, Trino integrates well and interacts with users using SQL.</p>
+<p>In addition to common databases, Trino also supports Iceberg queries. Thus, let’s experience the integration of Trino and Iceberg, and I will provide a experiment environment as well.</p>
+<h3 id="Experiment-environment-introduction"><a href="#Experiment-environment-introduction" class="headerlink" title="Experiment environment introduction"></a>Experiment environment introduction</h3><p>First, provide the link to the experiment environment.</p>
+<p>Before we get started, let’s take a quick look at the basic structure of Trino, which has three layers: catalog, schema, and finally table. Let’s use MongoDB as an example, where catalog corresponds to a database cluster, schema refers to the name of the database under the cluster. As for table, it simply refers to collection.</p>
+<p>However, the meaning of this catalog is different from that of Iceberg’s. Iceberg’s catalog is just one of Iceberg’s settings, not the one that Trino recognizes as a catalog.</p>
+<p>Sounds confusing? Let’s look at an existing example, <code>example.properties</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">connector.name=iceberg  </span><br><span class="line">iceberg.catalog.type=nessie  </span><br><span class="line">iceberg.nessie-catalog.uri=http://catalog:19120/api/v1  </span><br><span class="line">iceberg.nessie-catalog.default-warehouse-dir=s3://warehouse  </span><br><span class="line">fs.native-s3.enabled=true  </span><br><span class="line">s3.endpoint=http://storage:9000  </span><br><span class="line">s3.region=us-east-1  </span><br><span class="line">s3.path-style-access=true  </span><br><span class="line">s3.aws-access-key=admin  </span><br><span class="line">s3.aws-secret-key=password</span><br></pre></td></tr></table></figure>
+
+<p>This is a Trino catalog setup. We can see this catalog is linked to an Iceberg source. Below we specify the Iceberg-specific catalog as nessie and provide the nessie settings.</p>
+<p>By the way, I wanted to continue to use the previous experiment with Flink SQL and Iceberg, but I found out Trino doesn’t support Iceberg’s <a target="_blank" rel="noopener" href="https://github.com/trinodb/trino/issues/9953">DynamoDB catalog</a>. Therefore, I had to create a new one.</p>
+<p>So far we have created a catalog called example, and we will continue to build the schema and tables under it.</p>
+<p>To initialize the tree structure, we override <a target="_blank" rel="noopener" href="https://github.com/wirelessr/trino-iceberg-playground/blob/26b8ebcff52d51ce661c106523f85cae6aeb7907/docker-compose.yaml#L23">command</a> in <code>docker-compose.yaml</code> so that the Trino container calls <code>post-init.sh</code> on startup.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash  </span><br><span class="line">nohup /usr/lib/trino/bin/run-trino &amp;  </span><br><span class="line">  </span><br><span class="line">sleep 10  </span><br><span class="line">  </span><br><span class="line">trino &lt; /tmp/post-init.sql  </span><br><span class="line">  </span><br><span class="line">tail -f /dev/null</span><br></pre></td></tr></table></figure>
+
+<p>In the script, we first wake up Trino’s original startup script, then wait for 10 seconds for Trino to initialize, and then feed the SQL we want to execute. Finally, it waits until it receives a kill signal.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In the data engineering world, where new technical stacks are constantly being created, it can be difficult just to play with each one once, not to mention comparing the tools.</p>
+<p>So I hope these experiment environments will provide people who want to play around with them a quick experience without actually getting their hands dirty.</p>
+<p>As for comparing tools, it would be great if someone had a more complete benchmark report to share with me. For example, I’d love to know, at this point in time (May 2024), what would be the best choice between the three lakehouses? Or how about Trino and Presto?</p>
+<p>I have an answer in mind, but I’d like more objective numbers, so feel free to discuss.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/trino-iceberg-made-easy-a-ready-to-use-playground-7f4a1f7713ca">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Data-Silos-Understanding-Addressing-Integrating/20240512/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Data-Silos-Understanding-Addressing-Integrating/20240512/" class="post-title-link" itemprop="url">Data Silos: Understanding, Addressing, Integrating</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-05-13 01:28:03" itemprop="dateCreated datePublished" datetime="2024-05-13T01:28:03+08:00">2024-05-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Exploring-the-roots-and-pathways-to-overcoming-data-fragmentation"><a href="#Exploring-the-roots-and-pathways-to-overcoming-data-fragmentation" class="headerlink" title="Exploring the roots and pathways to overcoming data fragmentation"></a>Exploring the roots and pathways to overcoming data fragmentation</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*n-4eHI4lr7qGer9l"></p>
+<p>Nowadays, data engineering is facing many challenges, and one of the toughest issues is the complex technical stack and the emerging problem of data silos.</p>
+<p>The term “data silos” refers to data that is scattered in several places, which are difficult to connect and integrate with each other, as if they are isolated (and they are indeed physically isolated).</p>
+<p>There are many reasons for data silos, for example:</p>
+<ul>
+<li>Separate data pipelines between different departments</li>
+<li>Data centers in different regions for compliance purposes.</li>
+<li>For cost reasons, technical stacks are built on different vendors.</li>
+<li>And so on.</li>
+</ul>
+<p>The most complicated scenario in these cases would be data silos across several public clouds.</p>
+<p>For instance, the original technical stack was built on GCP, so cloud services such as GCS and BigQuery were widely used. But then, for various reasons, we started to build AWS data stacks, so we need to use S3 and Redshift, etc. In fact, all three public clouds have similar roles in data engineering.</p>
+<p>In fact, in the three major public clouds, there are similar roles in data engineering responsible for the corresponding functions.</p>
+<p>If we are looking for relational databases, AWS has RDS, Azure has SQL Database, and Cloud SQL is also available on GCP. If we are looking for object storage services, AWS has the famous S3, Azure also has Blob storage, and GCP also has GCS.</p>
+<p>If we are looking for a common data warehouse, AWS has Redshift, Azure can use Synapase to deal with it, and GCP also has the famous BigQuery. Even the specialized catalog service for data engineering, there is Glue on AWS, and Azure and GCP also have the corresponding Data Catalog.</p>
+<p>Arguably, all three public clouds are competitive with each other. While some services have common protocols that can be migrated to each other, such as RDS and SQL Database, which can be migrated almost seamlessly based on the same implementations.</p>
+<p>However, other services, such as object storage, are not as simple to migrate. As a result, the data services built on the three public clouds have become data silos for each other.</p>
+<p>Furthermore, with the rise of AI in recent years, many organizations have started to build their own AI&#x2F;ML technical stacks. Unlike the technical stacks used in data engineering, AI&#x2F;ML technical stacks are basically fully independent, such as feature stores and vector databases. These infrastructures also have their own data, but it is difficult to integrate with the existing stacks.</p>
+<p>The following is a complete data infra and a complete AI&#x2F;ML infra.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*_uK72KG9Ua9uskSl.png"><img src="https://cdn-images-1.medium.com/max/800/0*8jsd-ixoAWwHzJvc.png"></p>
+<p>From the above two diagrams, we can figure out that these two groups of technical stacks are independent of each other, i.e. two silos.</p>
+<h3 id="Data-Lakehouse"><a href="#Data-Lakehouse" class="headerlink" title="Data Lakehouse"></a>Data Lakehouse</h3><p>After understanding the root cause of data silos, the next question is how to solve it.</p>
+<p>The most straightforward idea is to centralize the management of all data, which is a typical data lakehouse, and Databricks was the first to propose this idea.</p>
+<p>In analytics scenarios, structured data is often used, while AI&#x2F;ML scenarios rely heavily on unstructured data. For data lakehouses, both structured and unstructured data can be centrally managed.</p>
+<p>In addition, data lakehouse provides a common interface for various processing engines, such as Spark and Flink for stream processing and Trino for big data querying. Thanks to the multi-engine support, data lakehouse can be applied to almost every data scenario.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*R3nXVSFEc3jNik1C.png"></p>
+<p>Moreover, data lakehouses provide an cost and performance balance. It can support a variety of usage scenarios while at the same time saving costs. Of course, this is an advantage traded for performance.</p>
+<p>Nevertheless, data lakehouses still don’t totally solve everything, such as the following problems.</p>
+<ul>
+<li>At the sacrifice of performance, user-facing feature still requires dedicated database support.</li>
+<li>Unified data storage is a challenge for privacy and compliance.</li>
+<li>The data is all put together and still can’t avoid the dilemma of data swamp which is the result of the data lake in the past. Although there is a catalog in the data lakehouse, it is still not transparent enough.</li>
+</ul>
+<p>Most importantly, although the data lakehouse effectively mitigate the gap between data engineering and AI&#x2F;ML, it is still helpless in cross public cloud scenarios.</p>
+<h3 id="Metadata-Lake"><a href="#Metadata-Lake" class="headerlink" title="Metadata Lake"></a>Metadata Lake</h3><p>The problem we face now is the storage everywhere, and each type of storage has its own catalog, and each catalog is heterogeneous.</p>
+<p>What if we treat the catalog as we treat the data? In other words, just as we gather all the data in one place, we gather all the catalogs in one place, so can we achieve complete governance? When we can completely govern all the data with metadata, won’t we break the data silo?</p>
+<p>Yes, exactly. This is what the concept of metadata lake does.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*McVvNYc63-tTeZuNOYlZ1g.png"></p>
+<p>From the above diagram, we can see modern data processing engines have corresponding catalogs, and Metadata Lake is designed to centralize the governance of these catalogs. In this way, there is a unified place to view all data sources and understand the internal data structure.</p>
+<p>This concept is not new, in fact, all public clouds have launched corresponding products, like Microsoft’s OneLake and GCP’s BigLake, which are based on this concept.</p>
+<p>However, these public cloud services can only solve the data silos within the public cloud, and there is still no solution for cross public cloud.</p>
+<p>Fortunately, more and more enterprises have noticed this business opportunity and started to make their own products, e.g., Datastrato’s <a target="_blank" rel="noopener" href="https://datastrato.ai/docs/0.5.0/">Gravitino</a> is focused on solving the data silos across clouds.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>We are living in a chaotic and complex era.</p>
+<p>The amount of data is exploding, and the AI boom is exacerbating the process. In the past, we have tried to store data, clean it, transform it, and then use it. With the data we have, we’re already swamped. And with the increasing data volume, it’s only getting busier.</p>
+<p>However, nowadays, this is not enough. We want to know what is stored and we want to be able to integrate and interact with it easily. Therefore, data governance has become an obvious subject.</p>
+<p>That’s also why there’s an increasing number of tools geared towards metadata.</p>
+<p>I’m also concerned about this topic because our organization recently made the transition from GCP to AWS, and governing the warehouse schema for both clouds is becoming an issue. I will leave this story for later, so let’s call it a day.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/data-silos-understanding-addressing-integrating-0fe9cd998b2b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Balancing-Timeliness-and-Accuracy-in-Software-Architecture/20240505/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Balancing-Timeliness-and-Accuracy-in-Software-Architecture/20240505/" class="post-title-link" itemprop="url">Balancing Timeliness and Accuracy in Software Architecture</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-05-06 02:01:09" itemprop="dateCreated datePublished" datetime="2024-05-06T02:01:09+08:00">2024-05-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Navigating-event-driven-architecture-for-real-time-updates"><a href="#Navigating-event-driven-architecture-for-real-time-updates" class="headerlink" title="Navigating event-driven architecture for real-time updates"></a>Navigating event-driven architecture for real-time updates</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*tdmJ7ZAWBcuS27hB"></p>
+<p>Recently our engineer asked me a question.</p>
+<blockquote>
+<p><em>Why do we need to periodically get the latest state via API while we design the event-driven architecture, in addition to relying on asynchronous events for data synchronization?</em></p>
+</blockquote>
+<blockquote>
+<p><em>If we need to get the latest status periodically, then why not just synchronize the data through the API completely?</em></p>
+</blockquote>
+<p>This is a good question, but before answering this question, let’s consider what our system requirements are.</p>
+<p>Suppose we want our clients to see the latest status as much as possible, and we can only allow a maximum delay of 5 minutes.</p>
+<p>How would we design the system to synchronize the status through events? First, we would trigger a corresponding event at the point of addition, modification, or deletion of the original data, and then synchronize the state of the original data to our system based on the event. This design ensures clients can see the latest status.</p>
+<p>On the other hand, if we need to synchronize the raw data via the API, then we must start a periodic task, such as a crontab, every five minutes, and then periodically download all the raw data back via the API.</p>
+<p>Both approaches meet our system needs, but the former is much lighter than the latter, until a problem occurs.</p>
+<h3 id="Problems-of-Asynchronization"><a href="#Problems-of-Asynchronization" class="headerlink" title="Problems of Asynchronization"></a>Problems of Asynchronization</h3><p>The biggest problem with asynchronous events is we cannot ensure the order of the events (unless we add ordering identifiers to the event design). So it is possible that two close updates arrive in the opposite order, resulting in inconsistent data.</p>
+<p>For example, the original data is <code>value = A</code>. In a short period of time, it is changed to B and then to C. However, if the order of arrival of the events is such that C arrives before B, then the client will see the result as <code>value = B</code> (instead of <code>value = C</code>).</p>
+<p>In addition, asynchronous communication without a proper handshake process can result in event loss, which again can produce inconsistent data.</p>
+<p>For these reasons, we often include additional mitigation via the periodic checking mentioned at the beginning. This leads to the question at the beginning, why don’t we just synchronize everything through the API?</p>
+<p>The answer is simple, because we are comparing two completely different requirements, i.e., timeliness and accuracy.</p>
+<p>Timeliness and accuracy are the two ends of the spectrum.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*1yHfvjNDftwFadqAzukk9A.png"></p>
+<p>Under the fixed cost premise, we can’t ask a system to be both real-time and accurate, there must be a trade-off. Costs here include many items, such as development and maintenance costs, hardware costs, transfer costs, and so on.</p>
+<p>When we want to achieve high timeliness, we sacrifice accuracy. But if we want to maintain a certain level of accuracy, then we move a little bit to the other end of the spectrum, i.e., periodic checking.</p>
+<p>This is why in a distributed architecture it is better to have a BASE rather than an ACID. The E of BASE is eventual consistency, we make sure that the data will be consistent in the end, but how fast is that end? It depends on how many compromises we have to make.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In a software architecture, similar trade-offs occur in various scenarios.</p>
+<p>In this case, we end up choosing timeliness over accuracy, but there may be specific scenarios where we need accuracy over timeliness, e.g., a financial reporting system.</p>
+<p>In this case, there are two common design patterns for financial reporting systems.</p>
+<ul>
+<li>Monthly report dashboard</li>
+<li>Takes a while to output reports</li>
+</ul>
+<p>In the first pattern, we sacrifice granularity for report presentation efficiency. On the other hand, in the latter pattern we choose to utilize additional computation time in order to achieve report accuracy. These design patterns are the result of trade-offs.</p>
+<p>There is no one-size-fits-all solution that can be applied to all scenarios, so we need to be careful to identify the non-functional requirements behind the functional requirements when designing the architecture in order to get things right.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/balancing-timeliness-and-accuracy-in-software-architecture-35d097b634cd">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Elasticsearch/Elasticsearch-Index-Lifecycle-Management-in-a-Nutshell/20240421/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Elasticsearch/Elasticsearch-Index-Lifecycle-Management-in-a-Nutshell/20240421/" class="post-title-link" itemprop="url">Elasticsearch Index Lifecycle Management in a Nutshell</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-04-22 01:39:02" itemprop="dateCreated datePublished" datetime="2024-04-22T01:39:02+08:00">2024-04-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Elasticsearch-Index-Lifecycle-Management-in-a-Nutshell"><a href="#Elasticsearch-Index-Lifecycle-Management-in-a-Nutshell" class="headerlink" title="Elasticsearch Index Lifecycle Management in a Nutshell"></a>Elasticsearch Index Lifecycle Management in a Nutshell</h3><h4 id="Understanding-its-Application-Scenarios-and-Limitations"><a href="#Understanding-its-Application-Scenarios-and-Limitations" class="headerlink" title="Understanding its Application Scenarios and Limitations"></a>Understanding its Application Scenarios and Limitations</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*LQaJhD9iC8n85_qg"></p>
+<p>When we develop data-intensive applications, we usually classify data into frequently used and infrequently used, i.e. hot data and cold data. We have different ways of handling data at different “temperatures”, for example, cold data is stored in lower-cost storage, but with a lower access performance.</p>
+<p>If the databases we use have this kind of temperature management built in, then the operation effort will be greatly reduced.</p>
+<p>Fortunately, Elasticsearch has such a feature, called <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ilm-index-lifecycle.html">index lifecycle management</a> (ILM).</p>
+<p>Before we get into ILM, let’s jump to the conclusion.</p>
+<p>There are two common ways to use Elasticsearch, one is to treat Elasticsearch as an OLTP database, just like a regular database where we CRUD each document. The scenario is we need the search capabilities provided by Elasticsearch, so each document will be a corresponding entity.</p>
+<p>Take an e-commerce website as an example, in order to be able to search for product titles, content, etc., we will add a product as a document to Elasticsearch, and when there are any changes to the product, we will directly find out the corresponding document and modify the fields in it.</p>
+<p>So, the modeling in Elasticsearch will be an index, let’s say <code>products</code>, which contains many documents representing products.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*hiPxw1JZY-AKvbkBCVWWRQ.png"></p>
+<p>On the other hand, Elasticsearch can also be used as a time-series database. All data is continuously written to Elasticsearch, and the written documents are rarely modified. A common example of this is logs. We often use Elasticsearch’s powerful search capabilities to find specific patterns in logs. So in Elasticsearch, there may be a time-divided index, such as log-2024–04–01, log-2024–04–02 and so on.</p>
+<p>Elasticsearch’s ILM only benefits from the latter.</p>
+<h3 id="ILM-Concepts"><a href="#ILM-Concepts" class="headerlink" title="ILM Concepts"></a>ILM Concepts</h3><p>Why ILM can only work on time-series data scenarios and not on OLTP scenarios?</p>
+<p>Briefly, the unit of ILM is index, as indicated by the first letter I. Therefore, when only one index exists, there is no way for ILM to manage it. Either the whole index is hot, or the whole index is cold, and there is no way to distinguish which documents are hot and which are cold within this index.</p>
+<p>The whole concept of ILM in Elasticsearch is to label the index with hot, warm and cold. With different labels, there will be different behaviors, for example, a cold index can only be read but not written. In addition, the nodes in the cluster are labeled so that different temperature indexes belong to specific nodes. In this way, the cold index can be placed in a lower cost machine to save cost.</p>
+<p>In addition to ILM, Elasticsearch has another mechanism that is often paired with ILM, which is <code>Rollover</code>. When time-series data is constantly written to an index, the performance of the index will inevitably degrade. Therefore, <code>Rollover</code> allows the index to generate a new index when certain conditions are met, and the original index will no longer accept write requests.</p>
+<p>The principle of Rollover is to have a dedicated alias for writing to the underlying index, e.g. index-000001, and when a new index is generated, the alias is automatically switched to the new index, e.g. index-000002.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*HzH7HTT4hAB7wu1YVoFHfg.png"></p>
+<p>Based on the configured ILM policy, index-000001 will be converted from a hot index to a warm index, and then to a cold index, achieving a lifecycle.</p>
+<p>This is the whole concept of data tiering in Elasticsearch.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Although Elasticsearch has built-in ILM, there are still many people who misunderstand the concept of ILM. The built-in ILM is indeed a very powerful capability, but it is not a silver bullet as there are limitations on the scenarios it can be applied to.</p>
+<p>Therefore, this article mainly explains the concept of ILM and the applicable scenarios. As for the specific operation is not difficult, the official document has a detailed description, I will not dive into it.</p>
+<p>If we want to use Elasticsearch in an OLTP scenario and want to benefit from ILM, then I think we may need to change our modeling approach so that each CRUD creates a new entity, which might be simpler in this case.</p>
+<p>Here’s a possible approach, let’s continue with the <code>products</code> example.</p>
+<p>When we add a Japanese apple at the first index, <code>products-01</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST /products-01/_doc/1  </span><br><span class="line">&#123;  </span><br><span class="line">    &quot;product_id&quot;: &quot;0001&quot;,  </span><br><span class="line">    &quot;product_name&quot;: &quot;Apple&quot;,  </span><br><span class="line">    &quot;description&quot;: &quot;Made in Japan&quot;,  </span><br><span class="line">    &quot;price&quot;: 100  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>After some time, Japanese apples were out of stock, so we switched to importing American apples. But at this time, the index has been changed to <code>products-02</code> due to <code>Rollover</code>, and the original <code>products-01</code> has been cooled down so we can’t update it.</p>
+<p>Then we need to write the same apples and updated information in <code>products-02</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST /products-02/_doc/1  </span><br><span class="line">&#123;  </span><br><span class="line">    &quot;product_id&quot;: &quot;0001&quot;,  </span><br><span class="line">    &quot;product_name&quot;: &quot;Apple&quot;,  </span><br><span class="line">    &quot;description&quot;: &quot;Made in USA&quot;,  </span><br><span class="line">    &quot;price&quot;: 50  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>All of these indexes will have the same alias, <code>products-search</code>, for searching.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">POST /_aliases  </span><br><span class="line">&#123;  </span><br><span class="line">    &quot;actions&quot;: [  </span><br><span class="line">        &#123;  </span><br><span class="line">            &quot;add&quot;: &#123;  </span><br><span class="line">                &quot;index&quot;: &quot;products-01&quot;,  </span><br><span class="line">                &quot;alias&quot;: &quot;products-search&quot;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;,  </span><br><span class="line">        &#123;  </span><br><span class="line">            &quot;add&quot;: &#123;  </span><br><span class="line">                &quot;index&quot;: &quot;products-02&quot;,  </span><br><span class="line">                &quot;alias&quot;: &quot;products-search&quot;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">    ]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Finally, we search the results directly on <code>products-search</code> but sort them in order, and the top one will be the final result.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">POST /products-search/_search  </span><br><span class="line">&#123;  </span><br><span class="line">    &quot;query&quot;: &#123;  </span><br><span class="line">        &quot;bool&quot;: &#123;  </span><br><span class="line">            &quot;must&quot;: [  </span><br><span class="line">                &#123;  </span><br><span class="line">                    &quot;match&quot;: &#123;  </span><br><span class="line">                        &quot;product_name&quot;: &quot;Apple&quot;  </span><br><span class="line">                    &#125;  </span><br><span class="line">                &#125;  </span><br><span class="line">            ]  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;,  </span><br><span class="line">    &quot;sort&quot;: [  </span><br><span class="line">        &#123;  </span><br><span class="line">            &quot;_index&quot;: &#123;  </span><br><span class="line">                &quot;order&quot;: &quot;desc&quot;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">    ]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>So the client has to de-duplicate the data using <code>product_id</code>, which is a case of updates. Similarly for deletions, a document labeled with a soft delete flag needs to be added so that the client can be aware that the data is invalid.</p>
+<p>In order to implement data tiering on the backend, extra processing must be done on the client side. If the system wasn’t designed this way from the beginning, there would be a lot of development on the client side, which is not always a good approach.</p>
+<p>Alternatively, use additional ETL to move documents that meet the criteria to a different cold index. In this way the client can maintain its existing behavior without awareness.</p>
+<p>Anyway, there’s not much ILM can do for OLTP scenarios, it all depends on the system design.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/elasticsearch-index-lifecycle-management-in-a-nutshell-278072a9aab6">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Making-Gemini-a-Tarot-Master/20240331/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/Making-Gemini-a-Tarot-Master/20240331/" class="post-title-link" itemprop="url">Making Gemini a Tarot Master</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-04-01 01:23:09" itemprop="dateCreated datePublished" datetime="2024-04-01T01:23:09+08:00">2024-04-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Making-Gemini-a-Tarot-Master"><a href="#Making-Gemini-a-Tarot-Master" class="headerlink" title="Making Gemini a Tarot Master"></a>Making Gemini a Tarot Master</h3><h4 id="Quickly-build-a-RAG-application-with-Streamlit-and-LangChain"><a href="#Quickly-build-a-RAG-application-with-Streamlit-and-LangChain" class="headerlink" title="Quickly build a RAG application with Streamlit and LangChain"></a>Quickly build a RAG application with Streamlit and LangChain</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*DWgc5anGVJRcVN4k"></p>
+<p>Nowadays, AI resources are quite available, which makes it much easier to implement RAG (retrieval-augmented generation) applications.</p>
+<p>In order for me to keep writing programs and not to be out of sync with the technology for too long, I’m going to use <code>LangChain</code> to implement a Tarot bot.</p>
+<p>I chose <code>LangChain</code> because it has an active ecosystem and supports multi-model design, so it’s easy to modify it according to the needs. For example, I’ll be using <code>Gemini Pro</code> as my LLM this time, but it’s easy to switch to <code>ChatGPT</code> or even the free <code>Ollama</code>.</p>
+<p>The whole process is simple.</p>
+<ol>
+<li>Crawl through the web to retrieve a lot of Tarot knowledge and examples.</li>
+<li>Convert these data into vectors and write them to vector storage.</li>
+<li>Build a Web App that can draw cards and present them.</li>
+<li>Feed the drawn cards to AI for interpretation based on the big data.</li>
+</ol>
+<p>The <a target="_blank" rel="noopener" href="https://rider-waite-tarot.streamlit.app/">final result</a> will be as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*8oxm1JCCLCMBOfLA.png"></p>
+<blockquote>
+<p><em>Apologies for the Chinese. I’ve been studying Tarot lately, so I’m more likely to get the meaning right if it is in Chinese.</em></p>
+</blockquote>
+<p>This layout has a button to draw cards. When the button is pressed, three cards are turned over, each with an upright meaning and a reversed meaning. Finally Gemini will try to give a full explanation of the meaning of each card in context.</p>
+<p>Let’s get our hands dirty.</p>
+<h3 id="Preconditions"><a href="#Preconditions" class="headerlink" title="Preconditions"></a>Preconditions</h3><p>Let’s start by installing the packages that will be used.</p>
+<blockquote>
+<p><em>pip install langchain-google-genai langchain pymongo</em></p>
+</blockquote>
+<h3 id="Implementing-a-web-crawler"><a href="#Implementing-a-web-crawler" class="headerlink" title="Implementing a web crawler"></a>Implementing a web crawler</h3><p>Since web crawlers are not the focus of this article, and web crawlers involve finding targets and parsing web content, let me get directly to the heart of the RAG problem.</p>
+<blockquote>
+<p><em>How to put the material into vector storage?</em></p>
+</blockquote>
+<p>First, we make a basic declaration about which data store we want to use and what kind of embedding we want to use to convert the text into vectors.</p>
+<p>In this example, I’ve chosen to use <a target="_blank" rel="noopener" href="https://www.mongodb.com/">MongoDB Atlas</a>, so let’s get the settings right.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from pymongo import MongoClient  </span><br><span class="line">  </span><br><span class="line"># MONGODB_ATLAS_CLUSTER_URI will contain credentials, please modify it accordingly.  </span><br><span class="line">client = MongoClient(MONGODB_ATLAS_CLUSTER_URI)  </span><br><span class="line">DB_NAME = &quot;langchain_db&quot;  </span><br><span class="line">COLLECTION_NAME = &quot;test&quot;  </span><br><span class="line">ATLAS_VECTOR_SEARCH_INDEX_NAME = &quot;index_name&quot;  </span><br><span class="line">MONGODB_COLLECTION = client[DB_NAME][COLLECTION_NAME]</span><br></pre></td></tr></table></figure>
+
+<p>Next is Gemini’s own embedding.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import os  </span><br><span class="line">from langchain_google_genai import GoogleGenerativeAIEmbeddings  </span><br><span class="line">  </span><br><span class="line"># GEMINI_PRO_API_TOKEN is a credential, please modify it accordingly.  </span><br><span class="line">os.environ[&quot;GOOGLE_API_KEY&quot;] = GEMINI_PRO_API_TOKEN  </span><br><span class="line">embeddings = GoogleGenerativeAIEmbeddings(model=&quot;models/embedding-001&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>Before writing to storage, the data needs to be pre-processed. Assuming all the data is in JSON format, we need to split the JSON into smaller chunks to make it easier to use.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from langchain_text_splitters import RecursiveJsonSplitter  </span><br><span class="line">  </span><br><span class="line">splitter = RecursiveJsonSplitter(max_chunk_size=300)  </span><br><span class="line"># json_data is the data source in JSON format  </span><br><span class="line">json_chunks = splitter.split_json(json_data=json_data)  </span><br><span class="line"># docs will be stored  </span><br><span class="line">docs = splitter.create_documents(texts=[json_data])</span><br></pre></td></tr></table></figure>
+
+<p>Once everything is ready, it’s just time to convert the data into vectors and write them to MongoDB.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from langchain_community.vectorstores import MongoDBAtlasVectorSearch  </span><br><span class="line">  </span><br><span class="line"># insert the documents in MongoDB Atlas with their embedding  </span><br><span class="line">vector_orig = MongoDBAtlasVectorSearch.from_documents(  </span><br><span class="line">    documents=docs,  </span><br><span class="line">    embedding=embeddings,  </span><br><span class="line">    collection=MONGODB_COLLECTION,  </span><br><span class="line">    index_name=ATLAS_VECTOR_SEARCH_INDEX_NAME,  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>Depending on the state of the crawler and the results, this stage can take a lot of time, both for retrieving data and for writing to storage.</p>
+<h3 id="Web-App-implementation"><a href="#Web-App-implementation" class="headerlink" title="Web App implementation"></a>Web App implementation</h3><p>It’s not difficult to build a Web App quickly, as I’ve introduced in my <a target="_blank" rel="noopener" href="https://medium.com/stackademic/simplify-web-app-development-code-lite-create-big-6f87e21ea71c">previous article</a> about Streamlit.</p>
+<p>Therefore, I will only talk about two key points this time.</p>
+<p>There are many spreads in Tarot, each spread has different layouts and corresponding Gemini prompts, so we need to prepare a detailed explanation of the spreads for Gemini to know how to interpret them.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if spread_type == &#x27;Time Flow&#x27;:  </span><br><span class="line">    spread = init_time_flow_spread()  </span><br><span class="line">    sys_prompt = &#x27;&#x27;&#x27;  </span><br><span class="line">This is a Time Flow Tarot spread where three cards are drawn to represent the past, present and future.  </span><br><span class="line">  </span><br><span class="line">Based on the user&#x27;s question, the meaning of the three cards drawn by the user, and the following &#123;context&#125;, a reasonable explanation is given.  </span><br><span class="line">    &#x27;&#x27;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>The tarot cards are drawn in upright and reversed positions, so we can’t just use the file paths in <code>st.image</code>, we need to read out the files and process them and use <code>numpy.ndarray</code> as the parameter.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def open_image(fp):  </span><br><span class="line">    from PIL import Image  </span><br><span class="line">    import numpy as np  </span><br><span class="line">  </span><br><span class="line">    image = Image.open(fp)  </span><br><span class="line">    image_array = np.array(image)  </span><br><span class="line">    flipped_image = image.transpose(Image.ROTATE_180)  </span><br><span class="line">    flipped_image_array = np.array(flipped_image)  </span><br><span class="line">    return image_array, flipped_image_array</span><br></pre></td></tr></table></figure>
+
+<h3 id="Integrate-with-Gemini-Pro"><a href="#Integrate-with-Gemini-Pro" class="headerlink" title="Integrate with Gemini Pro"></a>Integrate with Gemini Pro</h3><p>For Gemini to learn about Tarot, the results of the previous crawler are required, so the first step is to make Gemini able to retrieve the vectors we have stored, i.e. the R of the RAG.</p>
+<p>We’ll use the mentioned embedding and the MongoDB settings.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vector_search = MongoDBAtlasVectorSearch.from_connection_string(  </span><br><span class="line">    MONGODB_ATLAS_CLUSTER_URI,  </span><br><span class="line">    DB_NAME + &quot;.&quot; + COLLECTION_NAME,  </span><br><span class="line">    embeddings,  </span><br><span class="line">    index_name=ATLAS_VECTOR_SEARCH_INDEX_NAME,  </span><br><span class="line">)  </span><br><span class="line">retriever = vector_search.as_retriever()</span><br></pre></td></tr></table></figure>
+
+<p>Next we need to build the LLM using Gemini Pro.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from langchain_google_genai import ChatGoogleGenerativeAI  </span><br><span class="line">  </span><br><span class="line">llm = ChatGoogleGenerativeAI(model=&quot;gemini-pro&quot;, convert_system_message_to_human=True)</span><br></pre></td></tr></table></figure>
+
+<p>Finally, the whole chain is connected.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from langchain.chains.combine_documents import create_stuff_documents_chain  </span><br><span class="line">from langchain.chains import create_retrieval_chain  </span><br><span class="line">from langchain_core.prompts import ChatPromptTemplate  </span><br><span class="line">  </span><br><span class="line"># sys_promopt is based on Tarot&#x27;s Spreads.  </span><br><span class="line">prompt = ChatPromptTemplate.from_messages([  </span><br><span class="line">    (&#x27;system&#x27;, sys_prompt),  </span><br><span class="line">    (&#x27;user&#x27;, &#x27;Question: &#123;input&#125;&#x27;),  </span><br><span class="line">])  </span><br><span class="line">document_chain = create_stuff_documents_chain(llm, prompt)  </span><br><span class="line">retrieval_chain = create_retrieval_chain(retriever, document_chain)</span><br></pre></td></tr></table></figure>
+
+<p>With the whole chain, we can ask Gemini to start his show.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># input_text is the three cards drawn by the user.  </span><br><span class="line">response = retrieval_chain.invoke(&#123;  </span><br><span class="line">    &#x27;input&#x27;: input_text,  </span><br><span class="line">    &#x27;context&#x27;: []  </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This is the simplest example of a RAG implementation, applying all RAG elements, and each piece can actually be modified as needed. The domain knowledge of application is the results from crawlers, and this application just uses the information to answer questions.</p>
+<p>At the moment, I don’t intend Gemini to act like a real soothsayer with the user. Instead, Gemini will provide a one-time recommendation. For me, Tarot is a tool for inner dialogue, not for seeking magic.</p>
+<p>The whole project is on Github.</p>
+<p>Although this application has both UI and AI integration, the total number of code lines is only 150. I have to say, both Streamlit and LangChain are really great at packaging complex implementations in abstract and sophisticated interfaces, so that users can easily write functionality instead of dealing with miscellaneous things.</p>
+<p>Here are some of the LangChain materials I have references to.</p>
+<ul>
+<li>gemini-pro: <a target="_blank" rel="noopener" href="https://python.langchain.com/docs/integrations/chat/google_generative_ai">https://python.langchain.com/docs/integrations/chat/google_generative_ai</a></li>
+<li>gemini-embedding: <a target="_blank" rel="noopener" href="https://python.langchain.com/docs/integrations/text_embedding/google_generative_ai">https://python.langchain.com/docs/integrations/text_embedding/google_generative_ai</a></li>
+<li>mongo-atlas-vector: <a target="_blank" rel="noopener" href="https://python.langchain.com/docs/integrations/vectorstores/mongodb_atlas">https://python.langchain.com/docs/integrations/vectorstores/mongodb_atlas</a></li>
+<li>json-splitter: <a target="_blank" rel="noopener" href="https://python.langchain.com/docs/modules/data_connection/document_transformers/recursive_json_splitter">https://python.langchain.com/docs/modules/data_connection/document_transformers/recursive_json_splitter</a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/making-gemini-a-tarot-master-30086d75b8eb">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Accelerating-API-Responses-with-Smart-Architecture/20240310/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Accelerating-API-Responses-with-Smart-Architecture/20240310/" class="post-title-link" itemprop="url">Accelerating API Responses with Smart Architecture</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-03-11 01:46:20" itemprop="dateCreated datePublished" datetime="2024-03-11T01:46:20+08:00">2024-03-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Experience-a-boost-in-API-response-times-with-our-paradigm-shifting-move-from-Semi-Lambda-to-TiDB-Kappa-architecture"><a href="#Experience-a-boost-in-API-response-times-with-our-paradigm-shifting-move-from-Semi-Lambda-to-TiDB-Kappa-architecture" class="headerlink" title="Experience a boost in API response times with our paradigm-shifting move from Semi-Lambda to TiDB &amp; Kappa architecture"></a>Experience a boost in API response times with our paradigm-shifting move from Semi-Lambda to TiDB &amp; Kappa architecture</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*IhK9f60eYRXLUfNL"></p>
+<p>We recently launched a big technical revamp, and the results have been impressive. We’ve seen a 9x improvement in response times for specific APIs (from 9 seconds down to 1 second).</p>
+<p>You may ask why the API response time is so long. It’s mainly because of the product characteristics, it’s a data product, there will be a lot of data aggregation and analysis, and the API response will be the result of a period of analysis. Therefore, in general, there will be a longer latency.</p>
+<p>Nevertheless, through this technical revamp, we have significantly reduced the API latency while maintaining the product features.</p>
+<p>This is due to two core changes.</p>
+<ol>
+<li>Database changes</li>
+<li>Kappa architecture</li>
+</ol>
+<p>Let’s take a closer look at what we did.</p>
+<h3 id="Semi-Lambda-Architecture"><a href="#Semi-Lambda-Architecture" class="headerlink" title="Semi-Lambda Architecture"></a>Semi-Lambda Architecture</h3><p>At first, our architecture is a “semi-Lambda” architecture. To understand what a semi-Lambda architecture is, let’s first look at a Lambda architecture.</p>
+<p>A <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Lambda_architecture">typical Lambda architecture</a> has three components.</p>
+<ol>
+<li>Batch layer</li>
+<li>Speed layer</li>
+<li>Serving layer</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_kpuP6tt0HDMdETQ9Ia12A.png"></p>
+<p>Data processing from the data source is divided into two paths, one is periodic batch processing, which has the advantage of processing a large amount of data quickly.</p>
+<p>On the other hand, in order to enhance the freshness of the analysis, there is real-time processing to calculate the data in the current time period. The results from both sides are aggregated into a serving layer so that end users can get the final results.</p>
+<p>For example, if the time is 12:30 and the batch layer runs every full hour, then the data from 12:01 to 12:30 will be processed by the speed layer.</p>
+<p>The above is a standard Lambda architecture.</p>
+<p>Then, what is a semi-Lambda architecture? The illustration is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*ZDyYOvNn7QAEyA--dQBfug.png"></p>
+<p>We also have a batch layer and a serving layer, but we are missing the speed layer. Instead, we write the raw data directly into the serving layer, and the client, e.g. API, which is invoked by the upper layer, runs the logic to process the raw data and combine it with the batch result.</p>
+<p>In other words, we are the on-the-fly speed layer.</p>
+<p>The drawbacks of such an architecture are obvious.</p>
+<ol>
+<li>Postgres is a monolithic database, so even though it can be read-write split, the replicas still need to synchronize with the master constantly. This is fatal in large raw data write scenarios, where I&#x2F;O consumes a lot of system resources.</li>
+<li>Postgres is limited in its capability to handle big data. Although it is possible to make data blocks smaller and easier to read by partitioning, a single database is not enough when the algorithm is designed for a large number of partitions.</li>
+</ol>
+<p>Therefore, we need to propose solutions to these two problems.</p>
+<h3 id="Streaming-ingest-problem"><a href="#Streaming-ingest-problem" class="headerlink" title="Streaming ingest problem"></a>Streaming ingest problem</h3><p>First of all, we need to solve the database bottleneck of writing large amounts of data. Therefore, a proper database is essential.</p>
+<p>For those who have been following me, you should know I have been studying RTOLAP databases such as <a target="_blank" rel="noopener" href="https://medium.com/dev-genius/building-apache-pinot-and-presto-bf91388c7df5">Apache Pinot</a> for some time. But in the end, we didn’t go with RTOLAP.</p>
+<p>The main reason is RTOLAP database does not perform well in two specific scenarios.</p>
+<ol>
+<li>Upsert</li>
+<li>Join</li>
+</ol>
+<p>Because of the application features, we need to perform frequent upserts on big data, and in addition, we need to do a large number of joins, doesn’t matter if it’s a cross-table join or self-table join.</p>
+<p>On the other hand, it is difficult to say RTOLAP database has comprehensive support for SQL statements, and we want to minimize the amount of trial-and-error work required for migration, so we didn’t choose RTOLAP database in the end.</p>
+<p>Fortunately, around the same time, we got some help from a vendor and learned about a distributed database completely compatible with MySQL, i.e. TiDB. Previously, <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/htap-learning-from-xiaohongshu-8d8181d12195">I wrote an article</a> describing TiDB application scenarios. In fact, TiDB can support both OLTP and OLAP scenarios, fitting our needs.</p>
+<h3 id="Speed-layer-problem"><a href="#Speed-layer-problem" class="headerlink" title="Speed layer problem"></a>Speed layer problem</h3><p>Once the database selection is finalized, the next step is to address the lack of a complete speed layer.</p>
+<p>There are two possible directions.</p>
+<ol>
+<li>Build a complete Lambda speed layer.</li>
+<li>Change to Kappa architecture</li>
+</ol>
+<p>In the end, we chose the latter and started to move the architecture to Kappa.</p>
+<p>The reason is both Lambda and Kappa need to build streaming processing capabilities, but to build a speed layer for the Lambda architecture we still need to rewrite the batch logic in a streaming framework. It would be better to migrate the batch logic to the Kappa framework so that if there is a need for any feature in the future, we just need to add the new logic to the streaming framework.</p>
+<p>This is one of the advantages of Kappa over Lambda, there is no need to maintain two pipelines (batch and real-time) with the same logic.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Smd9TkUWEXNFAViOAbsuyw.png"></p>
+<p>After moving to the Kappa paradigm, you can see that the whole architecture has become simple, with Flink being responsible for data processing and batch processing disappearing. In addition, Postgres was moved to TiDB, which of course required changes to the query syntax, but it was well worth it.</p>
+<p>Finally, we solved the OLAP query latency problem by using streaming pre-processing and the power of the TiDB distributed database.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Paradigm shift is a battle against time, and how to keep optimizing the system while guaranteeing development productivity is a big challenge.</p>
+<p>In addition to initiating discussions and a series of technical selections, it is more important to plan the actual migration and develop efficiently. This requires architects, PMs, and developers to work together.</p>
+<p>The question is frequently asked: How much of a benefit is this migration? It’s a tough question to answer before getting one’s hands dirty. But if we don’t know the benefits, how can we have the confidence to invest for such a long period of time?</p>
+<p>From my point of view, we need to list the problems we want to solve and prioritize them in a way that will affect the final solution. Then, identify one or two showcases to act as pilots, and learn as much as possible from these showcases, rather than launching a large-scale revamp all at once.</p>
+<p>When results are achieved in the showcases, we will be able to measure the benefits.</p>
+<p>Engineering is different from science in nature. Engineering is learning by doing, not by theorizing. Airplanes fly before scientific theories can explain them, that’s my mindset on technical revamping, let’s see what you guys think too.</p>
+<h3 id="Stackademic-🎓"><a href="#Stackademic-🎓" class="headerlink" title="Stackademic 🎓"></a>Stackademic 🎓</h3><p>Thank you for reading until the end. Before you go:</p>
+<ul>
+<li>Please consider <strong>clapping</strong> and <strong>following</strong> the writer! 👏</li>
+<li>Follow us <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><strong>X</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><strong>LinkedIn</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><strong>YouTube</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Discord</strong></a></li>
+<li>Visit our other platforms: <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>In Plain English</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://cofeed.app/"><strong>CoFeed</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://venturemagazine.net/"><strong>Venture</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://blog.cubed.run/"><strong>Cubed</strong></a></li>
+<li>More content at <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>Stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/tidb-kappa-accelerating-api-responses-with-smart-architecture-5fe9a28f0f83">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Simplify-Web-App-Development-Code-Lite-Create-Big/20240225/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Microservice/Simplify-Web-App-Development-Code-Lite-Create-Big/20240225/" class="post-title-link" itemprop="url">Simplify Web App Development: Code Lite, Create Big!</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-02-26 02:19:28" itemprop="dateCreated datePublished" datetime="2024-02-26T02:19:28+08:00">2024-02-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Simplify-Web-App-Development-Code-Lite-Create-Big"><a href="#Simplify-Web-App-Development-Code-Lite-Create-Big" class="headerlink" title="Simplify Web App Development: Code Lite, Create Big!"></a>Simplify Web App Development: Code Lite, Create Big!</h3><h4 id="Empower-your-ideas-with-Streamlit’s-Magic-—-build-feature-rich-Web-Apps-effortlessly"><a href="#Empower-your-ideas-with-Streamlit’s-Magic-—-build-feature-rich-Web-Apps-effortlessly" class="headerlink" title="Empower your ideas with Streamlit’s Magic — build feature-rich Web Apps effortlessly"></a>Empower your ideas with Streamlit’s Magic — build feature-rich Web Apps effortlessly</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*iyZdGiduMHAeJYvi"></p>
+<p>Hello data engineers and backend engineers!</p>
+<ul>
+<li>Have you ever wanted to implement a Web App but didn’t know where to start because you don’t have frontend skills?</li>
+<li>Have you ever struggled to write interactive components and spent a lot of development time?</li>
+<li>Have you ever wanted to present an idea quickly but didn’t have the right tools?</li>
+</ul>
+<p>Here’s your savior, let’s welcome <a target="_blank" rel="noopener" href="https://streamlit.io/">Streamlit</a>.</p>
+<p>It’s a full-stack framework for Python that allows you to write scripts to generate a Web App that can really work, and it supports a variety of interactive components as well.</p>
+<p>Let me show the power of Streamlit with a real-world example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*sq55R7q8mzAOiSoF.png"></p>
+<p>The above Web App is a demo of what I actually developed after I know about Streamlit, with several interactive components and integration with the database, and it’s even already live. Guess how long it took me?</p>
+<blockquote>
+<p><em>Less than an hour.</em></p>
+</blockquote>
+<p>A beginner who can write Python can write a Web App in a very short time, and I have to say that this practical experience is truly amazing.</p>
+<p>Moreover, the goal of Streamlit is to provide a framework for fast data visualization, so even drawing is as easy as the following.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*U3y5e36cyMit0DPJ.png"></p>
+<p>In the <a target="_blank" rel="noopener" href="https://streamlit.io/gallery">Streamlit gallery</a> there are a lot of examples that have already been done, and you can see that Streamlit covers almost all of the common components needed for daily work.</p>
+<h3 id="Demo-Site"><a href="#Demo-Site" class="headerlink" title="Demo Site"></a>Demo Site</h3><p>Let’s go back to the beginning of the example I worked on.</p>
+<p>As we can see from the diagram, we have used six input components in the following order.</p>
+<ul>
+<li>Select box</li>
+<li>Calendar</li>
+<li>Time picker</li>
+<li>Text input</li>
+<li>Number input</li>
+<li>Button</li>
+</ul>
+<p>The actual code is quite simple.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@st.cache_data(ttl=600)  </span><br><span class="line">def get_user():  </span><br><span class="line">    db = client.dev  </span><br><span class="line">    users = db.user.find().sort(&#x27;_id&#x27;, -1)  </span><br><span class="line">    users = [x[&#x27;name&#x27;] for x in users]  </span><br><span class="line">    return users  </span><br><span class="line">  </span><br><span class="line">user = st.selectbox(&#x27;User&#x27;, get_user())  </span><br><span class="line">d = st.date_input(&#x27;Date&#x27;)  </span><br><span class="line">t = st.time_input(&#x27;Time&#x27;)  </span><br><span class="line">item = st.text_input(&#x27;Item&#x27;)  </span><br><span class="line">amount = int(st.number_input(&#x27;Amount&#x27;, step=1))  </span><br><span class="line">dt = datetime.combine(d, t)  </span><br><span class="line">  </span><br><span class="line">if st.button(&#x27;Submit&#x27;) and item and amount:  </span><br><span class="line">    db = client.dev  </span><br><span class="line">    db.accounting.insert_one(&#123;&#x27;DateTime&#x27;: dt, &#x27;Item&#x27;: item, &#x27;Amount&#x27;: amount, &#x27;User&#x27;: user&#125;)  </span><br><span class="line">    st.write(&#x27;Submitted&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>Each input component is actually a function, and the return value is the result of the input component, which makes the whole program as easy as writing a script. There is no callback and no signal, which makes the development of Web App extremely trivial.</p>
+<p>After the script is executed, the corresponding frontend page will be generated.</p>
+<h3 id="Why-am-I-so-impressed"><a href="#Why-am-I-so-impressed" class="headerlink" title="Why am I so impressed?"></a>Why am I so impressed?</h3><p>For someone without frontend skills, making an interactive UI used to rely on packages like <code>PyQt</code> or <code>tkinter</code>.</p>
+<p>Taking <code>PyQt</code> as an example, the way to write a select box is as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def show():  </span><br><span class="line">    text = box.currentText()  </span><br><span class="line">    print(text)  </span><br><span class="line">  </span><br><span class="line">box = QtWidgets.QComboBox(form)  </span><br><span class="line">box.addItems([&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;])  </span><br><span class="line">box.currentIndexChanged.connect(show)</span><br></pre></td></tr></table></figure>
+
+<p>For components to be able to interact, they need to deal with event binding in addition to appearance definition, which is not intuitive.</p>
+<p>Each component has its own events, and various callbacks need to be defined, all of which are learning curve. In fact, <code>tkinter</code> is a similar implementation.</p>
+<p>But in Streamlit, you can do the same thing with just one line.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">text = st.selectbox(&#x27;Label&#x27;, [&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;])  </span><br><span class="line">print(text)</span><br></pre></td></tr></table></figure>
+
+<p>This makes development very natural. I call the component I need, and the return result is what I want.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The greatest advantage of Streamlit is that a person without any frontend skills (HTML, CSS and Javascript) can build a full-featured Web App in a very short time. In addition, Streamlit is a differentiator from many UI packages in providing a simple concept that makes the operation of interactive components natural, and truly what you see is what you get.</p>
+<p>Streamlit is best suited as an internal data analytics platform or a PoC for quick validation, while its biggest shortcoming is that such a Web App is not well suited for high-traffic systems.</p>
+<p>The main reason is because Streamlit, in order to build up the simple concept mentioned above, its implementation is to reload the whole script every time any component changes, which has a very high system load.</p>
+<p>On the other hand, this means that the Web App is stateful and cannot be scaled horizontally through a load balancer.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*6uQlPrZloPCZrHPdnZLm2Q.png"></p>
+<p>And Streamlit itself <a target="_blank" rel="noopener" href="https://docs.streamlit.io/knowledge-base/deploy/does-streamlit-support-wsgi-protocol">so far</a> does not support <a target="_blank" rel="noopener" href="https://gunicorn.org/">Gunicorn</a>, so its vertical scalability is limited.</p>
+<p>In summary, Streamlit is best suited for Data Apps, as mentioned in the official website.</p>
+<blockquote>
+<p><em>A faster way to build and share data apps.</em></p>
+</blockquote>
+<p>Nevertheless, for me, even though I’m able to develop frontend pages, I don’t feel I’ll ever touch HTML again. After all, who wants to deal with the extra technical stack when you can do it all in Python.</p>
+<h3 id="Stackademic-🎓"><a href="#Stackademic-🎓" class="headerlink" title="Stackademic 🎓"></a>Stackademic 🎓</h3><p>Thank you for reading until the end. Before you go:</p>
+<ul>
+<li>Please consider <strong>clapping</strong> and <strong>following</strong> the writer! 👏</li>
+<li>Follow us <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><strong>X</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><strong>LinkedIn</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><strong>YouTube</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Discord</strong></a></li>
+<li>Visit our other platforms: <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>In Plain English</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://cofeed.app/"><strong>CoFeed</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://venturemagazine.net/"><strong>Venture</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://blog.cubed.run/"><strong>Cubed</strong></a></li>
+<li>More content at <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>Stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/simplify-web-app-development-code-lite-create-big-6f87e21ea71c">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

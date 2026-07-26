@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="How SHOPLINE Saves 40% Space in Main DatabaseData tiering in practice: a guide to Hot and Cold data storage  Part 1 (this article): Data tiering methodology Part 2: Practice detail  Recently, our orga">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How SHOPLINE Saves 40 Percent Space in Main Database">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/How-SHOPLINE-Saves-40-Space-in-Main-Database/20240901/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="How SHOPLINE Saves 40% Space in Main DatabaseData tiering in practice: a guide to Hot and Cold data storage  Part 1 (this article): Data tiering methodology Part 2: Practice detail  Recently, our orga">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*jbjLT8uj_11IiL5AJX3qEA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*d8mm-AkFaF7KxYbKuP_ECw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*EAYVUoeLkfGljRrmHhsoOg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*tYlyXEYdAatvrcADnlLDjg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*wDfAZp6RpN2I6By734n8fA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*2g7P3z9wr4tirVErJlLF5g.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*kendvZgZ1Ty32KOsmNrofQ.png">
+<meta property="article:published_time" content="2024-09-01T17:57:23.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.824Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*jbjLT8uj_11IiL5AJX3qEA.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/How-SHOPLINE-Saves-40-Space-in-Main-Database/20240901/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/How-SHOPLINE-Saves-40-Space-in-Main-Database/20240901/","path":"Architecture/How-SHOPLINE-Saves-40-Space-in-Main-Database/20240901/","title":"How SHOPLINE Saves 40 Percent Space in Main Database"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>How SHOPLINE Saves 40 Percent Space in Main Database | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#How-SHOPLINE-Saves-40-Space-in-Main-Database"><span class="nav-number">1.</span> <span class="nav-text">How SHOPLINE Saves 40% Space in Main Database</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Data-tiering-in-practice-a-guide-to-Hot-and-Cold-data-storage"><span class="nav-number">1.1.</span> <span class="nav-text">Data tiering in practice: a guide to Hot and Cold data storage</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Business-driven-or-Tech-driven"><span class="nav-number">2.</span> <span class="nav-text">Business-driven or Tech-driven?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What-is-Cold-Data"><span class="nav-number">3.</span> <span class="nav-text">What is Cold Data?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#How-to-Cold-Down"><span class="nav-number">4.</span> <span class="nav-text">How to Cold Down</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#User-scenario"><span class="nav-number">5.</span> <span class="nav-text">User scenario</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Functional-limitations"><span class="nav-number">6.</span> <span class="nav-text">Functional limitations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Existing-technical-stacks-and-data-structures"><span class="nav-number">7.</span> <span class="nav-text">Existing technical stacks and data structures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Common-Approaches"><span class="nav-number">8.</span> <span class="nav-text">Common Approaches</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Native-support"><span class="nav-number">9.</span> <span class="nav-text">Native support</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Application-sharding"><span class="nav-number">10.</span> <span class="nav-text">Application sharding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cold-data-archiving"><span class="nav-number">11.</span> <span class="nav-text">Cold data archiving</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-warehousing"><span class="nav-number">12.</span> <span class="nav-text">Data warehousing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">13.</span> <span class="nav-text">Conclusion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stackademic-%F0%9F%8E%93"><span class="nav-number">14.</span> <span class="nav-text">Stackademic 🎓</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/How-SHOPLINE-Saves-40-Space-in-Main-Database/20240901/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="How SHOPLINE Saves 40 Percent Space in Main Database | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          How SHOPLINE Saves 40 Percent Space in Main Database
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-09-02 01:57:23" itemprop="dateCreated datePublished" datetime="2024-09-02T01:57:23+08:00">2024-09-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="How-SHOPLINE-Saves-40-Space-in-Main-Database"><a href="#How-SHOPLINE-Saves-40-Space-in-Main-Database" class="headerlink" title="How SHOPLINE Saves 40% Space in Main Database"></a>How SHOPLINE Saves 40% Space in Main Database</h3><h4 id="Data-tiering-in-practice-a-guide-to-Hot-and-Cold-data-storage"><a href="#Data-tiering-in-practice-a-guide-to-Hot-and-Cold-data-storage" class="headerlink" title="Data tiering in practice: a guide to Hot and Cold data storage"></a>Data tiering in practice: a guide to Hot and Cold data storage</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*jbjLT8uj_11IiL5AJX3qEA.png"></p>
+<ul>
+<li>Part 1 (this article): <a target="_blank" rel="noopener" href="https://medium.com/stackademic/how-shopline-saves-40-space-in-main-database-9504a1eb2472">Data tiering methodology</a></li>
+<li>Part 2: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/how-shopline-saves-40-space-in-main-database-part-2-a2c3e3420022">Practice detail</a></li>
+</ul>
+<p>Recently, our organization has been driving a technical transformation where we are tiering data and archiving so-called “cold data” to less costly storage.</p>
+<p>Typically, a system must originally use a database that is both fast to access and capable of supporting complex queries, i.e. a database for OLTP scenarios. Inevitably, the unit cost of such a database must be high, which means the more data stored, the more expensive it is, and exponentially so.</p>
+<p>Therefore, it is valuable to move some infrequently used data out of the original OLTP database and store it in a lower cost “place”. This process is called data tiering or data archiving.</p>
+<p>This “place” is sacrificing many features for price advantages, such as poor access performance. Furthermore, the archived data may never be modified again, depending on requirements, and may only be available for viewing.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*d8mm-AkFaF7KxYbKuP_ECw.png"></p>
+<p>The diagram above provides a clear overview.</p>
+<p>Depending on the use case, the application may still have access to all the data, and there may be differences in usage depending on the scenario. However, at the data layer the data has actually been split into two different stores, one fast and costly, the other slow and inexpensive.</p>
+<h3 id="Business-driven-or-Tech-driven"><a href="#Business-driven-or-Tech-driven" class="headerlink" title="Business-driven or Tech-driven?"></a>Business-driven or Tech-driven?</h3><p>Do you feel that this organizational transformation is a tech-driven or a business-driven project?</p>
+<p>To be honest, this would be a business-driven project. The reason is simple: the act of archiving cold data has a significant impact on the user experience.</p>
+<p>When you’re a user of a system, let’s say a bank user, would you want to see all past transactions or just three months of transactions? Undoubtedly, I’m sure you’d want to see all of them, and they’d have to be complete, including time, recipients, amounts, and even notes.</p>
+<p>Suppose your bank originally disclosed all the records of the past years, until one day, the bank realized that the cost of data storage is too high and need to archive the transaction records of three months ago, how would you feel?</p>
+<p>Unhappy, maybe even quit, right? Yes, that’s why data archiving is a business-driven project.</p>
+<h3 id="What-is-Cold-Data"><a href="#What-is-Cold-Data" class="headerlink" title="What is Cold Data?"></a>What is Cold Data?</h3><p>So, here comes another question. How do we define cold data? I mean what data we have to archive in order to have as little impact on the user experience as possible.</p>
+<p>To be able to answer this question, we first need to have observability.</p>
+<ol>
+<li>the distribution of data, i.e., the volume of data as a percentage</li>
+<li>the time distribution of the data</li>
+<li>how users use the data</li>
+<li>the time distribution of the data being used</li>
+</ol>
+<p>With these metrics we can further analyze which tables need to be tiered, and we can also identify the timing of the tiering.</p>
+<p>I believe that the first and second points should be fairly simple, but the critical third and fourth points are almost impossible to obtain without having them built into the system in advance.</p>
+<p>So what should we do?</p>
+<p>Fortunately, we still have one more tactic, which is the fake door test.</p>
+<p>Since we can’t know the context in which the user is using the data, we can make some hypotheses and verify them by making small changes to the application.</p>
+<p>For example, our UI can see all bank transactions, but we want to hide transactions from six months ago. We’re not sure if six months is a good time condition, so we’ll just mask the six months ago data on the UI instead of physically archiving it.</p>
+<p>In addition to masking, we also wanted to know if this would affect the user experience, so we added a <code>Load More</code> button to record user actions. This way, we know how many users need those six-month old records, and how often they need them.</p>
+<p>Moreover, we can take six months as a unit to evaluate how often the data from a year ago or even a year and a half ago is used, so that we can adjust the time hypothesis we set.</p>
+<p>Eventually, we can know what is a reasonable cold data from the results of the fake door test.</p>
+<h3 id="How-to-Cold-Down"><a href="#How-to-Cold-Down" class="headerlink" title="How to Cold Down"></a>How to Cold Down</h3><p>When we have set the scope of cold data, we then need to consider how that cold data will be accessed.</p>
+<p>Once again, this is still not a purely tech-driven issue, but is actually determined by business requirements.</p>
+<p>Although we all know that the low price of cold data comes at the expense of accessibility, how much impact on the user story will significantly determine our decision.</p>
+<p>Here are a few considerations, so let’s discuss them one by one.</p>
+<h3 id="User-scenario"><a href="#User-scenario" class="headerlink" title="User scenario"></a>User scenario</h3><p>Once we have clearly distinguished between hot data and cold data, is there a difference in the usage of these two types of data?</p>
+<p>Usage here is not about the impact of non-functional requirements such as slow responses, but rather whether we would treat cold data and hot data in the same user scenario.</p>
+<p>Continuing with the bank transactions example, let’s assume that transactions older than six months are considered cold.</p>
+<p>Here are a few questions to think about.</p>
+<ol>
+<li>Should records older than 6 months be able to be displayed seamlessly on the list page?</li>
+<li>Should records older than 6 months be able to be displayed via “Load More”?</li>
+<li>Can we allow the editing of notes for transactions older than 6 months?</li>
+<li>Can we not show records older than 6 months at all?</li>
+</ol>
+<p>From top to bottom, we have higher and higher impact on the user story, e.g. in point 3 we allow cold data to be read-only, and even more so in point 4 we allow cold data to be completely inaccessible.</p>
+<p>We can know that the more forward options cost more.</p>
+<h3 id="Functional-limitations"><a href="#Functional-limitations" class="headerlink" title="Functional limitations"></a>Functional limitations</h3><p>In the user scenarios, we consider whether the cold data is visible and modifiable, but this is not enough.</p>
+<p>In the business logic, it is not only about the availability of the records, but also about the aggregation and other operations.</p>
+<p>For example, the transaction records can be summed up by month to show the consumption trend, and the consumption percentage can be categorized by transaction targets. Not to mention, there are also some cross-domain data computation requirements.</p>
+<p>If we store all the cold data in the form of csv in the object storage system, it is true that we can get a very low storage cost, but all the computing requirements must be parsed out of the whole csv, which will dramatically increase the cost of use.</p>
+<p>Therefore, how to balance the cost of storage and the cost of use in terms of functionality is also an important consideration.</p>
+<h3 id="Existing-technical-stacks-and-data-structures"><a href="#Existing-technical-stacks-and-data-structures" class="headerlink" title="Existing technical stacks and data structures"></a>Existing technical stacks and data structures</h3><p>Once we have reached a conclusion on the first two points, the only thing left to do is to fulfill the business requirements within the existing architecture.</p>
+<p>Why is this also a critical consideration?</p>
+<p>Let’s use a case study to illustrate.</p>
+<blockquote>
+<p><em>Suppose we decide to treat half a year as a hot and cold junction, and the cold data should be able to be displayed seamlessly on the list page, but it cannot be written to, only read, and all the business logic should be the same as before.</em></p>
+</blockquote>
+<p>Would this be a harsh condition? It depends. If we’re using Elasticsearch as our main database and defining indexes in terms of time series, then this condition is a piece of cake.</p>
+<p>I’ve explained <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/elasticsearch-index-lifecycle-management-in-a-nutshell-278072a9aab6">the mechanism and concepts of Elasticsearch’s Index Lifecycle Management</a>, aka ILM. Therefore, it is quite easy to fulfill such business requirements.</p>
+<p>However, if our main database is MySQL, then it would take much more effort to accomplish the same business requirement than using Elasticsearch.</p>
+<p>To sum up, how to archive cold data depends a lot on the business requirements, but also on the existing technical stack and implementation.</p>
+<h3 id="Common-Approaches"><a href="#Common-Approaches" class="headerlink" title="Common Approaches"></a>Common Approaches</h3><p>Let’s list some common data tiering technical options and explain the scenarios where they apply using a few of the mentioned business requirements.</p>
+<p>For the sake of simplicity, let’s summarize the requirements. Let’s start with the business requirements and focus on the following three.</p>
+<ul>
+<li>Readable</li>
+<li>Writable</li>
+<li>Aggregatable</li>
+</ul>
+<p>In addition to the functional requirements for business, there are also non-functional requirements, so let’s focus on the three core requirements.</p>
+<ul>
+<li>Storage Cost</li>
+<li>Computing Cost</li>
+<li>Access Latency</li>
+</ul>
+<p>In addition, I would like to add a key non-functional requirement.</p>
+<ul>
+<li>Implementation Complexity</li>
+</ul>
+<h3 id="Native-support"><a href="#Native-support" class="headerlink" title="Native support"></a>Native support</h3><p>As mentioned in the previous section, when using Elasticsearch’s ILM, there is a simple data tiering architecture when dealing with time-series data.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*EAYVUoeLkfGljRrmHhsoOg.png"></p>
+<ul>
+<li>Readable (v)</li>
+<li>Writable (x)</li>
+<li>Aggregatable (v)</li>
+</ul>
+<p>With Elasticsearch’s ILM, it is possible to reduce storage costs by using nodes with poor hardware specifications as cold data nodes, even though the cost is still higher than object storage.</p>
+<p>However, because Elasticsearch can keep indexes, query performance will normally reflect the hardware specification savings, and the worse the hardware specification, the worse the query performance will be. Fortunately, this performance loss is still much better than the performance of object storage.</p>
+<ul>
+<li>Storage Cost （high)</li>
+<li>Computing Cost (low)</li>
+<li>Access Latency (low)</li>
+<li>Implementation Complexity (low)</li>
+</ul>
+<p>In fact, if using a database with built-in lifecycle management such as Elasticsearch, then similar characteristics will be available.</p>
+<h3 id="Application-sharding"><a href="#Application-sharding" class="headerlink" title="Application sharding"></a>Application sharding</h3><p>It is because of Elasticsearch’s built-in ILM that data tiering can be achieved with little or no modification to the application’s implementation. However, applications that do not use Elasticsearch as their main database are not so lucky, and they have to implement their own sharding logic in the application.</p>
+<p>The first step is to prepare two homogeneous databases, one with a high specification for hot data and the other with a low specification.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*tYlyXEYdAatvrcADnlLDjg.png"></p>
+<p>The application determines which database to obtain data from based on the query criteria, and if necessary, it must also do the hot data and cold data join.</p>
+<p>The creation of cold data is usually handled by a background Extract-Transform-Load (ETL) process.</p>
+<ul>
+<li>Readable (v)</li>
+<li>Writable (v)</li>
+<li>Aggregatable (v)</li>
+</ul>
+<p>Since there are two homogeneous databases, the impact of the usage scenario can be minimized and the ability to write cold data is also available.</p>
+<ul>
+<li>Storage Cost （high)</li>
+<li>Computing Cost (low)</li>
+<li>Access Latency (low)</li>
+</ul>
+<p>There is a challenge to be solved in this implementation, there is a time gap between ETL and the application , if this time gap is not dealt with then the user will feel the data loss. A common practice is to reserve a buffer, for example, for an application program to use <code>T</code> for hot&#x2F;cold junction, so <code>T-1</code>, <code>T-2</code> will be the cold data accordingly, and vice versa.</p>
+<p>In order to avoid the time gap, ETL will prepare the data of <code>T</code> at <code>T-1</code> in advance at the launch time. Nevertheless, if the data for the <code>T</code> time period is updated then it is possible to encounter data inconsistencies, which require additional handling.</p>
+<ul>
+<li>Implementation Complexity (medium)</li>
+</ul>
+<h3 id="Cold-data-archiving"><a href="#Cold-data-archiving" class="headerlink" title="Cold data archiving"></a>Cold data archiving</h3><p>The solutions mentioned above are all big technical compromises to minimize business impact, and there is no way to significantly reduce the cost of implementing data tiering in this way.</p>
+<p>If we are willing to sacrifice most of the user stories, can we optimize the cost greatly? Yes, absolutely.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*wDfAZp6RpN2I6By734n8fA.png"></p>
+<p>The architecture is also two storage, but one is a database and the other is an object storage system. When we decide the conditions of the cold data, we can start the archiving.</p>
+<p>Because of the characteristics of object storage, no schema, no index and long access latency, cold data is not a useful option for applications. For applications, cold data is like disappearing suddenly, and the same is true for users.</p>
+<p>This is how the bank transaction records were handled in the first place. Both the application and the user no longer have access to cold data, which is irrelevant in most usage scenarios. Once we need cold data, for example if I want to see a disputed account from a year ago, I have to go to the bank and request a data access.</p>
+<p>The data still exists, it’s just no longer easily accessible.</p>
+<ul>
+<li>Readable (v)</li>
+<li>Writable (x)</li>
+<li>Aggregatable (x)</li>
+</ul>
+<p>Some applications may keep a history export feature, but more often it’s like a bank where the data is removed right from the user interface.</p>
+<p>But this way we get a dramatic cost optimization, because object storage is much less pricey than databases.</p>
+<ul>
+<li>Storage Cost （low)</li>
+<li>Computing Cost (x)</li>
+<li>Access Latency (high)</li>
+</ul>
+<p>We’ve sacrificed the business requirements, and instead, we’ve dramatically reduced costs. We can see that I’ve put a cross in the computing cost column because we no longer need to do computing on cold data. Of course, this way we also get an optimized development cost.</p>
+<ul>
+<li>Implementation Complexity (low)</li>
+</ul>
+<p>If such a trade-off is adopted, do not think about satisfying business requirements, as it will only be counterproductive.</p>
+<h3 id="Data-warehousing"><a href="#Data-warehousing" class="headerlink" title="Data warehousing"></a>Data warehousing</h3><p>The solutions mentioned so far are all extreme, either highly satisfying business requirements or highly dependent on cost optimization. Is there a middle-of-the-spectrum approach?</p>
+<p>Actually, data warehousing is a solution that can satisfy part of the business requirements and achieve part of the cost optimization.</p>
+<p>Data warehousing is the process of putting cold data into a “place” that offers low storage costs and the ability to scale computing resources to provide performance when necessary.</p>
+<p>Data warehousing services are available in various public clouds, such as AWS Redshift and GCP BigQuery; in addition, there are many vendors offering similar solutions, such as Snowflake.</p>
+<p>These data warehousing services have the following characteristics.</p>
+<ol>
+<li>Nearly unlimited and low-cost storage.</li>
+<li>Scale to zero when not in use to save costs.</li>
+<li>Ability to compute large amounts of data.</li>
+<li>Response times are not short, at least much longer than databases.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*2g7P3z9wr4tirVErJlLF5g.png"></p>
+<p>This architecture is pretty similar to simple data archiving, but the difference is that data warehousing provides the ability to perform complex operations, so it can meet some of the business requirements. Of course, everything has a price, these computing power is the cost of exchange.</p>
+<ul>
+<li>Readable (v)</li>
+<li>Writable (x)</li>
+<li>Aggregatable (v)</li>
+</ul>
+<p>The reason why there is only a partial business requirement is limited by the latency of data warehouse responses, which may not be experienced well if it is a user-facing feature, so the user scenario needs to be designed in such a way for users to expect a long wait.</p>
+<p>In addition, although the data warehouse provides the ability to write, it is not suitable for the regular writing of applications. Because of the long latency and the high cost of a single write, batch processing with archiving is often used.</p>
+<ul>
+<li>Storage Cost （medium)</li>
+<li>Computing Cost (high)</li>
+<li>Access Latency (medium)</li>
+</ul>
+<p>It is worth mentioning if the original main database is SQL based, then this transformation is not a major impact on the application, because the data warehouse has SQL support. If the data warehouse and archive are already in place, then the effort of transformation is even less.</p>
+<p>However, the latency faced in obtaining data requires a reasonable process, and if the data warehouse is operated as if it were a database, then problems such as timeout may be encountered frequently. This can be mitigated by redesigning the business process.</p>
+<ul>
+<li>Implementation Complexity (medium)</li>
+</ul>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In the previous section we analyzed the properties and trade-offs of different data tiering approaches, so that we can summarize them in a table and assign a rank to them.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*kendvZgZ1Ty32KOsmNrofQ.png"></p>
+<p><code>[1]</code>: Data warehousing is also through object storage, but because it creates a catalog and supports selectable fields, it is generally more efficient than just object storage.<br><code>[2]</code>: This refers to the fact that the main database is SQL based, which makes it less difficult to implement because of the compromises in the user scenarios. But if the main database is not SQL based, it’s a totally different story.</p>
+<p>In fact, there are many variations of these four solutions, depending on the business and technical trade-offs will be adjusted in some details, but the overall concept is basically the same.</p>
+<p>We can realize that the task of data tiering, which feels very technical-driven, is essentially business-driven. From the beginning of the user behavior research to the subsequent adjustment of business requirements, this series of trade-offs will affect the entire system experience.</p>
+<p>Even so, these trade-offs still require a lot of technical selection behind the scenes, in other words, it is not only a business-driven task.</p>
+<p>We all know that data tiering is important and necessary, but how to get the whole thing launch depends on a lot of communication and mutual trust between the business side and the technical side.</p>
+<p>With the table above, I believe I can provide you with an easy-to-understand overview of how to adjust your business requirements on a case-by-case basis.</p>
+<h3 id="Stackademic-🎓"><a href="#Stackademic-🎓" class="headerlink" title="Stackademic 🎓"></a>Stackademic 🎓</h3><p>Thank you for reading until the end. Before you go:</p>
+<ul>
+<li>Please consider <strong>clapping</strong> and <strong>following</strong> the writer! 👏</li>
+<li>Follow us <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><strong>X</strong></a> | <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><strong>LinkedIn</strong></a> | <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><strong>YouTube</strong></a> | <a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Discord</strong></a></li>
+<li>Visit our other platforms: <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>In Plain English</strong></a> | <a target="_blank" rel="noopener" href="https://cofeed.app/"><strong>CoFeed</strong></a> | <a target="_blank" rel="noopener" href="https://differ.blog/"><strong>Differ</strong></a></li>
+<li>More content at <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>Stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-shopline-saves-40-space-in-main-database-9504a1eb2472">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Database/How-to-Perform-ALTER-TABLE-on-Huge-Table/20240825/" rel="prev" title="How to Perform ALTER TABLE on Huge Table">
+                  <i class="fa fa-chevron-left"></i> How to Perform ALTER TABLE on Huge Table
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Redis/Turn-Based-Multiplayer-Beer-Game/20240908/" rel="next" title="Turn Based Multiplayer Beer Game">
+                  Turn Based Multiplayer Beer Game <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

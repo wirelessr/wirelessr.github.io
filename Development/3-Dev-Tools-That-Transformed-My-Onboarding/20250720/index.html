@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="From a better terminal to AI scripting, here are my top 3 onboarding finds. It’s been a month since I changed my job, and I’ve started to try out some new ways of working in this new journey, and I’ve">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3 Dev Tools That Transformed My Onboarding">
+<meta property="og:url" content="https://wirelessr.github.io/Development/3-Dev-Tools-That-Transformed-My-Onboarding/20250720/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="From a better terminal to AI scripting, here are my top 3 onboarding finds. It’s been a month since I changed my job, and I’ve started to try out some new ways of working in this new journey, and I’ve">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*SBrAzkaBgJuvwaXz6WzG5w.png">
+<meta property="article:published_time" content="2025-07-20T16:02:45.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.820Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*SBrAzkaBgJuvwaXz6WzG5w.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Development/3-Dev-Tools-That-Transformed-My-Onboarding/20250720/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Development/3-Dev-Tools-That-Transformed-My-Onboarding/20250720/","path":"Development/3-Dev-Tools-That-Transformed-My-Onboarding/20250720/","title":"3 Dev Tools That Transformed My Onboarding"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>3 Dev Tools That Transformed My Onboarding | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#From-a-better-terminal-to-AI-scripting-here-are-my-top-3-onboarding-finds"><span class="nav-number">1.</span> <span class="nav-text">From a better terminal to AI scripting, here are my top 3 onboarding finds.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Warp"><span class="nav-number"></span> <span class="nav-text">Warp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Column-Selection-Mode"><span class="nav-number"></span> <span class="nav-text">Column Selection Mode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Warp-Drive"><span class="nav-number"></span> <span class="nav-text">Warp Drive</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Warpify"><span class="nav-number"></span> <span class="nav-text">Warpify</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Copy-Output"><span class="nav-number"></span> <span class="nav-text">Copy Output</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-MCP-Toolkit"><span class="nav-number"></span> <span class="nav-text">Docker MCP Toolkit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vibe-Scripting"><span class="nav-number"></span> <span class="nav-text">Vibe Scripting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wrap-Up"><span class="nav-number"></span> <span class="nav-text">Wrap Up</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/3-Dev-Tools-That-Transformed-My-Onboarding/20250720/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="3 Dev Tools That Transformed My Onboarding | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          3 Dev Tools That Transformed My Onboarding
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-07-21 00:02:45" itemprop="dateCreated datePublished" datetime="2025-07-21T00:02:45+08:00">2025-07-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="From-a-better-terminal-to-AI-scripting-here-are-my-top-3-onboarding-finds"><a href="#From-a-better-terminal-to-AI-scripting-here-are-my-top-3-onboarding-finds" class="headerlink" title="From a better terminal to AI scripting, here are my top 3 onboarding finds."></a>From a better terminal to AI scripting, here are my top 3 onboarding finds.</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*SBrAzkaBgJuvwaXz6WzG5w.png"></p>
+<p>It’s been a month since I changed my job, and I’ve started to try out some new ways of working in this new journey, and I’ve also found some new joys in the process of exploring.</p>
+<p>I’d like to take this second review to record the three tools that have helped me the most in this onboarding process. All of them are related to AI but not entirely because of AI.</p>
+<p>The following order is in accordance with my personal level of amazement.</p>
+<h3 id="Warp"><a href="#Warp" class="headerlink" title="Warp"></a><a target="_blank" rel="noopener" href="https://www.warp.dev/">Warp</a></h3><p>I’ve been a user of iTerm2 for a long time, but in fact I don’t use iTerm2 for anything special, just routine tasks like issuing commands and reading the results. A friend recommended Warp to me, so I thought I’d install it when I got a new laptop for my new job.</p>
+<p>As a result, Warp really amazed me, the user experience of Warp is really great, the experience here is not even referring to Warp AI, but just a terminal. I’ll list a few features that I feel are excellent.</p>
+<h3 id="Column-Selection-Mode"><a href="#Column-Selection-Mode" class="headerlink" title="Column Selection Mode"></a>Column Selection Mode</h3><p>The command <code>ctrl+v</code> should be familiar to <code>vim</code> users, and <code>Toggle Column Selection Mode</code> (<code>shift+opt+left mouse click</code>) is also available in VS Code. Warp also has this feature, which can be used either as <code>ctrl+v</code> or <code>shift+opt+left mouse click</code>, both of which are supported.</p>
+<p>This is useful when copying and pasting a list of commands and modifying specific places.</p>
+<h3 id="Warp-Drive"><a href="#Warp-Drive" class="headerlink" title="Warp Drive"></a>Warp Drive</h3><p>When it comes to copy and paste, we have to talk about the Warp Drive, which is a storage space integrated into the Warp interface that allows you to define a lot of frequently used commands.</p>
+<p>I’m not sure what you’ve done in the past with terminal, but I’ve written down frequently used commands in a notepad and then copied and pasted them when I needed to use.</p>
+<p>In Warp, it has this built in, so we don’t need to copy it elsewhere, and we don’t even need to paste the workflow (frequently used commands) written in the Warp Drive. We can define alias for each command, so we can call it directly by alias.</p>
+<p>You may ask, isn’t it possible to write this in <code>~/.bashrc</code>? The problem is that the terminal connects to all kinds of environments: docker, kubernetes, ssh, etc. This definition of alias on Warp works in all environments. There is no need to define the same <code>~/.bashrc</code> everywhere.</p>
+<p>Even if more than one computer is involved, the Warp Drive is shared and synchronized across all computers.</p>
+<h3 id="Warpify"><a href="#Warpify" class="headerlink" title="Warpify"></a>Warpify</h3><p>I just mentioned that Warp Workflow can apply the same alias to each connection, how can it do that?</p>
+<p>This is called <a target="_blank" rel="noopener" href="https://docs.warp.dev/terminal/warpify">Warpify</a>, which is a kind of sub shell designed by Warp, that is to say, it holds a connected shell under the original shell, so it can share alias.</p>
+<h3 id="Copy-Output"><a href="#Copy-Output" class="headerlink" title="Copy Output"></a>Copy Output</h3><p>The last one is actually the function I use most often, copying commands and results.</p>
+<p>This seems to be a very common thing, but it is not common at all. If the output of a command is very large, let’s say a thousand lines, how would you copy the result?</p>
+<p>On iterm2 I do this by emptying the buffer, then re-running the command and selecting it in full (ctrl+a). That way I can copy all the results with the commands.</p>
+<p>But in Warp, each line of instruction and output is in a separate cell, so with a single mouse click, we can copy the instruction and output this time, which is truly convenient.</p>
+<p>In fact, there are a lot of interesting things about Warp, but the four mentioned above are the ones I use every day and feel the most deeply, maybe I’m already used to the other optimizations. None of these optimizations involve AI, in other words, they are free features. Anyway, welcome to try them out.</p>
+<h3 id="Docker-MCP-Toolkit"><a href="#Docker-MCP-Toolkit" class="headerlink" title="Docker MCP Toolkit"></a>Docker MCP Toolkit</h3><p>In the era of AI, a complete set of MCP tools should be indispensable for AI to have a strong impact.</p>
+<p>However, setting up a bunch of MCP tools is really tiring. It’s not enough to just have an MCP server, but there are also a variety of MCP clients.</p>
+<p>I’ve been using Cursor, Roo Code, Google Gemini Cli, and more recently Rovo Cli and Kiro, and I’ve found that each client needs to write its own json file, and some of them even have subtle differences, which is a real pain in the ass.</p>
+<p>Recently, I found that Docker Desktop has released an MCP Toolkit after version 4.42, which includes all the commonly used MCPs, and just by clicking on the UI, we can finish installing all the common MCPs. The client side is even easier to configure, just one line, <code>docker mcp gateway run</code>.</p>
+<p>All the settings are integrated together, which makes installing MCP no longer a nightmare.</p>
+<h3 id="Vibe-Scripting"><a href="#Vibe-Scripting" class="headerlink" title="Vibe Scripting"></a>Vibe Scripting</h3><p>Personally, I don’t really trust Vibe Coding, after all, in a large project, the context window of AI is limited, and it’s extremely difficult to make accurate changes.</p>
+<p>However, Vibe Scripting is definitely my favorite. Because it doesn’t need much context, the AI needs to fulfill a very simple requirement, we just need to tell it properly.</p>
+<p>And the finished product that the AI creates is much better than we can imagine, and even faster than going online to find the solution. Even if we do find the solution on the Internet, how to use it and what are the limitations, it may not satisfy our needs. But what AI makes according to our scene and needs will be an out-of-the-box tool with no learning curve at all.</p>
+<p>Take my recent work as an example, I need to copy several folders from a k8s specific pod and put them into my local container.</p>
+<p>This script has a couple of special features.</p>
+<ol>
+<li>namespace and pod can be fuzzy searched.</li>
+<li>the script will always report progress.</li>
+<li>even if the source directory keeps changing, it can still be done. This is the hardest thing to overcome. Normally, when the source directory file is changed, we will find out that <code>tar</code> sends out a termination signal, and then <code>kubectl</code> will be interrupted. But Gemini and I came up with an approach that allows it to generate a snapshot first, and then do a copy of the snapshot, and then we’re good to go.</li>
+</ol>
+<p>I used to search for tools on the Internet for a long time, but now I prefer to do whatever I need by myself (by AI), which is much more efficient.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>With a new computer and a new environment, there are some new things to try.</p>
+<p>Every time I find something new, I feel so surprised, and I believe that’s the interesting thing about this era, it’s changing fast enough. Especially with the wave of AI, the tools are changing day by day, so there will be a lot of treasures buried in them.</p>
+<p>The most useful discovery for me this time is Warp, maybe there will be some new tools coming out in a while. Let’s keep in touch.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/3-dev-tools-that-transformed-my-onboarding-f149c0267e76">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/AI/Context-Engineering-The-Next-Software-Paradigm-Shift/20250706/" rel="prev" title="Context Engineering: The Next Software Paradigm Shift">
+                  <i class="fa fa-chevron-left"></i> Context Engineering: The Next Software Paradigm Shift
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Development/n8n-vs-Ansible-The-Automation-Choice/20250727/" rel="next" title="n8n vs. Ansible: The Automation Choice">
+                  n8n vs. Ansible: The Automation Choice <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

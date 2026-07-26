@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Optimizing Elasticsearch Reindex without DowntimeA Guide to achieving zero downtime, high efficiency, and successful migration updates When using Elasticsearch, there are always times we need to modif">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Optimizing Elasticsearch Reindex without Downtime">
+<meta property="og:url" content="https://wirelessr.github.io/Elasticsearch/Optimizing-Elasticsearch-Reindex-without-Downtime/20231224/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Optimizing Elasticsearch Reindex without DowntimeA Guide to achieving zero downtime, high efficiency, and successful migration updates When using Elasticsearch, there are always times we need to modif">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*gxwIDp8PlQ1rtRIz">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*3acOcjSOnkYeio6x4cQvPw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*FB8pFsZPCb3dy3Tjw8Da4g.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*B_mmpCbY7HoGvOo8Q9GavQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*-na9YWkaUD8Ht6eqxyM4OQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*QHksqm1Twzqw8g51yLZF7A.png">
+<meta property="article:published_time" content="2023-12-24T16:30:15.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.826Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*gxwIDp8PlQ1rtRIz">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Elasticsearch/Optimizing-Elasticsearch-Reindex-without-Downtime/20231224/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Elasticsearch/Optimizing-Elasticsearch-Reindex-without-Downtime/20231224/","path":"Elasticsearch/Optimizing-Elasticsearch-Reindex-without-Downtime/20231224/","title":"Optimizing Elasticsearch Reindex without Downtime"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Optimizing Elasticsearch Reindex without Downtime | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Optimizing-Elasticsearch-Reindex-without-Downtime"><span class="nav-number">1.</span> <span class="nav-text">Optimizing Elasticsearch Reindex without Downtime</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Guide-to-achieving-zero-downtime-high-efficiency-and-successful-migration-updates"><span class="nav-number">1.1.</span> <span class="nav-text">A Guide to achieving zero downtime, high efficiency, and successful migration updates</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-correct-flow-of-Reindex"><span class="nav-number">2.</span> <span class="nav-text">The correct flow of Reindex</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#One-more-problem"><span class="nav-number">3.</span> <span class="nav-text">One more problem.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">4.</span> <span class="nav-text">Conclusion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stackademic"><span class="nav-number">5.</span> <span class="nav-text">Stackademic</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Elasticsearch/Optimizing-Elasticsearch-Reindex-without-Downtime/20231224/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Optimizing Elasticsearch Reindex without Downtime | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Optimizing Elasticsearch Reindex without Downtime
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-12-25 00:30:15" itemprop="dateCreated datePublished" datetime="2023-12-25T00:30:15+08:00">2023-12-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Optimizing-Elasticsearch-Reindex-without-Downtime"><a href="#Optimizing-Elasticsearch-Reindex-without-Downtime" class="headerlink" title="Optimizing Elasticsearch Reindex without Downtime"></a>Optimizing Elasticsearch Reindex without Downtime</h3><h4 id="A-Guide-to-achieving-zero-downtime-high-efficiency-and-successful-migration-updates"><a href="#A-Guide-to-achieving-zero-downtime-high-efficiency-and-successful-migration-updates" class="headerlink" title="A Guide to achieving zero downtime, high efficiency, and successful migration updates"></a>A Guide to achieving zero downtime, high efficiency, and successful migration updates</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*gxwIDp8PlQ1rtRIz"></p>
+<p>When using Elasticsearch, there are always times we need to modify the index mapping, and when it happens, we can only do <code>_reindex</code>. In fact, it is a pretty expensive operation because it can take up to several hours to make a complete replication of an index, depending on the amount of data and the amount of shards.</p>
+<p>The time spent is not a big problem, but more seriously, it can affect the performance and even the functionality of the production environment.</p>
+<p>I believe we all understand that data migration consumes a lot of hard drive resources, it definitely affects performance, but what about functionality?</p>
+<p>Let’s take a regular <code>_reindex</code> as an example. Suppose we have created an alias on the index. If we don’t have an alias, we’re in big trouble.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*3acOcjSOnkYeio6x4cQvPw.png"></p>
+<p>A regular <code>_reindex</code> procedure is divided into two steps.</p>
+<ol>
+<li>Call the <code>_reindex</code> command to start data migration.</li>
+<li>When the data migration is complete, call the <code>_aliases</code> command to switch between the old and new indexes.</li>
+</ol>
+<p>After step 2, the new index is officially operational, and will be responsible for all read and write requests. However, this is a perfect ideal scenario, in reality, things won’t work out that way.</p>
+<p>Here is a normal scenario.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*FB8pFsZPCb3dy3Tjw8Da4g.png"></p>
+<p>Actually, during the data migration period or before switching aliases, the client will continue to write data to the original index, and these new changes will not be migrated to the new index, which leads to data inconsistency.</p>
+<p>For the client, the feeling is that after changing the alias, all the changes just made will disappear. Furthermore, as I just mentioned, a big index migration can take hours, so the client’s feeling must be obvious.</p>
+<p>So what to do?</p>
+<h3 id="The-correct-flow-of-Reindex"><a href="#The-correct-flow-of-Reindex" class="headerlink" title="The correct flow of Reindex"></a>The correct flow of Reindex</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*B_mmpCbY7HoGvOo8Q9GavQ.png"></p>
+<p>The above flow makes two changes to the original flow.</p>
+<ol>
+<li><code>_reindex</code> must use <strong>external</strong> type.</li>
+<li><code>_reindex</code> is needed again after switching aliases.</li>
+</ol>
+<p>Let’s explain the concept of the external type.</p>
+<p>By default, <code>_reindex</code> is internal, and such data migration is done by using the original index to overwrite the new index anyway, and dropping the <code>_version</code> of the documents, so all documents in the new index start over.</p>
+<p>If using the external type, the <code>_version</code> of the documents will be carried over to the new index during data migration, then the <code>_version</code> will be compared if there is a conflict between the <code>_id</code> of the old and new indexes. Only if the version of the original document is greater than the destination document will be overwritten.</p>
+<p>A bit abstract? Let’s take an example.</p>
+<p>Let’s say the original index has a document like the following, with Elasticsearch metadata at the beginning of the underscore.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    &quot;_id&quot;: &quot;1&quot;,  </span><br><span class="line">    &quot;_version&quot;: 1,  </span><br><span class="line">    &quot;data&quot;: &quot;Hello Elastic&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>When we do external data migration, <code>_version: 1</code> is also written to the new index. if someone changes the original document to <code>Hello Search</code> during the data migration period, then the complete document will look like the following.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    &quot;_id&quot;: &quot;1&quot;,  </span><br><span class="line">    &quot;_version&quot;: 2,  </span><br><span class="line">    &quot;data&quot;: &quot;Hello Search&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>A redo of <code>_reindex</code> will find <code>2 &gt; 1</code>, so it will be overwritten with <code>Hello Search</code>.</p>
+<p>Then, what if the second <code>_reindex</code> has someone modifying the documents in the new index? For example, if someone changes <code>Hello Elatic</code> to <code>Hello Elasticsearch</code> in the new index, will it be overwritten with the old value? The whole process would look like below.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*-na9YWkaUD8Ht6eqxyM4OQ.png"></p>
+<p>The answer is no, because the original version has to be greater than the new version to be overwritten, if they are equal (both 2) then they are not affected.</p>
+<h3 id="One-more-problem"><a href="#One-more-problem" class="headerlink" title="One more problem."></a>One more problem.</h3><p>Although we will do a second <code>_reindex</code> to patch the data, if the patch time is very long, it will still be inconsistent for the users. There are two ways to shorten the reindexing time.</p>
+<ol>
+<li>Minimize the time of the first <code>_reindex</code> as much as possible.</li>
+<li>Filter the patch data in advance.</li>
+</ol>
+<p>Regarding the first point, the <code>_reindex</code> process is controlled by Elasticsearch, what else can we do to improve efficiency? Hey, there is.</p>
+<p>We can modify the settings of the new index to minimize the IO overhead during data migration.</p>
+<ol>
+<li><code>refresh_interval = -1</code></li>
+<li><code>number_of_replicas = 0</code></li>
+</ol>
+<p>It’s quite straightforward. First of all, the purpose of turning off <code>refresh_interval</code> is to allow the data migration period to just focus on writing to the <code>Trans log</code> and not spend extra disk IO on Lucene.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*QHksqm1Twzqw8g51yLZF7A.png"></p>
+<p>Secondly, turning off <code>number_of_replicas</code> reduces the additional data replication overhead that the cluster has to deal with.</p>
+<p>On the other hand, in addition to reducing the time of the first <code>_reindex</code>, some data filtering can be used to reduce the amount of data for the second <code>_reindex</code>.</p>
+<p>For example, bringing in the last update time of the data during the <code>_reindex</code> is a possible solution. Assuming that each document has an <code>updated_at</code> field, then adding the following condition to the <code>query</code> of the <code>_reindex</code> would be effective.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    &quot;range&quot;: &#123;  </span><br><span class="line">        &quot;updated_at&quot;: &#123; &quot;gte&quot;: &quot;now-1d&quot;&#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Based on the above mentioned details, let’s list out the ideal flow of a reindex.</p>
+<ol>
+<li>Create the destination index.</li>
+<li>Update the settings of the destination index. (<code>refresh_interval = -1</code> and <code>number_of_replicas = 0</code>)</li>
+<li>Use external type for <code>_reindex</code>.</li>
+<li>Switch aliases from original index to destination index.</li>
+<li>Do <code>_reindex</code> again using external type, preferably with additional filtering.</li>
+<li>Update the destination index setting again. (<code>refresh_interval = null</code> and <code>number_of_replicas = null</code>)</li>
+</ol>
+<blockquote>
+<p><em>According to the</em> <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-update-settings.html#reset-index-setting"><em>official document</em></a><em>, setting to</em> <code>null</code> <em>allows to restore the original setting.</em></p>
+</blockquote>
+<p>Because <code>_reindex</code> is unavoidable, it is important to know how to do <code>_reindex</code> without downtime.</p>
+<p>In fact, with Elasticsearch’s streaming index, there are more elegant ways to get it done. However, there are a lot of limitations on the use case for a streaming index, so it’s more common to use a regular index in practice.</p>
+<p>This article provides a complete procedure to do <code>_reindex</code> as fast as possible and minimize the time of data inconsistency. However, all of this assumes that the alias is properly created, and if it is not, then more extra steps are required. I feel the lack of aliases is already a violation of Elasticsearch’s best practices, so this article doesn’t specifically cover that scenario.</p>
+<h3 id="Stackademic"><a href="#Stackademic" class="headerlink" title="Stackademic"></a>Stackademic</h3><p><em>Thank you for reading until the end. Before you go:</em></p>
+<ul>
+<li><em>Please consider</em> <em><strong>clapping</strong></em> <em>and</em> <em><strong>following</strong></em> <em>the writer! 👏</em></li>
+<li><em>Follow us on</em> <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><em><strong>Twitter(X)</strong></em></a><em>,</em> <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><em><strong>LinkedIn</strong></em></a><em>, and</em> <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><em><strong>YouTube</strong></em></a><em><strong>.</strong></em></li>
+<li><em>Visit</em> <a target="_blank" rel="noopener" href="http://stackademic.com/"><em><strong>Stackademic.com</strong></em></a> <em>to find out more about how we are democratizing free programming education around the world.</em></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/optimizing-elasticsearch-reindex-without-downtime-0f70cb4949d6">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Data/Getting-Started-with-Flink-SQL-Apache-Iceberg-and-DynamoDB-Catalog/20231217/" rel="prev" title="Getting Started with Flink SQL, Apache Iceberg and DynamoDB Catalog">
+                  <i class="fa fa-chevron-left"></i> Getting Started with Flink SQL, Apache Iceberg and DynamoDB Catalog
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Golang/Generating-Avro-Schemas-from-Go-types/20240114/" rel="next" title="Generating Avro Schemas from Go types">
+                  Generating Avro Schemas from Go types <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

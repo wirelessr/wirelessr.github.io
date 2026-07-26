@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="A look at the data-oriented design approach Part 1, Data-oriented Design Part 2, Domain-driven Design   There are many articles and books talking about Clean Architecture, but the focus is on why and">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Design Software in a Clean Architecture Way">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/How-to-Design-Software-in-a-Clean-Architecture-Way/20220123/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="A look at the data-oriented design approach Part 1, Data-oriented Design Part 2, Domain-driven Design   There are many articles and books talking about Clean Architecture, but the focus is on why and">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*fdnh2MllxpiW0mcK.jpg">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*_AmFxl_4bLq0Vi1m4eTf9w.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*bVsEN_OV0l2mHsfLfSia3w.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*aECKyWRW9iLDbj54SnbvYw.png">
+<meta property="article:published_time" content="2022-01-23T17:11:28.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.824Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*fdnh2MllxpiW0mcK.jpg">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/How-to-Design-Software-in-a-Clean-Architecture-Way/20220123/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/How-to-Design-Software-in-a-Clean-Architecture-Way/20220123/","path":"Architecture/How-to-Design-Software-in-a-Clean-Architecture-Way/20220123/","title":"How to Design Software in a Clean Architecture Way"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>How to Design Software in a Clean Architecture Way | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-look-at-the-data-oriented-design-approach"><span class="nav-number">1.</span> <span class="nav-text">A look at the data-oriented design approach</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Problem-Domain"><span class="nav-number"></span> <span class="nav-text">Problem Domain</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Design-Phase"><span class="nav-number"></span> <span class="nav-text">Design Phase</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-oriented-Design-Can%E2%80%99t-Say-Good-Approach"><span class="nav-number"></span> <span class="nav-text">Data-oriented Design (Can’t Say Good Approach)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary"><span class="nav-number"></span> <span class="nav-text">Summary</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/How-to-Design-Software-in-a-Clean-Architecture-Way/20220123/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="How to Design Software in a Clean Architecture Way | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          How to Design Software in a Clean Architecture Way
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-01-24 01:11:28" itemprop="dateCreated datePublished" datetime="2022-01-24T01:11:28+08:00">2022-01-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="A-look-at-the-data-oriented-design-approach"><a href="#A-look-at-the-data-oriented-design-approach" class="headerlink" title="A look at the data-oriented design approach"></a>A look at the data-oriented design approach</h4><ul>
+<li>Part 1, <a target="_blank" rel="noopener" href="https://lazypro.medium.com/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">Data-oriented Design</a></li>
+<li>Part 2, <a target="_blank" rel="noopener" href="https://lazypro.medium.com/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">Domain-driven Design</a></li>
+</ul>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*fdnh2MllxpiW0mcK.jpg"></p>
+<p>There are many articles and books talking about <em>Clean Architecture</em>, but the focus is on why and what, such as why to use an onion architecture, what each layer represents, and what is the <code>SOLID</code> principle.</p>
+<p>However, developers actually want to pay more attention to how, that is, how to write a good program architecture according to those design principles.</p>
+<p>In this article, we try to solve a common architectural problem in a clean architectural way.</p>
+<p>In many mobile games or commercial websites, in order to improve user retention, a sign-in mission is designed. If you sign in, you will get some rewards. When you sign in continuously for a certain number of days, there will be additional <strong>gift boxes</strong> that can be opened, and you will get bonuses after opening. Let’s try to fulfill this requirement together.</p>
+<h3 id="Problem-Domain"><a href="#Problem-Domain" class="headerlink" title="Problem Domain"></a>Problem Domain</h3><p>Users who log in continuously will get diamonds, as shown in the following table:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_AmFxl_4bLq0Vi1m4eTf9w.png"></p>
+<p>To simplify the problem, let’s get a fixed amount of 100 diamonds the gift box is opened each time. For example, if a user signs in for four consecutive days, the user can get 30 and a gift box on the fifth day of sign-in.</p>
+<p>Every time the user enters the homepage, he will see a sign-in map, telling the user how many consecutive sign-ins have been completed in this cycle and how many rewards have been received.</p>
+<h3 id="Design-Phase"><a href="#Design-Phase" class="headerlink" title="Design Phase"></a>Design Phase</h3><p>There are two different design approaches, data-oriented design and domain-driven design. We will start talking about data-oriented design and tell you why it’s not a mainstream design solution.</p>
+<h3 id="Data-oriented-Design-Can’t-Say-Good-Approach"><a href="#Data-oriented-Design-Can’t-Say-Good-Approach" class="headerlink" title="Data-oriented Design (Can’t Say Good Approach)"></a>Data-oriented Design (Can’t Say Good Approach)</h3><p>The data-oriented design means that when we see a problem, we first think about how to store the data, and then manipulate the defined data format to try to solve the original problem.</p>
+<p>Therefore, after getting the question, the first step is to think about what database to use, what schema it will have, and what format the data will exist in.</p>
+<p>Let’s take the sign-in mission as an example. Suppose we design on a small monolith, usually with a relational database, so we first define a table to realize our problem. Define a sign-in table to store the time of each sign-in, so that you can know how many rewards you can get based on the previous sign-in records.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*bVsEN_OV0l2mHsfLfSia3w.png"></p>
+<p>From the above table, if today is <code>2022-01-04</code>, then John can get 15 diamonds when he signs in, and Mary will start a new cycle because she has not signed in consecutively and only get 10 diamonds.</p>
+<p>The logic of the mission will be to filter the sign-in date of a specific user and sort them by date, then retrieve the latest <code>N</code> records. By calculating the total days of the consecutive sign-ins, and then you can know what reward to get this time.</p>
+<p>There is a problem with such design. When the user’s sign-in is not interrupted at all, i.e., the number of consecutive sign-in days is greater than <code>N</code>, then the amount of data is not enough to determine the current reward. Nevertheless, we do not want to expand <code>N</code> to avoid pulling too much data makes the database a bottleneck. Thus, we should try making some changes to the original schema, such as adding a new field, diamond.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*aECKyWRW9iLDbj54SnbvYw.png"></p>
+<p>For John, signing in on <code>2022-01-09</code> will get 10 diamonds because we know the end of the previous cycle was <code>2022-01-07</code>.</p>
+<p>The story is not over yet. When the number of users grow, the performance of RDBMS will be tough. Every time you enter the homepage, you have to pull data from the database, run a complex calculation, and finally see the result. This process is very inefficient.</p>
+<p>In order to improve the efficiency of the homepage, most projects will introduce a cache to record the status of the entire sign-in. However, how do you know if the cache is invalid? Or the cache is actually not invalid, but distorted. I have covered this problem in a previous article <a target="_blank" rel="noopener" href="https://towardsdev.com/resilient-caching-in-redis-a5b3c1a49f14">Resilient Caching</a>. By adding integrity, we can distinguish whether the data is reliable. Once the data is corrupted, we will rebuild the data from the RDBMS.</p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>From the above introduction, we found that even the cache has many aspects to consider, the whole data-oriented design is very complicated, and the process is very struggled.</p>
+<p>Hence, the domain-driven design was born.</p>
+<p>In part 2, we will start designing from Entity, covering use cases, then implementing the unit tests like TDD, and finally completing our mission. I will provide a better design process, and you can follow the steps to simplify every user stories you will encounter. Let’s call it a day. Until next time</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Microservice/Do-you-really-need-a-microservice/20220116/" rel="prev" title="Do you really need a microservice?">
+                  <i class="fa fa-chevron-left"></i> Do you really need a microservice?
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/" rel="next" title="Designing Software Using Clean Architecture: Domain-Driven Design">
+                  Designing Software Using Clean Architecture: Domain-Driven Design <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

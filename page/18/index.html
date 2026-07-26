@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/18/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/18/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/18/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Common-interface-for-query-functions-in-sqlDB-and-sqlTx/20210930/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Golang/Common-interface-for-query-functions-in-sqlDB-and-sqlTx/20210930/" class="post-title-link" itemprop="url">Common interface for query functions in sql.DB and sql.Tx</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-10-01 04:37:24" itemprop="dateCreated datePublished" datetime="2021-10-01T04:37:24+08:00">2021-10-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Common-interface-for-query-functions-in-sql-DB-and-sql-Tx"><a href="#Common-interface-for-query-functions-in-sql-DB-and-sql-Tx" class="headerlink" title="Common interface for query functions in sql.DB and sql.Tx"></a>Common interface for query functions in sql.DB and sql.Tx</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*t88sTNq2gVS0Eedi.png"></p>
+<p>I want to implement a command pattern upon the <code>database/sql</code> in golang. The goal is that no matter whether the client uses <code>sql.DB</code> or <code>sql.Tx</code>, it can get the result by executing the same command. So that, the client can decide which instance to pass the command according to its needs. The problem is golang is a strongly typed language; therefore, you have to define the instance type in command’s struct first. They are two different types(<code>sql.DB</code> and <code>sql.Tx</code>), and it bothers me.</p>
+<p>There is an <a target="_blank" rel="noopener" href="https://github.com/golang/go/issues/14468">interesting discussion</a> on Github of the golang standard library. I am looking for the same solution like the issue author’s proposal; thus, I read the whole posts in the discussion.</p>
+<p>I extract two important points:</p>
+<ol>
+<li>Many people have the same requirement, so the issue is more like a common abstraction to the high-level design. Libraries are used to ease up things and to not make everyone repeat the very same work.</li>
+<li>Does such an interface need to live in the standard library? It is more like a design concept than a driver.</li>
+</ol>
+<p>Originally, my thoughts were biased towards the former and then I felt that the latter was more correct. From my point of view, the common platform cannot meet everyone’s design concept, that is not practical. If there is indeed a design need, which means it have to be accomplished by a new high-level library. In this case, <a target="_blank" rel="noopener" href="https://godoc.org/github.com/golang-sql/sqlexp#Querier">sqlexp</a> has already played this role. We can either buy in it or create another one.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/common-interface-for-query-functions-in-sql-db-and-sql-tx-39b8ec8eadea">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Make-SQL-Scan-result-be-map-in-golang/20210928/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Golang/Make-SQL-Scan-result-be-map-in-golang/20210928/" class="post-title-link" itemprop="url">Make SQL Scan result be map in golang</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-09-28 09:34:21" itemprop="dateCreated datePublished" datetime="2021-09-28T09:34:21+08:00">2021-09-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Make-SQL-Scan-result-be-map-in-golang"><a href="#Make-SQL-Scan-result-be-map-in-golang" class="headerlink" title="Make SQL Scan result be map in golang"></a>Make SQL Scan result be map in golang</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*_4zVsFQup-SamYNi.png"></p>
+<p>When we are using MySQL in golang, we usually adopt <code>database/sql</code> to finish our jobs. In my opinion, the most common driver must be <code>go-sql-driver</code>. It is efficient and easy to use but hard to use well.</p>
+<p>Especially, the fetch result sets coming from <code>SELECT</code> are not a slice like other dynamic programming languages. In other dynamic language, we expect the results would be a list to represent what columns you want. Moreover, In Python, we can directly fetch the database and get a <code>dict</code> as a result set.</p>
+<p>In golang, we have to define the variables first, and then manually assign those variables to <code>Scan</code>. This implementation results in 2 problems:</p>
+<ol>
+<li>If we issued a <code>SELECT *</code>, we will encounter an error if the schema changes in the future.</li>
+<li>If we want to ask for a new column, we have to aware where uses the result sets. And modify them all carefully although they didn’t care the new column.</li>
+</ol>
+<p>To sum up, we need a method to mitigate those common problems after all. My idea comes from Python, I want the result sets to be a <code>map</code>, so that the caller will not be impacted if any change on the database.</p>
+<p>The solution is as follows:</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/make-sql-scan-result-be-map-in-golang-e04f0de5950f">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Redis-helps-avoiding-racing-conditions/20210814/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Redis/Redis-helps-avoiding-racing-conditions/20210814/" class="post-title-link" itemprop="url">Redis helps avoiding racing conditions</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-08-15 07:33:12" itemprop="dateCreated datePublished" datetime="2021-08-15T07:33:12+08:00">2021-08-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>In the <a target="_blank" rel="noopener" href="https://lazypro.medium.com/how-to-avoid-the-race-condition-and-the-negative-value-3f397b2b08e4">previous article</a>, we had introduced how to ensure the integrity of transferring money. However, it’s not good enough to prevent going wrong. That approach will probably take time to retry many times to make things be done, so that it consumes client’s time as well as occupying the database resource.</p>
+<h3 id="User-Scenario"><a href="#User-Scenario" class="headerlink" title="User Scenario"></a>User Scenario</h3><p>Suppose there is a table for maintaining the lottery tickets, and each ticket has its own owner, serial number and a flag, remain, of whether it is used or not. In addition, there is another table to keep winning records.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*6zJnpGt56SCgRNUyK7x_zA.png"><img src="https://cdn-images-1.medium.com/max/800/1*bXMjPAc-2XOawumO4Db9uA.png"></p>
+<p>For instance, <em>A</em> had 3 tickets but used one. And then, <em>B</em> got one ticket. Besides, the used ticket wins 100 dollars for <em>A</em>.</p>
+<h3 id="Simple-Design"><a href="#Simple-Design" class="headerlink" title="Simple Design"></a>Simple Design</h3><p>According the our previous introduction, we will design the <code>remain</code> flag in an unsigned integer with the default value: 1. When consuming this ticket, we uses the atomic update to increase the remain by -1. If a user has only one ticket but wants to draw twice, the second attempt will fail due to the negative value of <code>remain</code>.</p>
+<p>Represent in the psudo code is like:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">`START TRANSACTION`  </span><br><span class="line">A_ticket = `select id from tickets where \  </span><br><span class="line">      remain = 1 and user = &#x27;A&#x27; order by id limit 1`  </span><br><span class="line">`update tickets set remain = remain - 1 where id = A_ticket`  </span><br><span class="line">reward = bingo()  </span><br><span class="line">`insert into rewards (id, reward) values ($&#123;A_ticket&#125;, $&#123;reward&#125;)`  </span><br><span class="line">`COMMIT`</span><br></pre></td></tr></table></figure>
+
+<p>First, <em>A</em>’s first ticket will be picked out, and the lottery will start after deduction. Finally, the result will be updated into the database.</p>
+<p>But the problem occurs in the assumption that <em>A</em> has two tickets like the example at the beginning of this article, which means that <em>A</em> can draw twice at the same time. When <em>A</em> draws twice simultaneously, it should be successful without fail.</p>
+<p>Run the process once with the implementation we mentioned. The first one who comes in will get a ticket number 3 and the second one who comes in will also get the same ticket. As a result, the first draw will succeed but the second attempt will be failed. If it fails, then it must try again, and then it will get the ticket number 4 and succeed.</p>
+<p>Such a procedure would be correct after all, but it is not good enough. When you have <em>n</em> tickets, you obviously can draw <em>n</em> times at the same time within <em>O(1)</em>. However, such an implementation leads to <em>O(n)</em>. Among them, <em>O(n-1)</em> is a retry. And, the higher the <em>n</em>, the worse the user experience.</p>
+<h3 id="Random-select"><a href="#Random-select" class="headerlink" title="Random select"></a>Random select</h3><p>Here comes the second design, we don’t order by the id; instead, we pick the ticket randomly to mitigate the failure. Therefore, we modify the original <code>select</code> statement to become:</p>
+<blockquote>
+<p><em>A_ticket &#x3D; <code>*</code>select id from tickets where remain &#x3D; 1 and user &#x3D; ‘A’ order by RAND() limit 1<code>*</code></em></p>
+</blockquote>
+<p>In this example, we don’t care about the drawback of <code>order by RAND()</code>; nevertheless, the random means it will sometimes go wrong. Worst of all, it may choose the ticket with a long validity period instead of the ticket is about to expire.</p>
+<h3 id="Requirement"><a href="#Requirement" class="headerlink" title="Requirement"></a>Requirement</h3><p>Looking back at our needs, we need to draw a lottery “simultaneously” several times when the user has a few tickets, and use the tickets in order.</p>
+<h3 id="Final-Solution"><a href="#Final-Solution" class="headerlink" title="Final Solution"></a>Final Solution</h3><p>To achieve our goal, we can leverage Redis’ help. The purpose of Redis is to have a congestion control. In order to make all clients can succeed once, we have to dispatch the tickets to them correctly while highly concurrency occurs.</p>
+<h3 id="Bad-approach"><a href="#Bad-approach" class="headerlink" title="Bad approach"></a>Bad approach</h3><p>Usually, Redis is used to be a distributed optimistic lock to make sure the permission of a critical section, e.g.,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ret = `setnx lock 1`  </span><br><span class="line">if not ret:  </span><br><span class="line">    raise Locked(&quot;already locked by others&quot;)  </span><br><span class="line">else:  </span><br><span class="line">    do_something()  </span><br><span class="line">    `del lock`</span><br></pre></td></tr></table></figure>
+
+<p>If an application can set a lock in Redis, which means he can dominate this time period until he finishes his job; on the other hand, everyone must wait for him. Solving the problem in this way is still not very helpful, at most it can only speed up the client’s retry, because the client doesn’t need to go through the database operation and the lottery procedures.</p>
+<h3 id="Good-approach"><a href="#Good-approach" class="headerlink" title="Good approach"></a>Good approach</h3><p>To solve this problem, we want to support multi-entrance by using Redis. The process is to push all the current ticket numbers through <code>LPUSH</code>, and use <code>RPOP</code> to take out the first one.</p>
+<p>Because Redis’ single command is atomic, you can ensure that the tickets are correctly allocated to each call that comes in at the same time.</p>
+<p>Let’s take a simple psudο code as an example:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">do:  </span><br><span class="line">    A_owned_tickets = `select id from tickets where \  </span><br><span class="line">            remain = 1 and user = &#x27;A&#x27; order by id`  </span><br><span class="line">    `LPUSH A_owned_tickets $&#123;owned_tickets&#125;`  </span><br><span class="line">    A_ticket = `RPOP A_owned_tickets`  </span><br><span class="line">while A_ticket != nil</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">`START TRANSACTION`  </span><br><span class="line">`update tickets set remain = remain - 1 where id = A_ticket`  </span><br><span class="line">reward = bingo()  </span><br><span class="line">`insert into rewards (id, reward) values ($&#123;A_ticket&#125;, $&#123;reward&#125;)`  </span><br><span class="line">`COMMIT`  </span><br><span class="line">`DEL A_owned_tickets`</span><br></pre></td></tr></table></figure>
+
+<p>In the above example, we use uppercase to indicate Redis’ instructions. Let’s use the sequential diagram to get a deeper look at what’s going on.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*gWVoWfWzyRm6pq8pOJPqkA.png"></p>
+<p>The above is an ideal situation. Although <em>A1</em> and <em>A2</em> occur simultaneously, <em>A1</em> is slightly earlier than <em>A2</em>, so there will be two complete sequences in Redis, <code>[4, 3, 4, 3]</code>. If <em>A1</em> and <em>A2</em> occur almost at the same time, it will be the following situation:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*J2ncLvugpOY-SyD8wKQYHw.png"></p>
+<p>From the above figure, even if <em>A1</em> and <em>A2</em> occur almost simultaneously, it will not affect the accuracy. So what happens if <em>A1</em> finishes its job faster, COMMIT the result and deletes the list?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*s4kodbsn4aggopSRP1MhRQ.png"></p>
+<p>We can see <em>A2</em> got a <code>nil</code> at the first time, so he therefore had to retrieve the tickets from MySQL and push again to proceed the process. Even so, it is more efficient than the original commit failure after all the processes are run.</p>
+<p>The worst case will happen when there is high concurrency, some clients are very fast and some clients are very slow, which will cause several retries and still fail. The flow as shown below.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*PhgYEVZrH6dnOdhL6GWxJQ.png"></p>
+<p>If this is the case, you can adopt an alternative approach. Do not actively <code>DEL</code> the list, but use <code>EXPIRE</code> to delete. Choosing a reasonable timeout will relieve symptoms. However, it comes another problem, the validity of expired data. This is a trade-off, you can take the approach that suits your user scenario.</p>
+<p>At last, if the amount of coming requests is greater than the owned tickets, the original schema design still works to reject the invalid operations(<code>remain</code> cannot be negative).</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/redis-helps-avoiding-racing-conditions-b970ba3fdd58">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Database/How-to-avoid-the-race-condition-and-the-negative-value/20210721/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Database/How-to-avoid-the-race-condition-and-the-negative-value/20210721/" class="post-title-link" itemprop="url">How to avoid the race condition and the negative value</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-07-21 09:22:41" itemprop="dateCreated datePublished" datetime="2021-07-21T09:22:41+08:00">2021-07-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="How-to-avoid-the-race-condition-and-the-negative-value"><a href="#How-to-avoid-the-race-condition-and-the-negative-value" class="headerlink" title="How to avoid the race condition and the negative value"></a>How to avoid the race condition and the negative value</h3><h3 id="Scenario"><a href="#Scenario" class="headerlink" title="Scenario"></a>Scenario</h3><p>Suppose there is a table, <code>bank</code>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*tnO9dzAJol3qf9CGHvye6Q.png"></p>
+<p>Both A and B have 100, and A will transfer 70 dollars to B twice.</p>
+<h3 id="Simple-Design-Wire-after-Checking-Balance"><a href="#Simple-Design-Wire-after-Checking-Balance" class="headerlink" title="Simple Design: Wire after Checking Balance"></a>Simple Design: Wire after Checking Balance</h3><p>It would be like this in pseudo-code:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A_owned = `select money from bank where name = A`  </span><br><span class="line">B_owned = `select money from bank where name = B`  </span><br><span class="line">if A_owned &gt;= 70:  </span><br><span class="line">    `update bank set money = A_owned - 70 where name = A`  </span><br><span class="line">    `update bank set money = B_owned + 70 where name = B`</span><br></pre></td></tr></table></figure>
+
+<p>This is the simplest design; however, there are two defects:</p>
+<ol>
+<li>Remained money is incorrect after updating.</li>
+<li>After remitting, the balance comes to a negative value.</li>
+</ol>
+<p>Let’s watch these two issues separately.</p>
+<p>The root cause of the first issue is that if <code>A</code> initiates two transfers at the same time, both of the two times <code>A_owned</code> would be 100. We introduce this situation in time-series diagram below:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*DHssXlZjCzpLyo7XsxhMGA.png"></p>
+<p>Finally, the <code>A</code>’s balance will become 30. This is the classic race condition. How to solve it?</p>
+<h3 id="Solution-of-Race-Condition"><a href="#Solution-of-Race-Condition" class="headerlink" title="Solution of Race Condition"></a>Solution of Race Condition</h3><p>In order to solve the race condition, there are three ways:</p>
+<ol>
+<li>Atomic Update</li>
+<li>Transaction plus Lock</li>
+<li>Version Scheme</li>
+</ol>
+<h3 id="Atomic-Update"><a href="#Atomic-Update" class="headerlink" title="Atomic Update"></a>Atomic Update</h3><p>The problem of this situation is using the unreliable data. To prevent this from happening, we shouldn’t update records via using the previous results but the current value in the database.</p>
+<p>Change the origin statement:</p>
+<blockquote>
+<p><em>update bank set money &#x3D; A_owned — 70 where name &#x3D; A</em></p>
+</blockquote>
+<p>to the new statement:</p>
+<blockquote>
+<p><em>update bank set money &#x3D; money — 70 where name &#x3D; A</em></p>
+</blockquote>
+<p>This is the atomic update.</p>
+<h3 id="Transaction-plus-Lock"><a href="#Transaction-plus-Lock" class="headerlink" title="Transaction plus Lock"></a>Transaction plus Lock</h3><p>Before the introduction, I have to say, most people have a misunderstanding of the transaction. The transaction is not invincible and cannot avoid all race conditions. Thinking the transaction as a panacea is so wrong.</p>
+<p>The transaction is invincible <strong>IF</strong> the isolation level of MySQL is set to <em>Serializable Isolation</em>; nevertheless, <em>Serializable Isolation</em> affects the database performance dramatically. Therefore, the most accepted compromise is <em>Repeatable Read Isolation</em>. On the other hand, MySQL is not able to prevent the race condition in the such criteria. According to the <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/53562850/mysql-repeatable-read-isolation-level-and-lost-update-phenomena">reference</a>, <em>InnoDB</em> cannot handle <code>Lost Update</code> and <code>Phantom</code>, i.e., the race condition will still be happened.</p>
+<p>If you say that, what is the use of the transaction?</p>
+<p>The transaction is to protect the integrity of a bunch of database operations. We can rollback all the changing data if there is any error occurred, so that the dirty data will not commit into the database.</p>
+<p>Let’s get down to the business; how to leverage the transaction? The example is as follows:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">start transaction  </span><br><span class="line">A_owned = `select money from bank where name = A for update`  </span><br><span class="line">if A_owned &gt;= 70:  </span><br><span class="line">    `update bank set money = A_owned - 70 where name = A`  </span><br><span class="line">commit</span><br></pre></td></tr></table></figure>
+
+<p>By using <code>for update</code>, it can acquire an exclusive lock on the desired row. If another transaction with the same row entered, it must wait for the lock released. The working flow is like below:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*nxZSMf4aCpfj-EZrZOgYFg.png"></p>
+<p>From the diagram above, we can know <code>A2</code> gets the value after <code>A1</code> has been finished. In addition, <code>A2</code> gets 30 which is not enough to the transfer, thus, <code>A2</code> finishes its job without doing anything.</p>
+<h3 id="Version-Scheme"><a href="#Version-Scheme" class="headerlink" title="Version Scheme"></a>Version Scheme</h3><p>This approach is much more complicated than the two mentioned. We have to alter table to add a new column, version, to record the changes.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*jjYRowyytXF7j1xXSCvh8g.png"></p>
+<p>Before updating data, we have to retrieve the version first then update the row on the specific version. The code is like:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A_owned, old_ver = `select money, version from bank where name = A`  </span><br><span class="line">if A_owned &gt;= 70:  </span><br><span class="line">    `update bank set money = 30, version = version + 1 where name = A and version = old_ver`</span><br></pre></td></tr></table></figure>
+
+<p>Updating data and comparing the version must be executed simultaneously; otherwise, the operation will be failed. Let’s explain with a time-series diagram:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*zgufdP08vjr-cYzFExbbAQ.png"></p>
+<p>After <code>A1</code> updates the row, the database returns 1 means there is one row affected, i.e., it updated successfully. But, <code>A2</code> gets 0; in other words, no row is updated.</p>
+<h3 id="To-Sum-Up"><a href="#To-Sum-Up" class="headerlink" title="To Sum Up"></a>To Sum Up</h3><p>We know there are three approaches to solve the race condition from the above introduction. However, the cost of the version scheme is too high, and the performance of the transaction plus lock is too poor. We really don’t need the heavy synchronization like the exclusive lock on an essential operation.</p>
+<p>The atomic update is a better solution to apply to most use cases. Although we will no longer lose updates, negative values may still occur. Because the money is deducted 70 twice, the money is turned into -40 which is not allowed.</p>
+<h3 id="Total-Solution"><a href="#Total-Solution" class="headerlink" title="Total Solution"></a>Total Solution</h3><p>In addition to use the atomic update to modify the money, we still need some tricks to refrain from the negative values. My personal recommendation is to define the column, money, as an unsigned integer. Besides, use the transaction to protect the transfer. The final solution of this article is:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">`start transaction`  </span><br><span class="line">A_owned = `select money from bank where name = A`  </span><br><span class="line">if A_owned &gt;= 70:  </span><br><span class="line">    `update bank set money = money - 70 where name = A`  </span><br><span class="line">    `update bank set money = money + 70 where name = B`  </span><br><span class="line">`commit`</span><br></pre></td></tr></table></figure>
+
+<p>Change two updates to the atomic update, and use transaction to guard the whole operation. Even if <code>if A_owned &gt;= 70</code> cannot stop <code>A2</code>, <code>A2</code> will still get the failure due to the unsigned column. The transaction will be failed, and <code>B</code> won’t receive the money does not belong to him.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-avoid-the-race-condition-and-the-negative-value-3f397b2b08e4">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E8%87%AA%E5%8B%95%E8%A3%9C%E5%AE%8C%E7%9A%84%E5%BE%8C%E7%AB%AF/20210706/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Misc/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E8%87%AA%E5%8B%95%E8%A3%9C%E5%AE%8C%E7%9A%84%E5%BE%8C%E7%AB%AF/20210706/" class="post-title-link" itemprop="url">設計一個自動補完的後端</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-07-06 13:37:36" itemprop="dateCreated datePublished" datetime="2021-07-06T13:37:36+08:00">2021-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="問題描述"><a href="#問題描述" class="headerlink" title="問題描述"></a>問題描述</h3><p>設計一個能夠自動補完的後端系統，就像Google或亞馬遜</p>
+<h3 id="設計目的"><a href="#設計目的" class="headerlink" title="設計目的"></a>設計目的</h3><p>像往常一樣，我們首先須要讓設計目標更加明確。花兩分鐘問自己這些問題：</p>
+<ul>
+<li>這個系統需要處理多大的查詢數量(以秒計)？</li>
+<li>期待的延遲？</li>
+<li>這些查詢的文本是無邊界的嗎(像是Google)？或是有一些事先定義好的種類(像是亞馬遜的商品建議)？</li>
+<li>我們想要怎樣顯示這些補全的建議？</li>
+<li>其他</li>
+</ul>
+<p>這些問題的答案會引導整個設計的選擇，例如：</p>
+<ul>
+<li>如果這個系統是為了一個熱門網站設計的，那麼查詢次數很可能每秒超過100K。這在現實生活中已經是非常大的量了，這個數字告訴我們兩件事：</li>
+</ul>
+<ol>
+<li>這個系統要能夠擴容到支援100K次的查詢，這不是單一台機器能夠承受的量。</li>
+<li>系統需要消化這100K的查詢以便更新整個自動補全的結果，這通常可以透過非同步的方式處理。</li>
+</ol>
+<ul>
+<li>自動補全系統通常對於延遲很敏感，也就是說我們期待他的P95延遲在10ms。這個數字表示我們不必要把所有的資料的快取在記憶體，無論是跨資料中心的網路呼叫或使用SSD的隨機存取都是幾個ms的等級。但是，我們應該盡量多使用記憶體來減少延遲和資料庫的負載。一個小提醒，如果使用的是<em>關係型資料庫</em>例如MySQL，那必須要使用足夠好的機器等級，以<em>AWS RDS</em>來說，需要使用<code>db.r4.8xlarge</code>並且搭配幾個讀取複本來處理每秒100K的查詢。</li>
+<li>假設我們要處理的是純文本輸入像是Google的自動補完，那表示字彙量很可能會很大。</li>
+<li>如果當使用者輸入1到M個字元而我們要顯示最熱門的N個推薦，那麼N和M的值會決定整個設計走向。舉例來說，當<code>N = M = 5</code>，如果我們決定預先計算所有推薦，那我們只需要使用(26 + 262 + 263 + 264 + 265) * 5 * <code>avg_len_of_word</code>的空間，約小於0.5GB，這樣的使用量可以輕鬆被保存在記憶體中。另一方面，當<code>N = M = 10</code>，這就需要超過1K TB的空間，這也就是說我們需要很多機器來將這些資料保存在記憶體。</li>
+</ul>
+<h3 id="作法"><a href="#作法" class="headerlink" title="作法"></a>作法</h3><p>其中一種可行的架構看起來會像：</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*bKV98GAVXE5uCjWO.png"></p>
+<h4 id="K-V-pairs"><a href="#K-V-pairs" class="headerlink" title="K-V pairs"></a>K-V pairs</h4><p>因為有延遲限制的前提，所以動態產生推薦清單不太實際。我們需要預先計算結果，並將其用鍵值對的方式儲存起來；鍵是使用者輸入的前綴，而值是最熱門的推薦清單。例如：<code>(&quot;mic&quot;, [&quot;michael jordan&quot;, &quot;microsoft&quot;])</code>，這表示當前綴是mic的時候，有兩個最熱門的推薦：michael jordan和microsoft。選用鍵值對而不是其他更省空間的作法，如<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Trie">Trie</a>的理由是，鍵值對更方便保存&#x2F;利用。</p>
+<h4 id="Search-log"><a href="#Search-log" class="headerlink" title="Search log"></a>Search log</h4><p>搜尋記錄保留使用者產生的原始資料，這些資料來源是可信任的，之後會被用來計算鍵值對。用上述的例子，如果使用者輸入mic，並且使用者最後要的結果是microsoft，這表示另一個使用者輸入mic也有可能是想要microsoft，這背後的演算法是*貝葉斯推斷(Bayesian inference)*。</p>
+<h4 id="Offline-Job"><a href="#Offline-Job" class="headerlink" title="Offline Job"></a>Offline Job</h4><p>我們需要一個背景任務來將搜尋記錄轉換成鍵值對，這通常是運行一個<code>map-reduce</code>形式的批次處理任務。接著我們將產生的鍵值對推送到一個分散式存儲，例如：Redis或HBase；我們也需要將鍵值對推送到前方的伺服器來更新他們的快取。實務上，我們可以透過<code>MQ</code>如Kafka來可靠的推送結果。我們需要直接更新伺服器的理由是，這樣可以減少熱門資量在資料庫上的負載。</p>
+<h4 id="Servers"><a href="#Servers" class="headerlink" title="Servers"></a>Servers</h4><p>這些伺服器負責快取那些預先計算的結果和處理所有來自使用者的查詢。當輸入的字段沒有命中自己的本地快取，伺服器就查詢後端的分散式鍵值存儲。如果資料量超過一台機器的記憶體所能承受，我們就需要透過雜湊的方式將那些前綴分片在不同機器上，並且，為了能兼顧擴容，我們需要像下圖般維護複本；這個設計很常見也與其他設計問題相似。你可以在我其他文章內找到更多關於分片&#x2F;複本的介紹。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*l1_QxkqKPZW51ri7.png"></p>
+<p>在上圖中，我們使用第一個字母來做分片(這可能導致分片不平衡)。我們儲存所有首字母是a的鍵值對在節點一和節點二，首字母是b的放在節點二和三，而首字母是c的則是放在節點一和三，並且我們將這些資訊放在一個註冊表中。實務上，這個註冊表可以放在支援<code>Paxos-like</code>協定的任何伺服器群集(包含<code>Zab</code>和<code>Raft</code>)。路由層隱藏所有資料分片的複雜度；首先讀取&#x2F;快取註冊表，接著透過輪詢的方式發送請求到對應節點，例如：將a開頭的搜尋關鍵字依序送到節點一和二。</p>
+<h4 id="個人化資料"><a href="#個人化資料" class="headerlink" title="個人化資料"></a>個人化資料</h4><p>在這個架構中，我們並沒有處理個人化資料。如果使用者在Google中搜尋，搜尋結果可能會參考個人興趣，這可以透過結合過去的搜尋歷史來產生。</p>
+<h4 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h4><p>另一個設計選擇是，我們通常會導入CDN來減少延遲。我在這篇文章先忽略這個討論，你可以參考另一篇<a target="_blank" rel="noopener" href="https://www.imperva.com/learn/performance/what-is-cdn-how-it-works/?utm_campaign=Incapsula-moved">文章</a>來了解為什麼需要CDN。</p>
+<p>作者：<a target="_blank" rel="noopener" href="https://medium.com/@morefree7">KKXX</a><br>文章出處：<a target="_blank" rel="noopener" href="https://medium.com/@morefree7/design-the-auto-complete-type-ahead-backend-dc7ec56dc1df">https://medium.com/@morefree7/design-the-auto-complete-type-ahead-backend-dc7ec56dc1df</a><br>譯者：我</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E8%87%AA%E5%8B%95%E8%A3%9C%E5%AE%8C%E7%9A%84%E5%BE%8C%E7%AB%AF-4b26549f0107">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E5%8F%AF%E4%BB%A5%E8%BF%BD%E8%B9%A4%E8%AE%9A%E6%95%B8%E7%9A%84%E7%B3%BB%E7%B5%B1/20210706/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Misc/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E5%8F%AF%E4%BB%A5%E8%BF%BD%E8%B9%A4%E8%AE%9A%E6%95%B8%E7%9A%84%E7%B3%BB%E7%B5%B1/20210706/" class="post-title-link" itemprop="url">設計一個可以追蹤讚數的系統</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-07-06 10:04:49" itemprop="dateCreated datePublished" datetime="2021-07-06T10:04:49+08:00">2021-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="問題描述"><a href="#問題描述" class="headerlink" title="問題描述"></a>問題描述</h3><p>設計一個可以追蹤在文章&#x2F;動態&#x2F;照片的讚數系統，且能夠擴容</p>
+<h3 id="如何達成"><a href="#如何達成" class="headerlink" title="如何達成"></a>如何達成</h3><p>這是一個有趣的問題，一開始看起來很簡單，但是實際上需要小心思考才能夠做對。我會在下面解釋我的想法，然後展示如何在需求改變時演進架構。</p>
+<p>最簡單的設計我們可以看到像這樣：</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*weI87Z4LDHK_ye4b.png"></p>
+<p>下面是這個簡單架構的優缺點：</p>
+<ul>
+<li>保證資料一致性。任何在寫入之後的讀取都保證能夠拿到最新的讚數，使用者不會看到鎖死的數值。</li>
+<li>這無法很好的擴容。當數以百萬計的同時寫入會拖慢資料庫的效能。雖然我們可以用<em>post_id</em>來分shard，但是這無法解決大量的同時寫入。</li>
+<li>這在即時計算數量上有著高昂成本(注意，<em>Innodb</em>沒有維護一個內部計數，相反的，當下了<code>SELECT COUNT(*) FROM LIKES WHERE...</code>時幾乎總是重掃整張資料表)。我們也許可以透過別的組件，例如：快取或別張資料表來儲存計數，但即便我們這麼做，還是有一個重要的問題需要克服：如何確保實際的讚和額外儲存的讚數是一致的。</li>
+</ul>
+<p>為了解決剛提到的兩個缺點，我們必須稍微犧牲一點資料一致性：在我們按下讚之後，後端立即回覆而不需要等這筆紀錄寫進資料庫。我們也會在下面介紹一些額外的組件：</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*Brmg2YlTlFzO3LTl.png"></p>
+<ul>
+<li>MQ：一個訊息佇列用來充當非同步更新的緩衝，此外也能可靠地將(post_id, user_id)廣播給多個訊息消費者。<em>Apache Kafka</em>是在業界很受歡迎的選擇。</li>
+<li>Updater：這是一個訊息消費者，負責將資料插入點讚資料表。</li>
+<li>Batch updater：透過降低資料一致性，我們可以將一樣的<em>post_id</em>做批次處理來降低資料庫寫入的負載。麻煩的是，必須要要引入額外的基建來確保批次更新是可靠的，例如一些串流處理集群，如：<em>Apache Flink</em>和<em>Apache Storm</em>。</li>
+<li>Cache：負責儲存最新的讚數。</li>
+</ul>
+<p>這第二個設計的優缺點如下：</p>
+<ul>
+<li>透過使用<strong>MQ</strong>做為緩衝，可以降低資料庫的寫入負載。</li>
+<li>透過使用<strong>batch updater</strong>，可以進一步降低熱門文章的寫入負載。</li>
+<li>點讚表和讚數表可能存在資料不一致。即使沒有任何組件失效也有可能發生，畢竟大部分的<strong>MQ</strong>無法保證訊息只被處理一次；我們可能會看到比實際更多的讚數。</li>
+</ul>
+<p>為了解決資料不一致，我們可以採取的方案是週期性的從點讚表重算讚數。因為點讚表總是有最原始的資料，重算的結果會更可靠。為了從文章得到即時的讚數，重算的結果必須和線上的結果合併，如下圖展示的：</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*E020ZHMoQ2wOjnGF.png"></p>
+<p>如上圖所示，我們每天定時在12:00 AM從點讚表計算讚數。另一方面，在<em>Real time events</em>資料表中應該保留從12:00 AM到當下的讚數。透過讀取兩張資料表，我們應該可以得到相當精準且即時的讚數。這個設計參考了<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Lambda_architecture">Lambda Architecture</a>。</p>
+<p>作者：<a target="_blank" rel="noopener" href="https://medium.com/@morefree7">KKXX</a><br>文章出處：<a target="_blank" rel="noopener" href="https://medium.com/@morefree7/design-a-system-that-tracks-the-number-of-likes-ea69fdb41cf2">https://medium.com/@morefree7/design-a-system-that-tracks-the-number-of-likes-ea69fdb41cf2</a><br>譯者：我</p>
+<h3 id="後續回應"><a href="#後續回應" class="headerlink" title="後續回應"></a>後續回應</h3><p>From <em>Timofey Asyrkin</em></p>
+<p>在這個情境下，我們真的在乎重複嗎？這很有趣，來看我們有甚麼選項：</p>
+<ol>
+<li>當使用者按下讚，我們真的要立刻更新前端而不知會後端嗎(因為前後端非同步)？如果這樣做，當立刻刷新頁面會發生甚麼事？很大的機會我們會沒看到我們自己的讚，然後重新讚一次，這樣就會導致重複。</li>
+<li>我們不需要前端馬上更新讚數，當資料送達到後端，後端發送通知給前端。這樣做的問題是，如果使用者沒有馬上看到更新，在沒有驗證機制下他們很有可能重新讚一次，這個新的要求還是會送進系統。</li>
+<li>我們同步更新快取後將要求送進<em>MQ</em>來更新主要的儲存結構。如果使用者重新刷新頁面，我們從主要儲存和快取(如果有存在的話)拿資料。這麼做的問題在於有可能在主要儲存上會有錯誤。</li>
+</ol>
+<p>譯者話：關於第三點我覺得應該是正解，但為什麼會說有可能發生問題呢？因為無論有沒有快取，都有可能在主要儲存上發生問題。我猜應該是指當主要儲存失效時，會有資料不一致吧，但如果在<em>MQ</em>前還卡一關快取，應該在做資料校對的時候會有更多可以參考的資訊才對。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/%E8%A8%AD%E8%A8%88%E4%B8%80%E5%80%8B%E5%8F%AF%E4%BB%A5%E8%BF%BD%E8%B9%A4%E8%AE%9A%E6%95%B8%E7%9A%84%E7%B3%BB%E7%B5%B1-918a406fee3e">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/2021%E4%B8%8A%E5%8D%8A%E5%B9%B4%E5%BE%8C%E7%AB%AF%E5%85%A8%E7%AB%AF%E9%9D%A2%E8%A9%A6%E7%B6%93%E6%AD%B7/20210627/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Misc/2021%E4%B8%8A%E5%8D%8A%E5%B9%B4%E5%BE%8C%E7%AB%AF%E5%85%A8%E7%AB%AF%E9%9D%A2%E8%A9%A6%E7%B6%93%E6%AD%B7/20210627/" class="post-title-link" itemprop="url">2021上半年後端/全端面試經歷</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-06-27 09:34:14" itemprop="dateCreated datePublished" datetime="2021-06-27T09:34:14+08:00">2021-06-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="https://cdn-images-1.medium.com/max/800/0*Z2dMflk2KOIuUSUZ.jpg"></p>
+<blockquote>
+<p>在這個病毒肆虐的時間點找工作，有個很大的優勢：全部都是『線上』面試。省去了舟車勞頓的辛苦，時間上也更容易安排，以往面試兩小時可能請假就要直接請個半天，但在居家辦公時期，面試兩小時就只需要請兩小時；甚至可以直接約中午，連假都不用請。</p>
+</blockquote>
+<p>在開始寫這陣子的面試經驗前我先簡單介紹一下背景</p>
+<p><em>6+year嵌入式系統開發經驗(C&#x2F;C++)</em></p>
+<p>4+year後端開發經驗(Python&#x2F;golang)</p>
+<p>1+year前端開發經驗(Node.js&#x2F;Vue.js)</p>
+<p>英文聽說讀寫略懂略懂</p>
+<p>基本上，沒刷題，沒什麼準備，考古題&#x2F;常見題一個也沒看過，面試邀約來了就上。想要找後端相關的工作，內心當中對於offer的排序是：地點、薪資、工作內容。邀約通常來自獵頭，也有些來自HR直接邀約。</p>
+<p>這次認真面試花了兩個月，但從開始面試到確定offer，大概用了半年。總共談了十間公司。接下來按照時間序一個一個紀錄，主要是面試流程和內容，有些因為時間很久了，印象會有點模糊，就略微帶過。至於工作內容之類的，那個不是重點，頂多約略描述。</p>
+<p>1Binance(幣安)，這間是我主動投的。<em><strong>線上面試</strong></em>。那時候數位貨幣水漲船高，我也想進幣圈試試。但幣安的後端開發主要是JAVA，我沒有相關經驗，所以投了DevOps工程師。</p>
+<p>第一關：著重在工作經歷的部分，會對於曾經做過的專案項目進行深入探討，同時也會簡單介紹一下公司，時間大概1–1.5小時。</p>
+<p>第二關：著重在考核DevOps相關的經歷，例如VPC&#x2F;子網怎麼規劃、路由不通怎麼故障排除、內部&#x2F;外部DNS規劃。諸如此類的問題，我其實也沒有相關經驗，回答的都很勉強，時間大概1–1.5小時。</p>
+<p><em><strong>結果：掰</strong></em>。</p>
+<p>2Appier，此時的Appiear要在日本IPO。<em><strong>現場面試</strong></em>。我忘了是我自己投的還是獵頭介紹，總之是面試後端開發的職缺。</p>
+<p>第一關：同樣會深入探討工作經歷，包含做過的專案&#x2F;產品，背後的架構和資料流等，時間大概1–1.5小時。</p>
+<p>第二關：白板題，會出一個情境案例，要根據需求設計一個系統架構。題目是：在客戶端服務上有一個SDK，會把客戶端的使用狀態回報給這個新系統，數據類型是一個JSON，而數據量是海量，而這個新系統要負責從這無數JSON中做一份統計報表。</p>
+<p>這個題目我個人覺得很有趣，畢竟這種考題切合現實，不是像leetcode那種實務上不太會碰到為了考試而考試的題目。但我這關沒有答的很好，當下有點壓力，不過，考官不會施壓，會在旁邊給些提示&#x2F;建議，讓這個系統能夠成型。時間大概1–1.5小時。</p>
+<p><em><strong>結果：掰</strong></em>。</p>
+<p>如果對於題目有興趣，歡迎私訊我，我們也可以一起研討一下，我心裡應該是有個解答了，不過還是可以討論交流看有沒有缺漏。</p>
+<p>上面兩次面試發生的時間很早，在2021年初，距離第三次面試中間間隔兩個月。為什麼空白了這麼久，最大的原因是經過了前兩次面試，我發現我有點廢啊！基本上答題都不甚理想，幣安就算了，畢竟幾乎都在考operation，這我本來就沒什麼經驗，但Appier的系統架構設計還答成那樣，我覺得實在慘，所以花了點時間把一些系統架構的書&#x2F;網站&#x2F;資源K一下。覺得心態平復了，才繼續開始面試。</p>
+<p>3KK Stream，此時的KK Stream看到Appier的成功也正醞釀要日本IPO。這機會是透過獵頭介紹的<em><strong>，</strong></em>後端開發。<em><strong>現場面試</strong></em>。</p>
+<p>第一關：Leetcode，考五題三小時，第一題是git相關的選擇題十題，有git經驗的都可以簡單回答(雖然我錯一個)；後面四題是程式題，難度大概介在easy+~medium，我這種沒刷題的小白也可以輕鬆寫完。</p>
+<p>第二關：技術面試，著重在過往的經驗，會對經手的項目作深入探討，必要的時候需要寫白板，然後，會介紹公司和工作內容。整體面試氣氛輕鬆愉快沒有壓力，時間約2小時。</p>
+<p>第三關：HR電話面試，主要是人格&#x2F;性向之類的訪談，還有介紹薪資福利等。</p>
+<p>第四關：BU主管，也是純聊天，談談生涯規劃，聊聊過往經歷，時間約1小時。</p>
+<p>整個面試的過程我覺得是十場中最愉快的，就真的是在聊聊中結束。但不得不說，KK的面試流程和耗時也是十場最久的。從開始leetcode到package出來，超過一個月。</p>
+<p><em><strong>結果：offer got</strong></em>。</p>
+<p>4AMIS，MaiCoin的姐妹公司，也是獵頭介紹<em><strong>，</strong></em>後端開發。我還是沒放棄進入幣圈。<em><strong>線上面試</strong></em>。先是介紹AMIS的產品和工作內容，然後就我過去的工作經驗做些探討，只能說，就我感覺面試者不太友善，有點不知道哪來的優越感。</p>
+<p><em><strong>結果：掰</strong></em>。</p>
+<p>5Innova Solution，外商醫療支付平台，對方HR主動聯繫。<em><strong>電話面試，</strong></em>後端開發。一開始是HR主動跟我聯絡，因為是純英文工作環境，所以測試一下我的英文能力，就用電話英文面試了一下。雖然沒做過準備，但英文自我介紹我覺得還中規中矩，就是想到什麼說什麼，然後HR簡略介紹一下公司，並且邀約下一次面試。但我之後拒絕了，為什麼呢？我大概有幾個考量，第一Innova Solution沒有自己的品牌，他其實是另外一間公司的研發(外包)中心，所以醫療支付其實是另一間公司的產品；其次是，醫療領域的步調略慢，產業別大概介在傳產和科技業之間，有點像是銀行的感覺。</p>
+<p>綜合考量下，最後我婉拒面試。</p>
+<p>6遊戲橘子，獵頭介紹，架構師。<em><strong>線上面試</strong></em>。從後端切架構師其實這跳有點多，技能樹不太一樣，所以當獵頭推薦我這個機會的時候，我還特別請獵頭去詢問我沒有網路安全的相關經歷，這樣足夠嗎？後來回覆是：可以，所以就接下邀約，過程平和，相談甚歡，但整體面試過程中發現，我的能力其實不足以勝任他們要的這個角色，這算是我的自知之明。最後也證實我的想法是對的。</p>
+<p>有個問題其實我到現在還沒有答案，『微服務vs.單體架構，如果每個module&#x2F;package都可以單獨部署，例如JAVA的.jar或Python的pip，甚至CentOS的RPM，這樣微服務還有什麼優勢？』我當下回答的有點鳥：『微服務的優勢在於損害控管，每個服務獨立上線可以快速釐清問題的死點在哪個服務上』，但直到現在我也不知道怎樣的答案算是標準答案。</p>
+<p><em><strong>結果：掰</strong></em>。</p>
+<p>7Berry AI，獵頭介紹，全端開發。<em><strong>線上面試</strong></em>。Berry AI是台灣上市公司飛捷科技的子公司，是一間不像新創的新創，有燒不完的資金，所以可以慢慢找產品方向。直到本文撰寫完成之際，都還沒有能獲利的產品推出。在開始面試之前，有一次簡單和CTO的線上會談，介紹公司狀況、產品規劃等，確定有意願，才會開始正式的面試流程。</p>
+<p>第一關：CTO，有一份考題，會採用共編的方式作答，有點類似現場面試的白板題，題目涵蓋OS&#x2F;Python&#x2F;C語言，OS的部分偏重multi-thread&#x2F;multi-process，有一題滿有趣的，如何用multi-thread做排序。Python就基本題，decorator的用法和shallow copy的問題。C語言則是call-by-value和指標的運用。整體來說，難度沒有很高，放寬心作答即可。</p>
+<p>第二關：CEO，介紹公司營運狀態和公司歷史，然後做些人格和性向的訪談，包含各時期的轉職心境和規劃。主要是純聊天，態度和善沒有架子。</p>
+<p>第三關：PM，剛剛沒問到的，想知道的秘辛，都可以在這裡發問，如果沒什麼問題，整個流程就結束了。</p>
+<p>總耗時約3小時。</p>
+<p><em><strong>結果：offer got</strong></em>。</p>
+<p>8浪Live，HR邀約。架構師。<em><strong>線上面試</strong></em>。我直到這時候才知道浪Live其實是台灣上市公司，而且除了直播，還有一堆產品。一開始由HR主動聯絡我，並且花了不少時間介紹公司狀況和福利等，除此之外也對之後的職務做了摘要。在接觸這麼多獵頭和公司HR之後，我覺得這個HR的認真程度絕對可以排前幾名。也因此，我答應他們的面試邀請。</p>
+<p>第一關：台灣區的RD頭，就我個人的經歷和經驗做些了解，主要是討論技術問題，包含當初的技術選型原因等。沒有壓力，過程平順。</p>
+<p>第二關：台灣區的HR頭，做些人格和性向的訪談，也是純聊天。</p>
+<p>總耗時約2–2.5小時。整個面試的過程讓我有點意外，畢竟，沒有考試，沒有白板題，幾乎都是聊天，這應該是所有面試中整個最沒壓力的一場。另外，雖然是架構師，但其實還是要經手RD相關的事務。</p>
+<p><em><strong>結果：offer got</strong></em>。</p>
+<p>9Hardcore Tech，或稱GoFreight，獵頭介紹。後端開發。<em><strong>線上面試</strong></em>。穩定獲利的新創，產品主要是物流平台的整合。這間的面試是我覺得十場中最硬核的，難怪叫做Hardcore Tech。</p>
+<p>第一關：HackerRank，線上刷題。兩小時要寫五題，難度約是medium+，對我這種小白說來，痛苦到一個不行。五題只寫完三題，但還是拿到門票了。</p>
+<p>第二關：面試官出兩題白板題，一樣採共編的方法，這兩題白板題應該也是medium＋難度的。上一關的HackerRand就已經要死了，這次白板題直接死去，根本寫不出來，面試官一定覺得我是去鬧的。</p>
+<p>第三關：還是白板題，但這白板題的難度沒有很高，主要是給你一個情境，讓你的程式必須不斷應付新進來的需求，要加參數，寫新function，做design pattern。這算是實務題，本來就是我擅長的，所以答起來還算順暢。</p>
+<p><em><strong>結果：無聲卡</strong></em>。</p>
+<p>10Linc，獵頭介紹，號稱純正矽谷直營台灣分部。全端team lead。<em><strong>線上面試</strong></em>。這也是一間開始穩定獲利的新創，聽獵頭說薪水是純正矽谷等級，做的是電商的後台，例如出貨進度、訊息通知、消費分析、商品推薦。因為是電商後台，所以要整合許多第三方的系統，例如各家不同的物流。</p>
+<p>第一關：也是先要線上考，但有別於leetcode或HackerRank，這間公司選擇自己出題。題目很生活化也很實用，我覺得這種題目才有考的價值。</p>
+<p>第二關：台灣區的RD頭，純英文的技術問答。因為是純外商，所以是全英文工作環境，不免俗就是要測試英文能力。所以技術問題難度不高，有基本的computer science能力都可以回答，主要是英文口說要流暢。然後也有白板題，難度是easy，就是經典的大數相加。最後就是介紹公司狀況，然後部門組成，人選要求，工作內容等。</p>
+<p>第三關：台灣區的PM，因為team lead和PM會經常合作，所以這邊是彼此互相了解。也有幾個情境題，例如兩個月的時間，要如何讓一個全新的系統上線。透過這種方式來了解帶team的方式和經驗。</p>
+<p>第四關：台灣區的另一個team lead。白板題，難度是medium+，也是痛苦到不行，最後沒答完就超時。</p>
+<p><em><strong>結果：無聲卡</strong></em>。</p>
+<p>這次面試耗時巨久，產業各異，甚至連位置都不一樣，有後端、全端、team lead，甚至架構師。面試到後面其實身心俱疲，而戰績也不怎麼理想：3&#x2F;10，不過也有了滿多特別的經驗，例如英文面試和各種白板題。在居家辦公時期，寫白板題的經驗格外有趣，大部分公司都直接用google doc充當白板就直接在上面寫了。</p>
+<p>我對面試的想法是接觸新的人&#x2F;事&#x2F;物以此來認識自己的不足，而事實上我也的確在這過程當中心態爆炸了，覺得我怎麼這麼廢。但畢竟還年輕，所以也算是把握機會長長見識，感謝這些花費時間心力幫助我成長的面試官們。</p>
+<p>也許有人會問，『你都不刷題，還面什麼試啊？』，我這邊說說我的想法。程式碼是溝通交流的工具，好的程式碼可以讓後續接手的人能輕易上手，「重構：改善既有代碼的設計」這本書說，好的程式碼就是文件。在資訊技術這麼發達的現今，已經不是以前對CPU&#x2F;memory錙銖必較的時代了，寫程式的人要做到的不是為了榨出額外那一咪咪的效能而寫程式，而是為了更好的合作和交流。不要誤會，我並不是說刷題不重要，我要說的是，如果兩層for-loop的O(n²)可以更好的讓人看懂，就不需要自以為是的使用各種奇耙寫法硬生出O(n)。</p>
+<p>而刷題說穿了其實就是不斷去洗鍊你思考的流程，讓你能夠逼近那完美解，所以出了各種奇耙問題要你使出各種奇耙解法，這種為了做而做的事我不喜歡。</p>
+<p>所以這次碰到很多有趣的白板題，例如Appier的系統設計或者Linc的實務問題，我覺得這才是面試一個RD應該出的考題，看得出來是有經過思考設計的題目，目的是為了找出他們真正需要的人。即使當下我被按在地上摩擦，但整體經驗是快樂的，而且我也知道該怎麼去補足，這才是有建設性的刷題。</p>
+<p>此外，這次面試也合作了一些獵頭，每個人風格都不太一樣：</p>
+<p>有些人就像房屋仲介一樣貼一堆模糊的資訊在那，然後一直要騙你的聯絡方式，例如就只寫『某知名金融企業招有經驗的後端開發』，沒薪水範圍、也沒職務內容，甚至根本沒職務要求。這種我超厭惡的，不想做就不要做。</p>
+<p>進階一點的會做一些基本的訪談，了解你的需求，知道你的能力，甚至幫你規劃履歷(也許還會幫你加料)。</p>
+<p>再主動一點的，甚至會直接幫你媒合，主動告訴你有些什麼樣的機會，然後詢問你的意願，給建議，並且規劃面試的流程和戰略。</p>
+<p>做的更好的是，每次面試結束，都會詢問整個面試的經過，鉅細彌遺的紀錄，以便給下一個要apply同個職缺的人建議。並且會主動追公司的後續，並持續向你更新狀態。到核心流程的時候也會告知如何談到好的價碼，該怎麼開價才是適合的。</p>
+<p>這次每種類型我都有碰到，其中有一個人我會很願意推薦給別人：<a target="_blank" rel="noopener" href="https://www.linkedin.com/in/ak666/">Solution First的Kevin</a>。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/2021%E4%B8%8A%E5%8D%8A%E5%B9%B4%E5%BE%8C%E7%AB%AF-%E5%85%A8%E7%AB%AF%E9%9D%A2%E8%A9%A6%E7%B6%93%E6%AD%B7-2941b66239e2">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Leetcode-concurrency-in-golang%E7%B8%BD%E7%B5%90/20210330/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Golang/Leetcode-concurrency-in-golang%E7%B8%BD%E7%B5%90/20210330/" class="post-title-link" itemprop="url">Leetcode concurrency in golang總結</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-03-31 03:25:37" itemprop="dateCreated datePublished" datetime="2021-03-31T03:25:37+08:00">2021-03-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Leetcode-concurrency-in-golang總結"><a href="#Leetcode-concurrency-in-golang總結" class="headerlink" title="Leetcode concurrency in golang總結"></a>Leetcode concurrency in golang總結</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*-0p9sWtQYUqesdqW.jpg"></p>
+<p>這次在leetcode中選了concurrency類別的6題(總共也只有6題)來練習golang，主要是為了熟悉golang的語法，和體會goroutine的強大。實際解題後，對於golang這個語言又有了新一層的認知，在這篇我會就我寫過的程式語言做些比較並給點簡單的心得。</p>
+<p>首先，先回顧一下這六題：</p>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1114-print-in-order-in-golang-f3115f6d82c6">#1114</a>，是最簡單的一題，透過channel的強大支援，就可以很好的協調所有的goroutine。</p>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1115-print-foobar-alternately-in-golang-ca9295ee4b16">#1115</a>，就再稍微有趣一點，依然可以用channel簡單做，但其實也可以透過Barrier收得更美，只是在Barrier底下要維持foobar的順序要花點心思。</p>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1116-print-zero-even-odd-in-golang-bd7e614b04f2">#1116</a>，可以透過channel做，但因為有三個goroutine，要分配誰該做事誰該等待會有點複雜；用Barrier做的話也有誰先誰後的問題要解決。所以最後我決定用一個比較不一樣的選擇：使用生產者消費者模型。</p>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1117-building-h2o-in-golang-29034abd2894">#1117</a>，典型的信號題，透過信號可以順利解決問題，但golang的信號無法空等，和pthread的行為不同，這點要額外注意。</p>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1195-fizz-buzz-multithreaded-in-golang-e01ab37be401">#1195</a>，典型的Barrier題，為什麼這題是典型題，但1115不是？最主要的差別在於，1195的所有worker雖然全部都要按照順序執行某一樣固定任務，但每一個任務只有一個worker確切會做事，因此worker間不需要彼此協調。但1115則是需要foo和bar同步，foo一定要先，才是bar。</p>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1226-the-dining-philosophers-in-golang-c73950e098a2">#1226</a>，典型的教科書題，哲學家用餐問題。一堆教科書都寫過解法所以也沒什麼好說的，這邊就是其中一種教科書解法，依序拿兩個鎖，反序釋放。</p>
+<p>練習了這些同步的問題，對於goroutine和channel有了進一步認識，但這些問題其實沒帶到兩個進階用法：buffered channel和select(unblock read&#x2F;write)，之後我會再找機會練習；另外有些進階語法也沒機會使用到，例如把channel當初func的input&#x2F;output。這些其實在看open source的時候都還算常見，但因為不熟所以會看得很痛苦，這次沒練習到實屬可惜。</p>
+<p>最後是與一些常見語言的比較，這邊舉Linux C、Python3和golang做對比。</p>
+<p>語感上Python3還是完勝，主要是因為Python是個弱型別語言，所以變數和容器都可以龍蛇雜處，另外，Python的list&#x2F;dict也不需要allocate，golang必須要在宣告後make，這點在純Python programmer眼裡實在有夠不自然。但golang還是比C語言好上一截，至少在array&#x2F;slice的操作上，比起C更加直覺，天生支援回傳多值也比C方便許多。此外，golang的strcut還可以包function，這點也比C更加實用。</p>
+<p>golang有一點很特別的是，支援指標&#x2F;定址，這點褒貶不一，但在我眼裡其實弊大於利。首先，在宣告func和struct時，實在很難搞懂到底要不要加星號，舉例來說，sync.WaitGroup大部分的範例都有加星號，但sync.Mutex卻沒有，這標準是什麼？我現在就也是照抄而已，還沒搞懂背後的原因。至於func的參數，golang天生就是call-by-value，即使是array&#x2F;slice&#x2F;map也是call-by-value，這很容易讓無論是C還是Python programmer踩坑。</p>
+<p>在multi-task方面，Python可以選擇multi-process&#x2F;multi-thread&#x2F;coroutine，golang有天生自帶的goroutine，而C只有multi-process&#x2F;multi-thread。不得不說，goroutine實在太強太好寫了，Python的coroutine還要搞一堆async&#x2F;await，麻煩到不行，也有夠不直覺。但goroutine不用，就正常寫就好，在這點絕對是大勝Python十條街以上。而且在同步處理的部分，有channel實在方便，可以通知&#x2F;等待，在C&#x2F;Python都必須透過pthread提供的lock和condition來協調，其實不太好用，沒有語法糖。</p>
+<p>總體來說，我個人還是覺得Python &gt; golang &gt; C，但在同步處理上或者單一功能的小型app上，golang &gt; Python &gt; C。主要原因有二，其一是goroutine很容易開發；其二，golang可以直接build出binary比起肥死人的Python和一堆side-packages更容易移植。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/leetcode-concurrency-in-golang%E7%B8%BD%E7%B5%90-4e03838d0602">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang/20210329/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Golang/Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang/20210329/" class="post-title-link" itemprop="url">Leetcode concurrency #1226 The Dining Philosophers (in golang)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-03-30 07:13:02" itemprop="dateCreated datePublished" datetime="2021-03-30T07:13:02+08:00">2021-03-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang"><a href="#Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang" class="headerlink" title="Leetcode concurrency #1226 The Dining Philosophers (in golang)"></a>Leetcode concurrency #1226 The Dining Philosophers (in golang)</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*a4VJDRhYg9aMTZFX.png"></p>
+<p>這是concurrency的最後一篇，前面已經試過幾種常見的同步模式，這次要解的題目是經典的哲學家問題，但處理的手法應該已經被很多教科書討論過了，不外乎引入服務生、搶到叉子就吃搶不到就等，和比較近期的用餐券換叉子。</p>
+<p>這麼經典的問題教科書應該都有寫過我就大略描述下就好。總之，五個哲學家坐在同一張圓桌，每個人都有一碗吃不完的麵，但只有五支叉子放在人與人之間，要吃麵就一定要用兩支叉子，沒有兩支叉子就發呆。這裡有個變體，要接收一個整數，代表每個人至少要吃過幾次，例如：n&#x3D;1，表示每個人都至少吃過一次就散會。</p>
+<p>解法也很簡單，我選用最單純的搶叉子，每支叉子按順時鐘順序編號，每個人都要先拿編號小的才能拿編號大的，但放叉子要從編號大的先放，才能放小的。</p>
+<p>每個叉子都是一個互斥鎖，小的先鎖再鎖大的，大的先解鎖才解小的。唯一要注意的一點是，吃完以後要看一下是不是每個人都吃過了，如果大家都吃過就準備結束散會；一定要在吃完的時候就看，因為這時候才是在critical section內，過了就要再搶一次，那沒必要。</p>
+<p>有趣的一點是，我在Leetcode的playground跑這段code，會發現有些哲學家餓到不行，會狂搶叉子，導致結束的時候某人大概續了幾千次麵，真是個大胃王。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/leetcode-concurrency-1226-the-dining-philosophers-in-golang-c73950e098a2">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Leetcode-concurrency-1195-Fizz-Buzz-Multithreaded-in-golang/20210329/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Golang/Leetcode-concurrency-1195-Fizz-Buzz-Multithreaded-in-golang/20210329/" class="post-title-link" itemprop="url">Leetcode concurrency #1195 Fizz Buzz Multithreaded (in golang)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-03-30 01:19:22" itemprop="dateCreated datePublished" datetime="2021-03-30T01:19:22+08:00">2021-03-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Leetcode-concurrency-1195-Fizz-Buzz-Multithreaded-in-golang"><a href="#Leetcode-concurrency-1195-Fizz-Buzz-Multithreaded-in-golang" class="headerlink" title="Leetcode concurrency #1195 Fizz Buzz Multithreaded (in golang)"></a>Leetcode concurrency #1195 Fizz Buzz Multithreaded (in golang)</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*NRXXWBp9q2oz3nYB"></p>
+<p>從開始刷concurrency到現在已經接觸過，Event、Lock和Semaphore，這題會用到另一個同步處理也會使用的技術：Barrier，Barrier是指當所有做事的人都必須將queue內的event全部依序執行，例如：ABC三個人同時拿queue[0]做，等大家都做完後，三人繼續拿queue[1]，依此類推。</p>
+<p>先看一下題目，看完就會知道為什麼一看就知道要用Barrier。有一個class有四個method(又來了)，必須將四個method放在四個thread上執行，這四個method分別是：在3的倍數時印fizz、在5的倍數時印buzz、在15的倍數時印fizzbuzz，最後是上面都沒中就印數字。</p>
+<p>因為golang沒有實作自己的Barrier，我本來想用WaitGroup來做，但怎麼試怎麼怪，最後決定WaitGroup還是維持他單純的用途就好：等所有人做完。那麼，就需要實作一個Barrier，這邊可以使用sync.Cond。如果寫過linux C應該會對pthread_cond_t有印象，這兩個是等價的。</p>
+<p>當有了Barrier的實作，這題就一點也不難，就是分別判斷能不能整除3或5來決定個別要做甚麼，把輸入的整數丟進去大家一起一個一個做就好。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/leetcode-concurrency-1195-fizz-buzz-multithreaded-in-golang-e01ab37be401">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/17/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/19/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Consistency between Cache and Database, Part 1  Part 1: Read Aside Caching Part 2: Enhanced Approaches  Today we are going to talk about consistency, especially the consistency of data between cache a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Consistency between Cache and Database, Part 1">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Consistency-between-Cache-and-Database-Part-1/20220703/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Consistency between Cache and Database, Part 1  Part 1: Read Aside Caching Part 2: Enhanced Approaches  Today we are going to talk about consistency, especially the consistency of data between cache a">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*wfvcwb8VGPW7N1ZH.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*dPnVCTxrsXgsJdOtXUN3IA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*yyq6QF-JhPSQxxjVUWrn4A.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*68BT1_-j09AlAkx-PqNYpw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*TwDOLUw9pRSgpgNFfLuDJw.png">
+<meta property="article:published_time" content="2022-07-03T15:36:56.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.821Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*wfvcwb8VGPW7N1ZH.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Consistency-between-Cache-and-Database-Part-1/20220703/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Consistency-between-Cache-and-Database-Part-1/20220703/","path":"Architecture/Consistency-between-Cache-and-Database-Part-1/20220703/","title":"Consistency between Cache and Database, Part 1"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Consistency between Cache and Database, Part 1 | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Consistency-between-Cache-and-Database-Part-1"><span class="nav-number">1.</span> <span class="nav-text">Consistency between Cache and Database, Part 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-Caching"><span class="nav-number">2.</span> <span class="nav-text">Why Caching?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Caching-Patterns"><span class="nav-number">3.</span> <span class="nav-text">Caching Patterns</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cache-Expiry"><span class="nav-number">4.</span> <span class="nav-text">Cache Expiry</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Read-Aside"><span class="nav-number">5.</span> <span class="nav-text">Read Aside</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Read-Aside-Variant"><span class="nav-number">6.</span> <span class="nav-text">Read Aside Variant</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">7.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Consistency-between-Cache-and-Database-Part-1/20220703/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Consistency between Cache and Database, Part 1 | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Consistency between Cache and Database, Part 1
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-07-03 23:36:56" itemprop="dateCreated datePublished" datetime="2022-07-03T23:36:56+08:00">2022-07-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Consistency-between-Cache-and-Database-Part-1"><a href="#Consistency-between-Cache-and-Database-Part-1" class="headerlink" title="Consistency between Cache and Database, Part 1"></a>Consistency between Cache and Database, Part 1</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*wfvcwb8VGPW7N1ZH.png"></p>
+<ul>
+<li>Part 1: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/consistency-between-cache-and-database-part-1-f64f4a76720">Read Aside Caching</a></li>
+<li>Part 2: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/consistency-between-cache-and-database-part-2-e28fc7f8a7c3">Enhanced Approaches</a></li>
+</ul>
+<p>Today we are going to talk about consistency, especially the consistency of data between cache and database. This is actually an important topic, particularly as the size of an organization increases, the requirements for consistency will grow and so will the implementation of consistency.</p>
+<p>For example, a startup service will not have a higher Service Level Agreement, aka SLA, than a mature service. For a startup service, a data consistency SLA of four nines (99.99%) might be considered high, but for a mature service like <a target="_blank" rel="noopener" href="https://aws.amazon.com/s3/storage-classes/?nc1=h_ls">AWS S3</a>, the data SLA is as high as 11 nines.</p>
+<p>We all know that for every nine, the difficulty and complexity of the implementation will increase in an exponential way, so for a startup service, there are basically no resources to maintain a very high SLA.</p>
+<p>Thus, how can we use the resources as effectively as possible to improve consistency? That’s what this article will introduce. Again, the consistency mentioned here refers specifically to the consistency between cache and database data.</p>
+<h3 id="Why-Caching"><a href="#Why-Caching" class="headerlink" title="Why Caching?"></a>Why Caching?</h3><p>I believe we all agree that inconsistencies are inevitable when we put data in two different storages. So what makes us put data into cache rather than risking inconsistency?</p>
+<ol>
+<li>The price of databases is high. In order to provide data persistence and as high availability as possible, even the relational database provides ACID guarantee, which makes the database implementation complex and also consumes hardware resources. Regardless of hard drives, memory or CPU, the database must be supported by good hardware specifications in order to work well, which also leads to the high price of the database itself.</li>
+<li>The performance of the database is limited. In order to persist the data, the data written to the database must be written to the hard drives, which also causes the performance bottleneck of the database, after all, the read and write efficiency of hard drives is much worse than memory.</li>
+<li>The database is far away from the user. Here, the far means the physical distance. As mentioned in the first point, because of the high cost of databases and the need to centralize data as much as possible for further analysis and utilization, a global service database is not placed in all over the world. The most common practice is to choose a fixed location. In Asia, for example, because AWS’s Singapore data center is lower priced, it is often chosen for Asian users, but for Japanese users, the network distance increases and the transfer rate decreases.</li>
+</ol>
+<p>For the above three reasons, the need for caching arises.</p>
+<p>Because a cache does not need to be persistent, it can use memory as the storage medium, so it is inexpensive and has excellent performance. Because of the low price, caches can be placed as close to the user as possible, for instance, caches can be placed in Tokyo so that users in Japan can use them nearby.</p>
+<h3 id="Caching-Patterns"><a href="#Caching-Patterns" class="headerlink" title="Caching Patterns"></a>Caching Patterns</h3><p>It seems that caching is necessary, so how do we use caching for the consistency as much as possible?</p>
+<p>To keep this article from losing focus, the caches mentioned are all based on Redis and the database is MySQL, and our goal is to improve consistency as much as possible with limited resources, both hardware and manpower, so the complex architectures of many large organizations are out of our scope, such as Meta’s <a target="_blank" rel="noopener" href="https://engineering.fb.com/2013/06/25/core-data/tao-the-power-of-the-graph/">TAO</a>.</p>
+<p>TAO is a distributed cache and has a very high SLA (10 nines). However, to operate such a service, there is a very complex architecture behind it, and even the monitoring of caching is extremely large, which is not affordable for an ordinary organization.</p>
+<p>Therefore, we will focus on the following patterns, highlighting their problems and how to avoid them as much as possible.</p>
+<ul>
+<li>Cache Expiry</li>
+<li>Read Aside</li>
+<li>Read Through</li>
+<li>Write Through</li>
+<li>Write Ahead (Write Behind)</li>
+<li>Double Delete</li>
+</ul>
+<p>The following sections will follow the below procedure.</p>
+<ol>
+<li>read path</li>
+<li>write path</li>
+<li>potential problems</li>
+<li>how to improve</li>
+</ol>
+<h3 id="Cache-Expiry"><a href="#Cache-Expiry" class="headerlink" title="Cache Expiry"></a>Cache Expiry</h3><p><strong>Read Path</strong></p>
+<ul>
+<li>Reading data from cache</li>
+<li>If the cache data does not exist</li>
+<li>Read from the database instead</li>
+<li>and write back to the cache</li>
+</ul>
+<p>We add a TTL to each data when writing back to the cache.</p>
+<blockquote>
+<p><em>EXPIRE key seconds [ NX | XX | GT | LT]</em></p>
+</blockquote>
+<p><strong>Write Path</strong></p>
+<ul>
+<li>Write data to the database only</li>
+</ul>
+<p><strong>Potential Problems</strong></p>
+<p>When updating data, inconsistencies occur because the data is only written back to the database. The inconsistency time depends on the TTL settings, nevertheless, it is difficult to choose a suitable value for the TTL.</p>
+<p>If the TTL is set too long, the inconsistency time will be increased and, on the contrary, the cache will not be effective.</p>
+<p>It is worth mentioning that caching is built to reduce the load on the database and to provide performance, and a very short TTL will make caching useless. For example, if the TTL of a certain data is set to 1 second, but no one reads it within 1 second, then the cached data will be no value at all.</p>
+<p><strong>How to Improve</strong></p>
+<p>The read path seems to be the usual practice, but when the database is updated, there should also be a mechanism for updating the cached data. And this is also the concept of <em>Read Aside</em>.</p>
+<h3 id="Read-Aside"><a href="#Read-Aside" class="headerlink" title="Read Aside"></a>Read Aside</h3><p><strong>Read Path</strong></p>
+<ul>
+<li>Reading data from cache</li>
+<li>If the cache data does not exist</li>
+<li>Read from the database instead</li>
+<li>and write back to the cache</li>
+</ul>
+<p>This process is the same as <em>Cache Expiry</em>, but the TTL can be set long enough. This allows the cache to have as much play time as possible.</p>
+<p><strong>Write Path</strong></p>
+<ul>
+<li>Write the data into the database first</li>
+<li>Then clean cache.</li>
+</ul>
+<p><strong>Potential Problems</strong></p>
+<p>Such read and write paths look fine, but there are a few corner cases that can’t be avoided.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*dPnVCTxrsXgsJdOtXUN3IA.png"></p>
+<p><code>A</code> wants to update the data, but <code>B</code> wants to read the data at the same time. Individually, both <code>A</code> and <code>B</code> have the right process, but when both of them happen together, there may be a problem. In the above example, <code>B</code> has already read the data from the cache before <code>A</code> clears the cache, so the data that <code>B</code> gets at that moment will be old.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*yyq6QF-JhPSQxxjVUWrn4A.png"></p>
+<p>When <code>A</code> is updating the data, the database is already finished updating, but it is killed due to “some reason”. At this moment, the data in the cache will remain inconsistent for a while until the next time the database is updated or a TTL occurs.</p>
+<p>Getting killed may sound serious and rare, but it’s actually more likely to happen than you might think. There are several scenarios where a kill can occur.</p>
+<ol>
+<li>When changing versions, either through containers or VMs, the old version of the application must be replaced with the new version, and the old version will be killed.</li>
+<li>When scale-in, the redundant application will be recycled and will also be killed.</li>
+<li>Lastly, it is the most common, when the application crashes, it will inevitably be killed.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*68BT1_-j09AlAkx-PqNYpw.png"></p>
+<p>When <code>A</code> wants to read the data and <code>B</code> wants to update the data, again, both of them have the right individual process, but the error occurs.</p>
+<p>First <code>A</code> is trying to read data because no corresponding result is found in the cache, so he reads from the database; at the same time, <code>B</code> is trying to update the data so he clears the cache after the database operation. Then, <code>A</code> writes the data to the cache, and the inconsistency occurs, and the inconsistency will remain for a while.</p>
+<p><strong>How to Improve</strong></p>
+<p>Case 1 and Case 3 can be minimized when the application manipulates data correctly. Take Case 1 as an example, don’t do anything extra after updating the database and clean up the cache right away, while in Case 3, after reading data from the database, don’t do too much format conversion and write the result to the cache as soon as possible. In this way, the chance of occurrence can be reduced, but even so, there are still some unavoidable situations, such as the stop-the-world generated by garbage collection.</p>
+<p>Case 2, on the other hand, can reduce the chance of artificial occurrences by implementing a graceful shutdown, but there is nothing that can be done for an application crash.</p>
+<h3 id="Read-Aside-Variant"><a href="#Read-Aside-Variant" class="headerlink" title="Read Aside Variant"></a>Read Aside Variant</h3><p>In order to solve Case 1 and Case 2, some people will try to modify the original process.</p>
+<p><strong>Read Path</strong></p>
+<ul>
+<li>Reading data from cache</li>
+<li>If the cache data does not exist</li>
+<li>Read from the database instead</li>
+<li>and write back to the cache</li>
+</ul>
+<p>This process is exactly the same as the original <em>Read Aside</em>.</p>
+<p><strong>Write Path</strong></p>
+<ul>
+<li>Clean cache first</li>
+<li>Then write the data into the database.</li>
+</ul>
+<p>This process is the opposite of the original <em>Read Aside</em>.</p>
+<p><strong>Potential Problems</strong></p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*TwDOLUw9pRSgpgNFfLuDJw.png"></p>
+<p>Although the original Case 1 and Case 2 are solved, a new problem is created.</p>
+<p>When <code>A</code> tries to update the data, and <code>B</code> wants to read the data, <code>A</code> clears the cache first; then <code>B</code> cannot read the data, so it reads from the database instead, and <code>A</code> continues to update the database. Finally, <code>B</code> writes the read data back to the cache. The inconsistency is occurred.</p>
+<p><strong>How to Improve</strong></p>
+<p>In fact, Case 1 and Case 2 are much less likely to occur than the corner cases of this variant, especially when the correct implementation of <em>Read Aside</em> has significantly reduced the occurrence of Case 1 and Case 2. On the other hand, the corner cases of the variant cannot be effectively improved.</p>
+<blockquote>
+<p><em>Therefore, it is not recommended to use such a variant.</em></p>
+</blockquote>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In general, a relatively high level of consistency can be achieved by <em>Read Aside</em>, even if it is only a simple implementation, but it can also have a very good reliability.</p>
+<p>Nevertheless, if you would like to improve consistency further, <em>Read Aside</em> alone is not enough, and a more complex approach is required, but also at a higher cost. Therefore, I will leave these approaches for the next article. In the next article, I will describe how to make the best use of the resources at hand to achieve as much consistency as possible.</p>
+<p>To emphasize again, although <em>Read Aside</em> is very simple, it is reliable enough as long as it is implemented correctly.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/consistency-between-cache-and-database-part-1-f64f4a76720">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Combine-Domain-Driven-Design-and-Databases/20220626/" rel="prev" title="Combine Domain-Driven Design and Databases">
+                  <i class="fa fa-chevron-left"></i> Combine Domain-Driven Design and Databases
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Architecture/Consistency-between-Cache-and-Database-Part-2/20220710/" rel="next" title="Consistency between Cache and Database, Part 2">
+                  Consistency between Cache and Database, Part 2 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

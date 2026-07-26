@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/9/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/9/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/9/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/How-Uber-Achieves-Excellence-Data-Quality/20230526/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/How-Uber-Achieves-Excellence-Data-Quality/20230526/" class="post-title-link" itemprop="url">Uber如何做到傑出的資料品質</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-05-26 11:20:09" itemprop="dateCreated datePublished" datetime="2023-05-26T11:20:09+08:00">2023-05-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="導讀"><a href="#導讀" class="headerlink" title="導讀"></a>導讀</h1><p>在討論數據品質(Data Quality)前，我們往往是看著別人提出的品質指標，並且想方設法的套進自己的組織內，但這樣的流程是不對的。即便是Uber這種已經建立完整監控數據品質架構的公司，也不是一步登天的。</p>
+<p>事實上，Uber也經過很長一段時間去摸索該如何設定指標以及如何建立架構，因此我們看到的一套完整架構也是根據組織內部的需要逐步調整最後才能貼合現實。</p>
+<hr>
+<p>翻譯自：<a target="_blank" rel="noopener" href="https://www.uber.com/en-TW/blog/operational-excellence-data-quality/">Uber Tech Blog</a></p>
+<p>Uber在全球市場能有效維運線上環境歸功於數以百計的服務、機器學習模型和成千上萬的資料集。當成長突飛猛進時，Uber透過維護數據品質來提供優秀的商業決策。若是沒有數據品質保證，下游的服務和機器學習模型成效會顯著下降，這需要很多額外操作才有辦法回填那些髒資料。最糟糕的是，這有可能會根本無法被察覺，而變成隱形殺手。</p>
+<p>這促使Uber建立一個數據品質平台(UDQ)來監控這些問題。為了資料品質能夠達標，UDQ支援超過2000個重要資料集，被且偵測到超過90%的資料問題。這篇文章會描述Uber怎麼定義數據品質標準，以及如何整合工作流程以便良好維運。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Architecture/How-Uber-Achieves-Excellence-Data-Quality/20230526/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Elasticsearch/Boosting-Elasticsearch-Cluster-Performance-3-Proven-Tips/20230521/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Elasticsearch/Boosting-Elasticsearch-Cluster-Performance-3-Proven-Tips/20230521/" class="post-title-link" itemprop="url">Boosting Elasticsearch Cluster Performance: 3 Proven Tips</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-05-22 01:39:23" itemprop="dateCreated datePublished" datetime="2023-05-22T01:39:23+08:00">2023-05-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Boosting-Elasticsearch-Cluster-Performance-3-Proven-Tips"><a href="#Boosting-Elasticsearch-Cluster-Performance-3-Proven-Tips" class="headerlink" title="Boosting Elasticsearch Cluster Performance: 3 Proven Tips"></a>Boosting Elasticsearch Cluster Performance: 3 Proven Tips</h3><h4 id="Tuning-Elasticsearch-configuration-for-improved-resource-utilization"><a href="#Tuning-Elasticsearch-configuration-for-improved-resource-utilization" class="headerlink" title="Tuning Elasticsearch configuration for improved resource utilization"></a>Tuning Elasticsearch configuration for improved resource utilization</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*z2L5pXZQ31wrAbZa"></p>
+<p>This article will explain what the application does better from the underlying Elasticsearch implementation, but I’m not going to dive into too much detail in a very obscure way, so I’ll try to use a simplified process.</p>
+<p>Before we get started, let’s go over a few important Elasticsearch terminologies.</p>
+<ul>
+<li>Index: This is like the table in RDBMS or the collection in MongoDB, not to be confused with index in RDBMS.</li>
+<li>Shard (aka Primary Shard): The access point where the data is written to the index, and of course the data can be read.</li>
+<li>Replica: Access point to read data, can not be used to write data.</li>
+</ul>
+<p>These terminologies are closely related to today’s three tips.</p>
+<p>So, what is the role of these components in Elasticsearch?</p>
+<p>Let me illustrate with an example. Suppose we have a two-node Elasticsearch cluster with two indexes, <code>A</code> and <code>B</code>, and they are configured as follows.</p>
+<p><code>A</code> index</p>
+<ul>
+<li>number_of_shards &#x3D; 2</li>
+<li>number_of_replicas &#x3D; 1</li>
+</ul>
+<p><code>B</code> index</p>
+<ul>
+<li>number_of_shards &#x3D; 1</li>
+<li>number_of_replicas &#x3D; 2</li>
+</ul>
+<p>These are the index settings, which clearly indicate how many shards and replica are required, and the following diagram shows how Elasticsearch looks internally.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*-CUpJ39HS6Ob8uF-BkUh-g.png"></p>
+<p>The red block represents the shard, and the normal block is the replica; the user, or application, will access both nodes to manipulate the corresponding data.</p>
+<h3 id="Tip-1-The-number-of-shards-should-align-to-the-number-of-nodes"><a href="#Tip-1-The-number-of-shards-should-align-to-the-number-of-nodes" class="headerlink" title="Tip #1: The number of shards should align to the number of nodes"></a>Tip #1: The number of shards should align to the number of nodes</h3><p>This tip is limited to those large indexes, because we know the more shards are used, the more evenly the data is distributed, and if the data in each shard is only a little bit and distributed in many nodes, it will cause more search overhead.</p>
+<p>According to the official recommendation, the data volume of a shard should be less than 50GB.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/scalability.html#it-depends">20–40 GB</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/size-your-shards.html#shard-size-recommendation">10–50 GB</a></li>
+</ul>
+<p>Why such a tip? Let’s use a counter-example to observe. Suppose we have many nodes, but each index has only one shard.</p>
+<p><code>A</code> index</p>
+<ul>
+<li>number_of_shards &#x3D; 1</li>
+<li>number_of_replicas &#x3D; 3</li>
+</ul>
+<p>Then the user’s read operations will be evenly distributed on each node, but the write operations will be concentrated on a single node.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*4GZ6w5qXha429b-0WSuxpA.png"></p>
+<p>In the case of a large volume of writes, such a setting can create a performance bottleneck on a single node and affect every operation on that node.</p>
+<p>Since Elasticsearch 5.x started to support <a target="_blank" rel="noopener" href="https://www.elastic.co/blog/hot-warm-architecture-in-elasticsearch-5-x">hot warm architecture</a>, if a cluster has hot warm architecture enabled, then the number of shards should align to the number of hot nodes.</p>
+<h3 id="Tip-2-The-document-should-be-routed"><a href="#Tip-2-The-document-should-be-routed" class="headerlink" title="Tip #2: The document should be routed"></a>Tip #2: The document should be routed</h3><p>Let’s continue with the top example, assuming a two-node cluster, and index <code>A</code> has two shards and one replica each.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*JwANelKigIQwIK4u2gKrJw.png"></p>
+<p>When a user writes to a document, which node does he write to?</p>
+<p>This is determined by Elasticsearch’s built-in routing rules, briefly, by the following formula.</p>
+<blockquote>
+<p><code>shard = hash(_id) % number_of_shards</code></p>
+</blockquote>
+<p>The <code>_id</code> is automatically dispatched by Elasticsearch, but can of course be specified by the user. As for the hash algorithm, it is <code>murmur3</code>, which is not a consistent hash, so a specific shard will be calculated.</p>
+<p>So, the worst case would look like the following diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*NWanLXbsPTjlekLlmHSG9Q.png"></p>
+<p>When one user starts a bulk operation, writing a large volume of documents to the cluster, and at the same time, one user is searching, the two users’ operations interfere with each other.</p>
+<p>If there is a way to keep the data of a single user in a single node, then the above case can be effectively avoided. At most, one user’s search performance will be affected when he writes a lot. This is called custom routing.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*eOKyiLeM17wdaNfLzbutEg.png"></p>
+<p>Elasticsearch is able to add a <code>routing</code> parameter to read and write operations, so that the formula mentioned earlier becomes</p>
+<blockquote>
+<p><em>shard &#x3D; hash(routing) % number_of_shards</em></p>
+</blockquote>
+<p>Nevertheless, it is also the need to pay attention to whether there will be a hotspot problem, i.e., data is overly concentrated in certain nodes.</p>
+<p>I have an article to explain the <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/how-to-choose-a-mongodb-shard-key-e4063b636c26">design of sharding keys</a>. Although this article is about MongoDB, the concepts are the same.</p>
+<h3 id="Tip-3-Turn-off-replica-and-refresh-when-doing-a-large-volume-of-writes"><a href="#Tip-3-Turn-off-replica-and-refresh-when-doing-a-large-volume-of-writes" class="headerlink" title="Tip #3: Turn off replica and refresh when doing a large volume of writes"></a>Tip #3: Turn off <code>replica</code> and <code>refresh</code> when doing a large volume of writes</h3><p>When doing a large volume of writes, stop replication first to reduce resource consumption, and then turn on replication when the large volume of writes is complete. This can significantly reduce write consumption and improve the performance of the cluster.</p>
+<p>Disabling <code>replica</code> is easy to understand, but what about disabling <code>refresh</code>?</p>
+<p>Before we explain, let’s understand the mechanism of <code>refresh</code>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*O_PsPEIHWR_rOeJCZz3AbA.png"></p>
+<p>When a user writes data to the shard, it is first written to the memory buffer, and the data is invisible to the search operation at this time. Then, Elasticsearch writes the data in the memory buffer to the hard drive via <code>refresh</code> and converts it into <code>Lucene</code> format, and then it is really searchable.</p>
+<p>There are two ways to <code>refresh</code>.</p>
+<ol>
+<li><code>refresh_interval</code> in Index setting, <code>refresh</code> will be triggered automatically when the time is up.</li>
+<li>Explicitly call Refresh API.</li>
+</ol>
+<p>We don’t actively invoke the Refresh API during heavy writes, so by turning it off, we mean turning <code>refresh_interval</code> longer or even off.</p>
+<p>Of course, either turning off <code>replica</code> or turning off <code>refresh</code> is to reduce resource consumption so that all resources can be dedicated to processing large amounts of writes.</p>
+<p>So, you may wonder, won’t turning off <code>refresh</code> cause data loss?</p>
+<p>No, it won’t.</p>
+<p>The reason is that Elasticsearch’s persistence model relies on more than just <code>refresh</code>. Let’s dig a little deeper.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*-j9Nnp1xHknLlOcXZfIAxg.png"></p>
+<p>From the above diagram, we can see even the process of writing from the memory buffer to the hard drive is not really on the hard drive yet, it still needs to go through <code>flush</code> before it is really persisted.</p>
+<p>However, this is a pretty long path, which is totally unreliable for a database, so in fact, when writing data, it will write to two places at the same time: the memory buffer and the transaction log.</p>
+<p>In the event of a disaster, the entire written dataset can still be recovered through the transaction log. But of course, there is a price to pay for this. There is no insurance mechanism, and if the transaction log is corrupted, the data will really be lost. Nevertheless, I believe the chance is definitely much lower, and the loss is only for the data during this bulk writing period.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This time, we introduce three ways to significantly improve the performance of Elasticsearch clusters.</p>
+<p>I have to say that in the big data world, it is obviously not enough to use all kinds of data storage. Without a deep understanding of the underlying implementation of data storage, there is a high risk of wasting resources. This will not only result in lower cluster performance, but also in higher hardware costs as more hardware is used to solve these overheads.</p>
+<p>In this article, we briefly explain a few terminologies behind Elasticsearch, and then use this knowledge to learn more about optimization techniques. I believe you may be able to learn more details through this process.</p>
+<p>If you have any good tips, please feel free to share them with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/boosting-elasticsearch-cluster-performance-3-proven-tips-9b718a9114bc">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Elasticsearch/Boosting-Elasticsearch-Cluster-Performance/20230512/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Elasticsearch/Boosting-Elasticsearch-Cluster-Performance/20230512/" class="post-title-link" itemprop="url">有效提昇Elasticsearch整座集群效能的三個小技巧</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-05-12 11:09:06" itemprop="dateCreated datePublished" datetime="2023-05-12T11:09:06+08:00">2023-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>這篇文章會從Elasticsearch的底層實作解釋應用程式要怎麼做會更好，但我不打算使用很晦澀的方式來描述太深入的細節，因此我會盡量使用簡化過的流程來說明。</p>
+<p>在開始之前讓我們先來了解Elasticsearch幾個重要的術語。</p>
+<ul>
+<li>Index：這就像是RDBMS的table或是MongoDB的collection，不要和RDBMS的index混淆了。</li>
+<li>Shard(或稱Primary Shard)：資料要寫入index的存取點，當然也能夠讀取資料。</li>
+<li>Replica：讀取資料的存取點，無法用來寫入資料。</li>
+</ul>
+<p>這幾個術語跟今天的三個技巧息息相關。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Elasticsearch/Boosting-Elasticsearch-Cluster-Performance/20230512/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/HTAP-Learning-from-Xiaohongshu-Medium/20230507/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/HTAP-Learning-from-Xiaohongshu-Medium/20230507/" class="post-title-link" itemprop="url">HTAP: Learning from Xiaohongshu</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-05-08 01:45:42" itemprop="dateCreated datePublished" datetime="2023-05-08T01:45:42+08:00">2023-05-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Why-choose-TiDB-What-problems-does-TiDB-solve"><a href="#Why-choose-TiDB-What-problems-does-TiDB-solve" class="headerlink" title="Why choose TiDB? What problems does TiDB solve?"></a>Why choose TiDB? What problems does TiDB solve?</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*9saB7metHP8ItHMN.png"></p>
+<p>Before explaining the process of importing HTAP into Xiaohongshu, let’s briefly introduce Xiaohongshu.</p>
+<p>Xiaohongshu is known as the Chinese version of Instagram, but in addition to the usual social functions such as video and image sharing, it also includes an e-commerce platform. According to the official website of Xiaohongshu, as of 2019, active users have exceeded 100 million.</p>
+<p>It is both a social media and e-commerce website, and the amount of data generated each day is in the billions. In order to support data-driven decision making, these massive amounts of data must go through multiple layers of cleansing, transformation and aggregation, and more importantly, the real-time nature of decision making also need to address.</p>
+<p>In addition, Xiaohongshu’s application scenarios and user numbers continue to grow, so the scalability of the entire data infrastructure is also a major challenge.</p>
+<p>In the end, Xiaohongshu adopted TiDB as their real-time streaming storage.</p>
+<h3 id="Why-Xiaohongshu-chose-TiDB"><a href="#Why-Xiaohongshu-chose-TiDB" class="headerlink" title="Why Xiaohongshu chose TiDB?"></a>Why Xiaohongshu chose TiDB?</h3><p>In fact, Xiaohongshu already adopted TiDB for some projects in 2017, but it was widely used until 2018.</p>
+<p>The three main reasons are as follows.</p>
+<ol>
+<li>Due to data-driven decision-making, there will be various OLAP needs of ad hoc queries, so the traditional OLTP database can not support the use.</li>
+<li>Many OLAP databases can handle queries efficiently, but the write performance is not good, while TiDB write also has great performance.</li>
+<li>In the scenario of horizontal scaling of data clusters, new instances must be available as fast as possible. TiDB keeps datasets consistent across all instances through a Raft majority mechanism.</li>
+</ol>
+<p>Now, TiDB has been widely used in various domains of Xiaohongshu, including</p>
+<ul>
+<li>Data warehouse application</li>
+<li>Report Analysis</li>
+<li>Real-time dashboard for sales promotion</li>
+<li>Anti-fraud detection</li>
+<li>etc.</li>
+</ul>
+<h3 id="Past-Pain-Points"><a href="#Past-Pain-Points" class="headerlink" title="Past Pain Points"></a>Past Pain Points</h3><p>In general, the entire data architecture is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*8t96Yr5MrHeWT-bR78vUyw.png"></p>
+<p>There are three typical use cases in such an architecture with poor performance.</p>
+<p>Firstly, ad hoc queries are performed on the production database. To avoid increasing the overhead on the production database, a complete copy of the production database must be made, and all ad hoc queries are run on the replica.</p>
+<p>However, the MySQL for production uses sharding, which creates a high complexity in operation. In addition to the difficulty of operation, the implementation of aggregation, such as <code>group by</code>, <code>join</code>, etc., on the middleware of sharding also leads to the complexity of implementation, and on the other hand, the transactions on the sharding MySQL is also a big challenge.</p>
+<p>Secondly, in order to query reports more efficiently, report analysis is generated through pre-aggregation and stored in a standalone MySQL to avoid the latency of Hadoop direct query. However, since it is pre-aggregated, it cannot effectively respond to requirement changes. Moreover, a standalone MySQL has less scalability due to the lack of sharding.</p>
+<p>Finally, to perform anti-fraud detection in various application scenarios, it must rely on the data stored in the data lake, which is not real-time, but <code>T + 1</code> ingestion. This makes it impossible for anti-fraud to work within time, and even if fraud is detected, the damage is already done.</p>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p>The answer to these three cases is TiDB.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_9aV89MWqv2uvlBuY2531g.png"></p>
+<p>In the use case of ad hoc query, there are two pain points must be dealt with, one is the difficulty of operation, and the other is the complexity of implementation. Then, just put all the data into TiDB and maintain one TiDB. Because TiDB fully supports MySQL 5.7, so it can be synchronized by MySQL binlog.</p>
+<p>Of course, it is not as simple as that. To put the sharding databases into TiDB, it needs to process the data properly, i.e. merge them into one big wide table. Therefore, it needs to deal with the issues of merging and auto-incrementing primary keys in the streaming. But eventually, all the production databases will be synchronized with TiDB, and even for the data volume of Xiaohongshu, the synchronization delay is within 1 second.</p>
+<p>Then, the same practice can be applied to report analysis and anti-fraud.</p>
+<p>Because of real-time streaming, anti-fraud no longer takes <code>T + 1</code> time to respond, and real-time streaming can be handled directly through Flink SQL. On the other hand, report analysis is easier because all the data is available and can be operated on a single database.</p>
+<h3 id="New-Problem-Occurred"><a href="#New-Problem-Occurred" class="headerlink" title="New Problem Occurred"></a>New Problem Occurred</h3><p>When TiDB was first introduced, the version of TiDB used in Xiaohongshu was <code>3.x</code>.</p>
+<p>TiDB <code>3.x</code> is still a row-based storage engine, and although it can achieve good performance in OLAP, it is still not good enough for large data volume. Furthermore, all scenarios use the same TiDB cluster which cannot isolate ad hoc queries and production applications.</p>
+<p>But these problems are solved after upgrading to TiDB <code>4.x</code> version.</p>
+<p>The reason is TiDB 4.x introduces the HTAP architecture, which enables the coexistence of row storage engine and column storage engine. The new column storage engine called TiFlash is independent from the original row storage engine TiKV and will not interfere with each other.</p>
+<p>When the application writes data to TiKV, the data is quickly synchronized to TiFlash through the Raft learner mechanism, so that the row storage and column storage are consistent.</p>
+<p>In addition, TiDB uses internal CBO to know whether the query should use the row or column engine as soon as it comes in and automatically routes the query, which greatly reduces the complexity of the application.</p>
+<p>TiDB 4.x also has a new mechanism that helps improve the performance of the entire data architecture: pessimistic locking. In TiDB 3.x, there was only optimistic locking, which made it easily possible for inter-transaction conflicts under huge data volume of continuous writes.</p>
+<p>Once a transaction conflict occurs, it can only be retried on the client side, which significantly increases the complexity of application development. But pessimistic locking can effectively solve this problem, and the error handling of the application becomes more simple.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Actually, Xiaohongshu has also referred to ClickHouse when making technical selections, and the performance of ClickHouse has some better than TiDB. However, ClickHouse is relatively difficult to operate and maintain.</p>
+<p>In addition, ClickHouse is a column storage engine, in the data update scenario performance is not good. If rewriting “update” to “ append”, it needs a lot of modification cost on one hand and extra de-duplication logic on the other.</p>
+<p>Therefore, TiDB is the final choice.</p>
+<p>From my point of view, HTAP is the future and can cover various use cases by merging row storage engine and column storage engine. It is cost effective to use only one database to handle various needs with big data.</p>
+<p>In the past, in order to support a variety of data products, we had to continuously make technical selections among many databases and carefully consider various use cases, but with HTAP, these complexities no longer exist.</p>
+<p>Personally, I am looking forward to seeing the gradual simplification of data engineering.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/htap-learning-from-xiaohongshu-8d8181d12195">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/HTAP-learning-from-Xiaohongshu/20230505/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/HTAP-learning-from-Xiaohongshu/20230505/" class="post-title-link" itemprop="url">HTAP：從小紅書的案例學習NewSQL</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-05-05 22:18:14" itemprop="dateCreated datePublished" datetime="2023-05-05T22:18:14+08:00">2023-05-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/XiaohongshuLOGO.png"></p>
+<p>在講解小紅書導入HTAP的過程之前我們先來簡單介紹一下小紅書。</p>
+<p>小紅書號稱是中國版的Instagram，但除了一般的影音圖文分享等社群功能外，還包含電商營運平台等。根據小紅書的官網，截至2019年為止，活躍用戶已經破億了。</p>
+<p>既是社交平台又是電商平台，每天產生的資料量是億級。為了要支援資料驅動決策，這些海量資料必須經過多層的清洗、轉換和聚合，更重要的是，決策的實時性也需要關注。</p>
+<p>除此之外，小紅書的應用場景和用戶數都持續增長，因此整個資料基礎建設的擴充性也是一大挑戰。</p>
+<p>最終，小紅書採用了TiDB作為他們實時串流的存儲。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Architecture/HTAP-learning-from-Xiaohongshu/20230505/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Career/Engineering-Ladders/20230428/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Career/Engineering-Ladders/20230428/" class="post-title-link" itemprop="url">Engineering Ladders</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-04-28 15:36:13" itemprop="dateCreated datePublished" datetime="2023-04-28T15:36:13+08:00">2023-04-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Career/" itemprop="url" rel="index"><span itemprop="name">Career</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="技術階梯"><a href="#技術階梯" class="headerlink" title="技術階梯"></a>技術階梯</h1><p>之前身為EM的時候(Engineering Manager)很喜歡在1對1會議上問團隊成員一個問題：把能力分成幾個象限，你會各給自己幾分？你預期要達到幾分？</p>
+<p>這套流程我很喜歡，能夠有效在1對1會議上開啟一個有用的對話，並且也能同步彼此的認知以及安排未來的職涯發展和工作規劃。</p>
+<p>事實上，這樣的作法並不是我獨創的，也有很多制式的模版，在<a target="_blank" rel="noopener" href="https://github.com/jorgef/engineeringladders">Github</a>上甚至也有人開源一個工程端的泛用型的模版。</p>
+<p>這篇文章是對這個模版的翻譯。</p>
+<p><img src="https://www.engineeringladders.com/charts/template-dark.png"></p>
+<p>在<a href="https://wirelessr.github.io/Career/What-is-Staff-Engineer/20230425/#more">上一篇文章</a>我們提到主任工程師的四種角色，在這篇文章中我們對工程端的常見四個角色定義其能力象限。</p>
+<ul>
+<li>Developer：另外常見的稱呼有programmer或軟體工程師，這角色需要有很深的技術底子。</li>
+<li>Tech Lead：這就上一篇文章提過的角色，算是系統的擁有者之一，需要兼顧實際開發、架構知識以及線上環境維運。</li>
+<li>Technical Program Manager：TPM是驅動跨工程團隊協做的先鋒，為的是讓產品走向不至於與技術脫節。</li>
+<li>Engineering Manager：部門的管理者，負責讓部門維持和諧氣氛以及提昇部門的技術水準。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Career/Engineering-Ladders/20230428/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Career/What-is-Staff-Engineer/20230425/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Career/What-is-Staff-Engineer/20230425/" class="post-title-link" itemprop="url">什麼是主任工程師？</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-04-25 16:56:44" itemprop="dateCreated datePublished" datetime="2023-04-25T16:56:44+08:00">2023-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Career/" itemprop="url" rel="index"><span itemprop="name">Career</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="主任工程師的種類"><a href="#主任工程師的種類" class="headerlink" title="主任工程師的種類"></a>主任工程師的種類</h1><p>大部分公司內的生涯階梯(<a target="_blank" rel="noopener" href="https://lethain.com/perf-management-system/">career ladder</a>或說職涯規劃)都對主任工程師(staff engineer)定義了一組一致的標準。每個人都希望能從這清楚的標準中知道公司內的權責，但我們要知道，這標準其實是一般性的，不是為了每個人量身訂做的。對於主任工程師來說更是如此，一個主任工程師的權責往往結合了數種角色，很難被清晰定義。</p>
+<p>不過這其中還是有規則可循的，大部分主任工程師的權責其實都能被歸納出一些模式，了解這些模式能更有效了解主任工程師這個角色。大致上來說有以下這四種。</p>
+<ul>
+<li>Tech Lead：負責引導特定團隊，有點像是管理職，但多數時候這個角色會負責複數個特定領域。有些公司也會賦予這個角色管理權限，使其更貼近管理職，可以招聘、打考績等。</li>
+<li>Architect：架構師負責確保某些關鍵系統的方向、品質和策略。這個角色必須同時具備深厚的技術底子並了解商業需求，甚至要領導組織決策。</li>
+<li>Solver：這常被稱為救火隊，負責處理複雜難解的問題以及給予適當方向，有時候這角色會在特定領域深耕，但也有可能會隨著組織需要輪調。</li>
+<li>Right Hand：這像是經營高層的左右手，具有一定的決策權。當要運作一個大型組織，這角色會扮演中樞角色，用來快速做出正確決策。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Career/What-is-Staff-Engineer/20230425/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/Replacing-Medium-with-Hexo/20230423/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Misc/Replacing-Medium-with-Hexo/20230423/" class="post-title-link" itemprop="url">Replacing Medium with Hexo</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-04-24 01:43:04" itemprop="dateCreated datePublished" datetime="2023-04-24T01:43:04+08:00">2023-04-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Replacing-Medium-with-Hexo"><a href="#Replacing-Medium-with-Hexo" class="headerlink" title="Replacing Medium with Hexo"></a>Replacing Medium with Hexo</h3><h4 id="A-complete-replacement-for-Medium-with-nearly-zero-overhead"><a href="#A-complete-replacement-for-Medium-with-nearly-zero-overhead" class="headerlink" title="A complete replacement for Medium with nearly zero overhead"></a>A complete replacement for Medium with nearly zero overhead</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*9zo0aBVJ9wmiZ3V3"></p>
+<p>Recently I reached 1,000 followers, and it’s been a long journey, much longer than I thought ever.</p>
+<p>Since a year half ago, I’ve been trying to post one article every Monday (except holidays), mainly about my work and studies, with the intention of getting more consistent exposure to attract more software engineers to discuss with me.</p>
+<p>In this process, I found out the algorithm of the article exposure should have been drastically modified, even though the number of followers exceeded 1,000 but the number of views could be counted, and this is not even the number of reads.</p>
+<p>This is not quite the same as what I wanted to achieve in the beginning, so I had the idea of building my own blog.</p>
+<p>To this blog, I have several requirements.</p>
+<ol>
+<li>To be easy to manage, I do not want to manage this site also need too much coding or operation overhead.</li>
+<li>It should be easy to publish articles, the biggest advantage of Medium is it is easy to write.</li>
+<li>Be able to render charts and Mermaid. My articles rely heavily on these visualizations, but right now Medium is completely incapable of doing anything with charts and Mermaid, so I have to cut and paste them from another place.</li>
+<li>Be able to leave comments, this is very important, I just want to have more discussion to write articles.</li>
+<li>To support clipboard uploading images, this feature of Medium is really convenient.</li>
+<li>Be able to track hit rates and SEO, but the technical details of this are more complicated and not my top priority.</li>
+</ol>
+<p>In the end, I chose <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> with Github Pages as my website.</p>
+<p>Firstly, it is quite easy to achieve this through Hexo’s built-in functions, and the generated static website is directly rendered as a Github Pages without the operation.</p>
+<p>Secondly, after integrating <a target="_blank" rel="noopener" href="https://github.com/marketplace/actions/hexo-action">Github Action</a>, basically, after writing a Markdown file, it can be automatically published by directly pushing it to Github, which is almost the same process as writing articles on Medium.</p>
+<p>To do the third and fourth points need to choose a good theme, I chose <a target="_blank" rel="noopener" href="https://theme-next.js.org/">NexT</a>.</p>
+<p>For the fifth point, I used some tricks, nevertheless, I was able to do it, by using <a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VS Code</a> with <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=mushan.vscode-paste-image">Paste Image</a> plugin.</p>
+<p>This article will enable every engineer familiar with Git and open source software to build a fully functional blog in less than an hour.</p>
+<h3 id="Hexo-Hexo-Action"><a href="#Hexo-Hexo-Action" class="headerlink" title="Hexo + Hexo Action"></a>Hexo + Hexo Action</h3><p>About the basic usage of Hexo and Hexo Action here will not explain in detail, their official documentation is written completely.</p>
+<p>I provide a SOP of my own, which can quickly generate a blog on Github Pages.</p>
+<ol>
+<li>Create two repositories, one for the Hexo source code and one for the generated static website. The name of the repository for the static website must be: <code>&lt;username&gt;.github.io</code>.</li>
+<li>Hexo’s source code repository just needs to <code>git push</code> the entire package of code after <code>hexo init blog</code>. Hexo has a sufficient <code>.gitignore</code>.</li>
+<li>If you need to use Hexo Action, you need to run <code>npm install</code> first to generate <code>package-lock.json</code>, which will be used in the deployment process.</li>
+<li>Generate a pair of keys for the deployment, set the private key in Hexo’s source code repository, and set the public key in the repository where the static site is located (which is still empty). For detailed process, please refer to Hexo Action’s official document.</li>
+<li>Put a Github Action workflow in the Hexo source code repository, basically the example of the official Hexo Action document can be applied directly after referring to the description.</li>
+<li>At this point, the two repositories are now connected properly, although the static site is not yet deployed. So we need to modify the Hexo config file: <code>_config.yml</code> to complete the deploy section at the bottom. For example:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:  </span><br><span class="line">  type: &#x27;git&#x27;  </span><br><span class="line">  repository: git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git  </span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>After following the SOP, you should be able to see the static site Hexo has created at your URL, <code>https://&lt;username&gt;.github.io</code>.</p>
+<h3 id="NexT-Theme"><a href="#NexT-Theme" class="headerlink" title="NexT Theme"></a>NexT Theme</h3><p>To install a new theme is simple, just find the theme’s Github and add it via <code>git submodule</code>, in this article we’ll use NexT as an example.</p>
+<blockquote>
+<p><em>git submodule add</em> <a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-theme-next"><em>https://github.com/next-theme/hexo-theme-next</em></a> <em>themes&#x2F;next</em></p>
+</blockquote>
+<p>That’s it.</p>
+<p>If you want to develop locally, remember to pull the submodule.</p>
+<blockquote>
+<p><em>git submodule init<br>git submodule update</em></p>
+</blockquote>
+<p>Next, modify Hexo’s config file: <code>_config.yml</code>, change the default <code>theme</code> to <code>next</code>, and the theme is applied.</p>
+<p>Then, it’s time to customize NexT.</p>
+<p>Since Hexo 5.0.0, it supports the dedicated theme config, which is <code>_config.[theme].yml</code>. So we only need to copy the default NexT config file to modify it.</p>
+<blockquote>
+<p><em>cp themes&#x2F;next&#x2F;_config.yml _config.next.yml</em></p>
+</blockquote>
+<p>I only care about two functions, Mermaid and comments.</p>
+<p>Mermaid’s settings are as follows. Just turn it on, of course, you can also modify the layout.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mermaid:  </span><br><span class="line">  enable: true  </span><br><span class="line">  # Available themes: default | dark | forest | neutral  </span><br><span class="line">  theme:  </span><br><span class="line">    light: default  </span><br><span class="line">    dark: dark</span><br></pre></td></tr></table></figure>
+
+<p>The comment function is more interesting, NexT supports many kinds of comment functions, including the popular <code>Disqus</code> and <code>Gitalk</code>.</p>
+<p>But I am hosted in a public Github repository, so Disqus is directly out because Disqus requires a <strong>shortname</strong> setting, but if the shortname is obtained, it will directly cause the account breach. Many other comment functions also face the same security concerns.</p>
+<p>Even if the Hexo source code is hosted in a private repository, as long as the static site repository used by Github Pages is public, it will still be compromised. By the way, you can pay Github to use a private repository to host Github Pages.</p>
+<p>Therefore, the comment system needs to choose OAuth base <code>Gitalk</code> or <code>Utterances</code>, nevertheless, I don’t know why NexT needs to set Gitalk’s secret key, so Gitalk is also out.</p>
+<p>To enable <code>Utterances</code> is simple as well, follow the <a target="_blank" rel="noopener" href="https://utteranc.es/?installation_id=36599887&setup_action=install">official website process</a> to install the OAuth App and modify the NexT config file.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">utterances:  </span><br><span class="line">  enable: true  </span><br><span class="line">  repo: &lt;installed repo&gt;  </span><br><span class="line">  # Available values: pathname | url | title | og:title  </span><br><span class="line">  issue_term: title  </span><br><span class="line">  # Available values: github-light | github-dark | preferred-color-scheme | github-dark-orange | icy-dark | dark-blue | photon-dark | boxy-light  </span><br><span class="line">  theme: github-light</span><br></pre></td></tr></table></figure>
+
+<p>Thus, the third and fourth requirements are completed.</p>
+<h3 id="Uploading-pictures-via-clipboard"><a href="#Uploading-pictures-via-clipboard" class="headerlink" title="Uploading pictures via clipboard"></a>Uploading pictures via clipboard</h3><p>To meet this requirement, we must first understand how the images are processed in Hexo.</p>
+<p>There are two options for searching for images in Hexo:</p>
+<ol>
+<li>Under <code>source</code> folder.</li>
+<li>Under the asset folder, please refer to <a target="_blank" rel="noopener" href="https://hexo.io/docs/asset-folders">link</a> for details.</li>
+</ol>
+<p>We want to use the first way, as long as there are images under source, we can read them directly using Markdown syntax.</p>
+<blockquote>
+<p><code>![](/images/abc.jpg)</code></p>
+</blockquote>
+<p>In the above example, the absolute path to the image is actually <code>&lt;projectRoot&gt;/source/images/abc.jpg</code>.</p>
+<p>But we also need a helper to read the clipboard, convert the content to image files and generate the corresponding Markdown syntax.</p>
+<p>VS Code has a plugin, Paste Image, that makes this easy, and it can adjust the upload location and the resulting Markdown syntax accordingly. But Hexo currently places images under the source folder, which is different from the Markdown Preview plugin I currently use (<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced">Markdown Preview Enhanced</a>).</p>
+<p>The preview plugin is not very compatible, so I can’t get the project directory of VS Code to match the root directory of Hexo, so my VS Code project directory can only be opened under source folder as a compromise.</p>
+<p>This makes the Paste Image settings need to be adjusted accordingly. Here are the settings I use, at <code>&lt;projectRoot&gt;/source/.vsconde/settings.json</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">  &quot;pasteImage.basePath&quot;: &quot;$&#123;projectRoot&#125;&quot;,  </span><br><span class="line">  &quot;pasteImage.path&quot;: &quot;$&#123;projectRoot&#125;/images/&quot;,  </span><br><span class="line">  &quot;pasteImage.prefix&quot;: &quot;/&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The reason for this compromise is I need the Mermaid preview feature of Markdown Preview Enhanced. Until I find another way to do it, this compromise is a doable solution.</p>
+<p>The good thing is that my writing process is not affected. When I need to publish an article, I just add a new Markdown to my VS Code project path, push it to Github after writing, and then it will be automatically deployed, so it doesn’t matter if the VS Code project path is source.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>By combining these following components, it allows me to write articles in a more efficient way than Medium, and the previous pain points of having to cut and paste Mermaid and tables have disappeared.</p>
+<ul>
+<li>Hexo</li>
+<li>Github Action</li>
+<li>Github Pages</li>
+<li>NexT</li>
+</ul>
+<p>In addition, there is more room for customization, which is the best solution at the moment.</p>
+<p>Currently, my audiences are divided into English and Chinese circles, and Medium’s exposure to Chinese articles is lower than English, so I will gradually adjust the posting frequency and content in the future. After that, I will adjust my posting strategy based on the tracking data I collect.</p>
+<p>My main profession is a data architect, so this is my experiment with Medium and the blog I own.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/replacing-medium-with-hexo-ea5406a06fe">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/How-Shopify-Black-Friday-Cyber-Monday/20230421/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/How-Shopify-Black-Friday-Cyber-Monday/20230421/" class="post-title-link" itemprop="url">Shopify如何處理大促？</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-04-21 09:41:46" itemprop="dateCreated datePublished" datetime="2023-04-21T09:41:46+08:00">2023-04-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>對於電商來說，大促是很重要的，無論是中文圈的1111或外語區的黑色星期五，這些大促事件基本上可以為店家帶來鉅額收益，甚至一天就佔一年GMV的兩成以上。</p>
+<p>當然，大促期間也會伴隨巨大的流量，並為電商網站帶來嚴重挑戰。因此，這篇文章我會就我看到的資訊來介紹Shopify如何應對大促事件。</p>
+<p>在開始談論技術細節前，我們先來看一些Shopify在<a target="_blank" rel="noopener" href="https://twitter.com/ShopifyEng/status/1597983918900510720?s=20&t=s5uyFIyqY4GwxIR71qE2Iw">2022黑色星期五的數據</a>。</p>
+<ul>
+<li>在每分鐘3 TB的egress流量下維持99.999+%的uptime。</li>
+<li>MySQL的尖峰QPS超過14M，平均也超過8.5M。</li>
+<li>尖峰時刻每秒索引16G的log。</li>
+<li>為了監控擴充性和可用性，每分鐘收集20B以上的運維指標，並且每秒儲存27G的指標資料。</li>
+<li>全站QPS為1.27M。</li>
+<li>透過<a target="_blank" rel="noopener" href="https://github.com/resque/resque">Resque</a>處理超過32B個非同步任務。</li>
+<li>傳送超過24B個webhook。</li>
+<li>批次的資料管線總共寫入1.1T個訊息。</li>
+<li>尖峰時刻Kafka每秒處理20M個訊息。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Architecture/How-Shopify-Black-Friday-Cyber-Monday/20230421/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/hexo/Hello-Hexo-with-Next/20230419/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/hexo/Hello-Hexo-with-Next/20230419/" class="post-title-link" itemprop="url">Hello Hexo with Next</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-04-19 22:20:55" itemprop="dateCreated datePublished" datetime="2023-04-19T22:20:55+08:00">2023-04-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>有鑑於繁體中文的資源太少，我想或多或少做點翻譯，把一些有用的文章和書籍翻成中文。</p>
+<p>當然，會以我日常閱讀為主，主要是架構師、大數據相關的。</p>
+<p>順便測試一下放圖片。</p>
+<p><img src="/images/cat.jpg"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/hexo/Hello-Hexo-with-Next/20230419/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/10/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

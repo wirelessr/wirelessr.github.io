@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/8/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/8/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Speed-Up-Software-Development-Accelerate-Your-Code-Creation/20231003/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/Speed-Up-Software-Development-Accelerate-Your-Code-Creation/20231003/" class="post-title-link" itemprop="url">Speed Up Software Development: Accelerate Your Code Creation</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-10-04 04:35:18" itemprop="dateCreated datePublished" datetime="2023-10-04T04:35:18+08:00">2023-10-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Speed-Up-Software-Development-Accelerate-Your-Code-Creation"><a href="#Speed-Up-Software-Development-Accelerate-Your-Code-Creation" class="headerlink" title="Speed Up Software Development: Accelerate Your Code Creation"></a>Speed Up Software Development: Accelerate Your Code Creation</h3><h4 id="Proven-Strategies-for-Boosting-Productivity-and-Efficiency"><a href="#Proven-Strategies-for-Boosting-Productivity-and-Efficiency" class="headerlink" title="Proven Strategies for Boosting Productivity and Efficiency"></a>Proven Strategies for Boosting Productivity and Efficiency</h4><p>We all want software development to be fast and good, but in reality it is a extremely challenging task.</p>
+<p>There is a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Trilemma">Trilemma</a> in project management.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*JaRbRxM2nELrGJUE.jpg"></p>
+<p>We can only have two of the three, and the price of being fast and good is expensive. Is there any way to do it as fast, as good and as cheap as possible? I believe the following article will be helpful.</p>
+<p>Apptio is an enterprise IT management solutions company with several programs for managing agile development processes. Acquired by IBM in June 2023, Apptio went from delivering a promising product to incubation and graduation in just a few years, itself a very agile company.</p>
+<p>They wrote the above methodology on how to accelerate software development, and it’s a great read as it paints a detailed picture of the various software development scenarios.</p>
+<p>Here’s a quick summary of some of the key points.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*f-YW18qgxP7t3cBd.jpg"></p>
+<ul>
+<li>The blue blocks are our ultimate goal, to speed up development.</li>
+<li>The red blocks are those that slow down development, and of course, the fewer the better.</li>
+<li>The green blocks indicate items that will increase development speed, i.e. the more the better.</li>
+<li>The yellow blocks mean that the right amount of these items will increase the speed, but too much will slow it down.</li>
+</ul>
+<p>So, let’s look at the picture and tell the story.</p>
+<p>We should:</p>
+<ul>
+<li>Reduce system complexity</li>
+<li>Reduce re-work</li>
+<li>Focus on work</li>
+<li>Reduce non-value added activities</li>
+<li>Do refactoring properly</li>
+<li>And so on.</li>
+</ul>
+<p>But what exactly should be practiced? The article explains the details, so I won’t write it all out, I recommend to read the article carefully, I feel it is well worth reading!</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/speed-up-software-development-accelerate-your-code-creation-b83bb21b7243">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/8-Ways-to-Crank-Up-Speed-in-Software-Development/20230927/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/8-Ways-to-Crank-Up-Speed-in-Software-Development/20230927/" class="post-title-link" itemprop="url">8個提昇軟體開發速度的妙方</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-09-27 16:01:41" itemprop="dateCreated datePublished" datetime="2023-09-27T16:01:41+08:00">2023-09-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>Apptio是一間做企業IT管理解決的公司，旗下有數款方案針對敏捷開發流程的管理軟體。在2023年六月，被IBM重金收購，從其端出牛肉到出關只有幾年的時間，本身就是一間很敏捷的公司。</p>
+<p>他們寫了一篇關於如何加速軟體開發的方法論，並且鉅細靡遺的描繪各種軟體開發場景，是一篇非常值得一讀的文章。</p>
+<p>以下翻譯自：<a target="_blank" rel="noopener" href="https://www.apptio.com/blog/speed-in-software-development/">8 Ways to Crank Up Speed in Software Development</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Architecture/8-Ways-to-Crank-Up-Speed-in-Software-Development/20230927/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/When-to-Consider-Clean-Architecture-A-Practical-Guide/20230910/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/When-to-Consider-Clean-Architecture-A-Practical-Guide/20230910/" class="post-title-link" itemprop="url">When to Consider Clean Architecture: A Practical Guide</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-09-11 01:55:29" itemprop="dateCreated datePublished" datetime="2023-09-11T01:55:29+08:00">2023-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Navigating-the-Path-to-Clean-Code-in-Real-world-Scenarios"><a href="#Navigating-the-Path-to-Clean-Code-in-Real-world-Scenarios" class="headerlink" title="Navigating the Path to Clean Code in Real-world Scenarios"></a>Navigating the Path to Clean Code in Real-world Scenarios</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*YHkb938mevTOgKrm"></p>
+<p>How to design and implement clean architecture more easily has been described in detail in my previous articles. If you are interested in the details, you can refer to the following series of articles.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">How to Design Software in a Clean Architecture Way</a></li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/combine-domain-driven-design-and-databases-747fa36ec642">Combine Domain-Driven Design and Databases</a></li>
+</ul>
+<p>Instead of deeply diving into how to design and implement a clean architecture, this article will answer a question that we often encounter.</p>
+<blockquote>
+<p><em>When should I consider clean architecture?</em></p>
+</blockquote>
+<p>The main reason for asking this question is we often don’t design code with a clean architecture mindset from the start, but rather decide at some point to do a refactoring and introduce clean architecture.</p>
+<p>This is a natural process because we don’t always have the ability to figure out how to encapsulate the domain in the first place, and we don’t always have the time to have a complete design at the beginning.</p>
+<p>So, when should we refactor? And how? These two questions will be the core of this article.</p>
+<h3 id="Case-Study"><a href="#Case-Study" class="headerlink" title="Case Study"></a>Case Study</h3><p>To answer these two questions we need a practical example, so let me describe my thought process using a chatbot.</p>
+<p>Suppose I want to use a chatbot to implement an accounting program. The reason why I chose chatbot is to avoid complicated interface interactions, I just need to talk to my usual IM App to achieve the goal of accounting.</p>
+<p>The overview of chatbot is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*RcaXq__wEjFFy6dx4oGf_w.png"></p>
+<p>The user sends commands to the chatbot through a conversation, and the chatbot receives the message, encapsulates it and sends it to a web service via a webhook; the web service extracts the content with the corresponding SDK, processes the commands, and then sends the results back to the user. The process of processing the message involves accessing the database.</p>
+<p>The code flow of the app is organized in the following five steps.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Qnikh3T3Oe0HMpRA-CWQWQ.png"></p>
+<ul>
+<li>Extract: Use SDK to extract the received request.</li>
+<li>Parse: Parses the message into a corresponding command.</li>
+<li>Handle: Execute the command and generate the result. Interaction with the database also occurs at this stage.</li>
+<li>Encapsulate: After handling the request, the result is packaged into the correct format by the SDK.</li>
+<li>Send: Finally, the result is sent back to the user.</li>
+</ul>
+<p>The whole core process will be the second and third steps. Without considering the clean architecture, the entire code would look like the following.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if msg == &#x27;ooo&#x27;:  </span><br><span class="line">    ret = user_guide()  </span><br><span class="line">elif msg.count(&#x27;x&#x27;) &gt; 10:  </span><br><span class="line">    ret = insert_items()  </span><br><span class="line">elif &#x27;oxo&#x27; in msg:  </span><br><span class="line">    ret = get_report()  </span><br><span class="line"># and so on</span><br></pre></td></tr></table></figure>
+
+<p>By parsing the msg, we know the command and take the corresponding action, in other words, this is the business logic of the whole program.</p>
+<p>In the above example, we have three kinds of commands and three handlers, which correspond to the three common functions of a accounting program.</p>
+<ol>
+<li>ask how to use the program.</li>
+<li>write in accounts.</li>
+<li>generate reports.</li>
+</ol>
+<p>I believe that adding a fourth command would be too painful for some people, and I would start thinking about refactoring it at about this point.</p>
+<p>So to answer the first question: when should I consider refactoring with clean architecture?</p>
+<p>The answer is simple: <strong>when the requirements keep iterating and the code becomes difficult to maintain</strong>.</p>
+<p>But how to refactor? How to introduce clean architecture?</p>
+<h3 id="Refactoring"><a href="#Refactoring" class="headerlink" title="Refactoring"></a>Refactoring</h3><p>According to the above description, we have two main business logics.</p>
+<ol>
+<li>Parser</li>
+<li>Handler</li>
+</ol>
+<p>Let’s review the onion architecture one more time.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*zEceOXWPW7rIPoXBc9W5kQ.png"></p>
+<p>Calling chain has to go from the outside to the inside, and the most inside is business logic.</p>
+<p>So I will plan the refactored components as shown below.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*wQ3JXbhO6LoZzsYnOgVZRA.png"></p>
+<p>Let me explain these components.</p>
+<ul>
+<li>Controller: Handles the in&#x2F;out of the webhook and gets the actual message and user id of the caller with the SDK.</li>
+<li>Service:</li>
+</ul>
+<ol>
+<li>Call <code>Factory</code> to get concrete command.</li>
+<li>Execute <code>Command</code> directly and get the result, may be a string or an exception.</li>
+</ol>
+<ul>
+<li>Factory: Handles the logic of generating the <code>Command</code>, i.e. the command parser.</li>
+<li>Command: Handles the actual business logic, i.e. the handler, and is responsible for converting the result of the <code>repo</code> to a string.</li>
+<li>Repo: handles database calls and wrapping the database format into a DTO, no logic involved.</li>
+</ul>
+<p>Splitting the domain in this way has several advantages.</p>
+<ol>
+<li><code>Factory</code> unit tests only need to have <code>msg</code> and match <code>Command</code> type, the implementation is quite simple.</li>
+<li><code>Command</code> encapsulates the full behavior of individual commands and isolates the database implementation, so unit testing can easily replace the database through dependency injection and just verify business logic.</li>
+<li><code>Repo</code> provides an interface to the database and wraps the format of the manipulated data into a DTO, providing a common specification.</li>
+</ol>
+<p>Back to the onion architecture, Factory and Command are considered business logic, i.e., Entity, and Service is responsible for calling the Entity in order and doing the corresponding error handling, which belongs to the middle Use Case layer. The outer Controller handles the SDK and web framework, and calls the Service to get the result.</p>
+<p>The only thing need to discuss is the outermost layer of DB, in the class diagram is actually <code>Mongo Impl</code>, through the implementation interface to make it out of the bottom layer of the calling chain, all the classes will only touch the <code>Repo</code> rather than the implementation of MongoDB. How to explain the source of the calling chain, i.e. the outer layer, is the DB?</p>
+<p>The reason is that the outer layer of the code needs to prepare a concrete repo of the <code>Mongo Impl</code> and pass it to the <code>Controller</code>. In my current implementation, I’ve changed my approach a little bit by passing the class type instead of instance.</p>
+<p>A similar implementation can be found in my previous Golang tutorial.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/Clean-Architect-in-Golang/blob/master/server.go#L15">https://github.com/wirelessr/Clean-Architect-in-Golang/blob/master/server.go#L15</a></li>
+</ul>
+<p>Finally, let’s look at the <code>Factory</code> and <code>Command</code> pieces.</p>
+<p>First, the <code>Factory</code> decides what kind of <code>Command</code> to generate based on incoming <code>msg</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class CommandFactory:  </span><br><span class="line">  @staticmethod  </span><br><span class="line">  def generate(msg, uid):  </span><br><span class="line">    if msg.startswith(&quot;/&quot;):  </span><br><span class="line">      if msg == &#x27;/sum&#x27;:  </span><br><span class="line">        return command.SummaryCommand(msg, uid)  </span><br><span class="line">  </span><br><span class="line">      return command.HelpCommand()  </span><br><span class="line">    elif msg.count(&#x27; &#x27;) &gt; 0:  </span><br><span class="line">      return command.InsertManyCommand(msg, uid)  </span><br><span class="line">      </span><br><span class="line">    return command.HelpCommand()</span><br></pre></td></tr></table></figure>
+
+<p>Then the “Command”, where the actual business logic is executed, and the following examples will only pick one of them as a demonstration.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class InsertManyCommand(Command):  </span><br><span class="line">  def execute(self, repo_cls):  </span><br><span class="line">    tokens = [x.strip() for x in self.msg.split(&#x27;,&#x27;)]  </span><br><span class="line">  </span><br><span class="line">    data = []  </span><br><span class="line">    for token in tokens:  </span><br><span class="line">        item, cost = [t(s) for t,s in zip((str,int), token.split())]  </span><br><span class="line">        data.append(Item(item, cost))  </span><br><span class="line">      </span><br><span class="line">    repo = repo_cls(self.uid)  </span><br><span class="line">    success_cnt = repo.insert_many(data)  </span><br><span class="line">    return f&#x27;Successfully wrote &#123;success_cnt&#125; record(s)&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Let’s go back to the title, when should we start considering clean architecture? I feel the answer is obvious, when we need to change the code but we don’t know where to start, that’s a good time to do it.</p>
+<p>Why do I let my business logic consist of <code>Factory</code> and <code>Command</code>? Because once I’ve clarified the behavioral patterns of the bot, I can clearly recognize that two things are necessary: parsing and handling, so these two corresponding entities are created. In addition, when these two things are separated, the difficulty of unit testing is significantly reduced.</p>
+<p>I can fully test parsing messages, and of course I can test every self-contained command completely.</p>
+<p>When we mention clean architecture, will always make people think of hexagonal architecture or domain-driven development and other formal rules, but in practice to make the architecture clean, as long as the basic essentials will be enough, that is, the concept of the onion architecture.</p>
+<p>Some of the design patterns used in this article, such as the factory method or strategy pattern. Even though I didn’t follow the textbook, I was able to achieve a good result.</p>
+<p>When I drew that class diagram, I didn’t actually have a specific design pattern in mind, but rather, it was based on what shape I wanted the code to be organized into. I first thought about how I would like to decouple and individually test a command if I needed to add one, and then I created two components (<code>Factory</code> and <code>Command</code>) with this idea in mind.</p>
+<p>Although <code>Factory</code> has a relatively simple role, I indeed thought for a while about what context <code>Command</code> would be responsible for. Take <code>InsertManyCommand</code> for example, there are these options.</p>
+<ul>
+<li>The <code>Service</code> is responsible for tokenization and conversion to DTO.</li>
+<li>The <code>Repo</code> is responsible for tokenization and writing directly to the database.</li>
+<li>The <code>Service</code> handles the presentation of the result string.</li>
+</ul>
+<p>All of these were eventually put into <code>Command</code>, because how the strings are split and how the results are presented should be part of the business logic, and naturally should be handled by <code>Command</code>, which is the core of the business logic.</p>
+<p>Once we have a concrete idea, we can fill in the details of the class diagram, and then we just need to follow the diagram to write the program exactly as it is designed.</p>
+<p>Lastly, my thoughts on ORMs. In fact, I don’t use ORMs to implement database access, but rather use <code>pymongo</code> with a custom DTO.</p>
+<p>Why don’t I just use an ORM? The reason is that ORM will make developers overlook the existence of database and make clean architecture difficult to achieve.</p>
+<p>From the onion architecture, we know the database is on the outer layer and should not be called by any object, but with ORM, we can easily develop the ORM as an entity into the inner layer of the onion architecture, and it even contains a lot of business logic. This is difficult to test and difficult to maintain, and is the worst situation of all.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/when-to-consider-clean-architecture-a-practical-guide-6a21fccb5e6b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/Understanding-Use-Cases-for-Pattern-Matching/20230827/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Misc/Understanding-Use-Cases-for-Pattern-Matching/20230827/" class="post-title-link" itemprop="url">Understanding Use Cases for Pattern Matching</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-08-28 01:42:22" itemprop="dateCreated datePublished" datetime="2023-08-28T01:42:22+08:00">2023-08-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Understanding-Use-Cases-for-Pattern-Matching"><a href="#Understanding-Use-Cases-for-Pattern-Matching" class="headerlink" title="Understanding Use Cases for Pattern Matching"></a>Understanding Use Cases for Pattern Matching</h3><h4 id="Explaining-Python-3-10’s-new-features-with-real-world-examples"><a href="#Explaining-Python-3-10’s-new-features-with-real-world-examples" class="headerlink" title="Explaining Python 3.10’s new features with real-world examples"></a>Explaining Python 3.10’s new features with real-world examples</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*2onJlgsVc4rtqLPE"></p>
+<p>Pattern matching has finally been supported in Python since 3.10, and this feature, which is common to many functional programming languages, has been painlessly ported to Python.</p>
+<p>However, for those of us who are new to pattern matching, it’s hard for us to figure out the right use cases and thus the code we write is not much different from an <code>if-else</code>, with at most a little more syntactic sugar in the <code>if-else</code> to allow for more fine-grained definitions of the variables.</p>
+<p>To understand the real use case of pattern matching, we have to review the paragraph in <a target="_blank" rel="noopener" href="https://peps.python.org/pep-0635/#rationale">PEP 635</a>.</p>
+<blockquote>
+<p><em>Much of the power of pattern matching comes from the nesting of subpatterns. That the success of a pattern match depends directly on the success of subpattern is thus a cornerstone of the design.</em></p>
+</blockquote>
+<p><strong>Nesting of subpatterns</strong> sounds a bit abstract, what are some practical examples of this property?</p>
+<p>The easiest data structure to understand is the tree.</p>
+<p>Taking a binary tree as an example, traversing from the top to the bottom, each node actually satisfies the following properties.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class TreeNode:  </span><br><span class="line">    def __init__(self, value):  </span><br><span class="line">        self.value = value  </span><br><span class="line">        self.left = None  </span><br><span class="line">        self.right = None</span><br></pre></td></tr></table></figure>
+
+<p>Each node will have an attribute of its own, as well as a child to the left and right, and this is the typical nested structure. Therefore, one of the most practical examples is to look for tree nodes that match the pattern.</p>
+<h3 id="AST-Tree"><a href="#AST-Tree" class="headerlink" title="AST Tree"></a>AST Tree</h3><p>AST tree is a very common method used for lint or syntax checking.</p>
+<p>Suppose we have a requirement to check whether a source code has a direct call to <code>print</code>, then we can use <code>if</code> to compare the conditions and find out if the node that matches the condition violates the lint rule.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for node in ast.walk(tree):  </span><br><span class="line">    if (  </span><br><span class="line">        isinstance(node, ast.Call)  # It&#x27;s a call  </span><br><span class="line">        and isinstance(node.func, ast.Name)  # It directly invokes a name  </span><br><span class="line">        and node.func.id == &#x27;print&#x27;  # That name is `print`  </span><br><span class="line">    ):  </span><br><span class="line">        sys.exit(0)  </span><br><span class="line">          </span><br><span class="line">sys.exit(1)</span><br></pre></td></tr></table></figure>
+
+<p>From the above code we know we want to match a node <code>ast.Call</code> and it is a call function and the function name is print, three conditions in total.</p>
+<p>Now, we know the pattern conditions we want to compare, let’s rewrite it as follows using pattern matching.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for node in ast.walk(tree):  </span><br><span class="line">    match node:  </span><br><span class="line">        # If it&#x27;s a call to `print`  </span><br><span class="line">        case ast.Call(func=ast.Name(id=&#x27;print&#x27;)):  </span><br><span class="line">            sys.exit(0)  </span><br><span class="line">              </span><br><span class="line">sys.exit(1)</span><br></pre></td></tr></table></figure>
+
+<p>With pattern matching, we can make the conditions more straightforward by comparing them to the <code>class</code> definition we have in our head.</p>
+<p>From the code we can see pattern matching makes comparing conditions simple, but that’s not the power of pattern matching, because we haven’t compared nested structures yet. Let’s look at the next example.</p>
+<h3 id="Parsing-Tree"><a href="#Parsing-Tree" class="headerlink" title="Parsing Tree"></a>Parsing Tree</h3><p>Suppose now I want to find some Patterns on a binary tree with various colors and shapes.</p>
+<p>Given a tree of this kind, I want to know:</p>
+<ul>
+<li>Is there a green square on the tree with a red circle attached to the left node?</li>
+<li>Does the tree have any shape of any color, with a yellow triangle attached to the left node and a blue rectangle attached to the right node?</li>
+<li>The tree has a yellow circle with a blue rectangle attached to the left node. For the blue rectangle, the left node is connected to a red triangle, and the right node is connected to a red rectangle. The red rectangle, the right node is connected to the green square.</li>
+</ul>
+<p>Then our thinking model would look like the following diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*2jQ8GdzTxES3sRZf.png"></p>
+<p>Actually, that’s all our program has to do.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">def Find(Tree):  </span><br><span class="line">  match Tree:  </span><br><span class="line">    case Square(&#x27;green&#x27; ,   </span><br><span class="line">            Circle(&#x27;red&#x27;) as left ,   </span><br><span class="line">            _  </span><br><span class="line">          ) as root:  </span><br><span class="line">            print(f&#x27;case1 \n  &#123;root = &#125; \n &#123;left = &#125; \n &#x27;)  </span><br><span class="line">        </span><br><span class="line">    case Geometric( _ ,   </span><br><span class="line">              Triangle(&#x27;yellow&#x27;) as left,  </span><br><span class="line">              Rectangle(&#x27;blue&#x27;)  as right,  </span><br><span class="line">            ):  </span><br><span class="line">            print(f&#x27;case2 \n &#123;left = &#125; \n &#123;right = &#125; \n&#x27;)  </span><br><span class="line">  </span><br><span class="line">    case Circle(&#x27;yellow&#x27;,   </span><br><span class="line">             _ ,  </span><br><span class="line">             Rectangle(&#x27;blue&#x27;,  </span><br><span class="line">                Triangle(&#x27;red&#x27;),  </span><br><span class="line">                Rectangle(&#x27;red&#x27;,  </span><br><span class="line">                    _ ,  </span><br><span class="line">                    Square(&#x27;green&#x27;)  </span><br><span class="line">                ),  </span><br><span class="line">             ) as right  </span><br><span class="line">          ) as root:  </span><br><span class="line">            print(f&#x27;case3 \n &#123;root = &#125; \n &#123;right = &#125; \n &#x27;)  </span><br><span class="line">              </span><br><span class="line">    case _:  </span><br><span class="line">            print(&#x27;Not Found \n&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>From this example, we can see the power of pattern matching, not only to compare nodes with explicit conditions, but also to compare fuzzy conditions as in case 2. It’s not just easier to write code, it’s easier to map the ideas we have in our head directly to the code.</p>
+<p>In fact, database and big data engine optimizers make heavy use of pattern matching (not in Python) because the patterns that optimizers need to match are so complex that it would be very difficult to maintain code that simply uses <code>if-else</code>.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Pattern matching is a powerful technique, it’s not just a simple <code>if-else</code> or <code>switch-case</code>, it’s a “pattern matching”.</p>
+<p>However, in our daily lives, we seldom really utilize the power of pattern matching, both because we seldom deal with a large number of nested structures, and because we misunderstand the scenarios applied to them.</p>
+<p>Here’s a classic example from <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/69710333/is-there-a-way-to-match-inequalities-in-python-%E2%89%A5-3-10">Stack Overflow</a>. I’ve captured the answer with the most likes.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">match a:  </span><br><span class="line">    case _ if a &lt; 42:  </span><br><span class="line">        print(&#x27;Less&#x27;)  </span><br><span class="line">    case _ if a == 42:  </span><br><span class="line">        print(&#x27;The answer&#x27;)  </span><br><span class="line">    case _ if a &gt; 42:  </span><br><span class="line">        print(&#x27;Greater&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>Is this really better than <code>if-else</code>?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if a &lt; 42:  </span><br><span class="line">    print(&#x27;Less&#x27;)  </span><br><span class="line">elif a == 42:  </span><br><span class="line">    print(&#x27;The answer&#x27;)  </span><br><span class="line">elif a &gt; 42:  </span><br><span class="line">    print(&#x27;Greater&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>I believe that most people don’t think so, and this is a typical misapplication scenario.</p>
+<p>To sum up, the scenario where pattern matching is used is not conditional comparison, but pattern comparison. In addition, the real power of pattern matching is the nested structure.</p>
+<p><strong>Reference</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/71151429/using-python-ast-to-determine-if-a-string-has-been-hard-coded-into-a-print-call/71151862#71151862">AST Tree</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.douenergy.com/what-is-the-postgres-sql-game-plan-i/">Parsing Tree</a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/understanding-use-cases-for-pattern-matching-a7cf8e308e3c">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/Dont-be-Afraid-of-MongoDB-Cross-shard-Queries/20230813/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/MongoDB/Dont-be-Afraid-of-MongoDB-Cross-shard-Queries/20230813/" class="post-title-link" itemprop="url">Don’t be Afraid of MongoDB Cross-shard Queries</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-08-14 01:50:58" itemprop="dateCreated datePublished" datetime="2023-08-14T01:50:58+08:00">2023-08-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Empower-Sharding-Strategy-to-Handle-Cross-Shard-Queries-with-Confidence"><a href="#Empower-Sharding-Strategy-to-Handle-Cross-Shard-Queries-with-Confidence" class="headerlink" title="Empower Sharding Strategy to Handle Cross-Shard Queries with Confidence"></a>Empower Sharding Strategy to Handle Cross-Shard Queries with Confidence</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*QoHaVDd5TEP3YrNY"></p>
+<p>Before discussing sharding, let’s first talk about scaling. We all know that there are two types of scaling, one is vertical scaling, also known as scale-up, and the other is horizontal scaling, aka scale-out.</p>
+<p>As for scaling, there are different ways for different purposes. For MongoDB, if we want to improve query performance, then vertical scaling is to improve the machine specs, while horizontal scaling is to increase the number of replicas so that the query can be executed on the idle replicas.</p>
+<p>On the other hand, to increase the amount of data stored, for MongoDB, vertical scaling is still about improving the specs of the machine (in this case, the size of the hard drives), while horizontal scaling is about sharding, which is the main topic of this article.</p>
+<p>Therefore, we have to understand that the purpose of sharding is to make the data evenly distributed so that MongoDB can store more data, not to improve the query performance. In other words, query performance will be improved by sharding as an extra, but not the main purpose.</p>
+<h3 id="Why-specifically-mention-cross-shard-queries-in-the-title"><a href="#Why-specifically-mention-cross-shard-queries-in-the-title" class="headerlink" title="Why specifically mention cross-shard queries in the title?"></a>Why specifically mention cross-shard queries in the title?</h3><p>When we consider doing sharding, we will always consider carefully how to choose the shard key, choose the shard key and worry it will affect the production of the query performance, and consider rewrite all the query drastically. These concerns are actually unnecessary.</p>
+<p>Let me conclude that if migrating to a sharded cluster from no sharding, as long as the shard key is chosen correctly, then it will only be better, not worse, because it’s a WORST case now.</p>
+<blockquote>
+<p><em>Why so sure?</em></p>
+</blockquote>
+<p>The formula for query time in database is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*fwXYJlWF33j83fwDEzK0uw.png"></p>
+<p><em>T</em>total &#x3D; <em>T</em>s + <em>T</em>x</p>
+<p><em>T</em>s is the retrieval time of the database itself, either by index or by scanning the full collection.<br><em>T</em>x is the return time of the query result.</p>
+<p>In addition, <em>T</em>s and <em>T</em>x have the following properties.<br><em>T</em>s ∝ total data volume<br><em>T</em>x ∝ result size</p>
+<p>When we migrate this collection to a sharded cluster, then the above diagram will change a bit.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*BwtktGWTYoPm7YD_i9MemQ.png"></p>
+<p>The formula will also change a little bit, but the principle is the same.</p>
+<p><em>T</em>clusteredTotal &#x3D; Max( <em>T</em>1s + <em>T</em>1x , <em>T</em>2s + <em>T</em>2x )</p>
+<p>Even if there is data skew happening, I believe we all agree the following conditions are true.</p>
+<ul>
+<li><em>T</em>ns &lt; <em>T</em>s</li>
+<li><em>T</em>nx &lt; <em>T</em>x</li>
+</ul>
+<p>Therefore, a conclusion can be deduced.</p>
+<p><em>T</em>clusteredTotal &lt; <em>T</em>total</p>
+<p>Nevertheless, there are still some worst cases, for example, sharding is based on the data size rather than the frequency of data access, if there is busy collection(s) originally distributed in two shards without sharding, so they can consume all the resources of their respective machines individually. However, because of sharding, most of the data is distributed to the same shard, which competes for resources.</p>
+<p>In other words, the precondition for the problem is the original MongoDB is nearly full and resources are almost exhausted.</p>
+<h3 id="How-to-choose-shard-key"><a href="#How-to-choose-shard-key" class="headerlink" title="How to choose shard key?"></a>How to choose shard key?</h3><p>From the above introduction, we know as long as the shard key is chosen correctly, then we don’t need to worry about the performance of queries decreasing after sharding. Therefore, how to choose the shard key is pretty important.</p>
+<p>I have already provided the ideal formula and described the details in my previous article.</p>
+<p>Therefore, in this article, I will only outline which three types of bad cases must be avoided.</p>
+<h3 id="Low-Cardinality"><a href="#Low-Cardinality" class="headerlink" title="Low Cardinality"></a>Low Cardinality</h3><p>Suppose we choose an enum field as the shard key, and the range is fixed to [1, 2, 3].</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*DPQxL-Q556v-sQs5nxrHNQ.png"></p>
+<p>Then even if we write 2 to the max, we still can’t start rebalance, and the maximum number of shards is 3.</p>
+<h3 id="Ascending"><a href="#Ascending" class="headerlink" title="Ascending"></a>Ascending</h3><p>If we use a continuously incrementing field as the shard key, then we can ensure the chunks are evenly distributed, but it will continuously trigger a rebalance, and the performance will be horrible.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*77cfvZBiI__SSyfmmq-Sng.png"></p>
+<p>Furthermore, the data we need to query frequently is usually new, in other words, the query and the rebalance will often mix together, making the situation even worse.</p>
+<h3 id="Random-or-Hash-Value"><a href="#Random-or-Hash-Value" class="headerlink" title="Random or Hash Value"></a>Random or Hash Value</h3><p>Another common choice is to use a random field (or hashing) as the shard key, which also ensures the chunks are evenly distributed and does not trigger frequent rebalances, but the rebalance overhead is increased.</p>
+<p>MongoDB’s storage engine, WiredTiger, uses a storage distribution similar to MySQL’s InnoDB, i.e., the primary key (<code>_id</code>) is used as the storage unit (block), and similar primary keys are placed in the same block.</p>
+<p>If we use random shard key, it will trigger random access instead of sequential access when we do rebalance.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*bFbHcivvKbOf4_9qoEiFxw.png"></p>
+<p>For instance, when a chunk is full and needs to be rebalanced, the data needs to be migrated across three blocks, and the entire rebalance time will be longer. This is far worse than the performance of a single block to complete the rebalance, as shown in the following diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*nKH8OXMX0LGnjPNe8b8tBg.png"></p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>When we encounter a new problem, we often feel hesitant or even scared because it is unfamiliar.</p>
+<p>What we need to do is to take a deep breath and return to the nature of the problem, analyze the core of the problem, and don’t be confused by the external appearance. Taking cross-shard queries as an example, when we use the database perspective instead of MongoDB to unpack the problem, the answer will be obvious.</p>
+<p>Software engineering is already a stable field, most of the problems are similar in nature, so don’t panic, think carefully, most of the answers are not complicated.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/dont-be-afraid-of-mongodb-cross-shard-queries-2a7797a96528">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Implementing-API-Versioning/20230806/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Microservice/Implementing-API-Versioning/20230806/" class="post-title-link" itemprop="url">Implementing API Versioning</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-08-07 01:43:00" itemprop="dateCreated datePublished" datetime="2023-08-07T01:43:00+08:00">2023-08-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Emulating-Shopify’s-API-Versioning-Strategy"><a href="#Emulating-Shopify’s-API-Versioning-Strategy" class="headerlink" title="Emulating Shopify’s API Versioning Strategy"></a>Emulating Shopify’s API Versioning Strategy</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*jwutXmLGWKadg8Gl"></p>
+<p>For a public API to be called by a user, it is common practice to use versioning to control the impact. For example, when a user calls an API and expects certain results, a change in the API’s interface or behavior can cause unpredictable risks for the caller. Therefore, in practice, the original API will be tuned to version 1, and the modified API to version 2.</p>
+<p>Users can be sure that calling the original version 1 API will not cause any problems, and the service providing the API can continue to iterate on the functionality, both sides of the development cycle can be independent of each other. Of course, maintaining two sets of APIs increases the maintenance effort for the service provider, so APIs have a lifecycle and don’t live forever.</p>
+<p>In the case of the AWS services, the APIs called by the SDK have a version number (named by date), so it is recommended to specify the version of the used API in the production environment.</p>
+<p>The following is an example of the AWS Python SDK, <em>boto3</em>, which according to the <a target="_blank" rel="noopener" href="https://boto3.amazonaws.com/v1/documentation/api/latest/guide/configuration.html#using-a-configuration-file">official document</a>, <code>api_versions</code> should be specified in AWS configure. The version change of each service is available in this channel.</p>
+<p>In fact, there are many different ways of implementing API versioning, and one interesting example is Shopify, according to Shopify’s official document, we know that Shopify releases one version per quarter and maintains only four versions at a time, i.e. one year.</p>
+<p>Versions are date-named and embedded directly in the URL, and those out-of-date versions fallback to the oldest version in available support.</p>
+<p>In other words, suppose the current four versions are as follows.</p>
+<ul>
+<li>2023–07</li>
+<li>2023–04</li>
+<li>2023–01</li>
+<li>2022–10</li>
+</ul>
+<p>Then the call to 2022–07 would use the version 2022–10.</p>
+<p>This is an interesting way of implementation, as the client has one year to make changes, and if it doesn’t, it will still work, but with unexpected results, instead of just crashing.</p>
+<p>How to implement such a versioning mechanism? This article provides a possible approach.</p>
+<h3 id="Implementation-approach"><a href="#Implementation-approach" class="headerlink" title="Implementation approach"></a>Implementation approach</h3><p>The full source is in the following repo.</p>
+<p>The overall implementation architecture is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*MxyBZHS2MCui3vduhtm3wQ.png"></p>
+<p>All three services implement two URIs: <code>/hello</code> and <code>/hi</code>, which just print the URI with a version number.</p>
+<p>For users, to call the corresponding service, they just put a prefix in front of the URI, e.g. <code>curl http://localhost/v2/hello</code> would print out</p>
+<blockquote>
+<p><em>hello v2</em></p>
+</blockquote>
+<p>In addition, calling a non-white-listed (v1, v2 and v3) version will fallback to v1, e.g., <code>curl http://localhost/v4/hello</code> will print</p>
+<blockquote>
+<p><em>hello v1</em></p>
+</blockquote>
+<p>The core of this experiment is nginx on the gateway.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">http &#123;  </span><br><span class="line">    server &#123;  </span><br><span class="line">        listen 80;  </span><br><span class="line">  </span><br><span class="line">        location ^~ /v1/ &#123;  </span><br><span class="line">            rewrite /v1/(.*) /$1 break;  </span><br><span class="line">            proxy_pass http://web_v1;  </span><br><span class="line">        &#125;  </span><br><span class="line">        location ^~ /v2/ &#123;  </span><br><span class="line">            rewrite /v2/(.*) /$1 break;  </span><br><span class="line">            proxy_pass http://web_v2;  </span><br><span class="line">        &#125;  </span><br><span class="line">        location ^~ /v3/ &#123;  </span><br><span class="line">            rewrite /v3/(.*) /$1 break;  </span><br><span class="line">            proxy_pass http://web_v3;  </span><br><span class="line">        &#125;  </span><br><span class="line">        location ~ /v(\d+)/ &#123;  </span><br><span class="line">            rewrite /v(\d+)/(.*) /$2 break;  </span><br><span class="line">            proxy_pass http://web_v1;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>If the location matches the previous 3 rules, then rewrite the original URI, remove the prefix and redirect to the corresponding service, if it doesn’t match the previous rules but matches the version specification (v plus integer), then redirect to the v1 service anyway.</p>
+<p>By using nginx regex, we can make the version match the corresponding service and implement the extra fallback mechanism.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Actually, there is another approach to provide various versions of the API in the original service, for instance, opening several endpoints directly in the API service as follows.</p>
+<ul>
+<li>&#x2F;v1&#x2F;hello</li>
+<li>&#x2F;v2&#x2F;hello</li>
+<li>&#x2F;v3&#x2F;hello</li>
+</ul>
+<p>Creating three versions of the API directly instead of adding a prefix to the API through the gateway is not recommended. If you don’t physically isolate them, it adds a lot of development overhead, as in the following real-world example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*TGLKfqn1R6kLdOURKkjuWw.png"></p>
+<p>When we need to modify the behavior of the common lib, it will inevitably affect <code>v1</code>, which makes it difficult to iterate on the functionality, and also introduces risk to the user.</p>
+<p>Therefore, isolation at the physical level is more controllable than isolation at the logical level. This article provides a possible approach, but there are many other implementations that can achieve the same result, so feel free to share them with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/implementing-api-versioning-904ac4527766">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Building-a-SNOWPLOW-Playground/20230723/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Building-a-SNOWPLOW-Playground/20230723/" class="post-title-link" itemprop="url">Building a SNOWPLOW Playground</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-07-24 01:47:34" itemprop="dateCreated datePublished" datetime="2023-07-24T01:47:34+08:00">2023-07-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="An-Open-Source-Flexible-and-Powerful-Event-Tracking-System"><a href="#An-Open-Source-Flexible-and-Powerful-Event-Tracking-System" class="headerlink" title="An Open Source, Flexible and Powerful Event Tracking System"></a>An Open Source, Flexible and Powerful Event Tracking System</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*3xQloKg6O6bAExg5"></p>
+<p><a target="_blank" rel="noopener" href="https://snowplow.io/">SNOWPLOW</a> is a platform for tracking events, i.e. collecting various user behavior events and analyzing them. Nowadays, there are many famous similar products like Google Analytics, <a target="_blank" rel="noopener" href="https://mixpanel.com/">Mixpanel</a>, etc., but in the open source ecosystem, SNOWPLOW has a place.</p>
+<p>Although there is a paid version of SNOWPLOW, I can’t figure out any reason not to use Mixpanel instead of SNOWPLOW since I have to pay for it, but there are a lot of advantages I can put forward for the open source version of SNOWPLOW.</p>
+<p>For example, the architecture is simple and easy to integrate with existing infrastructure, and there are many flexible components that can be customized. Most importantly, there are a lot of SDKs available for various scenarios, e.g., Web, Mobile apps and even backend systems.</p>
+<p>This article will not introduce the use case of SNOWPLOW, because it has been introduced in detail in the <a target="_blank" rel="noopener" href="https://docs.snowplow.io/docs/recipes/">official document</a>. Instead, this article will introduce the architecture of SNOWPLOW and provide a <em><strong>free</strong></em> playground.</p>
+<blockquote>
+<p><em>Why emphasize on free?</em></p>
+</blockquote>
+<p>In fact, in the official SNOWPLOW document there is a <a target="_blank" rel="noopener" href="https://docs.snowplow.io/docs/getting-started-on-snowplow-open-source/what-is-quick-start/">quick start environment</a> for the terraform, but it is deployed on AWS or GCP and uses a lot of paid services. For a beta player, maybe we just want to experience what it can do, but don’t want to pay for it, at least I don’t, then a local free test environment is necessary.</p>
+<h3 id="Architecture-Overview"><a href="#Architecture-Overview" class="headerlink" title="Architecture Overview"></a>Architecture Overview</h3><p>First of all, let’s take a quick look at the SNOWPLOW architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*QwVjSkCE7PS4Dg1A.png"></p>
+<p>There are three core components in the whole infrastructure, <strong>collector</strong>, <strong>enricher</strong> and <strong>schema registry</strong>, which are the fundamentals of SNOWPLOW. As for what kind of data warehouse or analysis engine to use, those can be freely matched and are not part of the SNOWPLOW package.</p>
+<ul>
+<li>Collector: Collects events from the SDK, these events are raw data and therefore continue to be delivered to the enricher.</li>
+<li>Schema Registry: The registry used in SNOWPLOW is a self-developed <strong>iglu</strong>, which is a service that manages JSON schema.</li>
+<li>Enricher: After receiving the raw data, the first step is to validate it with the schema registered in the schema registry, and if it passes the validation, then it will be processed to produce a more analytical format and continue to send it to the next stage. As for the data to be sent to the data warehouse or Looker or other analysis platforms is based on demand.</li>
+</ul>
+<p>One of the more interesting parts of the process is the enrichment stage, where <a target="_blank" rel="noopener" href="https://docs.snowplow.io/docs/enriching-your-data/available-enrichments/">here</a> lists all the available plugins. Let’s take a practical example. An incoming event will only have an IP field, but subsequent analysis will depend on the geographic location, which can be enriched by the plugin <a target="_blank" rel="noopener" href="https://docs.snowplow.io/docs/enriching-your-data/available-enrichments/ip-lookup-enrichment/">IP Lookup</a>.</p>
+<p>This is a simple but powerful architecture that includes both validation and enrichment, and what’s more, the events are flexible in their format and can be customized to fit every need. In addition, these events can be downstreamed in a variety of ways based on demand, and can be flexibly integrated with the existing infrastructure.</p>
+<h3 id="Playground"><a href="#Playground" class="headerlink" title="Playground"></a>Playground</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/wirelessr/snowplow-pipeline">https://github.com/wirelessr/snowplow-pipeline</a></p>
+</blockquote>
+<p>This Github repository provides a <code>docker-compose.yml</code>, yes, we all love <code>docker-compose</code>. All the required components can be built locally and the usage is written in the <code>README</code> which should not cause any problems.</p>
+<p>Also, for testing purposes, in addition to viewing the local database, I’ve put an additional <em>Kafka</em> management console at <code>localhost:9021</code>, which makes it possible to visually see each event.</p>
+<p>All the settings of the components to be modified are located in the <code>config.hocon</code> under the corresponding folder.</p>
+<p>Let’s describe the architecture of the test environment as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*KEkGHyNGnrFmO-z3IEW4qQ.png"></p>
+<ol>
+<li>There is a mock web with Javascript SDK installed, after entering <code>http://localhost</code> it will send some events to the collector periodically.</li>
+<li>When the collector receives an event, it will store it in the database (atomic.events) and send it to Kafka.</li>
+<li>When the Enricher receives an event, it first confirms the schema with the Iglu server, then performs basic enrichment and sends it to Kafka.</li>
+<li>The final mock processor is to simulate how the enriched event should be handled.</li>
+</ol>
+<p>The whole process is straightforward. After setting up the environment, we can observe the complete data flow in Kafka’s management console.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In fact, I have tried SNOWPLOW’s cloud-based Enterprise version, and the biggest difference I felt was the schema management. In the the open-source version, if we want to customize the event fields, we have to integrate Iglu’s REST API, and then we have to understand Iglu’s design concepts. However, in the cloud version, there is an easy-to-use UI that makes managing schema much easier.</p>
+<p>Nevertheless, if we just want to do basic event tracking, I believe the open-source version of SNOWPLOW provides a good capability. Of course, if we want to use it more deeply, we need to understand and integrate it more comprehensively, which is also the price to pay for open source software.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/building-a-snowplow-playground-90d90ff69393">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-2/20230702/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Flink-SQL-Performance-Tuning-Part-2/20230702/" class="post-title-link" itemprop="url">Flink SQL Performance Tuning, Part 2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-07-03 02:00:15" itemprop="dateCreated datePublished" datetime="2023-07-03T02:00:15+08:00">2023-07-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Flink-SQL-Performance-Tuning-Part-2"><a href="#Flink-SQL-Performance-Tuning-Part-2" class="headerlink" title="Flink SQL Performance Tuning, Part 2"></a>Flink SQL Performance Tuning, Part 2</h3><h4 id="Explaining-the-concept-of-Split-Distinct-aggregation-and-JOIN-optimizations"><a href="#Explaining-the-concept-of-Split-Distinct-aggregation-and-JOIN-optimizations" class="headerlink" title="Explaining the concept of Split Distinct aggregation and JOIN optimizations"></a>Explaining the concept of Split Distinct aggregation and JOIN optimizations</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*uAPs3J29Z3WeqDhS"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/flink-sql-performance-tuning-part-1-f71a0a0ee91">Flink SQL Performance Tuning, Part 1</a></li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/flink-sql-performance-tuning-part-2-c102177b1ce1">Flink SQL Performance Tuning, Part 2</a></li>
+</ul>
+<p>In the previous article, we introduced three kinds of optimization mechanisms for Flink SQL as follows.</p>
+<ol>
+<li>Reduce sub plan</li>
+<li>Mini batch</li>
+<li>Local-Global aggregation</li>
+</ol>
+<p>These mechanisms correspond to some use cases individually. Among them, mini batch and Local-Global aggregation are both optimized for <code>GROUP BY</code> operations. However, in the previous article, we mentioned that even though both mechanisms can improve the performance of <code>GROUP BY</code>, they are not applicable to <code>DISTINCT</code>.</p>
+<p>Therefore, in these articles, we will start by explaining the reason for this problem, and then we will introduce more optimization mechanisms.</p>
+<h3 id="Split-Distinct-Aggregation"><a href="#Split-Distinct-Aggregation" class="headerlink" title="Split Distinct Aggregation"></a><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/tuning/#split-distinct-aggregation">Split Distinct Aggregation</a></h3><p>Before explaining the problems encountered by <code>DISTINCT</code>, let’s review Local-Global aggregation with an example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT color, COUNT(DISTINCT id)  </span><br><span class="line">FROM T  </span><br><span class="line">GROUP BY color</span><br></pre></td></tr></table></figure>
+
+<p>This SQL command is a little different from the previous one, i.e., it uses <code>DISTINCT</code>, but it is similar to the previous one.</p>
+<p>In Local-Global aggregation, we will do a first aggregation in the mini batch according to the color, and then we will do a second aggregation in the next operator with the results of the mini batch pre-aggregation.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*stpDIGZoctvkUaU0G4JHQw.png"></p>
+<p>As we can see above, even though we did the pre-aggregation in the mini batch, the effect is not significant because the operation <code>DISTINCT</code> is not able to merge. This also results in a lot of data in the final aggregation, and the data skew is not solved.</p>
+<p>Since so, can we use <code>id</code> to group the data again during local aggregation? By splitting again, we can collect data with the same <code>id</code> together, and then we can merge them.</p>
+<p>This is exactly the concept of Split Distinct aggregation.</p>
+<p>Let’s use pseudocode to explain.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT color, SUM(cnt)  </span><br><span class="line">FROM (  </span><br><span class="line">    SELECT color, COUNT(DISTINCT id) as cnt  </span><br><span class="line">    FROM T  </span><br><span class="line">    GROUP BY color, MOD(HASH_CODE(id), 4)  </span><br><span class="line">)  </span><br><span class="line">GROUP BY color</span><br></pre></td></tr></table></figure>
+
+<p>Split Distinct aggregation rewrites the original <code>COUNT(DISTINCT id)</code> into the above code. By first splitting the group with <code>id</code>, in this case into 4 groups, the pre-aggregation can be done.</p>
+<p>Therefore, the actual operator will look like the following diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*lxuBynfRQT6dnQcPmVvPIA.png"></p>
+<p>We can see in the final aggregation stage that each operator needs to process the data more evenly, in other words, the data skew is solved.</p>
+<p>There are two settings to enable Split Distinct aggregation.</p>
+<ul>
+<li>table.optimizer.distinct-agg.split.enabled</li>
+<li>table.optimizer.distinct-agg.split.bucket-num</li>
+</ul>
+<p>The first setting is the feature toggle, and the second setting is the number of groups. Although we use <code>COUNT</code> as an example, any operation that is able to be merged can be split.</p>
+<p>Nevertheless, one of the problems with Split Distinct aggregation is the significantly larger state and the increased state access. This is because the result of the split operation relies on the state to be persistent.</p>
+<p>How to solve it?</p>
+<p>Well, it’s as simple as a Local-Global aggregation after splitting the group. So the complete settings are as follows.</p>
+<ul>
+<li>table.exec.mini-batch.enabled</li>
+<li>table.exec.mini-batch.allow-latency</li>
+<li>table.exec.mini-batch.size</li>
+<li>table.optimizer.agg-phase-strategy: “TWO_PHASE”</li>
+<li>table.optimizer.distinct-agg.split.enabled</li>
+<li>table.optimizer.distinct-agg.split.bucket-num</li>
+</ul>
+<p>We have turned on all the optimization settings related to <code>GROUP BY</code>. Be sure to remember that these come at a price, the most obvious of them is the increased use of computing resources.</p>
+<h3 id="JOIN-Optimization"><a href="#JOIN-Optimization" class="headerlink" title="JOIN Optimization"></a>JOIN Optimization</h3><p><code>JOIN</code> is a common practice for enrichment. In a normal SQL <code>JOIN</code>, it’s to find the same columns in the left and right tables and join the remaining columns together, but in streaming, it’s far from simple.</p>
+<p>Because, there is no physical table in streaming.</p>
+<p>So, in order to make the table concept, Flink will store the data in the state, and when there is an event input, the corresponding data can be taken out from the state immediately. However, there is a big problem with this approach, that is, the state will grow infinitely.</p>
+<p>For example, suppose Flink has two streams, order and product. The order stream will keep append once there is a new order, and the product stream will have events for product creation, update and deletion.</p>
+<p>Therefore, we write the following Flink SQL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM Orders  </span><br><span class="line">INNER JOIN Product  </span><br><span class="line">ON Orders.productId = Product.id</span><br></pre></td></tr></table></figure>
+
+<p>In the implementation behind Flink, all changes to the product are stored by the state, so that the corresponding result can be found as soon as the order event is generated, even if the product does not have any orders at all.</p>
+<p>When there are a lot of products and the operator is running for a long time, this state can become very huge.</p>
+<p>The most straightforward solution to reduce the unused state is to <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/config/#table-exec-state-ttl">set TTL</a> as follows.</p>
+<ul>
+<li>table.exec.state.ttl</li>
+</ul>
+<p>Nevertheless, when a product’s state is deleted, it can lead to unexpected results. In the above example, when the state of a product is deleted, if the order event of the same product comes in, the corresponding product information will not be found.</p>
+<p>In addition to this simple and brutal approach, Flink also provides three alternatives to <code>JOIN</code> optimization.</p>
+<p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/joins/#interval-joins"><strong>Interval Join</strong></a></p>
+<p>It has a similar purpose to setting the TTL directly above, except that it allows the user to decide which field to use as the basis for time judgments.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT *  </span><br><span class="line">FROM Orders o, Shipments s  </span><br><span class="line">WHERE o.id = s.order_id  </span><br><span class="line">AND o.order_time BETWEEN s.ship_time - INTERVAL &#x27;4&#x27; HOUR AND s.ship_time</span><br></pre></td></tr></table></figure>
+
+<p>Through this SQL, we can specify <code>order_time</code> and <code>shipment_time</code> as the basis of TTL, then Flink can know not to keep the state of the difference between <code>order_time</code> and <code>shipment_time</code> for more than 4 hours.</p>
+<p>However, there is a limitation in this approach, in addition to the fact table on the left is append only, the dimension table on the right must also be append only, otherwise the time interval will be inconsistent.</p>
+<p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/joins/#temporal-joins"><strong>Temporal Join</strong></a></p>
+<p>Before we explain Temporal Join, let’s look at another example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM orders  </span><br><span class="line">LEFT JOIN currency_rates  </span><br><span class="line">ON orders.currency = currency_rates.currency</span><br></pre></td></tr></table></figure>
+
+<p>Assuming this is an international order, we need to know what the currency rate is for the order in order to calculate the sales performance of the product.</p>
+<p>In order to keep the currency rates available at all times, Flink keeps a complete history of the currency rates. For example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*4uJI9j1hxPTexp_SCEFKZg.png"></p>
+<p>Therefore, the correct result can be obtained regardless of whether the order is placed at 12:00 or 12:01. However, we don’t really need this historical data, because we only need the current currency of the order, and the past history can be cleared out.</p>
+<p>This is the concept of Temporal Join, only keep a latest mapping.</p>
+<blockquote>
+<p><em>currency: conversion_rate</em></p>
+</blockquote>
+<p>How to use this approach?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM orders  </span><br><span class="line">LEFT JOIN currency_rates FOR SYSTEM_TIME AS OF orders.order_time  </span><br><span class="line">ON orders.currency = currency_rates.currency;</span><br></pre></td></tr></table></figure>
+
+<p>One of the most special is <code>FOR SYSTEM_TIME AS OF</code>, this usage can be referred to <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/SQL:2011">SQL:2011 standard</a>, this article will not dive into it.</p>
+<p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/joins/#lookup-join"><strong>Lookup Join</strong></a></p>
+<p>The concept of Lookup Join is even more simple, since the state of Flink is so big and difficult to manage, it is better to go directly to the external data source, such as MySQL, for every event at the moment.</p>
+<blockquote>
+<p><em>Time for space.</em></p>
+</blockquote>
+<p>The entire syntax is written in the same way as the previous Temporal Join, using <code>FOR SYSTEM_TIME AS OF</code>, the only thing worth noting is the usage of <code>proc_time</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT o.order_id, o.total, c.country, c.zip  </span><br><span class="line">FROM Orders AS o  </span><br><span class="line">JOIN Customers FOR SYSTEM_TIME AS OF o.proc_time AS c  </span><br><span class="line">ON o.customer_id = c.id;</span><br></pre></td></tr></table></figure>
+
+<p>Because it is accessing external storage, Flink also provides some built-in optimization features.</p>
+<p>In general, the process of accessing external storage is synchronous, sending a request and waiting for a response before moving on to the next one. However, Flink offers to send all requests at once and then wait for responses asynchronously, and it is turned on by default.</p>
+<p>If we want to adjust it manually, we can refer to the <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/hints/#lookup">Hints</a> mentioned in the official document.</p>
+<p>In addition, even if the external storage is accessed asynchronously, the actual operation will wait for the correct order of the responses after receiving them. If the order of the responses is not that important, then we can tell Flink not to wait for the responses to be in order.</p>
+<p>Use the SQL command mentioned earlier as an example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT /*+ LOOKUP(&#x27;table&#x27;=&#x27;Customers&#x27;, &#x27;async&#x27;=&#x27;true&#x27;. &#x27;output-mode&#x27;=&#x27;allow_unordered&#x27;, &#x27;capacity&#x27;=&#x27;100&#x27;, &#x27;timeout&#x27;=&#x27;180s&#x27;) */  </span><br><span class="line">    o.order_id, o.total, c.country, c.zip  </span><br><span class="line">FROM Orders AS o  </span><br><span class="line">JOIN Customers FOR SYSTEM_TIME AS OF o.proc_time AS c  </span><br><span class="line">ON o.customer_id = c.id;</span><br></pre></td></tr></table></figure>
+
+<p>It is most intuitive to tell the Flink optimizer what to do through Hints, so that it can be adjusted according to each command, but it is also possible to enable the global setting directly.</p>
+<ul>
+<li>table.exec.async-lookup.output-mode</li>
+<li>table.exec.async-lookup.buffer-capacity</li>
+<li>table.exec.async-lookup.timeout</li>
+</ul>
+<p>Mode and timeout are considered simple, as for capacity refers to how many IO command will trigger the actual <code>JOIN</code> operation. But I feel this is a bit abstract, set how much is appropriate is difficult to tell, it still needs to rely on experiments.</p>
+<p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/window-join/"><strong>Window Join</strong></a></p>
+<p>The last one is Window Join, which is similar to the concept of Interval Join mentioned earlier, and only retains a specific time range of states instead of all historical states. However, the window mechanism is very complicated and not required, so we will directly attach the example of the official document here without further explanation.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SELECT L.num as L_Num, L.id as L_Id, R.num as R_Num, R.id as R_Id,  </span><br><span class="line">    COALESCE(L.window_start, R.window_start) as window_start,  </span><br><span class="line">    COALESCE(L.window_end, R.window_end) as window_end  </span><br><span class="line">FROM (  </span><br><span class="line">    SELECT * FROM TABLE(  </span><br><span class="line">        TUMBLE(TABLE LeftTable, DESCRIPTOR(row_time), INTERVAL &#x27;5&#x27; MINUTES)  </span><br><span class="line">    )  </span><br><span class="line">) L  </span><br><span class="line">FULL JOIN (  </span><br><span class="line">    SELECT * FROM TABLE(  </span><br><span class="line">        TUMBLE(TABLE RightTable, DESCRIPTOR(row_time), INTERVAL &#x27;5&#x27; MINUTES)  </span><br><span class="line">    )  </span><br><span class="line">) R  </span><br><span class="line">ON L.num = R.num AND L.window_start = R.window_start AND L.window_end = R.window_end;</span><br></pre></td></tr></table></figure>
+
+<p>To sum up, all kinds of JOIN rewriting are aimed at reducing the size of state.</p>
+<p>The original JOIN will generate extremely large state, which will consume a lot of hardware resources if stored in memory, or generate a lot of hard disk IO if stored on persistent storage such as RocksDB, either of which will have a huge impact on performance.</p>
+<p>Therefore, these four JOIN optimizations are all aimed at reducing the size of the state, but the exact solution to be used depends on the use case. The following is a brief list of the applicable scenarios.</p>
+<ul>
+<li>Interval Join: Both the fact table and dimension table are append-only.</li>
+<li>Temporal Join: Only the latest dimension is required.</li>
+<li>Lookup Join: The dimension table is stored externally and does not care about dimension changes.</li>
+<li>Window Join: Both fact and dimension tables have the window function enabled.</li>
+</ul>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In the previous article, we introduced how to optimize general SQL commands and how to make <code>GROUP BY</code> more efficient. In this article, we introduced <code>DISTINCT</code> and <code>JOIN</code>.</p>
+<p>I believe these two articles should have covered most of the Flink SQL scenarios, in fact, it is not hard to find that there are the following ways to make Flink SQL perform better.</p>
+<ul>
+<li>Reducing invalid ( repeated ) commands</li>
+<li>Reducing state access</li>
+<li>Reducing the size of state</li>
+<li>Reducing data skew</li>
+</ul>
+<p>Every optimization has a proper scenario and a price to pay, and how to make Flink SQL perform better is a balance between these tradeoffs. Most of the optimizations are case-by-case and require understanding of Flink implementation before they can be applied.</p>
+<p>These two articles are based on the latest stable version of Flink 1.17, maybe the URL of the attached reference will change, but I have explained the core concepts, so the new or old version of Flink should also be used as a reference.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/flink-sql-performance-tuning-part-2-c102177b1ce1">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-1/20230625/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Flink-SQL-Performance-Tuning-Part-1/20230625/" class="post-title-link" itemprop="url">Flink SQL Performance Tuning, Part 1</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-06-26 01:51:42" itemprop="dateCreated datePublished" datetime="2023-06-26T01:51:42+08:00">2023-06-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Flink-SQL-Performance-Tuning-Part-1"><a href="#Flink-SQL-Performance-Tuning-Part-1" class="headerlink" title="Flink SQL Performance Tuning, Part 1"></a>Flink SQL Performance Tuning, Part 1</h3><h4 id="Explaining-the-concept-of-reduce-sub-plan-mini-batch-and-Local-Global-aggregation"><a href="#Explaining-the-concept-of-reduce-sub-plan-mini-batch-and-Local-Global-aggregation" class="headerlink" title="Explaining the concept of reduce sub plan, mini batch and Local-Global aggregation"></a>Explaining the concept of reduce sub plan, mini batch and Local-Global aggregation</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*3omIjk3XZOlpX8Z8"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/flink-sql-performance-tuning-part-1-f71a0a0ee91">Flink SQL Performance Tuning, Part 1</a></li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/flink-sql-performance-tuning-part-2-c102177b1ce1">Flink SQL Performance Tuning, Part 2</a></li>
+</ul>
+<p>Before talking about the tuning, we have to understand how Flink SQL works. In general, there are several steps as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*fb2k2PK_Lkm1-Ykm9iPuhg.png"></p>
+<p>After receiving a SQL command, it is first parsed into a logical plan, and then the execution plan is generated by the optimizer. With the execution plan, the actual code for execution can be generated and finally turned into a job.</p>
+<p>The only step we can control on the whole process is the optimizer.</p>
+<p>And, the following are factors affecting Optimizer.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*212V1L7af9jC2-VrjrimZw.png"></p>
+<ul>
+<li>LogicalPlan: Generated from SQL parser, it can be said that a good writing style basically solves most of the performance problems.</li>
+<li>FlinkConf: In Flink, there are many optimizer-related <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/config/">settings</a> that can be adjusted.</li>
+<li>SchemaDesign: Of course, the schema design also determines some of the performance, such as the primary key.</li>
+<li>Hints: Although the optimizer will try to cover as many scenarios as possible, sometimes we still need to “tell” the optimizer what to do, and that can be done through <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/hints/">hints</a>.</li>
+</ul>
+<p>Thus, this article will introduce a few common scenarios on how to tune.</p>
+<h3 id="Reuse-Sub-Plan"><a href="#Reuse-Sub-Plan" class="headerlink" title="Reuse Sub Plan"></a>Reuse Sub Plan</h3><p>In Flink’s settings, <code>table.optimizer.reuse-sub-plan-enabled</code> is turned on by default. The functionality of this setting can be explained by a simple example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO sink1 SELECT * FROM table WHERE a &gt; 0;  </span><br><span class="line">INSERT INTO sink2 SELECT * FROM table WHERE a &gt; 0 AND b &lt; 0;</span><br></pre></td></tr></table></figure>
+
+<p>First, convert the above two SQL commands into a logical plan.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Xvf-gmBSO_norc8CTjr21Q.png"></p>
+<p>Then, after the <code>reuse-sub-plan</code> of the optimizer, the following execution plan will be generated.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*zeWnVE-AoEBqZVYwKbuCBg.png"></p>
+<p>What the optimizer does is to merge the same parts, so that there is no need to repeat the process. But from our naked eyes, we can still see one identical part can be merged.</p>
+<blockquote>
+<p><em>WHERE a &gt; 0</em></p>
+</blockquote>
+<p>However, the optimizer does not recognize this clause, so we need to rewrite the original SQL to make the optimizer understand the merging rules for this filter.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE TEMPORARY VIEW v SELECT * FROM table WHERE a &gt; 0;  </span><br><span class="line">INSERT INTO sink1 SELECT * FROM v;  </span><br><span class="line">INSERT INTO sink2 SELECT * FROM v WHERE b &lt; 0;</span><br></pre></td></tr></table></figure>
+
+<p>By creating a temporary view, the optimizer can generate a more efficient execution plan.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Afp6IrI5T5PM721my6GEog.png"></p>
+<h3 id="MiniBatch-Aggregation"><a href="#MiniBatch-Aggregation" class="headerlink" title="MiniBatch Aggregation"></a><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/tuning/#minibatch-aggregation">MiniBatch Aggregation</a></h3><p>Mini batch is a built-in performance optimization mechanism for Flink. The mechanism behind is explained in the <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/tuning/#minibatch-aggregation">official document</a>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*QA_kV30-7fPG745x.png"></p>
+<p>The above diagram shows an overview of a mini batch, in plain English, mini batch drastically reduces the number of accesses to the state.</p>
+<p>Let’s use a practical example to explain this.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT color, SUM(id)  </span><br><span class="line">FROM T  </span><br><span class="line">GROUP BY color</span><br></pre></td></tr></table></figure>
+
+<p>This is a typical SQL aggregation operation, in fact, the internal operation of Flink is each event must access the state once, so it can be summed up.</p>
+<p>It is written in Python as pseudocode as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def process(input):  </span><br><span class="line">    color, id = extract(input)  </span><br><span class="line">    ret = state.get(color)  </span><br><span class="line">    ret += id  </span><br><span class="line">    state.update(color, ret)  </span><br><span class="line">    yield ret</span><br></pre></td></tr></table></figure>
+
+<p>When inputting an event, first of all we find its <code>color</code>, then we take out the previous summation result, then we add the <code>id</code> to it, and finally we write the result back to the state. The next event comes in and repeats the process.</p>
+<p>Such a iteration will be extremely frequent to access the state, resulting in performance impact. So mini batch collects events and accesses the state only once for each specific <code>color</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def mini_batch_process(batch):  </span><br><span class="line">    for color in batch:  </span><br><span class="line">        ret = state.get(color)  </span><br><span class="line">        for id in batch[color]:  </span><br><span class="line">            ret += id  </span><br><span class="line">        state.update(color, ret)  </span><br><span class="line">        yield ret</span><br></pre></td></tr></table></figure>
+
+<p>As you can see from the code above, the process of mini batch is to collect the events of the same <code>color</code>, so the sum of the same <code>color</code> can be done at once, without the need to access the state frequently.</p>
+<p>To enable mini batch is as simple as turning on the settings of the optimizer.</p>
+<ul>
+<li>table.exec.mini-batch.enabled</li>
+<li>table.exec.mini-batch.allow-latency</li>
+<li>table.exec.mini-batch.size</li>
+</ul>
+<p>The first setting is on&#x2F;off, the rest is to determine the size of the batch, which can be based on the amount or duration.</p>
+<h3 id="Local-Global-Aggregation"><a href="#Local-Global-Aggregation" class="headerlink" title="Local-Global Aggregation"></a><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/tuning/#local-global-aggregation">Local-Global Aggregation</a></h3><p>There is a further optimization approach to <code>GROUP BY</code>, called Local-Global aggregation, which is an extension of mini batch.</p>
+<p>The biggest problem of mini batch is that it will be grouped by <code>color</code>. If a particular <code>color</code> is especially large, then the downstream operator assigned to this <code>color</code> will have to process much more data, which is also called data skew. Therefore, Flink provides a mechanism to perform pre-aggregation in the mini batch in order to reduce the downstream load.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*URiwZKU1iTrr7Ds0.png"></p>
+<p>From the above diagram, we can see that after turning on Local-Global aggregation, the summation operation will be done inside the mini batch, and the last data aggregation will be done with a small amount of data. In the example red <em>Agg</em>, the amount of processed data will be changed from 12 to 3, i.e., the data skewing problem is solved.</p>
+<p>To enable Local-Global aggregation, it is necessary to use the following settings in addition to the mini batch already enabled.</p>
+<blockquote>
+<p><em>table.optimizer.agg-phase-strategy: “TWO_PHASE”</em></p>
+</blockquote>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article first introduces three of Flink’s built-in optimization mechanisms:</p>
+<ul>
+<li>Reduce sub plan</li>
+<li>MiniBatch aggregation</li>
+<li>Local-Global aggregation</li>
+</ul>
+<p>Only the first one is enabled by default, but there is still room for manual optimization. The other two are turned off by default, especially the Local-Global aggregation, which requires an additional mini batch to be enabled in addition to the two phases.</p>
+<p>Since these mechanisms look so good, why are they not turned on by default?</p>
+<p>Because, these mechanisms are not without cost.</p>
+<p>In the case of mini batch, when mini batch is turned on, it means the freshness of data will be affected, depending on the mini batch settings.</p>
+<p>In addition, Local-Global aggregation is not available for all operations. It is only used for aggregations that can be merged, such as <code>SUM</code>, <code>MAX</code>, <code>COUNT</code>, etc., and not for <code>DISTINCT</code>. Moreover, Local-Global aggregation increases the computation complexity and therefore consumes additional computing resources, which is not always reasonable if the data skew is not large.</p>
+<p>These optimization mechanisms must be understood before using in order to use them correctly, and turning them all on unconditionally may lead to counterproductive results.</p>
+<p>Of course, Flink’s optimization mechanism is not just these, next time we will talk about <code>DISTINCT</code> and <code>JOIN</code> which are not covered in this article.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/flink-sql-performance-tuning-part-1-f71a0a0ee91">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Elasticsearch/Best-Practices-of-Using-ElasticSearch/20230604/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Elasticsearch/Best-Practices-of-Using-ElasticSearch/20230604/" class="post-title-link" itemprop="url">Best Practices of Using ElasticSearch</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-06-05 01:38:26" itemprop="dateCreated datePublished" datetime="2023-06-05T01:38:26+08:00">2023-06-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Explaining-how-to-use-ElasticSearch-in-a-better-way"><a href="#Explaining-how-to-use-ElasticSearch-in-a-better-way" class="headerlink" title="Explaining how to use ElasticSearch in a better way"></a>Explaining how to use ElasticSearch in a better way</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*ZBNdENpLL5oTQaVi"></p>
+<p>Last time, we have introduced some tips for boosting ElasticSearch performance.</p>
+<p>In addition, that article explains the underlying details of ElasticSearch. This time, we are going to talk a little more about best practices for using ElasticSearch.</p>
+<p>These practices are general recommendations and can be applied to any use cases. Let’s go.</p>
+<ul>
+<li><strong>Bulk Requests</strong>: The Bulk API makes it possible to perform many index&#x2F;delete operations in a single API call. This can greatly increase the<br>indexing speed. Each subrequest is executed independently, so the failure of one subrequest won’t affect the success of the others. If<br>any of the requests fail, the top-level error flag is set to true and the error details will be reported under the relevant request.</li>
+<li><strong>Multithread clients to Index Data</strong>: A single thread sending bulk requests is unlikely to be able to max out the indexing capacity of an<br>ElasticSearch cluster. In order to use all resources of the cluster, you should send data from multiple threads or processes. In addition to<br>making better use of the resources of the cluster, this should help reduce the cost of each fsync. Both the index data and transaction log<br>are periodically flushed to disk. If there are more data with multithread, the more data is synced to disk to reduce I&#x2F;O to improve<br>performance.</li>
+<li><strong>index.refresh_interval</strong>: By default, ElasticSearch periodically refreshes indices every second, but only on indices that have received one<br>search request or more in the last 30 seconds.This is the optimal configuration if you have no or very little search traffic (e.g. less than<br>one search request every 5 minutes) and want to optimize for indexing speed. This behavior aims to automatically optimize bulk indexing<br>in the default case when no searches are performed. In order to opt out of this behavior set the refresh interval explicitly. On the other<br>hand, if your index experiences regular search requests, this default behavior means that ElasticSearch will refresh your index every 1<br>second. If you can afford to increase the amount of time between when a document gets indexed and when it becomes visible,<br>increasing the index.refresh_interval to a larger value, e.g. 30s, might help improve indexing speed.</li>
+<li><strong>Auto generated IDs</strong>: When indexing a document that has an explicit id, ElasticSearch needs to check whether a document with the same<br>id already exists within the same shard, which is a costly operation and gets even more costly as the index grows. By using auto-<br>generated ids, ElasticSearch can skip this check, which makes indexing faster.</li>
+<li><strong>index.translog.sync_interval</strong>: This parameter determines how often the translog is fsynced to disk and committed, regardless of write<br>operations. Defaults to 5s. Values less than 100ms are not allowed.</li>
+<li><strong>index.translog.flush_threshold_size</strong>: The translog stores all operations that are not yet safely persisted in Lucene (i.e., are not part of a<br>Lucene commit point). Although these operations are available for reads, they will need to be replayed if the shard was stopped and had<br>to be recovered. This setting controls the maximum total size of these operations, to prevent recoveries from taking too long. Once the<br>maximum size has been reached a flush will happen, generating a new Lucene commit point. Defaults to 512mb.</li>
+<li><strong>Large Documents</strong>: Large documents put more stress on network, memory usage and disk. Indexing large document can use an amount<br>of memory that is a multiplier of the original size of the document. Proximity search (phrase queries for instance) and highlighting also<br>becomes more expensive since their cost directly depends on the size of the original document.</li>
+<li><strong>Set Index Mapping Explicitly</strong>: ElasticSearch can create mapping dynamically, but it might be not suitable for all scenarios. For example,<br>the default string field mappings in ElasticSearch 5.x are both “keyword” and “text” types. It’s unnecessary in a lot of scenarios.</li>
+<li><strong>Index Mapping — Nested Types</strong>: Querying on nested fields is slower compared to fields in parent document. Retrieval of matching<br>nested fields adds an additional slowdown. Once you update any field of a document containing nested fields, independent of whether<br>you updated a nested field or not, all the underlying Lucene documents (parent and all its nested children) need to be marked as deleted<br>and rewritten. In addition to slowing down your updates, such an operation also creates garbage to be cleaned up by segment merging<br>later on.</li>
+<li><strong>Index Mapping</strong>: Disable the <strong>_all</strong> <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/mapping-all-field.html">field</a> concatenates the values of all other fields into one string. It requires more CPU and disk space<br>than other fields. Most use cases don’t require the _all field. You can concatenate multiple fields using the <code>copy_to</code> parameter. The _all<br>field is disabled by default in ElasticSearch versions 6.0 and later. To disable the _all field in earlier versions, set enabled to false.</li>
+<li><strong>Leverage Index Templates</strong>: Index templates define settings like number of shards, replicas and mappings that you can automatically<br>apply when creating new indices. ElasticSearch applies templates to new indices based on an index pattern that matches the index name.</li>
+<li><strong>Use Replicas for Scalability &amp; Resilience</strong>: ElasticSearch is built to be always available and to scale with your needs. It does this by being<br>distributed in nature. You can add nodes to a cluster to increase capacity and ElasticSearch automatically distributes your data and query<br>load across all of the available nodes. For ElasticSearch to be highly available, its indices needs to have fault tolerance in place. This can be<br>achieved using replica shards. A replica shard is a copy of a primary shard. Replicas provide redundant copies of your data to protect<br>against hardware failure and increase capacity to serve read requests like searching or retrieving a document.</li>
+<li><strong>Shard Sizing</strong>: A shard is a Lucene index under the covers, which uses file handles, memory, and CPU cycles. Default shard strategy for an<br>index in ES is 5 primary shards with a replica. The goal of choosing a number of shards is to distribute an index evenly across all data<br>nodes in the cluster. However, these shards shouldn’t be too large or too numerous. A good rule of thumb is to try to keep shard size<br>between 10–50 GB. Large shards can make it difficult for ElasticSearch to recover from failure, but because each shard uses some amount<br>of CPU and memory, having too many small shards can cause performance issues and out of memory errors.</li>
+<li><strong>Keep shard count of index in multiple of data nodes</strong> with <strong>equivalent size</strong> and <strong>distributed across nodes</strong>. Set a primary shard count,<br>via a template, by targeting 50GB max per primary shard (log analytics) or 30GB max (search use cases)<br>Shard assignment across data nodes will happen based on 2 important rules.</li>
+</ul>
+<blockquote>
+<p><strong>Primary</strong> and <strong>replica</strong> shard of same index will not be assigned on same data nodes.</p>
+</blockquote>
+<blockquote>
+<p>A shard is placed on a node based on how many shards are available on that node or to equalize the number of shards per index<br>across all nodes in the cluster. Also note there can be chances of bigger shards allocated to some node and smaller to others.<br>It is recommended that shard count of an index (primary + replica) should be multiple of data node count. Let’s say, you have a 4<br>node cluster, the total shards (primary + Replica) for your index should be either 4 or 8 or 12 etc. This ensures that the data is evenly<br>distributed across the nodes.</p>
+</blockquote>
+<ul>
+<li><strong>Index State Management</strong>: ISM lets you define custom management policies to automate routine tasks and apply them to indices and<br>index patterns. You no longer need to set up and manage external processes to run your index operations. A policy contains a default<br>state and a list of states for the index to transition between. Within each state, you can define a list of actions to perform and conditions<br>that trigger these transitions. A typical use case is to periodically delete old indices after a certain period of time.</li>
+<li><strong>Organize the data in index by date</strong>: For most logging or monitoring use cases, we can organize indices to be daily, weekly, or monthly,<br>and then we can get an index list by a specified date range. ElasticSearch only needs to query on a smaller dataset instead of the whole<br>dataset. In addition, it would be easy to shrink&#x2F;delete the old indices when data has expired.</li>
+<li><strong>Use Curator to rotate data</strong>: Curator offers numerous filters to help you identify indices and snapshots that meet certain criteria, such<br>as indices created more than 60 days ago or snapshots that failed to complete</li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/best-practices-of-using-elasticsearch-2a2485a289c7">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/9/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

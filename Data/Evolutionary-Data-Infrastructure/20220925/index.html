@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="From Monolith to Self-service Platform All systems start as a small monolith. In the beginning, when resources and manpower are not sufficient, the monolith is the choice we have to make, even the dat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Evolutionary Data Infrastructure">
+<meta property="og:url" content="https://wirelessr.github.io/Data/Evolutionary-Data-Infrastructure/20220925/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="From Monolith to Self-service Platform All systems start as a small monolith. In the beginning, when resources and manpower are not sufficient, the monolith is the choice we have to make, even the dat">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*-SLCYT8CoQ_oMra8">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*fnfQubpK1W0csgLyyeF2SQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*_PWM4c8ojy06v3MKlfraOA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*MU10qBeAHHTmXSQ_kfG-Vw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*9OSSVYgtWGiKqDT0luYXDQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*N_PMvKyt7o28zRWo3kYuwA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*fOuIl3-3-pTc9Wxk2MpRXw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*zfx9WYTuaqVWCX9iS7V6zg.png">
+<meta property="article:published_time" content="2022-09-25T17:49:22.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.823Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*-SLCYT8CoQ_oMra8">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Data/Evolutionary-Data-Infrastructure/20220925/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Data/Evolutionary-Data-Infrastructure/20220925/","path":"Data/Evolutionary-Data-Infrastructure/20220925/","title":"Evolutionary Data Infrastructure"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Evolutionary Data Infrastructure | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#From-Monolith-to-Self-service-Platform"><span class="nav-number">1.</span> <span class="nav-text">From Monolith to Self-service Platform</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Monolithic-architecture"><span class="nav-number"></span> <span class="nav-text">Monolithic architecture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Batch-processing"><span class="nav-number"></span> <span class="nav-text">Batch processing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stream-processing"><span class="nav-number"></span> <span class="nav-text">Stream processing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Integrated-architecture"><span class="nav-number"></span> <span class="nav-text">Integrated architecture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Automation-Self-service-Platform"><span class="nav-number"></span> <span class="nav-text">Automation (Self-service Platform)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Evolutionary-Data-Infrastructure/20220925/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Evolutionary Data Infrastructure | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Evolutionary Data Infrastructure
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-09-26 01:49:22" itemprop="dateCreated datePublished" datetime="2022-09-26T01:49:22+08:00">2022-09-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="From-Monolith-to-Self-service-Platform"><a href="#From-Monolith-to-Self-service-Platform" class="headerlink" title="From Monolith to Self-service Platform"></a>From Monolith to Self-service Platform</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*-SLCYT8CoQ_oMra8"></p>
+<p>All systems start as a small monolith. In the beginning, when resources and manpower are not sufficient, the monolith is the choice we have to make, even the data infrastructure is no exception.</p>
+<p>But as requirements increase, there are more and more scenarios that cannot be achieved by the current architecture, and the system must therefore evolve. Each time the system evolves, it is to solve the problems encountered, so it is necessary to understand the different aspects that need to be considered, and to use the most efficient engineering methods to achieve the goal.</p>
+<p>In this article, we will still start with a monolith, as we have done before.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">Shift from Monolith to CQRS</a></li>
+</ul>
+<p>But this time, our goal is not to serve a production environment, but to provide the data infrastructure behind all production environments.</p>
+<p>A data infrastructure is a “place” where all kinds of data are stored, either structured data or time series data or even raw data. The purpose of this big data (and they are really big) is to provide material for data analysis, business intelligence or machine learning.</p>
+<p>In addition to internal uses, there may also be user-facing functions, for example, a list of recommended products on an e-commerce website. The recommendation function is the most commonly used customer scenario for big data, such as recommended products in e-commerce websites and recommended videos in video platforms like Youtube. All of these are the result of analyzing, aggregating, and compiling after storing various user actions.</p>
+<p>After knowing today’s topic, let’s get to work.</p>
+<h3 id="Monolithic-architecture"><a href="#Monolithic-architecture" class="headerlink" title="Monolithic architecture"></a>Monolithic architecture</h3><p>Let’s begin with a monolithic architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*fnfQubpK1W0csgLyyeF2SQ.png"></p>
+<p>Whatever the service is, a typical monolithic architecture is a service paired with a database. All data analysis, business intelligence and machine learning run directly on this database.</p>
+<p>This is the simplest practice, but it is also the beginning of all products.</p>
+<p>Why do we show it in monolithic style? Wouldn’t it be better to do more?</p>
+<p>Well, if the product dies before it is popular, then the monolith will be enough to maintain full features. In order to avoid over-engineering and the investment cost getting exploded, we prefer to start with the easiest proof-of-concept monoliths.</p>
+<p>Of course, this architecture is sure to encounter problems. There are three common problems.</p>
+<ol>
+<li>The analysis affects the production performance.</li>
+<li>If the microservices are introduced, running analysis on each microservice’s database is suffered.</li>
+<li>It is very difficult to perform cross-service analysis.</li>
+</ol>
+<p>Various analyses inevitably take up a lot of database resources, so customers directly feel the poor performance during that time.</p>
+<p>In addition, when product requirements increase, we usually adopt microservices for rapid iteration, which means many service and database pairings are created. In order to be able to analyze various product requirements, it is necessary to build several analysis frameworks on every database.</p>
+<p>Moreover, even if each service can be analyzed individually, we cannot easily obtain a global view because the analytics are independent of each other.</p>
+<p>Therefore it is necessary to perform the first evolution.</p>
+<h3 id="Batch-processing"><a href="#Batch-processing" class="headerlink" title="Batch processing"></a>Batch processing</h3><p>We have two goals, firstly to have independent data storage so it does not directly affect the production environment, and secondly to be able to perform cross-service analysis.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_PWM4c8ojy06v3MKlfraOA.png"></p>
+<p>To achieve these goals, we set up a centralized data warehouse so that all data can be stored in one place. All analyses were migrated from the databases of each service to the data warehouse.</p>
+<p>We also need a batch processing role to collect data and even pre-process data periodically so that the data warehouse contains not only raw data but also structured data to speed up the analysis.</p>
+<p>For batch processing, I recommend using <a target="_blank" rel="noopener" href="https://airflow.apache.org/">Apache Airflow</a>, which is easy to manage and easy to script for various DAGs to address the needs of multiple batch processing scenarios.</p>
+<p>Such an architecture is simple but powerful enough to handle a wide range of analysis and reporting scenarios. Nevertheless, there are two drawbacks that cannot be easily solved.</p>
+<ol>
+<li>lack of real time</li>
+<li>lack of schema</li>
+</ol>
+<p>Due to the periodic batch tasks, we can’t do real-time analysis. If we run the task once an hour, then the data we see in the data warehouse is a snapshot of the previous hour’s data.</p>
+<p>In addition, batch tasks require knowledge of the data schema of each service in order to get the data correctly and save it to the corresponding warehouse table. Assuming our data warehouse is <a target="_blank" rel="noopener" href="https://cloud.google.com/bigquery">GCP BigQuery</a>, the schema in the warehouse table also needs to be created and modified manually.</p>
+<p>When the number of services is very large, just knowing the schema can take a lot of time, not to mention managing it.</p>
+<p>So, let’s do a second evolution.</p>
+<h3 id="Stream-processing"><a href="#Stream-processing" class="headerlink" title="Stream processing"></a>Stream processing</h3><p>To solve the real-time problem, the most straightforward idea is to use a streaming architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*MU10qBeAHHTmXSQ_kfG-Vw.png"></p>
+<p>First, all the database changes of the service are captured, then the changes are sent to the stream, and finally the stream is archived to the warehouse.</p>
+<p>But is there a way to solve the schema problem? The answer is, yes, through <a target="_blank" rel="noopener" href="https://github.com/confluentinc/kafka-connect-bigquery">KCBQ</a>.</p>
+<p>Let’s take a closer look at the internal architecture of streaming.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*9OSSVYgtWGiKqDT0luYXDQ.png"></p>
+<p>We use <a target="_blank" rel="noopener" href="https://debezium.io/">Debezium</a> to capture changes to each database and send the streams to Kafka, and later KCBQ subscribes to the Kafka streams and archives them to BigQuery.</p>
+<p>It is worth noting that KCBQ can automatically update the internal schema of BigQuery (setting needs to be enabled, and AVRO format must be used).</p>
+<p>At this stage, we have a complete data set for analysis, and we have enough data to process for all kinds of data analysis, both real time and batch. However, in the previous stage, we were able to accelerate the analysis by batching pre-processing to generate structured data, and we still want to retain this capability.</p>
+<p>In addition, although the data analysis is working properly, we are currently unable to support external customers to access the data. The main reason is the slow response time of data warehouse, which is a big problem when we need to interact with external customers. For example, if a recommendation list takes 5 minutes to be generated, the effectiveness of the recommendation will be close to zero.</p>
+<p>Furthermore, when the number of features to be provided to external customers increases, data warehouse can be difficult to handle. For example, search is a common feature, but the search performance of data warehouse is very poor.</p>
+<p>Therefore, we have to integrate batch processing and streaming processing so that this data infrastructure can flexibly support various customer-oriented functions.</p>
+<h3 id="Integrated-architecture"><a href="#Integrated-architecture" class="headerlink" title="Integrated architecture"></a>Integrated architecture</h3><p>We already have a batch architecture and a streaming architecture, now let’s integrate them properly.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*N_PMvKyt7o28zRWo3kYuwA.png"></p>
+<p>We still archive the changes from each database to the data warehouse through streaming, but we periodically use batch processing to pre-process the raw data for data analysis.</p>
+<p>At the same time, the streaming framework not only archives, but also aggregates the streams to generate real-time customer-facing data storage. For example, <code>ElasticSearch</code> is often used in search contexts, while the event-sourced view is used to provide customer-facing functions, e.g., recommendation lists.</p>
+<p>But these functions usually also require fact tables, which can be migrated from data warehouses if they are static, otherwise, they need to be implemented through <a target="_blank" rel="noopener" href="https://betterprogramming.pub/design-pattern-of-streaming-enrichment-17a9eb065eca">stream enrichment</a>.</p>
+<p>So let’s further have a look at the internals of streaming architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*fOuIl3-3-pTc9Wxk2MpRXw.png"></p>
+<p>The framework is basically the same as the previous one, but with a new role, <code>StreamAPI</code>.</p>
+<p>There is no specific framework specified in <code>StreamAPI</code>, even if using Kafka’s native library is fine.</p>
+<p>But if using the stream processing framework can save a lot of implementation efforts, such as data partitioning, fault tolerance, state persistence, and so on.</p>
+<p>Therefore, I still recommend using a streaming framework such as <a target="_blank" rel="noopener" href="https://flink.apache.org/">Apache Flink</a> or <a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/streams/">Apache Kafka Streams</a>.</p>
+<p>At this point, the entire data infrastructure is fully functional. Whether it is for internal data analysis or for external customers, this framework can meet the requirements.</p>
+<p>However, this architecture doesn’t mean that it’s done once and for all.</p>
+<p>The next problem is the management problem. So far, the most common task we need to do is not feature development, but the configuration and operation of so many middleware. For each new service, we need to build <code>Debezium</code>, add Kafka topic, configure the streaming framework, and determine the final <code>sink</code>. This process also applies to a new feature request.</p>
+<p>In addition, managing the permissions between all data stores is also a problem. When a new person comes into the organization, each participant in the framework has to grant some permissions. Similarly, when a new service or feature is launched, the permissions between services need to be managed.</p>
+<p>What’s more, when all the data is dumped into the data warehouse, we have to encrypt or mask the PII (personally identifiable information) to be compliant with legal requirements, such as GDPR.</p>
+<p>These tasks rely on a lot of manual work or semi-automatic scripts, which undoubtedly add a heavy load to a busy organization.</p>
+<h3 id="Automation-Self-service-Platform"><a href="#Automation-Self-service-Platform" class="headerlink" title="Automation (Self-service Platform)"></a>Automation (Self-service Platform)</h3><p>Therefore, it is necessary to establish a fully automated mechanism to solve all management issues of the data infrastructure.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*zfx9WYTuaqVWCX9iS7V6zg.png"></p>
+<p>Of course, this automation mechanism should ideally be self-service, and the most successful example I have seen is <a target="_blank" rel="noopener" href="https://netflixtechblog.com/keystone-real-time-stream-processing-platform-a3ee651812a">Netflix’s Keystone</a>.</p>
+<p>This automation platform involves very deep technical details, not an article can simply explain, so I only provide the features of this platform should have, as for the implementation details will depend on the practice of each organization.</p>
+<p>At the infrastructure level, in order to automate the establishment of settings and monitoring, it is necessary to achieve fully automated deployment through IaC (Infrastructure as Code).</p>
+<p>In order to address the issue of data ownership, there are three permission-related controls that should also be included in the IaC as follows.</p>
+<ul>
+<li>Identity Access Management, IAM</li>
+<li>Role Based Access Control, RBAC</li>
+<li>Access Control List, ACL</li>
+</ul>
+<p>Privacy issues require an easy-to-use interface that can be configured to determine what data must be masked. Data Loss Prevention, aka DLP, is also a very popular data privacy topic nowadays.</p>
+<p>As you can see from the above description, there are a lot of implementation details to achieve a fully automated management platform, and there are no shortcuts — implementation, implementation and lots of implementation.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article is about the evolution of a monolithic architecture into a fully automated and fully functional data platform through continuous problem solving.</p>
+<p>However, there are still a lot of detailed technical selections in the evolution process, such as what data storage to use, what batch processing, and what real-time processing are all worthy of attention.</p>
+<p>Such an evolution requires a lot of human resources and time, so it is unlikely to be achieved in one step. If and only if we encounter a problem that cannot be solved, we will be forced to move to the next stage.</p>
+<p>In fact, even if we achieve an automated platform, the evolution is still not over.</p>
+<p>When all kinds of business requirements and all kinds of products and services have to rely on a single data engineer department, then human resources will encounter a bottleneck. How to solve it?</p>
+<p>Since we have a fully automated management platform, we can let each product department maintain its own data warehouse and data pipeline. The data engineer becomes the provider of the platform solution, not the owner of the data.</p>
+<blockquote>
+<p><em>The Data Mesh is born.</em></p>
+</blockquote>
+<p>However, there are many different approaches to the Data Mesh implementation, and there is no one-size-fits-all architecture pattern.</p>
+<p>This is all about the evolution of data infrastructure. If you have any special practices, please feel free to share them with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/evolutionary-data-infrastructure-4ddce2ec8a7e">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/MongoDB/Archiving-MongoDB-Changes-to-AWS-S3/20220918/" rel="prev" title="Archiving MongoDB Changes to AWS S3">
+                  <i class="fa fa-chevron-left"></i> Archiving MongoDB Changes to AWS S3
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Data/Evolutionary-from-Batching-to-Streaming/20221002/" rel="next" title="Evolutionary from Batching to Streaming">
+                  Evolutionary from Batching to Streaming <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

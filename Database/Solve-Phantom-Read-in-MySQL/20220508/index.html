@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Solve Phantom Read in MySQLA solution for write skew when “creating” data The combination of MySQL and its storage engine InnoDB is almost the most widely used relational database nowadays, and Repeat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Solve Phantom Read in MySQL">
+<meta property="og:url" content="https://wirelessr.github.io/Database/Solve-Phantom-Read-in-MySQL/20220508/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Solve Phantom Read in MySQLA solution for write skew when “creating” data The combination of MySQL and its storage engine InnoDB is almost the most widely used relational database nowadays, and Repeat">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*Nkj3KriyNGjlu0aO.jpg">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*l3NXQNYuGh7HHswTCHOWfw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*LcWy2cRfEA9gzfKpE6DkWA.png">
+<meta property="article:published_time" content="2022-05-08T17:14:07.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.828Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*Nkj3KriyNGjlu0aO.jpg">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Database/Solve-Phantom-Read-in-MySQL/20220508/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Database/Solve-Phantom-Read-in-MySQL/20220508/","path":"Database/Solve-Phantom-Read-in-MySQL/20220508/","title":"Solve Phantom Read in MySQL"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Solve Phantom Read in MySQL | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Solve-Phantom-Read-in-MySQL"><span class="nav-number">1.</span> <span class="nav-text">Solve Phantom Read in MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-solution-for-write-skew-when-%E2%80%9Ccreating%E2%80%9D-data"><span class="nav-number">1.1.</span> <span class="nav-text">A solution for write skew when “creating” data</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Meeting-Room-Booking-System"><span class="nav-number">2.</span> <span class="nav-text">Meeting Room Booking System</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solve-by-Uniqueness-Incomplete-Solution"><span class="nav-number">3.</span> <span class="nav-text">Solve by Uniqueness (Incomplete Solution)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Materialize-Conflicts-Correct-Solution"><span class="nav-number">4.</span> <span class="nav-text">Materialize Conflicts (Correct Solution)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">5.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Database/Solve-Phantom-Read-in-MySQL/20220508/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Solve Phantom Read in MySQL | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Solve Phantom Read in MySQL
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-05-09 01:14:07" itemprop="dateCreated datePublished" datetime="2022-05-09T01:14:07+08:00">2022-05-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Solve-Phantom-Read-in-MySQL"><a href="#Solve-Phantom-Read-in-MySQL" class="headerlink" title="Solve Phantom Read in MySQL"></a>Solve Phantom Read in MySQL</h3><h4 id="A-solution-for-write-skew-when-“creating”-data"><a href="#A-solution-for-write-skew-when-“creating”-data" class="headerlink" title="A solution for write skew when “creating” data"></a>A solution for write skew when “creating” data</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*Nkj3KriyNGjlu0aO.jpg"></p>
+<p>The combination of MySQL and its storage engine InnoDB is almost the most widely used relational database nowadays, and <em>Repeatable Read</em> is the most common in the isolation level.</p>
+<p>However, compared to PostgreSQL, InnoDB has several problems that cannot be solved elegantly at the <em>Repeatable Read</em> level.</p>
+<ol>
+<li>Lost updates</li>
+<li>Phantom read</li>
+</ol>
+<p>Lost updates in PostgreSQL can be completely solved without additional hacks. As for phantom reads, there are some small tricks that can be used, such as <code>range types</code> and other mechanisms.</p>
+<p>Nevertheless, MySQL still has to be careful to identify the pitfalls and deal with them properly by developers to solve such problems. In <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/how-to-avoid-the-race-condition-and-the-negative-value-3f397b2b08e4">my previous article</a>, we introduced three ways to address lost updates. Those approaches provide a more flexible solution to lost updates and are suitable for a variety of scenarios.</p>
+<p>In this article, we will further explore how to properly solve the write skew caused by phantom reads.</p>
+<p>There are many types of scenes that result in phantom reads, but in general, they all have the following pattern.</p>
+<ol>
+<li>Search a specific range.</li>
+<li>Do something according to the results of the range (Create, Update, Delete).</li>
+<li>The operation will directly affect the original range results.</li>
+</ol>
+<p>Suppose it is only an update or a delete, the most straightforward way to avoid write skew is to use an exclusive lock. If you use <code>FOR UPDATE</code> at the beginning of <code>SELECT</code>, then two concurrent transactions will be forced to go one after the other, thus effectively avoiding the write skew in the race condition.</p>
+<p>However, in the case of a create, the solution is not so intuitive. Because there is no corresponding row to lock in <code>SELECT</code>, the row is created later. So how to solve it?</p>
+<h3 id="Meeting-Room-Booking-System"><a href="#Meeting-Room-Booking-System" class="headerlink" title="Meeting Room Booking System"></a>Meeting Room Booking System</h3><p>Before introducing the solution, let’s use a practical example to describe the problem caused by phantom read.</p>
+<p>There is a meeting room system that provides users to reserve a meeting room, and when the user has successfully reserved the meeting room, a new corresponding data will be added in the table as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*l3NXQNYuGh7HHswTCHOWfw.png"></p>
+<p>The above table records that user <code>A</code> reserved the meeting room <code>123</code> for one hour on 5&#x2F;1 at 10 am.</p>
+<p>The behavior of this system will be similar to the following pseudo-code.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">count = `SELECT COUNT(*) FROM booking   </span><br><span class="line">         WHERE room_id = 123 AND   </span><br><span class="line">         start_time &lt; &#x27;2022-05-01 11:00&#x27; AND   </span><br><span class="line">         end_time &gt; &#x27;2022-05-01 10:00&#x27;`  </span><br><span class="line">           </span><br><span class="line">if count == 0:  </span><br><span class="line">    `INSERT INTO booking (user, room_id, start_time, end_time)  </span><br><span class="line">     VALUES (&#x27;A&#x27;, 123, &#x27;2022-05-01 10:00&#x27;, &#x27;2022-05-01 11:00&#x27;)`</span><br></pre></td></tr></table></figure>
+
+<p>When the user is sure that the meeting room is unoccupied for the corresponding time slot, then the user can insert an entry as a reservation and the next user will not have a time conflict. Doesn’t that seem nice?</p>
+<p>The problem occurs when two users want to occupy the same time slot in the same meeting room simultaneously, and they can both pass the first <code>SELECT</code> validation, so they can both insert a reservation, and a conflict occurs. And such a situation can not be solved by adding a lock, because there is no row to lock at the beginning.</p>
+<h3 id="Solve-by-Uniqueness-Incomplete-Solution"><a href="#Solve-by-Uniqueness-Incomplete-Solution" class="headerlink" title="Solve by Uniqueness (Incomplete Solution)"></a>Solve by Uniqueness (Incomplete Solution)</h3><p>Since there is no way to turn a simultaneous operation into a sequential operation through a lock, we let one of them simply fail. To do so we need to add some constraints, e.g. unique constraints, to the table.</p>
+<p>One approach is to create a unique constraint index on the room_id, start_time columns, so that the second person trying to reserve the same time slot will fail.</p>
+<blockquote>
+<p><em>The problem is solved if we restrict the use of each room to a maximum of one hour.</em></p>
+</blockquote>
+<p>But if the meeting room can be booked for more than an hour, another problem arises.</p>
+<ol>
+<li>User A is reserved for 5&#x2F;1 from 10am to 12pm</li>
+<li>User B is reserved for 5&#x2F;1 from 11:00 to 12:00</li>
+</ol>
+<p>When both User A and B are operating at the same time, this unique constraint obviously cannot be effective, and then the conflict around the meeting room remains.</p>
+<h3 id="Materialize-Conflicts-Correct-Solution"><a href="#Materialize-Conflicts-Correct-Solution" class="headerlink" title="Materialize Conflicts (Correct Solution)"></a>Materialize Conflicts (Correct Solution)</h3><p>To solve such phantom reads, the developer must use some tricks to reveal conflicts hidden under the same table.</p>
+<p>One way is to create a new table and pre-fill it with data to act as a coordinator for simultaneous operations. In the case of this meeting room system, we can create a table <code>time_slots</code> that lists all time slots in advance as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*LcWy2cRfEA9gzfKpE6DkWA.png"></p>
+<p>When the meeting room is to be reserved, we not only execute <code>SELECT</code> on the original <code>booking</code>, but also <code>SELECT</code> on <code>time_slots</code>, and we can add <code>FOR UPDATE</code> because the data already exists. It is worth noting that the new <code>SELECT FOR UPDATE</code> is executed before the original <code>SELECT</code>.</p>
+<p>In that case, when the expected time slots of two simultaneous users overlap, they will be blocked by the exclusive lock and become one after the other, and the latter will fail directly because it sees the result of the previous completion.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>I have to say such a solution is difficult and not intuitive. However, in order not to sacrifice performance when using MySQL, the isolation level is not configured to be <em>Serializable</em>, which means complexity must be traded off for performance during execution.</p>
+<p>It is a trade-off between complexity and performance. In fact, using <code>FOR UPDATE</code> to process synchronization in such a scenario does affect performance, and if <code>booking</code> is a table that may have phantom reads in all contexts, then making <code>booking</code> individually <em>Serializable</em> is a feasible solution.</p>
+<p>When using a database, we must know the capabilities of the database and understand all the unsolvable situations of the database, so that we can know what kind of behaviors are potential risks when designing and developing.</p>
+<p>In addition, how to properly address the risks is also an important topic. Although the use cases are not exactly the same for everyone, the patterns are similar, and learning how to solve each pattern will help you to deal with similar situations quickly in the future.</p>
+<p>This article provides a solution for write skew when “creating” data, while the previous article is about solving write skew when “updating” data. These should cover most of the situations that you might encounter. If anyone has encountered other kinds of MySQL race conditions, please feel free to discuss them with me as well.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/solve-phantom-read-in-mysql-a1c85f9a8c56">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Redis/Redis-as-a-Lock-Are-You-Sure/20220501/" rel="prev" title="Redis as a Lock! Are You Sure?">
+                  <i class="fa fa-chevron-left"></i> Redis as a Lock! Are You Sure?
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Testing/Property-Based-Testing-Framework-for-Node/20220515/" rel="next" title="Property-Based Testing Framework for Node">
+                  Property-Based Testing Framework for Node <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

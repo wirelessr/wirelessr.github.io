@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Message Queue in Redis My organization has done the technical selection recently, and we want to build an event-driven system. However, the budget is limited. We cannot choose a classic queuing servic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Message Queue in Redis">
+<meta property="og:url" content="https://wirelessr.github.io/Redis/Message-Queue-in-Redis/20211118/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Message Queue in Redis My organization has done the technical selection recently, and we want to build an event-driven system. However, the budget is limited. We cannot choose a classic queuing servic">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*tCQ0jBqMoZYPbRem">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*J90JkLxFZDtdkrserWp-SA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*6BPlsfNqN6AVnl-2xAW7Jg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*C_jjZQ-aa5bXQ0bsuttziA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*27N6WQ2Oas82SitCl10A8g.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*UTwE0z5imsbukNG_mEnSvw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*IOg5-gQnDynx8HjDe7YuRg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*o68_P7KksDT9gt13nouN_g.png">
+<meta property="article:published_time" content="2021-11-18T05:29:56.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.826Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*tCQ0jBqMoZYPbRem">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Redis/Message-Queue-in-Redis/20211118/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Redis/Message-Queue-in-Redis/20211118/","path":"Redis/Message-Queue-in-Redis/20211118/","title":"Message Queue in Redis"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Message Queue in Redis | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Message-Queue-in-Redis"><span class="nav-number">1.</span> <span class="nav-text">Message Queue in Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Message-Queue"><span class="nav-number">2.</span> <span class="nav-text">Message Queue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Propagation"><span class="nav-number">3.</span> <span class="nav-text">Propagation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Delivery"><span class="nav-number">4.</span> <span class="nav-text">Delivery</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Persistence"><span class="nav-number">5.</span> <span class="nav-text">Persistence</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consumer-Group"><span class="nav-number">6.</span> <span class="nav-text">Consumer Group</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis-Queue"><span class="nav-number">7.</span> <span class="nav-text">Redis Queue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pub-Sub"><span class="nav-number">8.</span> <span class="nav-text">Pub&#x2F;Sub</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List"><span class="nav-number">9.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stream"><span class="nav-number">10.</span> <span class="nav-text">Stream</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stream-Consumer-Failover"><span class="nav-number">11.</span> <span class="nav-text">Stream Consumer Failover</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis-Stream-Persistence"><span class="nav-number">12.</span> <span class="nav-text">Redis Stream Persistence</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">13.</span> <span class="nav-text">Conclusion</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#The-world%E2%80%99s-fastest-cloud-data-warehouse"><span class="nav-number">13.1.</span> <span class="nav-text">The world’s fastest cloud data warehouse:</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Message-Queue-in-Redis/20211118/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Message Queue in Redis | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Message Queue in Redis
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-11-18 13:29:56" itemprop="dateCreated datePublished" datetime="2021-11-18T13:29:56+08:00">2021-11-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Message-Queue-in-Redis"><a href="#Message-Queue-in-Redis" class="headerlink" title="Message Queue in Redis"></a>Message Queue in Redis</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*tCQ0jBqMoZYPbRem"></p>
+<p>My organization has done the technical selection recently, and we want to build an event-driven system. However, the budget is limited. We cannot choose a classic queuing service like RabbitMQ or a streaming process like Kafka. We have to find an affordable solution that can meet our needs. Currently, all we have is Redis. Therefore, we will build a message queue in Redis.</p>
+<p>In this article, I will introduce some properties of a message queue and describe how Redis can be used to build a message queue.</p>
+<h3 id="Message-Queue"><a href="#Message-Queue" class="headerlink" title="Message Queue"></a>Message Queue</h3><p>There are many aspects to consider when choosing a message queue, such as propagation, delivery, persistence, and consumer groups. In this section, I will explain them briefly.</p>
+<h3 id="Propagation"><a href="#Propagation" class="headerlink" title="Propagation"></a>Propagation</h3><p>The propagation means how messages are transferred by the message queue. There are 2 types of propagation,</p>
+<ul>
+<li>1-to-1</li>
+<li>1-to-many (fan-out)</li>
+</ul>
+<p>One-to-one is quite simple. The producer sends a message to the queue, and this message is received by only one consumer. On the other hand, one-to-many is a message that can be delivered to multiple consumers. It’s worth mentioning that the producer just sent a message, but the message can be transferred to many receivers. Such behavior is also called fan-out.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*J90JkLxFZDtdkrserWp-SA.png"></p>
+<h3 id="Delivery"><a href="#Delivery" class="headerlink" title="Delivery"></a>Delivery</h3><p>Delivery is interesting. Most queuing systems have their delivery guarantees. There are three common guarantees,</p>
+<ul>
+<li>At-most-once</li>
+<li>At-least-once</li>
+<li>Exactly-once</li>
+</ul>
+<p>At-most-once is relatively easy to achieve. It can be said that all queuing systems have this guarantee. The consumer can receive a sent message or nothing. This may happen in several situations. Firstly, the message is lost whereas a networking problem occurred. Secondly, although the consumer received it, he did not handle it well like crashed. The message disappears if it is gone, and it is impossible to retrieve the message again.</p>
+<p>At-least-once is a guarantee often used by some well-known systems such as RabbitMQ, Kafka, etc. Compared to at-most-once, at-least-once has a stronger guarantee. It can make sure the message must be processed. However, the message may be processed many times. For instance, a consumer does not acknowledge the queue that the message is handled, thus the queue sends a message to that consumer again.</p>
+<p>Exactly-once is the strictest guarantee. It ensures the message must be handled <strong>once</strong>. Even the popular systems can’t do this well, e.g. RabbitMQ. Nevertheless, the correct use and configuration of Kafka can still be achieved. The price is to sacrifice some performance.</p>
+<h3 id="Persistence"><a href="#Persistence" class="headerlink" title="Persistence"></a>Persistence</h3><p>Persistence means whether the message will disappear after it is sent to the system. There are also three types of persistence,</p>
+<ul>
+<li>In-memory</li>
+<li>In-disk</li>
+<li>Hybrid</li>
+</ul>
+<p>We all know what they means. But the interesting thing is, is it slower to persist messages in disk? No, not really. It depends on how persistence is implemented. Kafka uses LSM-tree to achieve a lot of throughput; in addition, it is better than RabbitMQ who uses memory. There is another example in Cassandra, Cassandra has very fast writing speed and uses LSM-tree as well.</p>
+<p>Hybrid is a special case combined with in-memory and in-disk. In order to improve the writing performance, the queuing system writes to the memory first, and then flush into the disk. RabbitMQ is a typical example in hybrid. However, RabbitMQ is also able to be configured as in-disk.</p>
+<h3 id="Consumer-Group"><a href="#Consumer-Group" class="headerlink" title="Consumer Group"></a>Consumer Group</h3><p>In my opinion, consumer group is the most important feature in a queuing system. Processing a message usually takes time, so that we have to use more consumers to deal with messages, aka scale-out. In consumer group scenes, both the target of one-to-one and one-to-many become a group of consumers instead of a single consumer.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*6BPlsfNqN6AVnl-2xAW7Jg.png"></p>
+<h3 id="Redis-Queue"><a href="#Redis-Queue" class="headerlink" title="Redis Queue"></a>Redis Queue</h3><p>After talking about the properties in a queuing system, let’s talk about how Redis be a message queue. There are 3 ways to do it,</p>
+<ul>
+<li>Pub&#x2F;Sub</li>
+<li>List</li>
+<li>Stream</li>
+</ul>
+<p>We will introduce one by one, and then give a comprehensive summary.</p>
+<h3 id="Pub-Sub"><a href="#Pub-Sub" class="headerlink" title="Pub&#x2F;Sub"></a>Pub&#x2F;Sub</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*C_jjZQ-aa5bXQ0bsuttziA.png"></p>
+<p>Pub&#x2F;Sub is a widely known solution for notifying, this feature was born almost at the same time as Redis. The consumer <code>SUBSCRIBE</code> a topic, aka a key, and then receive the data after a client <code>PUBLISH</code> messages to the same topic. As a traditional Pub&#x2F;Sub feature, it also can fan-out a message to multiple consumers. Moreover, A certain degree of messaging routing can also be achieved through <code>PSUBSCRIBE</code>.</p>
+<p>But Pub&#x2F;Sub in Redis are not popular for most use cases. The biggest problem is the message will delivery at most once. When a message is published, if the consumer doesn’t receive it right now, the message disappears. Furthermore, Redis doesn’t persist messages. All messages are gone away if Redis is shutdown.</p>
+<p>Let’s summarize Pub&#x2F;Sub:</p>
+<ul>
+<li>1-to-1 and 1-to-many are fine</li>
+<li>at-most-once</li>
+<li>no persistence</li>
+<li>no consumer group</li>
+</ul>
+<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*27N6WQ2Oas82SitCl10A8g.png"></p>
+<p>List is a useful data structure in Redis, and we can accomplish a FIFO queue easily by using it. The trick is we can use <code>BLPOP</code> to wait for a message in blocking mode. However, adding a timeout is recommended.</p>
+<p>According to the figure, we can see if there are multiple consumers wait for the same list, they are becoming a consumer group. Without configuring anything, the consumer group can be spontaneously formed by consumers. On the other hand, list cannot fan-out a message. If a message is <code>BLPOP</code> by a consumer, others can not be retrieved this message anymore, even the message is lost in that consumer.</p>
+<p>Nevertheless, Redis list can persist messages in memory. In addition, if you are enabling <code>AOF</code> or <code>RDB</code>, messages can be backed up into the disk. I have to say, following <a target="_blank" rel="noopener" href="https://lazypro.medium.com/data-persistence-in-redis-2780c11d1623">my previous article</a>, this approach is not entirely data persistence.</p>
+<p>To sum up,</p>
+<ul>
+<li>1-to-1 is okay, but no 1-to-many</li>
+<li>at-most-once</li>
+<li>persist in-memory, and backup in-disk</li>
+<li>consumer group works</li>
+</ul>
+<h3 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h3><p>After introducing the Pub&#x2F;Sub and List, we notice that neither of these two methods is very good. They have their own drawbacks. Therefore, Stream has come to solve these issues since Redis 5.0.</p>
+<p>Because Stream is much more complicated, let’s first look at what benefits Stream brings.</p>
+<ul>
+<li>1-to-1 and 1-to-many are fine</li>
+<li>at-least-once</li>
+<li>persist in-memory, and backup in-disk</li>
+<li>consumer group works</li>
+</ul>
+<p>As a result, Stream solves all issues in Pub&#x2F;Sub and List and enhances a lot, for e.g., at-least-once delivery.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*UTwE0z5imsbukNG_mEnSvw.png"></p>
+<p>The diagram is like Pub&#x2F;Sub, but the workflow is closer to List. The producer can generate messages at any time, and then <code>XADD</code> to Redis Stream. You can consider Stream as a list maintains all incoming messages. Consumers can also retrieve messages at any time via <code>XREAD</code>. The identifier in <code>XREAD</code> command represents where you want to read the message from.</p>
+<ul>
+<li><code>$</code>: No matter what messages are in Stream before, only retrieve from now on.</li>
+<li><code>0-0</code>: Always read from the head.</li>
+<li><code>&lt;id&gt;</code>: Start from the specific message id.</li>
+</ul>
+<p>Apart from supporting one-to-one mapping, Stream supports consumer groups as follows:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*IOg5-gQnDynx8HjDe7YuRg.png"></p>
+<p>To achieve at-least-once guarantee, like most queuing systems, the consumer must acknowledge Stream after processing a message by using <code>XACK</code>.</p>
+<p>The use of the special identifier, <code>&lt;</code>, here is to start reading from a position that no one has read in the group.</p>
+<p>After the above explanation, I provide a real example to show a consumer’s bootstrap in Node.js.</p>
+<p>Please note that every consumer has his own name, <code>ConsumerName</code>. First, the consumer read from the beginning to determine its last position. The response will be a empty array with no length, so that the consumer can get the correct <code>lastid</code>. Then, the consumer reads from the <code>lastid</code> and processes those messages. Finally, acknowledge Stream with finished <code>id</code>.</p>
+<h3 id="Stream-Consumer-Failover"><a href="#Stream-Consumer-Failover" class="headerlink" title="Stream Consumer Failover"></a>Stream Consumer Failover</h3><p>In the distributed system, we cannot name a consumer easily. For example, the consumer is run in a container within K8s: How do I maintain names to every pod? Even if we lock everyone’s name, how do we face the scale-out and scale-in scene?</p>
+<p>Therefore, keeping the name in the distributed system is impractical.</p>
+<p>In spite of this, we cannot name a consumer in <code>uuid</code> and forget the name after the consumer is down. Redis Stream maintains a table of names against last positions. So, if we generate a random name every time, the mapping table will become larger and larger. Worst of all, those messages that have been received but not acknowledged will never be processed.</p>
+<p>Fortunately, Redis Stream provides a method to claim those pending messages. The workflow is like this:</p>
+<ol>
+<li>Find out all pending message ids.</li>
+<li>Claim those ids to transfer the ownership.</li>
+</ol>
+<p>Therefore, the completed workflow in a consumer bootstrap is:</p>
+<ol>
+<li><code>XPENDING StreamName GroupName</code></li>
+<li><code>XCLAIM StreamName GroupName &lt;ConsumerName in uuid&gt; &lt;min-idle-time&gt; &lt;ID-1&gt; &lt;ID-2&gt; ... &lt;ID-N&gt;</code></li>
+<li>The above script</li>
+</ol>
+<p>The <code>min-idle-time</code> is a very useful approach. By using <code>min-idle-time</code>, we can avoid multiple consumers claim the same messages at the same time. The first consumer claims some messages, so such messages will no longer be idle. Hence, other consumers cannot claim those messages again.</p>
+<h3 id="Redis-Stream-Persistence"><a href="#Redis-Stream-Persistence" class="headerlink" title="Redis Stream Persistence"></a>Redis Stream Persistence</h3><p>Redis does not guarantee that the data will not be lost at all, even if the strictest setting is turned on. If we use Redis as a message queue, we must take additional measures to ensure persistence. The most common way is event-sourcing. Before publishing a message, we write this message into a durable storage like MySQL. Our consumers can work generally. However, if an error occurs, we can still leverage the durable messages in MySQL to recover our work.</p>
+<p>Besides, if Stream persists more and more messages, the memory usage of Redis would be a disaster. If we are looking at the Redis manual, we can find a command, <code>XDEL</code>. However, <code>XDEL</code> does not delete the messages, it only marks those messages as unused, and the messages are still there.</p>
+<p>How can we prevent memory leakage in Redis Stream? We can use <code>MAXLEN</code> whereas <code>XADD</code> is invoking. The command line is:</p>
+<blockquote>
+<p><em>XADD StreamName MAXLEN 1000 * foo bar</em></p>
+</blockquote>
+<p>But there is one thing you have to know, <code>MAXLEN</code> affects performance of Redis very much. It blocks the main process for a while, and no command can be executed during that period. If there are many incoming messages and the amount of queued messages reaches maximum, then Stream will be very busy to maintain <code>MAXLEN</code>.</p>
+<p>An alternative approach can be adopted. Instead of fixing the hard limit, we can give Redis the right to choose a comfortable length at its free time. Hence, the command will be:</p>
+<blockquote>
+<p><em>XADD StreamName MAXLEN ~ 1000 * foo bar</em></p>
+</blockquote>
+<p>The <code>~</code> sign means the maximum length is about 1000, it might be 900 or even 1300. Redis will pick a good time to strip a good size for it.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Let me summarize these three approaches.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*o68_P7KksDT9gt13nouN_g.png"></p>
+<p>There is an unfamiliar property complexity, which refers to the complexity of a technology but also the complexity of implementing a consumer.</p>
+<p>From my point of view, these three approaches have their pros and cons and also have their own applicable scenarios.</p>
+<ul>
+<li>Pub&#x2F;Sub: Best-effort notification.</li>
+<li>List: Tolerate message queues with some data loss.</li>
+<li>Stream: Loose streaming process.</li>
+</ul>
+<p>So, why is Redis Stream a loose streaming process? Because the consumer group in Redis Stream is not like Kafka. It cannot preserve the message ordering. In a high-volume traffic environment, consumers within the same group cannot be scaled out successfully.</p>
+<p>In the end, we chose List as the message queue. Our use cases are simple. We just want to throttle the notifications in the broadcast scene. The broadcast notification can tolerate the message loss. It’s good enough that most users can receive the message. In addition, the implementation effort is very low in Node.js, so we can finish it as soon as possible. Although it is not the best solution, it is good enough for our organization.</p>
+<h4 id="The-world’s-fastest-cloud-data-warehouse"><a href="#The-world’s-fastest-cloud-data-warehouse" class="headerlink" title="The world’s fastest cloud data warehouse:"></a>The world’s fastest cloud data warehouse:</h4><p>When designing analytics experiences which are consumed by customers in production, even the smallest delays in query response times become critical. Learn how to achieve <strong>sub-second</strong> performance over TBs of data with <a target="_blank" rel="noopener" href="https://www.firebolt.io/?v=m"><strong>Firebolt</strong>.</a></p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/message-queue-in-redis-9efe0de2c39c">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/MongoDB/Read-after-write-Consistency-in-MongoDB/20211114/" rel="prev" title="Read-after-write Consistency in MongoDB">
+                  <i class="fa fa-chevron-left"></i> Read-after-write Consistency in MongoDB
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/MongoDB/Unique-Array-in-MongoDB-Document/20211121/" rel="next" title="Unique Array in MongoDB Document">
+                  Unique Array in MongoDB Document <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

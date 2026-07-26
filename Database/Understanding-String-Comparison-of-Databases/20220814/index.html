@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Three approaches to speed up string comparison In the previous article, we briefly talked about how B-tree-based databases use partial indexes to improve performance. In this article, we will talk abo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Understanding String Comparison of Databases">
+<meta property="og:url" content="https://wirelessr.github.io/Database/Understanding-String-Comparison-of-Databases/20220814/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Three approaches to speed up string comparison In the previous article, we briefly talked about how B-tree-based databases use partial indexes to improve performance. In this article, we will talk abo">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*9H0IbpQViE2eivTV.png">
+<meta property="article:published_time" content="2022-08-14T17:44:03.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.829Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*9H0IbpQViE2eivTV.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Database/Understanding-String-Comparison-of-Databases/20220814/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Database/Understanding-String-Comparison-of-Databases/20220814/","path":"Database/Understanding-String-Comparison-of-Databases/20220814/","title":"Understanding String Comparison of Databases"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Understanding String Comparison of Databases | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Three-approaches-to-speed-up-string-comparison"><span class="nav-number">1.</span> <span class="nav-text">Three approaches to speed up string comparison</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#How-to-improve"><span class="nav-number"></span> <span class="nav-text">How to improve?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Modify-the-outermost-client"><span class="nav-number"></span> <span class="nav-text">Modify the outermost client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Modify-the-database-schema"><span class="nav-number"></span> <span class="nav-text">Modify the database schema</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Modify-the-indexing-type"><span class="nav-number"></span> <span class="nav-text">Modify the indexing type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Database/Understanding-String-Comparison-of-Databases/20220814/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Understanding String Comparison of Databases | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Understanding String Comparison of Databases
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-08-15 01:44:03" itemprop="dateCreated datePublished" datetime="2022-08-15T01:44:03+08:00">2022-08-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Three-approaches-to-speed-up-string-comparison"><a href="#Three-approaches-to-speed-up-string-comparison" class="headerlink" title="Three approaches to speed up string comparison"></a>Three approaches to speed up string comparison</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*9H0IbpQViE2eivTV.png"></p>
+<p>In the previous article, we briefly talked about how B-tree-based databases use <a target="_blank" rel="noopener" href="https://betterprogramming.pub/partial-indexing-faq-55d6f1e10c08">partial indexes</a> to improve performance. In this article, we will talk about another story of indexing.</p>
+<p>Generally speaking, B-tree-based database indexes have one characteristic, which is leftmost matching. Take MySQL for example, if the <code>WHERE</code> condition is <code>a = 1 AND b = 2 AND c = &quot;Hello&quot;</code> then the index must be built in this order, i. e. <code>(a, b, c)</code>.</p>
+<p>In addition, if the index is <code>(a, b, c, d)</code>, then the same query can be applied based on the leftmost match principle.</p>
+<p>Furthermore, if the condition we want to query is a string match in the <code>c</code> field, for example, <code>WHERE a = 1 AND b = 2 AND c LIKE &quot;Hello%&quot;</code>, such a condition can still apply to the <code>(a, b, c)</code> index. Because of the leftmost match rule, even if <code>LIKE</code> is used, the leftmost edge of the string is already specified, so it still meets the rule.</p>
+<p>On the contrary, if the query condition becomes <code>WHERE a = 1 AND b = 2 AND c LIKE &quot;%World&quot;</code>, then only the <code>a</code> and <code>b</code> fields can be indexed, while the <code>c</code> field must compare all rows matched <code>(a, b)</code> values, which will use a lot of CPU computation of the database, in other words, very resource consuming.</p>
+<h3 id="How-to-improve"><a href="#How-to-improve" class="headerlink" title="How to improve?"></a>How to improve?</h3><p>The simplest solution to improve this situation is to drop the percentage sign in the middle and after the string. Nevertheless, there must be a use case for using it this way in the first place, so this article will not ask you to simply drop it, but to provide some alternatives.</p>
+<h3 id="Modify-the-outermost-client"><a href="#Modify-the-outermost-client" class="headerlink" title="Modify the outermost client"></a>Modify the outermost client</h3><p>Modify the original string pattern so that the index order is reversed.</p>
+<p>For instance, the original query needs to match the string pattern <code>&quot;PREFIX_ABC_SUFFIX&quot;</code> with a query like <code>a LIKE &quot;%ABC%&quot;</code>.</p>
+<p>Then reverse the original string pattern and change it to <code>&quot;ABC_PREFIX_SUFFIX&quot;</code>. With this change, you can remove the top percentage sign and change the query to the leftmost match.</p>
+<h3 id="Modify-the-database-schema"><a href="#Modify-the-database-schema" class="headerlink" title="Modify the database schema"></a>Modify the database schema</h3><p>Add a new boolean field, <code>abc_matched</code>, to the original database table. When the database client writes data, it determines in advance whether the original field meets the conditions and sets the corresponding flag.</p>
+<p>That is to say, the original query <code>a LIKE &quot;%ABC%&quot;</code> can be changed to <code>abc_matched = 1</code>.</p>
+<p>By doing so, the database computation can be transferred to the database client, thus effectively reducing the database overhead.</p>
+<p>Such a practice is also common in data science and is called data preprocessing. It replaces the N operations of subsequent queries with a single operation.</p>
+<h3 id="Modify-the-indexing-type"><a href="#Modify-the-indexing-type" class="headerlink" title="Modify the indexing type"></a>Modify the indexing type</h3><p>In MySQL there is no way to do this kind of query.</p>
+<p>However, in both Postgres and MongoDB there are corresponding index types that can effectively deal with fuzzy string comparisons.</p>
+<p>Postgres uses <code>GIN</code> indexes instead of the default <code>Bitmap</code> type, while MongoDB uses <code>text</code> indexes instead of regular indexes.</p>
+<p>By modifying the indexing type, even fuzzy comparisons of strings can be done with good performance. Nevertheless, all technical selections have advantages and disadvantages; indexes of GIN or text type take up a lot of space, several times the cost of the default type, and the process of building indexes is time consuming.</p>
+<p>Therefore, in the case of limited resources, even if the solution looks very easy to implement, I do not recommend it that much.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In software development, there are always many approaches to solving an existing problem, and each approach comes with pros and cons.</p>
+<p>Take the three approaches mentioned in this article.</p>
+<p>The cost of modifying the outermost client is the highest, but the cost of designing a new feature is the lowest.</p>
+<p>Because the modification of the client is followed by the compatibility of the old and new versions, besides, the outermost client may be a mobile application, which is not only difficult to deploy but also hard to rollout.</p>
+<p>However, if the design is correct at the very beginning, the implementation cost is very low because it is just a reverse order of the original string.</p>
+<p>The cost of modifying the database schema is the second highest, although it does not necessarily need to change the client at the outermost tier, but it also needs to change the client of the database.</p>
+<p>The modification of the database schema requires the migration of the old data, which also requires time and human effort.</p>
+<p>However, preprocessing of the data offers additional benefits beyond the improved query performance, such as more explicit feature matrix, which can effectively improve the accuracy of the model during machine learning.</p>
+<p>The implementation cost of modifying the index type is the lowest, just change the index once, basically no need to modify the implementation of the application.</p>
+<p>But this is the highest cost for the system.</p>
+<p>Firstly, such an index type takes up a very large amount of memory space, which cannot be ignored when the data volume is large.</p>
+<p>Secondly, when the indexes are too large to fit the database memory size or have to be swapped frequently, it will affect the performance of other queries as well.</p>
+<p>Moreover, the complexity of the indexes can affect the performance of writes, which is an overhead that must be carefully considered if this is a high-frequency writing system.</p>
+<p>Therefore, although there are three approaches, there is a trade-off as to which one is suitable and the answer will not be the same for each system.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/understanding-string-comparison-of-databases-9bde87f2006d">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Database/Understanding-Partial-Indexing/20220807/" rel="prev" title="Understanding Partial Indexing">
+                  <i class="fa fa-chevron-left"></i> Understanding Partial Indexing
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Architecture/Stream-Processing-Introduction/20220821/" rel="next" title="Stream Processing Introduction">
+                  Stream Processing Introduction <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

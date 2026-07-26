@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="The Infrastructure Stack for Real-Time Data AnalysisA look at the popular options available Previously, we introduced the evolution of data infrastructure, where we evolved the original data monolith">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Infrastructure Stack for Real-Time Data Analysis">
+<meta property="og:url" content="https://wirelessr.github.io/Data/The-Infrastructure-Stack-for-Real-Time-Data-Analysis/20221204/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="The Infrastructure Stack for Real-Time Data AnalysisA look at the popular options available Previously, we introduced the evolution of data infrastructure, where we evolved the original data monolith">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*OR8t-ZiGcCm7-DPH">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*40ZENKJxciSlfoCmma66TA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*iMhg-dW7SAXHR57z-9GenQ.png">
+<meta property="article:published_time" content="2022-12-04T17:45:44.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.829Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*OR8t-ZiGcCm7-DPH">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Data/The-Infrastructure-Stack-for-Real-Time-Data-Analysis/20221204/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Data/The-Infrastructure-Stack-for-Real-Time-Data-Analysis/20221204/","path":"Data/The-Infrastructure-Stack-for-Real-Time-Data-Analysis/20221204/","title":"The Infrastructure Stack for Real-Time Data Analysis"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>The Infrastructure Stack for Real-Time Data Analysis | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Infrastructure-Stack-for-Real-Time-Data-Analysis"><span class="nav-number">1.</span> <span class="nav-text">The Infrastructure Stack for Real-Time Data Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-look-at-the-popular-options-available"><span class="nav-number">1.1.</span> <span class="nav-text">A look at the popular options available</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Real-Time-Infra"><span class="nav-number">2.</span> <span class="nav-text">Real-Time Infra</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Event-Producer"><span class="nav-number">3.</span> <span class="nav-text">Event Producer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Existing-OLTP-database"><span class="nav-number">3.1.</span> <span class="nav-text">Existing OLTP database</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Event-tracker"><span class="nav-number">3.2.</span> <span class="nav-text">Event tracker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Language-SDK"><span class="nav-number">3.3.</span> <span class="nav-text">Language SDK</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stream-Platform"><span class="nav-number">4.</span> <span class="nav-text">Stream Platform</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Open-Source"><span class="nav-number">4.1.</span> <span class="nav-text">Open Source</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Managed-Service"><span class="nav-number">4.2.</span> <span class="nav-text">Managed Service</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stream-Processor"><span class="nav-number">5.</span> <span class="nav-text">Stream Processor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Open-Source-1"><span class="nav-number">5.1.</span> <span class="nav-text">Open Source</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Managed-Service-1"><span class="nav-number">5.2.</span> <span class="nav-text">Managed Service</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Serving-Layer"><span class="nav-number">6.</span> <span class="nav-text">Serving Layer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Frontend"><span class="nav-number">7.</span> <span class="nav-text">Frontend</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">8.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/The-Infrastructure-Stack-for-Real-Time-Data-Analysis/20221204/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="The Infrastructure Stack for Real-Time Data Analysis | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          The Infrastructure Stack for Real-Time Data Analysis
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-12-05 01:45:44" itemprop="dateCreated datePublished" datetime="2022-12-05T01:45:44+08:00">2022-12-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="The-Infrastructure-Stack-for-Real-Time-Data-Analysis"><a href="#The-Infrastructure-Stack-for-Real-Time-Data-Analysis" class="headerlink" title="The Infrastructure Stack for Real-Time Data Analysis"></a>The Infrastructure Stack for Real-Time Data Analysis</h3><h4 id="A-look-at-the-popular-options-available"><a href="#A-look-at-the-popular-options-available" class="headerlink" title="A look at the popular options available"></a>A look at the popular options available</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*OR8t-ZiGcCm7-DPH"></p>
+<p>Previously, we introduced the <a target="_blank" rel="noopener" href="https://betterprogramming.pub/evolutionary-data-infrastructure-4ddce2ec8a7e">evolution of data infrastructure</a>, where we evolved the original data monolith step by step into an architecture that can support both real time analysis and various data governance.</p>
+<p>However, in that article, we didn’t cover what technical selections were available but only a high-level view of the architecture evolution process.</p>
+<p>In this article, we will focus on the stack of real-time analysis and list some hot or gradually popular options.</p>
+<h3 id="Real-Time-Infra"><a href="#Real-Time-Infra" class="headerlink" title="Real-Time Infra"></a>Real-Time Infra</h3><p>Before starting, let’s briefly introduce the whole architecture of real-time analysis.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*40ZENKJxciSlfoCmma66TA.png"></p>
+<p>As we mentioned before, the core of the entire real-time infrastructure is streaming.</p>
+<p>In order to quickly process all events from event producers, streaming plays an important role, and within streaming, there are stream platforms and stream processors. Stream platform is the broker of streaming, which is used to store and distribute streams to processors. And the processor will send the stream back to the platform after processing the stream.</p>
+<blockquote>
+<p><em>Why don’t processors deliver the streams directly backwards?</em></p>
+</blockquote>
+<p>Because the stream may go through more than one processor. To complete a full use case, the stream may go through many processors, each of them focusing on what they are intended to do. This is the same concept as a data pipeline.</p>
+<p>When the streaming is processed, it is persisted and is available for users as needed. Therefore, the serving layer must be a data store with high throughput and provide a variety of complex queries. For this requirement, traditional RDBMS cannot meet the throughput requirements, so the serving layer is usually not a relational database.</p>
+<p>The final front is for presenting the data to the end-user, which can be tables, diagrams, or even a complete report.</p>
+<h3 id="Event-Producer"><a href="#Event-Producer" class="headerlink" title="Event Producer"></a>Event Producer</h3><p>We already know that event producer are responsible for generating various “events”, but what kinds of events exactly are there?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*iMhg-dW7SAXHR57z-9GenQ.png"></p>
+<p>There are three types.</p>
+<ul>
+<li>Existing OLTP database</li>
+<li>Event tracker</li>
+<li>Language SDK</li>
+</ul>
+<h4 id="Existing-OLTP-database"><a href="#Existing-OLTP-database" class="headerlink" title="Existing OLTP database"></a><em><strong>Existing OLTP database</strong></em></h4><p>Any system will have a database, whether it is a relational database or a NoSQL database, and as long as the application has storage requirements, it will use the database that suits its needs.</p>
+<p>To capture data changes from these databases and deliver them to the streaming platform, we often use <a target="_blank" rel="noopener" href="https://debezium.io/">Debezium</a>.</p>
+<h4 id="Event-tracker"><a href="#Event-tracker" class="headerlink" title="Event tracker"></a><em><strong>Event tracker</strong></em></h4><p>When a user operates a system, whether it is a web frontend or a mobile application, we always want to capture those events for subsequent analysis of user behavior.</p>
+<p>We want the trackers to be able to digest the rapidly generated events for us, but we also want them to have some customization, such as enriching the events. Therefore, plug-ins and customization will be a priority when selecting a tracker.</p>
+<p>Common options are listed below.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://segment.com/">TWILIO segment</a></li>
+<li><a target="_blank" rel="noopener" href="https://snowplow.io/">SNOWPLOW</a></li>
+</ul>
+<p><code>SNOWPLOW</code> provides an open source version, while <code>segment</code> does not.</p>
+<h4 id="Language-SDK"><a href="#Language-SDK" class="headerlink" title="Language SDK"></a><em><strong>Language SDK</strong></em></h4><p>The last is the events generated by various application backends, which are delivered through the SDK provided by the stream platform. The technical selection here will depend on the stream platform and the programming language in use.</p>
+<h3 id="Stream-Platform"><a href="#Stream-Platform" class="headerlink" title="Stream Platform"></a>Stream Platform</h3><p>The concept of stream platform is very simple, it is a broker with high throughput.</p>
+<p>The most common option is <a target="_blank" rel="noopener" href="https://kafka.apache.org/">Kafka</a>, but there are also various open-source software and managed services. By the way, the following order does not represent the recommendation order.</p>
+<h4 id="Open-Source"><a href="#Open-Source" class="headerlink" title="Open Source"></a><em><strong>Open Source</strong></em></h4><ul>
+<li><a target="_blank" rel="noopener" href="https://redpanda.com/">Redpanda</a></li>
+<li><a target="_blank" rel="noopener" href="https://pulsar.apache.org/">Apache Pulsar</a></li>
+</ul>
+<h4 id="Managed-Service"><a href="#Managed-Service" class="headerlink" title="Managed Service"></a><em><strong>Managed Service</strong></em></h4><ul>
+<li>AWS Kinesis</li>
+<li>GCP Pub&#x2F;Sub</li>
+<li>Azure Event Hub</li>
+<li><a target="_blank" rel="noopener" href="https://www.confluent.io/">Confluent</a></li>
+<li><a target="_blank" rel="noopener" href="https://upstash.com/">upstash</a></li>
+<li><a target="_blank" rel="noopener" href="https://ably.com/">ably</a></li>
+<li><a target="_blank" rel="noopener" href="https://solace.com/">solace</a></li>
+</ul>
+<h3 id="Stream-Processor"><a href="#Stream-Processor" class="headerlink" title="Stream Processor"></a>Stream Processor</h3><p>A stream processor, as the name implies, is a role that handles streams. It must have scalability, availability, and fault tolerance, and the ability to support various data sources and sinks is also an important consideration.</p>
+<p>The <a target="_blank" rel="noopener" href="https://flink.apache.org/">Apache Flink</a>, which is often mentioned, is one of these options, and there are many others.</p>
+<h4 id="Open-Source-1"><a href="#Open-Source-1" class="headerlink" title="Open Source"></a><em><strong>Open Source</strong></em></h4><ul>
+<li><a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/streams/">Apache Kafka Streams</a></li>
+<li><a target="_blank" rel="noopener" href="https://ksqldb.io/">ksqlDB</a></li>
+<li><a target="_blank" rel="noopener" href="https://beam.apache.org/">Apache Beam</a>: Streaming framework which can be run on several runner such as Apache Flink and GCP Dataflow</li>
+<li><a target="_blank" rel="noopener" href="https://materialize.com/">Materialize</a>: Streaming database like ksqlDB and based on Postgres</li>
+<li><a target="_blank" rel="noopener" href="https://memgraph.com/">MEM GRAPH</a>: Graph database built for real-time streaming and compatible with Neo4j</li>
+<li><a target="_blank" rel="noopener" href="https://bytewax.io/">bytewax</a>: Python framework</li>
+<li><a target="_blank" rel="noopener" href="https://faust-streaming.github.io/faust/">Faust</a>: Python framework</li>
+</ul>
+<h4 id="Managed-Service-1"><a href="#Managed-Service-1" class="headerlink" title="Managed Service"></a><em><strong>Managed Service</strong></em></h4><ul>
+<li>GCP Dataflow</li>
+<li><a target="_blank" rel="noopener" href="https://www.deltastream.io/">DELTA STREAM</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.quix.io/">Quix</a></li>
+</ul>
+<h3 id="Serving-Layer"><a href="#Serving-Layer" class="headerlink" title="Serving Layer"></a>Serving Layer</h3><p>The function of the serving layer is to persist the results of the stream processing and make them easily available to users. Therefore, it must have two important conditions, first, a large throughput, and second, the ability to support more complex query operations.</p>
+<p>In general, there are two different approaches, one is to choose a common NoSQL database, such as <a target="_blank" rel="noopener" href="https://www.mongodb.com/home">MongoDB</a>, <a target="_blank" rel="noopener" href="https://www.elastic.co/">ElasticSearch</a> or <a target="_blank" rel="noopener" href="https://cassandra.apache.org/_/index.html">Apache Cassandra</a>. All of these NoSQL databases have good scalability and can support complex queries. In addition, these databases are very mature, so the learning curve is low for both use and operation.</p>
+<p>In addition, there are also some NoSQL databases rising up for low latency and big data, e.g., <a target="_blank" rel="noopener" href="https://www.scylladb.com/">SCYLLA</a>.</p>
+<p>On the other hand, there are many newcomers to the SQL family. These new SQL-compatible databases have a completely different implementation logic than traditional relational databases, and thus have a high throughput and can even interact directly with stream platforms.</p>
+<p>Moreover, these databases have the scalability that traditional RDBMSs do not have, and can still have low query latency in big data scenarios.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://pinot.apache.org/">Apache Pinot</a></li>
+<li><a target="_blank" rel="noopener" href="https://druid.apache.org/">Apache Druid</a></li>
+<li><a target="_blank" rel="noopener" href="https://clickhouse.com/">ClickHouse</a></li>
+<li><a target="_blank" rel="noopener" href="https://rockset.com/">ROCKSET</a></li>
+</ul>
+<h3 id="Frontend"><a href="#Frontend" class="headerlink" title="Frontend"></a>Frontend</h3><p>The most common in the frontend is still to build services using common web frameworks, such as these three most commonly frameworks.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://angularjs.org/">AngularJS</a></li>
+<li><a target="_blank" rel="noopener" href="https://vuejs.org/">Vue.js</a></li>
+<li><a target="_blank" rel="noopener" href="https://reactjs.org/">React</a></li>
+</ul>
+<p>Furthermore, low-code frameworks are becoming popular in recent years. Low code means developers only need to write a small amount of code to use plenty of pre-defined functions, which can significantly shorten the development time and speed up the release.</p>
+<p>In order to make the data more real-time, the purpose is to make the value of the data as early as possible, so agile development in the production environment is also a reasonable consideration. Here are two popular low-code frameworks.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://streamlit.io/">Streamlit</a></li>
+<li><a target="_blank" rel="noopener" href="https://dash.plotly.com/">Dash</a></li>
+</ul>
+<p>Finally, there are various data visualization platforms.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://superset.apache.org/">Apache Superset</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.metabase.com/">Metabase</a></li>
+<li><a target="_blank" rel="noopener" href="https://redash.io/">redash</a></li>
+<li>PowerBI</li>
+</ul>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Although this article lists a lot of targets for technical selection, there are definitely others that I haven’t listed, which may be either outdated, less-used options such as <a target="_blank" rel="noopener" href="https://storm.apache.org/">Apache Storm</a> or out of my radar from the beginning, like Java ecosystem.</p>
+<p>Besides, I did not put links to the three major public cloud platforms that are already relatively mature (AWS, GCP, Azure), because those can be found in many resources on the Internet at any time.</p>
+<p>Even though these technical stacks are listed by category, some fields actually overlap. For example, although <a target="_blank" rel="noopener" href="https://materialize.com/">Materialize</a> is classified as a stream processor, it makes sense to treat as a serving layer because it is essentially a streaming database, and the same is true for <a target="_blank" rel="noopener" href="https://ksqldb.io/">ksqlDB</a>.</p>
+<p>Each project has its own strengths and applications. When making a choice, it is important to consider the existing practices and stacks within the organization, as well as the objectives that you want to accomplish, so that you can find the right answer among the many options.</p>
+<p>If there is a project I didn’t list and you feel it is worth mentioning, please feel free to leave me a comment and I will find time to survey it.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/real-time-data-infra-stack-73c597ed05ee">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Career/Engineer-Happiness-Matters/20221127/" rel="prev" title="Engineer Happiness Matters">
+                  <i class="fa fa-chevron-left"></i> Engineer Happiness Matters
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Testing/How-to-Determine-API-Slow-Downs/20221211/" rel="next" title="How to Determine API Slow Downs">
+                  How to Determine API Slow Downs <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

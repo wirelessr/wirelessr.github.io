@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Why choose TiDB? What problems does TiDB solve? Before explaining the process of importing HTAP into Xiaohongshu, let’s briefly introduce Xiaohongshu. Xiaohongshu is known as the Chinese version of In">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTAP: Learning from Xiaohongshu">
+<meta property="og:url" content="https://wirelessr.github.io/Data/HTAP-Learning-from-Xiaohongshu-Medium/20230507/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Why choose TiDB? What problems does TiDB solve? Before explaining the process of importing HTAP into Xiaohongshu, let’s briefly introduce Xiaohongshu. Xiaohongshu is known as the Chinese version of In">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*9saB7metHP8ItHMN.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*8t96Yr5MrHeWT-bR78vUyw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*_9aV89MWqv2uvlBuY2531g.png">
+<meta property="article:published_time" content="2023-05-07T17:45:42.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.823Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*9saB7metHP8ItHMN.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Data/HTAP-Learning-from-Xiaohongshu-Medium/20230507/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Data/HTAP-Learning-from-Xiaohongshu-Medium/20230507/","path":"Data/HTAP-Learning-from-Xiaohongshu-Medium/20230507/","title":"HTAP: Learning from Xiaohongshu"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>HTAP: Learning from Xiaohongshu | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Why-choose-TiDB-What-problems-does-TiDB-solve"><span class="nav-number">1.</span> <span class="nav-text">Why choose TiDB? What problems does TiDB solve?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-Xiaohongshu-chose-TiDB"><span class="nav-number"></span> <span class="nav-text">Why Xiaohongshu chose TiDB?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Past-Pain-Points"><span class="nav-number"></span> <span class="nav-text">Past Pain Points</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution"><span class="nav-number"></span> <span class="nav-text">Solution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#New-Problem-Occurred"><span class="nav-number"></span> <span class="nav-text">New Problem Occurred</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/HTAP-Learning-from-Xiaohongshu-Medium/20230507/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="HTAP: Learning from Xiaohongshu | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTAP: Learning from Xiaohongshu
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-05-08 01:45:42" itemprop="dateCreated datePublished" datetime="2023-05-08T01:45:42+08:00">2023-05-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Why-choose-TiDB-What-problems-does-TiDB-solve"><a href="#Why-choose-TiDB-What-problems-does-TiDB-solve" class="headerlink" title="Why choose TiDB? What problems does TiDB solve?"></a>Why choose TiDB? What problems does TiDB solve?</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*9saB7metHP8ItHMN.png"></p>
+<p>Before explaining the process of importing HTAP into Xiaohongshu, let’s briefly introduce Xiaohongshu.</p>
+<p>Xiaohongshu is known as the Chinese version of Instagram, but in addition to the usual social functions such as video and image sharing, it also includes an e-commerce platform. According to the official website of Xiaohongshu, as of 2019, active users have exceeded 100 million.</p>
+<p>It is both a social media and e-commerce website, and the amount of data generated each day is in the billions. In order to support data-driven decision making, these massive amounts of data must go through multiple layers of cleansing, transformation and aggregation, and more importantly, the real-time nature of decision making also need to address.</p>
+<p>In addition, Xiaohongshu’s application scenarios and user numbers continue to grow, so the scalability of the entire data infrastructure is also a major challenge.</p>
+<p>In the end, Xiaohongshu adopted TiDB as their real-time streaming storage.</p>
+<h3 id="Why-Xiaohongshu-chose-TiDB"><a href="#Why-Xiaohongshu-chose-TiDB" class="headerlink" title="Why Xiaohongshu chose TiDB?"></a>Why Xiaohongshu chose TiDB?</h3><p>In fact, Xiaohongshu already adopted TiDB for some projects in 2017, but it was widely used until 2018.</p>
+<p>The three main reasons are as follows.</p>
+<ol>
+<li>Due to data-driven decision-making, there will be various OLAP needs of ad hoc queries, so the traditional OLTP database can not support the use.</li>
+<li>Many OLAP databases can handle queries efficiently, but the write performance is not good, while TiDB write also has great performance.</li>
+<li>In the scenario of horizontal scaling of data clusters, new instances must be available as fast as possible. TiDB keeps datasets consistent across all instances through a Raft majority mechanism.</li>
+</ol>
+<p>Now, TiDB has been widely used in various domains of Xiaohongshu, including</p>
+<ul>
+<li>Data warehouse application</li>
+<li>Report Analysis</li>
+<li>Real-time dashboard for sales promotion</li>
+<li>Anti-fraud detection</li>
+<li>etc.</li>
+</ul>
+<h3 id="Past-Pain-Points"><a href="#Past-Pain-Points" class="headerlink" title="Past Pain Points"></a>Past Pain Points</h3><p>In general, the entire data architecture is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*8t96Yr5MrHeWT-bR78vUyw.png"></p>
+<p>There are three typical use cases in such an architecture with poor performance.</p>
+<p>Firstly, ad hoc queries are performed on the production database. To avoid increasing the overhead on the production database, a complete copy of the production database must be made, and all ad hoc queries are run on the replica.</p>
+<p>However, the MySQL for production uses sharding, which creates a high complexity in operation. In addition to the difficulty of operation, the implementation of aggregation, such as <code>group by</code>, <code>join</code>, etc., on the middleware of sharding also leads to the complexity of implementation, and on the other hand, the transactions on the sharding MySQL is also a big challenge.</p>
+<p>Secondly, in order to query reports more efficiently, report analysis is generated through pre-aggregation and stored in a standalone MySQL to avoid the latency of Hadoop direct query. However, since it is pre-aggregated, it cannot effectively respond to requirement changes. Moreover, a standalone MySQL has less scalability due to the lack of sharding.</p>
+<p>Finally, to perform anti-fraud detection in various application scenarios, it must rely on the data stored in the data lake, which is not real-time, but <code>T + 1</code> ingestion. This makes it impossible for anti-fraud to work within time, and even if fraud is detected, the damage is already done.</p>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p>The answer to these three cases is TiDB.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_9aV89MWqv2uvlBuY2531g.png"></p>
+<p>In the use case of ad hoc query, there are two pain points must be dealt with, one is the difficulty of operation, and the other is the complexity of implementation. Then, just put all the data into TiDB and maintain one TiDB. Because TiDB fully supports MySQL 5.7, so it can be synchronized by MySQL binlog.</p>
+<p>Of course, it is not as simple as that. To put the sharding databases into TiDB, it needs to process the data properly, i.e. merge them into one big wide table. Therefore, it needs to deal with the issues of merging and auto-incrementing primary keys in the streaming. But eventually, all the production databases will be synchronized with TiDB, and even for the data volume of Xiaohongshu, the synchronization delay is within 1 second.</p>
+<p>Then, the same practice can be applied to report analysis and anti-fraud.</p>
+<p>Because of real-time streaming, anti-fraud no longer takes <code>T + 1</code> time to respond, and real-time streaming can be handled directly through Flink SQL. On the other hand, report analysis is easier because all the data is available and can be operated on a single database.</p>
+<h3 id="New-Problem-Occurred"><a href="#New-Problem-Occurred" class="headerlink" title="New Problem Occurred"></a>New Problem Occurred</h3><p>When TiDB was first introduced, the version of TiDB used in Xiaohongshu was <code>3.x</code>.</p>
+<p>TiDB <code>3.x</code> is still a row-based storage engine, and although it can achieve good performance in OLAP, it is still not good enough for large data volume. Furthermore, all scenarios use the same TiDB cluster which cannot isolate ad hoc queries and production applications.</p>
+<p>But these problems are solved after upgrading to TiDB <code>4.x</code> version.</p>
+<p>The reason is TiDB 4.x introduces the HTAP architecture, which enables the coexistence of row storage engine and column storage engine. The new column storage engine called TiFlash is independent from the original row storage engine TiKV and will not interfere with each other.</p>
+<p>When the application writes data to TiKV, the data is quickly synchronized to TiFlash through the Raft learner mechanism, so that the row storage and column storage are consistent.</p>
+<p>In addition, TiDB uses internal CBO to know whether the query should use the row or column engine as soon as it comes in and automatically routes the query, which greatly reduces the complexity of the application.</p>
+<p>TiDB 4.x also has a new mechanism that helps improve the performance of the entire data architecture: pessimistic locking. In TiDB 3.x, there was only optimistic locking, which made it easily possible for inter-transaction conflicts under huge data volume of continuous writes.</p>
+<p>Once a transaction conflict occurs, it can only be retried on the client side, which significantly increases the complexity of application development. But pessimistic locking can effectively solve this problem, and the error handling of the application becomes more simple.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Actually, Xiaohongshu has also referred to ClickHouse when making technical selections, and the performance of ClickHouse has some better than TiDB. However, ClickHouse is relatively difficult to operate and maintain.</p>
+<p>In addition, ClickHouse is a column storage engine, in the data update scenario performance is not good. If rewriting “update” to “ append”, it needs a lot of modification cost on one hand and extra de-duplication logic on the other.</p>
+<p>Therefore, TiDB is the final choice.</p>
+<p>From my point of view, HTAP is the future and can cover various use cases by merging row storage engine and column storage engine. It is cost effective to use only one database to handle various needs with big data.</p>
+<p>In the past, in order to support a variety of data products, we had to continuously make technical selections among many databases and carefully consider various use cases, but with HTAP, these complexities no longer exist.</p>
+<p>Personally, I am looking forward to seeing the gradual simplification of data engineering.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/htap-learning-from-xiaohongshu-8d8181d12195">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/HTAP-learning-from-Xiaohongshu/20230505/" rel="prev" title="HTAP：從小紅書的案例學習NewSQL">
+                  <i class="fa fa-chevron-left"></i> HTAP：從小紅書的案例學習NewSQL
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Elasticsearch/Boosting-Elasticsearch-Cluster-Performance/20230512/" rel="next" title="有效提昇Elasticsearch整座集群效能的三個小技巧">
+                  有效提昇Elasticsearch整座集群效能的三個小技巧 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/7/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/7/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/7/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Career/Why-So-Few-Qualified-Architects/20240204/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Career/Why-So-Few-Qualified-Architects/20240204/" class="post-title-link" itemprop="url">Why So Few Qualified Architects?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-02-05 01:31:12" itemprop="dateCreated datePublished" datetime="2024-02-05T01:31:12+08:00">2024-02-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Career/" itemprop="url" rel="index"><span itemprop="name">Career</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="A-Proven-Theory-of-the-Architect’s-Difficulties"><a href="#A-Proven-Theory-of-the-Architect’s-Difficulties" class="headerlink" title="A Proven Theory of the Architect’s Difficulties"></a>A Proven Theory of the Architect’s Difficulties</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*-WeVzOK-v2oSrvs9"></p>
+<p>As an experienced architect, I have interviewed many candidates. But I have always had one question in my mind: why is it so hard to find candidates who meet the expectations?</p>
+<p>Recently, after reading <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1802.07068">a study</a>, I was able to answer this question in a more systematic way. The topic of this study is: Talent vs Luck: the role of randomness in success and failure.</p>
+<p>It is also the 2022 Ig Informal Lecture for the Economics Prize.</p>
+<p>Before we explain the connection between the architect’s difficulty in finding and this study, let’s quickly summarise the study.</p>
+<p>To make a long story short, a person’s success has nothing to do with talent, but only with luck. To put it further, “Success is <strong>1%</strong> genius and <strong>99%</strong> luck”.</p>
+<p>However, <em>Thomas Edison</em> told us that genius is <strong>1%</strong> inspiration and <strong>99%</strong> perspiration. In other words, to be successful, effort is only <strong>0.99%</strong>.</p>
+<p>Why are so few candidates qualified to be architects?</p>
+<p>Because being an architect is not something you can do just by working hard, it’s very much a matter of chance.</p>
+<h3 id="Wait-that’s-a-bit-arbitrary-isn’t-it"><a href="#Wait-that’s-a-bit-arbitrary-isn’t-it" class="headerlink" title="Wait, that’s a bit arbitrary, isn’t it?"></a>Wait, that’s a bit arbitrary, isn’t it?</h3><p>In fact, every single one of those interviewed was a good senior engineer — yes, every single one.</p>
+<p>They all excel in their positions and have a good grasp of what they are responsible for. Even a team leader or manager who hadn’t actually written code in a long time still had a deep understanding of the service they were working on.</p>
+<p>However, these candidates were eliminated.</p>
+<p>The reason was simple: not enough experience. Yes, I agree that they can all fully handle one or a few microservices. But the volume of these microservices was just not there, either because they lacked the volume of traffic and high-frequency reads and writes, or because they lacked the complexity and interaction with other systems.</p>
+<p>This kind of experience is no match for an architect of a high-volume e-commerce platform.</p>
+<p>Did you notice a key point? They all do their jobs well or even brilliantly, but they are still inexperienced.</p>
+<h3 id="Specialist-vs-Generalist"><a href="#Specialist-vs-Generalist" class="headerlink" title="Specialist vs. Generalist"></a>Specialist vs. Generalist</h3><p>This is actually the difference between I-shaped talents and T-shaped talents, i.e. Specialist and Generalist.</p>
+<p>If you want to become a qualified architect, it is not enough just to do a good job. But to be honest, even if you work very hard, you may not be qualified. As I mentioned at the beginning, whether you can become an architect or not is mostly a matter of luck.</p>
+<ul>
+<li>If you are lucky enough to have worked for a large enterprise, then there is a little more possibility.</li>
+<li>If, luckily, the company is willing to invest in various training, then there are more possibilities.</li>
+<li>If you are lucky enough to have friendships with architects, then you have a little more possibilities.</li>
+</ul>
+<p>Can’t we learn the skills we should have by our own efforts?</p>
+<p>Yes, but it’s really hard.</p>
+<p>If you don’t see how wide the world is, you can’t imagine what you need to learn.</p>
+<p>There is a Chinese idiom, “Frog in the bottom of a well”. A frog who lives in a well all his life cannot know the outside world.</p>
+<p>Back to the architect’s perspective, let’s look at a few real-world examples.</p>
+<p>How do you know you need to learn caching if a system works well with one database and one API service?</p>
+<p>How do you know you need to learn sharding if the amount of data can always be carried by a single database?</p>
+<p>How do you know you need to learn message queuing if the logic of the system is simple and can be responded in a short time?</p>
+<p>More specifically, if a system does not have any search requirement, how do you know you need to learn Elasticsearch?</p>
+<p>All these are the vision that an architect needs to have, so do you know why most of the time you need to rely on “luck”?</p>
+<h3 id="Even-so"><a href="#Even-so" class="headerlink" title="Even so"></a>Even so</h3><p>There are still possibilities for us to try our best.</p>
+<ul>
+<li>Read more books.</li>
+<li>Attend more seminars.</li>
+<li>Visit more blogs.</li>
+</ul>
+<p>Even if we don’t know what’s missing, we can still become what we want to be by learning through various channels.</p>
+<p>Architects are on a never-ending journey of learning.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>We’ve talked a lot about what it takes to be an architect, and explained why it’s so hard to find a qualified candidate, but I have to say that being an architect is just one of the “choices” in a career.</p>
+<p>It doesn’t mean an architect is superior, it doesn’t mean an architect is invincible, and it doesn’t mean an architect is better than a senior engineer.</p>
+<p>If learning is your hobby, then architect is a good choice.</p>
+<p>But a senior software developer is also a good choice.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/why-so-few-qualified-architects-19ccd4730b45">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Backfill-Streaming-Data-Pipelines-in-Kappa-Architecture/20240119/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Backfill-Streaming-Data-Pipelines-in-Kappa-Architecture/20240119/" class="post-title-link" itemprop="url">Netflix如何在Kappa架構下做回填(backfill)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-01-19 10:07:09" itemprop="dateCreated datePublished" datetime="2024-01-19T10:07:09+08:00">2024-01-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Netflix的首頁是經過客製化的，會根據使用者的喜好有不同的外觀，當然，推薦影片的種類也會完全根據使用者的偏好。要做到這種程度，是因為在系統背後有一個應用程式會根據各種演算法將好的UX遞送給使用者。</p>
+<p>這個應用程式稱為RMI (Real-time Merched Impression)，其架構如下。</p>
+<pre><code class="highlight mermaid">graph TD
+    imp[Impression Source] --&gt; kb1[KeyBy] --&gt; join[Join] --&gt; rmi[RMI Sink]
+    pb[Playback Source] --&gt; kb2[KeyBy] --&gt; join</code></pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Architecture/Backfill-Streaming-Data-Pipelines-in-Kappa-Architecture/20240119/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Generating-Avro-Schemas-from-Go-types/20240114/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Golang/Generating-Avro-Schemas-from-Go-types/20240114/" class="post-title-link" itemprop="url">Generating Avro Schemas from Go types</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-01-15 01:35:11" itemprop="dateCreated datePublished" datetime="2024-01-15T01:35:11+08:00">2024-01-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Generating-Avro-Schemas-from-Go-types"><a href="#Generating-Avro-Schemas-from-Go-types" class="headerlink" title="Generating Avro Schemas from Go types"></a>Generating Avro Schemas from Go types</h3><h4 id="To-implement-auto-data-ingest-reflect-go-struct-into-Avro"><a href="#To-implement-auto-data-ingest-reflect-go-struct-into-Avro" class="headerlink" title="To implement auto data ingest, reflect go struct into Avro"></a>To implement auto data ingest, reflect go struct into Avro</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*eR_eVjEO35VNBXWw"></p>
+<p>Previously, I have introduced the evolutionary history of data infrastructure, and I have also introduced real-time data analysis in detail.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/evolutionary-data-infrastructure-4ddce2ec8a7e">Evolutionary Data Infrastructure</a></li>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/real-time-data-infra-stack-73c597ed05ee">The Infrastructure Stack for Real-Time Data Analysis</a></li>
+</ul>
+<p>Both of these articles mention a key player, <a target="_blank" rel="noopener" href="https://debezium.io/">Debezium</a>. In fact, Debezium has had a place in the modern infrastructure. Let’s use a diagram to understand why.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7dOs8Bc1w_EkK-LsA8WITA.png"></p>
+<p>This architecture diagram should be consistent with the data ingest path of most data infrastructures. In order to store and analyze data in a unified way, centralizing the data in a data warehouse is a general solution.</p>
+<p>Debezium captures data changes from various source databases and then writes them to the data warehouse via Kafka and Kafka’s consumers. In other words, Debezium is also a Kafka producer.</p>
+<p>This architecture looks fine, once there are changes in the data will be captured by Debezium and eventually written to the data warehouse, but there is actually a difficult problem behind needs to be solved, that is, the database schema. In order to provide data analytics, the data warehouse is “schemaful”, but how to make the schema of the data warehouse align with the schema of each source database?</p>
+<p>The good news is Debezium supports schema registry, it can capture DDL changes from source databases and synchronize them to the schema registry so that Kafka consumers can get schema from the schema registry and synchronize the schema in the data warehouse.</p>
+<p>Let’s make the architecture mentioned above even more complete.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*F-LynAHg0cMvENt1R2Og8A.png"></p>
+<p>The most common format for describing schema in this scenario is <a target="_blank" rel="noopener" href="https://avro.apache.org/">Apache Avro</a>.</p>
+<p>Unfortunately, a schemaless database like MongoDB doesn’t have DDL at all, so of course Debezium can’t capture DDL, then how does Debezium upload the schema in this scenario? The answer is to guess, by getting the data to determine the data type, and write the type into the schema registry.</p>
+<p>As you can imagine, this is very risky, and the data warehouse schema often faces compatibility challenges due to such guessing. Therefore, there needs to be a way to proactively upload the schema so that the Kafka consumer can correctly recognize the data type and correct the schema of the data warehouse.</p>
+<h3 id="Knowing-it-intellectually-is-one-thing-but-knowing-it-emotionally-is-quite-another"><a href="#Knowing-it-intellectually-is-one-thing-but-knowing-it-emotionally-is-quite-another" class="headerlink" title="Knowing it intellectually is one thing, but knowing it emotionally is quite another."></a>Knowing it intellectually is one thing, but knowing it emotionally is quite another.</h3><p>The story is this: our microservice is developed in Golang and uses <a target="_blank" rel="noopener" href="https://github.com/Kamva/mgm">mgm</a> as the ORM for MongoDB.</p>
+<p>In Golang, we use <code>struct</code> as a Data Transfer Object (DTO), and in the <code>mgm</code> scenario, these DTOs can be marshaled as JSON. So, what we need to do is to generate the corresponding Avro schema based on the definition of <code>struct</code>.</p>
+<p>Therefore, I made the following go module.</p>
+<p>The use of this go module is quite simple.</p>
+<p>If we have a <code>struct</code> as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">type Entity struct &#123;  </span><br><span class="line">	AStrField    string  `json:&quot;a_str_field&quot;`  </span><br><span class="line">	AIntField    int     `json:&quot;a_int_field&quot;`  </span><br><span class="line">	ABoolField   bool    `json:&quot;a_bool_field&quot;`  </span><br><span class="line">	AFloatField  float32 `json:&quot;a_float_field&quot;`  </span><br><span class="line">	ADoubleField float64 `json:&quot;a_double_field&quot;`  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Then just <code>import</code> the module to generate the corresponding Avro.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import &quot;github.com/wirelessr/avroschema&quot;  </span><br><span class="line">  </span><br><span class="line">avroschema.Reflect(&amp;Entity&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>The result will be an Avro JSON.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    &quot;name&quot;: &quot;Entity&quot;,  </span><br><span class="line">    &quot;type&quot;: &quot;record&quot;,  </span><br><span class="line">    &quot;fields&quot;: [  </span><br><span class="line">      &#123;&quot;name&quot;: &quot;a_str_field&quot;, &quot;type&quot;: &quot;string&quot;&#125;,  </span><br><span class="line">      &#123;&quot;name&quot;: &quot;a_int_field&quot;, &quot;type&quot;: &quot;int&quot;&#125;,  </span><br><span class="line">      &#123;&quot;name&quot;: &quot;a_bool_field&quot;, &quot;type&quot;: &quot;boolean&quot;&#125;,  </span><br><span class="line">      &#123;&quot;name&quot;: &quot;a_float_field&quot;, &quot;type&quot;: &quot;float&quot;&#125;,  </span><br><span class="line">      &#123;&quot;name&quot;: &quot;a_double_field&quot;, &quot;type&quot;: &quot;double&quot;&#125;  </span><br><span class="line">    ]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In addition, the module also supports various complex types and nested types as follows.</p>
+<ul>
+<li><code>array</code> and <code>slice</code></li>
+<li><code>map</code></li>
+<li><code>struct</code> in <code>struct</code></li>
+<li><code>time.Time</code></li>
+<li><code>array</code> of <code>struct</code></li>
+<li>etc.</li>
+</ul>
+<p>Of course, the <code>omitempty</code> tag used by JSON in Golang is also supported.</p>
+<p>Fields marked with <code>omitempty</code> become Avro’s union type, which is an optional field. Let’s take a more complicated example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">type Entity struct &#123;  </span><br><span class="line">	UnionArrayField []int `json:&quot;union_array_field,omitempty&quot;`  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>If it is an optional int array, then it will become a union type with null when converted to Avro.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    &quot;name&quot;: &quot;Entity&quot;,  </span><br><span class="line">    &quot;type&quot;: &quot;record&quot;,  </span><br><span class="line">    &quot;fields&quot;: [  </span><br><span class="line">      &#123;&quot;name&quot;: &quot;union_array_field&quot;, &quot;type&quot;: [&quot;null&quot;, &#123;  </span><br><span class="line">        &quot;type&quot;: &quot;array&quot;, &quot;items&quot;: &quot;int&quot;  </span><br><span class="line">      &#125;]&#125;  </span><br><span class="line">    ]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>More detailed tests can be found in the unit test file: <a target="_blank" rel="noopener" href="https://github.com/wirelessr/avroschema/blob/main/reflect_test.go">reflect_test.go</a>.</p>
+<p>However, this is not enough for us, because we need to support various special types in <code>mgm</code>, such as <code>primitive.DateTime</code> or <code>primitive.ObjectID</code>, and most especially <code>mgm.DefaultModel</code>.</p>
+<p>Therefore, it is necessary for this module to provide customization capabilities to extend support for more special types, thus, a plugin is provided for this module to be used. To support <code>mgm</code>, you can use the already made submodule.</p>
+<p>The following is an example of a <code>struct</code> that uses the <code>mgm</code> type.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">type Book struct &#123;  </span><br><span class="line">	mgm.DefaultModel `bson:&quot;,inline&quot;`  </span><br><span class="line">	Name             string             `json:&quot;name&quot; bson:&quot;name&quot;`  </span><br><span class="line">	Pages            int                `json:&quot;pages&quot; bson:&quot;pages&quot;`  </span><br><span class="line">	ObjId            primitive.ObjectID `json:&quot;obj_id&quot; bson:&quot;obj_id&quot;`  </span><br><span class="line">	ArrivedAt        primitive.DateTime `json:&quot;arrived_at&quot; bson:&quot;arrived_at&quot;`  </span><br><span class="line">	RefData          bson.M             `json:&quot;ref_data&quot; bson:&quot;ref_data&quot;`  </span><br><span class="line">	Author           []string           `json:&quot;author&quot; bson:&quot;author&quot;`  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>To support these special types, you can use the built-in custom <code>MgmExtension</code>. This works just like the original <code>Reflect</code>, except it requires the use of a customized instance.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import (  </span><br><span class="line">	&quot;github.com/wirelessr/avroschema&quot;  </span><br><span class="line">	&quot;github.com/wirelessr/avroschema/mongo&quot;  </span><br><span class="line">)  </span><br><span class="line">  </span><br><span class="line">reflector := new(avroschema.Reflector)  </span><br><span class="line">reflector.Mapper = MgmExtension  </span><br><span class="line">  </span><br><span class="line">reflector.Reflect(&amp;Book&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>There are a couple of important points to note here.</p>
+<ol>
+<li><code>DefaultModel</code> is a type that directly generates three fields, <code>_id</code>, <code>created_at</code> and <code>updated_at</code>.</li>
+<li>If <code>primitive.ObjectID</code> then it is treated as a <code>string</code>, since the UUID mentioned in <a target="_blank" rel="noopener" href="https://avro.apache.org/docs/1.11.1/specification/#uuid">Avro specification</a> is also treated as a <code>string</code>.</li>
+<li>If <code>primitive.DateTime</code>, then it is treated as <code>time.Time</code>.</li>
+<li>A special case is <code>bson.M</code>, which is treated as a JSON string because there is no way to be sure what is in it.</li>
+</ol>
+<p>According to the above rules, the final Avro schema is as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">	&quot;name&quot;: &quot;Book&quot;,  </span><br><span class="line">	&quot;type&quot;: &quot;record&quot;,  </span><br><span class="line">	&quot;fields&quot;: [  </span><br><span class="line">		&#123; &quot;name&quot;: &quot;_id&quot;, &quot;type&quot;: &quot;string&quot; &#125;,  </span><br><span class="line">		&#123; &quot;name&quot;: &quot;created_at&quot;, &quot;type&quot;: &quot;long&quot;, &quot;logicalType&quot;: &quot;timestamp-millis&quot; &#125;,  </span><br><span class="line">		&#123; &quot;name&quot;: &quot;updated_at&quot;, &quot;type&quot;: &quot;long&quot;, &quot;logicalType&quot;: &quot;timestamp-millis&quot; &#125;,  </span><br><span class="line">		&#123; &quot;name&quot;: &quot;name&quot;, &quot;type&quot;: &quot;string&quot; &#125;,  </span><br><span class="line">		&#123; &quot;name&quot;: &quot;pages&quot;, &quot;type&quot;: &quot;int&quot; &#125;,  </span><br><span class="line">		&#123; &quot;name&quot;: &quot;obj_id&quot;, &quot;type&quot;: &quot;string&quot; &#125;,  </span><br><span class="line">		&#123; &quot;name&quot;: &quot;arrived_at&quot;, &quot;type&quot;: &quot;long&quot;, &quot;logicalType&quot;: &quot;timestamp-millis&quot; &#125;,  </span><br><span class="line">		&#123; &quot;name&quot;: &quot;ref_data&quot;, &quot;type&quot;: &quot;string&quot; &#125;,  </span><br><span class="line">		&#123; &quot;name&quot;: &quot;author&quot;, &quot;type&quot;: &quot;array&quot;, &quot;items&quot;: &quot;string&quot; &#125;   </span><br><span class="line">	]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>When implementing the requirement to convert Golang <code>struct</code> to Avro schema I first tried to look for existing packages, but unfortunately I couldn’t find any. However, there is <a target="_blank" rel="noopener" href="https://github.com/invopop/jsonschema">a similar project</a> that aims to convert Golang <code>struct</code> to JSON schema, so I referred to his practice and made a version of Avro schema.</p>
+<p>In fact, there are still some specifications in the Avro schema that I don’t support, such as the <code>enum</code> type, and there are also many optional parameters that I don’t support because they don’t correspond to <code>struct</code>, such as <code>namespace</code>, <code>aliases</code>, etc.</p>
+<p>But for now, this implementation satisfies my need for data ingest, and allows Kafka consumers to have the correct schema to work with. Maybe I’ll continue to improve this project sometime in the future so that it can really support all kinds of Avro specifications. But I have to say, in terms of functionality, it’s pretty useful right now.</p>
+<p>The project has full unit testing and linter, and I’m sure the code structure isn’t too complicated, so feel free to contribute.</p>
+<h3 id="Stackademic"><a href="#Stackademic" class="headerlink" title="Stackademic"></a>Stackademic</h3><p>Thank you for reading until the end. Before you go:</p>
+<ul>
+<li>Please consider <strong>clapping</strong> and <strong>following</strong> the writer! 👏</li>
+<li>Follow us <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq">X</a> | <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><strong>LinkedIn</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><strong>YouTube</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Discord</strong></a></li>
+<li>Visit our other platforms: <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>In Plain English</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://cofeed.app/"><strong>CoFeed</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://venturemagazine.net/"><strong>Venture</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/generating-avro-schemas-from-go-types-38cfb1b9dfbf">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Elasticsearch/Optimizing-Elasticsearch-Reindex-without-Downtime/20231224/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Elasticsearch/Optimizing-Elasticsearch-Reindex-without-Downtime/20231224/" class="post-title-link" itemprop="url">Optimizing Elasticsearch Reindex without Downtime</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-12-25 00:30:15" itemprop="dateCreated datePublished" datetime="2023-12-25T00:30:15+08:00">2023-12-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Optimizing-Elasticsearch-Reindex-without-Downtime"><a href="#Optimizing-Elasticsearch-Reindex-without-Downtime" class="headerlink" title="Optimizing Elasticsearch Reindex without Downtime"></a>Optimizing Elasticsearch Reindex without Downtime</h3><h4 id="A-Guide-to-achieving-zero-downtime-high-efficiency-and-successful-migration-updates"><a href="#A-Guide-to-achieving-zero-downtime-high-efficiency-and-successful-migration-updates" class="headerlink" title="A Guide to achieving zero downtime, high efficiency, and successful migration updates"></a>A Guide to achieving zero downtime, high efficiency, and successful migration updates</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*gxwIDp8PlQ1rtRIz"></p>
+<p>When using Elasticsearch, there are always times we need to modify the index mapping, and when it happens, we can only do <code>_reindex</code>. In fact, it is a pretty expensive operation because it can take up to several hours to make a complete replication of an index, depending on the amount of data and the amount of shards.</p>
+<p>The time spent is not a big problem, but more seriously, it can affect the performance and even the functionality of the production environment.</p>
+<p>I believe we all understand that data migration consumes a lot of hard drive resources, it definitely affects performance, but what about functionality?</p>
+<p>Let’s take a regular <code>_reindex</code> as an example. Suppose we have created an alias on the index. If we don’t have an alias, we’re in big trouble.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*3acOcjSOnkYeio6x4cQvPw.png"></p>
+<p>A regular <code>_reindex</code> procedure is divided into two steps.</p>
+<ol>
+<li>Call the <code>_reindex</code> command to start data migration.</li>
+<li>When the data migration is complete, call the <code>_aliases</code> command to switch between the old and new indexes.</li>
+</ol>
+<p>After step 2, the new index is officially operational, and will be responsible for all read and write requests. However, this is a perfect ideal scenario, in reality, things won’t work out that way.</p>
+<p>Here is a normal scenario.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*FB8pFsZPCb3dy3Tjw8Da4g.png"></p>
+<p>Actually, during the data migration period or before switching aliases, the client will continue to write data to the original index, and these new changes will not be migrated to the new index, which leads to data inconsistency.</p>
+<p>For the client, the feeling is that after changing the alias, all the changes just made will disappear. Furthermore, as I just mentioned, a big index migration can take hours, so the client’s feeling must be obvious.</p>
+<p>So what to do?</p>
+<h3 id="The-correct-flow-of-Reindex"><a href="#The-correct-flow-of-Reindex" class="headerlink" title="The correct flow of Reindex"></a>The correct flow of Reindex</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*B_mmpCbY7HoGvOo8Q9GavQ.png"></p>
+<p>The above flow makes two changes to the original flow.</p>
+<ol>
+<li><code>_reindex</code> must use <strong>external</strong> type.</li>
+<li><code>_reindex</code> is needed again after switching aliases.</li>
+</ol>
+<p>Let’s explain the concept of the external type.</p>
+<p>By default, <code>_reindex</code> is internal, and such data migration is done by using the original index to overwrite the new index anyway, and dropping the <code>_version</code> of the documents, so all documents in the new index start over.</p>
+<p>If using the external type, the <code>_version</code> of the documents will be carried over to the new index during data migration, then the <code>_version</code> will be compared if there is a conflict between the <code>_id</code> of the old and new indexes. Only if the version of the original document is greater than the destination document will be overwritten.</p>
+<p>A bit abstract? Let’s take an example.</p>
+<p>Let’s say the original index has a document like the following, with Elasticsearch metadata at the beginning of the underscore.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    &quot;_id&quot;: &quot;1&quot;,  </span><br><span class="line">    &quot;_version&quot;: 1,  </span><br><span class="line">    &quot;data&quot;: &quot;Hello Elastic&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>When we do external data migration, <code>_version: 1</code> is also written to the new index. if someone changes the original document to <code>Hello Search</code> during the data migration period, then the complete document will look like the following.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    &quot;_id&quot;: &quot;1&quot;,  </span><br><span class="line">    &quot;_version&quot;: 2,  </span><br><span class="line">    &quot;data&quot;: &quot;Hello Search&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>A redo of <code>_reindex</code> will find <code>2 &gt; 1</code>, so it will be overwritten with <code>Hello Search</code>.</p>
+<p>Then, what if the second <code>_reindex</code> has someone modifying the documents in the new index? For example, if someone changes <code>Hello Elatic</code> to <code>Hello Elasticsearch</code> in the new index, will it be overwritten with the old value? The whole process would look like below.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*-na9YWkaUD8Ht6eqxyM4OQ.png"></p>
+<p>The answer is no, because the original version has to be greater than the new version to be overwritten, if they are equal (both 2) then they are not affected.</p>
+<h3 id="One-more-problem"><a href="#One-more-problem" class="headerlink" title="One more problem."></a>One more problem.</h3><p>Although we will do a second <code>_reindex</code> to patch the data, if the patch time is very long, it will still be inconsistent for the users. There are two ways to shorten the reindexing time.</p>
+<ol>
+<li>Minimize the time of the first <code>_reindex</code> as much as possible.</li>
+<li>Filter the patch data in advance.</li>
+</ol>
+<p>Regarding the first point, the <code>_reindex</code> process is controlled by Elasticsearch, what else can we do to improve efficiency? Hey, there is.</p>
+<p>We can modify the settings of the new index to minimize the IO overhead during data migration.</p>
+<ol>
+<li><code>refresh_interval = -1</code></li>
+<li><code>number_of_replicas = 0</code></li>
+</ol>
+<p>It’s quite straightforward. First of all, the purpose of turning off <code>refresh_interval</code> is to allow the data migration period to just focus on writing to the <code>Trans log</code> and not spend extra disk IO on Lucene.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*QHksqm1Twzqw8g51yLZF7A.png"></p>
+<p>Secondly, turning off <code>number_of_replicas</code> reduces the additional data replication overhead that the cluster has to deal with.</p>
+<p>On the other hand, in addition to reducing the time of the first <code>_reindex</code>, some data filtering can be used to reduce the amount of data for the second <code>_reindex</code>.</p>
+<p>For example, bringing in the last update time of the data during the <code>_reindex</code> is a possible solution. Assuming that each document has an <code>updated_at</code> field, then adding the following condition to the <code>query</code> of the <code>_reindex</code> would be effective.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    &quot;range&quot;: &#123;  </span><br><span class="line">        &quot;updated_at&quot;: &#123; &quot;gte&quot;: &quot;now-1d&quot;&#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Based on the above mentioned details, let’s list out the ideal flow of a reindex.</p>
+<ol>
+<li>Create the destination index.</li>
+<li>Update the settings of the destination index. (<code>refresh_interval = -1</code> and <code>number_of_replicas = 0</code>)</li>
+<li>Use external type for <code>_reindex</code>.</li>
+<li>Switch aliases from original index to destination index.</li>
+<li>Do <code>_reindex</code> again using external type, preferably with additional filtering.</li>
+<li>Update the destination index setting again. (<code>refresh_interval = null</code> and <code>number_of_replicas = null</code>)</li>
+</ol>
+<blockquote>
+<p><em>According to the</em> <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-update-settings.html#reset-index-setting"><em>official document</em></a><em>, setting to</em> <code>null</code> <em>allows to restore the original setting.</em></p>
+</blockquote>
+<p>Because <code>_reindex</code> is unavoidable, it is important to know how to do <code>_reindex</code> without downtime.</p>
+<p>In fact, with Elasticsearch’s streaming index, there are more elegant ways to get it done. However, there are a lot of limitations on the use case for a streaming index, so it’s more common to use a regular index in practice.</p>
+<p>This article provides a complete procedure to do <code>_reindex</code> as fast as possible and minimize the time of data inconsistency. However, all of this assumes that the alias is properly created, and if it is not, then more extra steps are required. I feel the lack of aliases is already a violation of Elasticsearch’s best practices, so this article doesn’t specifically cover that scenario.</p>
+<h3 id="Stackademic"><a href="#Stackademic" class="headerlink" title="Stackademic"></a>Stackademic</h3><p><em>Thank you for reading until the end. Before you go:</em></p>
+<ul>
+<li><em>Please consider</em> <em><strong>clapping</strong></em> <em>and</em> <em><strong>following</strong></em> <em>the writer! 👏</em></li>
+<li><em>Follow us on</em> <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><em><strong>Twitter(X)</strong></em></a><em>,</em> <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><em><strong>LinkedIn</strong></em></a><em>, and</em> <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><em><strong>YouTube</strong></em></a><em><strong>.</strong></em></li>
+<li><em>Visit</em> <a target="_blank" rel="noopener" href="http://stackademic.com/"><em><strong>Stackademic.com</strong></em></a> <em>to find out more about how we are democratizing free programming education around the world.</em></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/optimizing-elasticsearch-reindex-without-downtime-0f70cb4949d6">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Getting-Started-with-Flink-SQL-Apache-Iceberg-and-DynamoDB-Catalog/20231217/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Getting-Started-with-Flink-SQL-Apache-Iceberg-and-DynamoDB-Catalog/20231217/" class="post-title-link" itemprop="url">Getting Started with Flink SQL, Apache Iceberg and DynamoDB Catalog</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-12-18 01:46:29" itemprop="dateCreated datePublished" datetime="2023-12-18T01:46:29+08:00">2023-12-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Getting-Started-with-Flink-SQL-Apache-Iceberg-and-DynamoDB-Catalog"><a href="#Getting-Started-with-Flink-SQL-Apache-Iceberg-and-DynamoDB-Catalog" class="headerlink" title="Getting Started with Flink SQL, Apache Iceberg and DynamoDB Catalog"></a>Getting Started with Flink SQL, Apache Iceberg and DynamoDB Catalog</h3><h4 id="Navigating-Flink-SQL-Apache-Iceberg-and-DynamoDB-Catalog-for-a-Lakehouse-Experience"><a href="#Navigating-Flink-SQL-Apache-Iceberg-and-DynamoDB-Catalog-for-a-Lakehouse-Experience" class="headerlink" title="Navigating Flink SQL, Apache Iceberg, and DynamoDB Catalog for a Lakehouse Experience"></a>Navigating Flink SQL, Apache Iceberg, and DynamoDB Catalog for a Lakehouse Experience</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*f3Xbi4Ln0uLjQO0P"></p>
+<p>Due to the technology transformation we want to do recently, we started to investigate <a target="_blank" rel="noopener" href="https://iceberg.apache.org/">Apache Iceberg</a>. In addition, the data processing engine we use in house is <a target="_blank" rel="noopener" href="https://flink.apache.org/">Apache Flink</a>, so it’s only fair to look for an experiment environment that integrates Flink and Iceberg.</p>
+<p>The purpose of this experiment is simply to experience using Flink SQL to operate Iceberg, but I didn’t realize that it would be so difficult to set up the whole environment.</p>
+<p>Actually, Iceberg’s <a target="_blank" rel="noopener" href="https://iceberg.apache.org/docs/latest/flink/">official document</a> has a “large” description of the integration with Flink, but it is based on Hadoop and Hive. For a data engineer who has not experienced the legacy Hadoop ecosystem, Hadoop is like an abyss, and obviously the official documents don’t work.</p>
+<p>So I referred to <a target="_blank" rel="noopener" href="https://www.dremio.com/blog/getting-started-with-flink-sql-and-apache-iceberg/">Dremio’s article</a>, fixed a few fatal flaws in the article, and finally built an experiment environment where I could experience the full Flink Iceberg integration. Moreover, it’s completely local and free of charge.</p>
+<p>Before introducing the environment, let’s quickly introduce Iceberg.</p>
+<h3 id="A-short-introduction-to-Iceberg"><a href="#A-short-introduction-to-Iceberg" class="headerlink" title="A short introduction to Iceberg"></a>A short introduction to Iceberg</h3><p>Apache Iceberg is one of the three types of lakehouse, the other two are <a target="_blank" rel="noopener" href="https://hudi.apache.org/">Apache Hudi</a> and <a target="_blank" rel="noopener" href="https://delta.io/">Delta Lake</a>.</p>
+<p>Lakehouse, in a nutshell, is to provide a layer of interface for Object Storage that can be operated by SQL, so that lakehouse has more structured data than data lake and has the ease of use of a data warehouse.</p>
+<p>In addition, lakehouse also provides integration with major common data processing engines, so we can enjoy the low cost of Object Storage but at the same time make the data easy to use.</p>
+<p>Here’s a diagram that I found very impressive.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*rdFO09Xqqeid7zgr.gif"></p>
+<blockquote>
+<p><em>Comparison of the three types of lakehouses is not the point of this article, there is a detailed benchmark in</em> <a target="_blank" rel="noopener" href="https://www.onehouse.ai/blog/apache-hudi-vs-delta-lake-vs-apache-iceberg-lakehouse-feature-comparison"><em>Kyle Weller’s article</em></a><em>.</em></p>
+</blockquote>
+<h3 id="Experiment-environment"><a href="#Experiment-environment" class="headerlink" title="Experiment environment"></a>Experiment environment</h3><p>After reading the above introduction, we understand in order to be able to perform structured data operations on Object Storage, we need a mechanism to store a schema, which is called a catalog on Iceberg.</p>
+<p>Iceberg provides a number of options for implementing catalogs, including the Hive metastore mentioned at the beginning, and DynamoDB, which will be used in this article.</p>
+<p>The entire playground is completely free, and at its core are the following three components.</p>
+<ol>
+<li>DynamoDB: This is the catalog store, and uses the local version to avoid expenses.</li>
+<li>Minio: This is where the actual iceberg is stored, again using minio to avoid the expense of s3.</li>
+<li>Flink: the key to Playground.</li>
+</ol>
+<p>The entire experiment environment has been in Github, you can clone to follow the steps.</p>
+<h3 id="The-journey-of-experimentation"><a href="#The-journey-of-experimentation" class="headerlink" title="The journey of experimentation"></a>The journey of experimentation</h3><p>This environment is extremely easy to use, all you have to do is <code>docker-compose up -d</code> and you’re good to go.</p>
+<p>But to get it working, I looked at a lot of articles and found that none of them actually worked, either they were buggy or just provided snippets, so I set out to make one myself.</p>
+<p>I especially want to talk about Dremio’s article, it inspired me a lot. The only difference is that it uses <code>Nessie</code> as the catalog, and I’m not familiar with Nessie at all, so I used DynamoDB instead.</p>
+<p>On the other hand, about <code>DynamoDbCatalog</code>, there is poor information on the Internet, not even what parameters need to be modified, I finally found out by reviewing the following source code.</p>
+<p>Changing DynamoDB’s table name should be important if the environment goes to production, but even this parameter (<code>dynamodb.table-name</code>) has to be found in the code.</p>
+<p>In addition, because the experiment environment enabled minio as an alternative to s3, there is another parameter besides endpoint that is also critical, and it requires a change in the path style approach, and again, this parameter (<code>s3.path-style-access</code>) is what I found by looking at the source code, which is completely undocumented.</p>
+<p>Finally, the experiment environment has been built, there is a docker image that has been packaged with Flink and all the dependencies that need to be built, the image is a bit large and needs to be built for a period of time, so I also provide a ready-made one.</p>
+<p>Just replace the image used by <code>sql-client</code> in <code>docker-compose.yml</code>.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/getting-started-with-flink-sql-apache-iceberg-and-dynamodb-catalog-71b96817e3c3">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Agile-Evolution-Beyond-Methods/20231203/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/Agile-Evolution-Beyond-Methods/20231203/" class="post-title-link" itemprop="url">Agile Evolution: Beyond Methods</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-12-04 04:36:39" itemprop="dateCreated datePublished" datetime="2023-12-04T04:36:39+08:00">2023-12-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Agile-Evolution-Beyond-Methods"><a href="#Agile-Evolution-Beyond-Methods" class="headerlink" title="Agile Evolution: Beyond Methods"></a>Agile Evolution: Beyond Methods</h3><h4 id="Why-the-Agile-Manifesto-author-said-Agile-is-dead"><a href="#Why-the-Agile-Manifesto-author-said-Agile-is-dead" class="headerlink" title="Why the Agile Manifesto author said Agile is dead"></a>Why the Agile Manifesto author said Agile is dead</h4><p>Recently, I reviewed <a target="_blank" rel="noopener" href="https://www.programmingtalks.org/talk/agile-is-dead-pragmatic">“Agile is dead”</a> by Dave Thomas, one of the authors of the Agile Manifesto, and after a few years of reviewing it again, I still have some new insights because of my different role (from developer to architect).</p>
+<p>While the topic is “Agile is dead,” a more accurate statement is that Agile has survived in a wrong form. Agile hasn’t died; it’s merely subsisting.</p>
+<p>Back to the root of the problem, Agile is essentially a spirit, a concept, or more precisely, an adjective rather than a noun. Thus, the essence of an Agile development process lies in the development process itself, not in Agile methodologies. The key is not in frameworks like Scrum, Kanban, or various other methodologies but in how to get things done quickly.</p>
+<p>With this understanding, we realize that achieving speed in work varies based on organizational structure and existing practices. Therefore, any “general rules” provided by Agile experts or books lack reference value because:</p>
+<ul>
+<li>No rules are universal.</li>
+<li>All rules need context.</li>
+</ul>
+<p>There are no one-size-fits-all rules; Agile practices should be adjusted according to the needs of the organization. Agile is not something that can be achieved by hiring a consultant for a short period of time, the key is to find a reasonable direction of evolution by grasping the spirit of Agile.</p>
+<p>The conclusion of the entire talk can be summarized as follows:</p>
+<ul>
+<li>Agile is not about what you do.</li>
+<li>Agility is about how you do it.</li>
+</ul>
+<p>Translated into concrete steps (not specific processes), it might be the following process:</p>
+<ol>
+<li>Identify the problem.</li>
+<li>Review historical experiences.</li>
+<li>Make small adjustments and observe the results.</li>
+</ol>
+<p>In fact, this aligns the familiar DevOps’ The Three Ways.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*L9P-N40k3G7dzE6l"></p>
+<p>Additionally, the talk introduces another compelling point, especially given my current role as an architect:</p>
+<ul>
+<li>Don’t let the turkeys get you down.</li>
+<li>All experts are turkeys.</li>
+</ul>
+<p>When I was a developer before, I used to dislike authoritative figures coming in to give directions and then leaving after stirring up the situation. They were always clean-cut, directing those in the mud from the safety of the shore. Thus, now as an architect, I try to avoid making the same mistake.</p>
+<p>Most of the time, I provide a few suggestions and highlight the pros and cons of various solutions based on the context, allowing the engineering team I collaborate with to have a blueprint. But they need to weigh it against their own measurements themselves. Because, in the end, I am also a turkey.</p>
+<p>This also echoes the commonly mentioned chicken and pig story in Agile.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*O_Up4VEEmm07XBSB.png"></p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/agile-evolution-beyond-methods-9168fba147c0">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/How-Netflix-Handle-Hourly-Pipeline-Delay/20231129/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/How-Netflix-Handle-Hourly-Pipeline-Delay/20231129/" class="post-title-link" itemprop="url">一文看懂Netflix處理hourly pipeline延遲</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-11-29 10:17:05" itemprop="dateCreated datePublished" datetime="2023-11-29T10:17:05+08:00">2023-11-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>這篇是翻譯Netflix最近釋出的Psyberg系列文，同時也會補充一些相關的資訊。</p>
+<p>最主要的出處是以下三篇：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://netflixtechblog.com/1-streamlining-membership-data-engineering-at-netflix-with-psyberg-f68830617dd1">Streamlining Membership Data Engineering at Netflix with Psyberg</a></li>
+<li><a target="_blank" rel="noopener" href="https://netflixtechblog.com/2-diving-deeper-into-psyberg-stateless-vs-stateful-data-processing-1d273b3aaefb">Diving Deeper into Psyberg: Stateless vs Stateful Data Processing</a></li>
+<li><a target="_blank" rel="noopener" href="https://netflixtechblog.com/3-psyberg-automated-end-to-end-catch-up-260fbe366fe2">Psyberg: Automated end to end catch up</a></li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Architecture/How-Netflix-Handle-Hourly-Pipeline-Delay/20231129/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Database/Seamless-Transition-Handling-Exhausted-Auto-Increment-IDs/20231119/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Database/Seamless-Transition-Handling-Exhausted-Auto-Increment-IDs/20231119/" class="post-title-link" itemprop="url">Seamless Transition: Handling Exhausted Auto-Increment IDs</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-11-20 01:46:37" itemprop="dateCreated datePublished" datetime="2023-11-20T01:46:37+08:00">2023-11-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Navigating-Breaking-Changes-with-Unified-Queries-and-Gradual-Schema-Upgrades"><a href="#Navigating-Breaking-Changes-with-Unified-Queries-and-Gradual-Schema-Upgrades" class="headerlink" title="Navigating Breaking Changes with Unified Queries and Gradual Schema Upgrades"></a>Navigating Breaking Changes with Unified Queries and Gradual Schema Upgrades</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*Enmt3c0SHgFHdfXM"></p>
+<p>When we are using a relational database, we often use incremental ID as the primary key (e.g. <code>AUTO_INCREMENT</code> in MySQL or <code>SERIAL</code> in Postgres), have you ever thought about what will happen if the incremental ID is used up?</p>
+<p>For example, Postgres raises the following error.<br><code>ERROR: nextval: reached maximum value of sequence &quot;&lt;table_name&gt;_&lt;pk&gt;_seq&quot;</code>.</p>
+<p>Don’t feel hard of happening, it is possible to accidentally set the primary key to <code>SERIAL</code> instead of <code>BIGSERIAL</code>, and then a value larger than <strong>2147483647</strong> will overflow. For a database, it’s not a big number.</p>
+<p>If such a problem unfortunately occurs, what should we do to solve this?</p>
+<p>There are a lot of articles on how to migrate data from the original table to a new table, but in fact, I don’t recommend it. Of course, it’s easiest to migrate all the data to a new table at once, but there are several problems like the following.</p>
+<ol>
+<li>Migrating a large volume data consumes a lot of database resources, and will have a significant impact on the production environment.</li>
+<li>Data inconsistency is inevitable during the migration process. For example, if data is migrated to a new table and then a new version of application is deployed to read and write the new table, if there is data written to the old table during the migration period, then there will be inconsistency.</li>
+<li>If there is a downstream application that listens for updates to the source database (or CDC), then the downstream application will be flooded with events.</li>
+</ol>
+<p>Therefore, I recommend that applications support both old and new tables. Creating new data is always written to the new table, but reading or updating is done according to whether the data is in the old table or the new table.</p>
+<p>But how? For querying, should I look for the new table first and then the old table as in the example below?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if (ret := find_orig_table(params)) is not None:  </span><br><span class="line">    return ret  </span><br><span class="line">elif (ret := find_new_table(params)) is not None:  </span><br><span class="line">    return ret  </span><br><span class="line">else:  </span><br><span class="line">    return None</span><br></pre></td></tr></table></figure>
+
+<p>Actually, there is an even simpler approach.</p>
+<h3 id="Solution-Detail"><a href="#Solution-Detail" class="headerlink" title="Solution Detail"></a>Solution Detail</h3><p>To better describe the solution, let’s prepare the test environment with Postgres.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE table_with_auto_increment (  </span><br><span class="line">    id SERIAL PRIMARY KEY,  </span><br><span class="line">    common_column1 VARCHAR(50),  </span><br><span class="line">    common_column2 INTEGER,  </span><br><span class="line">    common_column3 TEXT  </span><br><span class="line">);  </span><br><span class="line">CREATE EXTENSION IF NOT EXISTS &quot;uuid-ossp&quot;;  </span><br><span class="line">CREATE TABLE table_with_uuid_primary_key (  </span><br><span class="line">    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,  </span><br><span class="line">    common_column1 VARCHAR(50),  </span><br><span class="line">    common_column2 INTEGER,  </span><br><span class="line">    common_column3 TEXT  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>Above is an old table (<code>table_with_auto_increment</code>) with <code>SERIAL</code> as primary key, it is easy to overflow, so we want to replace it with a new table (<code>table_with_uuid_primary_key</code>) with UUID as primary key.</p>
+<blockquote>
+<p><em>There is a lot of debate on whether UUID as primary key is good or bad, but that’s not the point of this article, it’s just one of the examples.</em></p>
+</blockquote>
+<p>Based on such a table structure, it will have a DTO (data transfer object) similar to the following.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from dataclasses import dataclass  </span><br><span class="line">@dataclass  </span><br><span class="line">class DTO:  </span><br><span class="line">    id: ...  </span><br><span class="line">    common_column1: ...  </span><br><span class="line">    common_column2: ...  </span><br><span class="line">    common_column3: ...</span><br></pre></td></tr></table></figure>
+
+<p>The DTO will be the same whether using the new table or the old table, so the business logic does not have to be modified during the migration process.</p>
+<p>Then, what’s the problem of looking for the new table first and then the old one? The main problem is twice accessing the database is two round trips, which leads to one more expense, and secondly, the two functions also have maintenance complexity. Therefore, it would be great if there is a way to use one database access to assemble a DTO from two tables.</p>
+<p>The first idea was to use <code>UNION</code>. However, it is worth mentioning that <code>UNION</code> requires both tables to have exactly the same datatype, and the <code>id</code> of our old and new tables are of different types.</p>
+<p>Therefore, we need to convert the id type at the same time with <code>UNION</code>, and converting both of them to <code>text</code> is the simplest way. This is done in the following example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT id::text, common_column1, common_column2, common_column3  </span><br><span class="line">FROM table_with_auto_increment  </span><br><span class="line">WHERE common_column1 = &#x27;test&#x27; AND common_column2 = 123  </span><br><span class="line">UNION ALL  </span><br><span class="line">SELECT id::text, common_column1, common_column2, common_column3  </span><br><span class="line">FROM table_with_uuid_primary_key  </span><br><span class="line">WHERE common_column1 = &#x27;test&#x27; AND common_column2 = 123;</span><br></pre></td></tr></table></figure>
+
+<p>Our search criteria is <code>common_column1</code> is <code>test</code> and <code>common_column2</code> is 123, so we search both tables directly and combine the results. In general, only one of the two tables will have data ( with no bugs ), so it is very efficient to create the DTO in this way.</p>
+<p>In this example, the purpose of creating two tables is to change ids seamlessly, so we can simplify the process through type conversion.</p>
+<p>However, there are other scenarios where our functionality iteration leads to breaking change, so we make two tables to allow the old application to gradually transition to the new application, it may not be possible to simply do type conversion (maybe the types are not compatible at all).</p>
+<p>So, we can consider to use <code>OUTER JOIN</code> method, and use the common field as the key of <code>JOIN</code>, so that the result will be the union of the fields of the two tables.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SELECT  </span><br><span class="line">    t1.id AS t1_id, t2.id AS t2_id,  </span><br><span class="line">    COALESCE(t1.common_column1, t2.common_column1) AS common_column1,  </span><br><span class="line">    COALESCE(t1.common_column2, t2.common_column2) AS common_column2,  </span><br><span class="line">    COALESCE(t1.common_column3, t2.common_column3) AS common_column3  </span><br><span class="line">FROM  </span><br><span class="line">    table_with_auto_increment t1  </span><br><span class="line">FULL OUTER JOIN  </span><br><span class="line">    table_with_uuid_primary_key t2  </span><br><span class="line">ON t1.common_column1 = t2.common_column1 AND t1.common_column2 = t2.common_column2  </span><br><span class="line">WHERE  </span><br><span class="line">    t1.common_column1 = &#x27;test&#x27; AND t1.common_column2 = 123  </span><br><span class="line">OR  </span><br><span class="line">    t2.common_column1 = &#x27;test&#x27; AND t2.common_column2 = 123;</span><br></pre></td></tr></table></figure>
+
+<p>The above example is very similar to <code>UNION</code>, we need to find out <code>common_column1</code> is <code>test</code> and <code>common_column2</code> is 123 in two tables, but we need to list the remaining columns.</p>
+<p>Nevertheless, the whole SQL is a bit annoying, such as the series of <code>COALESCE</code>, so I suggest some template rendering to make the development more intuitive.</p>
+<p>Here’s an example of using Python with <code>jinja2</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">from jinja2 import Template  </span><br><span class="line">columns = [&#x27;common_column1&#x27;, &#x27;common_column2&#x27;, &#x27;common_column3&#x27;]  </span><br><span class="line">template_str = &quot;&quot;&quot;SELECT  </span><br><span class="line">    t1.id AS t1_id, t2.id AS t2_id  </span><br><span class="line">&#123;% for column in columns %&#125;  </span><br><span class="line">    , COALESCE(t1.&#123;&#123; column &#125;&#125;, t2.&#123;&#123; column &#125;&#125;) AS &#123;&#123; column &#125;&#125;  </span><br><span class="line">&#123;% endfor %&#125;  </span><br><span class="line">FROM  </span><br><span class="line">    table_with_auto_increment t1  </span><br><span class="line">FULL OUTER JOIN  </span><br><span class="line">    table_with_uuid_primary_key t2  </span><br><span class="line">ON t1.&#123;&#123;condition_column1&#125;&#125; = t2.&#123;&#123;condition_column1&#125;&#125; and t1.&#123;&#123;condition_column2&#125;&#125; = t2.&#123;&#123;condition_column2&#125;&#125;  </span><br><span class="line">WHERE  </span><br><span class="line">    t1.&#123;&#123;condition_column1&#125;&#125; = &#x27;&#123;&#123;condition_value1&#125;&#125;&#x27; AND t1.&#123;&#123;condition_column2&#125;&#125; = &#123;&#123;condition_value2&#125;&#125;  </span><br><span class="line">OR  </span><br><span class="line">    t2.&#123;&#123;condition_column1&#125;&#125; = &#x27;&#123;&#123;condition_value1&#125;&#125;&#x27; AND t2.&#123;&#123;condition_column2&#125;&#125; = &#123;&#123;condition_value2&#125;&#125;;  </span><br><span class="line">&quot;&quot;&quot;  </span><br><span class="line">condition_column1 = &#x27;common_column1&#x27;  </span><br><span class="line">condition_column2 = &#x27;common_column2&#x27;  </span><br><span class="line">condition_value1 = &#x27;test&#x27;  </span><br><span class="line">condition_value2 = 123  </span><br><span class="line">template = Template(template_str)  </span><br><span class="line">query = template.render(  </span><br><span class="line">    columns=columns,  </span><br><span class="line">    condition_column1=condition_column1, condition_column2=condition_column2,  </span><br><span class="line">    condition_value1=condition_value1, condition_value2=condition_value2  </span><br><span class="line">)  </span><br><span class="line">print(query)</span><br></pre></td></tr></table></figure>
+
+<p>At this point, we’ve been able to make the transition from the old table structure to the new one seamless for the application.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Although in this article we have introduced how to solve the problem of <code>id</code> exhaustion, it can be used in any scenario where we need to make a breaking change to the table structure of the database.</p>
+<p>When the data volume is small, breaking change is not a big deal, we just need to migrate all the old tables to the new ones, but when the data volume is huge, such an approach will increase a lot of operation risks.</p>
+<p>A complete table migration involves not only the data migration itself, but also how to keep the production environment unaffected. The most common problem we encountered is how to synchronize the data to the new table if there are still clients writing to the old table during the data migration period.</p>
+<p>In addition, in order to avoid affecting the production environment, we usually have to choose the off-peak time to perform the migration, which inevitably requires many departments to work overtime together.</p>
+<p>For instance, the development team needs to release a new version of the program, the operation team needs to migrate the data, the SRE team needs to monitor the risk of online, and the QA team needs to validate. It is not worth for me to work so hard just for the sake of table migration.</p>
+<p>Therefore, it’s best to be able to upgrade your application to a new version seamlessly. This article introduces a simple but effective practice to avoid many unnecessary breaking changes. Of course, there are many different ways to achieve this, if you have some good solutions, please feel free to share them with me.</p>
+<h3 id="Stackademic"><a href="#Stackademic" class="headerlink" title="Stackademic"></a>Stackademic</h3><p><em>Thank you for reading until the end. Before you go:</em></p>
+<ul>
+<li><em>Please consider</em> <em><strong>clapping</strong></em> <em>and</em> <em><strong>following</strong></em> <em>the writer! 👏</em></li>
+<li><em>Follow us on</em> <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><em><strong>Twitter(X)</strong></em></a><em>,</em> <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><em><strong>LinkedIn</strong></em></a><em>, and</em> <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><em><strong>YouTube</strong></em></a><em><strong>.</strong></em></li>
+<li><em>Visit</em> <a target="_blank" rel="noopener" href="http://stackademic.com/"><em><strong>Stackademic.com</strong></em></a> <em>to find out more about how we are democratizing free programming education around the world.</em></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/seamless-transition-handling-exhausted-auto-increment-ids-b209d1e1e4c9">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Handling-Stale-Sets-and-Thundering-Herds-of-Cache/20231022/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Handling-Stale-Sets-and-Thundering-Herds-of-Cache/20231022/" class="post-title-link" itemprop="url">Handling Stale Sets and Thundering Herds of Cache</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-10-23 02:19:13" itemprop="dateCreated datePublished" datetime="2023-10-23T02:19:13+08:00">2023-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Handling-Stale-Sets-and-Thundering-Herds-of-Cache"><a href="#Handling-Stale-Sets-and-Thundering-Herds-of-Cache" class="headerlink" title="Handling Stale Sets and Thundering Herds of Cache"></a>Handling Stale Sets and Thundering Herds of Cache</h3><h4 id="Simplified-Approach-Inspired-by-Facebook’s-Innovative-Solution"><a href="#Simplified-Approach-Inspired-by-Facebook’s-Innovative-Solution" class="headerlink" title="Simplified Approach Inspired by Facebook’s Innovative Solution"></a>Simplified Approach Inspired by Facebook’s Innovative Solution</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*sGFeNnBV2GtxJrGO"></p>
+<p>Recently, I’ve been studying how Facebook handles <a target="_blank" rel="noopener" href="https://research.facebook.com/publications/scaling-memcache-at-facebook/">caching at scale</a>, and one of the subsections describes how they handle stale sets and thundering herds. They use a lease mechanism to face these two problems at once, which is very interesting.</p>
+<p>What are stale sets and thundering herds? Let me explain each in one simple sentence.</p>
+<ul>
+<li>Stale sets: Data inconsistency between cache and database.</li>
+<li>Thundering herds (aka Dogpile effect): High concurrency request to knock down the database.</li>
+</ul>
+<p>In fact, I have also introduced how to solve the problem of stale sets and thundering herds, only that I have proposed my own solutions to each problem, and I do not have a one-size-fits-all solution.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/consistency-between-cache-and-database-part-1-f64f4a76720">Solving stale sets</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/solving-dogpile-effect-9d869174d302">Solving thundering herds</a></li>
+</ul>
+<p>Let’s take a look at how Facebook solved two problems at once.</p>
+<h3 id="Problem-Description"><a href="#Problem-Description" class="headerlink" title="Problem Description"></a>Problem Description</h3><p>First, let me briefly explain the two problems.</p>
+<p>In general, the behavior of a read-aside cache is to read from the cache first, and if it can’t be found, then read from the database instead. After retrieving data, write the data back to the cache. If the database is updated, the cached data is cleared without writing it back.</p>
+<p>Even with this process, there are still problems, the most typical of which are the two problems mentioned in this article. The process of how stale sets occur is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*XxQDJR6m2XMB7udx.png"></p>
+<p>Although <code>B</code> has cleared the cache, <code>A</code> is delayed for “some reason”, so the data in the cache is written to the old data, which is the data stale or inconsistent.</p>
+<p>On the other hand, when a cache miss occurs in a highly concurrent system, then all these clients will query the database, in other words, the database will fall down in a short time due to high concurrency. This problem is also known as the Dogpile effect.</p>
+<h3 id="Facebook’s-solution"><a href="#Facebook’s-solution" class="headerlink" title="Facebook’s solution"></a>Facebook’s solution</h3><p>How did Facebook solve these two problems? They use a lease mechanism, which is described in section 3.2.1 of the paper, but the explanation is not very complete, it is roughly the following two paragraphs.</p>
+<blockquote>
+<p><em>A memcached instance gives a lease to a<br>client to set data back into the cache when that client experiences a cache miss. Verification can fail if<br>memcached has invalidated the lease token due to receiving a delete request for that item.</em></p>
+</blockquote>
+<p>And.</p>
+<blockquote>
+<p><em>We configure these<br>servers to return a token only once every 10 seconds per<br>key.</em></p>
+</blockquote>
+<p>When writing data to the cache, it must carry the token that was obtained during the cache miss. The cache will first validate the token before updating, and if the token validation fails, then it will be ignored. The token will be cleared when the database is updated.</p>
+<p>Let’s explain this with the sequence diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7OHj6rSIU9UxoqQM1w9HcA.png"></p>
+<p>The difference between this diagram and the problem one is the first interaction will get a token, when write cache need to carry the token, but because the token has been cleared after updating the database, so write cache will be rejected, this will solve the first problem.</p>
+<p>As for the second problem is not difficult to deal with, just need to set the rules for the token release, every 10 seconds to send a token, if the client does not get the token then there is no authority to update the cache naturally there is no need to query the database, the Dogpile effect can be solved.</p>
+<h3 id="Simple-implementation"><a href="#Simple-implementation" class="headerlink" title="Simple implementation"></a>Simple implementation</h3><p>To implement this logic is not so difficult, let’s use Python and Redis to write a simple example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Cache:  </span><br><span class="line">    def __init__(self):  </span><br><span class="line">        # ignore implementation  </span><br><span class="line">    def get(self, k):  </span><br><span class="line">        v = self.redis.get(k)  </span><br><span class="line">        token = random.getrandbits(64) # Facebook says the token has to be 64 bit.  </span><br><span class="line">        ret = self.redis.set(f&#x27;&#123;self.prefix&#125;#&#123;k&#125;&#x27;, token, &#x27;NX&#x27;, &#x27;EX&#x27;, 10) # 10s for token refresh  </span><br><span class="line">        return (v, token if ret == &#x27;OK&#x27; else None)  </span><br><span class="line">  </span><br><span class="line">    def set(self, k, v, token):  </span><br><span class="line">        saved_token = self.redis.get(f&#x27;&#123;self.prefix&#125;#&#123;k&#125;&#x27;)  </span><br><span class="line">        if token == saved_token:  </span><br><span class="line">            ret = self.redis.set(k, v)  </span><br><span class="line">        else:  </span><br><span class="line">            ret = False  </span><br><span class="line">              </span><br><span class="line">        return ret == &#x27;OK&#x27; or False  </span><br><span class="line">      </span><br><span class="line">    def clean(self, k):  </span><br><span class="line">        self.redis.del(k, f&#x27;&#123;self.prefix&#125;#&#123;k&#125;&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>To make it easier to understand, here we only show the core implementation and do not use Lua or other pipeline optimization methods.</p>
+<p>In <code>get</code>, two values are returned, one is the result of the cache and the other is the token, if the original token still exists and has not expired, which means there is a possibility of thundering herds, then the token is not returned, and if the client does not receive the token, then he should not query the database.</p>
+<p>In <code>set</code>, in addition to the key and value to write, we also need to carry the token, when the validation of the token fails, we don’t update the cache and just end it so as to avoid stale sets.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Stale sets and thundering herds are pretty common problems when using caches, and there are many solutions for them. But when I actually wrote the program based on Facebook’s solution, I realized that it can be so simple, which made me a bit surprised that we were “overthinking” before.</p>
+<p>I believe that the simpler the solution, the better, and I will use Facebook’s solution to deal with the problem at hand in the future. In fact, there are many more methods and optimizations for dealing with caching at scale in this paper, making it a very worthwhile study.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/handling-stale-sets-and-thundering-herds-of-cache-28d52780fbca">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/Squeezing-out-MongoDBs-available-storage/20231015/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/MongoDB/Squeezing-out-MongoDBs-available-storage/20231015/" class="post-title-link" itemprop="url">Squeezing out MongoDB’s available storage</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-10-16 02:01:10" itemprop="dateCreated datePublished" datetime="2023-10-16T02:01:10+08:00">2023-10-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Exploring-Three-Viable-Approaches-to-Optimize-Database-Resources"><a href="#Exploring-Three-Viable-Approaches-to-Optimize-Database-Resources" class="headerlink" title="Exploring Three Viable Approaches to Optimize Database Resources"></a>Exploring Three Viable Approaches to Optimize Database Resources</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*6lpp4RNmAV8n6SNo"></p>
+<p>There are always times when the available space in the database is exhausted, and we need to take action.</p>
+<p>Generally, the most common approach is vertical scaling, also known as scale-up, which involves increasing the specifications of the machine directly to expand the available space. Another alternative solution is horizontal scaling, also known as scale-out or sharding, which enhances overall available space by distributing data across different machines.</p>
+<p>However, both scale-up and scale-out involve costs, and these can be substantial. For organizations with budget constraints, neither of these approaches may be immediately feasible. So, what can be done?</p>
+<p>In such cases, the only option is to squeeze out as much space as possible from the existing machines, no matter what it takes, just pure squeezing.</p>
+<p>In this article, we take MongoDB as an example to explore the viable approaches for squeezing out available space.</p>
+<h3 id="Remove-useless-index"><a href="#Remove-useless-index" class="headerlink" title="Remove useless index"></a>Remove useless index</h3><p>Indexes are a trade-off of space for time to improve query performance. Therefore, if unused indexes can be identified and removed, the initially consumed space can be reclaimed.</p>
+<p>Why do indexes become redundant?</p>
+<p>There are several common reasons as follows:</p>
+<ol>
+<li>Because MongoDB’s WiredTiger is a B-tree-based storage engine, it has a feature known as the leftmost-prefix. Thus, if a new index and an old index have the same prefix, the old index can be safely removed without affecting query performance.</li>
+<li>Due to feature iterations, some queries that were required initially are no longer in use.</li>
+</ol>
+<p>Regarding the first point, we can easily identify which indexes can be removed by carefully scanning each index. However, for the second point, some additional preparation is necessary.</p>
+<p>We need to know which indexes are not being used. Apart from tracing clues from the code, there is a more efficient approach, which is to directly examine the index metrics. In the case of MongoDB, the <code>$indexStats</code> <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexStats/#mongodb-pipeline-pipe.-indexStats">aggregation operation</a> can provide statistical data on the indexes.</p>
+<p>By comparing the statistics from two time periods, we can determine which indexes are not being used.</p>
+<h3 id="Remove-useless-data"><a href="#Remove-useless-data" class="headerlink" title="Remove useless data"></a>Remove useless data</h3><p>The above-mentioned approach of deleting indexes is a relatively straightforward solution that does not affect the production environment. However, if more available space needs to be squeezed out, consider deleting unused data.</p>
+<p>Defining what constitutes unused data entirely depends on the application. For instance, some applications use flags to mark softly deleted documents, allowing these softly deleted documents to be removed or archived to cold storage.</p>
+<p>Another scenario involves time-series data, where defining how old the data should be before it can be deleted becomes relevant. However, whichever solution is chosen depends entirely on the application.</p>
+<h3 id="Reshard"><a href="#Reshard" class="headerlink" title="Reshard"></a>Reshard</h3><p>This is a more advanced approach compared to the previous two, directly impacting the performance of the production environment.</p>
+<p>If the MongoDB cluster is already a sharded cluster but some collections have not been sharded, setting the appropriate shard key and enabling sharding can be a relatively straightforward process.</p>
+<p>However, if all collections have already been sharded, it’s essential to examine which collections have uneven data distribution. Consider modifying the shard key and even taking further steps to rebalance. Phew, as of MongoDB 5.0, we can finally reshard a collection.</p>
+<p>I previously wrote an article describing how to correctly design a shard key to achieve as even a data distribution as possible.</p>
+<p>We can determine whether data distribution is uniform by using the command <code>sh.status()</code>. <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/reference/method/sh.status/#mongodb-data-sh.status.databases.-collection-.chunks">This command</a> provides explicit information in the output regarding how many shards are being used for a collection and how many chunks each shard holds. A chunk represents the unit of data distribution.</p>
+<h3 id="However"><a href="#However" class="headerlink" title="However"></a>However</h3><p>It seems like we have several approaches that should all be effective if carefully implemented, right?</p>
+<p>In reality, after implementing the second and third approaches, observing the available space reveals no improvement. In fact, it may even worsen, especially after executing the third approach.</p>
+<p>The following diagram illustrates the usage space of a particular shard on the y-axis over time on the x-axis. Here, <code>t1</code> denotes the initiation of sharding, while <code>t2</code> represents the completion of the sharding process.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*w-V9o9TJxgfUObOq6MfJPg.png"></p>
+<p>We aimed to shard a collection that had not been sharded yet to release the available space in the original shard. However, as we can see from the diagram, after the sharding process was completed, the situation worsened, which was entirely contrary to our expectations.</p>
+<p>Why did this happen?</p>
+<p>The reason lies in WiredTiger’s behavior. After deleting documents, it does not immediately release the space. Instead, it retains the already allocated space, ensuring prepared chunks for future data writes in the collection.</p>
+<p>This intention is well-meaning, as disk I&#x2F;O performance is poor, and having a pre-arranged “clean slate” is valuable. However, this contradicts our goal of having the data disappear immediately after deletion. Hence, we see that although data is deleted, the available space does not increase.</p>
+<p>Why did the diagram not only fail to decrease but also grow?</p>
+<p>During the sharding process, to enable more efficient sharded queries, an index is created on the shard key. The additional space consumption represents the space occupied by these indexes.</p>
+<p>Can we determine how much space WiredTiger has covertly consumed? The answer is yes.</p>
+<p>Executing <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/reference/method/db.collection.stats/#mongodb-method-db.collection.stats">the command</a> <code>db.collection.stats()</code> yields an output segment that describes “file bytes available for reuse,” representing the space that has been covertly taken.</p>
+<p>If we can find it, we can certainly reclaim it. Running the <code>compact</code> <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/reference/command/compact/#mongodb-dbcommand-dbcmd.compact">command accomplishes this</a>. It’s worth noting that the space regained through <code>compact</code> can only be used by the same collection, so the problem remains unresolved.</p>
+<p>To enable all collections to reuse the occupied space, a <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/core/replica-set-sync/#initial-sync">complex procedure</a> is required. Let me simplify the explanation.</p>
+<p>When we add a new member to a ReplicaSet in MongoDB, the new member executes an <code>Init Sync</code> to synchronize the current data. However, this <code>Init Sync</code> only synchronizes actual data and not the occupied space. In other words, the new member does not occupy the available space.</p>
+<p>Thus, if we gradually replace all the members in a ReplicaSet, we can obtain a new cluster (or Ship of Theseus) with the same dataset but without the occupied space. However, this process requires a “slight” additional budget to enable an extra machine as a new member, which is no longer necessary after the entire replacement process is complete, resulting in significant savings compared to scaling up or scaling out.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>For any organization, finances are always a significant concern, particularly when it comes to database expenses, which can be quite substantial. While we aim to minimize costs wherever possible, the options available to us are limited. However, let’s quickly summarize the three methods to squeeze out available space:</p>
+<ol>
+<li>Remove useless indexes</li>
+<li>Remove useless data</li>
+<li>Reshard</li>
+</ol>
+<p>These three methods are in his order of precedence, with the first one being the quickest to implement and having the least impact on the production environment, and vice versa.</p>
+<p>Moreover, executing solutions 2 and 3 requires additional processes to ensure that the space is genuinely available and not occupied.</p>
+<p>Perhaps there are some secret techniques that I haven’t thought of yet. Feel free to share them with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/squeezing-out-mongodbs-available-storage-40c731a923c4">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/8/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

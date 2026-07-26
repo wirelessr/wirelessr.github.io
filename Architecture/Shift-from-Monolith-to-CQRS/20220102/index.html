@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Shift from Monolith to CQRSSoftware design is an evolving process. Every large system starts from a tiny system. When a problem is encountered in the existing architecture but cannot be solved, the sy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shift from Monolith to CQRS">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Shift-from-Monolith-to-CQRS/20220102/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Shift from Monolith to CQRSSoftware design is an evolving process. Every large system starts from a tiny system. When a problem is encountered in the existing architecture but cannot be solved, the sy">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*yL20KQu7Fjrk-W5s6Zi36g.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*Fxz5fFVVKBhUmbrIF6KDLA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*0iuIGQPnWIs_hoM4Kxmb8w.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*uZzRH4J6uhN_UanSMBiAWg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*s5O9jiJ2rv7NRe2b4aLF5g.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*cZYWVAE37VIdHieRI9oOlA.png">
+<meta property="article:published_time" content="2022-01-02T17:20:59.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.828Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*yL20KQu7Fjrk-W5s6Zi36g.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Shift-from-Monolith-to-CQRS/20220102/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Shift-from-Monolith-to-CQRS/20220102/","path":"Architecture/Shift-from-Monolith-to-CQRS/20220102/","title":"Shift from Monolith to CQRS"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Shift from Monolith to CQRS | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Shift-from-Monolith-to-CQRS"><span class="nav-number">1.</span> <span class="nav-text">Shift from Monolith to CQRS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Traditional-Monolith"><span class="nav-number">2.</span> <span class="nav-text">Traditional Monolith</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task-based-Monolith"><span class="nav-number">3.</span> <span class="nav-text">Task-based Monolith</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CQS-Command-Query-Segmentation"><span class="nav-number">4.</span> <span class="nav-text">CQS (Command Query Segmentation)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CQRS"><span class="nav-number">5.</span> <span class="nav-text">CQRS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">6.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Shift-from-Monolith-to-CQRS/20220102/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Shift from Monolith to CQRS | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Shift from Monolith to CQRS
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-01-03 01:20:59" itemprop="dateCreated datePublished" datetime="2022-01-03T01:20:59+08:00">2022-01-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Shift-from-Monolith-to-CQRS"><a href="#Shift-from-Monolith-to-CQRS" class="headerlink" title="Shift from Monolith to CQRS"></a>Shift from Monolith to CQRS</h3><p>Software design is an evolving process. Every large system starts from a tiny system. When a problem is encountered in the existing architecture but cannot be solved, the system will begin to evolve. Every evolution is accompanied by some technical selections. What problems should be solved? What price will it pay? As an architect or a senior engineer, there must find a reasonable way to evolve, regardless of the development schedule, technical stack, and team level, it is necessary to be able to meet these criteria before a feasible solution can be made.</p>
+<p>This article will introduce the spirit of <code>CQRS</code> (Command Query Responsibility Segmentation) and the problems to be solved. We will start from a small monolith and evolve it like the evolution of every software system, and this article will introduce the reasons and approaches behind each evolution.</p>
+<h3 id="Traditional-Monolith"><a href="#Traditional-Monolith" class="headerlink" title="Traditional Monolith"></a>Traditional Monolith</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*yL20KQu7Fjrk-W5s6Zi36g.png"></p>
+<p>This is the most common system design. There is an API server, usually a restful API, and a database. Client negotiates the transmission format with the backend in advance. Both reading and writing are done through DTO, data transfer object. However, when the backend processes business logic, it converts DTO into a domain object with domain knowledge and uses the domain object as the storage unit of the database.</p>
+<p>In order to achieve <strong>Read&#x2F;Write Splitting</strong>, in the write path on the left, the client sends up DTO to the backend to perform CUD (create&#x2F;update&#x2F;delete) operation on the database, and the backend responses to the client with <em>Ack</em> for success and <em>Nak</em> for failure after processing. In restful API, usually 2xx represents success and 4xx represents failure. The read path on the right simply obtains the corresponding DTO through a read request.</p>
+<p>I further explain the meaning of DTO for the client. DTO on the client usually contains all the data to render on the screen. For example, when you look at your profile on a social medium, it will include your name, account, and other personal information, as well as your own recent activity, and even the activity you followed. DTO contains all the information that needs to be presented on this page.</p>
+<p>Why do we need to emphasize Read&#x2F;Write Splitting? Can’t we use the same procedure on both the read and write path? Because we want to better optimize our system in the future. The write path has a particular optimization method, and so is the read path. For instance, to make a cache, read aside caching can be used on the read path to reduce the response time. And, the write path can be improved by write through caching. Secondly, the writing may also be performed asynchronously. All the DTOs are written into the message queue and processed by the worker to handle the huge amount of written data. Moreover, each appropriate database may be used for writing and reading.</p>
+<p>Therefore, Read&#x2F;Write Splitting is essential. And it should be taken into consideration in the early stages of system design. The write path is to concentrate on data persistence; while the read path is to concentrate on data query.</p>
+<p>Nevertheless, there are two main problems in this system design model.</p>
+<ol>
+<li>Anemic model. It is also known as CRUD model. When backend focuses on data conversion, it is difficult to have space to handle business logic, which will cause business logic to be scattered everywhere. Domain knowledge will also disappear, e.g., to an ecommerse website, we will say “purchase” instead of “inserting an order record”.</li>
+<li>Insufficient scalability. From the perspective of system architecture, the database can easily become a bottleneck of the entire system. Both reading and writing must be onto it. The problem of RDBMS is even more serious due to no horizontal scaling.</li>
+</ol>
+<h3 id="Task-based-Monolith"><a href="#Task-based-Monolith" class="headerlink" title="Task-based Monolith"></a>Task-based Monolith</h3><p>In order to solve the problems encountered by the above traditional monolith, here we try to introduce the concept of domains.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Fxz5fFVVKBhUmbrIF6KDLA.png"></p>
+<p>This diagram is basically the same as the above one. The only difference is replacing DTO with messages on the write path. Messages contain actions and data, not just the data itself like DTO. Thus, we can carry domain-specific actions in the message to make it easier for the backend to recognize each action, and have a corresponding domain implementation.</p>
+<p>At this stage, <strong>C</strong> in <code>CQRS</code> has appeared, and message is a kind of commands. However, the problem of scalability is still unresolved.</p>
+<p>In addition, although we have simplified DTO and changed to use messages to communicate, we still need DTO on the read path. Let’s take the social medium as an example again. When modifying the nickname, the format of a message may be <code>{&quot;rename&quot;: &quot;LazyDr&quot;}</code>. But when rendering the profile, we still need additional information such as activities. This information gap makes it necessary to do a lot of processing on the read path to retrieve DTO.</p>
+<h3 id="CQS-Command-Query-Segmentation"><a href="#CQS-Command-Query-Segmentation" class="headerlink" title="CQS (Command Query Segmentation)"></a>CQS (Command Query Segmentation)</h3><p>The emergence of CQS is to solve the above pain points of Read&#x2F;Write Splitting.</p>
+<p>When reading, the client needs DTO, so the backend can do some optimizations dedicated to reading on the read path, such as pre-generating DTO from the original domain object, and storing DTO in a dedicated database for reading.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*0iuIGQPnWIs_hoM4Kxmb8w.png"></p>
+<p>In this way, on the read path, the implementation of the application service becomes simpler. The application service can become a thin read layer, which only needs to be responsible for paging, sorting, etc. After requesting, the client can easily retrieve DTO from the database.</p>
+<p>So the question is, who is going to generate those pre-built DTOs? It is the responsibility of the write path.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uZzRH4J6uhN_UanSMBiAWg.png"></p>
+<p>Although the diagram is similar with the examples seen before, in fact, in addition to persist the domain object, the application service must also persist DTO. In other words, most of the business logic will be pressed on the write path, and various read views need to be prepared.</p>
+<p>At this stage, we have solved most of the problems encountered by the domain, but scaling still has no solution. Now, we further define scaling. Scaling has two different aspects.</p>
+<ol>
+<li>Traffic: increase in write volume.</li>
+<li>Extension: functional requirements increase, such as the need for a variety of different read views. Continuing to take the social medium as an example, there is one presentation on the profile, but there may be another presentation on the timeline.</li>
+</ol>
+<h3 id="CQRS"><a href="#CQRS" class="headerlink" title="CQRS"></a>CQRS</h3><p>Why is the write path responsible for preparing the read view? Writing should focus on persistence, and those various read views should not be processed on the write path. But there is only reading on the read path, who should prepare those read views?</p>
+<p>Therefore, the total solution is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*s5O9jiJ2rv7NRe2b4aLF5g.png"></p>
+<p>The write path on the left and the read path on the right have been introduced in the CQS section. The only difference is that an eventually block is added, which is responsible for converting the database on the write path into the database used on the read path. Once data synchronization is involved, it is possible to encounter data consistency issues, so here is a list of several approaches for implementing eventually consistency, sorted by time consuming from short to long:</p>
+<ol>
+<li>Background thread: The typical representative is Redis. After the data is written to the primary, Redis will immediately send the data to the replicas in the background.</li>
+<li>Message queue plus workers: This is a common practice for asynchronous data replication. When writing to the database, an event is initiated into the message queue and processed by the workers.</li>
+<li>Extract-Transform-Load: This time interval is the longest, ranging from a few minutes to a few hours. Use map-reduce or other methods to write the results on the other side.</li>
+</ol>
+<p>No matter which approach, the single source of truth is mandatory. That is to say if there is any failure occurred on converting, the system must be able to recover the unfinished jobs. Therefore, the data has to be unique and reliable.</p>
+<p>Data usually laid on two types,</p>
+<ol>
+<li>state: State refers to what you see at the moment, such as the balance written on the bank passbook.</li>
+<li>event: An event is an action to modify each state, such as every transaction record on the bank passbook</li>
+</ol>
+<p>Actually, we already have messages that can be stored as events. For the write path, it is very efficient to store messages in order. Through each different message, you can easily build a different read view according to your needs. This approach is also called <strong>event sourcing</strong>.</p>
+<p>But only events are difficult to use efficiently. In order to obtain the final result, every conversion must be run from the beginning to the end to rebuild the read view. As a result, the hybrid method would be ideal. On the write path, both the state and the event are kept, and the conversion process can choose the data source based on the actual situation.</p>
+<p>To sum up the whole life cycle of data in CQRS.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*cZYWVAE37VIdHieRI9oOlA.png"></p>
+<p>The data starts from the client and then enters to the backend in the command format. According to the business logic, it is converted into a domain object and stored in the database. These domain objects are converted into various read views and stored in different read special databases according to requirements. Finally, the client takes these read views back in the form of DTO.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>There are many books and articles describing DDD and CQRS with many patterns. From my point of view, those patterns lead to the limitation on imagination of DDD like Entity, Value Object, Aggregate, etc. It results in most developers feel DDD is far from themselves and hard to realize as well as implementations. In fact, the concepts of DDD is not so complicated; instead, DDD is proposed to encapsulate the business logic and then facilitate expending the functional requirements.</p>
+<p>CQRS is even simpler. In this article, we start from the process of system evolution, understand the entire system design process and the problems to be solved, and finally derive the conclusion of CQRS naturally.</p>
+<p>There is no silver bullet in the system design. Each evolution is made for solving some specific problems, however, it may come out a new problem. Take the design processes of this article as an example, CQRS seems to resolve all mentioned problems, anemic model, and insufficient scalability, but actually CQRS also brings new problems, such as data consistency. Each technical selection has its trade-off, as long as understanding all threats behind every option, you can choose relatively acceptable approaches.</p>
+<p>Even if you choose CQRS, in practice, there are still three choices on implementing eventual consistency. System design is the result of continuous selection.</p>
+<p>The purpose of this article is to tell you that DDD is not that scary, and CQRS is not that complicated, it is just a decision.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/shift-from-monolith-to-cqrs-a34bab75617e">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/MongoDB/Array-Operation-in-MongoDB/20211226/" rel="prev" title="Array Operation in MongoDB">
+                  <i class="fa fa-chevron-left"></i> Array Operation in MongoDB
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Redis/Resilient-Caching-in-Redis/20220109/" rel="next" title="Resilient Caching in Redis">
+                  Resilient Caching in Redis <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

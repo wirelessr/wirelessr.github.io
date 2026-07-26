@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Why I switched from architect to developer to validate Gen AI in practice In the software development track, you have a lot of options. The main choice is between heading down the architect path or fo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How Gen AI 2x My Developer Productivity">
+<meta property="og:url" content="https://wirelessr.github.io/AI/How-Gen-AI-2x-My-Developer-Productivity/20251109/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Why I switched from architect to developer to validate Gen AI in practice In the software development track, you have a lot of options. The main choice is between heading down the architect path or fo">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*WLD41KFh7OhNWKXs3lXZ3Q.png">
+<meta property="article:published_time" content="2025-11-09T18:06:05.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.824Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*WLD41KFh7OhNWKXs3lXZ3Q.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/AI/How-Gen-AI-2x-My-Developer-Productivity/20251109/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/AI/How-Gen-AI-2x-My-Developer-Productivity/20251109/","path":"AI/How-Gen-AI-2x-My-Developer-Productivity/20251109/","title":"How Gen AI 2x My Developer Productivity"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>How Gen AI 2x My Developer Productivity | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Why-I-switched-from-architect-to-developer-to-validate-Gen-AI-in-practice"><span class="nav-number">1.</span> <span class="nav-text">Why I switched from architect to developer to validate Gen AI in practice</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Quickly-Onboarding-to-Brownfield-Projects"><span class="nav-number"></span> <span class="nav-text">Quickly Onboarding to Brownfield Projects</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Efficient-Feature-Iteration"><span class="nav-number"></span> <span class="nav-text">Efficient Feature Iteration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Various-Daily-Routines"><span class="nav-number"></span> <span class="nav-text">Various Daily Routines</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Troubleshooting"><span class="nav-number"></span> <span class="nav-text">Troubleshooting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wrap-Up"><span class="nav-number"></span> <span class="nav-text">Wrap Up</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/How-Gen-AI-2x-My-Developer-Productivity/20251109/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="How Gen AI 2x My Developer Productivity | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          How Gen AI 2x My Developer Productivity
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-11-10 02:06:05" itemprop="dateCreated datePublished" datetime="2025-11-10T02:06:05+08:00">2025-11-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Why-I-switched-from-architect-to-developer-to-validate-Gen-AI-in-practice"><a href="#Why-I-switched-from-architect-to-developer-to-validate-Gen-AI-in-practice" class="headerlink" title="Why I switched from architect to developer to validate Gen AI in practice"></a>Why I switched from architect to developer to validate Gen AI in practice</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*WLD41KFh7OhNWKXs3lXZ3Q.png"></p>
+<p>In the software development track, you have a lot of options. The main choice is between heading down the architect path or focusing on the developer track.</p>
+<p>I chose the architect path for the last few years. My work focused on research, software architecture transformation, and pilot planning. But recently, I switched back to a developer role. I still wear the architect hat sometimes, but I spend most of my time on feature development and troubleshooting.</p>
+<p>A lot of people have asked me why I made this switch. I wanted to use this article to talk about the reasons behind it.</p>
+<p>If you’ve been following me, you might have noticed I started covering Gen AI topics late last year. That’s also when I began seriously studying how to use AI to boost productivity.</p>
+<p>However, in my previous role as a pure architect, I rarely worked on production code. This meant that even though I had all these theories, I could only test their real-world effectiveness on my side projects.</p>
+<p>This presents a problem: theory and practice start to drift apart. It’s a common dilemma for many researchers.</p>
+<p>Therefore, switching to a more hands-on role was a better choice. This way, I can actually validate whether my methodologies work in practice.</p>
+<p>Over the past few months of doing this, I’ve found that Gen AI really does significantly boost my productivity in many areas.</p>
+<p>I’ll list a few of the most obvious examples.</p>
+<h3 id="Quickly-Onboarding-to-Brownfield-Projects"><a href="#Quickly-Onboarding-to-Brownfield-Projects" class="headerlink" title="Quickly Onboarding to Brownfield Projects"></a>Quickly Onboarding to Brownfield Projects</h3><p>I’ve briefly explained how I do this in a previous article. It mainly involves two tools: a Coding Agent and RAG.</p>
+<p>I’m using very general terms here because everyone’s familiar tech stack is different. For my Coding Agent, I use Copilot. Of course, you can use Claude Code, Cursor, or any other tool.</p>
+<p>And for RAG, I use NotebookLM.</p>
+<p>My specific process is to create a Notebook for each feature. Inside each Notebook, I put the feature’s PRD, design document, technical support KBs, and code tracing.</p>
+<p>The technical documents are pretty straightforward. But what is code tracing?</p>
+<p>It’s a complete report I generate using my coding agent. It includes the full e2e flow for all of the feature’s entry points, the data flow, and all related data tables. Even the e2e flow is broken down in great detail, right down to the module, class, and function level.</p>
+<p>With this material, the Notebook RAG can quickly answer almost any basic question about the project. It can even pinpoint the code locations involved in specific problems.</p>
+<p>As a result, I didn’t need to spend much time getting up to speed on a large, unfamiliar project before I could start contributing.</p>
+<h3 id="Efficient-Feature-Iteration"><a href="#Efficient-Feature-Iteration" class="headerlink" title="Efficient Feature Iteration"></a>Efficient Feature Iteration</h3><p>One of the most common scenarios for a developer is feature iteration.</p>
+<p>If you think I’m going to say my coding agent lets me finish programming at lightning speed, you’re going to be disappointed.</p>
+<p>I use AI in two ways in this scenario. First, I’ll write a very rough, quick, handwritten design document. Then, I use Gemini’s OCR capability to convert it into a fully formatted document.</p>
+<p>Designing and developing a feature requires a lot of communication and discussion upfront. I use this method to quickly create discussion materials, meeting notes, and design docs. This really saves me a ton of time.</p>
+<p>I can use pen and paper, which I’m most comfortable with, to turn my ideas into digital documents. This is the first major improvement.</p>
+<p>Second, during the actual software development, I already have a complete design. This includes design patterns, API interfaces, and so on. The entire development process is broken down into small enough units. This makes it very easy for me to use AI for auto-complete.</p>
+<p>As for why I don’t let the AI develop everything and only use it for minimal assistance, I explained that in detail in a <a target="_blank" rel="noopener" href="https://medium.com/stackademic/vibe-coding-is-cooling-off-fast-bd1ea2aa4adb">previous article</a>. I won’t repeat it here.</p>
+<h3 id="Various-Daily-Routines"><a href="#Various-Daily-Routines" class="headerlink" title="Various Daily Routines"></a>Various Daily Routines</h3><p>As a software engineer, I think tedious tasks take up a big part of the day. I’ve automated a large portion of this grunt work.</p>
+<p>Let me give a few examples. I currently work across different time zones, so someone is basically working at all hours of the day.</p>
+<ol>
+<li>Waking up to hundreds of emails? My solution is not to read them. I have AI quickly categorize them. It leaves only the emails I truly need to know about and those that require action. It then provides a consolidated summary so I can see what I need to do at a glance.</li>
+<li>What about all the recorded meetings I missed? I speed-watch them. I use AI to generate and embed captions in the video. This allows me to watch them at 2x or even 4x speed.</li>
+<li>What about all the routine maintenance work? I use AI to generate small tools for me. I even build automated workflows to handle them. This prevents me from having to do so much manual work.</li>
+</ol>
+<p>I don’t use AI in a very generic way. It can’t do everything. But it’s more than enough to solve my specific pain points.</p>
+<h3 id="Troubleshooting"><a href="#Troubleshooting" class="headerlink" title="Troubleshooting"></a>Troubleshooting</h3><p>Debugging. I believe this is the one thing all developers hate the most.</p>
+<p>It’s the same for me. A big part of why it’s so annoying is that we have to guess based on various clues. After guessing, we still have to find evidence among those clues to prove it.</p>
+<p>It is absolutely tedious and mundane work.</p>
+<p>The worst part is digging for evidence in thousands, or even tens of thousands, of log lines. It’s never an easy job, especially when the logs are unstructured. Now, I’ve offloaded this painful task to AI. We used to need <code>grep</code>, <code>sed</code>, and <code>awk</code> to process logs just to find keywords and check a timeline.</p>
+<p>Now, I just need to tell the AI my intent, what I’m looking for. It can take over this dirty work for me.</p>
+<p>Once it finds the relevant logs based on my intent, the guessing starts. I figure it’s easier to have a group guess than to do it alone. So, I feed these logs to several agents and let them all guess. Then we compare their answers.</p>
+<p>By combining all their hypotheses, I can go back and ask the AI to find evidence in that vast sea of logs.</p>
+<p>All of this dirty work? I don’t have to do it myself anymore.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>What I’ve mentioned above should cover most of the different aspects a software engineer deals with.</p>
+<p>How do you use AI to boost productivity?</p>
+<p>I believe the answer is simple. Give it the annoying work you hate doing. Your productivity will naturally go up.</p>
+<p>But there’s one thing to keep in mind. I’ve stressed this point repeatedly in the past: AI isn’t brilliant. It’s just a tool. We must be able to master the tool to get the job done right.</p>
+<p>Especially, remember that AI makes mistakes in many situations. We have to review the critical parts repeatedly. For example, when I ask Gemini to turn my handwritten draft into a design document, I still need to manually fix many details. But this is still much faster than writing one from scratch.</p>
+<p>As for how much productivity has improved with AI, I don’t have exact numbers. Software engineer time estimates are rarely accurate anyway. But my gut feeling is at least a 2x boost. What does that mean? A huge modification that used to take two months now only takes one.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-gen-ai-2x-my-developer-productivity-9738e22d3d68">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/AI/Vibe-Coding-is-Cooling-Off-Fast/20251026/" rel="prev" title="Vibe Coding is Cooling Off, Fast">
+                  <i class="fa fa-chevron-left"></i> Vibe Coding is Cooling Off, Fast
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/AI/Is-AI-Killing-Traditional-Org-Structures/20251130/" rel="next" title="Is AI Killing Traditional Org Structures?">
+                  Is AI Killing Traditional Org Structures? <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

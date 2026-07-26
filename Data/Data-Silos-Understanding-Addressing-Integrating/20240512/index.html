@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Exploring the roots and pathways to overcoming data fragmentation Nowadays, data engineering is facing many challenges, and one of the toughest issues is the complex technical stack and the emerging p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Data Silos: Understanding, Addressing, Integrating">
+<meta property="og:url" content="https://wirelessr.github.io/Data/Data-Silos-Understanding-Addressing-Integrating/20240512/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Exploring the roots and pathways to overcoming data fragmentation Nowadays, data engineering is facing many challenges, and one of the toughest issues is the complex technical stack and the emerging p">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*n-4eHI4lr7qGer9l">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*_uK72KG9Ua9uskSl.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*8jsd-ixoAWwHzJvc.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*R3nXVSFEc3jNik1C.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*McVvNYc63-tTeZuNOYlZ1g.png">
+<meta property="article:published_time" content="2024-05-12T17:28:03.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.822Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*n-4eHI4lr7qGer9l">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Data/Data-Silos-Understanding-Addressing-Integrating/20240512/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Data/Data-Silos-Understanding-Addressing-Integrating/20240512/","path":"Data/Data-Silos-Understanding-Addressing-Integrating/20240512/","title":"Data Silos: Understanding, Addressing, Integrating"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Data Silos: Understanding, Addressing, Integrating | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Exploring-the-roots-and-pathways-to-overcoming-data-fragmentation"><span class="nav-number">1.</span> <span class="nav-text">Exploring the roots and pathways to overcoming data fragmentation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Lakehouse"><span class="nav-number"></span> <span class="nav-text">Data Lakehouse</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Metadata-Lake"><span class="nav-number"></span> <span class="nav-text">Metadata Lake</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Data-Silos-Understanding-Addressing-Integrating/20240512/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Data Silos: Understanding, Addressing, Integrating | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Data Silos: Understanding, Addressing, Integrating
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-05-13 01:28:03" itemprop="dateCreated datePublished" datetime="2024-05-13T01:28:03+08:00">2024-05-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Exploring-the-roots-and-pathways-to-overcoming-data-fragmentation"><a href="#Exploring-the-roots-and-pathways-to-overcoming-data-fragmentation" class="headerlink" title="Exploring the roots and pathways to overcoming data fragmentation"></a>Exploring the roots and pathways to overcoming data fragmentation</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*n-4eHI4lr7qGer9l"></p>
+<p>Nowadays, data engineering is facing many challenges, and one of the toughest issues is the complex technical stack and the emerging problem of data silos.</p>
+<p>The term “data silos” refers to data that is scattered in several places, which are difficult to connect and integrate with each other, as if they are isolated (and they are indeed physically isolated).</p>
+<p>There are many reasons for data silos, for example:</p>
+<ul>
+<li>Separate data pipelines between different departments</li>
+<li>Data centers in different regions for compliance purposes.</li>
+<li>For cost reasons, technical stacks are built on different vendors.</li>
+<li>And so on.</li>
+</ul>
+<p>The most complicated scenario in these cases would be data silos across several public clouds.</p>
+<p>For instance, the original technical stack was built on GCP, so cloud services such as GCS and BigQuery were widely used. But then, for various reasons, we started to build AWS data stacks, so we need to use S3 and Redshift, etc. In fact, all three public clouds have similar roles in data engineering.</p>
+<p>In fact, in the three major public clouds, there are similar roles in data engineering responsible for the corresponding functions.</p>
+<p>If we are looking for relational databases, AWS has RDS, Azure has SQL Database, and Cloud SQL is also available on GCP. If we are looking for object storage services, AWS has the famous S3, Azure also has Blob storage, and GCP also has GCS.</p>
+<p>If we are looking for a common data warehouse, AWS has Redshift, Azure can use Synapase to deal with it, and GCP also has the famous BigQuery. Even the specialized catalog service for data engineering, there is Glue on AWS, and Azure and GCP also have the corresponding Data Catalog.</p>
+<p>Arguably, all three public clouds are competitive with each other. While some services have common protocols that can be migrated to each other, such as RDS and SQL Database, which can be migrated almost seamlessly based on the same implementations.</p>
+<p>However, other services, such as object storage, are not as simple to migrate. As a result, the data services built on the three public clouds have become data silos for each other.</p>
+<p>Furthermore, with the rise of AI in recent years, many organizations have started to build their own AI&#x2F;ML technical stacks. Unlike the technical stacks used in data engineering, AI&#x2F;ML technical stacks are basically fully independent, such as feature stores and vector databases. These infrastructures also have their own data, but it is difficult to integrate with the existing stacks.</p>
+<p>The following is a complete data infra and a complete AI&#x2F;ML infra.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*_uK72KG9Ua9uskSl.png"><img src="https://cdn-images-1.medium.com/max/800/0*8jsd-ixoAWwHzJvc.png"></p>
+<p>From the above two diagrams, we can figure out that these two groups of technical stacks are independent of each other, i.e. two silos.</p>
+<h3 id="Data-Lakehouse"><a href="#Data-Lakehouse" class="headerlink" title="Data Lakehouse"></a>Data Lakehouse</h3><p>After understanding the root cause of data silos, the next question is how to solve it.</p>
+<p>The most straightforward idea is to centralize the management of all data, which is a typical data lakehouse, and Databricks was the first to propose this idea.</p>
+<p>In analytics scenarios, structured data is often used, while AI&#x2F;ML scenarios rely heavily on unstructured data. For data lakehouses, both structured and unstructured data can be centrally managed.</p>
+<p>In addition, data lakehouse provides a common interface for various processing engines, such as Spark and Flink for stream processing and Trino for big data querying. Thanks to the multi-engine support, data lakehouse can be applied to almost every data scenario.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*R3nXVSFEc3jNik1C.png"></p>
+<p>Moreover, data lakehouses provide an cost and performance balance. It can support a variety of usage scenarios while at the same time saving costs. Of course, this is an advantage traded for performance.</p>
+<p>Nevertheless, data lakehouses still don’t totally solve everything, such as the following problems.</p>
+<ul>
+<li>At the sacrifice of performance, user-facing feature still requires dedicated database support.</li>
+<li>Unified data storage is a challenge for privacy and compliance.</li>
+<li>The data is all put together and still can’t avoid the dilemma of data swamp which is the result of the data lake in the past. Although there is a catalog in the data lakehouse, it is still not transparent enough.</li>
+</ul>
+<p>Most importantly, although the data lakehouse effectively mitigate the gap between data engineering and AI&#x2F;ML, it is still helpless in cross public cloud scenarios.</p>
+<h3 id="Metadata-Lake"><a href="#Metadata-Lake" class="headerlink" title="Metadata Lake"></a>Metadata Lake</h3><p>The problem we face now is the storage everywhere, and each type of storage has its own catalog, and each catalog is heterogeneous.</p>
+<p>What if we treat the catalog as we treat the data? In other words, just as we gather all the data in one place, we gather all the catalogs in one place, so can we achieve complete governance? When we can completely govern all the data with metadata, won’t we break the data silo?</p>
+<p>Yes, exactly. This is what the concept of metadata lake does.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*McVvNYc63-tTeZuNOYlZ1g.png"></p>
+<p>From the above diagram, we can see modern data processing engines have corresponding catalogs, and Metadata Lake is designed to centralize the governance of these catalogs. In this way, there is a unified place to view all data sources and understand the internal data structure.</p>
+<p>This concept is not new, in fact, all public clouds have launched corresponding products, like Microsoft’s OneLake and GCP’s BigLake, which are based on this concept.</p>
+<p>However, these public cloud services can only solve the data silos within the public cloud, and there is still no solution for cross public cloud.</p>
+<p>Fortunately, more and more enterprises have noticed this business opportunity and started to make their own products, e.g., Datastrato’s <a target="_blank" rel="noopener" href="https://datastrato.ai/docs/0.5.0/">Gravitino</a> is focused on solving the data silos across clouds.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>We are living in a chaotic and complex era.</p>
+<p>The amount of data is exploding, and the AI boom is exacerbating the process. In the past, we have tried to store data, clean it, transform it, and then use it. With the data we have, we’re already swamped. And with the increasing data volume, it’s only getting busier.</p>
+<p>However, nowadays, this is not enough. We want to know what is stored and we want to be able to integrate and interact with it easily. Therefore, data governance has become an obvious subject.</p>
+<p>That’s also why there’s an increasing number of tools geared towards metadata.</p>
+<p>I’m also concerned about this topic because our organization recently made the transition from GCP to AWS, and governing the warehouse schema for both clouds is becoming an issue. I will leave this story for later, so let’s call it a day.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/data-silos-understanding-addressing-integrating-0fe9cd998b2b">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Balancing-Timeliness-and-Accuracy-in-Software-Architecture/20240505/" rel="prev" title="Balancing Timeliness and Accuracy in Software Architecture">
+                  <i class="fa fa-chevron-left"></i> Balancing Timeliness and Accuracy in Software Architecture
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Data/Trino-Iceberg-Made-Easy-A-Ready-to-Use-Playground/20240519/" rel="next" title="Trino & Iceberg Made Easy: A Ready-to-Use Playground">
+                  Trino & Iceberg Made Easy: A Ready-to-Use Playground <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Empower Sharding Strategy to Handle Cross-Shard Queries with Confidence Before discussing sharding, let’s first talk about scaling. We all know that there are two types of scaling, one is vertical sca">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Don’t be Afraid of MongoDB Cross-shard Queries">
+<meta property="og:url" content="https://wirelessr.github.io/MongoDB/Dont-be-Afraid-of-MongoDB-Cross-shard-Queries/20230813/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Empower Sharding Strategy to Handle Cross-Shard Queries with Confidence Before discussing sharding, let’s first talk about scaling. We all know that there are two types of scaling, one is vertical sca">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*QoHaVDd5TEP3YrNY">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*fwXYJlWF33j83fwDEzK0uw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*BwtktGWTYoPm7YD_i9MemQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*DPQxL-Q556v-sQs5nxrHNQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*77cfvZBiI__SSyfmmq-Sng.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*bFbHcivvKbOf4_9qoEiFxw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*nKH8OXMX0LGnjPNe8b8tBg.png">
+<meta property="article:published_time" content="2023-08-13T17:50:58.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.822Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*QoHaVDd5TEP3YrNY">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/MongoDB/Dont-be-Afraid-of-MongoDB-Cross-shard-Queries/20230813/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/MongoDB/Dont-be-Afraid-of-MongoDB-Cross-shard-Queries/20230813/","path":"MongoDB/Dont-be-Afraid-of-MongoDB-Cross-shard-Queries/20230813/","title":"Don’t be Afraid of MongoDB Cross-shard Queries"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Don’t be Afraid of MongoDB Cross-shard Queries | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Empower-Sharding-Strategy-to-Handle-Cross-Shard-Queries-with-Confidence"><span class="nav-number">1.</span> <span class="nav-text">Empower Sharding Strategy to Handle Cross-Shard Queries with Confidence</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-specifically-mention-cross-shard-queries-in-the-title"><span class="nav-number"></span> <span class="nav-text">Why specifically mention cross-shard queries in the title?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#How-to-choose-shard-key"><span class="nav-number"></span> <span class="nav-text">How to choose shard key?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Low-Cardinality"><span class="nav-number"></span> <span class="nav-text">Low Cardinality</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ascending"><span class="nav-number"></span> <span class="nav-text">Ascending</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Random-or-Hash-Value"><span class="nav-number"></span> <span class="nav-text">Random or Hash Value</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/Dont-be-Afraid-of-MongoDB-Cross-shard-Queries/20230813/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Don’t be Afraid of MongoDB Cross-shard Queries | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Don’t be Afraid of MongoDB Cross-shard Queries
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-08-14 01:50:58" itemprop="dateCreated datePublished" datetime="2023-08-14T01:50:58+08:00">2023-08-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Empower-Sharding-Strategy-to-Handle-Cross-Shard-Queries-with-Confidence"><a href="#Empower-Sharding-Strategy-to-Handle-Cross-Shard-Queries-with-Confidence" class="headerlink" title="Empower Sharding Strategy to Handle Cross-Shard Queries with Confidence"></a>Empower Sharding Strategy to Handle Cross-Shard Queries with Confidence</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*QoHaVDd5TEP3YrNY"></p>
+<p>Before discussing sharding, let’s first talk about scaling. We all know that there are two types of scaling, one is vertical scaling, also known as scale-up, and the other is horizontal scaling, aka scale-out.</p>
+<p>As for scaling, there are different ways for different purposes. For MongoDB, if we want to improve query performance, then vertical scaling is to improve the machine specs, while horizontal scaling is to increase the number of replicas so that the query can be executed on the idle replicas.</p>
+<p>On the other hand, to increase the amount of data stored, for MongoDB, vertical scaling is still about improving the specs of the machine (in this case, the size of the hard drives), while horizontal scaling is about sharding, which is the main topic of this article.</p>
+<p>Therefore, we have to understand that the purpose of sharding is to make the data evenly distributed so that MongoDB can store more data, not to improve the query performance. In other words, query performance will be improved by sharding as an extra, but not the main purpose.</p>
+<h3 id="Why-specifically-mention-cross-shard-queries-in-the-title"><a href="#Why-specifically-mention-cross-shard-queries-in-the-title" class="headerlink" title="Why specifically mention cross-shard queries in the title?"></a>Why specifically mention cross-shard queries in the title?</h3><p>When we consider doing sharding, we will always consider carefully how to choose the shard key, choose the shard key and worry it will affect the production of the query performance, and consider rewrite all the query drastically. These concerns are actually unnecessary.</p>
+<p>Let me conclude that if migrating to a sharded cluster from no sharding, as long as the shard key is chosen correctly, then it will only be better, not worse, because it’s a WORST case now.</p>
+<blockquote>
+<p><em>Why so sure?</em></p>
+</blockquote>
+<p>The formula for query time in database is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*fwXYJlWF33j83fwDEzK0uw.png"></p>
+<p><em>T</em>total &#x3D; <em>T</em>s + <em>T</em>x</p>
+<p><em>T</em>s is the retrieval time of the database itself, either by index or by scanning the full collection.<br><em>T</em>x is the return time of the query result.</p>
+<p>In addition, <em>T</em>s and <em>T</em>x have the following properties.<br><em>T</em>s ∝ total data volume<br><em>T</em>x ∝ result size</p>
+<p>When we migrate this collection to a sharded cluster, then the above diagram will change a bit.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*BwtktGWTYoPm7YD_i9MemQ.png"></p>
+<p>The formula will also change a little bit, but the principle is the same.</p>
+<p><em>T</em>clusteredTotal &#x3D; Max( <em>T</em>1s + <em>T</em>1x , <em>T</em>2s + <em>T</em>2x )</p>
+<p>Even if there is data skew happening, I believe we all agree the following conditions are true.</p>
+<ul>
+<li><em>T</em>ns &lt; <em>T</em>s</li>
+<li><em>T</em>nx &lt; <em>T</em>x</li>
+</ul>
+<p>Therefore, a conclusion can be deduced.</p>
+<p><em>T</em>clusteredTotal &lt; <em>T</em>total</p>
+<p>Nevertheless, there are still some worst cases, for example, sharding is based on the data size rather than the frequency of data access, if there is busy collection(s) originally distributed in two shards without sharding, so they can consume all the resources of their respective machines individually. However, because of sharding, most of the data is distributed to the same shard, which competes for resources.</p>
+<p>In other words, the precondition for the problem is the original MongoDB is nearly full and resources are almost exhausted.</p>
+<h3 id="How-to-choose-shard-key"><a href="#How-to-choose-shard-key" class="headerlink" title="How to choose shard key?"></a>How to choose shard key?</h3><p>From the above introduction, we know as long as the shard key is chosen correctly, then we don’t need to worry about the performance of queries decreasing after sharding. Therefore, how to choose the shard key is pretty important.</p>
+<p>I have already provided the ideal formula and described the details in my previous article.</p>
+<p>Therefore, in this article, I will only outline which three types of bad cases must be avoided.</p>
+<h3 id="Low-Cardinality"><a href="#Low-Cardinality" class="headerlink" title="Low Cardinality"></a>Low Cardinality</h3><p>Suppose we choose an enum field as the shard key, and the range is fixed to [1, 2, 3].</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*DPQxL-Q556v-sQs5nxrHNQ.png"></p>
+<p>Then even if we write 2 to the max, we still can’t start rebalance, and the maximum number of shards is 3.</p>
+<h3 id="Ascending"><a href="#Ascending" class="headerlink" title="Ascending"></a>Ascending</h3><p>If we use a continuously incrementing field as the shard key, then we can ensure the chunks are evenly distributed, but it will continuously trigger a rebalance, and the performance will be horrible.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*77cfvZBiI__SSyfmmq-Sng.png"></p>
+<p>Furthermore, the data we need to query frequently is usually new, in other words, the query and the rebalance will often mix together, making the situation even worse.</p>
+<h3 id="Random-or-Hash-Value"><a href="#Random-or-Hash-Value" class="headerlink" title="Random or Hash Value"></a>Random or Hash Value</h3><p>Another common choice is to use a random field (or hashing) as the shard key, which also ensures the chunks are evenly distributed and does not trigger frequent rebalances, but the rebalance overhead is increased.</p>
+<p>MongoDB’s storage engine, WiredTiger, uses a storage distribution similar to MySQL’s InnoDB, i.e., the primary key (<code>_id</code>) is used as the storage unit (block), and similar primary keys are placed in the same block.</p>
+<p>If we use random shard key, it will trigger random access instead of sequential access when we do rebalance.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*bFbHcivvKbOf4_9qoEiFxw.png"></p>
+<p>For instance, when a chunk is full and needs to be rebalanced, the data needs to be migrated across three blocks, and the entire rebalance time will be longer. This is far worse than the performance of a single block to complete the rebalance, as shown in the following diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*nKH8OXMX0LGnjPNe8b8tBg.png"></p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>When we encounter a new problem, we often feel hesitant or even scared because it is unfamiliar.</p>
+<p>What we need to do is to take a deep breath and return to the nature of the problem, analyze the core of the problem, and don’t be confused by the external appearance. Taking cross-shard queries as an example, when we use the database perspective instead of MongoDB to unpack the problem, the answer will be obvious.</p>
+<p>Software engineering is already a stable field, most of the problems are similar in nature, so don’t panic, think carefully, most of the answers are not complicated.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/dont-be-afraid-of-mongodb-cross-shard-queries-2a7797a96528">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Microservice/Implementing-API-Versioning/20230806/" rel="prev" title="Implementing API Versioning">
+                  <i class="fa fa-chevron-left"></i> Implementing API Versioning
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Misc/Understanding-Use-Cases-for-Pattern-Matching/20230827/" rel="next" title="Understanding Use Cases for Pattern Matching">
+                  Understanding Use Cases for Pattern Matching <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Analyzing How to Scale Web Services From Various PerspectivesScaling web services This article is an internal training for my team to explain to newcomers what are the practices and what are the aspec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Analyze How to Scale Web Services From Various Perspectives">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Analyze-How-to-Scale-Web-Services-From-Various-Perspectives/20220529/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Analyzing How to Scale Web Services From Various PerspectivesScaling web services This article is an internal training for my team to explain to newcomers what are the practices and what are the aspec">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*EyDbDI5Dq0SYCUj3.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*mJhaHQvfyy8c9Ol60oH6_A.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*tPii5axH60TmS-tgbpKsyQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*Mo9aNau-KNDwL8OihumzGQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*YDcMMhDpJ-_9Bdc41HKCyA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*H3N_CRqQsbbBNP28fgt-hQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*dMOjwBzvwMlyNzB2TzXrIA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*4843yOgJdM3nknRx80XbPA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*PDEjfTJLYXx55BBKb3Nzrw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*3VbI4_XijMmJ_b-jSZQTDQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*PoA_dF4nTmON98LB-U909Q.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*ZfFrkurRSLzkUctXTj8msw.png">
+<meta property="article:published_time" content="2022-05-29T17:50:36.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.820Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*EyDbDI5Dq0SYCUj3.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Analyze-How-to-Scale-Web-Services-From-Various-Perspectives/20220529/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Analyze-How-to-Scale-Web-Services-From-Various-Perspectives/20220529/","path":"Architecture/Analyze-How-to-Scale-Web-Services-From-Various-Perspectives/20220529/","title":"Analyze How to Scale Web Services From Various Perspectives"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Analyze How to Scale Web Services From Various Perspectives | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Analyzing-How-to-Scale-Web-Services-From-Various-Perspectives"><span class="nav-number">1.</span> <span class="nav-text">Analyzing How to Scale Web Services From Various Perspectives</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Scaling-web-services"><span class="nav-number">1.1.</span> <span class="nav-text">Scaling web services</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bare-Metal"><span class="nav-number">2.</span> <span class="nav-text">Bare Metal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Layered-Architecture"><span class="nav-number">3.</span> <span class="nav-text">Layered Architecture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Horizontal-Scaling"><span class="nav-number">4.</span> <span class="nav-text">Horizontal Scaling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Read-Write-Splitting"><span class="nav-number">5.</span> <span class="nav-text">Read Write Splitting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Caching"><span class="nav-number">6.</span> <span class="nav-text">Caching</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Read-aside-Cache"><span class="nav-number">7.</span> <span class="nav-text">Read-aside Cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CDN"><span class="nav-number">8.</span> <span class="nav-text">CDN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Writing-Bottlenecks"><span class="nav-number">9.</span> <span class="nav-text">Writing Bottlenecks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Master-master-Replication"><span class="nav-number">10.</span> <span class="nav-text">Master-master Replication</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Write-through-Cache"><span class="nav-number">11.</span> <span class="nav-text">Write through Cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sharding"><span class="nav-number">12.</span> <span class="nav-text">Sharding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Messaging"><span class="nav-number">13.</span> <span class="nav-text">Messaging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Edge-Computing"><span class="nav-number">14.</span> <span class="nav-text">Edge Computing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">15.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Analyze-How-to-Scale-Web-Services-From-Various-Perspectives/20220529/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Analyze How to Scale Web Services From Various Perspectives | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Analyze How to Scale Web Services From Various Perspectives
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-05-30 01:50:36" itemprop="dateCreated datePublished" datetime="2022-05-30T01:50:36+08:00">2022-05-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Analyzing-How-to-Scale-Web-Services-From-Various-Perspectives"><a href="#Analyzing-How-to-Scale-Web-Services-From-Various-Perspectives" class="headerlink" title="Analyzing How to Scale Web Services From Various Perspectives"></a>Analyzing How to Scale Web Services From Various Perspectives</h3><h4 id="Scaling-web-services"><a href="#Scaling-web-services" class="headerlink" title="Scaling web services"></a>Scaling web services</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*EyDbDI5Dq0SYCUj3.png"></p>
+<p>This article is an internal training for my team to explain to newcomers what are the practices and what are the aspects to consider when scaling a web service.</p>
+<p>The scaling mentioned in this article is divided into several different levels.</p>
+<ol>
+<li>Read loading</li>
+<li>Write loading</li>
+<li>Data volume size</li>
+<li>Task loading</li>
+<li>User distribution</li>
+</ol>
+<p>In addition, there is another level of scaling that is not explained in detail in this article, feature scaling, but I will describe the concept of feature scaling a little bit at the end of the article.</p>
+<p>Next, let’s evolve our system step by step.</p>
+<h3 id="Bare-Metal"><a href="#Bare-Metal" class="headerlink" title="Bare Metal"></a>Bare Metal</h3><p>All products start with a single machine. For proof of concept, we take the simplest approach and put everything on the same box, perhaps the laptop at hand. Whether it’s a physical machine, a virtual machine, or a container, a single machine with everything you need on it is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*mJhaHQvfyy8c9Ol60oH6_A.png"></p>
+<p>Users can use this basic service either through the web or through a mobile device. This machine contains the APIs for business logic and a database for data storage. This is where all projects begin and is the easiest to implement.</p>
+<p>When the concept has been successfully validated, the number of users will start to rise, easily exceeding the limit of what a single machine can handle. At this point, we choose to move the service from a laptop to a professional server in order to continue to verify that the project will continue to grow and not be a flash in the pan. The upgrade of hardware specifications is called vertical scaling, a.k.a. scale-up.</p>
+<p>However, even for professional servers, where hardware can be easily upgraded and swapped out, there are limits. The limit here is not only a physical limit, but also a budget limit. For example, a 1TB SSD drive is more than twice as expensive as a 512GB drive. The curve of increasing hardware costs is exponential.</p>
+<p>Therefore it is necessary to separate the components to make the cost more manageable, especially for the database, which is usually the most costly component.</p>
+<h3 id="Layered-Architecture"><a href="#Layered-Architecture" class="headerlink" title="Layered Architecture"></a>Layered Architecture</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*tPii5axH60TmS-tgbpKsyQ.png"></p>
+<p>When we separate the database from the API, we are able to upgrade their hardware individually. From the original scale-up of a single machine to the scale-up of individual components.</p>
+<p>The hardware specifications of the database are usually very advanced, but the API ones are not. The main reason is that as the users grow, the API needs a stronger CPU to handle more traffic, but the rest of the resources are not as urgent. Upgrading CPUs runs into the same problem as hard drives, an exponentially increasing cost curve.</p>
+<p>In other words, it is much more cost effective to increase the number of CPUs than to increase the size of CPUs. So in order to handle the increased traffic, we usually adopt the strategy of increasing the number of APIs.</p>
+<h3 id="Horizontal-Scaling"><a href="#Horizontal-Scaling" class="headerlink" title="Horizontal Scaling"></a>Horizontal Scaling</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*Mo9aNau-KNDwL8OihumzGQ.png"></p>
+<p>In order to get the number of APIs to scale smoothly, we will need a new role to assign all incoming traffic, called load balancer. The load balancer assigns the traffic based on its algorithm, the common algorithms are RR (Round Robin) and LU (Least Used), but I suggest to go for the simplest one, RR, because the complex algorithm puts an extra load on the load balancer and makes it another kind of bottleneck.</p>
+<p>When the user’s usage changes, the number of APIs can be dynamically adjusted, for example, the number of APIs is increased when the usage goes up, which is called scale-out, and the opposite is called scale-in.</p>
+<p>So far, the APIs can be scaled up to handle the increasing traffic, but there is another bottleneck, the database, which can be found in the above diagram.</p>
+<p>When usage increases to a certain amount, a single database will not be able to handle it efficiently, resulting in an overall increase in response time. The result is a poor user experience and possibly even a failure of functionality. There are many articles on <a target="_blank" rel="noopener" href="https://uxplanet.org/how-page-speed-affects-web-user-experience-83b6d6b1d7d7">how page speed affects web user experience</a>, so I won’t go into detail here.</p>
+<p>In order to solve the database bottleneck, we would also like to have horizontal scaling of the database. However, unlike the stateless characteristic of APIs, databases are usually stateful and therefore cannot be simply scale-out.</p>
+<h3 id="Read-Write-Splitting"><a href="#Read-Write-Splitting" class="headerlink" title="Read Write Splitting"></a>Read Write Splitting</h3><p>To enable the database to be scaled horizontally, a common practice is called Read&#x2F;Write Splitting.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*YDcMMhDpJ-_9Bdc41HKCyA.png"></p>
+<p>First, we keep all writes to the same database entity to maintain the state of the database. Reads, on the other hand, are reads on entities that can scale horizontally. Keeping reads and writes split makes it easier to scale-out the database.</p>
+<p>When there are data updates, the primary is responsible for replicating the changes to each of the read entities. In this way, the read entities can be scaled out based on usage.</p>
+<p>This is seen in several common databases, such as MySQL Replication and MongoDB ReplicaSet.</p>
+<p>Nevertheless, there is a problem that in order to handle more reads, we have to create more replicas of the database, which is a challenge for the budget. Because of the high hardware specifications of the databases, creating replicas is a very high price to pay.</p>
+<p>Is there a way to support the traffic and save cost at the same time? Yes, caching.</p>
+<h3 id="Caching"><a href="#Caching" class="headerlink" title="Caching"></a>Caching</h3><p>There are several types of caching practices, the common ones are:</p>
+<ol>
+<li>Read-aside cache</li>
+<li>Content Delivery Network, CDN</li>
+</ol>
+<p>There are advantages and disadvantages to both approaches, which will be briefly analyzed below.</p>
+<h3 id="Read-aside-Cache"><a href="#Read-aside-Cache" class="headerlink" title="Read-aside Cache"></a>Read-aside Cache</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*H3N_CRqQsbbBNP28fgt-hQ.png"></p>
+<p>In addition to the original database, we put a cache aside. The whole process of reading is,</p>
+<ol>
+<li>first read the data from the cache.</li>
+<li>if the data does not exist in the cache, read it from the database instead.</li>
+<li>then write back to the cache.</li>
+</ol>
+<p>This is the most common scenario for caching. Depending on the nature of the data, different time to live, TTL will be set in the cached dataset.</p>
+<h3 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h3><p>Another caching practice is CDN.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*dMOjwBzvwMlyNzB2TzXrIA.png"></p>
+<p>Instead of building a cache, a new component is used and placed in front of the load balancer. When any read request comes in, the CDN first determines if there is already cached data based on the configured rules. If there is, the request will be replied directly. On the other hand, the request will follow the original process, and the data will be cached when the response passes through the CDN so that it can be replied directly next time.</p>
+<p>Compared with the read-aside cache, we can see from the diagram there are fewer lines in the CDN. Fewer lines means less complexity in application implementation and easier to achieve. After all, the CDN only needs to configure the rules and the application does not need to be changed at all.</p>
+<p>One potential problem with caching is the inconsistency of the data. When the data is updated in the database, if the TTL of the cache does not expire, the cached data will not be updated, and then the user may see the inconsistent result.</p>
+<p>For read-aside cache, when the API updates the database, it can delete the data in the cache at the same time, so that the next time when it reads in, it can get the latest data. On the other hand, CDNs have to perform invalidation through the APIs provided by each vendor, which is more complicated than read-aside cache in practice.</p>
+<h3 id="Writing-Bottlenecks"><a href="#Writing-Bottlenecks" class="headerlink" title="Writing Bottlenecks"></a>Writing Bottlenecks</h3><p>Caching and read&#x2F;write splitting have been effective in handling the increasing amount of read requests, but as you can see from the above diagrams, there is still no effective way to deal with the large number of writes to the database. To solve the write bottleneck, there are many different mechanisms that can be applied, and two common approaches are listed below.</p>
+<ol>
+<li>Master-master replication</li>
+<li>Write through cache</li>
+</ol>
+<p>These two approaches are orthogonal and have completely different practical considerations and are difficult to compare with each other. Then, let’s analyze these two approaches.</p>
+<h3 id="Master-master-Replication"><a href="#Master-master-Replication" class="headerlink" title="Master-master Replication"></a>Master-master Replication</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*4843yOgJdM3nknRx80XbPA.png"></p>
+<p>Although there is a corresponding database entity for each of the APIs in the above diagram, the APIs are not actually locked to a particular entity, depending on the database implementation in use and configuration.</p>
+<p>Comparing with read-write split, you will find both read and write can be executed on the same database entity. Writes on any database entity will be synchronized to other entities.</p>
+<p>A typical example of master-master replication is Cassandra, which is very scalable for writes and can support very large numbers of simultaneous writes. On the other hand, MySQL also supports master-master replication, but one major problem with MySQL master-master replication is its replication is performed asynchronously in the background, which sacrifices MySQL’s most important feature, consistency.</p>
+<p>If master-master replication is needed, PACELC must be taken into account.</p>
+<p>Master-master replication is a technique that tolerates partition failure, so you can only choose between consistency and availability. In addition, MySQL can achieve consistent master-master replication with external frameworks, such as Galera Cluster, which in returns, creates long latency.</p>
+<p>Therefore, when choosing master-master replication to improve write performance, it is important to consider whether the usage scenario is appropriate. If you have to apply such a technique to MySQL, it would be better to switch to another database, e.g. Cassandra.</p>
+<p>However, changing the database is a huge effort. Is there a way to solve the write bottleneck without changing the database? Yes, through caching once again.</p>
+<h3 id="Write-through-Cache"><a href="#Write-through-Cache" class="headerlink" title="Write through Cache"></a>Write through Cache</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*PDEjfTJLYXx55BBKb3Nzrw.png"></p>
+<p>Before writing the data into the database by API, write all the data into the cache. After a period of time, the results of the cache are then written into the database in batches. By this way, a large number of write operations can be turned into a small number of batch operations, which can effectively reduce the load on the database.</p>
+<p>The read operation can also be like read-aside cache which reads from the cache first and then the database, so that on the one hand we can get the first update and on the other hand we can reduce the load on the database read.</p>
+<p>Write through cache is a completely different design pattern from master-master replication, which scales the database performance through architectural changes while keeping the original database. Although the application does not need to be modified by changing the database, writing through cache will also create additional complexity.</p>
+<p>We’ve covered how the entire web service deals with heavy traffic, from scale-up to scale-out, from API to database, but the story doesn’t end here. We have overcome the traffic problem, but when the volume of data in the database is very large, the performance of the database, both in terms of reads and writes, is seriously affected. Given the large volume of data, even a few reads can take up a huge amount of resources, which leads to database performance problems.</p>
+<h3 id="Sharding"><a href="#Sharding" class="headerlink" title="Sharding"></a>Sharding</h3><p>Since the amount of data is too large for a single database, it is sufficient to spread the data evenly across several database entities, which is the concept of sharding.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*3VbI4_XijMmJ_b-jSZQTDQ.png"></p>
+<p>Although there is only one database in each of the above clusters, all three of them are actually database clusters, and the mentioned read-write split or master-master replication can be applied. Furthermore, even though the APIs correspond to a database cluster individually, it does not mean that the APIs can only access specific clusters. For example, <code>API2</code> can also access <code>Cluster3</code>.</p>
+<p>Sharding is the technique of dividing a large dataset into several smaller datasets. By using pre-defined indexes such as shard key (MongoDB) or partition key (Cassandra), the data is distributed to the corresponding database entities. Thus, for an application, accessing a specific data will be in a specific database entity, and if the data is spread evenly enough, then the load of individual database entity is <code>1/N</code>, <code>N</code> being the number of clusters.</p>
+<p>Nevertheless, if the data is not spread out enough and is overly concentrated in one database, the meaning of sharding is lost, which is called a hot spot, and this will not only cause the performance to drop, but also the cost of redundant database. As I mentioned earlier, the cost of a database is high, and it would be very wasteful to have a redundant database.</p>
+<p>Once we have overcome the problem of scaling traffic and data volume, the next challenge is what to do when the task to be performed becomes large enough to affect the performance of the API and the database? The answer is to break up the task.</p>
+<h3 id="Messaging"><a href="#Messaging" class="headerlink" title="Messaging"></a>Messaging</h3><p>When the tasks running by the API become large, the response time of the API will be significantly affected. To reduce the response time of the API for large tasks, the most common approach is to perform synchronous tasks asynchronously, and sometimes even divide the large tasks into several smaller ones.</p>
+<p>The asynchronous approach has actually been mentioned in many of my previous articles, that is, the Event-Driven Architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*PoA_dF4nTmON98LB-U909Q.png"></p>
+<p>The API sends tasks to the message queue, which are executed by workers behind the queue. As the number of events grows, the number of workers can be scaled horizontally depending on the number of pending events.</p>
+<p>The details of the event-driven architecture are listed below, so I won’t dive into them in this article.</p>
+<ul>
+<li>How to choose a message queue? <a target="_blank" rel="noopener" href="https://selectfrom.dev/message-queue-in-redis-9efe0de2c39c">There are four main aspects</a>.</li>
+<li>What is the event-driven architecture pattern? <a target="_blank" rel="noopener" href="https://lazypro.medium.com/design-patterns-of-event-driven-architecture-bf0121cfda7b">Design pattern, Part 1</a> and <a target="_blank" rel="noopener" href="https://lazypro.medium.com/design-patterns-of-event-driven-architecture-part-2-ea4296dc58d">Design pattern, Part 2</a>.</li>
+<li>How to implement with minimal effort? <a target="_blank" rel="noopener" href="https://betterprogramming.pub/implement-event-driven-architecture-with-minimal-effort-182c3bbe5524">Solution</a>.</li>
+</ul>
+<p>Finally, when the project has been successful, the users are around the world. If the data center is located in the same place, then for areas that are physically far away, the delay will be noticeable, resulting in a decrease in user acceptance. So, how do we address the scalability of users?</p>
+<h3 id="Edge-Computing"><a href="#Edge-Computing" class="headerlink" title="Edge Computing"></a>Edge Computing</h3><p>Edge means to arrange the system as close to the user as possible for a good user experience.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*ZfFrkurRSLzkUctXTj8msw.png"></p>
+<p>Therefore, for three distant regions, we can set up three different data centers to provide better efficiency for users in each region.</p>
+<p>Nevertheless, when we need to perform data analysis, we will always need data from all three regions. From a data analysis perspective, we need one logically unified database, not three physically independent databases.</p>
+<p>In other words, how to get the database as close to the user as possible and still have a unified entry point?</p>
+<ul>
+<li>DB shards: This is a relatively simple approach to practice. Just use the region as the shard key and create database shards in each region. Then, there will be a unified entry point, which in the case of MongoDB is <code>mongos</code>.</li>
+<li>DB master-master replication: master-master replication also allows different database entities to be placed in different regions, but because of the physical distance, the replication is not very efficient, so the synchronization rate is a potential problem.</li>
+<li>Data ETL: Data is extracted from various databases and transformed and loaded into a unified data store. This is the most common way for data analysts to do this without changing the database structure of the original application, as well as to pre-process the data and even choose their own familiar data storage.</li>
+</ul>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article analyzes how to scale web services from various perspectives. From the beginning of the project, the API is horizontally scaled to handle the large number of incoming requests until the database becomes a bottleneck. To solve the database bottleneck, no simple horizontal scaling can be used, so techniques such as read-write splitting or caching are used to reduce the load on the database. However, if the dataset is very large, we still need to adopt sharding and other methods to separate the dataset. Finally, if the users are worldwide, it is necessary to establish different data centers to physically distribute the workload.</p>
+<p>However, while this article is focused on explaining infrastructure-related topics, there is another kind of service scaling that is actually very important, and that is the scaling of feature requirements.</p>
+<p>As a project moves towards success, more and more feature requests will be made, so how to quickly respond to feature scaling? The most common technology used nowadays is microservices, but microservices also have problems which must be faced, and in my previous article, I introduced what are the aspects of designing a microservice architecture that are worth considering.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/original-sin-of-microservices-part-1-90461ddcefb">Original Sin of Microservices, Part 1</a></li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/original-sin-of-microservices-part-2-8856c0e8426d">Original Sin of Microservices, Part 2</a></li>
+</ul>
+<p>This article serves as an internal training for my team members, because the target is junior engineers, so there is not too much detail on each topic. If you are interested in any of the topics, please let me know and I will analyze those techniques in depth.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/scaling-web-service-b391557a1134">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Solve-Performance-Bottleneck-through-CQRS/20220522/" rel="prev" title="Solve Performance Bottleneck through CQRS">
+                  <i class="fa fa-chevron-left"></i> Solve Performance Bottleneck through CQRS
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Testing/Gitlab-CI-for-Node-Testing-and-Coverage/20220605/" rel="next" title="Gitlab CI for Node Testing and Coverage">
+                  Gitlab CI for Node Testing and Coverage <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/16/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/16/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/16/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Do-you-really-need-a-microservice/20220116/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Microservice/Do-you-really-need-a-microservice/20220116/" class="post-title-link" itemprop="url">Do you really need a microservice?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-01-17 01:06:06" itemprop="dateCreated datePublished" datetime="2022-01-17T01:06:06+08:00">2022-01-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>I often get a consultation.</p>
+<blockquote>
+<p><em>Hey, architect. I want to use a microservice to refactor the system, could you help reviewing my architecture design?</em></p>
+</blockquote>
+<p>This situation is very common, but instead of saying yes right away, I will ask a question.</p>
+<blockquote>
+<p><em>What problem is your microservice trying to solve?</em></p>
+</blockquote>
+<p>Guess what, most of the responses were “No, I think this is where microservices should be used.”</p>
+<p>And, most of the time, I would just say no.</p>
+<p>I know that developers like to try new technologies, whether it is new languages, new frameworks or even new architectures, it is easy to try those brand new technologies through a microservice. You can do these new experiments on new business requirements, and I’m open to that. However, when it comes to refactoring, it’s not that simple.</p>
+<p>As I said in <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">my previous article</a>, the evolution of any system must solve some problems that are currently unsolvable. Please ask yourself a few questions before refactoring your legacy system with microservices.</p>
+<ol>
+<li>Do you reuse the same code base?</li>
+<li>Does the microservice share the existed databases?</li>
+<li>Do you just change the function call in the monolith to an API call through a microservice?</li>
+<li>Is the same release cycle as the original system?</li>
+</ol>
+<p>If the answer to any question is yes, please stop and think carefully, do you really need microservices? Microservices built with these thoughts are just for doing, not refactoring, or even worse.</p>
+<p>There are several principles when refactoring a legacy system with microservices.</p>
+<ol>
+<li>Independent deployments</li>
+<li>Data isolation</li>
+<li>Non-overlapping domains</li>
+</ol>
+<p>For a huge legacy system, data isolation may not be achieved immediately. Nevertheless, the original system must be strangled by the new microservice in implementing an anticorruption layer.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Is7DMkGR12z_JEhx07wUrg.png"></p>
+<p>From the above diagram, in the process of continuous evolution, <code>Legacy</code> should become smaller and smaller, while <code>Modern</code> will become larger, and finally achieve the purpose of replacing <code>Legacy</code> with <code>Modern</code>.</p>
+<p>In addition, there is another problem with the data isolation of microservices. How to do when microservices and original systems must maintain data consistency? I’ve covered <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/distributed-transaction-introduction-1cd105c830a2">distributed transaction</a> before, but are you ready for eventual consistency? This means that has your client identified and handled the eventual consistency correctly?</p>
+<p>Changes in software architecture come with pros and cons. From a monolith to a microservice, there will be many benefits.</p>
+<ol>
+<li>Reduce the problem domain.</li>
+<li>De-couple the release cycle.</li>
+<li>Productivity increases by using new techniques without the original big ball of mud.</li>
+</ol>
+<p>However, it will also create new problems.</p>
+<ol>
+<li>Data consistency.</li>
+<li>Maintain effort increases, especially when the team size remains the same.</li>
+<li>Performance drops due to more coexistence between the monolith and microservice.</li>
+</ol>
+<p>There is no one-size-fit-all solution, we can only make the least worse decision. And with microservices, are you really ready?</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/do-you-really-need-a-microservice-91a48cbea8c1">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Resilient-Caching-in-Redis/20220109/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Redis/Resilient-Caching-in-Redis/20220109/" class="post-title-link" itemprop="url">Resilient Caching in Redis</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-01-10 01:14:36" itemprop="dateCreated datePublished" datetime="2022-01-10T01:14:36+08:00">2022-01-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Resilient-Caching-in-Redis"><a href="#Resilient-Caching-in-Redis" class="headerlink" title="Resilient Caching in Redis"></a>Resilient Caching in Redis</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*JGudLbUdBmTefcki"></p>
+<p>Before the introduction, I will describe what is the resilience.</p>
+<blockquote>
+<p><em>Distributed systems will fail, a resilient software system will not try to avoid failure but expect it and respond gracefully.</em></p>
+</blockquote>
+<p>We all know data in cache will sooner or later be lost. The reason comes from many situations even the writing operation is successful. Let’s take Redis as an example.</p>
+<ol>
+<li>Redis server crashed: of course, data was lost, because all data in Redis was stored in the memory.</li>
+<li>Redis replica went through the partition failure and recovered again.</li>
+<li>Even without any hardware&#x2F;software failure, Redis spent all memory spaces and proceeded to evict the existing cache.</li>
+<li>If using <code>ElastiCache</code> of <code>AWS</code>, the upgrade process will also drop all entries.</li>
+<li>And so on.</li>
+</ol>
+<p>As far as we know, the cache is not reliable and hard to ensure the data consistency. However, there are indeed some tasks which leveraged cache to improve the performance requiring the reliability.</p>
+<p>We have talked about the cardinality counting in <a target="_blank" rel="noopener" href="https://lazypro.medium.com/cardinality-counting-in-redis-3c3a472e2d9f">my previous article</a>, and that is a great example to show the importance of data persistence. If the collections in Redis is no longer trusted, how can we design a large system? The solution is making your cache more resilient.</p>
+<h3 id="Resilient-Collections"><a href="#Resilient-Collections" class="headerlink" title="Resilient Collections"></a>Resilient Collections</h3><p>Following my example of health status, we want to make sure our sensor networks work properly; therefore, we record the activity of API calls in Redis. In order to simplify the explanations, I will choose bitmap with recording in days in this section.</p>
+<p>The data in Redis bitmap must answer a question, how many days does the sensor work in this month?</p>
+<p>We can leverage my previous statements as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SETBIT sensorA_jan 1 1  </span><br><span class="line">SETBIT sensorA_jan 2 1  </span><br><span class="line">SETBIT sensorA_jan 3 1</span><br></pre></td></tr></table></figure>
+
+<p>The statements show that <code>A</code> worked at 1&#x2F;1, 1&#x2F;2 and 1&#x2F;3. And we can get the answer from: <code>BITCOUNT sensorA_jan</code>. What if the Redis crashed at 1&#x2F;2? The <code>bitocunt</code> would become 2 without the record of 1&#x2F;1. In such case, the <code>bitcount</code> is distorted.</p>
+<p>To tackle this issue, we can add an integrity into the collection, let’s say <code>SETBIT sensorA_jan 0 1</code>. When we want to retrieve <code>bitcount</code>, we check the integrity first, <code>GETBIT sensorA_jan 0</code>. If the result is <code>1</code>, which means the <code>bitcount</code> is under controlled, otherwise, we have to rebuild the data from a durable storage like a database.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Since we have to rebuilt the result from a database, why not do it at the first? The reason is quite simple, we want to keep the system high performance. We should ensure the reporting throughput by using cache and expect there should be failed someday. Nevertheless, we still can get the correct result by some heavy aggregating operations on the database.</p>
+<p>This is how resilience does, and this article provides a straightforward example to demonstrate how to accomplish a cardinality counting resiliently.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/resilient-caching-in-redis-a5b3c1a49f14">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Shift-from-Monolith-to-CQRS/20220102/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Shift-from-Monolith-to-CQRS/20220102/" class="post-title-link" itemprop="url">Shift from Monolith to CQRS</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-01-03 01:20:59" itemprop="dateCreated datePublished" datetime="2022-01-03T01:20:59+08:00">2022-01-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Shift-from-Monolith-to-CQRS"><a href="#Shift-from-Monolith-to-CQRS" class="headerlink" title="Shift from Monolith to CQRS"></a>Shift from Monolith to CQRS</h3><p>Software design is an evolving process. Every large system starts from a tiny system. When a problem is encountered in the existing architecture but cannot be solved, the system will begin to evolve. Every evolution is accompanied by some technical selections. What problems should be solved? What price will it pay? As an architect or a senior engineer, there must find a reasonable way to evolve, regardless of the development schedule, technical stack, and team level, it is necessary to be able to meet these criteria before a feasible solution can be made.</p>
+<p>This article will introduce the spirit of <code>CQRS</code> (Command Query Responsibility Segmentation) and the problems to be solved. We will start from a small monolith and evolve it like the evolution of every software system, and this article will introduce the reasons and approaches behind each evolution.</p>
+<h3 id="Traditional-Monolith"><a href="#Traditional-Monolith" class="headerlink" title="Traditional Monolith"></a>Traditional Monolith</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*yL20KQu7Fjrk-W5s6Zi36g.png"></p>
+<p>This is the most common system design. There is an API server, usually a restful API, and a database. Client negotiates the transmission format with the backend in advance. Both reading and writing are done through DTO, data transfer object. However, when the backend processes business logic, it converts DTO into a domain object with domain knowledge and uses the domain object as the storage unit of the database.</p>
+<p>In order to achieve <strong>Read&#x2F;Write Splitting</strong>, in the write path on the left, the client sends up DTO to the backend to perform CUD (create&#x2F;update&#x2F;delete) operation on the database, and the backend responses to the client with <em>Ack</em> for success and <em>Nak</em> for failure after processing. In restful API, usually 2xx represents success and 4xx represents failure. The read path on the right simply obtains the corresponding DTO through a read request.</p>
+<p>I further explain the meaning of DTO for the client. DTO on the client usually contains all the data to render on the screen. For example, when you look at your profile on a social medium, it will include your name, account, and other personal information, as well as your own recent activity, and even the activity you followed. DTO contains all the information that needs to be presented on this page.</p>
+<p>Why do we need to emphasize Read&#x2F;Write Splitting? Can’t we use the same procedure on both the read and write path? Because we want to better optimize our system in the future. The write path has a particular optimization method, and so is the read path. For instance, to make a cache, read aside caching can be used on the read path to reduce the response time. And, the write path can be improved by write through caching. Secondly, the writing may also be performed asynchronously. All the DTOs are written into the message queue and processed by the worker to handle the huge amount of written data. Moreover, each appropriate database may be used for writing and reading.</p>
+<p>Therefore, Read&#x2F;Write Splitting is essential. And it should be taken into consideration in the early stages of system design. The write path is to concentrate on data persistence; while the read path is to concentrate on data query.</p>
+<p>Nevertheless, there are two main problems in this system design model.</p>
+<ol>
+<li>Anemic model. It is also known as CRUD model. When backend focuses on data conversion, it is difficult to have space to handle business logic, which will cause business logic to be scattered everywhere. Domain knowledge will also disappear, e.g., to an ecommerse website, we will say “purchase” instead of “inserting an order record”.</li>
+<li>Insufficient scalability. From the perspective of system architecture, the database can easily become a bottleneck of the entire system. Both reading and writing must be onto it. The problem of RDBMS is even more serious due to no horizontal scaling.</li>
+</ol>
+<h3 id="Task-based-Monolith"><a href="#Task-based-Monolith" class="headerlink" title="Task-based Monolith"></a>Task-based Monolith</h3><p>In order to solve the problems encountered by the above traditional monolith, here we try to introduce the concept of domains.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Fxz5fFVVKBhUmbrIF6KDLA.png"></p>
+<p>This diagram is basically the same as the above one. The only difference is replacing DTO with messages on the write path. Messages contain actions and data, not just the data itself like DTO. Thus, we can carry domain-specific actions in the message to make it easier for the backend to recognize each action, and have a corresponding domain implementation.</p>
+<p>At this stage, <strong>C</strong> in <code>CQRS</code> has appeared, and message is a kind of commands. However, the problem of scalability is still unresolved.</p>
+<p>In addition, although we have simplified DTO and changed to use messages to communicate, we still need DTO on the read path. Let’s take the social medium as an example again. When modifying the nickname, the format of a message may be <code>{&quot;rename&quot;: &quot;LazyDr&quot;}</code>. But when rendering the profile, we still need additional information such as activities. This information gap makes it necessary to do a lot of processing on the read path to retrieve DTO.</p>
+<h3 id="CQS-Command-Query-Segmentation"><a href="#CQS-Command-Query-Segmentation" class="headerlink" title="CQS (Command Query Segmentation)"></a>CQS (Command Query Segmentation)</h3><p>The emergence of CQS is to solve the above pain points of Read&#x2F;Write Splitting.</p>
+<p>When reading, the client needs DTO, so the backend can do some optimizations dedicated to reading on the read path, such as pre-generating DTO from the original domain object, and storing DTO in a dedicated database for reading.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*0iuIGQPnWIs_hoM4Kxmb8w.png"></p>
+<p>In this way, on the read path, the implementation of the application service becomes simpler. The application service can become a thin read layer, which only needs to be responsible for paging, sorting, etc. After requesting, the client can easily retrieve DTO from the database.</p>
+<p>So the question is, who is going to generate those pre-built DTOs? It is the responsibility of the write path.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uZzRH4J6uhN_UanSMBiAWg.png"></p>
+<p>Although the diagram is similar with the examples seen before, in fact, in addition to persist the domain object, the application service must also persist DTO. In other words, most of the business logic will be pressed on the write path, and various read views need to be prepared.</p>
+<p>At this stage, we have solved most of the problems encountered by the domain, but scaling still has no solution. Now, we further define scaling. Scaling has two different aspects.</p>
+<ol>
+<li>Traffic: increase in write volume.</li>
+<li>Extension: functional requirements increase, such as the need for a variety of different read views. Continuing to take the social medium as an example, there is one presentation on the profile, but there may be another presentation on the timeline.</li>
+</ol>
+<h3 id="CQRS"><a href="#CQRS" class="headerlink" title="CQRS"></a>CQRS</h3><p>Why is the write path responsible for preparing the read view? Writing should focus on persistence, and those various read views should not be processed on the write path. But there is only reading on the read path, who should prepare those read views?</p>
+<p>Therefore, the total solution is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*s5O9jiJ2rv7NRe2b4aLF5g.png"></p>
+<p>The write path on the left and the read path on the right have been introduced in the CQS section. The only difference is that an eventually block is added, which is responsible for converting the database on the write path into the database used on the read path. Once data synchronization is involved, it is possible to encounter data consistency issues, so here is a list of several approaches for implementing eventually consistency, sorted by time consuming from short to long:</p>
+<ol>
+<li>Background thread: The typical representative is Redis. After the data is written to the primary, Redis will immediately send the data to the replicas in the background.</li>
+<li>Message queue plus workers: This is a common practice for asynchronous data replication. When writing to the database, an event is initiated into the message queue and processed by the workers.</li>
+<li>Extract-Transform-Load: This time interval is the longest, ranging from a few minutes to a few hours. Use map-reduce or other methods to write the results on the other side.</li>
+</ol>
+<p>No matter which approach, the single source of truth is mandatory. That is to say if there is any failure occurred on converting, the system must be able to recover the unfinished jobs. Therefore, the data has to be unique and reliable.</p>
+<p>Data usually laid on two types,</p>
+<ol>
+<li>state: State refers to what you see at the moment, such as the balance written on the bank passbook.</li>
+<li>event: An event is an action to modify each state, such as every transaction record on the bank passbook</li>
+</ol>
+<p>Actually, we already have messages that can be stored as events. For the write path, it is very efficient to store messages in order. Through each different message, you can easily build a different read view according to your needs. This approach is also called <strong>event sourcing</strong>.</p>
+<p>But only events are difficult to use efficiently. In order to obtain the final result, every conversion must be run from the beginning to the end to rebuild the read view. As a result, the hybrid method would be ideal. On the write path, both the state and the event are kept, and the conversion process can choose the data source based on the actual situation.</p>
+<p>To sum up the whole life cycle of data in CQRS.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*cZYWVAE37VIdHieRI9oOlA.png"></p>
+<p>The data starts from the client and then enters to the backend in the command format. According to the business logic, it is converted into a domain object and stored in the database. These domain objects are converted into various read views and stored in different read special databases according to requirements. Finally, the client takes these read views back in the form of DTO.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>There are many books and articles describing DDD and CQRS with many patterns. From my point of view, those patterns lead to the limitation on imagination of DDD like Entity, Value Object, Aggregate, etc. It results in most developers feel DDD is far from themselves and hard to realize as well as implementations. In fact, the concepts of DDD is not so complicated; instead, DDD is proposed to encapsulate the business logic and then facilitate expending the functional requirements.</p>
+<p>CQRS is even simpler. In this article, we start from the process of system evolution, understand the entire system design process and the problems to be solved, and finally derive the conclusion of CQRS naturally.</p>
+<p>There is no silver bullet in the system design. Each evolution is made for solving some specific problems, however, it may come out a new problem. Take the design processes of this article as an example, CQRS seems to resolve all mentioned problems, anemic model, and insufficient scalability, but actually CQRS also brings new problems, such as data consistency. Each technical selection has its trade-off, as long as understanding all threats behind every option, you can choose relatively acceptable approaches.</p>
+<p>Even if you choose CQRS, in practice, there are still three choices on implementing eventual consistency. System design is the result of continuous selection.</p>
+<p>The purpose of this article is to tell you that DDD is not that scary, and CQRS is not that complicated, it is just a decision.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/shift-from-monolith-to-cqrs-a34bab75617e">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/Array-Operation-in-MongoDB/20211226/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/MongoDB/Array-Operation-in-MongoDB/20211226/" class="post-title-link" itemprop="url">Array Operation in MongoDB</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-12-27 00:55:40" itemprop="dateCreated datePublished" datetime="2021-12-27T00:55:40+08:00">2021-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Array-Operation-in-MongoDB"><a href="#Array-Operation-in-MongoDB" class="headerlink" title="Array Operation in MongoDB"></a>Array Operation in MongoDB</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*xvd87bY8q7pzEbP2.png"></p>
+<p>MongoDB is a document-based database, and each document is in JSON-like format. Therefore, MongoDB can store various data structures. Moreover, in order to manage those documents, MongoDB provides a powerful ubiquitous language to operate documents.</p>
+<p>Here comes a question. We usually perform CRUD on documents, however, do you know how to update the element in a list from certain documents? This article is my experiment of array operations.</p>
+<p>The original collections is given as follows:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123; _id: ObjectId(&quot;61bb0d7cf08a56308c62110b&quot;),  </span><br><span class="line">  prop: [ &#123; a: 1, b: true &#125;, &#123; a: 2, b: true &#125; ] &#125;  </span><br><span class="line">&#123; _id: ObjectId(&quot;61bb0dbaf08a56308c62110c&quot;),  </span><br><span class="line">  prop: [ &#123; a: 1, b: true &#125;, &#123; a: 2, b: true &#125; ] &#125;  </span><br><span class="line">&#123; _id: ObjectId(&quot;61bb0dcaf08a56308c62110d&quot;),  </span><br><span class="line">  prop: [ &#123; a: 3, b: true &#125;, &#123; a: 2, b: true &#125; ] &#125;  </span><br><span class="line">&#123; _id: ObjectId(&quot;61bb0fcef08a56308c62110e&quot;),  </span><br><span class="line">  prop: [ &#123; a: 1, b: false &#125; ] &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Update-a-key-of-elements-in-an-array"><a href="#Update-a-key-of-elements-in-an-array" class="headerlink" title="Update a key of elements in an array"></a>Update a key of elements in an array</h3><p>We have an array, <code>prop</code>, with elements, and those elements contains <code>a</code> and <code>b</code> are integer and boolean respectively. What we want to do is update <code>b</code> to <code>false</code> if <code>a</code> is equal to <code>1</code>.</p>
+<p>The command is:</p>
+<p><code>db.test.updateMany({&quot;prop.a&quot;: 1}, {$set: {&quot;prop.$.b&quot;: false}})</code>.</p>
+<p>There is a dollar sign representing the result set from filtering. So, <code>prop.$.b</code> means all <code>b</code> with <code>a</code> is <code>1</code>.</p>
+<p>After executing the command, the collection would be:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123; _id: ObjectId(&quot;61bb0d7cf08a56308c62110b&quot;),  </span><br><span class="line">  prop: [ &#123; a: 1, b: false &#125;, &#123; a: 2, b: true &#125; ] &#125;  </span><br><span class="line">&#123; _id: ObjectId(&quot;61bb0dbaf08a56308c62110c&quot;),  </span><br><span class="line">  prop: [ &#123; a: 1, b: false &#125;, &#123; a: 2, b: true &#125; ] &#125;  </span><br><span class="line">&#123; _id: ObjectId(&quot;61bb0dcaf08a56308c62110d&quot;),  </span><br><span class="line">  prop: [ &#123; a: 3, b: true &#125;, &#123; a: 2, b: true &#125; ] &#125;  </span><br><span class="line">&#123; _id: ObjectId(&quot;61bb0fcef08a56308c62110e&quot;),  </span><br><span class="line">  prop: [ &#123; a: 1, b: false &#125; ] &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Remove-a-key-of-elements-in-an-array"><a href="#Remove-a-key-of-elements-in-an-array" class="headerlink" title="Remove a key of elements in an array"></a>Remove a key of elements in an array</h3><p>We can <code>$set</code> a key; on the other hand, we can remove a key either. The command is like the <code>$set</code> one.</p>
+<p><code>db.test.updateMany({&quot;prop.a&quot;: 1}, {$unset: {&quot;prop.$.b&quot;: &quot;&quot;}})</code></p>
+<p>When we want to <code>$unset</code> a key, the syntax is <code>{key: &quot;&quot;}</code>, thus, <code>{$unset: {&quot;prop.$.b&quot;: &quot;&quot;}</code> is as expected.</p>
+<p>Finally, the collection would be:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123; _id: ObjectId(&quot;61bb0d7cf08a56308c62110b&quot;),  </span><br><span class="line">  prop: [ &#123; a: 1 &#125;, &#123; a: 2, b: true &#125; ] &#125;  </span><br><span class="line">&#123; _id: ObjectId(&quot;61bb0dbaf08a56308c62110c&quot;),  </span><br><span class="line">  prop: [ &#123; a: 1 &#125;, &#123; a: 2, b: true &#125; ] &#125;  </span><br><span class="line">&#123; _id: ObjectId(&quot;61bb0dcaf08a56308c62110d&quot;),  </span><br><span class="line">  prop: [ &#123; a: 3, b: true &#125;, &#123; a: 2, b: true &#125; ] &#125;  </span><br><span class="line">&#123; _id: ObjectId(&quot;61bb0fcef08a56308c62110e&quot;),  </span><br><span class="line">  prop: [ &#123; a: 1 &#125; ] &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Remove-a-key-of-certain-elements-in-an-array"><a href="#Remove-a-key-of-certain-elements-in-an-array" class="headerlink" title="Remove a key of certain elements in an array"></a>Remove a key of certain elements in an array</h3><p>Furthermore, if we want to remove <code>b</code> when <code>b</code> is <code>true</code> rather than all <code>b</code>. How can we do?</p>
+<p>The solution is:</p>
+<p><code>db.test.updateMany({&quot;prop.a&quot;: 1}, {$unset: {&quot;prop.$[elem].b&quot;: &quot;&quot;}}, {arrayFilters: [{&quot;elem.b&quot;: true}]})</code>.</p>
+<p>We are using <code>arrayFilters</code> to match the specific elements and indicating those elements to the <code>$unset</code> criteria. Then, the collection would become:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123; _id: ObjectId(&quot;61bb0d7cf08a56308c62110b&quot;),  </span><br><span class="line">  prop: [ &#123; a: 1 &#125;, &#123; a: 2 &#125; ] &#125;  </span><br><span class="line">&#123; _id: ObjectId(&quot;61bb0dbaf08a56308c62110c&quot;),  </span><br><span class="line">  prop: [ &#123; a: 1 &#125;, &#123; a: 2 &#125; ] &#125;  </span><br><span class="line">&#123; _id: ObjectId(&quot;61bb0dcaf08a56308c62110d&quot;),  </span><br><span class="line">  prop: [ &#123; a: 3, b: true &#125;, &#123; a: 2, b: true &#125; ] &#125;  </span><br><span class="line">&#123; _id: ObjectId(&quot;61bb0fcef08a56308c62110e&quot;),  </span><br><span class="line">  prop: [ &#123; a: 1, b: false &#125; ] &#125;</span><br></pre></td></tr></table></figure>
+
+<p>Although we can use filter like <code>{a: 1, b: true}</code> to leverage the dollar sign operations, <code>arrayFilters</code> provides more possibilities to achieve more complex user scenarios. You can try to skill it.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/array-operation-in-mongodb-2c6f6eb2114b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Are-Design-Pattern-and-Clean-Code-Useful/20211219/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Are-Design-Pattern-and-Clean-Code-Useful/20211219/" class="post-title-link" itemprop="url">Are Design Pattern and Clean Code Useful?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-12-20 01:09:48" itemprop="dateCreated datePublished" datetime="2021-12-20T01:09:48+08:00">2021-12-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Are-Design-Pattern-and-Clean-Code-Useful"><a href="#Are-Design-Pattern-and-Clean-Code-Useful" class="headerlink" title="Are Design Pattern and Clean Code Useful?"></a>Are Design Pattern and Clean Code Useful?</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*QxMg2AdK-5LGu8N3"></p>
+<p>I overheard our junior developers discussing the value of design pattern and clean code. I vaguely remember their conclusion is, “those techniques make simple things become complex, and that is the favorite thing of those technical authorities who are far from the reality”. Their discussion ends up a negative agreement.</p>
+<p>There are some examples from their conversation. For instance, in clean code, the length of a function is limited in a regular size, which results in to overlook a whole function’s functionality, it has to dive into several nested sub-functions. Besides, design pattern ask us encapsulate a simple task into an object, and the objects are everywhere. Coding with objects will make the source code much more longer.</p>
+<p>Well, I can understand their pain points. Those pain points come from some reasons such as</p>
+<ol>
+<li>Their duty is quite simple without too many complicated design or further expandability needs.</li>
+<li>In a small organization, they don’t need to consider the cooperation. All features are handled by a few people.</li>
+<li>They don’t realize the concepts of those paradigms, instead, they just see the “tricks”.</li>
+</ol>
+<p>If I were in their position, I perhaps agreed with them. Nevertheless, I had not joined their discussion. After all, I am more close to an authority for them. But, I have to say in their mentioned examples, those methodologies have its meaning.</p>
+<p>Firstly, restricting the function length must be combined with a well-defined naming convention and a good parameter design to let everyone understand what’s the purpose of this function without traversing the detail implementations. Secondly, encapsulating objects is to accomplish a better abstraction and become easier to achieve Open-Closed Principle. Whether encapsulate logic in Strategy Pattern or encapsulate the creation in Factory Method, they make developers be able to use the existing code without reinventing the wheel. In addition, developers can extend the functionality more easily.</p>
+<p>Design pattern and clean code provide some tricks and principles, however, the most important thing is the spirit and purpose behind them. For example,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if prop == 1:  </span><br><span class="line">    do_a()  </span><br><span class="line">elif prop == 2:  </span><br><span class="line">    do_b()  </span><br><span class="line">elif prop == 3:  </span><br><span class="line">    do_c()  </span><br><span class="line">else:  </span><br><span class="line">    do_default()</span><br></pre></td></tr></table></figure>
+
+<p>This simple example can be considered that those <code>do_XX</code> are some flatted source code. Those junior developers would like to see those behaviors clearly on the same code level like the above python example. In order to understand the implementation at a glance, actually, there are many a way to do better.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func = &#123;  </span><br><span class="line">    1: do_a,  </span><br><span class="line">    2: do_b,  </span><br><span class="line">    3: do_c,  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if prop in func:  </span><br><span class="line">    func[prop]()  </span><br><span class="line">else:  </span><br><span class="line">    do_default()</span><br></pre></td></tr></table></figure>
+
+<p>Through simple packaging, it is easier for people who want to read the code to understand the purpose. They can inquire about the part of details they want to see by themselves. In addition to add a new feature, developers just need a handler in <code>func</code>. Furthermore,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">factory.create(prop).run()</span><br></pre></td></tr></table></figure>
+
+<p>By adopting the factory method, the function become more slim. The cognitive load for readers is low as well. In fact, this piece of code encapsulate the logic in polymorphism to <code>run</code>, aka, Strategy Pattern. It is unnecessary to talk about these details implementation of design pattern or clean code. Once you understand his spirit, you can easily have your own implementation. In the above example, it is indeed not a “standard” factory method implementation.</p>
+<p>After skilled design pattern, those pattern names just provide a common language between developers, so that they can communicate more smoothly. For instance, “I have done an observer pattern over here”. It is no need to explain further that you can realize there are a <code>subject</code> and an <code>observer</code> with <code>attach</code> and <code>notify</code>. Even no documents, you still can understand the prototype of the code in your mind.</p>
+<p>The purpose of coding is not only making features but also be a communication tool. <a target="_blank" rel="noopener" href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">Clean Code</a> said, “Don’t document your code. Code your documentation”. But these can only be experienced after those junior developers have written about larger functions, cooperated with more people, and met more changing requirements. Everyone chooses a different career path, and not everyone has the opportunity to enter the world where the design pattern and clean code are facing in.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/are-design-pattern-and-clean-code-useful-cb1861846a58">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Cardinality-Counting-in-Redis/20211212/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Redis/Cardinality-Counting-in-Redis/20211212/" class="post-title-link" itemprop="url">Cardinality Counting in Redis</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-12-13 01:25:57" itemprop="dateCreated datePublished" datetime="2021-12-13T01:25:57+08:00">2021-12-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Cardinality-Counting-in-Redis"><a href="#Cardinality-Counting-in-Redis" class="headerlink" title="Cardinality Counting in Redis"></a>Cardinality Counting in Redis</h3><p>Cardinality counting is used to calculate the amount of elements without any duplication. In Redis, there are many data structures able to accomplish this job. However, what is the most applicable way for your use cases? This article will show the consideration behind the technical selection.</p>
+<h3 id="User-Scenario"><a href="#User-Scenario" class="headerlink" title="User Scenario"></a>User Scenario</h3><p>Suppose we need to get the failure rate in a sensor network to investigate the reporting qualities. Therefore, we have to record the health status in hours by the incoming requests.</p>
+<p>The key point is to simplify the process, we don’t want to get the value first, determine whether it is existing, and then insert the record like:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*bSxOtScKHsJAJgygyLKKcQ.png"></p>
+<p>Instead, we should insert the record every time, and the storage can de-duplicate for us. Or, we can limited pre-process data to make the storage do faster.</p>
+<blockquote>
+<p><em>Assume that we have a sensor A, and the sensor requested to the server at 1&#x2F;2 1:11, 1&#x2F;3 2:22, and 1&#x2F;8 3:00.</em></p>
+</blockquote>
+<p>Alright, let’s see how Redis did cardinality counting.</p>
+<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><p>The basic idea is using set. Before adding to the set, we have to pre-process the date. Due to our requirement, we only keep the hour without minutes and seconds.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const date1 = new Date(2021, 0, 2, 1, 0);  </span><br><span class="line">const d1 = date1.toISOString();</span><br></pre></td></tr></table></figure>
+
+<p>Then, we can add <code>d1</code> to the set via <code>SADD</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SADD sensorA &quot;2021-01-02T01:00:00.000Z&quot;  </span><br><span class="line">SADD sensorA &quot;2021-01-03T02:00:00.000Z&quot;  </span><br><span class="line">SADD sensorA &quot;2021-01-08T03:00:00.000Z&quot;</span><br></pre></td></tr></table></figure>
+
+<p>In order to get the health status, we can use <code>SCARD</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SCARD sensorA  </span><br><span class="line">&gt; 3</span><br></pre></td></tr></table></figure>
+
+<p>The implementation of using set is simple; nevertheless, if we want to count the health status during the specific period like in 2021, set cannot handle this request.</p>
+<h3 id="Sorted-Set"><a href="#Sorted-Set" class="headerlink" title="Sorted Set"></a>Sorted Set</h3><p>Therefore, if we would like to meet the needs of specific time period and whole time, we can leverage sorted set. The implementation is similar to the set. Firstly, pre-process the date.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const date1 = new Date(2021, 0, 2, 1, 0);  </span><br><span class="line">const d1 = date1.getTime();</span><br></pre></td></tr></table></figure>
+
+<p>It is unlike using ISO string, we are using epoch here to find the specific time range easily. Now, we can add to the sorted set via <code>ZADD</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ZADD sensorA 1609520400000 1609520400000  </span><br><span class="line">ZADD sensorA 1609610400000 1609610400000  </span><br><span class="line">ZADD sensorA 1610046000000 1610046000000</span><br></pre></td></tr></table></figure>
+
+<p>To find whole count in it:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ZCARD sensorA  </span><br><span class="line">&gt; 3</span><br></pre></td></tr></table></figure>
+
+<p>On the other hand, in order to search the specific time range, we assign the start and end in <code>ZCOUNT</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ZCOUNT sensorA 1609520400000 1610040000000  </span><br><span class="line">&gt; 2</span><br></pre></td></tr></table></figure>
+
+<h3 id="Bitmap"><a href="#Bitmap" class="headerlink" title="Bitmap"></a>Bitmap</h3><p>We walked through two approaches, but neither set nor sorted set are space efficiency. The detail implementation in Redis takes a huge space to indicate the data structure. When the amount of sensors become larger or the duration of records become longer, the space in Redis will grow quickly.</p>
+<p>How to reduce the space? We can leverage the extended function of string, bitmap. Bitmap is very space efficiency, each bit takes 1 bit as its meaning.</p>
+<p>But the pre-process is a little complicated, we have to get an offset to operate bits. For example, we can calculate the diff hours between the service launch time and the current time, e.g. 2021&#x2F;1&#x2F;2 1:11.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const base = new Date(2021, 0, 1, 0, 0);  </span><br><span class="line">const date1 = new Date(2021, 0, 2, 1, 11);  </span><br><span class="line">const diffTime = Math.abs(date1 - base);  </span><br><span class="line">const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));</span><br></pre></td></tr></table></figure>
+
+<p>After that, make the <code>diffHours</code> be 26.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SETBIT sensorA 26 1  </span><br><span class="line">SETBIT sensorA 51 1  </span><br><span class="line">SETBIT sensorA 171 1</span><br></pre></td></tr></table></figure>
+
+<p>Hence we can get the total health status by <code>BITCOUNT</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BITCOUNT sensorA  </span><br><span class="line">&gt; 3</span><br></pre></td></tr></table></figure>
+
+<p><code>BITCOUNT</code> also provides the range match, so we can assign start and end to search a specific time range like sorted set. It is noteworthy that the start and end here represents the <strong>bytes</strong> offset. We have to convert the start time and end time to the <strong>diff hours bytes</strong>, the calculation is complex, so I am not going to provide an example in this article to prevent losing focus.</p>
+<h3 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h3><p>The final approach is called hyperloglog. This is an algorithm for big data statistics. Redis provides it as the built-in method.</p>
+<p>Whether it is set, sorted set or bitmap, the space usage will larger and larger as time goes by. For instance, if we keep the health status for 10 years, even bitmap will take huge space, 365 * 10 * 24 &#x2F; 1024 ~ 85.5 KB.</p>
+<p>However, in hyperloglog, the space usage is constant. No matter how long the retention you need, hyperloglog takes 12 KB constantly. And the pre-process is like set,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const date1 = new Date(2021, 0, 2, 1, 0);  </span><br><span class="line">const d1 = date1.toISOString();</span><br></pre></td></tr></table></figure>
+
+<p>Then, we can add the date to hyperloglog via <code>PFADD</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PFADD sensorA &quot;2021-01-02T01:00:00.000Z&quot;  </span><br><span class="line">PFADD sensorA &quot;2021-01-03T02:00:00.000Z&quot;  </span><br><span class="line">PFADD sensorA &quot;2021-01-08T03:00:00.000Z&quot;</span><br></pre></td></tr></table></figure>
+
+<p>It is simple to get the total count.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PFOCUNT sensorA  </span><br><span class="line">&gt; 3</span><br></pre></td></tr></table></figure>
+
+<p>Hyperloglog is not quite precise, the result of <code>PFCOUNT</code> may contain some deviations when the data set is huge, but the performance is pretty well.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Let’s summarize those 4 approaches.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*GnBR9yFT9UhiCZe5VKZe6g.png"></p>
+<p>The example in this article is trivial, however, I believe you can realize the concepts of those approaches. The most important thing is each approach has its own strength and drawback, using them in a smart way is developer’s responsibility.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/cardinality-counting-in-redis-3c3a472e2d9f">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Career/Journey-from-Software-Developer-to-Software-Architect/20211205/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Career/Journey-from-Software-Developer-to-Software-Architect/20211205/" class="post-title-link" itemprop="url">Journey from Software Developer to Software Architect</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-12-06 00:58:15" itemprop="dateCreated datePublished" datetime="2021-12-06T00:58:15+08:00">2021-12-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Career/" itemprop="url" rel="index"><span itemprop="name">Career</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="https://cdn-images-1.medium.com/max/800/0*Xy4ZsSaahPHif88g.png"></p>
+<p>The exciting 2021 is almost over, let me review my architect journey. Actually, I had been an architect in embedded system before, then I decided to change my career to the cloud service and backend development. After working and studying for years, I gradually changed from an engineer to a principle engineer. At the beginning of this year, I made my mind to be a backend architect. And finally, the dream comes true.</p>
+<p>In retrospect, I feel the change of professional position went smoothly. Therefore, I will review what I have done and will be done for your reference.</p>
+<h3 id="Why-changing-to-architect"><a href="#Why-changing-to-architect" class="headerlink" title="Why changing to architect"></a>Why changing to architect</h3><p>People often ask me why I want to be an architect instead of being a developer. There are two main reasons,</p>
+<ol>
+<li>Programming language can never be learned. New languages will appear every once in a while and become popular, e.g., <code>golang</code>. Even the existed languages are still enhanced and become unfamiliar like <code>C++11</code>, <code>C++14</code>, <code>C++17</code>, then <code>C++20</code>. On the other hand, the software engineering is much more constant. The core design of data stores, architectures, distributed systems are classic. In other words, mastering these technologies has a relatively high return on investment.</li>
+<li>When I was a developer, every time a clean architecture is written, it becomes a mess soon. Cross referencing, circular referencing, etc. are everywhere, I cannot stop it even being a staff engineer. It is better to become an authority and make rules instead of actual development.</li>
+</ol>
+<h3 id="What-is-R-R-of-architect"><a href="#What-is-R-R-of-architect" class="headerlink" title="What is R&amp;R of architect"></a>What is R&amp;R of architect</h3><blockquote>
+<p><em>“Managers are not confronted with problems that are independent of each other; but with dynamic situations that consist of complex systems of changing problems that interact with each other. I call such situations messes…Managers do not solve problems, they manage messes.”</em></p>
+</blockquote>
+<blockquote>
+<p><em>Some f-Laws from Ackoff, R. L., H. J. Addison and S. Bibb. 2007. Management f-Laws. Triarchy Press Ltd.</em></p>
+</blockquote>
+<p>The same applies to architects.</p>
+<ol>
+<li>Find out the root cause of the intractable online problem and hand it over to an engineer to solve it.</li>
+<li>Monitor and clarify system bottlenecks, find ways to optimize and improve.</li>
+<li>Educate and guide the development team to improve everyone’s skills, such as the low-level details of the database, SOLID principles for the system design, etc.</li>
+<li>Participate in the requirement meeting on the product side and propose a reasonable estimated schedule and change scope.</li>
+<li>Improve development process like CI&#x2F;CD pipelines, design review meetings, trunk-based development, etc.</li>
+<li>Participate in seminars and survey new technologies, techniques, and methodologies.</li>
+</ol>
+<p>From above description, we can find an architect does not solve issues completely; instead, the core value of an architect is simplifying the process whether it is an issue or a product requirement.</p>
+<h3 id="How-to-be-an-architect"><a href="#How-to-be-an-architect" class="headerlink" title="How to be an architect"></a>How to be an architect</h3><p>In order to be an architect, there are some properties helping the position change, and I find those properties really work.</p>
+<ol>
+<li>A lot of reading, you must have the habit of reading. Work process books, professional technical books, and management books are all essential. You have to be greedy.</li>
+<li>A lot of thinking, there is no code or architecture that cannot be optimized, and finding a reasonable improvement way is the responsibility of an architect.</li>
+<li>A lot of communication, the architect is not the person who actually does things, and (s)he must be able to guide developers in a timely manner while establishing authority.</li>
+<li>Stay motivated and optimistic. The work of the architect is very heavy. You have to deal with a large number of people and issues every day. If you don’t manage your mood well, you can easily fall into frustration.</li>
+</ol>
+<p>These four properties are useful, even though you don’t want to be an architect, you still can grow yourself up on the career path of a software engineer. At least, thanks to these properties, I have been able to change from an embedded system engineer to a backend architect successfully in 10 years.</p>
+<h3 id="Afterword"><a href="#Afterword" class="headerlink" title="Afterword"></a>Afterword</h3><p>Being a software architect is pretty interesting. I have no assigned or dedicated jobs in my organization, what I have to do is finding an issue and trying to fix it. All my tasks are assigned by myself. I can schedule my tasks in a proper way and be free to study from any resource. This is my journey in past 10 years, and you can write your own story on your career. It would be great if you could share with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/journey-from-software-developer-to-software-architect-26137c4853f0">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Layered-Architecture-Clarification/20211128/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Layered-Architecture-Clarification/20211128/" class="post-title-link" itemprop="url">Layered Architecture Clarification</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-11-29 02:15:33" itemprop="dateCreated datePublished" datetime="2021-11-29T02:15:33+08:00">2021-11-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="https://cdn-images-1.medium.com/max/800/0*aBdFCd2GP3xER_o3.jpg"></p>
+<p>Layered architecture is a common pattern of an architecture design, and it is very suitable for a small scale monolith. There are many advantages such as,</p>
+<ol>
+<li>very easy to design and implement</li>
+<li>very in line with human nature</li>
+<li>cooperate with each other more easily</li>
+</ol>
+<p>When we are talking about the layered architecture, we often have a myth; in order to replace the dependency, we should make those dependencies as a layer.</p>
+<p>In fact, that’s not the purpose of layered architecture. I believe we seldom need to change a database, a framework, even a programming language. Therefore, what is the benefit of using layers?</p>
+<p>Before we discuss further, we should see an example first.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*n_CYh281E5t66-KHXYncxw.png"></p>
+<p>The above diagram is a classic layered architecture for a web server. We separate a request flow into 4 components, route, controller, service and repository. Each component has its responsibility to handle a part of a request flow. This kind of implementation is also known as Single-Responsibility Principle.</p>
+<p>In many articles, we had been taught that route is made for the web framework changed, and the repo is to nail the database. However, as I mentioned earlier, we seldom need change those hard things. Route and repo here are just completing their own duties.</p>
+<h3 id="Single-Responsibility-Principle"><a href="#Single-Responsibility-Principle" class="headerlink" title="Single-Responsibility Principle"></a>Single-Responsibility Principle</h3><p>I will describe those 4 components’ responsibilities to let you realize them more confidently.</p>
+<ul>
+<li>Route is a the wrapper of a web framework. To interact with a framework and hide the implementation, we build a layer to enclose those details. In route layer, we usually define HTTP routes right here including HTTP methods and URI.</li>
+<li>Controller is the first line to handle a request. The main responsibility is validating the input request and assembling the response. This layer often implements some error handlers to reflect like “400 Bad Request”, “500 Internal Server Error”, etc.</li>
+<li>Service is where the business logic in. The core values of a web product are all here. If it is a E-commerce site, service will calculate the recommendation, orchestrate the render content, and all other logic.</li>
+<li>Repo is an abstraction onto a database. In order to isolate the business logic, we don’t want the database operation to pollute the code in services, thus, repo plays this role in accessing persisted data.</li>
+</ul>
+<p>The text description is a bit abstract, so I provide a more concrete example: <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Clean-Architect-in-Golang">https://github.com/wirelessr/Clean-Architect-in-Golang</a></p>
+<p>The GitHub repository is quite simple due to the screaming architecture, hence, we can know this is a classic web service.</p>
+<ul>
+<li>Route is a mux wrapper in http. It will do nothing and route HTTP request to the controller.</li>
+<li>Controller defines API interfaces. In <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Clean-Architect-in-Golang/blob/58c8e0738ff92a7363f73111523928b4c15a9762/controller/post-controller.go#L42">AddPost</a>, it also validates the request format and assembles the response.</li>
+<li>Service own all business logic including how to access durable data, what the post format is, and how to generate the post identifier.</li>
+<li>Repo hides all database details, so you can choose what data store you want. But, again, we don’t change our data store decision easily. Therefore, repo here is to encapsulate the data store access to make service be independent from <code>firestore</code>.</li>
+</ul>
+<h3 id="What’s-Benefit"><a href="#What’s-Benefit" class="headerlink" title="What’s Benefit"></a>What’s Benefit</h3><p>Do we just separate our web service into several layers for SRP? No. Actually, this comes some benefits. Let me show two most important advantages,</p>
+<ol>
+<li>Layers make testing become more easily.</li>
+<li>If those layers are modules, we can decouple the deployment of layer modules.</li>
+</ol>
+<p>The second one is straightforward. Thus, I will dive into the test. According to <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/whats-difference-between-unit-test-and-integration-test-aae6ef13220">my previous article</a>, we can leverage the dependency injection to accomplish a high testing coverage. For instance, in <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Clean-Architect-in-Golang/blob/master/service/post-service_test.go">my golang example</a>, in order to verify the service, we can create a mocked repo to ignore the data store access.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>There are many articles trying to compare layered architecture and microservice architecture. However, layered architecture is not only an architecture pattern but also the coding technique for a SOLID software. This article tells you still can use layered architecture in your microservice like my post example. They are not two mutually exclusive things; moreover, they are more close to each other.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/layered-architecture-clarification-e55b69d60e98">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/Unique-Array-in-MongoDB-Document/20211121/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/MongoDB/Unique-Array-in-MongoDB-Document/20211121/" class="post-title-link" itemprop="url">Unique Array in MongoDB Document</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-11-22 07:43:05" itemprop="dateCreated datePublished" datetime="2021-11-22T07:43:05+08:00">2021-11-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Unique-Array-in-MongoDB-Document"><a href="#Unique-Array-in-MongoDB-Document" class="headerlink" title="Unique Array in MongoDB Document"></a>Unique Array in MongoDB Document</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*9KOWrIA6crjXcMXM.png"></p>
+<p>In order to explain the solution in detail, I have to introduce the user scenario first. We need a collection to record the group information including name, members, etc. However, we cannot allow a group with the same members in another group. For example, if <code>A</code> and <code>B</code> are in group 1, then they cannot be in group 2. Thus, we need maintain a members array which has an unique constraint.</p>
+<p>There is an assumption in our requirement.</p>
+<blockquote>
+<p><em>The amount of group members will be always 2. In other words, a group only has members</em> <code>[&quot;A&quot;, &quot;B&quot;]</code> <em>but not</em> <code>[&quot;A&quot;, &quot;B&quot;, &quot;C&quot;]</code><em>.</em></p>
+</blockquote>
+<p>Here comes an example collection:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[&#123;  </span><br><span class="line">    &quot;_id&quot;: 1,  </span><br><span class="line">    &quot;name&quot;: &quot;group1&quot;,  </span><br><span class="line">    &quot;members&quot;: [&quot;A&quot;, &quot;B&quot;]  </span><br><span class="line">&#125;, &#123;  </span><br><span class="line">    &quot;_id&quot;: 2,  </span><br><span class="line">    &quot;name&quot;: &quot;group2&quot;,  </span><br><span class="line">    &quot;members&quot;: [&quot;A&quot;, &quot;C&quot;]  </span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+
+<p>We want to query more faster, so we add an index on members, however, <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/core/index-multikey/">MongoDB Multikey Index</a> is very different from what our thought.</p>
+<ul>
+<li>Can we add an unique index on members?</li>
+<li>If the index type is regular, the answer is no.</li>
+<li>Can <code>db.group.find({members: [&quot;B&quot;, &quot;A&quot;]})</code> find anything？</li>
+<li>No, the array should be exactly matched.</li>
+</ul>
+<p>The root cause is creating an index on array, the index will become multikey index automatically. For the document with id 1, there will be two indexes Indicating to this document, namely <code>&quot;A&quot;</code> and <code>&quot;B&quot;</code>. In the same way, there will be two indexes, <code>&quot;A&quot;</code> and <code>&quot;C&quot;</code>, on document with id 2. That is to say, unique constraint doesn’t work while they all have index <code>&quot;A&quot;</code>.</p>
+<p>Although, there are two indexes <code>&quot;A&quot;</code> and <code>&quot;B&quot;</code> on document 1, it just makes MongoDB retrieve data faster. Instead of the full-table scan, MongoDB can reduce the search scope, especially, the linear search with <code>O(n)</code> is very slow on the array match. However, it has to exactly match the array including the order.</p>
+<p>How to solve these problems? There is a trick can handle, that is, use <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/core/index-text/">text index</a>. The figure comes from MongoDB Compass as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*oGdHtxi0cZWTF2md.png"></p>
+<p>Although the number of uses is 0, this is actually caused by MongoDB’s implementation. The search for the text index is to compare the text first, and then use <code>_id</code> to locate the real content.</p>
+<p>Nevertheless, this approach comes other problems when implementing applications:</p>
+<ol>
+<li>To find the content, we must know the order of members; otherwise, data cannot be retrieved.</li>
+<li>Similar to the problem one, even though this approach can make sure <code>[&quot;A&quot;, &quot;B&quot;]</code> will not be duplicated, it cannot reject the insertion with <code>[&quot;B&quot;, &quot;A&quot;]</code>.</li>
+<li>The search pattern, regarding whether a single target exists in members, is inefficient. We have to use <code>$in</code> without the bound from an index to reduce the search scope.</li>
+</ol>
+<p>There is a comprise solution to the problem 1 and 2. Before inserting or fetching data in the database, we sort the members in the application. However, this approach ties the data model and application logic together, which is hard to maintain and use. Hence, it is highly not recommended. As for the problem 3, there is no alternative solution.</p>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p>The correct (*see the last section) approach is still using the multikey and text index. But we don’t store scalar string in members; instead, we store objects. Thus, the original example will be modified slightly:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[&#123;  </span><br><span class="line">    &quot;_id&quot;: 1,  </span><br><span class="line">    &quot;name&quot;: &quot;group1&quot;,  </span><br><span class="line">    &quot;members&quot;: [&#123;&quot;name&quot;: &quot;A&quot;&#125;, &#123;&quot;name&quot;: &quot;B&quot;&#125;]  </span><br><span class="line">&#125;, &#123;  </span><br><span class="line">    &quot;_id&quot;: 2,  </span><br><span class="line">    &quot;name&quot;: &quot;group2&quot;,  </span><br><span class="line">    &quot;members&quot;: [&#123;&quot;name&quot;: &quot;A&quot;&#125;, &#123;&quot;name&quot;: &quot;C&quot;&#125;]  </span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+
+<p>In addition, the index on members should be on <code>members.name</code> with the text type and unique constraint.</p>
+<p>From the above example we can see the original members is changed from <code>[&quot;A&quot;, &quot;B&quot;]</code> to <code>[{&quot;name&quot;: &quot;A&quot;}, {&quot;name&quot;: &quot;B&quot;}]</code>. So what are the benefits of doing this? Yes, in fact, the three problems mentioned above have all been solved.</p>
+<ol>
+<li>We don’t care the order of members when searching a group. We can just use <code>db.group.find({$and: [{&quot;members.name&quot;: &quot;A&quot;}, {&quot;members.name&quot;: &quot;B&quot;}]})</code>.</li>
+<li>We don’t care whether <code>&quot;A&quot;</code> is the former or the letter, it can be rejected correctly if there is indeed a group with <code>&quot;A&quot;</code> and <code>&quot;B&quot;</code>.</li>
+<li>To find a group belongs to a specific member, we can use <code>db.group.find({&quot;members.name&quot;: &quot;A&quot;})</code>. This can find out all groups <code>&quot;A&quot;</code> belongs.</li>
+</ol>
+<p>It must be emphasized again that this solution is only applicable when all groups are composed of two members. Take the above example, if you want to create a group 3 with members <code>&quot;A&quot;, &quot;B&quot;, &quot;C&quot;</code>, it will be denied.</p>
+<p>Why we have a such requirement? We want to simplify the know-how of database operations on the client side. In theory, the client does not need to have any knowledge to manipulate the data of the database, and the database can always respond under inappropriate circumstances. Therefore, we don’t have to embed the database logic into every client. Nonetheless, the approach has its disadvantages. Firstly, the design has been fixed to only support groups of 2 members. Secondly, there is only one text index in a collection, i.e., we sacrifice the possibility of other text indexes. Finally, text index takes lots of spaces, it is considered a high price index.</p>
+<p>What should be the correct way? There are many possibilities, but the most feasible one should be <code>findAndModify</code> with <code>upsert</code>. By doing this, we can avoid creating a group with duplicated<br>members under the race condition. If there is a need to add more members, we can leverage <code>$addToSet</code> to operate on members to keep the uniqueness in members. From this we can know that to maintain the correctness of the data, there are many implementation requirements on the client side, so in the end we decided to write the integrity to the database and let the database take care of part of the correctness of the data.</p>
+<h3 id="Updated"><a href="#Updated" class="headerlink" title="Updated"></a>Updated</h3><p>We have found the multikey index in text type does not work in some conditions. Therefore, we are using <code>$addToSet</code> to be the temporary solution and still trying to find out a better approach.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/unique-array-in-mongodb-document-b77456fe88b4">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Message-Queue-in-Redis/20211118/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Redis/Message-Queue-in-Redis/20211118/" class="post-title-link" itemprop="url">Message Queue in Redis</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-11-18 13:29:56" itemprop="dateCreated datePublished" datetime="2021-11-18T13:29:56+08:00">2021-11-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Message-Queue-in-Redis"><a href="#Message-Queue-in-Redis" class="headerlink" title="Message Queue in Redis"></a>Message Queue in Redis</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*tCQ0jBqMoZYPbRem"></p>
+<p>My organization has done the technical selection recently, and we want to build an event-driven system. However, the budget is limited. We cannot choose a classic queuing service like RabbitMQ or a streaming process like Kafka. We have to find an affordable solution that can meet our needs. Currently, all we have is Redis. Therefore, we will build a message queue in Redis.</p>
+<p>In this article, I will introduce some properties of a message queue and describe how Redis can be used to build a message queue.</p>
+<h3 id="Message-Queue"><a href="#Message-Queue" class="headerlink" title="Message Queue"></a>Message Queue</h3><p>There are many aspects to consider when choosing a message queue, such as propagation, delivery, persistence, and consumer groups. In this section, I will explain them briefly.</p>
+<h3 id="Propagation"><a href="#Propagation" class="headerlink" title="Propagation"></a>Propagation</h3><p>The propagation means how messages are transferred by the message queue. There are 2 types of propagation,</p>
+<ul>
+<li>1-to-1</li>
+<li>1-to-many (fan-out)</li>
+</ul>
+<p>One-to-one is quite simple. The producer sends a message to the queue, and this message is received by only one consumer. On the other hand, one-to-many is a message that can be delivered to multiple consumers. It’s worth mentioning that the producer just sent a message, but the message can be transferred to many receivers. Such behavior is also called fan-out.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*J90JkLxFZDtdkrserWp-SA.png"></p>
+<h3 id="Delivery"><a href="#Delivery" class="headerlink" title="Delivery"></a>Delivery</h3><p>Delivery is interesting. Most queuing systems have their delivery guarantees. There are three common guarantees,</p>
+<ul>
+<li>At-most-once</li>
+<li>At-least-once</li>
+<li>Exactly-once</li>
+</ul>
+<p>At-most-once is relatively easy to achieve. It can be said that all queuing systems have this guarantee. The consumer can receive a sent message or nothing. This may happen in several situations. Firstly, the message is lost whereas a networking problem occurred. Secondly, although the consumer received it, he did not handle it well like crashed. The message disappears if it is gone, and it is impossible to retrieve the message again.</p>
+<p>At-least-once is a guarantee often used by some well-known systems such as RabbitMQ, Kafka, etc. Compared to at-most-once, at-least-once has a stronger guarantee. It can make sure the message must be processed. However, the message may be processed many times. For instance, a consumer does not acknowledge the queue that the message is handled, thus the queue sends a message to that consumer again.</p>
+<p>Exactly-once is the strictest guarantee. It ensures the message must be handled <strong>once</strong>. Even the popular systems can’t do this well, e.g. RabbitMQ. Nevertheless, the correct use and configuration of Kafka can still be achieved. The price is to sacrifice some performance.</p>
+<h3 id="Persistence"><a href="#Persistence" class="headerlink" title="Persistence"></a>Persistence</h3><p>Persistence means whether the message will disappear after it is sent to the system. There are also three types of persistence,</p>
+<ul>
+<li>In-memory</li>
+<li>In-disk</li>
+<li>Hybrid</li>
+</ul>
+<p>We all know what they means. But the interesting thing is, is it slower to persist messages in disk? No, not really. It depends on how persistence is implemented. Kafka uses LSM-tree to achieve a lot of throughput; in addition, it is better than RabbitMQ who uses memory. There is another example in Cassandra, Cassandra has very fast writing speed and uses LSM-tree as well.</p>
+<p>Hybrid is a special case combined with in-memory and in-disk. In order to improve the writing performance, the queuing system writes to the memory first, and then flush into the disk. RabbitMQ is a typical example in hybrid. However, RabbitMQ is also able to be configured as in-disk.</p>
+<h3 id="Consumer-Group"><a href="#Consumer-Group" class="headerlink" title="Consumer Group"></a>Consumer Group</h3><p>In my opinion, consumer group is the most important feature in a queuing system. Processing a message usually takes time, so that we have to use more consumers to deal with messages, aka scale-out. In consumer group scenes, both the target of one-to-one and one-to-many become a group of consumers instead of a single consumer.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*6BPlsfNqN6AVnl-2xAW7Jg.png"></p>
+<h3 id="Redis-Queue"><a href="#Redis-Queue" class="headerlink" title="Redis Queue"></a>Redis Queue</h3><p>After talking about the properties in a queuing system, let’s talk about how Redis be a message queue. There are 3 ways to do it,</p>
+<ul>
+<li>Pub&#x2F;Sub</li>
+<li>List</li>
+<li>Stream</li>
+</ul>
+<p>We will introduce one by one, and then give a comprehensive summary.</p>
+<h3 id="Pub-Sub"><a href="#Pub-Sub" class="headerlink" title="Pub&#x2F;Sub"></a>Pub&#x2F;Sub</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*C_jjZQ-aa5bXQ0bsuttziA.png"></p>
+<p>Pub&#x2F;Sub is a widely known solution for notifying, this feature was born almost at the same time as Redis. The consumer <code>SUBSCRIBE</code> a topic, aka a key, and then receive the data after a client <code>PUBLISH</code> messages to the same topic. As a traditional Pub&#x2F;Sub feature, it also can fan-out a message to multiple consumers. Moreover, A certain degree of messaging routing can also be achieved through <code>PSUBSCRIBE</code>.</p>
+<p>But Pub&#x2F;Sub in Redis are not popular for most use cases. The biggest problem is the message will delivery at most once. When a message is published, if the consumer doesn’t receive it right now, the message disappears. Furthermore, Redis doesn’t persist messages. All messages are gone away if Redis is shutdown.</p>
+<p>Let’s summarize Pub&#x2F;Sub:</p>
+<ul>
+<li>1-to-1 and 1-to-many are fine</li>
+<li>at-most-once</li>
+<li>no persistence</li>
+<li>no consumer group</li>
+</ul>
+<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*27N6WQ2Oas82SitCl10A8g.png"></p>
+<p>List is a useful data structure in Redis, and we can accomplish a FIFO queue easily by using it. The trick is we can use <code>BLPOP</code> to wait for a message in blocking mode. However, adding a timeout is recommended.</p>
+<p>According to the figure, we can see if there are multiple consumers wait for the same list, they are becoming a consumer group. Without configuring anything, the consumer group can be spontaneously formed by consumers. On the other hand, list cannot fan-out a message. If a message is <code>BLPOP</code> by a consumer, others can not be retrieved this message anymore, even the message is lost in that consumer.</p>
+<p>Nevertheless, Redis list can persist messages in memory. In addition, if you are enabling <code>AOF</code> or <code>RDB</code>, messages can be backed up into the disk. I have to say, following <a target="_blank" rel="noopener" href="https://lazypro.medium.com/data-persistence-in-redis-2780c11d1623">my previous article</a>, this approach is not entirely data persistence.</p>
+<p>To sum up,</p>
+<ul>
+<li>1-to-1 is okay, but no 1-to-many</li>
+<li>at-most-once</li>
+<li>persist in-memory, and backup in-disk</li>
+<li>consumer group works</li>
+</ul>
+<h3 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h3><p>After introducing the Pub&#x2F;Sub and List, we notice that neither of these two methods is very good. They have their own drawbacks. Therefore, Stream has come to solve these issues since Redis 5.0.</p>
+<p>Because Stream is much more complicated, let’s first look at what benefits Stream brings.</p>
+<ul>
+<li>1-to-1 and 1-to-many are fine</li>
+<li>at-least-once</li>
+<li>persist in-memory, and backup in-disk</li>
+<li>consumer group works</li>
+</ul>
+<p>As a result, Stream solves all issues in Pub&#x2F;Sub and List and enhances a lot, for e.g., at-least-once delivery.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*UTwE0z5imsbukNG_mEnSvw.png"></p>
+<p>The diagram is like Pub&#x2F;Sub, but the workflow is closer to List. The producer can generate messages at any time, and then <code>XADD</code> to Redis Stream. You can consider Stream as a list maintains all incoming messages. Consumers can also retrieve messages at any time via <code>XREAD</code>. The identifier in <code>XREAD</code> command represents where you want to read the message from.</p>
+<ul>
+<li><code>$</code>: No matter what messages are in Stream before, only retrieve from now on.</li>
+<li><code>0-0</code>: Always read from the head.</li>
+<li><code>&lt;id&gt;</code>: Start from the specific message id.</li>
+</ul>
+<p>Apart from supporting one-to-one mapping, Stream supports consumer groups as follows:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*IOg5-gQnDynx8HjDe7YuRg.png"></p>
+<p>To achieve at-least-once guarantee, like most queuing systems, the consumer must acknowledge Stream after processing a message by using <code>XACK</code>.</p>
+<p>The use of the special identifier, <code>&lt;</code>, here is to start reading from a position that no one has read in the group.</p>
+<p>After the above explanation, I provide a real example to show a consumer’s bootstrap in Node.js.</p>
+<p>Please note that every consumer has his own name, <code>ConsumerName</code>. First, the consumer read from the beginning to determine its last position. The response will be a empty array with no length, so that the consumer can get the correct <code>lastid</code>. Then, the consumer reads from the <code>lastid</code> and processes those messages. Finally, acknowledge Stream with finished <code>id</code>.</p>
+<h3 id="Stream-Consumer-Failover"><a href="#Stream-Consumer-Failover" class="headerlink" title="Stream Consumer Failover"></a>Stream Consumer Failover</h3><p>In the distributed system, we cannot name a consumer easily. For example, the consumer is run in a container within K8s: How do I maintain names to every pod? Even if we lock everyone’s name, how do we face the scale-out and scale-in scene?</p>
+<p>Therefore, keeping the name in the distributed system is impractical.</p>
+<p>In spite of this, we cannot name a consumer in <code>uuid</code> and forget the name after the consumer is down. Redis Stream maintains a table of names against last positions. So, if we generate a random name every time, the mapping table will become larger and larger. Worst of all, those messages that have been received but not acknowledged will never be processed.</p>
+<p>Fortunately, Redis Stream provides a method to claim those pending messages. The workflow is like this:</p>
+<ol>
+<li>Find out all pending message ids.</li>
+<li>Claim those ids to transfer the ownership.</li>
+</ol>
+<p>Therefore, the completed workflow in a consumer bootstrap is:</p>
+<ol>
+<li><code>XPENDING StreamName GroupName</code></li>
+<li><code>XCLAIM StreamName GroupName &lt;ConsumerName in uuid&gt; &lt;min-idle-time&gt; &lt;ID-1&gt; &lt;ID-2&gt; ... &lt;ID-N&gt;</code></li>
+<li>The above script</li>
+</ol>
+<p>The <code>min-idle-time</code> is a very useful approach. By using <code>min-idle-time</code>, we can avoid multiple consumers claim the same messages at the same time. The first consumer claims some messages, so such messages will no longer be idle. Hence, other consumers cannot claim those messages again.</p>
+<h3 id="Redis-Stream-Persistence"><a href="#Redis-Stream-Persistence" class="headerlink" title="Redis Stream Persistence"></a>Redis Stream Persistence</h3><p>Redis does not guarantee that the data will not be lost at all, even if the strictest setting is turned on. If we use Redis as a message queue, we must take additional measures to ensure persistence. The most common way is event-sourcing. Before publishing a message, we write this message into a durable storage like MySQL. Our consumers can work generally. However, if an error occurs, we can still leverage the durable messages in MySQL to recover our work.</p>
+<p>Besides, if Stream persists more and more messages, the memory usage of Redis would be a disaster. If we are looking at the Redis manual, we can find a command, <code>XDEL</code>. However, <code>XDEL</code> does not delete the messages, it only marks those messages as unused, and the messages are still there.</p>
+<p>How can we prevent memory leakage in Redis Stream? We can use <code>MAXLEN</code> whereas <code>XADD</code> is invoking. The command line is:</p>
+<blockquote>
+<p><em>XADD StreamName MAXLEN 1000 * foo bar</em></p>
+</blockquote>
+<p>But there is one thing you have to know, <code>MAXLEN</code> affects performance of Redis very much. It blocks the main process for a while, and no command can be executed during that period. If there are many incoming messages and the amount of queued messages reaches maximum, then Stream will be very busy to maintain <code>MAXLEN</code>.</p>
+<p>An alternative approach can be adopted. Instead of fixing the hard limit, we can give Redis the right to choose a comfortable length at its free time. Hence, the command will be:</p>
+<blockquote>
+<p><em>XADD StreamName MAXLEN ~ 1000 * foo bar</em></p>
+</blockquote>
+<p>The <code>~</code> sign means the maximum length is about 1000, it might be 900 or even 1300. Redis will pick a good time to strip a good size for it.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Let me summarize these three approaches.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*o68_P7KksDT9gt13nouN_g.png"></p>
+<p>There is an unfamiliar property complexity, which refers to the complexity of a technology but also the complexity of implementing a consumer.</p>
+<p>From my point of view, these three approaches have their pros and cons and also have their own applicable scenarios.</p>
+<ul>
+<li>Pub&#x2F;Sub: Best-effort notification.</li>
+<li>List: Tolerate message queues with some data loss.</li>
+<li>Stream: Loose streaming process.</li>
+</ul>
+<p>So, why is Redis Stream a loose streaming process? Because the consumer group in Redis Stream is not like Kafka. It cannot preserve the message ordering. In a high-volume traffic environment, consumers within the same group cannot be scaled out successfully.</p>
+<p>In the end, we chose List as the message queue. Our use cases are simple. We just want to throttle the notifications in the broadcast scene. The broadcast notification can tolerate the message loss. It’s good enough that most users can receive the message. In addition, the implementation effort is very low in Node.js, so we can finish it as soon as possible. Although it is not the best solution, it is good enough for our organization.</p>
+<h4 id="The-world’s-fastest-cloud-data-warehouse"><a href="#The-world’s-fastest-cloud-data-warehouse" class="headerlink" title="The world’s fastest cloud data warehouse:"></a>The world’s fastest cloud data warehouse:</h4><p>When designing analytics experiences which are consumed by customers in production, even the smallest delays in query response times become critical. Learn how to achieve <strong>sub-second</strong> performance over TBs of data with <a target="_blank" rel="noopener" href="https://www.firebolt.io/?v=m"><strong>Firebolt</strong>.</a></p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/message-queue-in-redis-9efe0de2c39c">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/15/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/17/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

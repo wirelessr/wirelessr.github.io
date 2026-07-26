@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Understanding the concept of streaming architecture Last time, we introduced streaming processing. In order to be able to handle batch and real-time data with a more pure infrastructure, we introduced">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Design Pattern of Streaming Enrichment">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Design-Pattern-of-Streaming-Enrichment/20220828/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Understanding the concept of streaming architecture Last time, we introduced streaming processing. In order to be able to handle batch and real-time data with a more pure infrastructure, we introduced">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*gwm6shsOymkXvJPF">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*TirXw-Z-2iyoHmgd.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*RO4y1Z5g8mZWnMY4.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*Ap2LAwIOIrq_r3Ob.png">
+<meta property="article:published_time" content="2022-08-28T17:15:34.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.822Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*gwm6shsOymkXvJPF">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Design-Pattern-of-Streaming-Enrichment/20220828/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Design-Pattern-of-Streaming-Enrichment/20220828/","path":"Architecture/Design-Pattern-of-Streaming-Enrichment/20220828/","title":"Design Pattern of Streaming Enrichment"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Design Pattern of Streaming Enrichment | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Understanding-the-concept-of-streaming-architecture"><span class="nav-number">1.</span> <span class="nav-text">Understanding the concept of streaming architecture</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Feature-Description"><span class="nav-number"></span> <span class="nav-text">Feature Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Who-visits-me-Others-are-also-viewing"><span class="nav-number"></span> <span class="nav-text">Who visits me &amp; Others are also viewing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What-is-the-identity-to-view-me"><span class="nav-number"></span> <span class="nav-text">What is the identity to view me?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Add-metadata-in-events"><span class="nav-number"></span> <span class="nav-text">Add metadata in events</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Query-from-external-datastores"><span class="nav-number"></span> <span class="nav-text">Query from external datastores</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Merge-events"><span class="nav-number"></span> <span class="nav-text">Merge events</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Design-Pattern-of-Streaming-Enrichment/20220828/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Design Pattern of Streaming Enrichment | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Design Pattern of Streaming Enrichment
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-08-29 01:15:34" itemprop="dateCreated datePublished" datetime="2022-08-29T01:15:34+08:00">2022-08-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Understanding-the-concept-of-streaming-architecture"><a href="#Understanding-the-concept-of-streaming-architecture" class="headerlink" title="Understanding the concept of streaming architecture"></a>Understanding the concept of streaming architecture</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*gwm6shsOymkXvJPF"></p>
+<p>Last time, we <a target="_blank" rel="noopener" href="https://lazypro.medium.com/stream-processing-introduction-796f15061880">introduced streaming processing</a>. In order to be able to handle batch and real-time data with a more pure infrastructure, we introduced Kafka and the streaming framework.</p>
+<p>In this article, we will introduce a common design pattern for streaming, enrichment, and examine what benefits the streaming framework can bring.</p>
+<p>What is enrichment? Briefly, it is the implementation of extending the original events to meet the new feature requirements.</p>
+<h3 id="Feature-Description"><a href="#Feature-Description" class="headerlink" title="Feature Description"></a>Feature Description</h3><p>Similar features are available on many social media platforms.</p>
+<ol>
+<li>Who visits me</li>
+<li>Others are also viewing</li>
+<li>What is the identity to view me</li>
+</ol>
+<p>The first feature is how many people have viewed my profile in a given time period. For example, how many times my profile has been viewed in a week.</p>
+<p>The second feature is an advanced version of the previous feature, who else did these people view? For example, 10 people viewed my profile in a week, and they also viewed Elon Musk.</p>
+<p>The third feature is a derivative of the first one. What is the identity of these people who viewed me? For example, 10 people viewed my profile in a week, and three of them were google employees.</p>
+<h3 id="Who-visits-me-Others-are-also-viewing"><a href="#Who-visits-me-Others-are-also-viewing" class="headerlink" title="Who visits me &amp; Others are also viewing"></a>Who visits me &amp; Others are also viewing</h3><p>The first and second features can be easily implemented using event streaming techniques. First, let’s define a “view” event.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    eventType: &quot;PageView&quot;,  </span><br><span class="line">    timestamp: 1660270009,  </span><br><span class="line">    viewerId: 1234,  </span><br><span class="line">    viewedId: 5678  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This event includes the time of occurrence and who viewed who. Then we just need to create a stream that collects all view events to analyze the features we need.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*TirXw-Z-2iyoHmgd.png"></p>
+<p>In the above diagram, suppose my user id is 4567, then it is easy to find two users who have viewed me from the event stream, which are 2345 and 1234.</p>
+<p>Further from the stream record, we can also understand that 2345 has viewed 1234, while 1234 has viewed 5678 and 2345.</p>
+<p>Putting this information together, we can answer.</p>
+<ol>
+<li>Who visits me? 2345 and 1234.</li>
+<li>Others are also viewing 1234, 5678, and 2345.</li>
+</ol>
+<p>With all the event streams recorded by the streaming framework, we can perform a simple analysis to get the desired features.</p>
+<h3 id="What-is-the-identity-to-view-me"><a href="#What-is-the-identity-to-view-me" class="headerlink" title="What is the identity to view me?"></a>What is the identity to view me?</h3><p>However, it is not so simple to know what the identity to view my profile is.</p>
+<p>Because our original event did not define additional attributes, only the id. Well, it is necessary to modify the original implementation to add new features.</p>
+<h3 id="Add-metadata-in-events"><a href="#Add-metadata-in-events" class="headerlink" title="Add metadata in events"></a>Add metadata in events</h3><p>Let’s add the job to the original event. When the user is viewing, in addition to sending the event with the id, the job must also be attached.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    eventType: &quot;PageView&quot;,  </span><br><span class="line">    timestamp: 1660270009,  </span><br><span class="line">    viewerId: 1234,  </span><br><span class="line">    viewedId: 5678,  </span><br><span class="line">    viewerJob: &quot;Google&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The problem seems to be solved, but is it really so?</p>
+<p>There are several obvious issues with such a solution. Firstly, modifying the event format directly affects all downstream consumers. Under an event-driven architecture, the producer would not know the consumer’s use cases because the two are decoupled.</p>
+<p>Secondly, events become larger, and each original event must add this new field, whether the consumer needs it or not. In other words, the overhead has gotten bigger, not just in terms of storage overhead, but also transmission overhead.</p>
+<p>Moreover, what to do if we want to add new features? In addition to the job, the feature requires a new title, age, and so on. Then the issues mentioned above will happen again and again.</p>
+<p>Therefore, we know this is not a good approach.</p>
+<h3 id="Query-from-external-datastores"><a href="#Query-from-external-datastores" class="headerlink" title="Query from external datastores"></a>Query from external datastores</h3><p>Since modifying the original event is not a good approach, we will query the required data from elsewhere as soon as we receive the event.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*RO4y1Z5g8mZWnMY4.png"></p>
+<p>Although it is stated in the diagram as a database, it can also be a microservice or any platform that can provide information.</p>
+<p>Basically, this is the most typical implementation of an event-driven architecture. When workers take events from the message queue, they process the data, either by getting the necessary information from other data sources or by storing the results in a data store, and finally by sending the enriched events to the next one.</p>
+<p>This implementation is fine in a message queue architecture. However, in a streaming framework, such an implementation creates a performance bottleneck. Let’s say a streaming framework has an average throughput of more than ten times of a database. If every event had to rely on external data sources, the overall throughput would become <code>1/10</code>.</p>
+<p>In addition, there is an existing issue with such an architecture.</p>
+<p>When a worker cluster or streaming processing cluster crashes, this is very likely to happen, after all, errors are everywhere. At this point, events will continue to accumulate because no consumer will be able to handle them. This is still the normal situation.</p>
+<p>Once the worker cluster is repaired and all workers are online, all workers will start digesting the message at full speed and a spike will hit the data source and most likely shut it down.</p>
+<p>Own failure affects other services in a cascading manner. This tight coupling is to be avoided in the system design. Therefore, such a solution is not good enough.</p>
+<h3 id="Merge-events"><a href="#Merge-events" class="headerlink" title="Merge events"></a>Merge events</h3><p>No new metadata into the event and can not be queried from external sources, then how to deal with the enrichment? This is the streaming framework to deliver the advantages.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*Ap2LAwIOIrq_r3Ob.png"></p>
+<p>In this example, we have chosen Apache Samza as an illustration, but in fact there are many good alternatives, such as Apache Flink.</p>
+<p>In addition to changing the handler mentioned in the previous section to a stream processing framework, there is a new event source, <code>ProfileEdit</code>.</p>
+<p>This modification event can either come from the Change Data Capture (CDC) of the database, or the modification event can be sent from the user service, but the details are not the focus of this article.</p>
+<p>The database from the previous section becomes the state in the stream processing framework. This state can be considered as a memory space for each worker, and is therefore very efficient. In addition, each worker shares the state, so the capacity is much larger than a single instance’s memory.</p>
+<p>When Samza receives <code>ProfileEdit</code>, it can save the latest state of each user. Once <code>PageView</code> is received, it can pull out the required information from the saved state, and assemble new events.</p>
+<p>This approach solves the problem of tight coupling and significantly improves processing performance. More importantly, Samza provides an exactly-once guarantee to avoid duplication of events due to failure of external data sources.</p>
+<p>Although the state is shared by multiple instances, it is still possible to hit the upper limit. How to solve the scalability issue?</p>
+<p>In Kafka, a message partitioning mechanism is provided, where messages with the same key are assigned to the same partition and processed by the same consumer group. In the streaming framework, the partitioning mechanism still exists and has been abstracted to a higher level. Different streams can share the same key space, i.e., as long as <code>PageView</code> and <code>ProfileEdit</code> have the same key, they can be processed by the same workers.</p>
+<p>In this way, the state can be stored by horizontal scalability.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we introduce a common design pattern that both traditional message queue architecture and modern stream processing architecture encounter the same issue, i. e., event enrichment.</p>
+<p>When designing a system, it is important to take into account the robustness and performance of the system in addition to the feature implementation. This is why streaming frameworks are on the rise. Streaming offers the possibility to handle real-time heavy traffic, while streaming frameworks additionally provide a variety of useful tools to make development easy.</p>
+<p>As mentioned in the <a target="_blank" rel="noopener" href="https://lazypro.medium.com/stream-processing-introduction-796f15061880">previous article on streaming architecture</a>, the streaming architecture has the ability to collapse many technology stacks into two core components: Kafka and the streaming processing framework. Therefore, I recommend that every developer, even if you are not a data engineer, should learn about the streaming framework. I believe having more insight will lead to a more reliable system design.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-pattern-of-streaming-enrichment-17a9eb065eca">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Stream-Processing-Introduction/20220821/" rel="prev" title="Stream Processing Introduction">
+                  <i class="fa fa-chevron-left"></i> Stream Processing Introduction
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Architecture/Scalability-vs-Elasticity/20220904/" rel="next" title="Scalability vs. Elasticity">
+                  Scalability vs. Elasticity <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Context Engineering: The Next Software Paradigm ShiftStop chasing AI tools. Master context engineering to boost your multitasking and productivity Recently, the agent ecosystem has seen a huge explosi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Context Engineering: The Next Software Paradigm Shift">
+<meta property="og:url" content="https://wirelessr.github.io/AI/Context-Engineering-The-Next-Software-Paradigm-Shift/20250706/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Context Engineering: The Next Software Paradigm ShiftStop chasing AI tools. Master context engineering to boost your multitasking and productivity Recently, the agent ecosystem has seen a huge explosi">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*oTarmhI0uIF6xySOoK41Ow.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*E3jMlxjyBWaxBWBC5Wd8JA.png">
+<meta property="article:published_time" content="2025-07-06T18:04:01.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.822Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*oTarmhI0uIF6xySOoK41Ow.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/AI/Context-Engineering-The-Next-Software-Paradigm-Shift/20250706/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/AI/Context-Engineering-The-Next-Software-Paradigm-Shift/20250706/","path":"AI/Context-Engineering-The-Next-Software-Paradigm-Shift/20250706/","title":"Context Engineering: The Next Software Paradigm Shift"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Context Engineering: The Next Software Paradigm Shift | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Context-Engineering-The-Next-Software-Paradigm-Shift"><span class="nav-number">1.</span> <span class="nav-text">Context Engineering: The Next Software Paradigm Shift</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Stop-chasing-AI-tools-Master-context-engineering-to-boost-your-multitasking-and-productivity"><span class="nav-number">1.1.</span> <span class="nav-text">Stop chasing AI tools. Master context engineering to boost your multitasking and productivity</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Whole-New-World"><span class="nav-number">2.</span> <span class="nav-text">A Whole New World</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Context-Engineering"><span class="nav-number">3.</span> <span class="nav-text">Context Engineering</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#How-do-I-use-this-concept"><span class="nav-number">4.</span> <span class="nav-text">How do I use this concept?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wrap-Up"><span class="nav-number">5.</span> <span class="nav-text">Wrap Up</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Context-Engineering-The-Next-Software-Paradigm-Shift/20250706/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Context Engineering: The Next Software Paradigm Shift | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Context Engineering: The Next Software Paradigm Shift
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-07-07 02:04:01" itemprop="dateCreated datePublished" datetime="2025-07-07T02:04:01+08:00">2025-07-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Context-Engineering-The-Next-Software-Paradigm-Shift"><a href="#Context-Engineering-The-Next-Software-Paradigm-Shift" class="headerlink" title="Context Engineering: The Next Software Paradigm Shift"></a>Context Engineering: The Next Software Paradigm Shift</h3><h4 id="Stop-chasing-AI-tools-Master-context-engineering-to-boost-your-multitasking-and-productivity"><a href="#Stop-chasing-AI-tools-Master-context-engineering-to-boost-your-multitasking-and-productivity" class="headerlink" title="Stop chasing AI tools. Master context engineering to boost your multitasking and productivity"></a>Stop chasing AI tools. Master context engineering to boost your multitasking and productivity</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*oTarmhI0uIF6xySOoK41Ow.png"></p>
+<p>Recently, the agent ecosystem has seen a huge explosion, with various Agentic AIs springing up. Products led by tech giants such as Claude Code were released, followed not long after by Google’s Gemini Cli and Atlassian’s Rovo Dev Agent. In addition, new Agentic AIs have been created, such as <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=augment.vscode-augment">Augment</a>.</p>
+<p>These tools are constantly evolving, and for many engineers it should be hard to learn and know which one is the best. Actually, present time is the process of software engineering paradigm gradually switching from prompt engineering to context engineering. Therefore, it is reasonable that there are a lot of tools to implement this new paradigm, and this has led to the birth of many new tools.</p>
+<p>In fact, I was looking for the best one, but after reading a lot of papers and disassembling the underlying logic of these tools, I realized that there was no need to keep chasing the green bird. For engineers, what we need to do is simple: instead of chasing tools, we need to understand the concepts of this new paradigm. Then no matter how the tools evolve, we can have a universal methodology.</p>
+<h3 id="A-Whole-New-World"><a href="#A-Whole-New-World" class="headerlink" title="A Whole New World"></a>A Whole New World</h3><p>Learning with these Agentic AI’s has helped me to overcome some of my past weaknesses, such as my difficulty in doing a lot of context switches.</p>
+<p>My limit is to work on two things at the same time, for example, working on project A while doing troubleshooting on project B. When someone interrupts me, for example, to discuss with me the design of project C, it is out of my contextual window. At the end of the discussion I have a period of stagnation where I don’t know what to do now, and I need to re-focus on getting back to the context of what I just worked on, which usually takes a lot of time.</p>
+<p>Recently, however, I’ve begun to use the concept of context engineering to keep track of my work, and I’ve suddenly realized that I can multitask, and it’s no exaggeration to say that I can now work on three or four things at the same time without too much of a problem.</p>
+<p>Let’s have a quick review of context engineering, and then I’ll explain how I use it.</p>
+<h3 id="Context-Engineering"><a href="#Context-Engineering" class="headerlink" title="Context Engineering"></a>Context Engineering</h3><p>In the past, prompt engineering was static, we took an instruction and asked the agent to complete it. We would design very strict conditions for this instruction, be it designing roles, structured output, thinking process (CoT) or even providing some examples (few-shot prompting), and these strict constraints were meant to make the agent’s unpredictable behavior controllable.</p>
+<p>However, this approach has its limitations, for example, the agent can only accomplish certain tasks and is restricted to certain conditions. When the task goal changes, or even the conditions change, will lead to the task result is not as expected.</p>
+<p>Therefore, context engineering emerges, which can be regarded as a kind of dynamic guidance to the agent, we tell the agent what contexts, tools and resources are available, so that the agent can complete the task by itself through the tools.</p>
+<p>MCP is released to accelerate the process of iterating the capabilities of the agent. Under context engineering, the agent usually has the following two capabilities, memory function and task orchestration.</p>
+<p>The memory function is used to manage context iterations, where the agent needs to memorize various states to keep the results consistent as the task progresses. This is especially important in tasks with multiple conversations.</p>
+<p>As for task orchestration, it is a necessary tool because no matter how powerful the agent is, when the task complexity is too high, the agent’s behavior will collapse, which has been proved in many papers. Task orchestration is also closely related to memory, because agents usually save tasks in the form of to do lists, which requires memory annotations.</p>
+<p>Through the quick explanation, we should have a basic understanding of context engineering, and the key points are as follows.</p>
+<ol>
+<li>dynamic context</li>
+<li>memory</li>
+<li>task orchestration</li>
+</ol>
+<h3 id="How-do-I-use-this-concept"><a href="#How-do-I-use-this-concept" class="headerlink" title="How do I use this concept?"></a>How do I use this concept?</h3><p>When we do multitasking, we’re actually doing something similar to agent, where we need to have an overview of all the tasks we’re going to perform on the one hand, and on the other hand we need to be able to remember the status of each task.</p>
+<p>So now I’m going to build my memory bank. Here’s the format of my memory bank.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"># &#123;title&#125;  </span><br><span class="line">  </span><br><span class="line">Concurrent projects A, B &amp; C  </span><br><span class="line">  </span><br><span class="line">&gt; mindmap  </span><br><span class="line">  </span><br><span class="line">## Status  </span><br><span class="line">  </span><br><span class="line">- [ ] task 1  </span><br><span class="line">    - brief description  </span><br><span class="line">- [x] task 2  </span><br><span class="line">- [ ] task 3  </span><br><span class="line">    - brief description  </span><br><span class="line">- [ ] task 4  </span><br><span class="line">  </span><br><span class="line">## Weekly Archived  </span><br><span class="line">  </span><br><span class="line">### W1 (XX/XX - XX/XX)  </span><br><span class="line">  </span><br><span class="line">&gt; some descriptions about finished tasks  </span><br><span class="line">  </span><br><span class="line">### W2 (XX/XX - XX/XX)  </span><br><span class="line">  </span><br><span class="line">&gt; another descriptions  </span><br><span class="line">  </span><br><span class="line">## Detailed References  </span><br><span class="line">- [design doc A](https://xxx)  </span><br><span class="line">- [implementation doc B](https://xxx)  </span><br><span class="line">  </span><br><span class="line">## Project A  </span><br><span class="line">  </span><br><span class="line">lots of details  </span><br><span class="line">  </span><br><span class="line">## Project B  </span><br><span class="line">  </span><br><span class="line">lots of details</span><br></pre></td></tr></table></figure>
+
+<p>First, I will use a mindmap to list a few of my current medium and long-term goals. In the next section, I’ll record which step I’ve reached, and I’ll back-mark it on the mind map.</p>
+<p>Since I have a habit of making a weekly report, every Friday I will write a description of the tasks that have been checked off in <code>Status</code> in the corresponding weekly record. After writing the weekly report, I delete the tasks that have been checked in <code>Status</code>. This behavior is a reference to many Agentic AI practices, such as Claude Code’s ability to compress the context via <code>/compact</code>.</p>
+<p>The following section shows all the records and results for each medium and long-term goal.</p>
+<p>What does the mindmap look like? Let’s see it with a ready-made example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*E3jMlxjyBWaxBWBC5Wd8JA.png"></p>
+<p>This is a diagram of the on boarding program I’ve been running at my recent job change, I’ve replaced all the keywords so it’s just a schematic.</p>
+<p>From the mindmap, you can see that I’m working on many tasks at the same time, and with a clear context, a regularly updated state and some key details, I can switch between tasks as seamlessly as possible.</p>
+<p>And that’s what Agentic AI is doing right now.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>From the behavioral patterns of AI, human beings can also benefit in unexpected ways.</p>
+<p>So instead of comparing tools and trying to find the best one, I’m trying to understand the behavioral patterns of each tool and trying to learn to emulate them. It’s interesting that whereas we used to let AI mimic human thinking, now we’re trying to mimic AI.</p>
+<p>But I believe that this is the best practice to get out of the tool selection vortex.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/context-engineering-the-next-software-paradigm-shift-5cb82dd31a14">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Career/The-Software-Engineers-Epic-Career-Adventure/20250622/" rel="prev" title="The Software Engineer’s Epic Career Adventure">
+                  <i class="fa fa-chevron-left"></i> The Software Engineer’s Epic Career Adventure
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Development/3-Dev-Tools-That-Transformed-My-Onboarding/20250720/" rel="next" title="3 Dev Tools That Transformed My Onboarding">
+                  3 Dev Tools That Transformed My Onboarding <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

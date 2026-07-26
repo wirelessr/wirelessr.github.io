@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Original Sin of Microservices, Part 1 Part 1, 8 fallacies of distributed computing Part 2, 9 challenges of distributed architecture  This series of articles is a summary of Worldwide Software Architec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Original Sin of Microservices, Part 1">
+<meta property="og:url" content="https://wirelessr.github.io/Microservice/Original-Sin-of-Microservices-Part-1/20220320/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Original Sin of Microservices, Part 1 Part 1, 8 fallacies of distributed computing Part 2, 9 challenges of distributed architecture  This series of articles is a summary of Worldwide Software Architec">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*E-YJ9HTcDZSOcN_eg7E-Gw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*opqk8tbPJg1HfF1s.jpg">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*qCGHy6219nV_w97fzztK7g.png">
+<meta property="article:published_time" content="2022-03-20T16:51:37.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.827Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*E-YJ9HTcDZSOcN_eg7E-Gw.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Microservice/Original-Sin-of-Microservices-Part-1/20220320/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Microservice/Original-Sin-of-Microservices-Part-1/20220320/","path":"Microservice/Original-Sin-of-Microservices-Part-1/20220320/","title":"Original Sin of Microservices, Part 1"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Original Sin of Microservices, Part 1 | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Original-Sin-of-Microservices-Part-1"><span class="nav-number">1.</span> <span class="nav-text">Original Sin of Microservices, Part 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What%E2%80%99s-the-ideal-microservice"><span class="nav-number">2.</span> <span class="nav-text">What’s the ideal microservice?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What%E2%80%99s-the-real-world"><span class="nav-number">3.</span> <span class="nav-text">What’s the real world?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-fallacies-of-distributed-computing"><span class="nav-number">4.</span> <span class="nav-text">8 fallacies of distributed computing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-network-is-reliable"><span class="nav-number">5.</span> <span class="nav-text">The network is reliable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Latency-is-zero"><span class="nav-number">6.</span> <span class="nav-text">Latency is zero</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bandwidth-is-infinite"><span class="nav-number">7.</span> <span class="nav-text">Bandwidth is infinite</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-network-is-secure"><span class="nav-number">8.</span> <span class="nav-text">The network is secure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Topology-doesn%E2%80%99t-change"><span class="nav-number">9.</span> <span class="nav-text">Topology doesn’t change</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#There-is-one-administrator"><span class="nav-number">10.</span> <span class="nav-text">There is one administrator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transport-cost-is-zero"><span class="nav-number">11.</span> <span class="nav-text">Transport cost is zero</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-network-is-homogeneous"><span class="nav-number">12.</span> <span class="nav-text">The network is homogeneous</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">13.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Original-Sin-of-Microservices-Part-1/20220320/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Original Sin of Microservices, Part 1 | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Original Sin of Microservices, Part 1
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-03-21 00:51:37" itemprop="dateCreated datePublished" datetime="2022-03-21T00:51:37+08:00">2022-03-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Original-Sin-of-Microservices-Part-1"><a href="#Original-Sin-of-Microservices-Part-1" class="headerlink" title="Original Sin of Microservices, Part 1"></a>Original Sin of Microservices, Part 1</h3><ul>
+<li>Part 1, 8 fallacies of distributed computing</li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/original-sin-of-microservices-part-2-8856c0e8426d">Part 2, 9 challenges of distributed architecture</a></li>
+</ul>
+<p>This series of articles is a summary of <code>Worldwide Software Architecture Summit&#39;22</code>, thus most of the contents are coming from the seminar. Of course, there are also some insights from my understanding.</p>
+<p>Microservice architecture had been a popular topic for several years, and there were various sessions to talk about how to deploy, manage and implement microservices at every seminar about software architecture. However, such a trend in the last six months to a year of time sharply frozen, more and more people noticed that although microservices is a good approach, but not a total solution.</p>
+<p>It is beneficial to use microservices, but it also comes at a cost, such as complexity.</p>
+<h3 id="What’s-the-ideal-microservice"><a href="#What’s-the-ideal-microservice" class="headerlink" title="What’s the ideal microservice?"></a>What’s the ideal microservice?</h3><p>Before talking about the original sin of microservices, let’s define what the ideal microservice would look like.</p>
+<p>Ideally,</p>
+<ul>
+<li>Non-shared code</li>
+<li>Non-shared data</li>
+<li>With bounded context in a specific domain</li>
+<li>Deployment separately</li>
+<li>Single responsibility principle</li>
+</ul>
+<p>It may look like as follows in an architecture diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*E-YJ9HTcDZSOcN_eg7E-Gw.png"></p>
+<p>When clients communicate with backend services, backend usually routes the request to the corresponding microservice through a <code>API gateway</code>. And, this microservice is able to process this request correctly by its own data and response to the clients.</p>
+<h3 id="What’s-the-real-world"><a href="#What’s-the-real-world" class="headerlink" title="What’s the real world?"></a>What’s the real world?</h3><p>But the real world is often not as rosy as we think.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*opqk8tbPJg1HfF1s.jpg"></p>
+<p>Do you know what kind of animal this is?</p>
+<p>As far as I know, there are at least three possibilities, which could be a horse, a donkey or a mule.</p>
+<p>Why is it painted like this?</p>
+<p>At first, we designed the whole architecture according to our ideal or textbook style and started to implement it, and everything looked so perfect. But as time went on, more and more requirements were added and we were forced to make it work in a limited time frame, even if there were mistakes to be fixed. In the end, the horse-like animal became more and more sketchy.</p>
+<p>If there was a good design and planning, we can at least tell from the back half that it might have been a horse. On the other hand, if there was no design at all, no one would probably know what you were trying to draw.</p>
+<p>If we represent it in an architecture diagram, it would probably look something like this. Welcome to the real world.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*qCGHy6219nV_w97fzztK7g.png"></p>
+<p>A, B and C all have their own responsibility to handle their own bounded context, but as the requirement grows, A finds that it needs B’s data, and B needs C’s cooperation, and even C has to call A. Finally, it becomes a big ball of mud.</p>
+<p>There are several reasons.</p>
+<ol>
+<li>Usually, there are no architects. So there is no way to evolve the system correctly with each requirement.</li>
+<li>Even because there was no architect, architecture is not clearly defined.</li>
+<li>Focus on fast delivery of features, and ignore non-functional requirements.</li>
+<li>Feedback cycle is very short, and we must respond to requests or incidents within a short period of time.</li>
+<li>It’s all online and real-time without any downtime until the requirements are eliminated.</li>
+</ol>
+<h3 id="8-fallacies-of-distributed-computing"><a href="#8-fallacies-of-distributed-computing" class="headerlink" title="8 fallacies of distributed computing"></a>8 fallacies of distributed computing</h3><p>After understanding why systems, in reality, are the way they are, let’s look at 8 fallacies of distributed computing. These are the most commonly overlooked pitfalls of microservice architecture.</p>
+<h3 id="The-network-is-reliable"><a href="#The-network-is-reliable" class="headerlink" title="The network is reliable"></a>The network is reliable</h3><p>People wishfully assume that the network between two endpoints is reliable. But the truth is that packets may drop and connections may be broken. Therefore, there should be a retry mechanism between the two endpoints to improve the reliability as much as possible.</p>
+<h3 id="Latency-is-zero"><a href="#Latency-is-zero" class="headerlink" title="Latency is zero"></a>Latency is zero</h3><p>There is an unconscious belief that the latency between two endpoints is zero, and this leads to many simple functions being spread out to other endpoints. Unfortunately, the latency between any endpoints is never zero, even on an intranet. So when making remote calls, it is always important to consider setting a timeout, even for connections to internal databases.</p>
+<p>In addition, when frequent operations are required on Redis, mechanisms such as Redis pipeline are always used to reduce the round trip time (RTT) between endpoints.</p>
+<h3 id="Bandwidth-is-infinite"><a href="#Bandwidth-is-infinite" class="headerlink" title="Bandwidth is infinite"></a>Bandwidth is infinite</h3><p>People usually feel that the network bandwidth between two endpoints is unlimited, so there is no restraint when transferring data. In fact, the bandwidth is much smaller than you think.</p>
+<p>In particular, if you use MySQL’s <code>select *</code> often, you may run out of bandwidth without realizing it. As a MySQL table grows with requirements, there may be many more costs you don’t realize, such as BLOB or TEXT, and such data structures often store huge amounts of data to further consume bandwidth.</p>
+<h3 id="The-network-is-secure"><a href="#The-network-is-secure" class="headerlink" title="The network is secure"></a>The network is secure</h3><p>This is a very common pitfall, people always believe that the intranet is secure. But this is absolutely unrealistic, and this is why the concept of zero trust has been proposed in recent years.</p>
+<h3 id="Topology-doesn’t-change"><a href="#Topology-doesn’t-change" class="headerlink" title="Topology doesn’t change"></a>Topology doesn’t change</h3><p>This fallacy is a bit interesting. People feel that the topology of a network does not change, meaning that the two endpoints are always written to each other’s location, whether it is FQDN or IP, but in reality, network topology changes for many reasons, such as VPC segmentation, public cloud migration, and even system evolution.</p>
+<h3 id="There-is-one-administrator"><a href="#There-is-one-administrator" class="headerlink" title="There is one administrator"></a>There is one administrator</h3><p>You would expect that there would be at least one administrator maintaining each service, right? Usually, in every organization, there is an operation role that is responsible for maintaining the system. Therefore, operation plays the role of an administrator, and if there is a problem with the system, operation is definitely the first to know.</p>
+<p>Wrong, absolutely wrong.</p>
+<p>Any system must implement its own observability, and system developers must have the ability to identify potential problems from these observabilities. There are four most common types of observability.</p>
+<ol>
+<li>Logging: The logs left by system execution are usually related to system behavior.</li>
+<li>Tracing: The execution cycle of a task. If it is a distributed system, you must be able to track the telemetries on each system, e.g., jaeger or OpenTracing.</li>
+<li>Metrics: The measurable status left by the system run, such as the number of API executions, the number of failures, etc.</li>
+<li>Profiling: Resource consumption behind the system like CPU and memory, etc.</li>
+</ol>
+<h3 id="Transport-cost-is-zero"><a href="#Transport-cost-is-zero" class="headerlink" title="Transport cost is zero"></a>Transport cost is zero</h3><p>This is absolutely the most serious fallacy. You have to understand that any remote call has a cost, especially on a public cloud, which is even more pricey. Even if it’s a database access or an outbound HTTP call, these all cost money.</p>
+<p>So, no matter what the remote call is, it must always be optimized, both in terms of frequency and data size.</p>
+<h3 id="The-network-is-homogeneous"><a href="#The-network-is-homogeneous" class="headerlink" title="The network is homogeneous"></a>The network is homogeneous</h3><p>This is an easy pitfall to overlook. The network is absolutely heterogeneous, so when one endpoint calls another endpoint in series, you cannot guarantee that the order of arrival is the same as the order you sent it. In other words, any assumptions about order should not exist.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Alright, after this discussion, I believe we can all agree that distributed systems are really complex. There are so many factors that must be considered for just two endpoints, not to mention microservices.</p>
+<p>Microservices are composed of countless endpoints, and each endpoint has to consider just those factors, and at the same time, microservice architectures have their own issues to face, such as data consistency, system scalability, and so on.</p>
+<p>Since this article is already a bit overloaded, I will schedule the challenges of microservices for the next article. In that time, we will discuss how difficult it is to design a microservice correctly, and we will also recognize why the recent seminars are emphasizing the shortcomings of microservices.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/original-sin-of-microservices-part-1-90461ddcefb">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Design-Distributed-Transaction-With-Practical-Examples/20220313/" rel="prev" title="Design Distributed Transaction With Practical Examples">
+                  <i class="fa fa-chevron-left"></i> Design Distributed Transaction With Practical Examples
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Microservice/Original-Sin-of-Microservices-Part-2/20220327/" rel="next" title="Original Sin of Microservices, Part 2">
+                  Original Sin of Microservices, Part 2 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

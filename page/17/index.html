@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/17/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/17/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/17/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/Read-after-write-Consistency-in-MongoDB/20211114/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/MongoDB/Read-after-write-Consistency-in-MongoDB/20211114/" class="post-title-link" itemprop="url">Read-after-write Consistency in MongoDB</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-11-15 02:46:57" itemprop="dateCreated datePublished" datetime="2021-11-15T02:46:57+08:00">2021-11-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Read-after-write-Consistency-in-MongoDB"><a href="#Read-after-write-Consistency-in-MongoDB" class="headerlink" title="Read-after-write Consistency in MongoDB"></a>Read-after-write Consistency in MongoDB</h3><p>In this article, I will describe how to achieve read-after-write consistency in MongoDB. The problem what we want to solve is:</p>
+<ul>
+<li>A collection maintains profiles.</li>
+<li>After we insert a new profile, we want to retrieve the top 20 ordered by some criteria in the same function.</li>
+<li>We find the newest profile is always not been found.</li>
+</ul>
+<p>Our MongoDB client’s configuration is almost default with a connection string, <code>readPreference=secondaryPreferred</code>.</p>
+<h3 id="Changing-Read-Preference-incorrect"><a href="#Changing-Read-Preference-incorrect" class="headerlink" title="Changing Read Preference (incorrect)"></a>Changing Read Preference (incorrect)</h3><p>We want to make the query always comes from the primary, so we try to assign a session-level read preference to <code>primary</code>. The <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/mongodb-defaults/">official manual</a> shows the collection-level preference can overwrite the client-level one.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*6UqpVNv2Sy7RSOiW.png"></p>
+<p>However, it does not work.</p>
+<h3 id="Changing-Read-and-Write-Concern-solution"><a href="#Changing-Read-and-Write-Concern-solution" class="headerlink" title="Changing Read and Write Concern (solution)"></a>Changing Read and Write Concern (solution)</h3><p>After consulting the MongoDB solution architect, we find the default read concern is <code>local</code> which <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/read-concern-local/#read-concern--local-">doesn’t guarantee the operation order</a>. Thus, the solution is not only changing the read concern to <code>majority</code> but also changing the write concern to <code>majority</code>.</p>
+<p>Then, the problem is resolved.</p>
+<p>By the way, the solution is a little complicated than MySQL does. If we use MySQL as one primary and two replicas, we can switch the read operation from a replica to the primary to ensure read-after-write consistency. On the other hand, MongoDB is designed to face the scene of large-volume data, he has to do more to balance the efficiency and functionality. Thus, in addition to configuring the read preference, using read concern and write concern are also essential.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/read-after-write-consistency-in-mongodb-ea4cd91d0d3">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Trunk-based-Development-Can-Help/20211110/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/Trunk-based-Development-Can-Help/20211110/" class="post-title-link" itemprop="url">Trunk-based Development Can Help</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-11-11 05:53:47" itemprop="dateCreated datePublished" datetime="2021-11-11T05:53:47+08:00">2021-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Trunk-based-Development-Can-Help"><a href="#Trunk-based-Development-Can-Help" class="headerlink" title="Trunk-based Development Can Help"></a>Trunk-based Development Can Help</h3><p><a target="_blank" rel="noopener" href="https://www.amazon.com/DevOps-Handbook-World-Class-Reliability-Organizations/dp/1942788002">The DevOps Handbook</a> tells using trunk-based development can improve the efficiency of developing software. Thus, what is the magic of trunk-based development make us to abandon our familiar git-related workflow?</p>
+<h3 id="Git-workflow"><a href="#Git-workflow" class="headerlink" title="Git workflow"></a>Git workflow</h3><p>It should start from the git-related workflow. Whether it is <code>git workflow</code>, <code>github workflow</code> or even <code>gitlab workflow</code>, in general, the entire development process is completed by using feature branches, development branches, and main branches. However, from this point of view, we find that to complete a feature development, at least three branches are involved. Each branch have to be merged into another branch. In addition to resolving conflicts during the merge, when to merge is also important.</p>
+<p>Engineers in the same team must be fully aware of the status of each branch, which not only brings cognitive load, but also brings management troubles. Besides, when many major functions are developed, the online code base will be very different from the code under development. Therefore, these several workflows tell us to divide a feature into some small changes and continue to integrate them.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*sxES7Oh9Mmn0G3Tg.png"></p>
+<p>The above figure is a typical <code>gitlab workflow</code>. It is not difficult to see that it is very complicated. There are many interactions between various branches, and there are many rules to be followed. Of course, with these rules, comes many restrictions.</p>
+<h3 id="Trunk-based-workflow"><a href="#Trunk-based-workflow" class="headerlink" title="Trunk-based workflow"></a>Trunk-based workflow</h3><p><a target="_blank" rel="noopener" href="https://www.amazon.com/Extreme-Programming-Explained-Embrace-Change/dp/0321278658">Extreme Programming Explained</a> advocates getting feedback as soon as possible. Instead of testing slowly in the test environment and staging environment, it is better to go directly to the production to receive faster results. Since git-related workflows have already suggested small changes and continuous integration, why not just take away those branches with many management burdens, leaving only one branch: the main branch?</p>
+<blockquote>
+<p><em>This is the spirit of trunk-based development. There is only one trunk branch. All features are branched from this branch and continuously merged back into the trunk. The online environment is based on this trunk branch and is the continuous deployment.</em></p>
+</blockquote>
+<p>In fact, there are many problems to be executed in this most ideal way. After all, no one wants to destroy the formal environment because of a small change, so there are still various test environments. At this time, it is still necessary to have a mechanism to correspond the trunk to each test environment. In practice, the most commonly used method that will not violate the spirit of trunk-based is to use tags on the trunk branch to identify the version. If there are urgent bugs that must be dealt with, a hotfix branch must still be generated from the tag. Nevertheless, unlike git workflow, this hotfix branch that belongs to a specific tag has its life cycle. When the next tag is released in the environment that originally used this tag, this hotfix branch should be eliminated.</p>
+<p>Therefore, although there will be release branches or hotfix branches that branch from the main trunk, these two types of branches will not return to the main trunk. In other words, all fixes first enter the main branch and then enter the hotfix branch through cherry-pick. This produces a benefit, the environment that is released after the hotfix can immediately receive the effects of the hotfix.</p>
+<p>The workflow is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*a5-Ie5Oiz7ziJRKw.png"></p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In order to drive this development process well, we must have some “good” practices, and the most frequently mentioned is the feature toggle. Because all submitted pieces have to enter the main trunk and will be released at any time, it is necessary to be able to isolate and conditionally control the testing scope for unprepared code. Feature toggle benefits this need.</p>
+<p>On the other hand, if it is a very efficient development team, there is no need to have a release branch or a hotfix branch, i.e., online problems can be solved in a forward fix. That is to say the entire software system must have complete telemetries and monitoring systems to find out the online defects faster.</p>
+<p>All these good practices are described in The DevOps Handbook, so I really recommend this book.</p>
+<p>We can regard trunk-based development as the holy grail of the software development. You must have many good practices in order to be able to use well. Once applying the trunk-based development, it will not only reduce the complexities of managing branches and environments but also reduce the overhead of every engineer, e.g., merging.</p>
+<p>Recently, I guide my team to introduce the feature toggle, and my team members begin to experience the benefits of trunk-based development. For a two-pizza team, it can indeed greatly increase the productivity.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/trunk-based-development-can-help-4bb425595c00">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Testing/Whats-Difference-Between-Unit-Test-and-Integration-Test/20211107/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Testing/Whats-Difference-Between-Unit-Test-and-Integration-Test/20211107/" class="post-title-link" itemprop="url">What’s Difference Between Unit Test and Integration Test</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-11-08 03:55:39" itemprop="dateCreated datePublished" datetime="2021-11-08T03:55:39+08:00">2021-11-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Testing/" itemprop="url" rel="index"><span itemprop="name">Testing</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="https://cdn-images-1.medium.com/max/800/1*5rXejhcKLorK7JiXnQH-tg.jpeg"></p>
+<p>I have noticed there are many engineers who cannot distinguish between the unit test and integration test. Even though these two tests are as different as their names, we still cannot use them in the right place. This article helps you understand them and use them correctly.</p>
+<p>In order to explain them better, I recommend <a target="_blank" rel="noopener" href="https://blog.bitsrc.io/dependency-injection-in-javascript-the-best-tool-youre-not-using-for-your-tests-4e83aca7579f">this article</a>, which introduces the dependency injection to the unit tests to achieve more testing coverage rate. I will leverage the example in it and dive into the integration test further. Before talking about the integration test, let’s take a quick look at the relationship between the unit test and the dependency injection.</p>
+<h3 id="Unit-Test-and-Dependency-Injection"><a href="#Unit-Test-and-Dependency-Injection" class="headerlink" title="Unit Test and Dependency Injection"></a>Unit Test and Dependency Injection</h3><p>Here comes a function, aka a unit, saveData.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*D1Fly8BxhOnShP9z.png"></p>
+<p>As we have seen, we need to verify both the success case and failure case to achieve complete test coverage within the unit tests.</p>
+<p>Therefore, we can leverage the dependency injection to prune the external dependency from a database.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*pX7SdwfjPgzqJzw5.png"></p>
+<p>Like the above examples, we fake the database objects and make sure our business logic is correct. The keyword is “business logic”. We verify the whole business logic in unit tests no matter what the database is. By using the dependency injection, we can easily verify the business logic and reach a high coverage rate.</p>
+<h3 id="Integration-Test"><a href="#Integration-Test" class="headerlink" title="Integration Test"></a>Integration Test</h3><p>Alright, we have already ensured the unit works without the database. Things are not likely to go so smoothly after the database is involved. Thus, we have to make some integration tests to verify the database works as our expectations.</p>
+<p>We have already verified the units, therefore, we can only verify the database part, i.e <code>&quot;insert into mydatabase.mytable (data) value (&#39;&quot; + data +&quot;&#39;)&quot;</code> as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*ZoGte7OeWd89rthj.png"></p>
+<p>This example is not structured well, because we can apply the layered architecture to build an abstraction upon SQL query, called DAL (data access layer). Hence, we can have a cleaner interface to test the database instead of using raw SQL in a test case. Moreover, in Domain-Driven Development, there is a similar pattern, Repository, and it provides encapsulation for the database access. Those methods are able to provide convenience for writing integration tests.</p>
+<p>Of course you can replace the dependency injection with other techniques like mocking. However, in my opinion, mocking will introduce much more implement efforts on writing the integration tests. By using the dependency injection, we will have an independent module&#x2F;object&#x2F;interface for the integration.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Why should we distinguish between the unit test and integration test? The reason is doing integration tests will take a lot of time, most of the time from the database access. Suppose an integration test case takes 100 ms, which is very fast for the database access, then it is hard for us to write thousands of test cases. In order to fully test a system, we always try to cover every decision in every function from every file, thus, controlling total time consumption is essential.</p>
+<p>That is why Test Triangle shows the unit test at the bottom, and the integration test is up on it.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*lm0BrU1KYp4xyHpN.png"></p>
+<p>Let me summarize what is the main difference between unit tests and integration tests.</p>
+<blockquote>
+<p><em>Unit tests are made for testing business logic; on the other hand, integration tests are for verifying the external dependencies.</em></p>
+</blockquote>
+<p>With messing up the scenes, it will end up spending more effort and getting less results.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/whats-difference-between-unit-test-and-integration-test-aae6ef13220">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/Data-Persistence-in-MongoDB/20211103/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/MongoDB/Data-Persistence-in-MongoDB/20211103/" class="post-title-link" itemprop="url">Data Persistence in MongoDB</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-11-04 04:14:00" itemprop="dateCreated datePublished" datetime="2021-11-04T04:14:00+08:00">2021-11-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Data-Persistence-in-MongoDB"><a href="#Data-Persistence-in-MongoDB" class="headerlink" title="Data Persistence in MongoDB"></a>Data Persistence in MongoDB</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*U85yP3O7enCB5MtD.png"></p>
+<p>We have talked about the data persistence in Redis in <a target="_blank" rel="noopener" href="https://lazypro.medium.com/data-persistence-in-redis-2780c11d1623">my previous article</a>, and we had come out a conclusion.</p>
+<blockquote>
+<p><em>There is no way to ensure no data loss in the</em> <em><strong>single instance</strong></em> <em>Redis even the strictest setting is turned on.</em></p>
+</blockquote>
+<p>Because Redis is designed as a in-memory data storage handling the high-throughput user scenarios, aka a cache not a database. Hence, the persistence only needs to be usable not reliable.</p>
+<p>On the other hand, MongoDB as a NoSQL database is designed to deal with high-volume data and can be scaled out as needed. How about the data persistence in MongoDB?</p>
+<h3 id="WiredTiger"><a href="#WiredTiger" class="headerlink" title="WiredTiger"></a>WiredTiger</h3><p>We are going to talk about MongoDB with the most popular storage engine, WiredTiger. First, I have to tell that MongoDB is able to persist data. However, if you don’t use MongoDB correctly, data would still be lost.</p>
+<p>The story starts from the <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/core/journaling/">journaling</a>. By default, MongoDB stores its data into the memory to improve the performance. After reaching the criteria, MongoDB flushes data to the disk. Until then, the data is finally persisted. The criteria is:</p>
+<ol>
+<li>At every 100 milliseconds (can be adjusted by <code>storage.journal.commitIntervalMs</code>)</li>
+<li>Every 100 MB of data</li>
+</ol>
+<p>The journaling is like Redis AOF, it uses WAL to write data to the disk.</p>
+<h3 id="Write-Concern"><a href="#Write-Concern" class="headerlink" title="Write Concern"></a>Write Concern</h3><p>If the behavior of MongoDB is storing data in the memory first, how should I make sure the data is durable? Fortunately, MongoDB provides the write concern to accomplish the data persistence. You can set the write concern to “{j: true}” to make MongoDB acknowledge clients <strong>after</strong> the data is stored on the disk. Or, you can use “{w: majority}”, this implies “{j: true}” as well as replicates data to most slaves.</p>
+<p>The connect string also supports the journaling, <code>journal=true</code>. This provides some convenience if you don’t want to assign the write concern every time.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The data persistence plays a very important role in the system design. In fact, many NoSQL databases have some tricks in them. When you are using them, you should not only use them carefully but also understand the implementations behind them.</p>
+<p>MongoDB provides the data persistence as long as the write concern is used properly. In my opinion, “{w: majority}” is the best choice when you are considering the write concern. Because, we usually would like our data can be persisted in addition to persist to replicas.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/data-persistence-in-mongodb-1ca91f88914">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Data-Persistence-in-Redis/20211031/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Redis/Data-Persistence-in-Redis/20211031/" class="post-title-link" itemprop="url">Data Persistence in Redis</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-11-01 01:13:20" itemprop="dateCreated datePublished" datetime="2021-11-01T01:13:20+08:00">2021-11-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Data-Persistence-in-Redis"><a href="#Data-Persistence-in-Redis" class="headerlink" title="Data Persistence in Redis"></a>Data Persistence in Redis</h3><p>I had written an <a target="_blank" rel="noopener" href="https://lazypro.medium.com/distributed-transaction-introduction-1cd105c830a2">article</a> about the distributed transactions, which mentioned that Redis does not provide data persistence, with only a brief description. Today, I will deep dive into this topic to see how Redis AOF does.</p>
+<p>TL;DR</p>
+<blockquote>
+<p><em>Redis does not guarantee that the data will not be lost at all, even if the strictest setting is turned on.</em></p>
+</blockquote>
+<p>The strictest setting here is AOF with <code>fsync</code> at every query. Before we are talking about the reason, I will introduce the AOF further.</p>
+<h3 id="Redis-AOF"><a href="#Redis-AOF" class="headerlink" title="Redis AOF"></a>Redis AOF</h3><p>AOF (Append Only File) is a mechanism like LSM Tree. After Redis server finishes processing the commands from clients, it will write a command log appending to the end of the log file. There are three settings to determine when these logs are actually written to the hard disk.</p>
+<ol>
+<li>No <code>fsync</code> at all</li>
+<li><code>fsync</code> every second</li>
+<li><code>fsync</code> at every query</li>
+</ol>
+<p>The best performance is the first one, and then it gets worse and worse. According to the <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/50478674/redis-aof-fsync-always-vs-lsm-tree">experiment</a>, we can know the last option works even worse than LSM tree.</p>
+<p>From the <a target="_blank" rel="noopener" href="https://redis.io/topics/persistence">official manual</a>, it looks like the data is durable when the AOF is enabled. Actually, no, not at all. The trick is the launch time of AOF; If you look closely you will find AOF is starting <strong>after</strong> commands are processed. It is not like WAL (Write Ahead Log) of other databases. Therefore, if the command is finished processing, and then the system is crashed, you will obviously lost this operation.</p>
+<h3 id="fsync-every-second"><a href="#fsync-every-second" class="headerlink" title="fsync every second"></a><code>fsync</code> every second</h3><p><code>fsync</code> at every query makes lots of performance impact, hence we usually adopt <code>fsync</code> every second. This is also the default value in enabling Redis AOF. There comes another question:</p>
+<blockquote>
+<p><em>Does this mean I will only lose one second of data?</em></p>
+</blockquote>
+<p>The answer is no. There are two steps in AOF writes logs into the disk.</p>
+<ul>
+<li>WRITE: Write data to file</li>
+<li>SAVE: <code>fsync</code>, i.e., write file to disk</li>
+</ul>
+<p>From the implementation of Redis, the flow is as follows:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7PcTNBS0JCa8mtIBg6HpKw.png"></p>
+<ul>
+<li>Scenario 1: Return without WRITE and SAVE</li>
+<li>Scenario 2: WRITE, but no SAVE</li>
+<li>Scenario 3: WRITE and SAVE</li>
+</ul>
+<p>To sum up, if the system crashed, you will lost data within 2 seconds. On the other hand, the description in official manual — <em>appendfsync everysec: fsync every second. Fast enough (in 2.4 likely to be as fast as snapshotting), and you can lose 1 second of data if there is a disaster.</em> — is incorrect.</p>
+<p>Let me add, in parenthesis, I had attended EuropeCloud Summit 2021, and there is a session, <a target="_blank" rel="noopener" href="https://youtu.be/6x_kB3kZA5Q">Accelerating Application Modernization and Cloud Migration with Redis</a>, in day 2; one of a slide shows: Zero Data Loss around 9+ years in production. I am curious how he did it, so I thus ask my question; I have got no answer until today.</p>
+<p>Here is my conclusion, using Redis AOF is much more durable, however, it cannot make sure zero data loss. If you want to persist the data as much as possible, you have to not only use AOF but also the replica even as well as RDB at the same time.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/data-persistence-in-redis-2780c11d1623">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Design-Patterns-of-Event-driven-Architecture-Part-2/20211026/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Design-Patterns-of-Event-driven-Architecture-Part-2/20211026/" class="post-title-link" itemprop="url">Design Patterns of Event-driven Architecture Part 2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-10-27 03:12:13" itemprop="dateCreated datePublished" datetime="2021-10-27T03:12:13+08:00">2021-10-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Design-Patterns-of-Event-driven-Architecture-Part-2"><a href="#Design-Patterns-of-Event-driven-Architecture-Part-2" class="headerlink" title="Design Patterns of Event-driven Architecture Part 2"></a>Design Patterns of Event-driven Architecture Part 2</h3><p>In my previous <a target="_blank" rel="noopener" href="https://lazypro.medium.com/design-patterns-of-event-driven-architecture-bf0121cfda7b">article</a>, I have described some design patterns to build a scalable, robust, efficient, and fault-tolerant system. Today we will talk about some other methods to solve the problems when designing a event-driven architecture.</p>
+<h3 id="Request-response-Model"><a href="#Request-response-Model" class="headerlink" title="Request-response Model"></a>Request-response Model</h3><p>Wait, we are designing an event-driven architecture which is asynchronous definitely. Why we are talking about the synchronous model here? In my opinion, the request-response models is very classic way to start up a project. We used to request a response through the restful APIs. This implementation can reduce the development effort and give a straightforward view. However, we don’t want to lose the flexibility of event-driven architectures. The solution is we implement a request-response models upon an event system.</p>
+<p>The sequential diagram is shown as the following figure 1.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*EZiMbhWbAO583MWDJCUk3w.png"></p>
+<p>The server is a traditional HTTP server with some synchronous Restful APIs, and the client requests the server as usual. Nevertheless, the server doesn’t handle this request directly; instead, he delegate this job to the event worker and wait for the response at the agreed place which is another queue. After using this pattern, we can enjoy not only the benefits of the event-driven architecture but also the simplicity between clients and servers.</p>
+<h3 id="Ambulance-Pattern"><a href="#Ambulance-Pattern" class="headerlink" title="Ambulance Pattern"></a>Ambulance Pattern</h3><p>The ambulance pattern is used to handle the message priority correctly. The simple design for an emergency event is always put this event to the head of a queue, so that workers can process those high-priority events Immediately. Well, this implementation has some drawbacks, especially, the starvation of the low-priority events. Those normal events might not be processed at all, because there are always emergency events come in.</p>
+<p>In order to handle events evenly, we can separate emergency events from ordinary events and submit to a new queue like the follows:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*PuCk73cPGKlktywA4cA98A.png"></p>
+<p>The workers can pick events from those queues to avoid the starvation. There can be a weight to determine the ratio of the two sides, or simply use round-robin to handle those events sequentially.</p>
+<p>Furthermore, you can dedicate a worker focus on the emergency events.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*teBO7b55j7DEC82sMnGnSg.png"></p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>We have described two patterns to face some design decisions. In order to make the client more easily, we can leverage the request-response model. If we encounter a scenario is to distinguish the event priority, we can use the ambulance pattern.</p>
+<p>The trend of using event-driven architecture has become apparent. However, until now, there is no one-size-fits-all solution can design a well architecture for events. We have to find the corresponding solution according to various situations. Hope these two articles are helpful to you.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-patterns-of-event-driven-architecture-part-2-ea4296dc58d">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/How-to-choose-a-MongoDB-shard-key/20211024/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/MongoDB/How-to-choose-a-MongoDB-shard-key/20211024/" class="post-title-link" itemprop="url">How to choose a MongoDB shard key</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-10-25 06:21:05" itemprop="dateCreated datePublished" datetime="2021-10-25T06:21:05+08:00">2021-10-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="How-to-choose-a-MongoDB-shard-key"><a href="#How-to-choose-a-MongoDB-shard-key" class="headerlink" title="How to choose a MongoDB shard key"></a>How to choose a MongoDB shard key</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*huNV3uOmTLrTv1Z0.png"></p>
+<p>In this article, I will show you what is the ideal pattern of a MongoDB shard key. Although there is a good page on the <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/core/sharding-choose-a-shard-key/">MongoDB official manual</a>, it still does not provide a formula to choose a shard key.</p>
+<p>TL;DR</p>
+<p>The formula is</p>
+<blockquote>
+<p><em>{coarselyAscending : 1, searchPattern : 1}</em></p>
+</blockquote>
+<p>I will explain the reason in the following sections.</p>
+<h3 id="User-Scenario"><a href="#User-Scenario" class="headerlink" title="User Scenario"></a>User Scenario</h3><p>In order to well-describe the formula, I will use an example to illustrate the scenario. There is a collection within application logs, and the format is like:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    &quot;id&quot;: &quot;4df16cf0-2699-410f-a07e-ca0bc3d3e153&quot;,  </span><br><span class="line">    &quot;type&quot;: &quot;app&quot;,  </span><br><span class="line">    &quot;level&quot;: &quot;high&quot;,  </span><br><span class="line">    &quot;ts&quot;: 1635132899,  </span><br><span class="line">    &quot;msg&quot;: &quot;Database crash&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Each log has the same template, <code>id</code> is a <code>UUID</code>, <code>ts</code> is an epoch, and both <code>type</code> and <code>level</code> are a finite enumeration. I will leverage the terminologies in the official manual to explain some incorrect designs.</p>
+<h3 id="Low-Cardinality-Shard-Key"><a href="#Low-Cardinality-Shard-Key" class="headerlink" title="Low Cardinality Shard Key"></a>Low Cardinality Shard Key</h3><p>From the mentioned example, we usually choose <code>type</code> at first sight. Because we always use <code>type</code> to identify the logging scope. However, if we choose the <code>type</code> as the shard key, it must encounter a hot-spot problem. Hot-spot problem means there is a shard size much larger than others. For example, there are 3 shards corresponding to 3 types of logs, app, web, and admin, the most popular user is on app. Therefore, the shard size with app log will be very large. Furthermore, due to the low-cardinality shard key, the shards cannot be rebalanced anymore.</p>
+<h3 id="Ascending-Shard-Key"><a href="#Ascending-Shard-Key" class="headerlink" title="Ascending Shard Key"></a>Ascending Shard Key</h3><p>Alright, if <code>type</code> cannot be the shard key, how about <code>ts</code>? We always search for the most recently logs, and <code>ts</code> are fully uniform distributed, it should be a proper choice. Actually, no. When the shard key is an ascending data, it works at the very first time. Nevertheless, it will result in a performance impact soon. The reason is <code>ts</code> is always ascending, so the data will always insert into the last shard. The last shard will be rebalanced frequently. Worst of all, the query pattern used to search from the last shard as well, i.e. the search will often be the rebalance period.</p>
+<h3 id="Random-Shard-Key"><a href="#Random-Shard-Key" class="headerlink" title="Random Shard Key"></a>Random Shard Key</h3><p>Based on the previous sections, we know <code>type</code>, <code>level</code> and <code>ts</code> all are not good shard key candidates. Thus, we can use <code>id</code> as the shard key, so that we can spread the data evenly without frequent changes. This approach will work fine when the data set is limited. After the data set becomes huge, the overhead of rebalance will be very high. Because the data is random, MongoDB has to random access the data while rebalancing. On the other hand, if the data is ascending, MongoDB can retrieve the data chunks via the sequential access.</p>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p>A good MongoDB shard key should be like this:</p>
+<blockquote>
+<p><em>{coarselyAscending : 1, searchPattern : 1}</em></p>
+</blockquote>
+<p>In order to prevent the random access, we choose the coarsely ascending data be the former. This pick also won’t meet the problem of frequently rebalancing. And we put a search pattern on the latter to ensure the related data can be located at the same shard as much as possible. In our example, I will not only choose the shard key but also redesign our search pattern. The <code>ts</code> is fine to address the log at the specific time; however, it is a bit inefficient for a time range query like from 3 month ago til now. Hence, I will add one more key, <code>month</code>, in the document, so we therefore can leverage the MongoDB date type and make a proper shard key. The collection will be:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    &quot;id&quot;: &quot;4df16cf0-2699-410f-a07e-ca0bc3d3e153&quot;,  </span><br><span class="line">    &quot;type&quot;: &quot;app&quot;,  </span><br><span class="line">    &quot;level&quot;: &quot;high&quot;,  </span><br><span class="line">    &quot;ts&quot;: 1635132899,  </span><br><span class="line">    &quot;msg&quot;: &quot;Database crash&quot;,  </span><br><span class="line">    &quot;month&quot;: new Date(2021, 10) // only month  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>And, the shard key is <code>{month: 1, type: 1}</code>.</p>
+<p>The key point here is we use <code>month</code> instead of <code>ts</code> to avoid frequently rebalancing. The <code>month</code> is not made just for the shard key; on the contrary, we also use it for our search pattern. Instead of calculating the relationship between timestamp and the date, we can use <code>getMonth</code> to find results faster. For instance,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var d = new Date();  </span><br><span class="line">d.setMonth(d.getMonth() - 1); //1 month ago  </span><br><span class="line">db.data.find(&#123;month:&#123;$gte: d&#125;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>To sum up, this article provides the concepts of designing MongoDB shard key. You might not have a coarsely ascending data so, but you can refer to the concepts and find out a proper key design for your applications.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-choose-a-mongodb-shard-key-e4063b636c26">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Kafka-vs-RabbitMQ/20211019/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Kafka-vs-RabbitMQ/20211019/" class="post-title-link" itemprop="url">Kafka vs. RabbitMQ</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-10-20 02:49:09" itemprop="dateCreated datePublished" datetime="2021-10-20T02:49:09+08:00">2021-10-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Kafka-vs-RabbitMQ"><a href="#Kafka-vs-RabbitMQ" class="headerlink" title="Kafka vs. RabbitMQ"></a>Kafka vs. RabbitMQ</h3><p>I’ve written this article for explaining what’s the main difference between Kafka and RabbitMQ. I know there are a lot of articles that try to compare them on their capabilities like message routing, performance, persistence, etc. I like <a target="_blank" rel="noopener" href="https://tarunbatra.com/blog/comparison/How-to-choose-between-Kafka-and-RabbitMQ/">this post</a> the most, which gives a precise and fair summary to both of them.</p>
+<p>Nevertheless, those articles all stand on the server-side to consider how to choose Kafka or RabbitMQ. They rarely consider from the client-side, i.e the story on workers. In my opinion, both Kafka and RabbitMQ itself work very well on every use case. The most common thing we encounter is not that the server cannot handle messages, but the workers are too slow to process messages. If the workers indeed cannot afford the workload, we usually adopt horizontal scaling to increase the throughput.</p>
+<h3 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h3><p>I demonstrate this scenario as follows:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*YbHIx7PDhA2NeSbQTDsb0A.png"></p>
+<p>The <em>MQ</em> represents either RabbitMQ or other message queue systems. In this case, we can extend the number of workers to handle more messages at the same time. However, the order of messages cannot be preserved. RabbitMQ treats every message as a standalone entity and can be dispatched to any one of the unified workers. In fact, you can set up a complex exchange and routing rule to ensure the message ordering manually. If you do so, you will introduce the complexity in a system and significantly make a tightly coupling between producers and consumers.</p>
+<h3 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h3><p>How to deal with this problem? I mean how does Kafka preserve the message order. The illustration is:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*-9tHhnvNv7Iy316wj4x1yw.png"></p>
+<p>The magic is a producer still publishes a message to a topic, but Kafka pushes the message into the corresponding partition based on the key. Consumers can be a consumer group, and the consumers in the same group will be dispatched to the certain partition(s). In other words, the same kind of messages are processed on the same consumer to make sure the correctness of orderings. Furthermore, the participants in a consumer group can be dynamically adjusted to sort out the run-time workload.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>From my point of view, if the user scenario is the producer generates lots of messages, and you have to add more consumers to digest them, you should use Kafka. Otherwise, Kafka and RabbitMQ both are great tools, you can choose according to the technology stack in your organization.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/kafka-vs-rabbitmq-bc9c8dc7768a">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Design-Patterns-of-Event-driven-Architecture/20211014/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Design-Patterns-of-Event-driven-Architecture/20211014/" class="post-title-link" itemprop="url">Design Patterns of Event-driven Architecture</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-10-14 09:45:39" itemprop="dateCreated datePublished" datetime="2021-10-14T09:45:39+08:00">2021-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>According to the <a target="_blank" rel="noopener" href="https://www.gartner.com/ngw/globalassets/en/information-technology/documents/top-10-strategic-technology-trends-for-2018.pdf">report</a>, we can see the event-driven model is a hot topic for the system design. However, designing a good event-driven architecture is quite challenging. We are familiar with the synchronization models, which request and response directly, but the stories are totally different in the asynchronization schemes. Nevertheless, here are some architecture patterns for reference.</p>
+<p>The blueprint comes from the <a target="_blank" rel="noopener" href="https://youtu.be/dc20BQ9izs8">video</a> and shows the whole vision on a well-defined event-driven architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*__KCJ15dla1qq0Rb.png"></p>
+<p>I will briefly introduce those terminologies in the later sections.</p>
+<h3 id="Channel-monitoring-pattern"><a href="#Channel-monitoring-pattern" class="headerlink" title="Channel monitoring pattern"></a>Channel monitoring pattern</h3><p>The channel monitoring pattern define a role called channel monitor to watch the usage and utilization of the main queue. It monitors some metrics like the amount of pending messages, the amount of consumers and the consuming rate.</p>
+<p>Having those metrics helps to understand the workload and the healthy of the system. Moreover, the information can let the system be able to self-healing by adjusting the amount of consumers and throttling the producer.</p>
+<h3 id="Consumer-supervisor-pattern"><a href="#Consumer-supervisor-pattern" class="headerlink" title="Consumer supervisor pattern"></a>Consumer supervisor pattern</h3><p>This supervisor is responsible for adjusting the amount of consumers. It listens to the channel monitor and determines if the current consumers can handle the events. If the supervisor thinks the throughput of consumers is not enough, it will call more consumers to help, and vise versa.</p>
+<h3 id="Producer-control-flow-pattern"><a href="#Producer-control-flow-pattern" class="headerlink" title="Producer control flow pattern"></a>Producer control flow pattern</h3><p>In the previous section, the supervisor improves the throughput by making more consumers. However, if the cost is a concern, using more consumers obviously is infeasible.</p>
+<p>Therefore, there is another approach, producer control flow pattern. When the consuming rate cannot align to the producing rate, a controller will send a signal to the producer to slow down the event generation. After the pending events are processed, the producer can disable the throttling to restore the normal state.</p>
+<h3 id="Thread-delegate-pattern"><a href="#Thread-delegate-pattern" class="headerlink" title="Thread delegate pattern"></a>Thread delegate pattern</h3><p>The thread delegate pattern is a useful pattern not only in the event-driven architecture but the other types of the system design.</p>
+<p>The pattern has two purposes:</p>
+<ol>
+<li>Preserve the message order</li>
+<li>Track the metrics of event processing, ex. response time.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*TzGIitumPt_dW98W.png"></p>
+<p>Let’s begin from the first purpose. When a huge amounts of events enter the queue, we are used to bring up more consumers to handle them, aka scale-out. This method is common in the stateless scenarios. But, some kind of events are stateful, the order of events must be addressed. For instance,</p>
+<ul>
+<li>Put some items in the cart</li>
+<li>Clean up the cart</li>
+<li>Put other items in the same cart</li>
+<li>Charge it</li>
+</ul>
+<p>The event order must be kept; otherwise, you may buy the wrong items. Thus, how to handle the events on multiple consumers? In thread delegate pattern, it introduces a new role, event dispatcher, and the dispatcher dispatch an event to the corresponding consumer based on the event type. In other words, all events with the same type will be in the same place, and the order can be ensured.</p>
+<p>So, the dispatcher maintains a mapping table to record which type of event belongs to who. After the consumer finishes an event, it callback to the dispatcher. The dispatcher knows all processing results of consumers, i.e., it can track the response time as well.</p>
+<h3 id="Workflow-event-pattern"><a href="#Workflow-event-pattern" class="headerlink" title="Workflow event pattern"></a>Workflow event pattern</h3><p>When event consumer encounter an error while processing, it may not fix the error due to many reasons like the malformed event, transaction conflicts, etc. Hence, the consumer emit this event to another queue handled by workflow processor. The processor will either fix the event or store the event in the storage. In addition, the processor can display the event on the dashboard and inform the human to take over the case. The human can fix the situation manually and resend this event to the queue.</p>
+<p>It is worth to mention that if the event is resent to the queue, the order cannot be guaranteed.</p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>We walk through several design patterns of an event-driven architecture. We can design a self-monitoring and self-healing system leverage those patterns. The system is scalable, robust, efficient, and fault-tolerant. However, there are some noteworthy patterns that have not been covered. I will introduce them in the future.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-patterns-of-event-driven-architecture-bf0121cfda7b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Distributed-Transaction-Introduction/20211001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Distributed-Transaction-Introduction/20211001/" class="post-title-link" itemprop="url">Distributed Transaction Introduction</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-10-02 03:37:42" itemprop="dateCreated datePublished" datetime="2021-10-02T03:37:42+08:00">2021-10-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>This article will:</p>
+<ol>
+<li>explain what is the distributed transaction.</li>
+<li>introduce how to resolve the distributed problem.</li>
+<li>provide a real-world example to demonstrate how dose the proper solution look like.</li>
+</ol>
+<p>To discuss the distributed transaction, we should talk about the transaction first. We will enter the world of the distributed system design step by step. So, let’s begin.</p>
+<h3 id="What-is-Transaction"><a href="#What-is-Transaction" class="headerlink" title="What is Transaction"></a>What is Transaction</h3><p>The traditional transaction system provide 4 guarantees by the definition. They are known as ACID:</p>
+<ul>
+<li>Atomicity: All tasks in a transaction either all have been done or done with nothing. In this premise, we can ensure our database modifications will be all or nothing.</li>
+<li>Consistency: The operation in a transaction still follows the constraint. In addition, once it is committed, the changes can be read by others correctly.</li>
+<li>Isolation: The isolation is defined as 4 isolation levels. They are <code>Read Uncommitted</code>, <code>Read Committed</code>, <code>Repeatable Read</code>, and <code>Serializable</code>. Different isolation levels can solve different user scenarios. The <code>Seriablizable</code> treats all operations are in order; therefore, he will not encounter the racing conditions anymore.</li>
+<li>Durability: Once the data changes are committed, they will not be lost even the database crashes.</li>
+</ul>
+<h3 id="Who-has-Transaction"><a href="#Who-has-Transaction" class="headerlink" title="Who has Transaction"></a>Who has Transaction</h3><p>After describing ACID briefly, let’s see who can support them. I pick 3 very common targets, <code>MySQL</code>, <code>Mongo</code> and <code>Redis</code>.</p>
+<ul>
+<li>MySQL: Of course, yes. As a representative of OLTP(Online Transactional Processing), MySQL supports the transaction very well, and it is widely used to the transaction scheme. Although, the transaction level is usually set to <code>Repeatable Read</code>, MySQL is still the most appropriate solution.</li>
+<li>Mongo: Since v4.0 released, Mongo has supports the transaction. As long as the correct use <code>Write Concern</code> and <code>Read Concern</code> can ensure <code>Consistency</code> of the transaction. In my opinion, Mongo is very suitable for the de-normalized user scenario.</li>
+<li>Redis: Well, not really. We know Redis has the atomical operation due to the single-thread design. In addition, Redis has <code>MULTI</code> to execute multiple commands or <code>EVAL</code> to call the <code>Lua</code> script, so that Redis can perform lots of data changes at once. Moreover, Redis can use AOF to accomplish the data persistence. I have to say that Redis cannot support the transaction. Redis may leverage those mechanisms to solve part of the transaction stories; as a consequence, it does still not fully provide ACID.</li>
+</ul>
+<p>Let me summarize in a table:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*CguLyqdZJ8lNVqmxg-8xdA.png"></p>
+<h3 id="How-about-Distributed-Transaction"><a href="#How-about-Distributed-Transaction" class="headerlink" title="How about Distributed Transaction"></a>How about Distributed Transaction</h3><p>Alright, we have gone through the traditional transaction. Now, we can talk about the distributed transaction. In order to ease the problem scope, I will give a simple definition to the distributed transaction, that is, provide ACID across multiple homogeneous&#x2F;heterogeneous data sources. Here are few examples:</p>
+<ol>
+<li>Insert a row in one MySQL database, and insert another row into another MySQL database.</li>
+<li>Insert a row in a MySQL database, and insert a document into a Mongo database.</li>
+<li>Insert a document in one of Mongo shards, and insert another document into another Mongo shards.</li>
+</ol>
+<blockquote>
+<p><em>The third example can be solved by native Mongo’s transaction after Mongo v4.2 released; therefore, we can skip this example.</em></p>
+</blockquote>
+<h3 id="Simple-Design-but-Incorrect"><a href="#Simple-Design-but-Incorrect" class="headerlink" title="Simple Design but Incorrect"></a>Simple Design but Incorrect</h3><p>Okay, let’s quick look a basic design concept. We perform the transaction on each data source, if there is one of them failed, we rollback the previous tasks.</p>
+<p>Based on our simple design, there is an implementation on data source A, B and C like this:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*dYiSTnbVAO3P8caAVQVf1A.png"></p>
+<p>The problem here is: after we commit the result to A, we are hard to perform rollback on A if B is failed.</p>
+<p>Even if we adopt the nested transaction, the problem is still not resolved like the following diagram:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*3ilS7E-5m3G370vJU2V2TA.png"></p>
+<p>According to the diagram below, we can see the same problem as the figure 1. We cannot rollback on C easily.</p>
+<h3 id="Two-phase-Commit-Protocol"><a href="#Two-phase-Commit-Protocol" class="headerlink" title="Two-phase Commit Protocol"></a>Two-phase Commit Protocol</h3><p>In the field of Microservice, this kind of problems are becoming common; hence, many protocols have been proposed to figure out the solution like <code>XA</code> and <code>SAGA</code>. Both <code>XA</code> and <code>SAGA</code> are based on the same theory, <code>2PC</code>, aka the two-phase commit protocol. I won’t dive into <code>2PC</code>, I will provide an introduction to explain its concept.</p>
+<p>There is a coordinator in the story, everyone want to perform the distributed transaction has to register(first commit) with it. The coordinator will poll every data source who participates in this transaction to get the permission. If there is any participant says no, the coordinator will reject the transaction request and perform rollback to every participant. If fortunately all data sources reply yes, the coordinator will response okay to the client. The client is able to perform the real commit(second commit) to the coordinator to proceed the process.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*ZsbogH53HuWUItiktCP1fA.png"></p>
+<p>See this, we can find out three problems:</p>
+<ol>
+<li>It is very time consuming. Client must wait for every data source agree his request, and then submit the real commit to them. Although this synchronization can ensure the strong consistency on data changes, we have to invest more time.</li>
+<li>SPOF(Single point of failure) is on the coordinator. If the coordinator crashes, all the distributed transactions do not work anymore.</li>
+<li>If the coordinator’s commit is failed due to the network loss or other reasons, the data will be inconsistent on those participated data sources.</li>
+</ol>
+<h3 id="Eventually-Consistency"><a href="#Eventually-Consistency" class="headerlink" title="Eventually Consistency"></a>Eventually Consistency</h3><p>It seems that multi-phase commit protocol is not feasible, we should try to find out a light weight approach called eventually consistency. Literally we know that we give up the strong consistency to reduce the implementation overhead. In other words, we hope the data can be consistent in the end. To achieve the eventually consistency approach, there are two keywords should keep in mind.</p>
+<ol>
+<li>Event sourcing: To make this term simple, it means we record the status changes instead of the status itself. For instance, the bank passbook records every transaction not only the balance.</li>
+<li>Idempotence: The idempotence is quite intuitive. We can perform a tasks many times, and the result is the same as we performed once.</li>
+</ol>
+<p>Combine these two concepts, we can design our system now. We make every transaction be an event, if a client want to perform a distributed transaction which means the client emit an event to the event processor. The event processor receives a event and start to do transaction on those multiple data sources. After all tasks finish, the event can be mark as <code>DONE</code>, and the event processor can handle the next one. If there is a transaction cannot succeed on one of the data sources, we don’t mark this event <code>DONE</code>, so that the event processor will retry later. Due to the idempotence, the event can be processed more than once. Nevertheless, putting a retry limit is recommended.</p>
+<p>Let’s see the diagram to show the design flow:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*X--IGPY5ARQRsOG9oTwu3A.png"></p>
+<p>Perfect, as a result of the design concept, we can handle the distributed transaction correctly, and the data consistency will be kept eventually.</p>
+<p>Even though there is a queue in our design, in fact, you don’t need invoke a real queue in your system. There are many alternatives, e.g., store all events in a MySQL table having a column be the status. The core of this design is the event sourcing and the idempotence, you can accomplish them in what way you preferred.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/distributed-transaction-introduction-1cd105c830a2">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/16/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/18/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

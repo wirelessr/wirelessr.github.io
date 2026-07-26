@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Taming AI code agents for better workflows Recently, I’ve taken a lot of time to actually experience vibe coding, and I’ve come up with a few tips. TL;DR  The used agent must support differential mode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Master Vibe Coding: AI-Powered Workflow">
+<meta property="og:url" content="https://wirelessr.github.io/AI/Master-Vibe-Coding-AI-Powered-Workflow/20250511/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Taming AI code agents for better workflows Recently, I’ve taken a lot of time to actually experience vibe coding, and I’ve come up with a few tips. TL;DR  The used agent must support differential mode">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*JXOxDw3A8bxDPKmh6oaomw.png">
+<meta property="article:published_time" content="2025-05-11T17:33:28.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.826Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*JXOxDw3A8bxDPKmh6oaomw.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/AI/Master-Vibe-Coding-AI-Powered-Workflow/20250511/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/AI/Master-Vibe-Coding-AI-Powered-Workflow/20250511/","path":"AI/Master-Vibe-Coding-AI-Powered-Workflow/20250511/","title":"Master Vibe Coding: AI-Powered Workflow"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Master Vibe Coding: AI-Powered Workflow | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Taming-AI-code-agents-for-better-workflows"><span class="nav-number">1.</span> <span class="nav-text">Taming AI code agents for better workflows</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Diff-mode-patching"><span class="nav-number"></span> <span class="nav-text">Diff mode patching</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Commit-continuously"><span class="nav-number"></span> <span class="nav-text">Commit continuously</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prompt-should-be-clear-and-contextualized"><span class="nav-number"></span> <span class="nav-text">Prompt should be clear and contextualized</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Will-developers-be-eliminated"><span class="nav-number"></span> <span class="nav-text">Will developers be eliminated?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wrap-Up"><span class="nav-number"></span> <span class="nav-text">Wrap Up</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thank-you-for-being-a-part-of-the-community"><span class="nav-number"></span> <span class="nav-text">Thank you for being a part of the community</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Master-Vibe-Coding-AI-Powered-Workflow/20250511/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Master Vibe Coding: AI-Powered Workflow | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Master Vibe Coding: AI-Powered Workflow
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-05-12 01:33:28" itemprop="dateCreated datePublished" datetime="2025-05-12T01:33:28+08:00">2025-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Taming-AI-code-agents-for-better-workflows"><a href="#Taming-AI-code-agents-for-better-workflows" class="headerlink" title="Taming AI code agents for better workflows"></a>Taming AI code agents for better workflows</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*JXOxDw3A8bxDPKmh6oaomw.png"></p>
+<p>Recently, I’ve taken a lot of time to actually experience vibe coding, and I’ve come up with a few tips.</p>
+<p>TL;DR</p>
+<ol>
+<li>The used agent must support differential mode modification instead of overwriting the entire file.</li>
+<li>Commit continuously.</li>
+<li>The commands should be clear and simple, and context-sensitive.</li>
+</ol>
+<p>Before describing the experience I’d like to briefly introduce the toolset I use.</p>
+<ul>
+<li>IDE is VS Code.</li>
+<li>Agent is a plugin from <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items/?itemName=RooVeterinaryInc.roo-cline">RooCode</a>.</li>
+<li>Model uses several free models provided by <a target="_blank" rel="noopener" href="https://openrouter.ai/">OpenRouter</a>.</li>
+<li>The main model is <a target="_blank" rel="noopener" href="https://openrouter.ai/deepseek/deepseek-chat-v3-0324:free">deepseek-v3–0324</a></li>
+<li>Occasionally <a target="_blank" rel="noopener" href="https://openrouter.ai/meta-llama/llama-4-scout:free">llama-4-scout</a></li>
+</ul>
+<p>As you can see I use free tools, which I believe is the best setup for the common developer. But it also creates a lot of headaches, which I’ll talk about in a bit more detail.</p>
+<p>Next, this is a complete project I made using vibe coding.</p>
+<p>Alice is a command line tool that converts the natural language into the actual terminal command to be executed and gets the result.</p>
+<p>In fact, many tools have similar functions, as follows.</p>
+<ol>
+<li>Warp (AI-powered terminal tool)</li>
+<li>iTerm2 AI</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/TheR1D/shell_gpt">ShellGPT</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/BuilderIO/ai-shell">ai-shell</a></li>
+<li>etc.</li>
+</ol>
+<p>There are many more, but they all have their own problems.</p>
+<p>The main one is they don’t support customized models like OpenRouter or Anthropic, and the second one is that the results are not very good, either the results are not on point or they aren’t easy to use.</p>
+<p>So I wrote a tool for my own needs, and I won’t dive into the details of the tool.</p>
+<p>The whole development process is I wrote a basic working script first, which is <code>main.py</code> and then I rely on vibe coding to start refactoring and adding new features step by step.</p>
+<p>This development process should fit the scenario of most developers practicing vibe coding. Instead of using vibe coding to create a project from scratch, we use vibe coding to iterate on an existing project.</p>
+<p>Let’s start by explaining the three points mentioned at the beginning of the article.</p>
+<h3 id="Diff-mode-patching"><a href="#Diff-mode-patching" class="headerlink" title="Diff mode patching"></a>Diff mode patching</h3><p>I think this is one of the most important things, why?</p>
+<p>When the model is not smart enough, it is easy to overwrite the whole file and change something that is not a problem. Here is an example of deepseek-v3–0324 muddying the water.</p>
+<p>The project I developed uses <a target="_blank" rel="noopener" href="https://github.com/microsoft/autogen">AutoGen</a> to implement the communication between agents, here is the import I used.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from autogen_ext.models.openai import OpenAIChatCompletionClient  </span><br><span class="line">from autogen_core.models import ModelInfo  </span><br><span class="line">from autogen_agentchat.agents import AssistantAgent</span><br></pre></td></tr></table></figure>
+
+<p>But when RooCode wanted to make some changes to the code, he would often overwrite my entire file. Then the code breaks. This is the most common “unauthorized” change he does.</p>
+<p>For some unknown reason, it often changes <code>models</code> to <code>model</code> and <code>agents</code> to <code>agent</code>, breaking my code.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from autogen_ext.model.openai import OpenAIChatCompletionClient  </span><br><span class="line">from autogen_core.model import ModelInfo  </span><br><span class="line">from autogen_agentchat.agent import AssistantAgent</span><br></pre></td></tr></table></figure>
+
+<p>Therefore, I’ve added a couple of absolute rules to my RooCode.</p>
+<p><em>.roo&#x2F;rules&#x2F;rules.md</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. Do not overwrite the whole file easily.  </span><br><span class="line">2. Just modify parts that is asked.  </span><br><span class="line">3. Do not change any no bug part.</span><br></pre></td></tr></table></figure>
+
+<h3 id="Commit-continuously"><a href="#Commit-continuously" class="headerlink" title="Commit continuously"></a>Commit continuously</h3><p>In vibe coding, agent behavior is largely unpredictable, especially with dummy agents like the example above.</p>
+<p>So when you make a command, and you get an acceptable result, you have to make a <code>git commit</code> right away. Even if the command is only partially complete, at least the result is acceptable, so save it.</p>
+<p>In the beginning, I often let the agent do what he wants and I ask him to do what I want, and then I have no idea what he’s changed, or even what he’s changed that’s broken.</p>
+<p>Therefore, please remember, as long as you see the result is acceptable, then just commit.</p>
+<p>With commit, you will be able to compare what you have changed in subsequent commands, and you will also be able to know what needs to be fixed in this prompt.</p>
+<h3 id="Prompt-should-be-clear-and-contextualized"><a href="#Prompt-should-be-clear-and-contextualized" class="headerlink" title="Prompt should be clear and contextualized"></a>Prompt should be clear and contextualized</h3><p>Don’t expect the agent to know what you want to change.</p>
+<p>If you want to change something, tell the agent exactly what you want, which file, which function or even which lines you want to change. The clearer you are, the more you can get the expected result, not the free-for-all of a creative person.</p>
+<p>When I first came across vibe coding, I always thought that agent can see all the code and structure, so agent should know what to change. But I was wrong, and very wrong.</p>
+<p>There is a limit to the context that Agent can see. Of course, you can make that context huge, but there are a couple of problems.</p>
+<ol>
+<li>Huge contexts cost money.</li>
+<li>Huge contexts are easier to hallucinate.</li>
+<li>Huge contexts are not always acceptable in terms of agent capability.</li>
+</ol>
+<p>So you have to tell the agent clearly what to look at and where to change.</p>
+<h3 id="Will-developers-be-eliminated"><a href="#Will-developers-be-eliminated" class="headerlink" title="Will developers be eliminated?"></a>Will developers be eliminated?</h3><p>There is often a dream that agent can replace the developer, I can only say, this is really a dream.</p>
+<p>The project structure this time is quite simple, and the functions are not complicated.</p>
+<p>To put it frankly, it is actually three agents communicate with each other to accomplish one thing.</p>
+<ol>
+<li>Planning agent converts the natural language into a command line to be executed.</li>
+<li>Execution agent executes the command line and reports the result.</li>
+<li>Verification agent checks whether the result is correct or not, if not, it will start again.</li>
+</ol>
+<p>Along the way, I added some new features.</p>
+<ol>
+<li>Use PyInstaller to generate the executable.</li>
+<li>Automatically release with Github Action.</li>
+<li>Support both environment variables and configuration files.</li>
+<li>Model setting.</li>
+<li>Choose the language of the response.</li>
+<li>Hide agent interactions and only get the final result.</li>
+</ol>
+<p>I’ve also done some refactoring, such as splitting <code>main.py</code> into corresponding modules or turning the config module into a singleton pattern.</p>
+<p>But with vibe coding, I feel a bit exhausted, agent’s development efficiency is not as good as my own coding, sometimes, I am really upset to see him playing idiot, but after all, I am practicing vibe coding, so I can only continue to see him playing idiot.</p>
+<p>As models improve, this kind of frustrating behavior will become less frequent, that is to say, it can be easier to write down the prompt.</p>
+<p>Back to the above conclusion, vibe coding can not replace the developer, but for the skilled developers can improve development efficiency.</p>
+<p>For example, if I tell the agent to turn my <code>load_config()</code> into a singleton pattern, he will make a standard singleton class as he imagines, but his context is not enough to change all the callers to <code>load_config</code> and then break the program.</p>
+<p>But if I tell him to turn <code>load_config</code> into a singleton while keeping the <code>load_config</code> interface the same, he’ll be able to make something similar to what I imagined.</p>
+<p>So the role of the developer has become more important.</p>
+<p>Nowadays, more and more agents have orchestractor (dispatcher) mode, which means he will break down complex tasks and assign them to other agents. Honestly, what he does is really not good, it’s better to break down the requirements myself and then use prompt to tell the agent what to do.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Vibe coding is already a trend among developers, but just like we practice writing programs, vibe coding requires continuous practice.</p>
+<p>The more we use an agent, the easier to know where the agent’s limits are, and the easier to make the agent meet the expectations.</p>
+<p>Vibe coding is just a tool, a tool to make things easier for the user, not to replace the user. I hope everyone can become a sophisticated user of vibe coding, I am practicing too.</p>
+<h3 id="Thank-you-for-being-a-part-of-the-community"><a href="#Thank-you-for-being-a-part-of-the-community" class="headerlink" title="Thank you for being a part of the community"></a>Thank you for being a part of the community</h3><p><em>Before you go:</em></p>
+<ul>
+<li>Be sure to <strong>clap</strong> and <strong>follow</strong> the writer ️👏<strong>️️</strong></li>
+<li>Follow us: <a target="_blank" rel="noopener" href="https://x.com/inPlainEngHQ"><strong>X</strong></a> | <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/inplainenglish/"><strong>LinkedIn</strong></a> | <a target="_blank" rel="noopener" href="https://www.youtube.com/@InPlainEnglish"><strong>YouTube</strong></a> | <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>Newsletter</strong></a> | <a target="_blank" rel="noopener" href="https://open.spotify.com/show/7qxylRWKhvZwMz2WuEoua0"><strong>Podcast</strong></a> | <a target="_blank" rel="noopener" href="https://differ.blog/inplainenglish"><strong>Differ</strong></a> | <a target="_blank" rel="noopener" href="https://twitch.tv/inplainenglish"><strong>Twitch</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://differ.blog/"><strong>Start your own free AI-powered blog on Differ</strong></a> 🚀</li>
+<li><a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Join our content creators community on Discord</strong></a> 🧑🏻‍💻</li>
+<li>For more content, visit <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>plainenglish.io</strong></a> + <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/master-vibe-coding-ai-powered-workflow-e32a47bed467">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Development/Diagram-as-Code-from-Mermaid-to-D2/20250427/" rel="prev" title="Diagram as Code: from Mermaid to D2">
+                  <i class="fa fa-chevron-left"></i> Diagram as Code: from Mermaid to D2
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/AI/How-to-Read-Paper-Efficiently/20250601/" rel="next" title="How to Read Paper Efficiently">
+                  How to Read Paper Efficiently <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

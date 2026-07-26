@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Introduction to Feature Toggling— Types, Use Cases, and ImplementationKnow the many scenarios where feature toggles can be used and how to treat them properly I have been using trunk-based development">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introduction to Feature Toggling— Types, Use Cases and Implementation">
+<meta property="og:url" content="https://wirelessr.github.io/Development/Introduction-to-Feature-Toggling-Types-Use-Cases-and-Implementation/20220403/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Introduction to Feature Toggling— Types, Use Cases, and ImplementationKnow the many scenarios where feature toggles can be used and how to treat them properly I have been using trunk-based development">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*92ROY5iQcpAhd5PG">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*T7Hdo7lVIXXrxnag.png">
+<meta property="article:published_time" content="2022-04-03T18:22:35.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.825Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*92ROY5iQcpAhd5PG">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Development/Introduction-to-Feature-Toggling-Types-Use-Cases-and-Implementation/20220403/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Development/Introduction-to-Feature-Toggling-Types-Use-Cases-and-Implementation/20220403/","path":"Development/Introduction-to-Feature-Toggling-Types-Use-Cases-and-Implementation/20220403/","title":"Introduction to Feature Toggling— Types, Use Cases and Implementation"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Introduction to Feature Toggling— Types, Use Cases and Implementation | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction-to-Feature-Toggling%E2%80%94-Types-Use-Cases-and-Implementation"><span class="nav-number">1.</span> <span class="nav-text">Introduction to Feature Toggling— Types, Use Cases, and Implementation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Know-the-many-scenarios-where-feature-toggles-can-be-used-and-how-to-treat-them-properly"><span class="nav-number">1.1.</span> <span class="nav-text">Know the many scenarios where feature toggles can be used and how to treat them properly</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What-kinds-of-feature-toggles-are-there"><span class="nav-number">2.</span> <span class="nav-text">What kinds of feature toggles are there?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Release-Toggles"><span class="nav-number">3.</span> <span class="nav-text">Release Toggles</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ops-Toggles"><span class="nav-number">4.</span> <span class="nav-text">Ops Toggles</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Experiment-Toggles"><span class="nav-number">5.</span> <span class="nav-text">Experiment Toggles</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Permission-Toggles"><span class="nav-number">6.</span> <span class="nav-text">Permission Toggles</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#How-to-use-feature-toggles-correctly"><span class="nav-number">7.</span> <span class="nav-text">How to use feature toggles correctly?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">8.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Introduction-to-Feature-Toggling-Types-Use-Cases-and-Implementation/20220403/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Introduction to Feature Toggling— Types, Use Cases and Implementation | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Introduction to Feature Toggling— Types, Use Cases and Implementation
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-04-04 02:22:35" itemprop="dateCreated datePublished" datetime="2022-04-04T02:22:35+08:00">2022-04-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Introduction-to-Feature-Toggling—-Types-Use-Cases-and-Implementation"><a href="#Introduction-to-Feature-Toggling—-Types-Use-Cases-and-Implementation" class="headerlink" title="Introduction to Feature Toggling— Types, Use Cases, and Implementation"></a>Introduction to Feature Toggling— Types, Use Cases, and Implementation</h3><h4 id="Know-the-many-scenarios-where-feature-toggles-can-be-used-and-how-to-treat-them-properly"><a href="#Know-the-many-scenarios-where-feature-toggles-can-be-used-and-how-to-treat-them-properly" class="headerlink" title="Know the many scenarios where feature toggles can be used and how to treat them properly"></a>Know the many scenarios where feature toggles can be used and how to treat them properly</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*92ROY5iQcpAhd5PG"></p>
+<p>I have been using <a target="_blank" rel="noopener" href="https://lazypro.medium.com/trunk-based-development-can-help-4bb425595c00">trunk-based development</a> for some time to improve productivity in the team I supervise. In order to perform trunk-based development smoothly, feature toggle plays an important role in it, so I use this article to introduce feature toggles, what kinds of toggles are included and how to use them.</p>
+<p>But before we get to that, let’s talk about a concept that is easily confused. What is the difference between feature toggle and configuration?</p>
+<p>First, wherever a configuration is stored, such as a file, or a central storage system, such as <a target="_blank" rel="noopener" href="https://www.consul.io/docs/intro">Consul by HashiCorp</a>, it is considered static. When the system is initialized, the entire configuration file is stored in each instance’s memory to reduce unnecessary I&#x2F;O overhead. That is, if a setting is to be modified, the associated instance must be restarted in order to reload the setting into memory.</p>
+<p>On the other hand, a feature toggle does not work this way; a feature toggle calls the management system each time to get the current settings for the instance or even the feature. Therefore, the feature toggle is more dynamic than the configuration.</p>
+<p>Let’s use code as an example.</p>
+<p>If it is a configuration file, it will look like the following.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const config = loadConfigFromSomewhere();  </span><br><span class="line">function foo() &#123;  </span><br><span class="line">    if (config.featureA) doA();  </span><br><span class="line">    else doB();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As for the feature toggle, it is a little different.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const connection = initFeatureToggle();  </span><br><span class="line">function bar() &#123;  </span><br><span class="line">    if (connection.isEnabled(&quot;featureA&quot;)) doA();  </span><br><span class="line">    else doB();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As you can see from the above example, the configuration is fixed after <code>loadConfigFromSomewhere</code>, and then the value is just taken from the variable. However, the feature toggle may get a different result each time when calling <code>isEnabled</code>, depending on the current environment.</p>
+<h3 id="What-kinds-of-feature-toggles-are-there"><a href="#What-kinds-of-feature-toggles-are-there" class="headerlink" title="What kinds of feature toggles are there?"></a>What kinds of feature toggles are there?</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*T7Hdo7lVIXXrxnag.png"></p>
+<p>There are four types of feature toggles.</p>
+<ol>
+<li>Release Toggles</li>
+<li>Ops Toggles</li>
+<li>Experiment Toggles</li>
+<li>Permission Toggles</li>
+</ol>
+<p>There are two dimensions in the diagram, dynamism and longevity.</p>
+<ul>
+<li>Dynamism said that the frequency of the toggle will be changed, the closer to the right side means the more frequently the toggle will be changed.</li>
+<li>Longevity refers to how long the toggle will stay in the source code, the closer to the bottom the shorter the retention time.</li>
+</ul>
+<p>The release toggle in the blue area is relatively static and is only used when a feature is released, and will be removed when the feature is stable. On the other hand, the toggles in the green area are relatively dynamic and may change according to various needs.</p>
+<h3 id="Release-Toggles"><a href="#Release-Toggles" class="headerlink" title="Release Toggles"></a>Release Toggles</h3><p>Release toggle is the most commonly used form of toggle and is intended to control the impact scope of each release.</p>
+<p>Assuming there is a new requirement for this release, the code for that new requirement should be fully encapsulated by the toggle for this release. At the moment of release, the default toggle should be off, in other words, the behavior of this release and the last release should be exactly the same.</p>
+<p>When the release is successful, the toggle can be turned on gradually on demand. At first, it may be 1% of the calls will get turned on, then 5%, then 10% and so on. In this way, the functionality is gradually opened to 100%. Such an approach is also known as the canary release.</p>
+<p>Alternatively, the toggle is turned on all the way at the beginning. Once any problem is encountered, the toggle is turned off completely to avoid a disaster affecting the entire system. The practice is known as blue-green deployment.</p>
+<p>It is important to note that the life cycle of these release toggles should be just a short period of time. These toggles should be removed from the code as soon as it is determined that the functionality is stable. If you don’t do this, the code will be filled with more and more toggles, which in return will cause a maintenance effort.</p>
+<h3 id="Ops-Toggles"><a href="#Ops-Toggles" class="headerlink" title="Ops Toggles"></a>Ops Toggles</h3><p>Ops toggles are different from release toggles because release toggles are designed to react to each release, but ops toggles are designed to handle changes to the infrastructure. When the infrastructure has to be upgraded or migrated for some purpose, it can be managed through ops toggles.</p>
+<p>For example, if a system starts with a distributed tracking system called <code>Elastic APM</code> and wants to replace it with <code>jaeger</code> for budget or maintenance reasons, then an ops toggle can be used to switch between the two systems. Until we are sure that <code>jaeger</code> can be operated correctly, the two systems will coexist, possibly with a half-monitoring ratio of 50-50. The ops toggle will remain in place until we are confident that we can replace the original system with <code>jaeger</code>, so the duration will be much longer than the release toggle.</p>
+<p>Another example of using ops toggle is a manual circuit breaker. For a high throughput system, a rate limit algorithm is usually implemented, but once the traffic reaches a certain level, it is necessary to directly cut off the excess traffic to avoid impacting the whole system. It is ideal for the system to be able to adjust and recover itself, however, such a mechanism is highly complex and difficult to do well at the beginning, so ops toggle is a good choice.</p>
+<p>This toggle will also exist for a long time until the developer has a way to implement an automatic mechanism.</p>
+<h3 id="Experiment-Toggles"><a href="#Experiment-Toggles" class="headerlink" title="Experiment Toggles"></a>Experiment Toggles</h3><p>Experiment toggles, as the name suggests, are toggles that are used to perform experiments. When a feature has two different behaviors and we want to evaluate the effectiveness of these two behaviors, we use experiment toggles, and the process of experimentation is called A&#x2F;B testing.</p>
+<p>It operates a bit like a release toggle, but unlike a release toggle that allows old and new behaviors to coexist, an experiment toggle allows two new behaviors to coexist. It may even be possible to bring in more experimental parameters through experiment toggles to make the whole experimental process more flexible and efficient.</p>
+<p>Yes, most of the feature toggles can carry additional parameters, not just true or false. Therefore, this can play the most accelerating role for the constantly changing experimental environment.</p>
+<p>Just like other toggles, the experiment toggles should be removed from the code after the experiment is done and the results are confirmed.</p>
+<h3 id="Permission-Toggles"><a href="#Permission-Toggles" class="headerlink" title="Permission Toggles"></a>Permission Toggles</h3><p>This last one is the most complex applicable case. From the diagram, we can see that it is both dynamic and long-lived.</p>
+<p>Then, what exactly is the existence of this toggle?</p>
+<p>From my point of view, it has two scenarios, one is the system-wide access control and another is the product level access control.</p>
+<p>System-wide access control means that there are certain functions or operations that are only available to specific users, thus we manage these restricted functions through permissions toggles. A little hard to imagine? I’ll provide a pseudo code.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function restrictedFunction() &#123;  </span><br><span class="line">    const metadata = &#123;userId, userLevel, userRole&#125;;  </span><br><span class="line">    if (connection.isEabled(&quot;featureA&quot;, metadata))  </span><br><span class="line">        doFunction();  </span><br><span class="line">    else return;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>From the above example, we can know that this specific function is only allowed for certain users, and the user must verify his <code>Id</code>, <code>Level</code> and <code>Role</code> to make sure he meets the eligibility criteria before the function is available, otherwise, it will be skipped.</p>
+<p>Such a toggle seems to be very stable, right? In fact, it is not, the verification method may change, originally only <code>Id</code> and <code>Level</code> maybe required, until one day due to demand and add <code>Role</code>. So the rules of the toggle may change with requirements, and the usage context of the toggle may also change as requirements expand.</p>
+<h3 id="How-to-use-feature-toggles-correctly"><a href="#How-to-use-feature-toggles-correctly" class="headerlink" title="How to use feature toggles correctly?"></a>How to use feature toggles correctly?</h3><p>We’ve already seen what the code looks like when using the feature toggle.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const connection = initFeatureToggle();  </span><br><span class="line">function bar() &#123;  </span><br><span class="line">    if (connection.isEnabled(&quot;featureA&quot;)) doA();  </span><br><span class="line">    else doB();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>When more and more toggles are made, there will be more and more if-else in between, which actually violates most of the clean code principles. Therefore, you should be extra careful when using feature toggle and follow a few basic principles.</p>
+<ol>
+<li>Use only where needed.</li>
+<li>control the number of toggles.</li>
+<li>Toggles do not overlap with each other.</li>
+<li>Regularly clear the useless toggles.</li>
+</ol>
+<p>In addition, the code of using toggles will eventually become as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function bar() &#123;  </span><br><span class="line">    doB();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Because of this, it is very important to be able to remove toggles easily. I recommend using the <em>Factory Method</em> and encapsulating the code with a feature toggle so that only the product inside the <em>Factory Method</em> is removed when removing toggles and not all the external callers are touched. Here is a simple demonstration.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function factory()  </span><br><span class="line">&#123;  </span><br><span class="line">    if ( connection.isEnabled(&quot;featureA&quot;, metadata) ) &#123;  </span><br><span class="line">        return new NewHandler();  </span><br><span class="line">    &#125; else &#123;  </span><br><span class="line">        return new OrigHandler();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// qwer.js  </span><br><span class="line">factory().doA();  </span><br><span class="line">// asdf.js  </span><br><span class="line">factory().doB();  </span><br><span class="line">// zxcv.js  </span><br><span class="line">factory().doC();</span><br></pre></td></tr></table></figure>
+
+<p>Wrapping the whole feature toggle judgment in the factory method, the external caller doesn’t need to know whether he gets a new or old handler. when removing the feature toggle in the future, we only needs to modify the factory method and drop the <code>OrigHandler</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function factory()  </span><br><span class="line">&#123;  </span><br><span class="line">    return new NewHandler();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As a result, whether it is <code>qwer.js</code>, <code>asdf.js</code> or <code>zxcv.js</code> do not need to change.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This time we talked about the many scenarios where feature toggles can be used and how to treat them properly, and you should know why trunk-based development needs feature toggles so much because new versions are released frequently and to avoid affecting the online environment. So all unstable modifications must have a mechanism to isolate them. Feature toggles are exactly such a role.</p>
+<p>Another commonly mentioned use case in using feature toggles is that once a toggle is modified, it must immediately react to some online functionality. Such a requirement can be achieved through <em>Observer Pattern</em>, but I don’t recommend this kind of conjunction. After all, we know that these toggles will eventually be removed and they should not be involved in the whole domain model, instead, they play the role of coordinator, coordinating between people and systems.</p>
+<p>In this article, we have only discussed the use of feature toggles and their considerations, without mentioning specific solutions. Next time I will introduce two famous providers of feature toggle, <a target="_blank" rel="noopener" href="https://lazypro.medium.com/unleash-vs-launchdarkly-c35f586ccf49">LaunchDarkly and Unleash</a>, and provide some comments and guidelines based on my experience with them respectively.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/feature-toggle-introduction-68d58f5c709">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Microservice/Original-Sin-of-Microservices-Part-2/20220327/" rel="prev" title="Original Sin of Microservices, Part 2">
+                  <i class="fa fa-chevron-left"></i> Original Sin of Microservices, Part 2
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Development/Unleash-vs-LaunchDarkly-A-Look-at-Feature-Toggling-Solutions/20220410/" rel="next" title="Unleash vs. LaunchDarkly: A Look at Feature Toggling Solutions">
+                  Unleash vs. LaunchDarkly: A Look at Feature Toggling Solutions <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

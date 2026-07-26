@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Master settings.json, MCP, and subagents to bring Claude Code’s power into Pi In my previous post, I talked about migrating from Claude Code to Pi. Since space was limited, I only covered the basics.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Claude Code to Pi: Advanced AI Agent Migration Guide">
+<meta property="og:url" content="https://wirelessr.github.io/AI/Claude-Code-to-Pi-Advanced-AI-Agent-Migration-Guide/20260719/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Master settings.json, MCP, and subagents to bring Claude Code’s power into Pi In my previous post, I talked about migrating from Claude Code to Pi. Since space was limited, I only covered the basics.">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*ynbjshQhr8Y92Ii08ZrCXg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*InCFhvcj2c_d_TP2.png">
+<meta property="article:published_time" content="2026-07-19T17:31:01.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.821Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*ynbjshQhr8Y92Ii08ZrCXg.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/AI/Claude-Code-to-Pi-Advanced-AI-Agent-Migration-Guide/20260719/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/AI/Claude-Code-to-Pi-Advanced-AI-Agent-Migration-Guide/20260719/","path":"AI/Claude-Code-to-Pi-Advanced-AI-Agent-Migration-Guide/20260719/","title":"Claude Code to Pi: Advanced AI Agent Migration Guide"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Claude Code to Pi: Advanced AI Agent Migration Guide | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Master-settings-json-MCP-and-subagents-to-bring-Claude-Code%E2%80%99s-power-into-Pi"><span class="nav-number">1.</span> <span class="nav-text">Master settings.json, MCP, and subagents to bring Claude Code’s power into Pi</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promoting-My-Side-Project"><span class="nav-number"></span> <span class="nav-text">Promoting My Side Project</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wrap-Up"><span class="nav-number"></span> <span class="nav-text">Wrap Up</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Claude-Code-to-Pi-Advanced-AI-Agent-Migration-Guide/20260719/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Claude Code to Pi: Advanced AI Agent Migration Guide | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Claude Code to Pi: Advanced AI Agent Migration Guide
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2026-07-20 01:31:01" itemprop="dateCreated datePublished" datetime="2026-07-20T01:31:01+08:00">2026-07-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Master-settings-json-MCP-and-subagents-to-bring-Claude-Code’s-power-into-Pi"><a href="#Master-settings-json-MCP-and-subagents-to-bring-Claude-Code’s-power-into-Pi" class="headerlink" title="Master settings.json, MCP, and subagents to bring Claude Code’s power into Pi"></a>Master settings.json, MCP, and subagents to bring Claude Code’s power into Pi</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*ynbjshQhr8Y92Ii08ZrCXg.png"></p>
+<p>In my previous post, I talked about migrating from Claude Code to Pi. Since space was limited, I only covered the basics. In this article, I will explain the specific setup in detail.</p>
+<p>First, let’s look at the global configuration layout.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ls -al ~/.pi/agent  </span><br><span class="line">    608 Jul 18 16:49 .  </span><br><span class="line">     96 Jul  4 17:21 ..  </span><br><span class="line">     28 Jun 23 16:25 AGENTS.md -&gt; /Users/ctw/.claude/CLAUDE.md  </span><br><span class="line">   1856 Jul  6 18:05 APPEND_SYSTEM.md  </span><br><span class="line">     63 Jul  7 10:09 agents -&gt; /Users/ctw/Workdir/ctw-skills/plugins/ct/agents  </span><br><span class="line">    118 Jul 16 19:28 mcp.json  </span><br><span class="line">     27 Jun 25 15:42 prompts -&gt; /Users/ctw/.claude/commands  </span><br><span class="line">    546 Jul 17 14:47 settings.json  </span><br><span class="line">     63 Jul  7 10:15 skills -&gt; /Users/ctw/Workdir/ctw-skills/plugins/ct/pi-skills</span><br></pre></td></tr></table></figure>
+
+<p>There is a core configuration file in here called <code>settings.json</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">  &quot;skills&quot;: [  </span><br><span class="line">    &quot;~/.claude/skills&quot;  </span><br><span class="line">  ],  </span><br><span class="line">  &quot;packages&quot;: [  </span><br><span class="line">    &quot;npm:pi-mcp-adapter&quot;  </span><br><span class="line">  ],  </span><br><span class="line">  &quot;extensions&quot;: [  </span><br><span class="line">    &quot;/Users/ctw/.nvm/versions/node/v22.23.0/lib/node_modules/@earendil-works/pi-coding-agent/examples/extensions/subagent&quot;,  </span><br><span class="line">    &quot;/Users/ctw/.nvm/versions/node/v22.23.0/lib/node_modules/@earendil-works/pi-coding-agent/examples/extensions/permission-gate&quot;  </span><br><span class="line">  ]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This file defines where skills are inherited from and what plugins to install. Pi has very few core components. We need to customize most of it based on our needs. For example, MCP and subagents are the two most critical features, and they both run as plugins.</p>
+<p>As we can see from the configuration, we can directly reuse most settings from Claude Code. However, a few interesting details are worth mentioning.</p>
+<ol>
+<li>Pi does not have commands. It only has prompts. In Claude Code, commands are actually just skills with <code>disable-model-invocable</code> enabled. But in Pi, there are only prompts, which are just plain text. The concept is basically the same, so I linked my commands folder directly to prompts.</li>
+<li>I actually use two layers of skills. The first layer is inherited from Claude Code, which is defined in <code>settings.json</code>. The second layer consists of skills unique to Pi, placed in my Pi skills directory. I had to do this because Claude Code and Pi handle subagent logic are entirely different. Claude Code can spawn a subagent to do work using simple prompts. This approach does not work in Pi, so I had to write them differently.</li>
+<li>The MCP configuration is also inherited from Claude Code, but the approach is slightly different. Pi can import settings directly from Claude Code and then override specific variables. I chose to override <code>idleTimeout</code> because the Pi MCP plugin has an idle timeout setting. This setting makes the Chrome MCP disconnect if it stays idle for a while. Reconnecting Chrome MCP requires manual confirmation every time, so I decided to disable the idle timeout entirely.</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">  &quot;imports&quot;: [  </span><br><span class="line">    &quot;claude-code&quot;  </span><br><span class="line">  ],  </span><br><span class="line">  &quot;mcpServers&quot;: &#123;  </span><br><span class="line">    &quot;chrome-devtools&quot;: &#123;  </span><br><span class="line">      &quot;idleTimeout&quot;: 0  </span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Finally, we have <code>APPEND_SYSTEM.md</code>. As I mentioned last time, we can write system prompts in this file if we only want them applied to Pi and not Claude Code.</p>
+<p>I defined two core behaviors in this file.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## Image Reading  </span><br><span class="line">The default model cannot see images. When you need to read or understand an image (screenshot, error trace, UI mockup, diagram, chart, photo), delegate to the `vision` agent via `subagent`. Do NOT pass image files to `read` or refuse image tasks. Instead, delegate to `vision`.  </span><br><span class="line">  </span><br><span class="line">## General-Purpose Delegation  </span><br><span class="line">Use the `runner` agent via `subagent` for independent verification/recalculation, heavy batch work, or any well-specified self-contained job. Same tools as the main session, no conversation history, no specialty. Do NOT use it for PR review (`pr-reviewer-*`) or images (`vision`) because those have their own agents.</span><br></pre></td></tr></table></figure>
+
+<p>The first one is vision. Since my default model does not support image recognition, I wrote a vision subagent. This allows the main session to ask for help whenever it encounters an image.</p>
+<p>The second one is runner. Claude Code has a general-purpose subagent. Whenever the main session wants to do minor tasks, it calls the general-purpose subagent by default. I did something similar in Pi. I wrote a runner subagent so the main session has a helper ready to take over tasks when delegation is needed.</p>
+<p>At this point, I have fully migrated Claude Code’s capabilities to Pi. As I mentioned before, I do not need over-the-top features. I only migrated what I considered essential.</p>
+<p>Of course, there are still many details to fine-tune after the migration. A good example is the subagent-related skills I just mentioned. In Claude Code, we can create subagents through prompts, but all those skills need to be rewritten for Pi. For Pi, we must clearly define those subagents in the subagents directory.</p>
+<p>Even though it is easy to let the agent rewrite them, there are still some minor issues to work out in practice. I kept fine-tuning my Pi-specific skills over time. Overall, the entire migration only took about half a day to a full day.</p>
+<h3 id="Promoting-My-Side-Project"><a href="#Promoting-My-Side-Project" class="headerlink" title="Promoting My Side Project"></a>Promoting My Side Project</h3><p>When using Pi or Claude Code, I ran into a few persistent pain points.</p>
+<ol>
+<li>When I run multiple agent tasks across many terminal tabs, I need clear notifications. I need to know when a tab is done so I can take over. This is easy to do in Claude Code when using the Warp terminal because Warp has custom features for Claude Code. However, Warp is not going to build custom features for an open-source project like Pi.</li>
+<li>While the subagent extension in Pi is feature-rich, it does not show the execution process. It only shows the final result. Claude Code has Agent Teams, which lets us see the details of each subagent, but Pi lacks this feature.</li>
+<li>Claude Code has several remote control options. These include built-in solutions, which require a personal account and do not support API keys, and third-party options like Happy Coder. However, I have not been able to find a good remote control solution for Pi.</li>
+<li>Warp supports tabs and groups, meaning we can group related sessions together. However, Warp groups do not support collapsing or expanding. When there are too many tabs, it is still hard to find what I need to focus on.</li>
+<li>I need clear labels to know exactly what session is running in each tab. Warp allows us to name tabs and groups, but I still have to name them manually. Doing this for short-lived sessions feels highly inefficient. I believe session names should be generated automatically.</li>
+</ol>
+<p>To address these issues, I decided to develop a plugin myself. This is how my side project was born.</p>
+<p>It has a few key features.</p>
+<ol>
+<li>It is a web-based service, so there is no need to install any mobile apps. Even though it is a local service, we can easily expose it and set up basic OAuth using tools like ngrok.</li>
+<li>Since it is a web service, it supports parallel work across multiple devices. For example, I can manage session A on my computer browser while handling session B on my phone. We can even control the same session simultaneously from both a phone and a computer without any locking issues.</li>
+<li>It has its own storage unit, so it can save session grouping details. It also supports automatic session naming, though this requires configuring an LLM API key.</li>
+<li>I use this project every single day. I will keep updating and maintaining it regularly. It also has very high test coverage.</li>
+</ol>
+<p>Here is a preview of the main interface. I will add new features over time as I see fit. Contributions are always welcome.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*InCFhvcj2c_d_TP2.png"></p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>I have used most GUI and CLI agent tools on the market. Right now, I am most satisfied with Pi. This is not because Pi is perfect or has everything. Quite the opposite, Pi is simple and focuses only on the core, while opening up plenty of APIs for third-party integration.</p>
+<p>If we want a specific feature, we can almost always build an extension to solve it. For example, my side project basically gives Pi a full GUI interface, complete with remote control capabilities.</p>
+<p>Pi’s stable yet open core is exactly what makes this so easy.</p>
+<p>As for model capabilities, whether it is Opus 5, Fable 5, GPT-5.6, or GLM-5.2 (which I mainly use lately), they all have their pros and cons. I will not judge their performance too much here. But without a doubt, GLM-5.2 is currently the most cost-effective option for me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/claude-code-to-pi-advanced-ai-agent-migration-guide-5125e7fa3cc4">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/AI/Claude-Code-to-Pi-A-5x-Cheaper-AI-Toolchain/20260628/" rel="prev" title="Claude Code to Pi: A 5x Cheaper AI Toolchain">
+                  <i class="fa fa-chevron-left"></i> Claude Code to Pi: A 5x Cheaper AI Toolchain
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

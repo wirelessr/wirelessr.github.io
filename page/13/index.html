@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/13/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/13/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/13/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Database/Understanding-String-Comparison-of-Databases/20220814/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Database/Understanding-String-Comparison-of-Databases/20220814/" class="post-title-link" itemprop="url">Understanding String Comparison of Databases</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-08-15 01:44:03" itemprop="dateCreated datePublished" datetime="2022-08-15T01:44:03+08:00">2022-08-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Three-approaches-to-speed-up-string-comparison"><a href="#Three-approaches-to-speed-up-string-comparison" class="headerlink" title="Three approaches to speed up string comparison"></a>Three approaches to speed up string comparison</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*9H0IbpQViE2eivTV.png"></p>
+<p>In the previous article, we briefly talked about how B-tree-based databases use <a target="_blank" rel="noopener" href="https://betterprogramming.pub/partial-indexing-faq-55d6f1e10c08">partial indexes</a> to improve performance. In this article, we will talk about another story of indexing.</p>
+<p>Generally speaking, B-tree-based database indexes have one characteristic, which is leftmost matching. Take MySQL for example, if the <code>WHERE</code> condition is <code>a = 1 AND b = 2 AND c = &quot;Hello&quot;</code> then the index must be built in this order, i. e. <code>(a, b, c)</code>.</p>
+<p>In addition, if the index is <code>(a, b, c, d)</code>, then the same query can be applied based on the leftmost match principle.</p>
+<p>Furthermore, if the condition we want to query is a string match in the <code>c</code> field, for example, <code>WHERE a = 1 AND b = 2 AND c LIKE &quot;Hello%&quot;</code>, such a condition can still apply to the <code>(a, b, c)</code> index. Because of the leftmost match rule, even if <code>LIKE</code> is used, the leftmost edge of the string is already specified, so it still meets the rule.</p>
+<p>On the contrary, if the query condition becomes <code>WHERE a = 1 AND b = 2 AND c LIKE &quot;%World&quot;</code>, then only the <code>a</code> and <code>b</code> fields can be indexed, while the <code>c</code> field must compare all rows matched <code>(a, b)</code> values, which will use a lot of CPU computation of the database, in other words, very resource consuming.</p>
+<h3 id="How-to-improve"><a href="#How-to-improve" class="headerlink" title="How to improve?"></a>How to improve?</h3><p>The simplest solution to improve this situation is to drop the percentage sign in the middle and after the string. Nevertheless, there must be a use case for using it this way in the first place, so this article will not ask you to simply drop it, but to provide some alternatives.</p>
+<h3 id="Modify-the-outermost-client"><a href="#Modify-the-outermost-client" class="headerlink" title="Modify the outermost client"></a>Modify the outermost client</h3><p>Modify the original string pattern so that the index order is reversed.</p>
+<p>For instance, the original query needs to match the string pattern <code>&quot;PREFIX_ABC_SUFFIX&quot;</code> with a query like <code>a LIKE &quot;%ABC%&quot;</code>.</p>
+<p>Then reverse the original string pattern and change it to <code>&quot;ABC_PREFIX_SUFFIX&quot;</code>. With this change, you can remove the top percentage sign and change the query to the leftmost match.</p>
+<h3 id="Modify-the-database-schema"><a href="#Modify-the-database-schema" class="headerlink" title="Modify the database schema"></a>Modify the database schema</h3><p>Add a new boolean field, <code>abc_matched</code>, to the original database table. When the database client writes data, it determines in advance whether the original field meets the conditions and sets the corresponding flag.</p>
+<p>That is to say, the original query <code>a LIKE &quot;%ABC%&quot;</code> can be changed to <code>abc_matched = 1</code>.</p>
+<p>By doing so, the database computation can be transferred to the database client, thus effectively reducing the database overhead.</p>
+<p>Such a practice is also common in data science and is called data preprocessing. It replaces the N operations of subsequent queries with a single operation.</p>
+<h3 id="Modify-the-indexing-type"><a href="#Modify-the-indexing-type" class="headerlink" title="Modify the indexing type"></a>Modify the indexing type</h3><p>In MySQL there is no way to do this kind of query.</p>
+<p>However, in both Postgres and MongoDB there are corresponding index types that can effectively deal with fuzzy string comparisons.</p>
+<p>Postgres uses <code>GIN</code> indexes instead of the default <code>Bitmap</code> type, while MongoDB uses <code>text</code> indexes instead of regular indexes.</p>
+<p>By modifying the indexing type, even fuzzy comparisons of strings can be done with good performance. Nevertheless, all technical selections have advantages and disadvantages; indexes of GIN or text type take up a lot of space, several times the cost of the default type, and the process of building indexes is time consuming.</p>
+<p>Therefore, in the case of limited resources, even if the solution looks very easy to implement, I do not recommend it that much.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In software development, there are always many approaches to solving an existing problem, and each approach comes with pros and cons.</p>
+<p>Take the three approaches mentioned in this article.</p>
+<p>The cost of modifying the outermost client is the highest, but the cost of designing a new feature is the lowest.</p>
+<p>Because the modification of the client is followed by the compatibility of the old and new versions, besides, the outermost client may be a mobile application, which is not only difficult to deploy but also hard to rollout.</p>
+<p>However, if the design is correct at the very beginning, the implementation cost is very low because it is just a reverse order of the original string.</p>
+<p>The cost of modifying the database schema is the second highest, although it does not necessarily need to change the client at the outermost tier, but it also needs to change the client of the database.</p>
+<p>The modification of the database schema requires the migration of the old data, which also requires time and human effort.</p>
+<p>However, preprocessing of the data offers additional benefits beyond the improved query performance, such as more explicit feature matrix, which can effectively improve the accuracy of the model during machine learning.</p>
+<p>The implementation cost of modifying the index type is the lowest, just change the index once, basically no need to modify the implementation of the application.</p>
+<p>But this is the highest cost for the system.</p>
+<p>Firstly, such an index type takes up a very large amount of memory space, which cannot be ignored when the data volume is large.</p>
+<p>Secondly, when the indexes are too large to fit the database memory size or have to be swapped frequently, it will affect the performance of other queries as well.</p>
+<p>Moreover, the complexity of the indexes can affect the performance of writes, which is an overhead that must be carefully considered if this is a high-frequency writing system.</p>
+<p>Therefore, although there are three approaches, there is a trade-off as to which one is suitable and the answer will not be the same for each system.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/understanding-string-comparison-of-databases-9bde87f2006d">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Database/Understanding-Partial-Indexing/20220807/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Database/Understanding-Partial-Indexing/20220807/" class="post-title-link" itemprop="url">Understanding Partial Indexing</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-08-08 01:20:03" itemprop="dateCreated datePublished" datetime="2022-08-08T01:20:03+08:00">2022-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Understanding-Partial-Indexing"><a href="#Understanding-Partial-Indexing" class="headerlink" title="Understanding Partial Indexing"></a>Understanding Partial Indexing</h3><h4 id="When-and-how-to-use-partial-indexing"><a href="#When-and-how-to-use-partial-indexing" class="headerlink" title="When and how to use partial indexing"></a>When and how to use partial indexing</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*Qh8C7h4nVT3CTPZi.jpg"></p>
+<p>A few days ago, a team member asked me a question about partial indexing, and I feel it’s a good topic, so today we’ll talk about partial indexing:</p>
+<ol>
+<li>What are the benefits of partial indexing?</li>
+<li>When should I use a partial index?</li>
+</ol>
+<p>Before we talk about the above two questions, let’s have a basic understanding of partial indexing.</p>
+<p>The purpose of database indexing is to speed up query performance by placing data in memory through special data structures in order to avoid long access latency on the hard drive.</p>
+<p>The current mainstream RDBMS MySQL and PostgreSQL, they use B+ tree, while the document-based MongoDB uses B tree.</p>
+<p>Most of the database indexes do not treat each row in the database as a separate leaf node, but use the “value” as the leaf and record the primary key in it, so after finding the leaf, it is necessary to pull the other data from the primary key.</p>
+<p>Partial indexes only create nodes for “values” that meet certain conditions. Currently MongoDB and PostgreSQL both support partial indexes, but InnoDB, which is often used by MySQL, does not. After MySQL 8.0, there is support for functional indexes, which can be used to achieve the effect of partial indexes.</p>
+<h3 id="What-are-the-benefits-of-partial-indexing"><a href="#What-are-the-benefits-of-partial-indexing" class="headerlink" title="What are the benefits of partial indexing?"></a>What are the benefits of partial indexing?</h3><p>After understanding the background of partial indexing, it should be no wonder that the biggest advantage of partial indexing is to reduce the memory size occupied by the index. Compared to creating nodes for all values, partial indexing only creates nodes for some values, so the percentage of reduction depends on the criteria used.</p>
+<p>For example, if I have a single-field (a) index with values from 0 to 9, I can save about 50% of the space overhead if I set the partial index condition to <code>a &gt;= 5</code>. Note that this is not related to the amount of data, but only to the value ranges. Even if the <code>a = 0</code> data has only one row, it will still have an index node as well as the <code>a = 1</code> data with 1000 rows.</p>
+<p>In addition to saving space, the query performance will also be improved. The query efficiency of B tree is <code>O(log N)</code>, where <code>N</code> refers to the number of index nodes, not the number of rows.</p>
+<p>After partial indexing, we can get a more compact tree, let’s say it has M nodes. Due to <code>M &lt; N</code>, so <code>O(log M) &lt; O(log N)</code>, we thus know that partial indexing can improve the query performance. However, the benefit is small, because after <code>log</code>, unless the difference between <code>N</code> and <code>M</code> is significant, the effect on query performance is not much.</p>
+<p>To sum up, the biggest advantage of partial indexing is to reduce the space overhead for indexing and to improve some of the query performance.</p>
+<h3 id="When-should-I-use-a-partial-index"><a href="#When-should-I-use-a-partial-index" class="headerlink" title="When should I use a partial index?"></a>When should I use a partial index?</h3><p>To figure out the time to use it, we first need to know what will happen when the “query results” will contain nodes that don’t meet the partial indexing criteria.</p>
+<p>A bit abstract, right? Let’s use MongoDB as an example.</p>
+<p>First, there is a partial index built on a compound index of the user list, in order to make indexing adults faster.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.users.createIndex(  </span><br><span class="line">   &#123; name: 1 &#125;,  </span><br><span class="line">   &#123; partialFilterExpression: &#123; age: &#123; $gte: 18 &#125; &#125; &#125;  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>However, if our scenario is likely to require a query for a name without an age limit, then such a query will not use the index.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.users.find(&#123;name: &quot;Tom&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>For instance, if there are three Toms aged 8, 18 and 28, then <code>(&quot;Tom&quot;, 18)</code> and <code>(&quot;Tom&quot;, 28)</code> will both be created but not <code>(&quot;Tom&quot;, 8)</code>, so the MongoDB optimizer knows this is the case and will not use partial indexes, but will use full table scans instead.</p>
+<p>Yes, that’s the price. As soon as the scenario contains a condition that is not in the value range of the partial index, then it becomes a full table scan.</p>
+<p>Therefore, what kind of scenario is suitable for partial indexing? In my opinion, two conditions need to be satisfied.</p>
+<ol>
+<li>The value range is large, but the common range of data is small.</li>
+<li>Even without index, the query will not impact the database too much, e.g., query frequency, collection size, etc.</li>
+</ol>
+<p>The second point is simpler to understand, but what does the first point exactly mean?</p>
+<p>From the previous section, we know the biggest advantage of partial indexing is to reduce the space of indexes rather than to improve the performance of queries, so the most effective scenario is when data is scattered and only a fraction of the common data is used by the application.</p>
+<p>Take a practical example of a membership system.</p>
+<p>From registration to membership, a user may need to go through many procedures until finally becoming a member after email verification. But this system, for non-members basically does not care, it only focuses on processing the verified member data.</p>
+<p>Then, the partial index can be designed in this way.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.users.createIndex(  </span><br><span class="line">   &#123; name: 1 &#125;,  </span><br><span class="line">   &#123; partialFilterExpression: &#123; email: &#123; $exists: true &#125; &#125; &#125;  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>Because this membership system only cares about member information, i. e., users must have email. There may be a large number of users who go through the partial registration process at the beginning but do not pass the verification process at the end, then there will be a large amount of data that does not need to be indexed. In this way, the index space can be reduced as much as possible, and the efficiency of the member’s query can be improved.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>After all, there is not a perfect solution. Partial indexing saves index space and improves query performance, but there is a corresponding price to pay for a full table scan.</p>
+<p>Therefore, it is important to understand the principle of partial indexing and the scenario of using it.</p>
+<p>The effectiveness of an indexing mechanism depends entirely on the data distribution and the characteristics of the application, whether it is a regular index or a partial index. Therefore, this article can’t tell you a one size fits all solution, it can only offer you a guideline, and it’s up to you to take the trade-off.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/partial-indexing-faq-55d6f1e10c08">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch-Day-3/20220731/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Ruby/Building-Ruby-on-Rails-from-Scratch-Day-3/20220731/" class="post-title-link" itemprop="url">Building Ruby on Rails from Scratch, Day 3</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-08-01 01:46:17" itemprop="dateCreated datePublished" datetime="2022-08-01T01:46:17+08:00">2022-08-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Ruby/" itemprop="url" rel="index"><span itemprop="name">Ruby</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Building-Ruby-on-Rails-from-Scratch-Day-3"><a href="#Building-Ruby-on-Rails-from-Scratch-Day-3" class="headerlink" title="Building Ruby on Rails from Scratch, Day 3"></a>Building Ruby on Rails from Scratch, Day 3</h3><h4 id="Pros-and-Cons-of-Rails"><a href="#Pros-and-Cons-of-Rails" class="headerlink" title="Pros and Cons of Rails"></a>Pros and Cons of Rails</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*i2LpIPr9CdH4ax-V.png"></p>
+<ul>
+<li>Day 1: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/building-ruby-on-rails-from-scratch-b855584ff4f8">From Nothing to Something</a></li>
+<li>Day 2: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/building-ruby-on-rails-from-scratch-day-2-d609fce59811">More Things about Relations, Tests, etc.</a></li>
+<li>Day 3: My Thoughts on Ruby</li>
+</ul>
+<p>This is the last article in this series. Instead of building an application from scratch, in this article I’d like to talk about some of my thoughts on Ruby on Rails over the past few weeks.</p>
+<p>First, I’ll start with a brief ranking of the programming languages I’ve experienced on multiple aspects, including <em>C++</em>, Python, Node, Golang, and Rails, and since I haven’t worked with Java or <em>.NET Core</em>, perhaps you can consider <em>C++</em> as an alternative.</p>
+<p>These language comparisons are mainly qualitative rather than quantitative. After all, I don’t really measure anything, it’s mostly “how I feel”.</p>
+<p>Next, I’ll describe the benefits I’ve experienced in Rails. I’ll give a reasonable rating for both extensibility and ease of use.</p>
+<p>Finally, of course, there will be the shortcomings that I feel.</p>
+<p>But what I feel is not the same as what you feel is a pain point. The size of the application, the amount of organizational resources, and other factors can affect how you feel. So I’m only commenting on Rails based on my own experience and understanding of the evolution of the system.</p>
+<h3 id="Ranking"><a href="#Ranking" class="headerlink" title="Ranking"></a>Ranking</h3><p><em><strong>Performance</strong></em></p>
+<p>First, let’s compare performance. As I said earlier, I didn’t do any measurements, I simply did some comparisons based on the nature of the language and my feelings.</p>
+<blockquote>
+<p><code>C++</code> <em>&gt; Golang &gt; Node &gt; Python &#x3D; Rails</em></p>
+</blockquote>
+<p>Ruby and Python are the slowest, I believe, no doubt, because of GIL, which makes these two languages less efficient. I want to emphasize that Python here means CPython, and in fact, GIL-removed implementations like <code>pypy</code> or <code>IronPython</code> perform very well.</p>
+<p>Although Node does not have GIL implementation and is event-driven by nature, Node can still only execute all events through a single process, which is still a gap compared to Golang’s <code>goroutine</code>. <code>C++</code> has a natural advantage due to its closer implementation to the kernel.</p>
+<p><em><strong>Portability</strong></em></p>
+<p>The portability here is not about cross-platform porting, after all, these languages are cross-platform, and <code>C++</code> can also be cross-platform as long as it has a corresponding toolchain.</p>
+<p>So what is the comparison here? I think we can compete in terms of how easy it is to run an application. For example, Python requires the installation of an interpreter, not to mention the dependency on packages like <code>pip install</code>, and the same applies to Node. But Rails, in addition to Ruby itself, sometimes even Node is part of the dependency, and that’s where it loses out.</p>
+<p>Therefore,</p>
+<blockquote>
+<p><code>C++</code> <em>&gt; Golang &gt; Node &#x3D; Python &gt; Rails</em></p>
+</blockquote>
+<p>In addition to judging by the number of package dependencies, we can also compare the container image sizes created with best practices, and the results are the same.</p>
+<p><em><strong>Ease of coding</strong></em></p>
+<p>The first two comparisons I feel there should be no debate about the results, not much difference with the facts, but the next one is more subjective, the ease of coding.</p>
+<blockquote>
+<p><em>Python &#x3D; Rails &gt; Node &gt; Golang &gt;</em> <code>C++</code></p>
+</blockquote>
+<p>First of all, I am a fan of weak typed languages, so Golang and <code>C++</code> must be at the bottom of the list. Golang is a bit easier than <code>C++</code>, with fewer keywords.</p>
+<p>Although Node is a weak typed language, its event-driven nature makes it a bit difficult for people who are new to it to understand when to <code>async/await</code> and when to synchronize, which takes time to get used to. In addition, Node has a lot of difficulties with object-oriented implementation, and honestly, Node is not easy to get objects right.</p>
+<p>As for Python and Rails, they are really easy to code, with a procedural language base and rich syntactic sugar that makes everything possible. If I had to decide between the two, I’d probably vote for Python!</p>
+<p><em><strong>Extensibility (including packages and ecosystems)</strong></em></p>
+<p>Excluding <code>C++</code>, all the other languages have relatively good package management tools, and all have active ecosystems, so it’s a little hard to tell the difference.</p>
+<p>But if I have to say so, Python can do a little more than the other languages, so Python is in the front of my list.</p>
+<blockquote>
+<p><em>Python &gt; Rails &#x3D; Node &#x3D; Golang &gt;</em> <code>C++</code></p>
+</blockquote>
+<h3 id="Benefits-of-Rails"><a href="#Benefits-of-Rails" class="headerlink" title="Benefits of Rails"></a>Benefits of Rails</h3><p>The above comparison is mostly based on my experience, which may not be the same as yours, but in general Rails is still outstanding.</p>
+<p>In particular, as you can see from the descriptions in my first two articles, it can be really fast to build an application with Rails.</p>
+<p>Especially since Rails provides excellent <em>ERb templates</em> that make frontend pages easy to develop, and there are many helpers in Rails that integrate well with the frontend to make things even easier.</p>
+<p>Furthermore, one of the most amazing features of Rails is the <code>ActiveRecord</code> and resource-based routing paradigms that are developed in accordance with the <em>Active Record Pattern</em> mentioned in <em>Patterns of Enterprise Application Architecture</em>, which shows the author’s ingenuity.</p>
+<p>In Rails, you don’t need to care about the database underlying the <code>ActiveRecord</code>. The application is basically written the same way, whether it’s MySQL or MongoDB. More importantly, <code>ActiveRecord</code> can also automatically generate schema for database migration, both in whole and in part, and it can be both up and down, which is really convenient.</p>
+<p>Even when we were developing Node, we used Rails to create the schema for the database migration.</p>
+<p>Finally, Rails has a lot of built-in features that are necessary for the backend development, such as caching through <code>CacheStore</code>, messaging through <code>ActiveMailer</code>, and job scheduling through <code>ActiveJob</code>. Basically, all the tools for backend development are available, and the underlying infrastructure can be modified with a simple setup, without the need to modify the application.</p>
+<p>All of these advantages make Rails the best candidate for a fast development and quick launch.</p>
+<h3 id="Shortcomings-of-Rails"><a href="#Shortcomings-of-Rails" class="headerlink" title="Shortcomings of Rails"></a>Shortcomings of Rails</h3><p>Nevertheless, Rails has some shortcomings.</p>
+<p>First, due to the resource-based routing design, all domain knowledge is built around resources. This may not be a problem in a small to medium-sized application, but when the application becomes large, the resource-to-resource constraints increase significantly and resource-based routing is obviously not sufficient.</p>
+<p>Let me use the most common e-commerce website as an example.</p>
+<p>Suppose there are three resources, order, payment, and transaction history. A typical Rails routing design would generate three routes, all with CRUD capabilities.</p>
+<blockquote>
+<p><em>&#x2F;api&#x2F;orders&#x2F;{oid}<br>&#x2F;api&#x2F;payments&#x2F;{pid}<br>&#x2F;api&#x2F;transactions&#x2F;{tid}</em></p>
+</blockquote>
+<p>When a user places an order, the operation is performed through <code>/api/orders/{oid}</code>, either to update the status or to get the status. The user then proceeds to make a payment, so a transaction is created and managed through <code>/api/transactions/{tid}</code>. But at the same time, the status of the order will need to be changed to in progress, and a payment will need to be inserted but indicated as unconfirmed.</p>
+<p>Based on the above description, we need three API calls.</p>
+<blockquote>
+<p><em>POST &#x2F;api&#x2F;transactions<br>PUT &#x2F;api&#x2F;orders&#x2F;{oid}<br>POST &#x2F;api&#x2F;payments</em></p>
+</blockquote>
+<p>Question, how do we ensure that all API calls are correct in such a situation? This is a typical distributed transaction, and I have already written several articles on the difficulties of distributed transactions.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/distributed-transaction-introduction-1cd105c830a2">Distributed Transaction Introduction</a></li>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/design-distributed-transaction-with-practical-examples-7b1d93fddb63">Design Distributed Transaction With Practical Examples</a></li>
+</ul>
+<p>As resource-to-resource connectivity grows with the complexity of the domain, it becomes obvious that Rails’ most classic routing design is overburdened. In addition, all the domain knowledge is fragmented by the resources, which is a common problem in system design, the anemic model.</p>
+<p>Moreover, when actually doing a code review, I found that Rails was not as readable as I expected. Even though it’s a resource-based routing design, I often couldn’t find a specific route, especially in a <code>config/routes.rb</code> with thousands of lines. I was always confused by the various combinations of <code>concern</code>, <code>resource</code> and <code>namespace</code>.</p>
+<p>In addition to not finding routes, method calls are often not found. Because a class can get the ability of other modules by <code>include</code>, but this <code>include</code> doesn’t require any “declaration” at all. Here the declaration refers to <code>from x import y</code> in Python or <code>import { y } from x</code> in Node, but in Rails there is no need, you can just <code>include y</code>.</p>
+<p>So when a method is used in a class, I have to look through <code>include</code>, <code>extend</code> and <code>pretend</code>, and again, when the application is huge, this process really kills me. When there are methods with the same name, it can be several times worse.</p>
+<p>One more point is that Rails wraps a lot of implementation behind a layer of objects, making the whole thing feel like a black box. Without a clear understanding of the underlying implementation, it’s easy to code something that seems to work, but actually performs horribly, like <em>N + 1 queries</em>.</p>
+<p>If it is a simple object this can save a lot of implementation efforts, such as <code>CacheStore</code>.</p>
+<p>I like Rails’ <code>CacheStore</code>, because it provides a lot of common functionality for caching. But when it comes to <code>ActiveRecord</code>, I honestly don’t have confidence that it will work very well. I’d rather write my own database queries, at least I can be sure that the performance of the queries will be good enough.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Although Rails can quickly generate an application skeleton through <code>scaffold</code>, it is very adaptable to fast launch requirements. But I have to say that this advantage can be replaced very easily, especially nowadays when the ecosystems of various languages are so well organized that it is not difficult to do so.</p>
+<p>In the case of Node, there are now many MERN generators that can do similar or even better things.</p>
+<p>For example,</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://docs.dhiwise.com/knowledgehub/build-node.js-app/Build-app"><em>https://docs.dhiwise.com/knowledgehub/build-node.js-app/Build-app</em></a></p>
+</blockquote>
+<p>An e-commerce site can be built at a mouse click and is production ready. So there are few advantages left in Rails, and the design of <code>ActiveRecord</code>, as mentioned in the previous section, is not an advantage but a disadvantage when the application becomes large.</p>
+<p>Even so, I would rate <code>ActiveRecord</code> very highly. For those who want to move from procedural languages into the object-oriented world, the design offers plenty of perspective, and once you get used to <code>ActiveRecord</code>, I believe that anyone can build elegant objects.</p>
+<p>Besides, I personally like the design of the <code>CacheStore</code>. In addition to the built-in expiration mechanism <code>:expires_in</code>, there is also the elegant <code>:race_condition_ttl</code> to avoid <em>Dog-pile Effect</em>, which is definitely a benefit for people who used to build their own wheels. But I haven’t been in Rails long enough to study what the underlying implementation is, so I’ll leave that for later.</p>
+<p>Overall, I feel that Rails is amazing, has a lot of design wisdom in it, and is very classic.</p>
+<p>But maybe Rails was originally intended for people who wanted to build applications quickly, and when applications became large, most of the original design became useless and ineffective. This takes us back to the basics of Ruby as a language. For Ruby, the ecosystem is complete and the syntax is flexible enough to build large applications.</p>
+<p>But if Rails has to rely on Ruby in the end, why don’t I just use Python? The ecosystem is more complete and the syntax is more flexible.</p>
+<p>Anyway, these are my thoughts on Ruby on Rails, and my next goal is to decompose these legacy large Rails applications into microservices. The next article will introduce the classic approach to decompose microservices.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/building-ruby-on-rails-from-scratch-day-3-ae31c975bf32">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch-Day-2/20220724/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Ruby/Building-Ruby-on-Rails-from-Scratch-Day-2/20220724/" class="post-title-link" itemprop="url">Building Ruby on Rails from Scratch, Day 2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-07-25 01:37:22" itemprop="dateCreated datePublished" datetime="2022-07-25T01:37:22+08:00">2022-07-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Ruby/" itemprop="url" rel="index"><span itemprop="name">Ruby</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Building-Ruby-on-Rails-from-Scratch-Day-2"><a href="#Building-Ruby-on-Rails-from-Scratch-Day-2" class="headerlink" title="Building Ruby on Rails from Scratch, Day 2"></a>Building Ruby on Rails from Scratch, Day 2</h3><h4 id="More-Things-about-Relations-Tests-etc"><a href="#More-Things-about-Relations-Tests-etc" class="headerlink" title="More Things about Relations, Tests, etc."></a>More Things about Relations, Tests, etc.</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*-I3bHrLgkPkby-ty.png"></p>
+<ul>
+<li>Day 1: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/building-ruby-on-rails-from-scratch-b855584ff4f8">From Nothing to Something</a></li>
+<li>Day 2: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/building-ruby-on-rails-from-scratch-day-2-d609fce59811">More Things about Relations, Tests, etc.</a></li>
+<li>Day 3: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/ae31c975bf32">My Thoughts on Ruby</a></li>
+</ul>
+<p>In the previous article, our application has almost finished building the user model. In this article, we will proceed to build a model of each user’s corresponding store, i.e., one-to-one mapping.</p>
+<p>In addition, user-related unit tests will be created to practice <code>RSpec</code>.</p>
+<p>So, let’s get started.</p>
+<h3 id="Establish-a-one-to-one-mapping"><a href="#Establish-a-one-to-one-mapping" class="headerlink" title="Establish a one-to-one mapping"></a>Establish a one-to-one mapping</h3><p>First of all, the same store model is created by <code>scaffold</code>, but the difference is that the store must be assigned to a user at the end.</p>
+<blockquote>
+<p><em>$ bin&#x2F;rails generate scaffold shop name user:belongs_to</em></p>
+</blockquote>
+<p>In this way, the controller and routes of stores will be created. But this is not enough, because it is a one-to-one mapping relationship, so we must also modify the original user model, as follows <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/d34ff4f28f4c3b7175d66ad5d52cb7494359df72">Github commit</a>.</p>
+<p>It has to be specified as <code>has_one</code> in <code>app/models/user.rb</code>, otherwise it becomes a one-to-many mapping. In addition, Rails has an inborn problem when dealing with mapping relationships, which is <em>N + 1 queries</em>.</p>
+<p>In this example, <em>N + 1 queries</em> is not a serious impact because it is a one-to-one mapping, but if it is a one-to-many mapping, then it will have a performance impact. The solution is also very simple, and is provided in the above mentioned commit.</p>
+<p>Change the original <code>Shop.all</code> generated by <code>scaffold</code> to <code>Shop.includes(:user)</code>. Then the user model will not be searched for one record at a time, but will be listed at once.</p>
+<h3 id="Create-nested-routing"><a href="#Create-nested-routing" class="headerlink" title="Create nested routing"></a>Create nested routing</h3><p>Since users and stores have an ownership relationship, we can also create a nested route to get the stores under users.</p>
+<p>Just modify <code>config/routes.rb</code> to add the store resources under the user’s resources, as shown in the <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/59f5bfa40abcf7d6e93f623a568f53b6b1a73ac5">Github commit</a>.</p>
+<h3 id="Setup-unit-tests"><a href="#Setup-unit-tests" class="headerlink" title="Setup unit tests"></a>Setup unit tests</h3><p>Nowadays the most popular test framework on Rails is <code>RSpec</code>, so I also did some exercises with <code>RSpec</code>.</p>
+<p>The installation is very simple, just add a new line <code>gem &#39;rspec-rails&#39;</code> at <code>Gemfile</code>, and it is recommended to add it under the <code>development</code> and <code>test</code> groups. Next, install and configure.</p>
+<blockquote>
+<p><em>$ bundle install<br>$ bin&#x2F;rails generate rspec:install</em></p>
+</blockquote>
+<p>We have generated various models by <code>scaffold</code> before, so we continue to generate corresponding tests by <code>scaffold</code> as well. Let’s take the user model as an example.</p>
+<blockquote>
+<p><em>$ bin&#x2F;rails generate rspec:scaffold user</em></p>
+</blockquote>
+<p>Normally, all test cases created can be executed directly at this time.</p>
+<blockquote>
+<p><em>$ rspec</em></p>
+</blockquote>
+<p>However, on the <code>M1</code> system, we will encounter problems.</p>
+<p>Rails bootstrap puts <code>selenium-webdriver</code> in by default, but <code>selenium-webdriver</code> is compiled for the x86 platform, so an error occurs when running <code>rspec</code>.</p>
+<p>I didn’t have to run end-to-end tests, so I just unplugged the irrelevant dependencies from <code>Gemfile</code> and <code>rspec</code> ran correctly.</p>
+<p>The result of this section is as follows, <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/2f71665acfac2d6765b374e1301b2045f8377cf6">Github commit</a>. From the commit, you can see that <code>scaffold</code> generates many user model related test cases.</p>
+<h3 id="Start-testing"><a href="#Start-testing" class="headerlink" title="Start testing"></a>Start testing</h3><p>Let’s test the model first. There are several constraints that must be tested.</p>
+<ol>
+<li><code>first_name</code> and <code>last_name</code> must have values.</li>
+<li><code>gender</code> must be one of male, female and others.</li>
+<li><code>age</code> must be a natural number.</li>
+<li><code>address</code> field is an object and only the three keys <code>country</code>, <code>address_1</code> and <code>address_2</code> are allowed.</li>
+</ol>
+<p>The full test is listed in the link below.<br><a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/55fca06899d60256345c9d5ec5f14a2aa51a8b3f">https://github.com/wirelessr/Hello-RoR/commit/55fca06899d60256345c9d5ec5f14a2aa51a8b3f</a></p>
+<p>Then we proceeded to test the controller. Fortunately, <code>rspec:scaffold</code> already has the basic framework set up, so we just need to fill in the details.</p>
+<p>The native test file is in <code>spec/requests/users_spec.rb</code>, and there are a few places where the <code>skip</code> function skips, and all we have to do is follow the instructions in <code>skip</code> to replace it with a legal or illegal user model.</p>
+<p>The <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/bb50fed7e11a73d6ced7249e48197321d2240fe7">Github commit</a> is attached.</p>
+<h3 id="My-reflections-on-RSpec"><a href="#My-reflections-on-RSpec" class="headerlink" title="My reflections on RSpec"></a>My reflections on RSpec</h3><p>In fact, the syntax of RSpec is very familiar to me because of my experience in writing <code>mocha</code> on top of Node. Whether it’s <code>describe</code> or <code>it</code> or even <code>expect</code>, it’s all similar, so I didn’t encounter any difficulties.</p>
+<p>In the process of practicing, I referred to an RSpec best practice document. I used to write <code>mocha</code> very casually, without referring to any rules, so this document also provides good advice. In the future, whether it’s Ruby’s RSpec or Node’s <code>mocha</code>, it should be able to be written in a more beautiful way.</p>
+<p>The reference link is directly attached, <a target="_blank" rel="noopener" href="https://www.betterspecs.org/">Better Specs</a>.</p>
+<h3 id="My-reflections-on-Ruby"><a href="#My-reflections-on-Ruby" class="headerlink" title="My reflections on Ruby"></a>My reflections on Ruby</h3><p>After practicing Rails for a few days, I didn’t encounter too many difficulties because I could see more or less the shadow of other languages in Ruby, among which I think the closest should be Python, and many concepts are shared.</p>
+<p>However, there are some Ruby-specific behaviors that took me a while to study.</p>
+<p><em><strong>Symbol</strong></em></p>
+<p>It is common to see variables starting with a colon in Ruby, such as <code>:abc</code>, which actually refers to the string <code>abc</code>. Unlike a string, however, this string is immutable.</p>
+<p>This has the advantage that the comparison between symbols does not need to be done character by character, but can be done directly to the memory address, so it is faster than a string comparison.</p>
+<p>This concept is also found in Python, which places common words and numbers at fixed memory addresses to speed up references. In the Python example below, the addresses of <code>a</code> and <code>b</code> are the same, and both come from the object of <code>1</code>, which has been predefined.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a = 1  </span><br><span class="line">&gt;&gt;&gt; b = 1  </span><br><span class="line">&gt;&gt;&gt; id(a)  </span><br><span class="line">5777693336  </span><br><span class="line">&gt;&gt;&gt; id(b)  </span><br><span class="line">5777693336</span><br></pre></td></tr></table></figure>
+
+<p><em><strong>Parentheses can be omitted</strong></em></p>
+<p>In Ruby, both parentheses and braces can be omitted, so a bunch of behaviors appear that are difficult for first-time users to understand. For example.</p>
+<ul>
+<li>When formatting a string, <code>&quot;#{abc} is good&quot;</code>, it’s hard to know if the <code>abc</code> refers to a variable or the function <code>abc()</code> is called.</li>
+<li>When calling the function <code>foo a=&gt; 1, b =&gt; 2, c =&gt; 3</code> how many arguments does <code>foo</code> have when written in this way? The answer is that we don’t know, we need to see the signature of <code>foo</code> to know.</li>
+</ul>
+<p>There are also various variants, such as this omission of parentheses really made me suffer a lot in reading other people’s code.</p>
+<p><em><strong>Class definition</strong></em></p>
+<p>The definition of an attribute within an object is <code>@</code>, so <code>@abc</code> is equivalent to Python’s <code>self.abc</code>.</p>
+<p>But if we define a function using <code>self</code>, it means something completely different, <code>def self.bar()</code>, which in Python terms means <code>bar</code> is a <code>classmethod</code>.</p>
+<p><em><strong>Poor performance</strong></em></p>
+<p>In CPython, the performance of the entire application is limited by the implementation of GIL, and even with multi-threaded execution, all operations must still be performed sequentially.</p>
+<p>This is also true for Ruby, which also has GIL, and usually uses pre-fork in order to fully utilize the machine’s resources, and the Gunicorn used in Python is actually derived from Ruby’s Unicorn.</p>
+<h3 id="Afterword"><a href="#Afterword" class="headerlink" title="Afterword"></a>Afterword</h3><p>Although the process of practicing Rails went smoothly, I actually encountered a lot of difficulties while doing the code review, both related to the Ruby features I mentioned in the previous section, and from the Rails features.</p>
+<p>I’ll describe my thoughts on Ruby on Rails in the next article, which should be the last in this series.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/building-ruby-on-rails-from-scratch-day-2-d609fce59811">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch/20220717/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Ruby/Building-Ruby-on-Rails-from-Scratch/20220717/" class="post-title-link" itemprop="url">Building Ruby on Rails from Scratch</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-07-18 01:11:39" itemprop="dateCreated datePublished" datetime="2022-07-18T01:11:39+08:00">2022-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Ruby/" itemprop="url" rel="index"><span itemprop="name">Ruby</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Building-Ruby-on-Rails-from-Scratch"><a href="#Building-Ruby-on-Rails-from-Scratch" class="headerlink" title="Building Ruby on Rails from Scratch"></a>Building Ruby on Rails from Scratch</h3><h4 id="Day-1-From-Nothing-to-Something"><a href="#Day-1-From-Nothing-to-Something" class="headerlink" title="Day 1: From Nothing to Something"></a>Day 1: From Nothing to Something</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*WjGtHzKNjv6ka8vW.png"></p>
+<ul>
+<li>Day 1: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/building-ruby-on-rails-from-scratch-b855584ff4f8">From Nothing to Something</a></li>
+<li>Day 2: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/building-ruby-on-rails-from-scratch-day-2-d609fce59811">More Things about Relations, Tests, etc.</a></li>
+<li>Day 3: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/ae31c975bf32">My Thoughts on Ruby</a></li>
+</ul>
+<p>I have changed my job a while ago, so I will take some time to pick up the architecture and services of the new organization. However, in order to practice my English and take notes, I will still try to post as often as possible once a week, but the content will be different from the past, from an introduction to software architecture to my Ruby learning experience.</p>
+<p>Because the programming language used in my new job is Ruby, and I have no experience with Ruby before. Therefore, this series will focus on the perspective of someone who already knows multiple languages and how to quickly get started with Ruby on Rails, not to write perfect Ruby, but to be able to quickly build a workable application. By the way, it’s a bit like how I learned English, there’s no structure at all, it just works and can be communicated anyway.</p>
+<h3 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h3><p>My work machine is a MacPro M1, so all operations will be Mac-based. M1 is also a very important keyword, and I stepped on several traps on M1, which will be described in a later article.</p>
+<p>Because I need to install many versions of Ruby, I use a similar solution to <code>nvm</code>, <code>rvm</code>.</p>
+<p>To install rvm on a Mac, we first have to install gnupg.</p>
+<blockquote>
+<p><em>$ brew install gnupg</em></p>
+</blockquote>
+<p>Then just follow the steps on the official website.</p>
+<blockquote>
+<p><em>$ gpg — recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB<br>$ curl -sSL</em> <a target="_blank" rel="noopener" href="https://get.rvm.io/"><em>https://get.rvm.io</em></a> <em>| bash<br>$ rvm install 2.7<br>$ rvm 2.7 — default</em></p>
+</blockquote>
+<p>Finally, just install Rails. I know there are newer versions of Rails already available, but the resources I have on hand are based on <code>5.x</code>, so I chose to install <code>5.2.8</code>.</p>
+<blockquote>
+<p><em>$ gem install rails -v 5.2.8</em></p>
+</blockquote>
+<h3 id="Start-building-a-Rails-application"><a href="#Start-building-a-Rails-application" class="headerlink" title="Start building a Rails application"></a>Start building a Rails application</h3><p>First, let me describe my goal. I want to make a simple web store with two objects, user and store, where the relationship between these two objects is a one-to-one mapping. Also, using MongoDB instead of the built-in SQLite.</p>
+<p>Building a Rails application can be done easily with <code>scaffold</code>, which provides a fully resource-based, standard RESTful API.</p>
+<p>Start by creating a project.</p>
+<blockquote>
+<p><em>$ rails new hello_rails<br>$ cd hello_rails<br>$ bin&#x2F;rails server</em></p>
+</blockquote>
+<p>At this point, the application has been created and is working on the 3000 port. Connect directly to <code>http://localhost:3000</code> and you will see the welcome page.</p>
+<p>Next, we create the first model, starting with the user’s first and last name.</p>
+<blockquote>
+<p><em>$ bin&#x2F;rails generate scaffold User first_name last_name<br>$ bin&#x2F;rails db:migrate</em></p>
+</blockquote>
+<p>The user model has been created so far, and if you connect directly to <code>http://localhost:3000/users</code> you will find out not only the API but also the basic UI has been generated.</p>
+<blockquote>
+<p><em>We haven’t even written a single line of code yet!</em></p>
+</blockquote>
+<h3 id="Create-new-routes"><a href="#Create-new-routes" class="headerlink" title="Create new routes"></a>Create new routes</h3><p>Since we already have the basic API, I’d like to generate a few new API routes. Let’s take non-resource-based routes and resource-based routes as an example each.</p>
+<p>First, a non-resource-based route. I want to create a user count function, so I need <code>/users/count</code>. I’ll attach the specific process directly at <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/ca312276607fa33d35c78a9fbed84258caeba52e">Github commit</a>.</p>
+<p>Generally speaking, what we need to do is to modify <code>config/routes.rb</code> and create a count of the corresponding controller and view.</p>
+<p>Further is the resource-based routing, the concept is similar, also attached <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/ab0860bbd3e1c6e828b49ea54a3ba13931895d83">commit link</a>.</p>
+<p>The only difference between the two is in <code>config/routes.rb</code>, where non-resource-based routes are built on top of <code>collection</code>, while resource-based routes are built on <code>member</code>.</p>
+<h3 id="Create-new-fields"><a href="#Create-new-fields" class="headerlink" title="Create new fields"></a>Create new fields</h3><p>Now we have two fields in the user model, first_name and last_name, and we will add more fields, such as gender and age, and we will add some constraints to each field.</p>
+<p>For example, first_name and last_name must be present and cannot be blank. And gender must be one of male, female or others. Finally, age must be a natural number.</p>
+<p>Let’s start by adding the gender field, i.e. <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/31d123baa0cdd1dc8097d5d735e8719c1c232bcc">Github commit</a>.</p>
+<p>The most important change is in <code>app/models/user.rb</code>. In addition to the new fields, we also add the constraints of the existing fields. Of course, remember to run migration after modifying the model.</p>
+<blockquote>
+<p><em>$ bin&#x2F;rails db:migrate</em></p>
+</blockquote>
+<p>As you can see, adding an age is as simple as <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/27d08a7281ef24185cc98d0112a08e29f8398d91">Github commit</a>.</p>
+<h3 id="From-SQLite-to-MongoDB"><a href="#From-SQLite-to-MongoDB" class="headerlink" title="From SQLite to MongoDB"></a>From SQLite to MongoDB</h3><p>We have implemented a user model in SQLite, but SQLite is a local database and cannot be used for distributed systems. Therefore, we will adopt a standalone database and use MongoDB, which is more flexible in terms of schema, for the subsequent development.</p>
+<p>The whole migration process follows the <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/mongoid/current/tutorials/getting-started-rails/#existing-application">official documentation</a>.</p>
+<p>I also attach the full <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/56d726a8d14abe6a60df04f8b19114c364f679ba">Github commit</a>.</p>
+<p>First rewrite the model by removing <code>ApplicationRecord</code> and adding Mongoid with its fields. Next, we completely remove all the places where <code>active_record</code> and <code>active_storage</code> are used in the source code (which is not much).</p>
+<h3 id="Afterword"><a href="#Afterword" class="headerlink" title="Afterword"></a>Afterword</h3><p>There should be a few more articles to come on expanding this application, which is my first step into Rails.</p>
+<p>I’ve experienced many different backend languages before, including Python, Golang, and Node, but none of them are as friendly as Ruby on Rails.</p>
+<p>From this article, it’s easy to see that building a “standard” RESTful API with Rails is very simple, and if you don’t have any special needs, you don’t even have to write a single line of code.</p>
+<p>Why emphasize standard RESTful APIs?</p>
+<p>In fact, the APIs I have written in the past are not so RESTful, such as <code>${resource}/${id}</code>, and then provide GET, POST and DELETE operations, such strict routing if not generated by the framework itself, I believe few people will fully follow.</p>
+<p>But Rails provides a simple <code>scaffold</code> to make things easy, and even unit tests are built in, as described in a later article.</p>
+<p>Although I took a few days to get familiar with Ruby and Rails, it still takes a bit of time to digest and organize, so let me take a few weeks to finish my thoughts on Ruby. But I have to say, Rails is amazing to me. I can see brilliant ideas everywhere, and there are a lot of design patterns in it. Although it was a bit painful to learn a new language and framework, I still got some insights out of it.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/building-ruby-on-rails-from-scratch-b855584ff4f8">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Consistency-between-Cache-and-Database-Part-2/20220710/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Consistency-between-Cache-and-Database-Part-2/20220710/" class="post-title-link" itemprop="url">Consistency between Cache and Database, Part 2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-07-11 01:05:54" itemprop="dateCreated datePublished" datetime="2022-07-11T01:05:54+08:00">2022-07-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Consistency-between-Cache-and-Database-Part-2"><a href="#Consistency-between-Cache-and-Database-Part-2" class="headerlink" title="Consistency between Cache and Database, Part 2"></a>Consistency between Cache and Database, Part 2</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*seDY4BgbqIgkZEBN.png"></p>
+<ul>
+<li>Part 1: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/consistency-between-cache-and-database-part-1-f64f4a76720">Read Aside Caching</a></li>
+<li>Part 2: Enhanced Approaches</li>
+</ul>
+<p>This is the last article in the series. In the previous article we introduced why caching is needed and also introduced the <em>Read Aside</em> process and potential problems, and of course explained how to improve the consistency of <em>Read Aside</em>. Nevertheless, <em>Read Aside</em> is not enough for high consistency requirements.</p>
+<p>One of the reasons why <em>Read Aside</em> can cause problems is because all users have access to the cache and database. When users manipulate data at the same time, inconsistencies occur due to various combinations of operation order.</p>
+<p>Then we can effectively avoid inconsistency by limiting the behavior of manipulating data, which is the core concept of the next few methods.</p>
+<h3 id="Read-Through"><a href="#Read-Through" class="headerlink" title="Read Through"></a>Read Through</h3><p><strong>Read Path</strong></p>
+<ul>
+<li>Reading data from cache</li>
+<li>If the cache data does not exist</li>
+<li>Read from database <em><strong>by cache</strong></em></li>
+<li>Cache returns to the application client</li>
+</ul>
+<p><strong>Write Path</strong></p>
+<ul>
+<li>Don’t care, usually used in combination with <em>Write Through</em> or <em>Write Ahead</em>.</li>
+</ul>
+<p><strong>Potential Problems</strong></p>
+<p>The biggest problem with this approach is that not all caches are supported, and the Redis example in this article does not support this approach.</p>
+<p>Of course, some caches are supported, such as <a target="_blank" rel="noopener" href="https://www.alachisoft.com/ncache/">NCache</a>, but NCache also has its problems.</p>
+<p>First, it does not support many client-side SDKs. <em>.NET Core</em> is the native support language and there are not many options left.</p>
+<p>Besides, it is divided into open source version and enterprise version, but you should know that if the open source version is not used by many people, then it is a tragedy when something goes wrong. Even so, the Enterprise version requires a license fee, not only for the infrastructure, but also for the software license.</p>
+<p><strong>How to Improve</strong></p>
+<p>Since NCache has its high cost, can we implement <em>Read Through</em> ourselves? The answer is yes.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*vSFuWlErxkcGc_AiEqccXA.png"></p>
+<p>For the application, we don’t really care what kind of cache is behind it, as long as it provides us with data fast enough, that’s all we need. Therefore, we can package Redis as a standalone service called Data Access Layer (DAL), with an internal API server to coordinate the cache and database.</p>
+<p>The application only needs to use the defined API to get data from the DAL, and doesn’t need to care about how the cache works or where the database is.</p>
+<h3 id="Write-Through"><a href="#Write-Through" class="headerlink" title="Write Through"></a>Write Through</h3><p><strong>Read Path</strong></p>
+<ul>
+<li>Don’t care, the actual work is usually done through <em>Read Through</em>.</li>
+</ul>
+<p><strong>Write Path</strong></p>
+<ul>
+<li>Data only written for caching</li>
+<li>Updated database <em><strong>by cache</strong></em></li>
+</ul>
+<p><strong>Potential Problems</strong></p>
+<p>As with <em>Read Through</em>, not every cache is supported and must be implemented on your own.</p>
+<p>In addition, caching is not designed to be used for data manipulation. Many databases have capabilities that caching does not have, especially the ACID guarantee for relational databases.</p>
+<p>More importantly, caching is not suitable for data persistence. When an application writes to a cache and considers the update to be finished, the cache may still lose the data for “some reason”. Then, the current update will never happen again.</p>
+<p><strong>How to Improve</strong></p>
+<p>As with <em>Read Through</em>, a DAL had to be implemented, but the ACID and persistence problems were still not overcome. So, <em>Write Ahead</em> was born.</p>
+<h3 id="Write-Ahead"><a href="#Write-Ahead" class="headerlink" title="Write Ahead"></a>Write Ahead</h3><p><strong>Read Path</strong></p>
+<ul>
+<li>Don’t care, the actual work is usually done through <em>Read Through</em>.</li>
+</ul>
+<p><strong>Write Path</strong></p>
+<ul>
+<li>Data only written for caching</li>
+<li>Updated database <em><strong>by cache</strong></em></li>
+</ul>
+<p><strong>Potential Problems</strong></p>
+<p>Similarly, <em>Write Ahead</em> is not supported by many caches. Even though the read path and write path look the same as <em>Write Through</em>, the implementation behind it is very different.</p>
+<p><em>Write Ahead</em> was created to solve the problem of <em>Write Through</em>, so let’s introduce it first.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*fJ_TtHLBMagKRiVTCuce2A.png"></p>
+<p>We will also implement a DAL, but unlike <em>Write Through</em>, it is actually an internal message queue rather than a cache. As you can see from the diagram above, the entire DAL architecture becomes more complex. To use the message queue correctly requires more domain knowledge and more human resources to design and implement.</p>
+<p><strong>How to Improve</strong></p>
+<p>By using message queues, the persistence of changes can be effectively ensured, and message queues also guarantee a certain degree of atomicity and isolation, which is not as complete as a relational database, but still has a basic level of reliability.</p>
+<p>Moreover, message queues can merge fragmented updates into batches. For example, when an application wants to update three caches so it sends three messages, the DAL worker can merge the three messages into a single SQL syntax to reduce access to the database.</p>
+<p>It is important to note the message queue must be used to ensure the order of messages, because for database updates, inserting and then deleting has a very different meaning than deleting and then inserting. The way to ensure message order is slightly different for each message queue, and in the case of Kafka it can be achieved by using the correct partition keys.</p>
+<p>Nevertheless, the complexity of implementing <em>Write Ahead</em> is very high. If you cannot afford such complexity, then <em>Read Aside</em> is a better choice.</p>
+<h3 id="Double-Delete"><a href="#Double-Delete" class="headerlink" title="Double Delete"></a>Double Delete</h3><p>We have already talked about two major types of cache patterns, which are</p>
+<ul>
+<li>Read Aside</li>
+<li>Read Through, Write Through, Write Ahead</li>
+</ul>
+<p>The most fundamental difference between these two types is the complexity of implementation. In the case of <em>Read Aside</em>, it is very easy to implement, and it is also very simple to do right. However, <em>Read Aside</em> can easily generate various corner cases under many interactions.</p>
+<p>On the other hand, corner cases can be avoided by implementing DAL, but it is very difficult to implement DAL correctly, and it requires extensive domain knowledge to implement correctly, which further makes DAL difficult to achieve.</p>
+<p>So, is DAL the only way to reduce the number of corner cases? No, not really.</p>
+<p>This is what the <em>Double Delete</em> pattern is trying to solve.</p>
+<p><strong>Read Path</strong></p>
+<ul>
+<li>Reading data from cache</li>
+<li>If the cache data does not exist</li>
+<li>Read from the database instead</li>
+<li>and write back to the cache</li>
+</ul>
+<p>The process is exactly the same as <em>Read Aside</em>.</p>
+<p><strong>Write Path</strong></p>
+<ul>
+<li>Clear the cache first</li>
+<li>Then write the data into the database</li>
+<li>Wait for a while, then clear the cache again</li>
+</ul>
+<p><strong>Potential Problems</strong></p>
+<p>The purpose of <em>Double Delete</em> is to minimize the time spent in disaster due to <em>Read Aside</em> corner cases.</p>
+<p>The entire inconsistency depends entirely on the waiting time, which is equal to the maximum time waiting.</p>
+<p>But how to wait is also a difficult practical problem. If we let the client originally started to deal with it, then the killed scenario in corner case 2 would still not be solved. If someone else performs it in an asynchronous way, then the communication contract and workflow control in between will be complicated.</p>
+<p><strong>How to Improve</strong></p>
+<p>The same corner case 2 as <em>Read Aside</em>, but again, it can be reduced by a graceful shutdown.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we introduce many ways to improve consistency. In general, when consistency is not a critical requirement, <em>Cache Expiry</em> is sufficient and requires a very low implementation effort. In fact, the widely used CDN is just one of the cases where <em>Cache Expiry</em> is used.</p>
+<p>As the scenario becomes more and more critical and requires higher and higher consistency, then consider using <em>Read Aside</em> or even <em>Double Delete</em> to achieve it. The correct implementation of these two methods is sufficient for consistency to satisfy most scenarios.</p>
+<p>However, as consistency requirements continue to increase, more complex implementations such as <em>Read Through</em> and <em>Write Through</em> or even <em>Write Ahead</em> become necessary. Although this can improve consistency, it is also costly. First, it requires sufficient manpower and domain knowledge to implement. In addition, the time cost of implementation and the maintenance cost afterwards are significantly higher. Furthermore, there are additional expenses to operate such an infrastructure.</p>
+<p>To further improve consistency, it is necessary to use more advanced techniques, such as consensus algorithms, to ensure the consistency of cache and database content by majority consensus. This is also the concept behind TAO, but I am not going to introduce such a complex approach, after all, we are not Meta, at least, I am not.</p>
+<p>In a general organization, the requirements for consistency are not as strict as, let’s say, 10 or more nines, and a general organization cannot operate such a complex and large architecture.</p>
+<p>Therefore, in this article, I have chosen practices that we can all achieve, but even if they are simple practices, there is already a high enough level of consistency if they are implemented correctly.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/consistency-between-cache-and-database-part-2-e28fc7f8a7c3">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Consistency-between-Cache-and-Database-Part-1/20220703/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Consistency-between-Cache-and-Database-Part-1/20220703/" class="post-title-link" itemprop="url">Consistency between Cache and Database, Part 1</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-07-03 23:36:56" itemprop="dateCreated datePublished" datetime="2022-07-03T23:36:56+08:00">2022-07-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Consistency-between-Cache-and-Database-Part-1"><a href="#Consistency-between-Cache-and-Database-Part-1" class="headerlink" title="Consistency between Cache and Database, Part 1"></a>Consistency between Cache and Database, Part 1</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*wfvcwb8VGPW7N1ZH.png"></p>
+<ul>
+<li>Part 1: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/consistency-between-cache-and-database-part-1-f64f4a76720">Read Aside Caching</a></li>
+<li>Part 2: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/consistency-between-cache-and-database-part-2-e28fc7f8a7c3">Enhanced Approaches</a></li>
+</ul>
+<p>Today we are going to talk about consistency, especially the consistency of data between cache and database. This is actually an important topic, particularly as the size of an organization increases, the requirements for consistency will grow and so will the implementation of consistency.</p>
+<p>For example, a startup service will not have a higher Service Level Agreement, aka SLA, than a mature service. For a startup service, a data consistency SLA of four nines (99.99%) might be considered high, but for a mature service like <a target="_blank" rel="noopener" href="https://aws.amazon.com/s3/storage-classes/?nc1=h_ls">AWS S3</a>, the data SLA is as high as 11 nines.</p>
+<p>We all know that for every nine, the difficulty and complexity of the implementation will increase in an exponential way, so for a startup service, there are basically no resources to maintain a very high SLA.</p>
+<p>Thus, how can we use the resources as effectively as possible to improve consistency? That’s what this article will introduce. Again, the consistency mentioned here refers specifically to the consistency between cache and database data.</p>
+<h3 id="Why-Caching"><a href="#Why-Caching" class="headerlink" title="Why Caching?"></a>Why Caching?</h3><p>I believe we all agree that inconsistencies are inevitable when we put data in two different storages. So what makes us put data into cache rather than risking inconsistency?</p>
+<ol>
+<li>The price of databases is high. In order to provide data persistence and as high availability as possible, even the relational database provides ACID guarantee, which makes the database implementation complex and also consumes hardware resources. Regardless of hard drives, memory or CPU, the database must be supported by good hardware specifications in order to work well, which also leads to the high price of the database itself.</li>
+<li>The performance of the database is limited. In order to persist the data, the data written to the database must be written to the hard drives, which also causes the performance bottleneck of the database, after all, the read and write efficiency of hard drives is much worse than memory.</li>
+<li>The database is far away from the user. Here, the far means the physical distance. As mentioned in the first point, because of the high cost of databases and the need to centralize data as much as possible for further analysis and utilization, a global service database is not placed in all over the world. The most common practice is to choose a fixed location. In Asia, for example, because AWS’s Singapore data center is lower priced, it is often chosen for Asian users, but for Japanese users, the network distance increases and the transfer rate decreases.</li>
+</ol>
+<p>For the above three reasons, the need for caching arises.</p>
+<p>Because a cache does not need to be persistent, it can use memory as the storage medium, so it is inexpensive and has excellent performance. Because of the low price, caches can be placed as close to the user as possible, for instance, caches can be placed in Tokyo so that users in Japan can use them nearby.</p>
+<h3 id="Caching-Patterns"><a href="#Caching-Patterns" class="headerlink" title="Caching Patterns"></a>Caching Patterns</h3><p>It seems that caching is necessary, so how do we use caching for the consistency as much as possible?</p>
+<p>To keep this article from losing focus, the caches mentioned are all based on Redis and the database is MySQL, and our goal is to improve consistency as much as possible with limited resources, both hardware and manpower, so the complex architectures of many large organizations are out of our scope, such as Meta’s <a target="_blank" rel="noopener" href="https://engineering.fb.com/2013/06/25/core-data/tao-the-power-of-the-graph/">TAO</a>.</p>
+<p>TAO is a distributed cache and has a very high SLA (10 nines). However, to operate such a service, there is a very complex architecture behind it, and even the monitoring of caching is extremely large, which is not affordable for an ordinary organization.</p>
+<p>Therefore, we will focus on the following patterns, highlighting their problems and how to avoid them as much as possible.</p>
+<ul>
+<li>Cache Expiry</li>
+<li>Read Aside</li>
+<li>Read Through</li>
+<li>Write Through</li>
+<li>Write Ahead (Write Behind)</li>
+<li>Double Delete</li>
+</ul>
+<p>The following sections will follow the below procedure.</p>
+<ol>
+<li>read path</li>
+<li>write path</li>
+<li>potential problems</li>
+<li>how to improve</li>
+</ol>
+<h3 id="Cache-Expiry"><a href="#Cache-Expiry" class="headerlink" title="Cache Expiry"></a>Cache Expiry</h3><p><strong>Read Path</strong></p>
+<ul>
+<li>Reading data from cache</li>
+<li>If the cache data does not exist</li>
+<li>Read from the database instead</li>
+<li>and write back to the cache</li>
+</ul>
+<p>We add a TTL to each data when writing back to the cache.</p>
+<blockquote>
+<p><em>EXPIRE key seconds [ NX | XX | GT | LT]</em></p>
+</blockquote>
+<p><strong>Write Path</strong></p>
+<ul>
+<li>Write data to the database only</li>
+</ul>
+<p><strong>Potential Problems</strong></p>
+<p>When updating data, inconsistencies occur because the data is only written back to the database. The inconsistency time depends on the TTL settings, nevertheless, it is difficult to choose a suitable value for the TTL.</p>
+<p>If the TTL is set too long, the inconsistency time will be increased and, on the contrary, the cache will not be effective.</p>
+<p>It is worth mentioning that caching is built to reduce the load on the database and to provide performance, and a very short TTL will make caching useless. For example, if the TTL of a certain data is set to 1 second, but no one reads it within 1 second, then the cached data will be no value at all.</p>
+<p><strong>How to Improve</strong></p>
+<p>The read path seems to be the usual practice, but when the database is updated, there should also be a mechanism for updating the cached data. And this is also the concept of <em>Read Aside</em>.</p>
+<h3 id="Read-Aside"><a href="#Read-Aside" class="headerlink" title="Read Aside"></a>Read Aside</h3><p><strong>Read Path</strong></p>
+<ul>
+<li>Reading data from cache</li>
+<li>If the cache data does not exist</li>
+<li>Read from the database instead</li>
+<li>and write back to the cache</li>
+</ul>
+<p>This process is the same as <em>Cache Expiry</em>, but the TTL can be set long enough. This allows the cache to have as much play time as possible.</p>
+<p><strong>Write Path</strong></p>
+<ul>
+<li>Write the data into the database first</li>
+<li>Then clean cache.</li>
+</ul>
+<p><strong>Potential Problems</strong></p>
+<p>Such read and write paths look fine, but there are a few corner cases that can’t be avoided.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*dPnVCTxrsXgsJdOtXUN3IA.png"></p>
+<p><code>A</code> wants to update the data, but <code>B</code> wants to read the data at the same time. Individually, both <code>A</code> and <code>B</code> have the right process, but when both of them happen together, there may be a problem. In the above example, <code>B</code> has already read the data from the cache before <code>A</code> clears the cache, so the data that <code>B</code> gets at that moment will be old.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*yyq6QF-JhPSQxxjVUWrn4A.png"></p>
+<p>When <code>A</code> is updating the data, the database is already finished updating, but it is killed due to “some reason”. At this moment, the data in the cache will remain inconsistent for a while until the next time the database is updated or a TTL occurs.</p>
+<p>Getting killed may sound serious and rare, but it’s actually more likely to happen than you might think. There are several scenarios where a kill can occur.</p>
+<ol>
+<li>When changing versions, either through containers or VMs, the old version of the application must be replaced with the new version, and the old version will be killed.</li>
+<li>When scale-in, the redundant application will be recycled and will also be killed.</li>
+<li>Lastly, it is the most common, when the application crashes, it will inevitably be killed.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*68BT1_-j09AlAkx-PqNYpw.png"></p>
+<p>When <code>A</code> wants to read the data and <code>B</code> wants to update the data, again, both of them have the right individual process, but the error occurs.</p>
+<p>First <code>A</code> is trying to read data because no corresponding result is found in the cache, so he reads from the database; at the same time, <code>B</code> is trying to update the data so he clears the cache after the database operation. Then, <code>A</code> writes the data to the cache, and the inconsistency occurs, and the inconsistency will remain for a while.</p>
+<p><strong>How to Improve</strong></p>
+<p>Case 1 and Case 3 can be minimized when the application manipulates data correctly. Take Case 1 as an example, don’t do anything extra after updating the database and clean up the cache right away, while in Case 3, after reading data from the database, don’t do too much format conversion and write the result to the cache as soon as possible. In this way, the chance of occurrence can be reduced, but even so, there are still some unavoidable situations, such as the stop-the-world generated by garbage collection.</p>
+<p>Case 2, on the other hand, can reduce the chance of artificial occurrences by implementing a graceful shutdown, but there is nothing that can be done for an application crash.</p>
+<h3 id="Read-Aside-Variant"><a href="#Read-Aside-Variant" class="headerlink" title="Read Aside Variant"></a>Read Aside Variant</h3><p>In order to solve Case 1 and Case 2, some people will try to modify the original process.</p>
+<p><strong>Read Path</strong></p>
+<ul>
+<li>Reading data from cache</li>
+<li>If the cache data does not exist</li>
+<li>Read from the database instead</li>
+<li>and write back to the cache</li>
+</ul>
+<p>This process is exactly the same as the original <em>Read Aside</em>.</p>
+<p><strong>Write Path</strong></p>
+<ul>
+<li>Clean cache first</li>
+<li>Then write the data into the database.</li>
+</ul>
+<p>This process is the opposite of the original <em>Read Aside</em>.</p>
+<p><strong>Potential Problems</strong></p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*TwDOLUw9pRSgpgNFfLuDJw.png"></p>
+<p>Although the original Case 1 and Case 2 are solved, a new problem is created.</p>
+<p>When <code>A</code> tries to update the data, and <code>B</code> wants to read the data, <code>A</code> clears the cache first; then <code>B</code> cannot read the data, so it reads from the database instead, and <code>A</code> continues to update the database. Finally, <code>B</code> writes the read data back to the cache. The inconsistency is occurred.</p>
+<p><strong>How to Improve</strong></p>
+<p>In fact, Case 1 and Case 2 are much less likely to occur than the corner cases of this variant, especially when the correct implementation of <em>Read Aside</em> has significantly reduced the occurrence of Case 1 and Case 2. On the other hand, the corner cases of the variant cannot be effectively improved.</p>
+<blockquote>
+<p><em>Therefore, it is not recommended to use such a variant.</em></p>
+</blockquote>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In general, a relatively high level of consistency can be achieved by <em>Read Aside</em>, even if it is only a simple implementation, but it can also have a very good reliability.</p>
+<p>Nevertheless, if you would like to improve consistency further, <em>Read Aside</em> alone is not enough, and a more complex approach is required, but also at a higher cost. Therefore, I will leave these approaches for the next article. In the next article, I will describe how to make the best use of the resources at hand to achieve as much consistency as possible.</p>
+<p>To emphasize again, although <em>Read Aside</em> is very simple, it is reliable enough as long as it is implemented correctly.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/consistency-between-cache-and-database-part-1-f64f4a76720">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Combine-Domain-Driven-Design-and-Databases/20220626/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Combine-Domain-Driven-Design-and-Databases/20220626/" class="post-title-link" itemprop="url">Combine Domain-Driven Design and Databases</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-06-27 01:00:09" itemprop="dateCreated datePublished" datetime="2022-06-27T01:00:09+08:00">2022-06-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Explain-combining-Domain-Driven-Design-and-Databases"><a href="#Explain-combining-Domain-Driven-Design-and-Databases" class="headerlink" title="Explain combining Domain-Driven Design and Databases"></a>Explain combining Domain-Driven Design and Databases</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*BhHrlHoJcl3Heg5A.png"></p>
+<p>A while ago, we explained <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">how to design software in a clean architecture way</a>. At that time, although we provided the design and implementation of the domain objects and also implemented the unit tests, we did not describe how to integrate with the database.</p>
+<p>Therefore, this article will present another example of how domain-driven design and database can be put together. Next, we will provide a real-world design of a common street-level gashapon store with a MySQL database.</p>
+<h3 id="User-Stories"><a href="#User-Stories" class="headerlink" title="User Stories"></a>User Stories</h3><p>As we’ve done before, we start by describing the user story, and we understand our needs through that story.</p>
+<ul>
+<li>There will be a lot of machines, each with different combinations of items.</li>
+<li>In order to allow “generous” customers to buy everything at once, we offer the option to draw a lot of items at once.</li>
+<li>When we run out of items, we need to refill them immediately.</li>
+<li>If a person who draws a lot of items at one time runs out of items, we will refill the items immediately so that they can continue to draw.</li>
+</ul>
+<p>Such a story is actually a scenario that happens in every gashapon store, and after a clear description, we will know how to build the domain model.</p>
+<p>Generally speaking, we will need to model a gashapon machine and a gacha entity.</p>
+<h3 id="Use-Cases"><a href="#Use-Cases" class="headerlink" title="Use Cases"></a>Use Cases</h3><p>Then, we define more precise use cases based on user stories. Unlike a story, the use case will clearly describe what happened and how the system should react.</p>
+<ul>
+<li>Because this is an online gashapon store, it is possible for multiple people to draw at the same time. But just like the physical machine, everyone must draw in order.</li>
+<li>In the process of refilling the gacha, the user is not allowed to draw until all the gacha have been refilled.</li>
+<li>When A and B each draw 50 at the same time, but there are only 70 in the machine, one of them will get the 50 in the batch, while the other will draw 20 first, and then wait for the refill before drawing 30.</li>
+</ul>
+<p>With the use case, we can either draw a flowchart or write a process based on it. In this example, I chose to write the process in <code>Python</code> as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def draw(n, machine):  </span><br><span class="line">    gachas = machine.pop(n)  </span><br><span class="line">      </span><br><span class="line">    if len(gachas) &lt; n:  </span><br><span class="line">        machine.refill()  </span><br><span class="line">        gachas += draw(n - len(gachas), machine)  </span><br><span class="line">      </span><br><span class="line">    return gachas</span><br></pre></td></tr></table></figure>
+
+<p>In the user story, we mentioned that we will model a gashapon machine and a gacha. So the <code>machine</code> in this example code is the gashapon machine, which provides both <code>pop</code> and <code>refill</code> methods. On the other hand, gachas are a list with <code>gacha</code> in it.</p>
+<p>Before we go any further, there is one very important thing that must be stated. Both the <code>pop</code> and <code>refill</code> methods must be atomic. To avoid racing conditions, both methods must be atomic and cannot be preempted, while there will be multiple users drawing simultaneously.</p>
+<h3 id="Database-Modeling"><a href="#Database-Modeling" class="headerlink" title="Database Modeling"></a>Database Modeling</h3><p>We already have <code>machine</code> and <code>gacha</code>, and these two objects are very simple for developers who are familiar with object-oriented programming, but how should they be integrated with the database?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*Q00QHD27370wmhWN.png"></p>
+<p>As mentioned in the book <em>Patterns of Enterprise Application Architecture</em>, there are three options to describe the domain logic on the database.</p>
+<ol>
+<li>Transaction Script</li>
+<li>Table Module</li>
+<li>Domain Model</li>
+</ol>
+<p>The book explains the pros and cons of these three choices individually, and in my experience, I prefer to use <em>Table Module</em>. The reason is, the database is a standalone component, and to the application, the database is actually a <em>Singleton</em>. To be able to control concurrent access on this <em>Singleton</em>, it is necessary to have a single, unified and public interface.</p>
+<p>With <em>Transaction Script</em>, access to the database is spread all over the source code, making it almost impossible to manage when the application grows larger. On the other hand, <em>Domain Model</em> is too complex, as it creates a specific instance for each row of the table, which is very complicated in terms of implementation atomic operations. So I chose the compromise <em>Table Module</em> as the public interface to interact with the database.</p>
+<p>Take the above <code>machine</code> as an example.</p>
+<p>Since we have finished building the domain object, let’s define the schema of the table <code>GachaTable</code>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*slvDrZSNgDq2fLp-Rv0v9g.png"></p>
+<p>In the table, we can see there are two machines, one with the theme <em>Jurassic Park</em> and the other <em>Ice Age</em>, both of which have two individual gachas. The Jurassic Park machine looks like three, but one has actually been drawn already.</p>
+<p><code>Gacha</code>’s domain model is straightforward, which is <code>gacha_id</code> or more detailed, which may be the theme plus items, such as: Jurassic Park and T-Rex.</p>
+<p>A more interesting topic to discuss is <code>machine</code>. <code>machine</code> needs to define several attributes. First, it should be able to specify an id in the constructor, and second, there are two atomic methods, <code>pop</code> and <code>refill</code>. We will focus on these two methods in the following sections.</p>
+<h3 id="Atomic-Pop"><a href="#Atomic-Pop" class="headerlink" title="Atomic Pop"></a>Atomic Pop</h3><p>It is not difficult to implement an atomic <code>pop</code>: first sort by sequence number, then take out the first <code>n</code> rows, and finally set <code>is_drawn</code> to <code>true</code>. Let’s take the Jurassic Park machine as an example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">START TRANSACTION;  </span><br><span class="line">SELECT * FROM GachaTable WHERE machine_id = 1 AND is_drawn = false ORDER BY gacha_seq LIMIT n FOR UPDATE;  </span><br><span class="line">UPDATE GachaTable SET is_drawn = true WHERE gacha_seq IN $&#123;resultSeqs&#125;;  </span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
+
+<p>As mentioned in <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/how-to-avoid-the-race-condition-and-the-negative-value-3f397b2b08e4">my previous article</a>, in order to avoid lost updates, MySQL has three approaches. In this example, to achieve atomic updates, it is easiest to add <code>FOR UPDATE</code> to the end of <code>SELECT</code> to preempt these rows.</p>
+<p>When the update is complete, the result of <code>SELECT</code> can be wrapped into <code>Gacha</code> instances and returned. This way the caller will be able to get the gachas drawn and know how many were drawn.</p>
+<h3 id="Atomic-Refill"><a href="#Atomic-Refill" class="headerlink" title="Atomic Refill"></a>Atomic Refill</h3><p>Another atomic method is <code>refill</code>. It is simple to not get interrupted in the middle of the fill process. Because MySQL transactions are not read by the rest of clients until <code>COMMIT</code> under the <code>Repeatable Read</code> condition.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">START TRANSACTION;  </span><br><span class="line">for gacha in newGachaPackage():  </span><br><span class="line">    INSERT INTO GachaTable VALUES $&#123;gacha&#125;;  </span><br><span class="line">      </span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
+
+<p>Is that all? No, not really.</p>
+<p>This problem occurs when both users draw <code>n</code>, but there are not enough <code>n</code> gachas to draw.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7cfbBcXTSNYVrSPhgTgA0A.png"></p>
+<p>The sequential diagram above shows when A and B draw at the same time, A will draw <code>r</code> gachas and B will not, as we expected. However, both A and B will <code>refill</code> together, resulting in the same batch of gachas being filled twice.</p>
+<p>Usually, this does not cause any major problems. Because we arrange the <code>pop</code> by sequence number, we can guarantee that the second batch will be drawn only after the first batch is drained. But if we want to change the item, then the new items will be released later than we expected.</p>
+<p>On the other hand, two people are refilling at the same time so the redundancy becomes twice as much, and if the system has a very large number of simultaneous users, then the redundancy may become several times as much and take up a lot of resources.</p>
+<p>How to solve this problem? In the article <a target="_blank" rel="noopener" href="https://betterprogramming.pub/solve-phantom-read-in-mysql-a1c85f9a8c56">Solving Phantom Reads in MySQL</a>, it is mentioned that we can materialize conflicts. In other words, we add an external synchronization mechanism to mediate all concurrent users.</p>
+<p>In this example, we can add a new table, <code>MachineTable</code>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*WeEyK9FEAwIzvSuKRlT85Q.png"></p>
+<p>This table also allows the original <code>machine_id</code> of <code>GachaTable</code> to have an additional foreign key reference target. When we do <code>refill</code>, we have to lock this machine first before we can update it.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">START TRANSACTION;  </span><br><span class="line">SELECT * FROM MachineTable WHERE machine_id = 1 FOR UPDATE;  </span><br><span class="line">SELECT COUNT(*) FROM GachaTable WHERE machine_id = 1 AND is_drawn = false;  </span><br><span class="line">if !cnt:  </span><br><span class="line">    for gacha in newGachaPackage():  </span><br><span class="line">        INSERT INTO GachaTable VALUES $&#123;gacha&#125;;  </span><br><span class="line">      </span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
+
+<p>At first, we acquire the exclusive lock, then we re-confirm whether <code>GachaTable</code> needs <code>refill</code>, and finally, we actually insert the data into it. If it is not reconfirmed, then it is still possible to repeat <code>refill</code>.</p>
+<p>Here are a few extended discussions.</p>
+<ol>
+<li>Why do we need an additional <code>MachineTable</code>? Can’t we lock the original <code>GachaTable</code>? Due to phantom reads, MySQL’s <code>Repeatable Read</code> cannot avoid write skew from phantom reads in the case of new data. The detailed process is explained in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/solve-phantom-read-in-mysql-a1c85f9a8c56">my previous article</a>.</li>
+<li>When locking <code>MachineTable</code>, don’t you need to lock <code>GachaTable</code> when getting the count from <code>GachaTable</code>? Actually, it is not necessary. Because it will enter the <code>refill</code> process, it must be because the gachas have been drawn and everyone is waiting for the <code>refill</code>, so don’t worry about the <code>pop</code>.</li>
+</ol>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we explain the issues to be considered when combining a domain-driven design with a database design through a real-world example.</p>
+<p>The final result will contain two objects, <code>Gacha</code> and <code>Machine</code>, and the database will also contain two tables, <code>GachaTable</code> and <code>MachineTable</code>. All methods within <code>Machine</code> are atomic in nature.</p>
+<p>As we described in the design steps before, we need to first define the correct user stories and use cases, then start the modeling, and finally the implementation. Unlike normal application implementations, the database exists as a large <em>Singleton</em>, so we need to better integrate the database design into our domain design as well.</p>
+<p>In order to minimize the impact of the database on the overall design, it is crucial to build the domain model correctly. Of course, in this article we adopt the <em>Table Module</em> approach to domain design, which has its advantages and disadvantages.</p>
+<p>The advantage is by using the <code>Machine</code> domain model, we are able to simulate the real appearance of a gashapon machine and provide a common interface for all users to synchronize their processing. By encapsulating the gashapon behavior into <code>Machine</code>, future gashapon extensions can be easily performed. All the operations of <code>GachaTable</code> and <code>MachineTable</code> will also be controlled by a single object.</p>
+<p>The downside is that <code>Machine</code> actually contains the gashapon machine and the gacha table inside, which is too rough for a strict object-oriented religion. When more people are involved in the project, everyone’s understanding of the objects and the data tables begins to diverge, leading to a design collapse. For a large organization, the <em>Table Module</em> has its scope, and better cross-departmental collaboration relies on complete documentation and design reviews, which can affect everyone’s productivity.</p>
+<p>In this article we do not take too much time to explain the design process, but rather focus on how to integrate the database design in the domain objects. If you want to learn more about the details mentioned in this article, I have listed my previous articles below.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/how-to-avoid-the-race-condition-and-the-negative-value-3f397b2b08e4">Solve Lost Updates in MySQL</a></li>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/solve-phantom-read-in-mysql-a1c85f9a8c56">Solve Phantom Read in MySQL</a></li>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">Designing Software Using Clean Architecture: Domain-Driven Design</a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/combine-domain-driven-design-and-databases-747fa36ec642">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Message-Queue-in-Redis-Part-2/20220619/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Redis/Message-Queue-in-Redis-Part-2/20220619/" class="post-title-link" itemprop="url">Message Queue in Redis, Part 2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-06-20 01:26:55" itemprop="dateCreated datePublished" datetime="2022-06-20T01:26:55+08:00">2022-06-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Message-Queue-in-Redis-Part-2"><a href="#Message-Queue-in-Redis-Part-2" class="headerlink" title="Message Queue in Redis, Part 2"></a>Message Queue in Redis, Part 2</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*wzEJNGsUN1hOnCvp.jpg"></p>
+<p>A while ago, I mentioned that I’m in a budget-constrained organization, so we can’t afford to use a true message queue. Instead, we have chosen to use a second-best approach to meet our immediate needs and a simple solution to implement, using Redis.</p>
+<p>Nevertheless, there are still <a target="_blank" rel="noopener" href="https://selectfrom.dev/message-queue-in-redis-9efe0de2c39c">many different ways to implement</a> Redis as a message broker. At that time, we chose the option which was the fastest to get up and running with the least implementation effort: lists. However, as the system evolved and new feature requests were made, the original solution no longer worked.</p>
+<p>The advantages of the list are</p>
+<ol>
+<li>easy to implement</li>
+<li>support for consumer groups</li>
+<li>the ability to decouple producers and consumers</li>
+</ol>
+<p>The disadvantages are also obvious.</p>
+<ul>
+<li>At-most-once guarantee</li>
+</ul>
+<p>Now, we need <em>at-least-once guarantee</em>, and lists don’t cover this need. The <em>Redis Stream</em> mentioned in the previous article was not adopted because of the large implementation effort. So we started looking for a new alternative.</p>
+<h3 id="Bull-js"><a href="#Bull-js" class="headerlink" title="Bull.js"></a><a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull">Bull.js</a></h3><p>After some comparisons, we finally chose <em>Bull.js</em>.</p>
+<p>The reasons are as follows.</p>
+<ol>
+<li>support <em>at-least-once guarantee</em>.</li>
+<li>it has a lower implementation effort and provides many monitoring tools, e.g., <a target="_blank" rel="noopener" href="https://github.com/UpHabit/bull_exporter">Bull Exporter</a>.</li>
+<li>full-featured, including retry, time delay, etc.</li>
+<li>even support rate limit.</li>
+</ol>
+<p>However, in the working process, I have to say that the official document is not detailed enough and it took us some time to try it successfully. In this article I will show the two most important issues we encountered and explain the solutions.</p>
+<h3 id="Redis-Cluster"><a href="#Redis-Cluster" class="headerlink" title="Redis Cluster"></a>Redis Cluster</h3><p><em>Bull</em> is supported for Redis clusters. Unfortunately, the description is scattered in several places in the document.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queue">Queue Constructor</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/PATTERNS.md#redis-cluster">Redis Cluster Config</a></li>
+</ul>
+<p>First, the description from the constructor’s document needs to provide the parameter <code>createClient</code>, and the rule is</p>
+<blockquote>
+<p><em>(type: ‘client’ | ‘subscriber’ | ‘bclient’, config?: Redis.RedisOptions): Redis.Redis | Redis.Cluster;</em></p>
+</blockquote>
+<p><code>Redis.Redis</code> and <code>Redis.Cluster</code> at the end of the rule actually refer to the <a target="_blank" rel="noopener" href="https://github.com/luin/ioredis">ioredis</a> constructors, so to set them up, we must use the ioredis constructors.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const Redis = require(&quot;ioredis&quot;);  </span><br><span class="line">Redis.Redis  </span><br><span class="line">Redis.Cluster</span><br></pre></td></tr></table></figure>
+
+<p>Even so, I don’t understand what kind of format <code>createClient</code> needs to provide, is it an object? What are the keys to <code>Redis.Redis</code> and <code>Redis.Cluster</code>?</p>
+<p>Finally, I found out from another section of the document, <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/PATTERNS.md#reusing-redis-connections">Reusing Redis Connections</a> I realized that it was a function. Anyway, put the pieces together.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const Redis = require(&#x27;ioredis&#x27;);  </span><br><span class="line">let client;  </span><br><span class="line">let subscriber;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const opts = &#123;  </span><br><span class="line">  // redisOpts here will contain at least a property of connectionName which will identify the queue based on its name  </span><br><span class="line">  createClient: function (type, redisOpts) &#123;  </span><br><span class="line">    switch (type) &#123;  </span><br><span class="line">      case &#x27;client&#x27;:  </span><br><span class="line">        if (!client) &#123;  </span><br><span class="line">          client = new Redis.Cluster(REDIS_URL, redisOpts);  </span><br><span class="line">        &#125;  </span><br><span class="line">        return client;  </span><br><span class="line">      case &#x27;subscriber&#x27;:  </span><br><span class="line">        if (!subscriber) &#123;  </span><br><span class="line">          subscriber = new Redis.Cluster(REDIS_URL, redisOpts);  </span><br><span class="line">        &#125;  </span><br><span class="line">        return subscriber;  </span><br><span class="line">      case &#x27;bclient&#x27;:  </span><br><span class="line">        return new Redis.Cluster(REDIS_URL, redisOpts);  </span><br><span class="line">      default:  </span><br><span class="line">        throw new Error(&#x27;Unexpected connection type: &#x27;, type);  </span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;,  </span><br><span class="line">  prefix: &#x27;&#123;myprefix&#125;&#x27;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const queueFoo = new Queue(&#x27;foobar&#x27;, opts);</span><br></pre></td></tr></table></figure>
+
+<p>In this way, Redis clusters can be used as brokers.</p>
+<h3 id="Memory-Leakage"><a href="#Memory-Leakage" class="headerlink" title="Memory Leakage"></a>Memory Leakage</h3><p>Once we got over the cluster issue, we pulled <em>Bull</em> online and started testing. Then we ran into a serious problem where the underlying Redis started leaking memory.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*R2ImsAsRSRFm0ixO.png"></p>
+<p>As you can see from the figure, Redis memory usage has been skyrocketing since it was enabled.</p>
+<p>So we took a closer look at the document to find out what we missed, and finally found a hint in the <a target="_blank" rel="noopener" href="https://optimalbits.github.io/bull/">tutorial</a>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*yauK1vgMO0y-BLRU.png"></p>
+<p>A job begins as <code>Job Added</code> and ends up as <code>Job Finished</code>, regardless of whether it succeeds or fails. In other words, as soon as the job enters Redis, it stays there, regardless of whether it succeeds or fails. How do we solve this?</p>
+<p>Specify the parameters <code>removeOnComplete</code> and <code>removeOnFail</code> in <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueadd">add</a> to ensure jobs do not stay in the last finish state. I believe that <code>removeOnComplete</code> can definitely be set, but <code>removeOnFail</code> depends on the needs of each user, e.g., whether they want a failure count, whether they want a manual recovery from failure, etc. In our case, we don’t need to keep the job even if it fails, so both parameters are <code>true</code>.</p>
+<p>What about the jobs left online? <em>Bull</em> also provides a way to <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueclean">clean jobs</a>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//cleans all jobs that completed over 5 seconds ago.  </span><br><span class="line">await queue.clean(5000);  </span><br><span class="line">//clean all jobs that failed over 10 seconds ago.  </span><br><span class="line">await queue.clean(10000, &#x27;failed&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>After running online, you will see an extremely significant drop in usage.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*6AmYB1IKIkF7zya0.png"></p>
+<p>The first half remains horizontal because we have already added <code>removeOnComplete</code> and <code>removeOnFail</code>, so no more increases are made. The vertical line in the middle is the process of <code>clean</code>.</p>
+<p>It is worth mentioned that the <code>clean</code> process locks the entire message queue, so it may affect the online functions and is not recommended to perform it under production environment. The duration of the lock depends on the number of jobs to be cleaned.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>I always talked about the evolution of systems. As you should have noticed from my previous articles, in a limited organization, we do not always have enough manpower, budget or even knowledge to build the perfect system, or to be more precise, no system is perfect.</p>
+<p>Every time we design a system, we choose the relatively acceptable solution among many factors, which means we have to face the potential problems. For me, I always take the most achievable implementation, but with the understanding that such choices are not static and retain the flexibility to meet future requirements.</p>
+<p>For many people, the replacement of the message queue is a very huge exercise. But for my organization, it’s a simple implementation by a few people, and then it’s done. The reason why I always mention domain-driven design and decoupling is to make it easier to do system evolution when needed.</p>
+<p><em>Bull</em> currently meets all of our needs, is reliable enough, and even offers a monitoring solution. I believe we will probably be able to stop worrying about message queues for a long time.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/message-queue-in-redis-part-2-61c0d22735fe">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Explain-Redlock-in-Depth/20220612/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Redis/Explain-Redlock-in-Depth/20220612/" class="post-title-link" itemprop="url">Explain Redlock in Depth</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-06-13 01:39:07" itemprop="dateCreated datePublished" datetime="2022-06-13T01:39:07+08:00">2022-06-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Explain-Redlock-in-Depth"><a href="#Explain-Redlock-in-Depth" class="headerlink" title="Explain Redlock in Depth"></a>Explain Redlock in Depth</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*pTqqpePHil02H4_x.jpg"></p>
+<p>Previously, I <a target="_blank" rel="noopener" href="https://betterprogramming.pub/redis-as-a-lock-are-you-sure-a870c9f22ad8">introduced two types of locks</a>, mutex locks and barriers, and I used Redis as an example to explain the differences between the two types of locks. Shortly after that, I received a reply saying that if you want to implement distributed locks, the Redis approach is not enough and you should refer to Redlock.</p>
+<p>Well, his opinion is basically right.</p>
+<p>Although Redlock is implemented through Redis, it can achieve a very high level of consistency and is one of the best paradigms for implementing distributed locking. However, Redlock has a very high cost behind it and is not suitable for all organizations and services.</p>
+<p>Nevertheless, I will introduce Redlock and present my thoughts on why Redlock is impractical.</p>
+<h3 id="Redis-is-not-reliable"><a href="#Redis-is-not-reliable" class="headerlink" title="Redis is not reliable"></a>Redis is not reliable</h3><p>Before getting started, I should emphasize that <a target="_blank" rel="noopener" href="https://towardsdev.com/data-persistence-in-redis-2780c11d1623">Redis persistence is unreliable, even with the most strict settings</a>.</p>
+<p>However, in a cluster environment, a <em>Master</em> may have a number of <em>Slave</em> redundancies. Is Redis still unreliable under these conditions? The answer is yes.</p>
+<p>In Redis implementation, data replication is performed by the background process, not the master thread, so when a client writes successfully, it does not mean the data is replicated successfully. One of the procedures leading to the problem is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*q4lBE0VJECydo6Uu-qoSww.png"></p>
+<p>When Client 1 successfully locks via the original <em>Master</em>, but the <em>Master</em> dies before the data is replicated, then Client 2 can still successfully lock via the original <em>Slave</em> (the new <em>Master</em>).</p>
+<p>This is the reason why Redis clusters are still unreliable.</p>
+<h3 id="Redlock-Concept"><a href="#Redlock-Concept" class="headerlink" title="Redlock Concept"></a>Redlock Concept</h3><p>As we have seen, a single Redis is not reliable, even in a cluster of multiple Redis. So how do we use Redis to implement a reliable Redlock?</p>
+<p>The answer is through majority consensus. Since one Redis is not reliable, we form a committee of multiple Redis. If and only if more than half of the committee members agree, the lock will take effect; otherwise, the lock is invalid. The members can be single, master-slave, or even clusters, but nevertheless, they are independent of each other, in other words, they are not duplicates of each other, not to mention the same cluster.</p>
+<blockquote>
+<p><em>According to the majority consensus algorithm, the committee should have an odd number of members and be approved when a majority of the members (</em><code>N/2 + 1</code><em>) agree.</em> <code>N</code> <em>indicates the total number of members.</em></p>
+</blockquote>
+<p>The detailed process is written in the <a target="_blank" rel="noopener" href="https://redis.io/docs/reference/patterns/distributed-locks/">official Redis documentation on distributed locking</a>, so I’ll briefly describe the process below.</p>
+<p>Suppose our committee is composed of three Redis.</p>
+<p>The following is the process of successfully locking up and doing the task and unlocking successfully.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*9tbZXuVgSvt7di5l91ganQ.png"></p>
+<ol>
+<li>The client who wants to obtain the lock generates a globally unique ID, and the official document selects the system time to use.</li>
+<li>Try to use this ID to get the consent of all committee members. Use the command <code>SETNX</code> to do this.</li>
+<li>2 members agree, then the lock is successfully in place.</li>
+<li>After getting the lock, the user can do what desired.</li>
+<li>The next step is to unlock on every member, whether or not the lock is successfully getting.</li>
+</ol>
+<p>The process for unsuccessful locking is similar, as long as <code>Redis1</code> or <code>Redis2</code> also fails to respond, then the lock cannot be acquired, that is to say, you cannot do anything, but you still have to perform the process of unlocking all the members.</p>
+<h3 id="Redlock-Issues"><a href="#Redlock-Issues" class="headerlink" title="Redlock Issues"></a>Redlock Issues</h3><p>After describing the Redlock process above, I’d like to explain why I rarely consider such an approach.</p>
+<p>Firstly, the entire Redlock implementation process, as mentioned in the previous section, is very time-consuming. Particularly if you want to lock for 3 seconds, but actually only 2 seconds or less are left after the locking process. <strong>Because the application must be initiated to all Redis first, even with parallel processing, the network delay and packet loss still make the communication chaotic and complicated.</strong></p>
+<p>Secondly, in order to make unreliable Redis reliable, many independent Redis must be launched. In the context of site reliability engineering, the maintenance effort for so many Redis is very high, and it is also a problem to make the participating clients aware of the existence of so many Redis. Such a approach is impractical in terms of cost, maintenance effort, and complexity of implementation.</p>
+<p>Furthermore, the core of this approach is <strong>GUID</strong>. If IDs are duplicated, both locking and unlocking may result in false positives and unpredictable results. When this happens, the difficulty of detecting it is also significant. Nevertheless, the system time, as officially documented, is a very weak guarantee. <strong>In a distributed system, it is difficult to ensure that all instances have the same time</strong>, which is known as <em>clock skew</em> in system design.</p>
+<p>To sum up, Redlock is an expensive approach with a lot of technical depth. Although many people have implemented packages in various programming languages based on official documents, does each user understand the potential risks behind the simple use of the packages?</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The main reason I don’t use Redlock is because making unreliable Redis reliable is putting the cart before the horse. I always tell my team members, “Data in Redis needs to be aware that it will disappear without warning”. If you want to keep the data persistent, you should consider a more persistent database rather than a cache.</p>
+<p>When implementing distributed locking, instead of using Redis, we should use a more reliable database, such as MySQL, which is strongly consistent, or MongoDB, which is my personal preference. But even if we use a database, we should pay attention to the implementation details of the database. Take MongoDB as an example, if we want to implement a lock, then we need to be aware of <a target="_blank" rel="noopener" href="https://towardsdev.com/read-after-write-consistency-in-mongodb-ea4cd91d0d3">read-after-write consistency</a>.</p>
+<p>There are many aspects to consider behind the system design, and it is not enough to just make the function work. How to control the budget? How to allocate manpower? How to maintain day-to-day? How to troubleshoot? All of these factors involve the capacity of the team, which I believe is far more important than the actual functionality.</p>
+<p>When considering the use of distributed locks, I first ask myself, “Do we really need locks? Is there a way to avoid possible race conditions through architecture design?” <strong>It is far more effective to avoid locking by improving the architecture than to seek synchronization in a distributed system.</strong> If we really have to use a distributed lock, and we need to keep the usage to a minimum, then we don’t need to use Redis but can use a relatively slow database to implement it.</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.infoworld.com/article/3639050/complexity-is-killing-software-developers.html"><em>Complexity is killing software developers</em></a></p>
+</blockquote>
+<p>And Redlock is one of the most complicated approaches. In my opinion, it should be avoided.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/explain-redlock-in-depth-dba95c107102">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/12/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/14/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

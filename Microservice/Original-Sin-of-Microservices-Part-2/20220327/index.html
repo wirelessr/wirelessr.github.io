@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Original Sin of Microservices, Part 2 Last time, we talked about 8 fallacies of distributed computing and why our systems end up being more complex than we ever imagined. In our last conclusion, we me">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Original Sin of Microservices, Part 2">
+<meta property="og:url" content="https://wirelessr.github.io/Microservice/Original-Sin-of-Microservices-Part-2/20220327/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Original Sin of Microservices, Part 2 Last time, we talked about 8 fallacies of distributed computing and why our systems end up being more complex than we ever imagined. In our last conclusion, we me">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*HO6bSdlPnOyQgZtl.jpg">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*MhLAkdIGogY4Nn0pF2Ymwg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*6dKuJfhSY-YkwizM95a13g.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*fIMu7U0_uedYNTKM5wG2qw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*FNeS9KgPX1Sr4trKWbGweg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*XcZ70vpfF-9et2gj90H8-A.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*k0_P1Rl4nR1vlww7THFZQw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*gtD2WVw8lmfabO_oHtcgLw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*xR_gawaJknn8I-wl0mfy-w.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*rwte3OBqsYpQ8FkM5JMlXw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*_pxrC5YVDm5FEmp1SYGPUw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*aYjvID-xwNRRmKjykJHwVg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*vPqm1fbneYU-V42WcnepHw.png">
+<meta property="article:published_time" content="2022-03-27T17:17:38.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.827Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*HO6bSdlPnOyQgZtl.jpg">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Microservice/Original-Sin-of-Microservices-Part-2/20220327/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Microservice/Original-Sin-of-Microservices-Part-2/20220327/","path":"Microservice/Original-Sin-of-Microservices-Part-2/20220327/","title":"Original Sin of Microservices, Part 2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Original Sin of Microservices, Part 2 | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Original-Sin-of-Microservices-Part-2"><span class="nav-number">1.</span> <span class="nav-text">Original Sin of Microservices, Part 2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-challenges-of-distributed-architecture"><span class="nav-number">2.</span> <span class="nav-text">9 challenges of distributed architecture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service-Granularity"><span class="nav-number">3.</span> <span class="nav-text">Service Granularity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shard-Functionality"><span class="nav-number">4.</span> <span class="nav-text">Shard Functionality</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Communication-Protocols"><span class="nav-number">5.</span> <span class="nav-text">Communication Protocols</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Workflow-Management"><span class="nav-number">6.</span> <span class="nav-text">Workflow Management</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Monolithic-Decomposition"><span class="nav-number">7.</span> <span class="nav-text">Monolithic Decomposition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Contract-Management"><span class="nav-number">8.</span> <span class="nav-text">Contract Management</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Database-Style"><span class="nav-number">9.</span> <span class="nav-text">Database Style</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Architecture-Style"><span class="nav-number">10.</span> <span class="nav-text">Architecture Style</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Transaction"><span class="nav-number">11.</span> <span class="nav-text">Distributed Transaction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Complexity-is-killing-software-developers"><span class="nav-number">12.</span> <span class="nav-text">Complexity is killing software developers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">13.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Original-Sin-of-Microservices-Part-2/20220327/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Original Sin of Microservices, Part 2 | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Original Sin of Microservices, Part 2
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-03-28 01:17:38" itemprop="dateCreated datePublished" datetime="2022-03-28T01:17:38+08:00">2022-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Original-Sin-of-Microservices-Part-2"><a href="#Original-Sin-of-Microservices-Part-2" class="headerlink" title="Original Sin of Microservices, Part 2"></a>Original Sin of Microservices, Part 2</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*HO6bSdlPnOyQgZtl.jpg"></p>
+<p>Last time, we talked about <a target="_blank" rel="noopener" href="https://lazypro.medium.com/original-sin-of-microservices-part-1-90461ddcefb">8 fallacies of distributed computing</a> and why our systems end up being more complex than we ever imagined. In our last conclusion, we mentioned that two nodes already have a lot of aspects to consider, let alone a microservice architecture.</p>
+<p>Microservice architectures have many additional dilemmas to face. Therefore, in this article, we will introduce what are the challenges of designing a microservice architecture.</p>
+<h3 id="9-challenges-of-distributed-architecture"><a href="#9-challenges-of-distributed-architecture" class="headerlink" title="9 challenges of distributed architecture"></a>9 challenges of distributed architecture</h3><p>When designing a microservice architecture, there are 9 things that must be carefully considered, and these 9 things are the source of the complexity of microservice architecture. In order to design a microservice architecture correctly, there are many factors that must be aware, such as data consistency, architecture scalability, system availability, etc., in addition to avoiding the fallacies mentioned in the previous article.</p>
+<h3 id="Service-Granularity"><a href="#Service-Granularity" class="headerlink" title="Service Granularity"></a>Service Granularity</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*MhLAkdIGogY4Nn0pF2Ymwg.png"><img src="https://cdn-images-1.medium.com/max/800/1*6dKuJfhSY-YkwizM95a13g.png"></p>
+<p>When we want to implement a notification service, suppose that there are three types of notifications, email, sms and mobile notifications. So should the granularity of this microservice include all three types of notifications, or should the three types of notifications be separated into a standalone microservice? How to make the right choice?</p>
+<p>There are several points to deliberate. First, will these codes need to be changed very often? If not, then it seems feasible to put all notifications into the same notification service. On the contrary, if the content of emails needs to be changed very often, then perhaps emails can be separated out into a standalone microservice.</p>
+<p>In addition, if sms has a large number of notifications, then sms may need to be horizontally scaled independently, i.e., sms can be a separate microservice.</p>
+<p>How do you determine the correct granularity of microservices? It’s hard, isn’t it? This is the first challenge.</p>
+<h3 id="Shard-Functionality"><a href="#Shard-Functionality" class="headerlink" title="Shard Functionality"></a>Shard Functionality</h3><blockquote>
+<p><em>Shared service vs. Shared code</em></p>
+</blockquote>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*fIMu7U0_uedYNTKM5wG2qw.png"><img src="https://cdn-images-1.medium.com/max/800/1*FNeS9KgPX1Sr4trKWbGweg.png"></p>
+<p>When there are shared functions, how do you decide where to place them? For example, when A, B and C all have an authentication function, should there be a microservice for authentication or should the authentication code be replicated in each microservice?</p>
+<p>There are also some aspects to think about here. If there is a shared authentication service, who will authenticate the authentication service? When the authentication service goes down, will it result in a single point of failure (SPOF)? What happens when more and more services need to be authenticated and the authentication service can’t hold up?</p>
+<p>On the other hand, if the code is copied to each service, how can we make online improvements if the logic of authentication has changed? In fact, the same problem can happen to data. When there is data needed by three microservices, should the data be shared with each other in a separate database or duplicated to each service?</p>
+<p>Remember the ideal microservice mentioned at the beginning? No sharing of data. So here, I prefer to use the second approach, replicating the code instead of sharing the service.</p>
+<h3 id="Communication-Protocols"><a href="#Communication-Protocols" class="headerlink" title="Communication Protocols"></a>Communication Protocols</h3><blockquote>
+<p><em>Synchronous vs. Asynchronous</em></p>
+</blockquote>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*XcZ70vpfF-9et2gj90H8-A.png"><img src="https://cdn-images-1.medium.com/max/800/1*k0_P1Rl4nR1vlww7THFZQw.png"></p>
+<p>Should the communication between two services be synchronous or asynchronous? There are many factors to consider.</p>
+<p>Asynchronous has the obvious benefit of being more efficient and less coupled with each other. When there is a need to scale horizontally, each microservice can also scale according to its own needs.</p>
+<p>But synchronization also has the advantage that <code>Service A</code> can respond more quickly when <code>Service B</code> fails. In other words, synchronization can have higher consistency.</p>
+<p>There is no standard answer between synchronous and asynchronous, it depends on the context.</p>
+<h3 id="Workflow-Management"><a href="#Workflow-Management" class="headerlink" title="Workflow Management"></a>Workflow Management</h3><blockquote>
+<p><em>Orchestration vs. Choreography</em></p>
+</blockquote>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*gtD2WVw8lmfabO_oHtcgLw.png"><img src="https://cdn-images-1.medium.com/max/800/1*xR_gawaJknn8I-wl0mfy-w.png"></p>
+<p>Again, these are two very different types of workflow management. Similar to synchronous and asynchronous above, when orchestration is chosen, it is easier to control the entire workflow, and when any task fails, the top <code>Service A</code> has a way to know and take the correct action, i.e., orchestration makes it easier to get higher data consistency.</p>
+<p>On the other hand, choreography can have better scalability and availability because of the low coupling between each other. Even when there are functions that need to be implemented, choreography is more productive because it does not need to be initiated by <code>Service A</code>. Each microservice communicates with each other through messages and only needs to implement new message processors.</p>
+<h3 id="Monolithic-Decomposition"><a href="#Monolithic-Decomposition" class="headerlink" title="Monolithic Decomposition"></a>Monolithic Decomposition</h3><blockquote>
+<p><em>Component-based vs. Tactical forking</em></p>
+</blockquote>
+<p>When we want to decompose a monolith to microservices, there are two different strategies that can be used. Component-based decomposition is a traditional domain-driven development that first correctly recognizes the function and size of each component, then analyzes the dependencies between the components, and finally tries to decompose the components according to a domain-based manner and generate domain-sized microservices.</p>
+<p>In contrast, tactical forking is a completely different process.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*rwte3OBqsYpQ8FkM5JMlXw.png"></p>
+<p>First insert a proxy between the original client and the monolith. Have you noticed? The topology is not immutable, in order to compose the microservice, the topology is changed. Then, the original monolith is replicated exactly, and the two different functions are pointed to different targets in the proxy. Finally, according to the characteristics of the two functions, the original monolith is individually reduced to produce two different microservices.</p>
+<p>Similarly, the two different strategies also have their own advantages and disadvantages. If component-based decomposition is used, there is a longer lead time, but the whole system can be decomposed with the right domain perspective, and in fact, the process must involve refactoring. In opposite, tactical forking does not have this refactoring process, but in return it is a much faster modification process.</p>
+<h3 id="Contract-Management"><a href="#Contract-Management" class="headerlink" title="Contract Management"></a>Contract Management</h3><blockquote>
+<p><em>Strict vs. Loose</em></p>
+</blockquote>
+<p>Contract management refers to what kind of data format should be used to communicate between two services? If you use a loose contract, such as JSON or XML, the coupling between the services will be tighter, and it will not be easy to manage the versioning and achieve forward-backward compatibility. But the advantage is that it is easier to develop, especially since JSON is already the main data format for frontend and backend communication, so JSON will also work more naturally with the service.</p>
+<p>On the other hand, using a strict contract, such as Avro or protocol buffer, then the services only need to understand each other through the schema. The old and new versions of the service can also coexist easily.</p>
+<h3 id="Database-Style"><a href="#Database-Style" class="headerlink" title="Database Style"></a>Database Style</h3><p>This is also a very popular topic. First you have to choose from PACELC, then ACID or BASE, and finally there are various options depending on the storage structure, such as K-V, columnar, row-based or graph.</p>
+<p>The biggest drawback of choosing a relational database in the past was its lack of horizontal scalability, but recently there has been a new breakthrough with more distributed SQL options. But again, there is no perfect solution, you still need to understand what distributed SQL can do and what it lacks.</p>
+<p>Behind each of these choices is a lot of experience and domain knowledge, and it’s really hard.</p>
+<h3 id="Architecture-Style"><a href="#Architecture-Style" class="headerlink" title="Architecture Style"></a>Architecture Style</h3><p>Choosing the architecture type is interesting. There are many types of architectures alone, such as service-oriented architectures, microservice architectures, event-driven architectures, and so on.</p>
+<p>In fact, a system does not have only one architecture style, but usually a hybrid system. There are many aspects to determine when choosing event-driven and when choosing microservices for a “function”.</p>
+<h3 id="Distributed-Transaction"><a href="#Distributed-Transaction" class="headerlink" title="Distributed Transaction"></a>Distributed Transaction</h3><p>The last challenge is distributed transactions. I mentioned in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/design-distributed-transaction-with-practical-examples-7b1d93fddb63">my previous article</a> that there are 3 factors should be considered when designing a distributed transaction.</p>
+<ul>
+<li>Consistency: Atomic vs. Eventual Consistency</li>
+<li>Communication: Synchronous vs. Asynchronous</li>
+<li>Coordination: Orchestration vs. Choreography</li>
+</ul>
+<p>Therefore, there are 8 combinations, each of which has a different structure also pros and cons. According to the conclusion of <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/distributed-transaction-introduction-1cd105c830a2">distributed transaction introduction</a>, we should choose between eventual consistency and asynchronous, but then we still have to choose between orchestration and choreography.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_pxrC5YVDm5FEmp1SYGPUw.png"><img src="https://cdn-images-1.medium.com/max/800/1*aYjvID-xwNRRmKjykJHwVg.png"></p>
+<p>In the conclusion of the last article, it was stated that if you choose choreography you can get a better decouple and better scalability, but there will be a higher complexity of implementation. This is because it is very difficult to maintain the workflow of the whole transaction in choreography.</p>
+<h3 id="Complexity-is-killing-software-developers"><a href="#Complexity-is-killing-software-developers" class="headerlink" title="Complexity is killing software developers"></a><a target="_blank" rel="noopener" href="https://www.infoworld.com/article/3639050/complexity-is-killing-software-developers.html">Complexity is killing software developers</a></h3><p>After discussing so many challenges and fallacies, I’m sure you’ll agree how difficult and complex it is to design a microservice system correctly, right? So, in recent seminars, the topic has slowly shifted from microservices implementation to microservices challenges.</p>
+<p>Complexity is the pitfall of modern software architectures. But how do we evaluate complexity? We’ve talked about a lot of complex stuff today, so I’ll just offer a simple suggestion to measure it from my own experience.</p>
+<blockquote>
+<p><em>When you want to make a change but are very hesitant because you don’t know the consequences of doing so.</em></p>
+</blockquote>
+<p>Then, the complexity is pretty high.</p>
+<p>Are there any specific evaluation criteria? Yes, there are. One of the methods is to analyze the degree of coupling. I have introduced instability in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-prepare-a-design-review-like-an-expert-85d2ab85d7f5">a previous article</a>. This is one of the formulas to evaluate the coupling degree.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*vPqm1fbneYU-V42WcnepHw.png"></p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>We talked a lot about the challenges and problems of designing a microservice architecture, or a distributed system. Every architect has had a journey from believing in microservices to questioning them. In order to prove the change of architect’s mindset, I list the sessions of <em>Worldwide Software Architecture Summit ’22</em> I cited in these two articles, and also provide you with a reference.</p>
+<ul>
+<li>Software architecture in a non-enterprise world — a practical approach</li>
+<li>Correctly Built Distributed Systems</li>
+<li>What not to do on your next cloud-native architecture</li>
+<li>Software observability: Visualize Code Quality at Scale</li>
+<li>Designing Pragmatic Observability that Works: Avoiding Pitfalls</li>
+<li>Complexity is the Problem</li>
+<li>Microservices anti-patterns and pitfalls</li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/original-sin-of-microservices-part-2-8856c0e8426d">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Microservice/Original-Sin-of-Microservices-Part-1/20220320/" rel="prev" title="Original Sin of Microservices, Part 1">
+                  <i class="fa fa-chevron-left"></i> Original Sin of Microservices, Part 1
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Development/Introduction-to-Feature-Toggling-Types-Use-Cases-and-Implementation/20220403/" rel="next" title="Introduction to Feature Toggling— Types, Use Cases and Implementation">
+                  Introduction to Feature Toggling— Types, Use Cases and Implementation <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

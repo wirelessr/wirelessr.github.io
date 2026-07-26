@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Building Ruby on Rails from ScratchDay 1: From Nothing to Something  Day 1: From Nothing to Something Day 2: More Things about Relations, Tests, etc. Day 3: My Thoughts on Ruby  I have changed my job">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Building Ruby on Rails from Scratch">
+<meta property="og:url" content="https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch/20220717/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Building Ruby on Rails from ScratchDay 1: From Nothing to Something  Day 1: From Nothing to Something Day 2: More Things about Relations, Tests, etc. Day 3: My Thoughts on Ruby  I have changed my job">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*WjGtHzKNjv6ka8vW.png">
+<meta property="article:published_time" content="2022-07-17T17:11:39.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.821Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*WjGtHzKNjv6ka8vW.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch/20220717/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch/20220717/","path":"Ruby/Building-Ruby-on-Rails-from-Scratch/20220717/","title":"Building Ruby on Rails from Scratch"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Building Ruby on Rails from Scratch | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Building-Ruby-on-Rails-from-Scratch"><span class="nav-number">1.</span> <span class="nav-text">Building Ruby on Rails from Scratch</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Day-1-From-Nothing-to-Something"><span class="nav-number">1.1.</span> <span class="nav-text">Day 1: From Nothing to Something</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Installation"><span class="nav-number">2.</span> <span class="nav-text">Installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Start-building-a-Rails-application"><span class="nav-number">3.</span> <span class="nav-text">Start building a Rails application</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-new-routes"><span class="nav-number">4.</span> <span class="nav-text">Create new routes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-new-fields"><span class="nav-number">5.</span> <span class="nav-text">Create new fields</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#From-SQLite-to-MongoDB"><span class="nav-number">6.</span> <span class="nav-text">From SQLite to MongoDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Afterword"><span class="nav-number">7.</span> <span class="nav-text">Afterword</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch/20220717/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Building Ruby on Rails from Scratch | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Building Ruby on Rails from Scratch
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-07-18 01:11:39" itemprop="dateCreated datePublished" datetime="2022-07-18T01:11:39+08:00">2022-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Ruby/" itemprop="url" rel="index"><span itemprop="name">Ruby</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Building-Ruby-on-Rails-from-Scratch"><a href="#Building-Ruby-on-Rails-from-Scratch" class="headerlink" title="Building Ruby on Rails from Scratch"></a>Building Ruby on Rails from Scratch</h3><h4 id="Day-1-From-Nothing-to-Something"><a href="#Day-1-From-Nothing-to-Something" class="headerlink" title="Day 1: From Nothing to Something"></a>Day 1: From Nothing to Something</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*WjGtHzKNjv6ka8vW.png"></p>
+<ul>
+<li>Day 1: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/building-ruby-on-rails-from-scratch-b855584ff4f8">From Nothing to Something</a></li>
+<li>Day 2: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/building-ruby-on-rails-from-scratch-day-2-d609fce59811">More Things about Relations, Tests, etc.</a></li>
+<li>Day 3: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/ae31c975bf32">My Thoughts on Ruby</a></li>
+</ul>
+<p>I have changed my job a while ago, so I will take some time to pick up the architecture and services of the new organization. However, in order to practice my English and take notes, I will still try to post as often as possible once a week, but the content will be different from the past, from an introduction to software architecture to my Ruby learning experience.</p>
+<p>Because the programming language used in my new job is Ruby, and I have no experience with Ruby before. Therefore, this series will focus on the perspective of someone who already knows multiple languages and how to quickly get started with Ruby on Rails, not to write perfect Ruby, but to be able to quickly build a workable application. By the way, it’s a bit like how I learned English, there’s no structure at all, it just works and can be communicated anyway.</p>
+<h3 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h3><p>My work machine is a MacPro M1, so all operations will be Mac-based. M1 is also a very important keyword, and I stepped on several traps on M1, which will be described in a later article.</p>
+<p>Because I need to install many versions of Ruby, I use a similar solution to <code>nvm</code>, <code>rvm</code>.</p>
+<p>To install rvm on a Mac, we first have to install gnupg.</p>
+<blockquote>
+<p><em>$ brew install gnupg</em></p>
+</blockquote>
+<p>Then just follow the steps on the official website.</p>
+<blockquote>
+<p><em>$ gpg — recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB<br>$ curl -sSL</em> <a target="_blank" rel="noopener" href="https://get.rvm.io/"><em>https://get.rvm.io</em></a> <em>| bash<br>$ rvm install 2.7<br>$ rvm 2.7 — default</em></p>
+</blockquote>
+<p>Finally, just install Rails. I know there are newer versions of Rails already available, but the resources I have on hand are based on <code>5.x</code>, so I chose to install <code>5.2.8</code>.</p>
+<blockquote>
+<p><em>$ gem install rails -v 5.2.8</em></p>
+</blockquote>
+<h3 id="Start-building-a-Rails-application"><a href="#Start-building-a-Rails-application" class="headerlink" title="Start building a Rails application"></a>Start building a Rails application</h3><p>First, let me describe my goal. I want to make a simple web store with two objects, user and store, where the relationship between these two objects is a one-to-one mapping. Also, using MongoDB instead of the built-in SQLite.</p>
+<p>Building a Rails application can be done easily with <code>scaffold</code>, which provides a fully resource-based, standard RESTful API.</p>
+<p>Start by creating a project.</p>
+<blockquote>
+<p><em>$ rails new hello_rails<br>$ cd hello_rails<br>$ bin&#x2F;rails server</em></p>
+</blockquote>
+<p>At this point, the application has been created and is working on the 3000 port. Connect directly to <code>http://localhost:3000</code> and you will see the welcome page.</p>
+<p>Next, we create the first model, starting with the user’s first and last name.</p>
+<blockquote>
+<p><em>$ bin&#x2F;rails generate scaffold User first_name last_name<br>$ bin&#x2F;rails db:migrate</em></p>
+</blockquote>
+<p>The user model has been created so far, and if you connect directly to <code>http://localhost:3000/users</code> you will find out not only the API but also the basic UI has been generated.</p>
+<blockquote>
+<p><em>We haven’t even written a single line of code yet!</em></p>
+</blockquote>
+<h3 id="Create-new-routes"><a href="#Create-new-routes" class="headerlink" title="Create new routes"></a>Create new routes</h3><p>Since we already have the basic API, I’d like to generate a few new API routes. Let’s take non-resource-based routes and resource-based routes as an example each.</p>
+<p>First, a non-resource-based route. I want to create a user count function, so I need <code>/users/count</code>. I’ll attach the specific process directly at <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/ca312276607fa33d35c78a9fbed84258caeba52e">Github commit</a>.</p>
+<p>Generally speaking, what we need to do is to modify <code>config/routes.rb</code> and create a count of the corresponding controller and view.</p>
+<p>Further is the resource-based routing, the concept is similar, also attached <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/ab0860bbd3e1c6e828b49ea54a3ba13931895d83">commit link</a>.</p>
+<p>The only difference between the two is in <code>config/routes.rb</code>, where non-resource-based routes are built on top of <code>collection</code>, while resource-based routes are built on <code>member</code>.</p>
+<h3 id="Create-new-fields"><a href="#Create-new-fields" class="headerlink" title="Create new fields"></a>Create new fields</h3><p>Now we have two fields in the user model, first_name and last_name, and we will add more fields, such as gender and age, and we will add some constraints to each field.</p>
+<p>For example, first_name and last_name must be present and cannot be blank. And gender must be one of male, female or others. Finally, age must be a natural number.</p>
+<p>Let’s start by adding the gender field, i.e. <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/31d123baa0cdd1dc8097d5d735e8719c1c232bcc">Github commit</a>.</p>
+<p>The most important change is in <code>app/models/user.rb</code>. In addition to the new fields, we also add the constraints of the existing fields. Of course, remember to run migration after modifying the model.</p>
+<blockquote>
+<p><em>$ bin&#x2F;rails db:migrate</em></p>
+</blockquote>
+<p>As you can see, adding an age is as simple as <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/27d08a7281ef24185cc98d0112a08e29f8398d91">Github commit</a>.</p>
+<h3 id="From-SQLite-to-MongoDB"><a href="#From-SQLite-to-MongoDB" class="headerlink" title="From SQLite to MongoDB"></a>From SQLite to MongoDB</h3><p>We have implemented a user model in SQLite, but SQLite is a local database and cannot be used for distributed systems. Therefore, we will adopt a standalone database and use MongoDB, which is more flexible in terms of schema, for the subsequent development.</p>
+<p>The whole migration process follows the <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/mongoid/current/tutorials/getting-started-rails/#existing-application">official documentation</a>.</p>
+<p>I also attach the full <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Hello-RoR/commit/56d726a8d14abe6a60df04f8b19114c364f679ba">Github commit</a>.</p>
+<p>First rewrite the model by removing <code>ApplicationRecord</code> and adding Mongoid with its fields. Next, we completely remove all the places where <code>active_record</code> and <code>active_storage</code> are used in the source code (which is not much).</p>
+<h3 id="Afterword"><a href="#Afterword" class="headerlink" title="Afterword"></a>Afterword</h3><p>There should be a few more articles to come on expanding this application, which is my first step into Rails.</p>
+<p>I’ve experienced many different backend languages before, including Python, Golang, and Node, but none of them are as friendly as Ruby on Rails.</p>
+<p>From this article, it’s easy to see that building a “standard” RESTful API with Rails is very simple, and if you don’t have any special needs, you don’t even have to write a single line of code.</p>
+<p>Why emphasize standard RESTful APIs?</p>
+<p>In fact, the APIs I have written in the past are not so RESTful, such as <code>${resource}/${id}</code>, and then provide GET, POST and DELETE operations, such strict routing if not generated by the framework itself, I believe few people will fully follow.</p>
+<p>But Rails provides a simple <code>scaffold</code> to make things easy, and even unit tests are built in, as described in a later article.</p>
+<p>Although I took a few days to get familiar with Ruby and Rails, it still takes a bit of time to digest and organize, so let me take a few weeks to finish my thoughts on Ruby. But I have to say, Rails is amazing to me. I can see brilliant ideas everywhere, and there are a lot of design patterns in it. Although it was a bit painful to learn a new language and framework, I still got some insights out of it.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/building-ruby-on-rails-from-scratch-b855584ff4f8">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Consistency-between-Cache-and-Database-Part-2/20220710/" rel="prev" title="Consistency between Cache and Database, Part 2">
+                  <i class="fa fa-chevron-left"></i> Consistency between Cache and Database, Part 2
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Ruby/Building-Ruby-on-Rails-from-Scratch-Day-2/20220724/" rel="next" title="Building Ruby on Rails from Scratch, Day 2">
+                  Building Ruby on Rails from Scratch, Day 2 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

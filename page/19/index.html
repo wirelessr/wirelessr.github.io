@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/19/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/19/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/19/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Leetcode-concurrency-1117-Building-H2O-in-golang/20210329/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Golang/Leetcode-concurrency-1117-Building-H2O-in-golang/20210329/" class="post-title-link" itemprop="url">Leetcode concurrency #1117 Building H2O (in golang)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-03-29 09:29:47" itemprop="dateCreated datePublished" datetime="2021-03-29T09:29:47+08:00">2021-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Leetcode-concurrency-1117-Building-H2O-in-golang"><a href="#Leetcode-concurrency-1117-Building-H2O-in-golang" class="headerlink" title="Leetcode concurrency #1117 Building H2O (in golang)"></a>Leetcode concurrency #1117 Building H2O (in golang)</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*XZrhehc1KuPcVrJz.jpg"></p>
+<p>今天的題目掙扎了一下，主要是對golang沒這麼熟，花了點時間試誤，最後還是選擇土法煉鋼的解。前幾天，我們試過同步處理中的Event和Lock，今天依然是解同步處理的問題，這次嘗試用號誌來解決。</p>
+<p>題目解析：給一串字串僅包含H和O兩種字母，而且H的數量一定要是O的兩倍。接著起一堆thread，每個thread只可能會有印出H或印出O這兩個功能，目的是要將輸入的字串整理成HHOHHOHHO…的序列。</p>
+<p>這題的難處在於一狗票的thread同時跑起來，要能夠快速知道甚麼時候開始印H又哪時候要印O。看到題目的第一直覺就是semaphore，只要起兩個semaphore，一個設2來決定H、另一個也設2來決定O就可以了。但是，碰到幾個問題：首當其衝的是，golang的sync裡沒有semaphore的實作，必須使用golang.org&#x2F;x&#x2F;sync&#x2F;semaphore下的Weighted；另一個問題是，在這個package底下實作的Release不會空等，在沒有Acquire足夠數量的前題下，直接使用Release就panic。</p>
+<blockquote>
+<p>semaphore: released more than held</p>
+</blockquote>
+<p>正常的流程是H thread，先Acquire(H1)，若是可行，就印出H然後，Acquire(O1)來通知O開始跑；而O thread的流程是，先Release(O2)，若是可行，就印出O並且Release(H2)來告訴下一輪的H。但用原來的Release，O在第一次Release(O2)就會炸。因此我把整個package拷貝過來，並且修改Release的作法，做成類似自旋鎖的概念。</p>
+<p>中間一大段拷貝可以略過不用看，幾乎都和原來的一樣，除了Release被我大改之外。當Release的問題解決之後，其實解法就和剛剛描述的流程一樣，從code可以很清楚的看到hydrogen和oxygen的實作都很簡單。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/leetcode-concurrency-1117-building-h2o-in-golang-29034abd2894">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Leetcode-concurrency-1116-Print-Zero-Even-Odd-in-golang/20210326/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Golang/Leetcode-concurrency-1116-Print-Zero-Even-Odd-in-golang/20210326/" class="post-title-link" itemprop="url">Leetcode concurrency #1116 Print Zero Even Odd (in golang)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-03-26 15:11:10" itemprop="dateCreated datePublished" datetime="2021-03-26T15:11:10+08:00">2021-03-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Leetcode-concurrency-1116-Print-Zero-Even-Odd-in-golang"><a href="#Leetcode-concurrency-1116-Print-Zero-Even-Odd-in-golang" class="headerlink" title="Leetcode concurrency #1116 Print Zero Even Odd (in golang)"></a>Leetcode concurrency #1116 Print Zero Even Odd (in golang)</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*cEn77TUTh-hOjIXA.png"></p>
+<p>之前寫了<a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1114-print-in-order-in-golang-f3115f6d82c6">#1114</a>和<a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1115-print-foobar-alternately-in-golang-ca9295ee4b16">#1115</a>，都是用channel互相通知，叫正確的人起來做事；這在golang中算是很常見的作法，但這次的題目我想用比較傳統的方式解決，我將題目轉成一種producer-consumer的架構來解。</p>
+<p>照慣例，題目解析：有一個class內有三個method，分別是印出0、偶數和奇數，跑三個thread各run一個method，輸入一個n要與0依序印出。舉例來說：n &#x3D; 5，印出來的結果是：0102030405，依此類推。</p>
+<p>這次解決的方法有點偷懶，正常的producer-consumer架構是要用一個queue，把東西丟入然後由consumer取出運算，但我只用兩個整數表示這個隊列，就沒去處理enqueue和dequeue的邏輯。</p>
+<p>相比前面的解答算是再長了一些，這次用到一個互斥鎖來同步狀態，當要存取狀態時要取得鎖才有辦法繼續。也有在判斷條件內加入中止條件，也就是狀態是-1時就結束迴圈。用到鎖就比較繁複，有時間的話會試試看有沒有辦法把解鎖的地方處理的更漂亮。</p>
+<p>若是consumer要做的事都一樣，這樣的寫法就足夠了，起多個goroutine可以有效加速消化。但是這次的題目會有一個edge case：因為是三人搶一鎖，而且每個人各司其職，所以有可能會starvation。舉例來說：當狀態curr &#x3D; 2，理當由even接手，但若不幸的是，even搶不到鎖，變成是zero和odd兩個人互相把鎖丟來丟去，就空轉了。所以解答改良版如下：</p>
+<p>變得更長了！兩個重點：一個是使用RWLock而不是互斥鎖，這樣在讀取狀態時人人有機會，不會發生搶不到的情況；其二，讀取鎖放掉後，若要繼續做事需要拿寫入鎖，但在拿到寫入鎖後，還是必須再判斷一次狀態，因為鎖放掉後就有可能有人改變狀態（雖然這題不會發生這種事，因為各司其職）。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/leetcode-concurrency-1116-print-zero-even-odd-in-golang-bd7e614b04f2">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Leetcode-concurrency-1115-Print-FooBar-Alternately-in-golang/20210325/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Golang/Leetcode-concurrency-1115-Print-FooBar-Alternately-in-golang/20210325/" class="post-title-link" itemprop="url">Leetcode concurrency #1115 Print FooBar Alternately (in golang)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-03-26 06:30:01" itemprop="dateCreated datePublished" datetime="2021-03-26T06:30:01+08:00">2021-03-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Leetcode-concurrency-1115-Print-FooBar-Alternately-in-golang"><a href="#Leetcode-concurrency-1115-Print-FooBar-Alternately-in-golang" class="headerlink" title="Leetcode concurrency #1115 Print FooBar Alternately (in golang)"></a>Leetcode concurrency #1115 Print FooBar Alternately (in golang)</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*J63HW2hlOmBSUCRW.png"></p>
+<p>繼上篇<a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1114-print-in-order-in-golang-f3115f6d82c6">Print in Order</a>之後，我們繼續挑戰concurrency，這次難度會從easy變成medium，但我覺得還是很簡單。</p>
+<p>一樣先從題目解析開始，跟1114類似，一個class有兩個method，一個會印n次foo；另一個會印n次bar，兩個method個別分別會在不同的執行緒執行，希望最後印出來的結果是foobar重複n次。</p>
+<p>跟上次的前題差不多，因為沒有golang的內建支援，所以main和run都是我的假設。</p>
+<p>其實這次的解題思路跟上次87趴像，也是用兩個unbuffered channel互相等待互相指揮，唯一一個差別是channel的開始和結束需要做些判斷，不然會deadlock。所以foo在開始的時候不等，而bar在結束的時候不送。這樣就打完收工。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/leetcode-concurrency-1115-print-foobar-alternately-in-golang-ca9295ee4b16">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Leetcode-concurrency-1114-Print-in-Order-in-golang/20210325/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Golang/Leetcode-concurrency-1114-Print-in-Order-in-golang/20210325/" class="post-title-link" itemprop="url">Leetcode concurrency #1114 Print in Order (in golang)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-03-26 03:16:20" itemprop="dateCreated datePublished" datetime="2021-03-26T03:16:20+08:00">2021-03-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Leetcode-concurrency-1114-Print-in-Order-in-golang"><a href="#Leetcode-concurrency-1114-Print-in-Order-in-golang" class="headerlink" title="Leetcode concurrency #1114 Print in Order (in golang)"></a>Leetcode concurrency #1114 Print in Order (in golang)</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*ZtTuXqsIbkz8pIZd.png"></p>
+<p>最近在點新技能，想把golang的技能樹點高點。看了些open source，也練習寫了些side project，但總是有點偏門；感覺有甚麼基本沒有掌握好，所以決定一天至少一題，來刷刷leetcode。</p>
+<p>先從concurrency下手，因為golang的強項就是concurrency，之後有閒會再寫別種類型的題目。</p>
+<p>先從題目解析開始。題目給得很簡單：有個class有三個method，分別會印出一二三，這三個method會根據使用者的輸入參數來決定跑起來的順序，但無論順序是甚麼，最後印出來的結果都要是一二三。</p>
+<p>答案如下。再解題前有一個前提必須要先申明，leetcode目前沒有支援golang，所以沒有一個基本的程式框架可以擴展，所以答案內有些地方是硬湊的，例如：為什麼用struct？因為題目寫的是class所以不選interface；為什麼參數用function arguments而不是stdin？因為沒有框架，不知道要怎麼塞。另外，golang的struct不像是python的class有init，所以初始化的code直接寫在run裡。</p>
+<p>解題思路是，反正二要等一，三要等二，那就直接起兩個unbuffered channel，在一做完後通知二，二做完通知三，這樣就完事了。答案寫得有點死，可以再改進，例如：不應該寫死channel，而應該用channel陣列，這樣可以透過index知道要等哪個和要通知哪個，但題目的function都寫死了，我想也不用over enginnering，直接定死吧。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/leetcode-concurrency-1114-print-in-order-in-golang-f3115f6d82c6">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/DevOps/Build-a-small-TA-Lib-container-image/20210221/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/DevOps/Build-a-small-TA-Lib-container-image/20210221/" class="post-title-link" itemprop="url">Build a small TA-Lib container image</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-02-22 06:25:09" itemprop="dateCreated datePublished" datetime="2021-02-22T06:25:09+08:00">2021-02-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>To make a small enough container image is a complicated job, especially Python.<br>We can use <strong>multi-stage</strong> build process and <em>virtualenv</em> to reduce the overhead from the build and <em>pip install</em>.<br>However, some Python libraries use the runtime C library, we have to overcome this issue; otherwise the package won’t work.<br>I will take <em><strong>TA-Lib</strong></em> as an example to show how to get everything done correctly.</p>
+<p>Here is an example, and there are 5 points should be aware:</p>
+<ol>
+<li>Choose a small enough base image; nevertheless, avoid using <em><strong>alpine.</strong></em> The reason is explained by this article: <a target="_blank" rel="noopener" href="https://pythonspeed.com/articles/alpine-docker-python/">https://pythonspeed.com/articles/alpine-docker-python/</a></li>
+<li>Multi-stage is a good idea to reduce the overhead of building processes. In addition, applying virtualenv makes things much more easily. Therefore, install all Python packages into &#x2F;opt&#x2F;venv.</li>
+<li>Now, we can try to build TA-Lib from the source. You have to specify the installation path to &#x2F;opt&#x2F;venv as well while <em>configure</em>.</li>
+<li>Because we moved the default library path to &#x2F;opt&#x2F;venv, we need assign the global option or the build option to <em>pip</em> to let it know the library path.</li>
+<li>Finally, remember to provide the LD_LIRARY_PATH to let python know where are the shared libraries.</li>
+</ol>
+<p>Following the above procedure, the image size will be around 250MB. This is pretty small.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/build-a-small-ta-lib-container-image-dcc22c77fa62">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/Socketio-with-TLS/20190225/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Misc/Socketio-with-TLS/20190225/" class="post-title-link" itemprop="url">Socket.io with TLS</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2019-02-25 13:41:30" itemprop="dateCreated datePublished" datetime="2019-02-25T13:41:30+08:00">2019-02-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Socket-io-with-TLS"><a href="#Socket-io-with-TLS" class="headerlink" title="Socket.io with TLS"></a>Socket.io with TLS</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*t4-SqV9jSGntU_rkFrKjwA.png"></p>
+<p>After the last article, this place has not been updated for a long time. In order to avoid being a shopping list blog, I try to write some useful information or at least, provide some learning journeys. In the last article, I want to build an on-line game for interactive RPG, you can spell some magics or attack to the enemy. However, if the interaction is time-sensitive, the server has to push events to the client, i.e., our web page to ensure the operation works. Moreover, the communication between the server and the client must be in secure. Therefore, I want to use websocket over TLS to achieve those goals.<br>Nevertheless, websocket still has some shortages like group management. If the function of the game becomes more growing, e.g., multi-player fight together with the same enemy. The game server must have a more comprehensive solution to handle the group management. The final approach is socket.io.</p>
+<blockquote>
+<p>Socket.io is a protocol based on websocket, and in addition, socket.io also applies the room concept to deal with emitting a message to multiple receivers.</p>
+</blockquote>
+<p>First of all, I have no idea about the https, and I don’t know what is the certificate and what is the CA. So, this article will not introduce those details about the protocol, I will focus on how to build a workable server.</p>
+<p>Now, you have a private key(server.key) and a certificate(server.crt). The suffix is no meaning, you can use what you want. If you get a file from somewhere, and you don’t know what it is, you can open it via the text editor, and then, you will see the purpose at the first line.</p>
+<h3 id="How-to-build-a-socket-io-server"><a href="#How-to-build-a-socket-io-server" class="headerlink" title="How to build a socket.io server"></a>How to build a socket.io server</h3><p>There is a great example written in python at the <a target="_blank" rel="noopener" href="https://github.com/miguelgrinberg/Flask-SocketIO">flask socket.io</a>. The <em>example&#x2F;app.py</em> demonstrates how to join&#x2F;leave a room, broadcast a message, and be a echoed server. Nevertheless, this example does not tell you how to enable the TLS and become a https server. The reason behind it is very simple, you only need the original function in flask. If you want to enable the TLS, you have to replace the line:</p>
+<blockquote>
+<p>socketio.run(app, debug&#x3D;True)</p>
+</blockquote>
+<p>to:</p>
+<blockquote>
+<p>socketio.run(app, debug&#x3D;True, ssl_context&#x3D;(‘server.crt’, ‘server.key’))</p>
+</blockquote>
+<p>Then, the server will run in https. However, you maybe want to improve the scalability for this server by using asynchronous mechanism. You can install the gevent and gevent-websocket. It is worth noting that you have to replace the mentioned line to:</p>
+<blockquote>
+<p>socketio.run(app, debug&#x3D;True, certfile&#x3D;’server.crt’, keyfile&#x3D;’server.key’)</p>
+</blockquote>
+<p>Because the gevent cannot support the parameter, <em>ssl_context</em>. Things are almost done. Finally, you can use gunicorn and nginx to further expand the scalability and reliably like:</p>
+<blockquote>
+<p>gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 — certfile server.crt — keyfile server.key -b 127.0.0.1:3000 app:app</p>
+</blockquote>
+<p>I will introduce how to benchmark the socket.io next time, especially the amount of concurrent clients. See you.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/socket-io-with-tls-f5a936a1976b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/JavaScript/Client-side-L10n/20180626/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/JavaScript/Client-side-L10n/20180626/" class="post-title-link" itemprop="url">Client-side L10n</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2018-06-27 02:56:31" itemprop="dateCreated datePublished" datetime="2018-06-27T02:56:31+08:00">2018-06-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Because my native language is Chinese, I try to find a Localization(L10n) package to translate the display from English to Chinese. There are many package found in Node.js; however, I need a standalone package can be executed only on the browsers due to reducing traffic. The final answer is <a target="_blank" rel="noopener" href="https://github.com/fabi1cazenave/webL10n">webL10n</a>. It is easy to use, and it not only can do the translation in HTML but in JavaScript. <strong>That is a total blast!</strong></p>
+<p>To use webL10n, the first thing must be done is set the language; for example:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=”text/javascript”&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function onLocalized() &#123;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var l10n = document.webL10n;   </span><br><span class="line">l10n.setLanguage(‘zh-tw’);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.webL10n.ready(onLocalized);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>The <em>zh-tw</em> is the part of the path in the resource file such as <a target="_blank" rel="noopener" href="https://github.com/wirelessr/accounting-apps/blob/rose/templateLogReg/l10n/data.zh-tw.properties" title="data.zh-tw.properties"><em>data.zh-tw.properties</em></a><em>.</em> While the page is loaded, the language of this page will be set to the <em>zh-tw</em>. After that, you can use the translation in everywhere in the page.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var _ = document.webL10n.get;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">console.log(_(‘magic’))</span><br></pre></td></tr></table></figure>
+
+<p>The underscore function _ is the convention while translating. So, get the underscore function, and do the translation in the place you want. The webL10n is the simplest package I have ever found.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/client-side-l10n-62572516454f">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/JavaScript/JavaScript-Format-String/20180619/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/JavaScript/JavaScript-Format-String/20180619/" class="post-title-link" itemprop="url">JavaScript Format String</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2018-06-20 02:19:31" itemprop="dateCreated datePublished" datetime="2018-06-20T02:19:31+08:00">2018-06-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="JavaScript-Format-String"><a href="#JavaScript-Format-String" class="headerlink" title="JavaScript Format String"></a>JavaScript Format String</h3><p>The format string is composed of some operands and made to generate a real string by arguments. There are many programming language with the official format string method; for example, in C, it can use <em>sscanf</em> within <em>%d, %s, %f</em>, etc. to stand for the type from the auguments; similarly, in Python, it can use <em>string.format</em> within <em>${0}, ${1}</em>, etc. to represent the order of the coming arguments.</p>
+<p>Fortunately, in JavaScript, there is a method similar to those modern languages. However, the format string is a little different from the general string. The difference is using the graven accent instead of the quotation marks. The usage is like the following:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var a = 10;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var b = ‘hello world’;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var s = ` test $&#123;a&#125; $&#123;b&#125;`;</span><br></pre></td></tr></table></figure>
+
+<p>Now, you can use the string be composed of the arguments.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/javascript-format-string-4e0ac4799423">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/Game-Prototype/20180614/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Misc/Game-Prototype/20180614/" class="post-title-link" itemprop="url">Game Prototype</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2018-06-14 13:13:23" itemprop="dateCreated datePublished" datetime="2018-06-14T13:13:23+08:00">2018-06-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Yesterday, I told I want to develop a game, and I draw a blueprint:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*S2CVQBbteyG9y3QF4kmWog.png"></p>
+<p>The game is web based and like a RPG. The player can control a character with several skills, and those skills come from his job. There are two kinds of jobs: attack by weapon or by magic. The player can pick 8 skills on the desk and fight to an enemy. If you win this enemy, you can get some experiences, money, and items. The goal of this game is to defeat the final boss.</p>
+<p>The code flow is like:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*KmJheSZXw92KaYpwUl-SVw.png"></p>
+<p>To reduce the traffic between the frontend and the backend, the game loop is in browser, but the status and gaming engine are in backend. Therefore, the backend can determine what the enemy you encounter and what rewards you will receive.</p>
+<p>The communication between the browser and the backend is session, and I will use an encrypted cookie to keep the game states. However, I am not sure this method is secure enough or not. If you have the better idea, please tell me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/game-prototype-f91a341e7417">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/Hello-Medium/20180613/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Misc/Hello-Medium/20180613/" class="post-title-link" itemprop="url">Hello Medium</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2018-06-13 13:28:09" itemprop="dateCreated datePublished" datetime="2018-06-13T13:28:09+08:00">2018-06-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Hi guys,</p>
+<p>I come from Taiwan, a free and kind country, and work in an international company. I had been an embedded engineer and coded in C&#x2F;C++, but now I am a backend developer with Python. No one around me can discuss technology, e.g., machine learning, web development, or even programming. So, I try to find some people having the same habit in computer science from the Internet. On the other hand, I need practice my English to work with foreigners from our branch office.</p>
+<p>I will attempt to update my stories about my side projects every week. Actually, I will design and develop a web game by using HTML&#x2F;CSS&#x2F;JavaScript and Node.JS. In addition, if I find something interesting, I will share with you. Therefore, follow me and become my friend. At least, please point out my English mistake, and this is very helpful to me.</p>
+<p>Thank you for your reading.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/hello-medium-466f5dabc4e">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/18/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

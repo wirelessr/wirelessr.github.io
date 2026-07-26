@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Flink SQL Performance Tuning, Part 2Explaining the concept of Split Distinct aggregation and JOIN optimizations  Flink SQL Performance Tuning, Part 1 Flink SQL Performance Tuning, Part 2  In the previ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flink SQL Performance Tuning, Part 2">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-2/20230702/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Flink SQL Performance Tuning, Part 2Explaining the concept of Split Distinct aggregation and JOIN optimizations  Flink SQL Performance Tuning, Part 1 Flink SQL Performance Tuning, Part 2  In the previ">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*uAPs3J29Z3WeqDhS">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*stpDIGZoctvkUaU0G4JHQw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*lxuBynfRQT6dnQcPmVvPIA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*4uJI9j1hxPTexp_SCEFKZg.png">
+<meta property="article:published_time" content="2023-07-02T18:00:15.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.823Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*uAPs3J29Z3WeqDhS">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-2/20230702/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-2/20230702/","path":"Architecture/Flink-SQL-Performance-Tuning-Part-2/20230702/","title":"Flink SQL Performance Tuning, Part 2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Flink SQL Performance Tuning, Part 2 | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink-SQL-Performance-Tuning-Part-2"><span class="nav-number">1.</span> <span class="nav-text">Flink SQL Performance Tuning, Part 2</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Explaining-the-concept-of-Split-Distinct-aggregation-and-JOIN-optimizations"><span class="nav-number">1.1.</span> <span class="nav-text">Explaining the concept of Split Distinct aggregation and JOIN optimizations</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Split-Distinct-Aggregation"><span class="nav-number">2.</span> <span class="nav-text">Split Distinct Aggregation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JOIN-Optimization"><span class="nav-number">3.</span> <span class="nav-text">JOIN Optimization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">4.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-2/20230702/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Flink SQL Performance Tuning, Part 2 | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flink SQL Performance Tuning, Part 2
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-07-03 02:00:15" itemprop="dateCreated datePublished" datetime="2023-07-03T02:00:15+08:00">2023-07-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Flink-SQL-Performance-Tuning-Part-2"><a href="#Flink-SQL-Performance-Tuning-Part-2" class="headerlink" title="Flink SQL Performance Tuning, Part 2"></a>Flink SQL Performance Tuning, Part 2</h3><h4 id="Explaining-the-concept-of-Split-Distinct-aggregation-and-JOIN-optimizations"><a href="#Explaining-the-concept-of-Split-Distinct-aggregation-and-JOIN-optimizations" class="headerlink" title="Explaining the concept of Split Distinct aggregation and JOIN optimizations"></a>Explaining the concept of Split Distinct aggregation and JOIN optimizations</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*uAPs3J29Z3WeqDhS"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/flink-sql-performance-tuning-part-1-f71a0a0ee91">Flink SQL Performance Tuning, Part 1</a></li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/flink-sql-performance-tuning-part-2-c102177b1ce1">Flink SQL Performance Tuning, Part 2</a></li>
+</ul>
+<p>In the previous article, we introduced three kinds of optimization mechanisms for Flink SQL as follows.</p>
+<ol>
+<li>Reduce sub plan</li>
+<li>Mini batch</li>
+<li>Local-Global aggregation</li>
+</ol>
+<p>These mechanisms correspond to some use cases individually. Among them, mini batch and Local-Global aggregation are both optimized for <code>GROUP BY</code> operations. However, in the previous article, we mentioned that even though both mechanisms can improve the performance of <code>GROUP BY</code>, they are not applicable to <code>DISTINCT</code>.</p>
+<p>Therefore, in these articles, we will start by explaining the reason for this problem, and then we will introduce more optimization mechanisms.</p>
+<h3 id="Split-Distinct-Aggregation"><a href="#Split-Distinct-Aggregation" class="headerlink" title="Split Distinct Aggregation"></a><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/tuning/#split-distinct-aggregation">Split Distinct Aggregation</a></h3><p>Before explaining the problems encountered by <code>DISTINCT</code>, let’s review Local-Global aggregation with an example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT color, COUNT(DISTINCT id)  </span><br><span class="line">FROM T  </span><br><span class="line">GROUP BY color</span><br></pre></td></tr></table></figure>
+
+<p>This SQL command is a little different from the previous one, i.e., it uses <code>DISTINCT</code>, but it is similar to the previous one.</p>
+<p>In Local-Global aggregation, we will do a first aggregation in the mini batch according to the color, and then we will do a second aggregation in the next operator with the results of the mini batch pre-aggregation.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*stpDIGZoctvkUaU0G4JHQw.png"></p>
+<p>As we can see above, even though we did the pre-aggregation in the mini batch, the effect is not significant because the operation <code>DISTINCT</code> is not able to merge. This also results in a lot of data in the final aggregation, and the data skew is not solved.</p>
+<p>Since so, can we use <code>id</code> to group the data again during local aggregation? By splitting again, we can collect data with the same <code>id</code> together, and then we can merge them.</p>
+<p>This is exactly the concept of Split Distinct aggregation.</p>
+<p>Let’s use pseudocode to explain.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT color, SUM(cnt)  </span><br><span class="line">FROM (  </span><br><span class="line">    SELECT color, COUNT(DISTINCT id) as cnt  </span><br><span class="line">    FROM T  </span><br><span class="line">    GROUP BY color, MOD(HASH_CODE(id), 4)  </span><br><span class="line">)  </span><br><span class="line">GROUP BY color</span><br></pre></td></tr></table></figure>
+
+<p>Split Distinct aggregation rewrites the original <code>COUNT(DISTINCT id)</code> into the above code. By first splitting the group with <code>id</code>, in this case into 4 groups, the pre-aggregation can be done.</p>
+<p>Therefore, the actual operator will look like the following diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*lxuBynfRQT6dnQcPmVvPIA.png"></p>
+<p>We can see in the final aggregation stage that each operator needs to process the data more evenly, in other words, the data skew is solved.</p>
+<p>There are two settings to enable Split Distinct aggregation.</p>
+<ul>
+<li>table.optimizer.distinct-agg.split.enabled</li>
+<li>table.optimizer.distinct-agg.split.bucket-num</li>
+</ul>
+<p>The first setting is the feature toggle, and the second setting is the number of groups. Although we use <code>COUNT</code> as an example, any operation that is able to be merged can be split.</p>
+<p>Nevertheless, one of the problems with Split Distinct aggregation is the significantly larger state and the increased state access. This is because the result of the split operation relies on the state to be persistent.</p>
+<p>How to solve it?</p>
+<p>Well, it’s as simple as a Local-Global aggregation after splitting the group. So the complete settings are as follows.</p>
+<ul>
+<li>table.exec.mini-batch.enabled</li>
+<li>table.exec.mini-batch.allow-latency</li>
+<li>table.exec.mini-batch.size</li>
+<li>table.optimizer.agg-phase-strategy: “TWO_PHASE”</li>
+<li>table.optimizer.distinct-agg.split.enabled</li>
+<li>table.optimizer.distinct-agg.split.bucket-num</li>
+</ul>
+<p>We have turned on all the optimization settings related to <code>GROUP BY</code>. Be sure to remember that these come at a price, the most obvious of them is the increased use of computing resources.</p>
+<h3 id="JOIN-Optimization"><a href="#JOIN-Optimization" class="headerlink" title="JOIN Optimization"></a>JOIN Optimization</h3><p><code>JOIN</code> is a common practice for enrichment. In a normal SQL <code>JOIN</code>, it’s to find the same columns in the left and right tables and join the remaining columns together, but in streaming, it’s far from simple.</p>
+<p>Because, there is no physical table in streaming.</p>
+<p>So, in order to make the table concept, Flink will store the data in the state, and when there is an event input, the corresponding data can be taken out from the state immediately. However, there is a big problem with this approach, that is, the state will grow infinitely.</p>
+<p>For example, suppose Flink has two streams, order and product. The order stream will keep append once there is a new order, and the product stream will have events for product creation, update and deletion.</p>
+<p>Therefore, we write the following Flink SQL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM Orders  </span><br><span class="line">INNER JOIN Product  </span><br><span class="line">ON Orders.productId = Product.id</span><br></pre></td></tr></table></figure>
+
+<p>In the implementation behind Flink, all changes to the product are stored by the state, so that the corresponding result can be found as soon as the order event is generated, even if the product does not have any orders at all.</p>
+<p>When there are a lot of products and the operator is running for a long time, this state can become very huge.</p>
+<p>The most straightforward solution to reduce the unused state is to <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/config/#table-exec-state-ttl">set TTL</a> as follows.</p>
+<ul>
+<li>table.exec.state.ttl</li>
+</ul>
+<p>Nevertheless, when a product’s state is deleted, it can lead to unexpected results. In the above example, when the state of a product is deleted, if the order event of the same product comes in, the corresponding product information will not be found.</p>
+<p>In addition to this simple and brutal approach, Flink also provides three alternatives to <code>JOIN</code> optimization.</p>
+<p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/joins/#interval-joins"><strong>Interval Join</strong></a></p>
+<p>It has a similar purpose to setting the TTL directly above, except that it allows the user to decide which field to use as the basis for time judgments.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT *  </span><br><span class="line">FROM Orders o, Shipments s  </span><br><span class="line">WHERE o.id = s.order_id  </span><br><span class="line">AND o.order_time BETWEEN s.ship_time - INTERVAL &#x27;4&#x27; HOUR AND s.ship_time</span><br></pre></td></tr></table></figure>
+
+<p>Through this SQL, we can specify <code>order_time</code> and <code>shipment_time</code> as the basis of TTL, then Flink can know not to keep the state of the difference between <code>order_time</code> and <code>shipment_time</code> for more than 4 hours.</p>
+<p>However, there is a limitation in this approach, in addition to the fact table on the left is append only, the dimension table on the right must also be append only, otherwise the time interval will be inconsistent.</p>
+<p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/joins/#temporal-joins"><strong>Temporal Join</strong></a></p>
+<p>Before we explain Temporal Join, let’s look at another example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM orders  </span><br><span class="line">LEFT JOIN currency_rates  </span><br><span class="line">ON orders.currency = currency_rates.currency</span><br></pre></td></tr></table></figure>
+
+<p>Assuming this is an international order, we need to know what the currency rate is for the order in order to calculate the sales performance of the product.</p>
+<p>In order to keep the currency rates available at all times, Flink keeps a complete history of the currency rates. For example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*4uJI9j1hxPTexp_SCEFKZg.png"></p>
+<p>Therefore, the correct result can be obtained regardless of whether the order is placed at 12:00 or 12:01. However, we don’t really need this historical data, because we only need the current currency of the order, and the past history can be cleared out.</p>
+<p>This is the concept of Temporal Join, only keep a latest mapping.</p>
+<blockquote>
+<p><em>currency: conversion_rate</em></p>
+</blockquote>
+<p>How to use this approach?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM orders  </span><br><span class="line">LEFT JOIN currency_rates FOR SYSTEM_TIME AS OF orders.order_time  </span><br><span class="line">ON orders.currency = currency_rates.currency;</span><br></pre></td></tr></table></figure>
+
+<p>One of the most special is <code>FOR SYSTEM_TIME AS OF</code>, this usage can be referred to <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/SQL:2011">SQL:2011 standard</a>, this article will not dive into it.</p>
+<p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/joins/#lookup-join"><strong>Lookup Join</strong></a></p>
+<p>The concept of Lookup Join is even more simple, since the state of Flink is so big and difficult to manage, it is better to go directly to the external data source, such as MySQL, for every event at the moment.</p>
+<blockquote>
+<p><em>Time for space.</em></p>
+</blockquote>
+<p>The entire syntax is written in the same way as the previous Temporal Join, using <code>FOR SYSTEM_TIME AS OF</code>, the only thing worth noting is the usage of <code>proc_time</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT o.order_id, o.total, c.country, c.zip  </span><br><span class="line">FROM Orders AS o  </span><br><span class="line">JOIN Customers FOR SYSTEM_TIME AS OF o.proc_time AS c  </span><br><span class="line">ON o.customer_id = c.id;</span><br></pre></td></tr></table></figure>
+
+<p>Because it is accessing external storage, Flink also provides some built-in optimization features.</p>
+<p>In general, the process of accessing external storage is synchronous, sending a request and waiting for a response before moving on to the next one. However, Flink offers to send all requests at once and then wait for responses asynchronously, and it is turned on by default.</p>
+<p>If we want to adjust it manually, we can refer to the <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/hints/#lookup">Hints</a> mentioned in the official document.</p>
+<p>In addition, even if the external storage is accessed asynchronously, the actual operation will wait for the correct order of the responses after receiving them. If the order of the responses is not that important, then we can tell Flink not to wait for the responses to be in order.</p>
+<p>Use the SQL command mentioned earlier as an example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT /*+ LOOKUP(&#x27;table&#x27;=&#x27;Customers&#x27;, &#x27;async&#x27;=&#x27;true&#x27;. &#x27;output-mode&#x27;=&#x27;allow_unordered&#x27;, &#x27;capacity&#x27;=&#x27;100&#x27;, &#x27;timeout&#x27;=&#x27;180s&#x27;) */  </span><br><span class="line">    o.order_id, o.total, c.country, c.zip  </span><br><span class="line">FROM Orders AS o  </span><br><span class="line">JOIN Customers FOR SYSTEM_TIME AS OF o.proc_time AS c  </span><br><span class="line">ON o.customer_id = c.id;</span><br></pre></td></tr></table></figure>
+
+<p>It is most intuitive to tell the Flink optimizer what to do through Hints, so that it can be adjusted according to each command, but it is also possible to enable the global setting directly.</p>
+<ul>
+<li>table.exec.async-lookup.output-mode</li>
+<li>table.exec.async-lookup.buffer-capacity</li>
+<li>table.exec.async-lookup.timeout</li>
+</ul>
+<p>Mode and timeout are considered simple, as for capacity refers to how many IO command will trigger the actual <code>JOIN</code> operation. But I feel this is a bit abstract, set how much is appropriate is difficult to tell, it still needs to rely on experiments.</p>
+<p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/window-join/"><strong>Window Join</strong></a></p>
+<p>The last one is Window Join, which is similar to the concept of Interval Join mentioned earlier, and only retains a specific time range of states instead of all historical states. However, the window mechanism is very complicated and not required, so we will directly attach the example of the official document here without further explanation.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SELECT L.num as L_Num, L.id as L_Id, R.num as R_Num, R.id as R_Id,  </span><br><span class="line">    COALESCE(L.window_start, R.window_start) as window_start,  </span><br><span class="line">    COALESCE(L.window_end, R.window_end) as window_end  </span><br><span class="line">FROM (  </span><br><span class="line">    SELECT * FROM TABLE(  </span><br><span class="line">        TUMBLE(TABLE LeftTable, DESCRIPTOR(row_time), INTERVAL &#x27;5&#x27; MINUTES)  </span><br><span class="line">    )  </span><br><span class="line">) L  </span><br><span class="line">FULL JOIN (  </span><br><span class="line">    SELECT * FROM TABLE(  </span><br><span class="line">        TUMBLE(TABLE RightTable, DESCRIPTOR(row_time), INTERVAL &#x27;5&#x27; MINUTES)  </span><br><span class="line">    )  </span><br><span class="line">) R  </span><br><span class="line">ON L.num = R.num AND L.window_start = R.window_start AND L.window_end = R.window_end;</span><br></pre></td></tr></table></figure>
+
+<p>To sum up, all kinds of JOIN rewriting are aimed at reducing the size of state.</p>
+<p>The original JOIN will generate extremely large state, which will consume a lot of hardware resources if stored in memory, or generate a lot of hard disk IO if stored on persistent storage such as RocksDB, either of which will have a huge impact on performance.</p>
+<p>Therefore, these four JOIN optimizations are all aimed at reducing the size of the state, but the exact solution to be used depends on the use case. The following is a brief list of the applicable scenarios.</p>
+<ul>
+<li>Interval Join: Both the fact table and dimension table are append-only.</li>
+<li>Temporal Join: Only the latest dimension is required.</li>
+<li>Lookup Join: The dimension table is stored externally and does not care about dimension changes.</li>
+<li>Window Join: Both fact and dimension tables have the window function enabled.</li>
+</ul>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In the previous article, we introduced how to optimize general SQL commands and how to make <code>GROUP BY</code> more efficient. In this article, we introduced <code>DISTINCT</code> and <code>JOIN</code>.</p>
+<p>I believe these two articles should have covered most of the Flink SQL scenarios, in fact, it is not hard to find that there are the following ways to make Flink SQL perform better.</p>
+<ul>
+<li>Reducing invalid ( repeated ) commands</li>
+<li>Reducing state access</li>
+<li>Reducing the size of state</li>
+<li>Reducing data skew</li>
+</ul>
+<p>Every optimization has a proper scenario and a price to pay, and how to make Flink SQL perform better is a balance between these tradeoffs. Most of the optimizations are case-by-case and require understanding of Flink implementation before they can be applied.</p>
+<p>These two articles are based on the latest stable version of Flink 1.17, maybe the URL of the attached reference will change, but I have explained the core concepts, so the new or old version of Flink should also be used as a reference.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/flink-sql-performance-tuning-part-2-c102177b1ce1">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Flink-SQL-Performance-Tuning-Part-1/20230625/" rel="prev" title="Flink SQL Performance Tuning, Part 1">
+                  <i class="fa fa-chevron-left"></i> Flink SQL Performance Tuning, Part 1
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Data/Building-a-SNOWPLOW-Playground/20230723/" rel="next" title="Building a SNOWPLOW Playground">
+                  Building a SNOWPLOW Playground <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

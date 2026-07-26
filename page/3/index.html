@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/3/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/3/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/GitHub-Copilot-Agent-A-Disappointing-Review/20250824/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/GitHub-Copilot-Agent-A-Disappointing-Review/20250824/" class="post-title-link" itemprop="url">GitHub Copilot Agent: A Disappointing Review</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-08-25 01:03:06" itemprop="dateCreated datePublished" datetime="2025-08-25T01:03:06+08:00">2025-08-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Discover-the-fatal-flaws-that-make-Copilot’s-agent-mode-unusable-for-serious-tasks"><a href="#Discover-the-fatal-flaws-that-make-Copilot’s-agent-mode-unusable-for-serious-tasks" class="headerlink" title="Discover the fatal flaws that make Copilot’s agent mode unusable for serious tasks"></a>Discover the fatal flaws that make Copilot’s agent mode unusable for serious tasks</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*e0TtMtk7C7Ymn7a7cdNq0A.png"></p>
+<p>GitHub Copilot was one of the earliest providers when the concept of vibe coding emerged. However, this glory was short-lived, as commercial software like Cursor and open-source software like Cline quickly overshadowed GitHub Copilot.</p>
+<p>The fundamental reason is that Copilot’s AI functionality remained at the most basic level, namely auto-completion. However, Cursor and Cline had already entered the realm of Agentic AI, demonstrating how effortless it could be to delegate tasks to an agent for execution.</p>
+<p>GitHub Copilot thus nearly disappeared from the battlefield. Until the latter half of 2025, Copilot finally introduced Agent mode, but by then it was already too late.</p>
+<p>However, keeping the spirit of trying everything, I recently spent some time testing it out. After a week of use, my impression is that it’s really not good.</p>
+<h3 id="Major-Problems"><a href="#Major-Problems" class="headerlink" title="Major Problems"></a>Major Problems</h3><p>I will list two serious issues that I believe are most critical.</p>
+<p>As for whether the effect is good or bad, or whether AI is intelligent, I believe that is no longer the point.</p>
+<h3 id="The-worst-issue-in-my-opinion-is-that-Copilot-Agent-is-“almost”-unable-to-obtain-the-results-of-executed-commands"><a href="#The-worst-issue-in-my-opinion-is-that-Copilot-Agent-is-“almost”-unable-to-obtain-the-results-of-executed-commands" class="headerlink" title="The worst issue, in my opinion, is that Copilot Agent is “almost” unable to obtain the results of executed commands."></a>The worst issue, in my opinion, is that Copilot Agent is “almost” unable to obtain the results of executed commands.</h3><p>I say “almost” rather than “completely” because for commands with extremely fast response times, such as <code>ls</code>, it works. However, for commands that take longer to execute, it is completely impossible to obtain the results, as it simply won’t wait for them.</p>
+<p>In fact, this is not an isolated case; people are discussing this serious flaw in Copilot on various forums.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/orgs/community/discussions/161238">https://github.com/orgs/community/discussions/161238</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/79652261/how-can-i-allow-for-copilot-agent-to-read-the-output-of-vs-code-tasks">https://stackoverflow.com/questions/79652261/how-can-i-allow-for-copilot-agent-to-read-the-output-of-vs-code-tasks</a></li>
+</ul>
+<p>Just to list a few, but there are actually many more.</p>
+<p>This means that you cannot rely on Copilot to perform many important tasks. These include, but are not limited to, the following common examples.</p>
+<ol>
+<li>Installing dependencies, such as <code>pip install</code> or <code>npm install</code>. These installations can take a significant amount of time, and sometimes we ask the Agent to analyze the output to help resolve dependency conflicts.</li>
+<li>Unit testing. This should also be easy to understand. Unit testing takes time unless you run them one by one. If Copilot can’t help us run unit tests, how can it help us fix bugs?</li>
+<li>Remote operations. This is a bit abstract but also common, such as asking the Agent to connect to a remote machine via SSH or to a container via Docker to execute commands and troubleshoot issues based on the results.</li>
+</ol>
+<p>There are many other scenarios where the Agent’s inability to wait imposes limitations.</p>
+<p>This is a fatal flaw.</p>
+<p>We expect the Agent to be capable of anything, so we guide it through tools like MCP and other methods. But if Copilot can’t even handle the basic task of waiting for results, that’s truly tragic.</p>
+<h3 id="Task-functionality-missing"><a href="#Task-functionality-missing" class="headerlink" title="Task functionality missing"></a>Task functionality missing</h3><p>A task refers to breaking down a complex instruction into smaller, executable tasks and executing them in sequence like a to-do list, then summarizing the results.</p>
+<p>Whether this functionality is explicit or not, it should be an essential feature. As I mentioned earlier, numerous papers have demonstrated that when LLMs are presented with overly large tasks, they can collapse, and even with countless tokens, progress cannot be advanced.</p>
+<p>Therefore, whether it’s Cursor, Claude Code, or the open-source Cline, they have all incorporated this functionality, though the names may vary, the capabilities are similar.</p>
+<p>Copilot, however, is still struggling to catch up as it slowly enters the world of agentic AI.</p>
+<p>This directly results in Copilot performing poorly when faced with complex tasks, necessitating the use of various prompt engineering techniques to adjust the workflow. This undoubtedly increases the learning curve for users.</p>
+<h3 id="Some-Mitigations"><a href="#Some-Mitigations" class="headerlink" title="Some Mitigations"></a>Some Mitigations</h3><p>Is there a way to resolve Copilot’s mentioned challenges?</p>
+<p>Yes, but the effectiveness is limited.</p>
+<p>I made an attempt by using the <a target="_blank" rel="noopener" href="https://docs.litellm.ai/docs/providers/github_copilot">LiteLLM Gateway</a> to treat Copilot as a model provider and allow open-source frameworks like Cline or Kilo Code to directly leverage it.</p>
+<p>Is it better? It is indeed more helpful.</p>
+<p>These open-source frameworks can solve the two biggest problems mentioned above, but the downside is that they are prone to crashing. When dealing with specific tasks, they often fail to perform smoothly, especially when calling tools or using MCP.</p>
+<p>After all, Copilot was not originally designed to be a model provider, and this means that even if the API format can be converted to OpenAI Compatible Format, its behavior still struggles in various scenarios.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>I have conducted in-depth research on various products, as I am an architect focused on AI implementation in enterprises. Therefore, I will conduct in-depth testing using the daily tasks of software engineers, and the insights gained should be quite accurate.</p>
+<p>I spent a significant amount of time testing Copilot, and I can only say that Copilot is usable but not outstanding.</p>
+<p>If your company provides Copilot as a resource, you can consider it a powerful programmer. When it comes to auto-completion, Copilot does have some capabilities. It can also provide real-time suggestions, and in small-scale scenarios, Copilot’s capabilities are definitely reliable.</p>
+<p>However, if you want to fully integrate Copilot into the AI development workflow, Copilot is far from capable of handling that.</p>
+<p>I will also provide my personal ranking. The following is based solely on commercial products; open-source software is not included due to different evaluation criteria. The ranking is based on my actual testing experience and is for reference only.</p>
+<blockquote>
+<p><em>Kiro &gt; Claude Code &gt; Cursor &#x3D; Rovo Dev &gt;&gt;&gt; Codex &gt;&gt;&gt; Gemini Cli &gt; Github Copilot</em></p>
+</blockquote>
+<p>From this ranking, it is clear that the top-ranked ones are all Claude’s models. As for the ones behind them, the results are really disappointing, especially the ones at the bottom, which are in a completely different league from the ones at the top.</p>
+<p>Gemini CLI does not have the two serious flaws of Copilot, but Gemini CLI also has its own issues, which we may discuss another time.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/github-copilot-agent-a-disappointing-review-c88eaaf9b453">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/SpecForge-The-CLI-Shell-Spec-Driven-Agent/20250810/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/SpecForge-The-CLI-Shell-Spec-Driven-Agent/20250810/" class="post-title-link" itemprop="url">SpecForge: The CLI, Shell & Spec-Driven Agent</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-08-11 00:58:38" itemprop="dateCreated datePublished" datetime="2025-08-11T00:58:38+08:00">2025-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="A-powerful-new-AI-agent-for-spec-driven-development-all-within-your-terminal"><a href="#A-powerful-new-AI-agent-for-spec-driven-development-all-within-your-terminal" class="headerlink" title="A powerful new AI agent for spec-driven development, all within your terminal"></a>A powerful new AI agent for spec-driven development, all within your terminal</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*9fnlYBvcwBwUtHJZDUraOA.png"></p>
+<p>Recently, there have been several popular programming agents, namely <a target="_blank" rel="noopener" href="https://kiro.dev/">Kiro</a>, Claude Code, and <a target="_blank" rel="noopener" href="https://github.com/SWE-agent/mini-swe-agent">mini SWE Agent</a>.</p>
+<p>Each of these agents has its own unique features and areas of expertise. I will briefly introduce these projects and then explain the <a target="_blank" rel="noopener" href="https://github.com/wirelessr/SpecForge-Agent">side project</a> I am currently working on.</p>
+<p>However, to summarize, the side project I am currently working on was inspired by these three agents and developed further, combining the unique features of each agent while also possessing strong project development capabilities.</p>
+<h3 id="Kiro"><a href="#Kiro" class="headerlink" title="Kiro"></a>Kiro</h3><p>Kiro is currently undergoing public review, and I had the opportunity to participate in this test. I have to say, the quality of the code written by Kiro far exceeded my expectations. This is a product that truly gives me confidence in using vibe coding in a production environment.</p>
+<p>Kiro’s greatest advantage lies in its spec-driven development. It is the first product to divide the development process into four stages. When a request is broken down into requirements, design, planning, and implementation, we can collaborate with the agent to define the optimal “shape” for each detail.</p>
+<p>As we engage in in-depth discussions with the agent at each stage, our role shifts from developer to project owner, resembling that of an architect. Review becomes a significant component of the development process, far more important than coding itself.</p>
+<p>This design pattern fully aligns with the concept of context engineering. Each phase of the agent’s tasks is grounded in sufficient context, which on one hand limits the agent’s freedom to improvise, and on the other hand makes it easier for reviewers to understand the agent’s approach.</p>
+<p>Just as in code reviews, we must first understand the coder’s design intent to conduct a review. Through the specification, we can precisely grasp the agent’s intent.</p>
+<h3 id="Claude-Code"><a href="#Claude-Code" class="headerlink" title="Claude Code"></a>Claude Code</h3><p>The standout feature of Claude Code is its complete reliance on CLI-based interaction, eliminating the need for human-agent collaboration to be integrated through a bulky IDE.</p>
+<p>Additionally, Claude Code utilizes models based on Claude 4 or higher, allowing us to have greater confidence in the quality of the output. It is precisely because the model’s capabilities are sufficiently robust that we can confidently collaborate with the agent on development even in a CLI-only environment.</p>
+<p>Of course, Claude Code is evolving rapidly, and its ecosystem is growing increasingly expansive. As a result, an ever-growing array of new features continues to develop and expand around this CLI-centric concept.</p>
+<h3 id="Mini-SWE-Agent"><a href="#Mini-SWE-Agent" class="headerlink" title="Mini SWE Agent"></a>Mini SWE Agent</h3><p>This project is less well-known, as it is not a commercial product and does not have any superpowers. However, it has a really special feature, as stated in its GitHub title.</p>
+<blockquote>
+<p><em>The 100-line AI agent that solves GitHub issues and more</em></p>
+</blockquote>
+<p>It can accomplish many complex tasks with minimal code, and its core functionality is based on <code>SHELL</code>. Essentially, shell is capable of handling any task, which is why the mini SWE agent relies solely on shell to perform its functions.</p>
+<p>This design allows the mini SWE Agent’s core code to remain extremely concise yet highly effective.</p>
+<h3 id="SpecForge-Agent"><a href="#SpecForge-Agent" class="headerlink" title="SpecForge Agent"></a>SpecForge Agent</h3><p><a target="_blank" rel="noopener" href="https://github.com/wirelessr/SpecForge-Agent">https://github.com/wirelessr/SpecForge-Agent</a></p>
+<p>This is my recent side project, called SpecForge Agent.</p>
+<p>This project combines the features of the three agents mentioned above to create an execution and thinking framework for open source solutions.</p>
+<ul>
+<li>Spec-driven development: This project strictly follows the four-phase development process of requirements, design, planning, and implementation, which is the process learned from Kiro. During the requirements phase, the EARS standard is strictly applied, while the design phase clearly outlines the architecture and data flow.</li>
+<li>CLI only: Like Claude Code, this project relies solely on CLI operations for the development process, eliminating all UI interactions. It truly achieves a CLI-only design, advancing all development processes through the CLI.</li>
+<li>SHELL only: Since there is nothing a shell cannot do, in this project, I also tried to make the core guiding principle of the agent “shell-first.” If there is a need to use MCP, I did it this way: I turned the MCP client into a command-line tool so that the project knows how to execute it.</li>
+</ul>
+<p>Through these three principles, the capabilities of the SpecForge Agent are far more powerful than I had imagined.</p>
+<p>In addition, this project has the following features.</p>
+<ul>
+<li>SpecForge Agent actively remembers what it thinks it needs to learn, and humans can also establish guidelines for it, as in the MCP example above. If we write the usage of the MCP command line into its memory, it will correctly call the corresponding tool.</li>
+<li>Since spec-driven development uses a large number of tokens, it is easy for context overload to occur after multiple rounds of work. This phenomenon is also observed in Kiro, but manually compressing the context in Kiro is very cumbersome, so this project adopts automatic compression. When the context exceeds the threshold, SpecForge Agent will automatically initiate the compression process.</li>
+<li>Most importantly, this project uses an OpenAI-compatible model, so it is compatible with OpenRouter or other free solutions.</li>
+</ul>
+<p>During Kiro’s public review period, I will continue to optimize this project. While its current architecture is modular, there are still many redundant segments in between.</p>
+<p>Furthermore, there is room for improvement in terms of functionality. I have implemented a quality testing framework to measure the quality of each output. After several rounds of optimization, we can see a significant improvement in performance.</p>
+<p>However, there is still room for improvement, so I will continue to optimize the implementation phase.</p>
+<p>If you have any ideas, please feel free to raise them in an issue. Of course, contributions are also welcome.</p>
+<p>In the project documentation, I have clearly documented the entire project architecture and testing methods. I hope the quality of this project can reach a level where it can optimize itself.</p>
+<p>Reference documents.</p>
+<ul>
+<li>Project architecture and usage instructions</li>
+</ul>
+<h3 id="A-message-from-our-Founder"><a href="#A-message-from-our-Founder" class="headerlink" title="A message from our Founder"></a>A message from our Founder</h3><p><strong>Hey,</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>Sunil</strong></a> <strong>here.</strong> I wanted to take a moment to thank you for reading until the end and for being a part of this community.</p>
+<p>Did you know that our team run these publications as a volunteer effort to over 3.5m monthly readers? <strong>We don’t receive any funding, we do this to support the community. ❤️</strong></p>
+<p>If you want to show some love, please take a moment to <strong>follow me on</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>LinkedIn</strong></a><strong>,</strong> <a target="_blank" rel="noopener" href="https://tiktok.com/@messyfounder"><strong>TikTok</strong></a>, <a target="_blank" rel="noopener" href="https://instagram.com/sunilsandhu"><strong>Instagram</strong></a>. You can also subscribe to our <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>weekly newsletter</strong></a>.</p>
+<p>And before you go, don’t forget to <strong>clap</strong> and <strong>follow</strong> the writer️!</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/specforge-the-cli-shell-spec-driven-agent-7276b1f8a784">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/n8n-vs-Ansible-The-Automation-Choice/20250727/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/n8n-vs-Ansible-The-Automation-Choice/20250727/" class="post-title-link" itemprop="url">n8n vs. Ansible: The Automation Choice</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-07-28 01:44:02" itemprop="dateCreated datePublished" datetime="2025-07-28T01:44:02+08:00">2025-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Discover-why-n8n’s-visual-workflow-design-beats-Ansible-for-personal-automation"><a href="#Discover-why-n8n’s-visual-workflow-design-beats-Ansible-for-personal-automation" class="headerlink" title="Discover why n8n’s visual workflow design beats Ansible for personal automation"></a>Discover why n8n’s visual workflow design beats Ansible for personal automation</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*MHDiaSrnbJRA_ulNufXKEw.png"></p>
+<p>Recently, n8n has been highly popular on the web, one of the reasons is riding on the AI trend, and the other is because n8n has an excellent GUI.</p>
+<p>I used to use Ansible as my main workflow management tool, but I took the opportunity to try n8n for a couple of recent requirements, and I decided to give up ansible on the spot and use n8n only for personal use in the future. Why? Let’s check it out.</p>
+<p>Before we get into the main topic, let’s talk about why we need a workflow management tool such as ansible or n8n.</p>
+<p>When we have a task that we do over and over and over again, we can use a workflow management tool to automate this repeated operation.</p>
+<p>There are many possible scenarios for duplication. For example, when we are doing an approval, and we receive a request for an approval, we will look up the data somewhere and then verify the eligibility of a certain place and then approve or disapprove it.</p>
+<p>On the other hand, when we are managing many homogeneous systems, such as multiple k8s clusters, what we may do is to switch the kube context and then connect to it to find out the specific pod and then play the command to see the result. If there are 10 clusters, then do it 10 times.</p>
+<p>Either way, it’s a duplication that can be automated with a workflow management tool.</p>
+<h3 id="What’s-good-about-n8n"><a href="#What’s-good-about-n8n" class="headerlink" title="What’s good about n8n?"></a>What’s good about n8n?</h3><p>Let’s use the above example to do a demo.</p>
+<p>I need to upload a script to all k8s clusters that collects the state of a pod in each cluster. The collected state is stored in a csv file on the pod, so I have to download the results back. Each cluster has to do this cycle once, so here is my workflow.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*T1-Imt8DpLO-l1vi.png"></p>
+<p>For those who are familiar with n8n, you can see that I don’t use any special node at all, it’s almost all <code>Execute Command</code> and <code>Code</code> nodes, and then interspersed with some control nodes, such as <code>Loop</code> and <code>If</code>.</p>
+<p>This way the whole thing can be automated, I just need to use a n8n built-in form, yes, even the form can be automatically generated by n8n to input parameters and drive the whole process.</p>
+<p>The parameters are just the label of the pod, and some file parameters, such as where to upload the script, where to upload the script to, where to download the file, and where to download the file to. If we feel the built-in form is not pretty, we can write our own webpage to do some file dialog, so we don’t need to write the path by hand.</p>
+<p>You might say that ansible can do it, and that skilled people write ansible very quickly. In fact, I did start out using ansible. Don’t look at this workflow as simple, but ansible is a playbook of almost a thousand lines, mainly for the following reasons.</p>
+<p>Whether you are uploading or downloading, remote or local, you need to determine if the file exists. Determining the existence of a file is not difficult, but passing the status in ansible is quite cumbersome. The state is passed through <code>register</code>, and we have to be careful to avoid repeating keywords, which can lead to hidden problems.</p>
+<p>In addition to state passing, another big problem in ansible is the handling of loops. How to make a task fail with a retry, but continue to run after the retry fails, only to record the state so that it can generate a report on the execution. This is also a headache. It can be done, but it’s a bit of a pain in the ass.</p>
+<p>Let’s take a look at the two scenarios mentioned above and see what they look like in n8n.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*Sb5m7Jh4UppFSNll.png"></p>
+<p>The last two nodes are <code>Execute Command</code> nodes, which are BASH nodes. What they’re trying to do is something like this.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl exec   </span><br><span class="line">--kubeconfig &#123;&#123; $(&#x27;Pick one&#x27;).item.json.kubeconf &#125;&#125;  </span><br><span class="line">&#123;&#123; $(&#x27;Pick one&#x27;).item.json.name &#125;&#125;   </span><br><span class="line">-n &#123;&#123; $(&#x27;Pick one&#x27;).item.json.namespace &#125;&#125;   </span><br><span class="line">-c &#123;&#123; $(&#x27;Pick one&#x27;).item.json.container &#125;&#125;   </span><br><span class="line">-- &#123;&#123; $(&#x27;Keep loop items&#x27;).item.json.command &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>These variables framed in curly brackets are actually the outputs of the previous nodes, and I can specify which node I want to fetch which output from, or even just drag and drop it on the UI.</p>
+<p>Another case is loop processing.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*pZVR044r827yPa_d.png"></p>
+<p>After the previous node generates the list of kube context, simply call a <code>Loop</code> node and iterate. Although n8n has its pitfalls in loop handling, for example, you need to have a node to enrich the loop items, otherwise the node after the <code>Loop</code> will not see the fixed constants.</p>
+<p>But this is much easier to deal with than ansible.</p>
+<h3 id="Why-did-I-abandon-ansible"><a href="#Why-did-I-abandon-ansible" class="headerlink" title="Why did I abandon ansible?"></a>Why did I abandon ansible?</h3><p>Troubleshooting was the final straw for me.</p>
+<p>When I write a huge ansible playbook and run it with high expectations, it fails. The reason for the failure is when the pod I’ve locked with a label in the previous step just dies, then all the subsequent steps will fail. It doesn’t matter, just let it pick the next pod and start again.</p>
+<p>In fact, that’s what I was thinking. But I suddenly realized that I couldn’t change ansible much, because it’s too big and it was written without design, so it’s badly modularized. I didn’t know where to start with a round robin requirement. At that moment, I decided to switch to n8n.</p>
+<p>I’m actually a newbie to n8n, I’ve never used it before, so I followed the instructions on the official website and installed it and started writing.</p>
+<p>First, I reproduced the full playbook, which took me less than half a day to complete by dragging and dropping it through the UI. Then we came to implement the annoying round robin mechanism. That’s the fallback line you see in the workflow.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*-CdVQSejn_p-DDcV.png"></p>
+<p>I simply used redis to make a counter to keep adding up, but during the <code>Pick one</code> phase I would mod the number of running pods, which simply created a round robin mechanism. It really only took me a few minutes to add this mechanism, which I believe is the biggest advantage of n8n.</p>
+<p>How to test such a fast modification can really work, after all, there are not always pods going down, right? In n8n, there is a mechanism called mock output, which requires only one UI click to open and conduct localized tests on the workflow.</p>
+<p>Indeed, there is a similar mechanism in ansible, but the workflow has to be well modularized, otherwise it’s hard to do something similar.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Ansible is a great workflow tool, and I’ve always thought so.</p>
+<p>But the premise is that each workflow must know the whole picture, and be well designed and modularized in order to respond to the subsequent needs.</p>
+<p>In n8n, we don’t need that kind of design. A fancy UI solves a lot of problems. Take the partial test as an example, n8n is so easy to do partial test, each node can be executed individually, and even the output can be simulated directly.</p>
+<p>If the workflow implementation process found that some processes are not taken into account, it is also an easy way to process change in the whole overview.</p>
+<p>It can be said, a well-designed UI solves a lot of difficulties and complexity in ansible development, which is also the reason I abandoned ansible. Sometimes we have a quick idea that needs to be validated, and it’s extremely easy to implement a POC and iterate on the requirements on n8n.</p>
+<p>However, on ansible, just the preliminary design phase alone will take a lot of time and effort.</p>
+<p>Therefore, in the future, I can say as long as it’s a personal requirement, I will always prioritize n8n over ansible, which is what I’ve been using most often in the past.</p>
+<h3 id="Thank-you-for-being-a-part-of-the-community"><a href="#Thank-you-for-being-a-part-of-the-community" class="headerlink" title="Thank you for being a part of the community"></a>Thank you for being a part of the community</h3><p><em>Before you go:</em></p>
+<ul>
+<li>Be sure to <strong>clap</strong> and <strong>follow</strong> the writer ️👏️<strong>️</strong></li>
+<li>Follow us: <a target="_blank" rel="noopener" href="https://x.com/inPlainEngHQ"><strong>X</strong></a> | <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/inplainenglish/"><strong>LinkedIn</strong></a> | <a target="_blank" rel="noopener" href="https://www.youtube.com/@InPlainEnglish"><strong>YouTube</strong></a> | <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>Newsletter</strong></a> | <a target="_blank" rel="noopener" href="https://open.spotify.com/show/7qxylRWKhvZwMz2WuEoua0"><strong>Podcast</strong></a> | <a target="_blank" rel="noopener" href="https://twitch.tv/inplainenglish"><strong>Twitch</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://differ.blog/"><strong>Start your own free AI-powered blog on Differ</strong></a> 🚀</li>
+<li><a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Join our content creators community on Discord</strong></a> 🧑🏻‍💻</li>
+<li>For more content, visit <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>plainenglish.io</strong></a> + <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/n8n-vs-ansible-the-automation-choice-8888c7fd6020">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/3-Dev-Tools-That-Transformed-My-Onboarding/20250720/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/3-Dev-Tools-That-Transformed-My-Onboarding/20250720/" class="post-title-link" itemprop="url">3 Dev Tools That Transformed My Onboarding</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-07-21 00:02:45" itemprop="dateCreated datePublished" datetime="2025-07-21T00:02:45+08:00">2025-07-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="From-a-better-terminal-to-AI-scripting-here-are-my-top-3-onboarding-finds"><a href="#From-a-better-terminal-to-AI-scripting-here-are-my-top-3-onboarding-finds" class="headerlink" title="From a better terminal to AI scripting, here are my top 3 onboarding finds."></a>From a better terminal to AI scripting, here are my top 3 onboarding finds.</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*SBrAzkaBgJuvwaXz6WzG5w.png"></p>
+<p>It’s been a month since I changed my job, and I’ve started to try out some new ways of working in this new journey, and I’ve also found some new joys in the process of exploring.</p>
+<p>I’d like to take this second review to record the three tools that have helped me the most in this onboarding process. All of them are related to AI but not entirely because of AI.</p>
+<p>The following order is in accordance with my personal level of amazement.</p>
+<h3 id="Warp"><a href="#Warp" class="headerlink" title="Warp"></a><a target="_blank" rel="noopener" href="https://www.warp.dev/">Warp</a></h3><p>I’ve been a user of iTerm2 for a long time, but in fact I don’t use iTerm2 for anything special, just routine tasks like issuing commands and reading the results. A friend recommended Warp to me, so I thought I’d install it when I got a new laptop for my new job.</p>
+<p>As a result, Warp really amazed me, the user experience of Warp is really great, the experience here is not even referring to Warp AI, but just a terminal. I’ll list a few features that I feel are excellent.</p>
+<h3 id="Column-Selection-Mode"><a href="#Column-Selection-Mode" class="headerlink" title="Column Selection Mode"></a>Column Selection Mode</h3><p>The command <code>ctrl+v</code> should be familiar to <code>vim</code> users, and <code>Toggle Column Selection Mode</code> (<code>shift+opt+left mouse click</code>) is also available in VS Code. Warp also has this feature, which can be used either as <code>ctrl+v</code> or <code>shift+opt+left mouse click</code>, both of which are supported.</p>
+<p>This is useful when copying and pasting a list of commands and modifying specific places.</p>
+<h3 id="Warp-Drive"><a href="#Warp-Drive" class="headerlink" title="Warp Drive"></a>Warp Drive</h3><p>When it comes to copy and paste, we have to talk about the Warp Drive, which is a storage space integrated into the Warp interface that allows you to define a lot of frequently used commands.</p>
+<p>I’m not sure what you’ve done in the past with terminal, but I’ve written down frequently used commands in a notepad and then copied and pasted them when I needed to use.</p>
+<p>In Warp, it has this built in, so we don’t need to copy it elsewhere, and we don’t even need to paste the workflow (frequently used commands) written in the Warp Drive. We can define alias for each command, so we can call it directly by alias.</p>
+<p>You may ask, isn’t it possible to write this in <code>~/.bashrc</code>? The problem is that the terminal connects to all kinds of environments: docker, kubernetes, ssh, etc. This definition of alias on Warp works in all environments. There is no need to define the same <code>~/.bashrc</code> everywhere.</p>
+<p>Even if more than one computer is involved, the Warp Drive is shared and synchronized across all computers.</p>
+<h3 id="Warpify"><a href="#Warpify" class="headerlink" title="Warpify"></a>Warpify</h3><p>I just mentioned that Warp Workflow can apply the same alias to each connection, how can it do that?</p>
+<p>This is called <a target="_blank" rel="noopener" href="https://docs.warp.dev/terminal/warpify">Warpify</a>, which is a kind of sub shell designed by Warp, that is to say, it holds a connected shell under the original shell, so it can share alias.</p>
+<h3 id="Copy-Output"><a href="#Copy-Output" class="headerlink" title="Copy Output"></a>Copy Output</h3><p>The last one is actually the function I use most often, copying commands and results.</p>
+<p>This seems to be a very common thing, but it is not common at all. If the output of a command is very large, let’s say a thousand lines, how would you copy the result?</p>
+<p>On iterm2 I do this by emptying the buffer, then re-running the command and selecting it in full (ctrl+a). That way I can copy all the results with the commands.</p>
+<p>But in Warp, each line of instruction and output is in a separate cell, so with a single mouse click, we can copy the instruction and output this time, which is truly convenient.</p>
+<p>In fact, there are a lot of interesting things about Warp, but the four mentioned above are the ones I use every day and feel the most deeply, maybe I’m already used to the other optimizations. None of these optimizations involve AI, in other words, they are free features. Anyway, welcome to try them out.</p>
+<h3 id="Docker-MCP-Toolkit"><a href="#Docker-MCP-Toolkit" class="headerlink" title="Docker MCP Toolkit"></a>Docker MCP Toolkit</h3><p>In the era of AI, a complete set of MCP tools should be indispensable for AI to have a strong impact.</p>
+<p>However, setting up a bunch of MCP tools is really tiring. It’s not enough to just have an MCP server, but there are also a variety of MCP clients.</p>
+<p>I’ve been using Cursor, Roo Code, Google Gemini Cli, and more recently Rovo Cli and Kiro, and I’ve found that each client needs to write its own json file, and some of them even have subtle differences, which is a real pain in the ass.</p>
+<p>Recently, I found that Docker Desktop has released an MCP Toolkit after version 4.42, which includes all the commonly used MCPs, and just by clicking on the UI, we can finish installing all the common MCPs. The client side is even easier to configure, just one line, <code>docker mcp gateway run</code>.</p>
+<p>All the settings are integrated together, which makes installing MCP no longer a nightmare.</p>
+<h3 id="Vibe-Scripting"><a href="#Vibe-Scripting" class="headerlink" title="Vibe Scripting"></a>Vibe Scripting</h3><p>Personally, I don’t really trust Vibe Coding, after all, in a large project, the context window of AI is limited, and it’s extremely difficult to make accurate changes.</p>
+<p>However, Vibe Scripting is definitely my favorite. Because it doesn’t need much context, the AI needs to fulfill a very simple requirement, we just need to tell it properly.</p>
+<p>And the finished product that the AI creates is much better than we can imagine, and even faster than going online to find the solution. Even if we do find the solution on the Internet, how to use it and what are the limitations, it may not satisfy our needs. But what AI makes according to our scene and needs will be an out-of-the-box tool with no learning curve at all.</p>
+<p>Take my recent work as an example, I need to copy several folders from a k8s specific pod and put them into my local container.</p>
+<p>This script has a couple of special features.</p>
+<ol>
+<li>namespace and pod can be fuzzy searched.</li>
+<li>the script will always report progress.</li>
+<li>even if the source directory keeps changing, it can still be done. This is the hardest thing to overcome. Normally, when the source directory file is changed, we will find out that <code>tar</code> sends out a termination signal, and then <code>kubectl</code> will be interrupted. But Gemini and I came up with an approach that allows it to generate a snapshot first, and then do a copy of the snapshot, and then we’re good to go.</li>
+</ol>
+<p>I used to search for tools on the Internet for a long time, but now I prefer to do whatever I need by myself (by AI), which is much more efficient.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>With a new computer and a new environment, there are some new things to try.</p>
+<p>Every time I find something new, I feel so surprised, and I believe that’s the interesting thing about this era, it’s changing fast enough. Especially with the wave of AI, the tools are changing day by day, so there will be a lot of treasures buried in them.</p>
+<p>The most useful discovery for me this time is Warp, maybe there will be some new tools coming out in a while. Let’s keep in touch.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/3-dev-tools-that-transformed-my-onboarding-f149c0267e76">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Context-Engineering-The-Next-Software-Paradigm-Shift/20250706/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/Context-Engineering-The-Next-Software-Paradigm-Shift/20250706/" class="post-title-link" itemprop="url">Context Engineering: The Next Software Paradigm Shift</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-07-07 02:04:01" itemprop="dateCreated datePublished" datetime="2025-07-07T02:04:01+08:00">2025-07-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Context-Engineering-The-Next-Software-Paradigm-Shift"><a href="#Context-Engineering-The-Next-Software-Paradigm-Shift" class="headerlink" title="Context Engineering: The Next Software Paradigm Shift"></a>Context Engineering: The Next Software Paradigm Shift</h3><h4 id="Stop-chasing-AI-tools-Master-context-engineering-to-boost-your-multitasking-and-productivity"><a href="#Stop-chasing-AI-tools-Master-context-engineering-to-boost-your-multitasking-and-productivity" class="headerlink" title="Stop chasing AI tools. Master context engineering to boost your multitasking and productivity"></a>Stop chasing AI tools. Master context engineering to boost your multitasking and productivity</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*oTarmhI0uIF6xySOoK41Ow.png"></p>
+<p>Recently, the agent ecosystem has seen a huge explosion, with various Agentic AIs springing up. Products led by tech giants such as Claude Code were released, followed not long after by Google’s Gemini Cli and Atlassian’s Rovo Dev Agent. In addition, new Agentic AIs have been created, such as <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=augment.vscode-augment">Augment</a>.</p>
+<p>These tools are constantly evolving, and for many engineers it should be hard to learn and know which one is the best. Actually, present time is the process of software engineering paradigm gradually switching from prompt engineering to context engineering. Therefore, it is reasonable that there are a lot of tools to implement this new paradigm, and this has led to the birth of many new tools.</p>
+<p>In fact, I was looking for the best one, but after reading a lot of papers and disassembling the underlying logic of these tools, I realized that there was no need to keep chasing the green bird. For engineers, what we need to do is simple: instead of chasing tools, we need to understand the concepts of this new paradigm. Then no matter how the tools evolve, we can have a universal methodology.</p>
+<h3 id="A-Whole-New-World"><a href="#A-Whole-New-World" class="headerlink" title="A Whole New World"></a>A Whole New World</h3><p>Learning with these Agentic AI’s has helped me to overcome some of my past weaknesses, such as my difficulty in doing a lot of context switches.</p>
+<p>My limit is to work on two things at the same time, for example, working on project A while doing troubleshooting on project B. When someone interrupts me, for example, to discuss with me the design of project C, it is out of my contextual window. At the end of the discussion I have a period of stagnation where I don’t know what to do now, and I need to re-focus on getting back to the context of what I just worked on, which usually takes a lot of time.</p>
+<p>Recently, however, I’ve begun to use the concept of context engineering to keep track of my work, and I’ve suddenly realized that I can multitask, and it’s no exaggeration to say that I can now work on three or four things at the same time without too much of a problem.</p>
+<p>Let’s have a quick review of context engineering, and then I’ll explain how I use it.</p>
+<h3 id="Context-Engineering"><a href="#Context-Engineering" class="headerlink" title="Context Engineering"></a>Context Engineering</h3><p>In the past, prompt engineering was static, we took an instruction and asked the agent to complete it. We would design very strict conditions for this instruction, be it designing roles, structured output, thinking process (CoT) or even providing some examples (few-shot prompting), and these strict constraints were meant to make the agent’s unpredictable behavior controllable.</p>
+<p>However, this approach has its limitations, for example, the agent can only accomplish certain tasks and is restricted to certain conditions. When the task goal changes, or even the conditions change, will lead to the task result is not as expected.</p>
+<p>Therefore, context engineering emerges, which can be regarded as a kind of dynamic guidance to the agent, we tell the agent what contexts, tools and resources are available, so that the agent can complete the task by itself through the tools.</p>
+<p>MCP is released to accelerate the process of iterating the capabilities of the agent. Under context engineering, the agent usually has the following two capabilities, memory function and task orchestration.</p>
+<p>The memory function is used to manage context iterations, where the agent needs to memorize various states to keep the results consistent as the task progresses. This is especially important in tasks with multiple conversations.</p>
+<p>As for task orchestration, it is a necessary tool because no matter how powerful the agent is, when the task complexity is too high, the agent’s behavior will collapse, which has been proved in many papers. Task orchestration is also closely related to memory, because agents usually save tasks in the form of to do lists, which requires memory annotations.</p>
+<p>Through the quick explanation, we should have a basic understanding of context engineering, and the key points are as follows.</p>
+<ol>
+<li>dynamic context</li>
+<li>memory</li>
+<li>task orchestration</li>
+</ol>
+<h3 id="How-do-I-use-this-concept"><a href="#How-do-I-use-this-concept" class="headerlink" title="How do I use this concept?"></a>How do I use this concept?</h3><p>When we do multitasking, we’re actually doing something similar to agent, where we need to have an overview of all the tasks we’re going to perform on the one hand, and on the other hand we need to be able to remember the status of each task.</p>
+<p>So now I’m going to build my memory bank. Here’s the format of my memory bank.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"># &#123;title&#125;  </span><br><span class="line">  </span><br><span class="line">Concurrent projects A, B &amp; C  </span><br><span class="line">  </span><br><span class="line">&gt; mindmap  </span><br><span class="line">  </span><br><span class="line">## Status  </span><br><span class="line">  </span><br><span class="line">- [ ] task 1  </span><br><span class="line">    - brief description  </span><br><span class="line">- [x] task 2  </span><br><span class="line">- [ ] task 3  </span><br><span class="line">    - brief description  </span><br><span class="line">- [ ] task 4  </span><br><span class="line">  </span><br><span class="line">## Weekly Archived  </span><br><span class="line">  </span><br><span class="line">### W1 (XX/XX - XX/XX)  </span><br><span class="line">  </span><br><span class="line">&gt; some descriptions about finished tasks  </span><br><span class="line">  </span><br><span class="line">### W2 (XX/XX - XX/XX)  </span><br><span class="line">  </span><br><span class="line">&gt; another descriptions  </span><br><span class="line">  </span><br><span class="line">## Detailed References  </span><br><span class="line">- [design doc A](https://xxx)  </span><br><span class="line">- [implementation doc B](https://xxx)  </span><br><span class="line">  </span><br><span class="line">## Project A  </span><br><span class="line">  </span><br><span class="line">lots of details  </span><br><span class="line">  </span><br><span class="line">## Project B  </span><br><span class="line">  </span><br><span class="line">lots of details</span><br></pre></td></tr></table></figure>
+
+<p>First, I will use a mindmap to list a few of my current medium and long-term goals. In the next section, I’ll record which step I’ve reached, and I’ll back-mark it on the mind map.</p>
+<p>Since I have a habit of making a weekly report, every Friday I will write a description of the tasks that have been checked off in <code>Status</code> in the corresponding weekly record. After writing the weekly report, I delete the tasks that have been checked in <code>Status</code>. This behavior is a reference to many Agentic AI practices, such as Claude Code’s ability to compress the context via <code>/compact</code>.</p>
+<p>The following section shows all the records and results for each medium and long-term goal.</p>
+<p>What does the mindmap look like? Let’s see it with a ready-made example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*E3jMlxjyBWaxBWBC5Wd8JA.png"></p>
+<p>This is a diagram of the on boarding program I’ve been running at my recent job change, I’ve replaced all the keywords so it’s just a schematic.</p>
+<p>From the mindmap, you can see that I’m working on many tasks at the same time, and with a clear context, a regularly updated state and some key details, I can switch between tasks as seamlessly as possible.</p>
+<p>And that’s what Agentic AI is doing right now.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>From the behavioral patterns of AI, human beings can also benefit in unexpected ways.</p>
+<p>So instead of comparing tools and trying to find the best one, I’m trying to understand the behavioral patterns of each tool and trying to learn to emulate them. It’s interesting that whereas we used to let AI mimic human thinking, now we’re trying to mimic AI.</p>
+<p>But I believe that this is the best practice to get out of the tool selection vortex.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/context-engineering-the-next-software-paradigm-shift-5cb82dd31a14">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Career/The-Software-Engineers-Epic-Career-Adventure/20250622/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Career/The-Software-Engineers-Epic-Career-Adventure/20250622/" class="post-title-link" itemprop="url">The Software Engineer’s Epic Career Adventure</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-06-23 01:44:07" itemprop="dateCreated datePublished" datetime="2025-06-23T01:44:07+08:00">2025-06-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Career/" itemprop="url" rel="index"><span itemprop="name">Career</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="This-is-the-career-talk-I-often-give-to-teammates-—-how-we-grow-prepare-and-level-up-like-in-an-MMORPG"><a href="#This-is-the-career-talk-I-often-give-to-teammates-—-how-we-grow-prepare-and-level-up-like-in-an-MMORPG" class="headerlink" title="This is the career talk I often give to teammates — how we grow, prepare, and level up like in an MMORPG."></a>This is the career talk I often give to teammates — how we grow, prepare, and level up like in an MMORPG.</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*j_74Wl27QMb5Se-L_MGKLA.png"></p>
+<p>In my previous article, <a target="_blank" rel="noopener" href="https://lazypro.medium.com/why-so-few-qualified-architects-19ccd4730b45">Why So Few Qualified Architects</a>, I talked about how success often hinges more on luck than on hard work. But I also argued that effort still matters — because when luck does arrive, we need to be ready to catch it.</p>
+<p>This new post is something I often share with my team at the end of a project cycle. It’s about how we, as software engineers, can grow and prepare ourselves for those rare moments — those windows when the opportunity to get promoted actually opens.</p>
+<p>I recently created a slide deck around this topic, which is available here:</p>
+<p><a target="_blank" rel="noopener" href="https://copy-of--2jve9zh.gamma.site/software-engineer-career">Software Engineer Career Presentation</a></p>
+<p>Now let’s talk through it with a bit more fun — imagine your career as a classic MMORPG.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*hB08fuSXhIqH_Wgc.png"></p>
+<h3 id="Novice"><a href="#Novice" class="headerlink" title="Novice"></a>Novice</h3><p>When we first enter the industry — fresh from school, or after a career change — we become junior engineers. In RPG terms, we’re just starting out as adventurers in the beginner village. There’s not a lot we can do at this point, but everything we do brings back noticeable experience. It’s the fastest growth phase in our career.</p>
+<p>Our daily routine? Fighting slimes, collecting herbs, and doing quests. In real life, this might mean writing basic features, fixing bugs, or learning how version control works.</p>
+<p>Some engineers choose to stay at this stage — and that’s totally valid. The tasks are familiar, the pay is decent, and the return on investment is high. Once we reach a certain level, slaying slimes doesn’t take much mental energy at all.</p>
+<p>But if we want to go beyond this comfort zone and reach the next stage, we’ll need to think about class-changing.</p>
+<p>Just like in a proper RPG, we don’t get to become a Mage by slaying slimes forever. At some point, we have to:</p>
+<ol>
+<li>Equip better gear — like a Mithril Staff</li>
+<li>Learn real spells — maybe Fireball or Chain Lightning</li>
+<li>Improve our playstyle — hit, run, combine abilities</li>
+</ol>
+<p>And in engineering, we do something similar.</p>
+<p>We begin to explore new domains, learn new paradigms, and get comfortable with complexity. We realize that doing what we’re already good at — over and over — won’t carry us further. That’s when we make the decision to grow.</p>
+<p>That’s when we start preparing to class-change into a Mage.</p>
+<h3 id="Mage"><a href="#Mage" class="headerlink" title="Mage"></a>Mage</h3><p>At this stage, we start making deliberate investments into our toolkit and thinking. We might buy books (gear), attend workshops, or practice our skills after hours. It’s where we shift from being reactive to becoming intentional learners.</p>
+<p>We study software engineering fundamentals, database design (SQL&#x2F;NoSQL), refactoring, design patterns, and other best practices. In reality, a lot of this stuff doesn’t show up in our backlog. Especially not in smaller teams, where we’re always shipping and rarely have the luxury to explore architecture or scalability problems.</p>
+<p>So we end up doing the real leveling after hours — reading random tech blogs we bookmarked months ago, joining meetups even when we’re exhausted, poking around open-source codebases just to see how others think.</p>
+<p>Once in a while, something we saw out there clicks. We bring it back to work, try it in our codebase, maybe even propose a small shift in how our team does things. If we saw an interesting caching pattern in a talk, we experiment with it in our own stack. These small experiments help us build impact and credibility.</p>
+<p>When those moments accumulate, the chance for a promotion often appears. That’s when we “class-change” into a Mage — an engineer who not only builds but also drives improvements.</p>
+<p>At the same time, many people pause here too — and that’s okay. Often this is the stage when life outside work demands more attention: marriage, kids, health, responsibility. If we’re no longer able to keep investing in growth at the same pace, that’s simply a trade-off.</p>
+<p>But if we decide to push forward, we’ll need to aim at the two endgame classes: Archmage or Grand Sage.</p>
+<h3 id="Grand-Sage-Archmage"><a href="#Grand-Sage-Archmage" class="headerlink" title="Grand Sage &#x2F; Archmage"></a>Grand Sage &#x2F; Archmage</h3><p>Mages can handle mid-bosses solo — giant spiders, cave trolls, chaotic outages. We learn to kite, stun, AOE, and recover on the fly. With the right spells and tools, we hold our ground.</p>
+<p>But eventually, we set our eyes on a world boss. An Ancient Dragon.</p>
+<p>These aren’t fights we solo. Now we’re in raid mode.</p>
+<p>We start thinking like a strategist:</p>
+<ul>
+<li>Who’s tanking the critical path?</li>
+<li>Who’s buffing the deployment pipeline?</li>
+<li>Who has aggro on leadership expectations?</li>
+</ul>
+<p>We prepare mana potions (resources), stack buffs (team rituals), and fine-tune our battle plan (roadmaps, RFCs, OKRs). We aren’t just casting spells — we’re orchestrating the whole raid party.</p>
+<p>This is the shift into senior IC roles:</p>
+<ul>
+<li>Staff Engineer</li>
+<li>Principal Engineer</li>
+<li>System Architect</li>
+</ul>
+<p>Our job isn’t just to solve problems. It’s to see problems before they exist, to align teams, and to guide the group through the dungeon, even if we’re not the party leader.</p>
+<p>But just like endgame raids, this tier is hard.<br> Progress is slow.<br> Feedback is vague.<br> And the gear we need often doesn’t drop on the first clear.</p>
+<p>So we keep reading papers. We explore other guilds. We grow our technical judgment. And when the next window for promotion appears — we’re already buffed, geared, and ready to go.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>This is what I often remind myself — and my team:</p>
+<blockquote>
+<p><em>Just shipping features has no value.<br> No value means no XP.<br> No XP means no level-ups, no class changes, and no promotions.</em></p>
+</blockquote>
+<p>It’s just like in an RPG:<br> We don’t beat an ancient dragon by slaying slimes for a decade.</p>
+<p>That’s how we grow. Not by repeating the same dungeon, but by stepping into areas we don’t fully understand. Sometimes that means fighting monsters we’ve never seen — and yes, sometimes we wipe. But we respawn smarter. Sometimes it means leading the raid.</p>
+<p>But most of all, it means preparing for that one window — when luck shows up.</p>
+<p>And when it does, we better be ready to roll.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/the-software-engineers-epic-career-adventure-5bfdb81d92f3">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/How-to-Learn-AI-from-Scratch/20250615/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/How-to-Learn-AI-from-Scratch/20250615/" class="post-title-link" itemprop="url">How to Learn AI from Scratch</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-06-16 02:01:54" itemprop="dateCreated datePublished" datetime="2025-06-16T02:01:54+08:00">2025-06-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="How-to-Learn-AI-from-Scratch"><a href="#How-to-Learn-AI-from-Scratch" class="headerlink" title="How to Learn AI from Scratch"></a>How to Learn AI from Scratch</h3><h4 id="A-practical-guide-for-software-engineers-to-start-using-and-building-with-AI"><a href="#A-practical-guide-for-software-engineers-to-start-using-and-building-with-AI" class="headerlink" title="A practical guide for software engineers to start using and building with AI"></a>A practical guide for software engineers to start using and building with AI</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*-6ch550uawuWgpalHOatcA.png"></p>
+<p>In today’s era of generative AI, there are countless ways to get started with AI. However, for engineers without a background in AI or machine learning, the overwhelming number of buzzwords can make it hard to know where to begin.</p>
+<p>That said, there’s no denying the productivity gap between those who know how to use AI and those who don’t.</p>
+<p>This article aims to give software engineers a fast-track introduction — a practical guide to navigating and thriving in this new landscape.</p>
+<p>The mind map below outlines the flow of the article. We’ll start with how to use AI effectively, then move into how to build things with it, touching on key concepts along the way. Let’s dive in.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*ovL2tnR-FsitDEpb.png"></p>
+<h3 id="How-to-Use"><a href="#How-to-Use" class="headerlink" title="How to Use"></a>How to Use</h3><p>When people talk about using AI, it’s impossible not to bring up how it all started — <strong>ChatGPT</strong> was the moment generative AI really hit the mainstream. After that, every major company started launching their own chat models.</p>
+<p>I’ve listed four models I personally use almost every day. You might wonder why I switch between them. Simple reason: free plans come with limits, so rotating helps me stay productive without paying.</p>
+<ul>
+<li>ChatGPT — This is the one I use the most. Whether I’m writing, editing, brainstorming, or just trying to get a fresh idea out, ChatGPT usually gets the first draft going.</li>
+<li>Claude — When it comes to quick scripts or anything related to the command line, Claude feels the easiest to work with. For instance, if I need a curl command to upload a JSON file with auth, I’ll ask Claude.</li>
+<li>Gemini — I use this mainly for more in-depth research. It gives off a more grounded vibe, which helps when I need something solid to work with.</li>
+<li>Grok — Once I hit Gemini’s limit for the day, Grok usually takes over.</li>
+</ul>
+<p>These tools make it really easy to fold AI into everyday tasks. For most situations, this setup covers everything I need. But when I’m working on something more specific — like building a presentation — I’ll bring in different tools.</p>
+<p>One I rely on a lot is <a target="_blank" rel="noopener" href="https://gamma.app/">Gamma.app</a>. It’s changed how I make slides.</p>
+<p>I already had a pretty good rhythm from doing talks regularly, so I can usually outline things quickly. But Gamma takes it even further. I just give it a prompt, let it build a rough version, and then tweak the parts I want to improve. Something that used to take half a day now takes me about an hour.</p>
+<p>Another one I keep coming back to is <a target="_blank" rel="noopener" href="https://www.perplexity.ai/">Perplexity</a>.</p>
+<p>Since generative AI is basically predicting what words come next, it’s not always accurate. That’s where Perplexity helps — it’s the tool I use to cross-check facts or dig up references. Sure, other AI tools have similar features, but I’ve set Perplexity as my browser’s default search engine, so it’s the quickest for me.</p>
+<p>I use a few other tools depending on the project. For example, if you work with Confluence Cloud, Rovo Chat is a solid option that fits nicely into that workflow.</p>
+<h3 id="Vibe-Coding"><a href="#Vibe-Coding" class="headerlink" title="Vibe Coding"></a>Vibe Coding</h3><p>For software engineers, vibe coding has become a key part of using AI effectively to boost productivity. But getting good at it takes a lot of hands-on practice — and even just picking the right IDE and agent can take serious trial and error.</p>
+<p>Beyond that, no matter which agent you go with, you’ll still need to plug it into the right ecosystem to unlock its full potential. Some rely on MCP-style control flows, others on rule templates. Here are a few specific needs I personally care a lot about:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/eyaltoledano/claude-task-master">Task master</a>: If your instructions to the AI aren’t clear enough, it’s easy for the model to get stuck — wasting tokens without producing anything useful. This was highlighted in <a target="_blank" rel="noopener" href="https://ml-site.cdn-apple.com/papers/the-illusion-of-thinking.pdf">Apple’s paper</a>, which shows that as task complexity increases, model performance can collapse entirely. That’s why task decomposition is essential. Task master is a solid open-source option for that.</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/vanzan01/cursor-memory-bank">Memory bank</a>: Since LLMs have limited context windows, they tend to forget past mistakes or important task details. A persistent memory mechanism helps address that gap.</li>
+</ul>
+<p>There are plenty of other tools that can be added, depending on your development habits and how far you’ve gone with vibe coding. It’s really about building the setup that fits your workflow.</p>
+<p>Underneath all of this is prompt engineering — everything starts with how you communicate your intent to the model. Getting that part right matters a lot. Fortunately, Google has published a pretty thorough <a target="_blank" rel="noopener" href="https://www.kaggle.com/whitepaper-prompt-engineering">whitepaper</a> that’s worth reading if you’re looking to understand the fundamentals.</p>
+<p>If you want to go deeper, there’s a growing body of research too.</p>
+<p>For example, <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2312.16171v1">this paper</a> summarizes 26 different techniques for improving prompts — worth checking out if you’re serious about refining your workflow.</p>
+<p>Vibe coding is half tools, half mindset — and prompt engineering is the bridge between the two.</p>
+<h3 id="How-to-Develop"><a href="#How-to-Develop" class="headerlink" title="How to Develop"></a>How to Develop</h3><p>Once you’ve got the hang of using AI, the natural next step — especially for engineers — is to start experimenting with what AI can actually do for you. Personally, I’ve built a handful of small tools that I now use regularly at work, like a code review agent and a text-to-command-line agent.</p>
+<p>These tools each focus on solving very specific problems with AI. So how do you even start building something like that?</p>
+<h3 id="Model-selection"><a href="#Model-selection" class="headerlink" title="Model selection"></a>Model selection</h3><p>The first step is understanding what resources are available. By “resources,” I mean which AI services expose endpoints that you can actually call.</p>
+<p>If you’re willing to pay, then the big-name providers are all viable. But if you’re trying to keep costs low, what are your options? Turns out — plenty. Here are a few I actively use:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://openrouter.ai/">OpenRouter</a>: This platform gives you access to a wide range of models, including quite a few with free quotas. In fact, even models like Google’s Gemma 3:27B have a free tier here.</li>
+<li><a target="_blank" rel="noopener" href="https://ollama.com/">Ollama</a>: If you’re worried about running through OpenRouter’s quotas, you can always fall back to local setups. Ollama is plug-and-play and runs locally. The only trade-off? Heavy models are tough to handle on a local machine — but smaller models are often too limited.</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/snailyp/gemini-balance">gemini-balance</a>: This one’s kind of clever. Gemini offers a free tier that’s actually free — it doesn’t sneak in charges once you pass a usage limit. The catch is, the quota’s small. But if you can cycle through enough free-tier tokens, you can effectively run things at zero cost. That’s exactly what gemini-balance helps with.</li>
+</ul>
+<p>Here’s how I’ve set things up:</p>
+<ul>
+<li>For important tasks, I rely on gemini-balance. The Gemini 2.0 models are just that good — I trust them with higher-stakes stuff.</li>
+<li>For lighter tasks, I go with OpenRouter, especially when I want to use Gemma 3:27B. It’s a strong model, but OpenRouter doesn’t support function calling for Gemma, so I keep it for simpler jobs.</li>
+<li>For embedding, I use Ollama locally. Embedding isn’t very compute-intensive, but I run it at scale, so I’d rather not worry about hitting quotas.</li>
+</ul>
+<p>As you can probably tell, picking a model isn’t just about performance — it’s also about constraints, access, and cost. Each model comes with its own trade-offs, so understanding those is key to building something reliable.</p>
+<h3 id="AI-Application"><a href="#AI-Application" class="headerlink" title="AI Application"></a>AI Application</h3><p>Once you’re familiar with the tools, the next step is figuring out what kind of applications you want to build.</p>
+<p>This is where imagination comes in — but regardless of what you’re building, you’ll eventually run into the concept of RAG.</p>
+<p>RAG (Retrieval-Augmented Generation) is one of the most effective ways to unlock real-world utility from LLMs.</p>
+<p>Why?</p>
+<p>Because language models can’t access huge documents directly — their input limits are real. But many tasks (like customer support) require deep background context. That’s exactly what RAG helps with.</p>
+<p>I won’t go deep into RAG architecture here. If you’re curious, I wrote a more detailed piece: <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/evolution-of-rag-baseline-rag-graphrag-and-kag-93b6f221bde6">Evolution of RAG: Baseline RAG, GraphRAG, and KAG</a>.</p>
+<p>No matter what kind of app you’re building, sooner or later, you’ll hit the need for fine-tuning. Most base models are trained for general tasks, but real applications require customization — your data, your workflows. That’s where fine-tuning comes in. Of course, fine-tuning isn’t trivial — it assumes some background in ML. I’ll cover that in another post.</p>
+<p>And then there’s evaluation and observability — two things you must consider when your AI app is live. You need to know if the model is doing its job, and why it failed when it didn’t. Tools like <a target="_blank" rel="noopener" href="https://www.langchain.com/langsmith">LangSmith</a> and <a target="_blank" rel="noopener" href="https://langfuse.com/">LangFuse</a> can help with this, but you’ll need to spend time experimenting with what works best for your stack.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>So yeah — diving into AI development is a big journey.</p>
+<p>From picking tools, to writing prompts, to deploying apps, there’s a huge surface area of decisions.</p>
+<p>But don’t let that intimidate you. AI is still new, and most of us are learning as we go.</p>
+<p>My advice: start with problems from your day-to-day life. That’s the best way to learn. You’ll naturally uncover more tools, more patterns, and more techniques as you build.</p>
+<p>Eventually, you’ll develop your own set of “survival skills” for the AI era.</p>
+<p>This article includes a pretty massive mind map — it touches on nearly every major area in the Gen AI space.</p>
+<p>You don’t need to master everything — not even close. Just start with what you care about, build one small thing, and the rest will follow.</p>
+<p>In this new AI era, curiosity and momentum matter way more than credentials.</p>
+<h3 id="Thank-you-for-being-a-part-of-the-community"><a href="#Thank-you-for-being-a-part-of-the-community" class="headerlink" title="Thank you for being a part of the community"></a>Thank you for being a part of the community</h3><p><em>Before you go:</em></p>
+<ul>
+<li>Be sure to <strong>clap</strong> and <strong>follow</strong> the writer ️👏<strong>️️</strong></li>
+<li>Follow us: <a target="_blank" rel="noopener" href="https://x.com/inPlainEngHQ"><strong>X</strong></a> | <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/inplainenglish/"><strong>LinkedIn</strong></a> | <a target="_blank" rel="noopener" href="https://www.youtube.com/@InPlainEnglish"><strong>YouTube</strong></a> | <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>Newsletter</strong></a> | <a target="_blank" rel="noopener" href="https://open.spotify.com/show/7qxylRWKhvZwMz2WuEoua0"><strong>Podcast</strong></a> | <a target="_blank" rel="noopener" href="https://twitch.tv/inplainenglish"><strong>Twitch</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://differ.blog/"><strong>Start your own free AI-powered blog on Differ</strong></a> 🚀</li>
+<li><a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Join our content creators community on Discord</strong></a> 🧑🏻‍💻</li>
+<li>For more content, visit <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>plainenglish.io</strong></a> + <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-learn-ai-from-scratch-32c125cd39c3">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/How-to-Read-Paper-Efficiently/20250601/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/How-to-Read-Paper-Efficiently/20250601/" class="post-title-link" itemprop="url">How to Read Paper Efficiently</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-06-02 01:13:46" itemprop="dateCreated datePublished" datetime="2025-06-02T01:13:46+08:00">2025-06-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="From-dense-theory-to-runnable-code-—-my-AI-powered-workflow-for-decoding-research-and-GitHub-repos"><a href="#From-dense-theory-to-runnable-code-—-my-AI-powered-workflow-for-decoding-research-and-GitHub-repos" class="headerlink" title="From dense theory to runnable code — my AI-powered workflow for decoding research and GitHub repos."></a>From dense theory to runnable code — my AI-powered workflow for decoding research and GitHub repos.</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*1FGklb5QuzlaEObRl6pmuQ.png"></p>
+<p>Recently, I was reading a paper, <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2505.03335">Reinforced Self-play Reasoning with Zero Data</a>, which describes how to train a large language model through reinforcement learning without using human data.</p>
+<p>This concept is described in <a target="_blank" rel="noopener" href="https://storage.googleapis.com/deepmind-media/Era-of-Experience%20/The%20Era%20of%20Experience%20Paper.pdf">Welcome to the Era of Experience</a>, which states that for an AI agent to be able to exceed human intelligence, it is not enough to rely on human data to learn. The agent must be able to evolve on its own based on the results of its interaction with the environment.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*5FBo_XZ1zYNQMEQi.png"></p>
+<p>In the past, we have seen that a large part of the improvement in modeling capability comes from human data or human prejudgment.</p>
+<p>Human data is better understood as the conversations or formulas that we have prepared in advance to guide the agent to make accurate conclusions. On the other hand, human prejudgment is to tell the agent whether the result is good or bad after the agent has done certain behaviors.</p>
+<p>Either way, the AI will only end up doing convergent evolution like humans and will not be able to exceed human capabilities. Therefore, it is necessary for AI agents to have self-learning and self-evolutionary mechanisms in order to break through the ceiling of human beings.</p>
+<p>In Absolute Zero, self-learning by interacting with the environment through python code is proposed. The whole process is quite similar to the one I used in my <a target="_blank" rel="noopener" href="https://github.com/wirelessr/alice">side project</a> of my <a target="_blank" rel="noopener" href="https://medium.com/stackademic/master-vibe-coding-ai-powered-workflow-e32a47bed467">previous article</a>, where there is a planner, an executor, and a validator, and the agent gives the agent a score.</p>
+<p>A major reason to read Absolute Zero is that it has <a target="_blank" rel="noopener" href="https://github.com/LeapLabTHU/Absolute-Zero-Reasoner">open source</a>, so we can not only read the theory, but also the actual work.</p>
+<p>But in this article, I do not want to talk about the details of this paper, but to introduce me now is how to quickly read the paper together with open source projects thoroughly.</p>
+<h3 id="The-era-of-AI"><a href="#The-era-of-AI" class="headerlink" title="The era of AI"></a>The era of AI</h3><p>After Google I&#x2F;O 2025, Google released many tools, among which <a target="_blank" rel="noopener" href="https://jules.google.com/">Jules</a> surprised me the most. At the same time, Gemini 2.5 Pro was also officially put into <a target="_blank" rel="noopener" href="https://notebooklm.google.com/">NotebookLM</a>.</p>
+<p><strong>NotebookLM</strong> is Google’s AI-powered note-taking assistant, which lets you ground conversations in PDFs, notes, or entire research libraries.</p>
+<p><strong>Jules</strong> is a code analysis assistant that can read and summarize large GitHub repositories.</p>
+<p>These two tools are at the core of my ability to read papers efficiently.</p>
+<p>First of all, I put the paper body into NotebookLM, because I already have all kinds of papers I have read and studied internally, and even my notes, so NotebookLM can quickly find out the relevance to this paper from my past study records and make a summary of the key points.</p>
+<p>Once a summary of the paper is available, it is much easier to go back to the paper. If there is something I don’t understand in the paper, I can talk to NotebookLM to find ideas, and then use <a target="_blank" rel="noopener" href="https://www.perplexity.ai/">Perplexity</a> to find the corresponding key information.</p>
+<p>In this way, I will be able to understand most of the paper.</p>
+<p>As for the open source project part, I directly fork a project on Github to my own account, feed this forked project to Jules, and let Jules generate the following:</p>
+<ol>
+<li>a list of core components</li>
+<li>component description</li>
+<li>core code flow</li>
+<li>architecture diagram</li>
+</ol>
+<p>In this way, I can quickly dive into the core implementation of the paper.</p>
+<p>Here is my actual prompt.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">## 📘 English Prompt (for Agent)  </span><br><span class="line">  </span><br><span class="line">Analyze this GitHub repository thoroughly and write two separate Markdown files:  </span><br><span class="line">  </span><br><span class="line">1. One in English (`README_EN.md`)  </span><br><span class="line">2. One in Traditional Chinese (`README_ZH.md`)  </span><br><span class="line">  </span><br><span class="line">For both files, include **detailed explanations** of the following aspects:  </span><br><span class="line">  </span><br><span class="line">### 1. Core Components    </span><br><span class="line">Identify and explain the main modules, packages, or files that form the foundation of the project.  </span><br><span class="line">  </span><br><span class="line">### 2. Key Linkages    </span><br><span class="line">Describe how the core components interact with each other. Include both static and runtime relationships.  </span><br><span class="line">  </span><br><span class="line">### 3. Important Implementations    </span><br><span class="line">Elaborate on notable or complex code implementations, including the rationale behind them if possible.  </span><br><span class="line">  </span><br><span class="line">### Additional Requirements:  </span><br><span class="line">- **Include an architecture diagram** that visually illustrates the system’s structure.  </span><br><span class="line">- **Include at least one sequence diagram** to show how key components interact over time.  </span><br><span class="line">- Wherever you mention code (classes, functions, files, etc.), embed a **hyperlink pointing to the exact location** in the GitHub repository (with line numbers, if applicable).  </span><br><span class="line">- Ensure the tone is clear, technical, and structured.  </span><br><span class="line">  </span><br><span class="line">Goal: Make it understandable for both new developers and technical reviewers.</span><br></pre></td></tr></table></figure>
+
+<p>Overall, by using several AI tools to collaborate with each other, I can read papers at least 10x more efficiently than before.</p>
+<h3 id="Finally"><a href="#Finally" class="headerlink" title="Finally"></a>Finally</h3><p>I am attaching a summary of what I asked Jules to generate this time, and I am sure you will see why productivity has been greatly improved. If I had to do this manually, it would’ve taken hours — now it’s just minutes.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-read-paper-efficiently-5b6eadd120c6">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Master-Vibe-Coding-AI-Powered-Workflow/20250511/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/Master-Vibe-Coding-AI-Powered-Workflow/20250511/" class="post-title-link" itemprop="url">Master Vibe Coding: AI-Powered Workflow</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-05-12 01:33:28" itemprop="dateCreated datePublished" datetime="2025-05-12T01:33:28+08:00">2025-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Taming-AI-code-agents-for-better-workflows"><a href="#Taming-AI-code-agents-for-better-workflows" class="headerlink" title="Taming AI code agents for better workflows"></a>Taming AI code agents for better workflows</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*JXOxDw3A8bxDPKmh6oaomw.png"></p>
+<p>Recently, I’ve taken a lot of time to actually experience vibe coding, and I’ve come up with a few tips.</p>
+<p>TL;DR</p>
+<ol>
+<li>The used agent must support differential mode modification instead of overwriting the entire file.</li>
+<li>Commit continuously.</li>
+<li>The commands should be clear and simple, and context-sensitive.</li>
+</ol>
+<p>Before describing the experience I’d like to briefly introduce the toolset I use.</p>
+<ul>
+<li>IDE is VS Code.</li>
+<li>Agent is a plugin from <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items/?itemName=RooVeterinaryInc.roo-cline">RooCode</a>.</li>
+<li>Model uses several free models provided by <a target="_blank" rel="noopener" href="https://openrouter.ai/">OpenRouter</a>.</li>
+<li>The main model is <a target="_blank" rel="noopener" href="https://openrouter.ai/deepseek/deepseek-chat-v3-0324:free">deepseek-v3–0324</a></li>
+<li>Occasionally <a target="_blank" rel="noopener" href="https://openrouter.ai/meta-llama/llama-4-scout:free">llama-4-scout</a></li>
+</ul>
+<p>As you can see I use free tools, which I believe is the best setup for the common developer. But it also creates a lot of headaches, which I’ll talk about in a bit more detail.</p>
+<p>Next, this is a complete project I made using vibe coding.</p>
+<p>Alice is a command line tool that converts the natural language into the actual terminal command to be executed and gets the result.</p>
+<p>In fact, many tools have similar functions, as follows.</p>
+<ol>
+<li>Warp (AI-powered terminal tool)</li>
+<li>iTerm2 AI</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/TheR1D/shell_gpt">ShellGPT</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/BuilderIO/ai-shell">ai-shell</a></li>
+<li>etc.</li>
+</ol>
+<p>There are many more, but they all have their own problems.</p>
+<p>The main one is they don’t support customized models like OpenRouter or Anthropic, and the second one is that the results are not very good, either the results are not on point or they aren’t easy to use.</p>
+<p>So I wrote a tool for my own needs, and I won’t dive into the details of the tool.</p>
+<p>The whole development process is I wrote a basic working script first, which is <code>main.py</code> and then I rely on vibe coding to start refactoring and adding new features step by step.</p>
+<p>This development process should fit the scenario of most developers practicing vibe coding. Instead of using vibe coding to create a project from scratch, we use vibe coding to iterate on an existing project.</p>
+<p>Let’s start by explaining the three points mentioned at the beginning of the article.</p>
+<h3 id="Diff-mode-patching"><a href="#Diff-mode-patching" class="headerlink" title="Diff mode patching"></a>Diff mode patching</h3><p>I think this is one of the most important things, why?</p>
+<p>When the model is not smart enough, it is easy to overwrite the whole file and change something that is not a problem. Here is an example of deepseek-v3–0324 muddying the water.</p>
+<p>The project I developed uses <a target="_blank" rel="noopener" href="https://github.com/microsoft/autogen">AutoGen</a> to implement the communication between agents, here is the import I used.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from autogen_ext.models.openai import OpenAIChatCompletionClient  </span><br><span class="line">from autogen_core.models import ModelInfo  </span><br><span class="line">from autogen_agentchat.agents import AssistantAgent</span><br></pre></td></tr></table></figure>
+
+<p>But when RooCode wanted to make some changes to the code, he would often overwrite my entire file. Then the code breaks. This is the most common “unauthorized” change he does.</p>
+<p>For some unknown reason, it often changes <code>models</code> to <code>model</code> and <code>agents</code> to <code>agent</code>, breaking my code.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from autogen_ext.model.openai import OpenAIChatCompletionClient  </span><br><span class="line">from autogen_core.model import ModelInfo  </span><br><span class="line">from autogen_agentchat.agent import AssistantAgent</span><br></pre></td></tr></table></figure>
+
+<p>Therefore, I’ve added a couple of absolute rules to my RooCode.</p>
+<p><em>.roo&#x2F;rules&#x2F;rules.md</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. Do not overwrite the whole file easily.  </span><br><span class="line">2. Just modify parts that is asked.  </span><br><span class="line">3. Do not change any no bug part.</span><br></pre></td></tr></table></figure>
+
+<h3 id="Commit-continuously"><a href="#Commit-continuously" class="headerlink" title="Commit continuously"></a>Commit continuously</h3><p>In vibe coding, agent behavior is largely unpredictable, especially with dummy agents like the example above.</p>
+<p>So when you make a command, and you get an acceptable result, you have to make a <code>git commit</code> right away. Even if the command is only partially complete, at least the result is acceptable, so save it.</p>
+<p>In the beginning, I often let the agent do what he wants and I ask him to do what I want, and then I have no idea what he’s changed, or even what he’s changed that’s broken.</p>
+<p>Therefore, please remember, as long as you see the result is acceptable, then just commit.</p>
+<p>With commit, you will be able to compare what you have changed in subsequent commands, and you will also be able to know what needs to be fixed in this prompt.</p>
+<h3 id="Prompt-should-be-clear-and-contextualized"><a href="#Prompt-should-be-clear-and-contextualized" class="headerlink" title="Prompt should be clear and contextualized"></a>Prompt should be clear and contextualized</h3><p>Don’t expect the agent to know what you want to change.</p>
+<p>If you want to change something, tell the agent exactly what you want, which file, which function or even which lines you want to change. The clearer you are, the more you can get the expected result, not the free-for-all of a creative person.</p>
+<p>When I first came across vibe coding, I always thought that agent can see all the code and structure, so agent should know what to change. But I was wrong, and very wrong.</p>
+<p>There is a limit to the context that Agent can see. Of course, you can make that context huge, but there are a couple of problems.</p>
+<ol>
+<li>Huge contexts cost money.</li>
+<li>Huge contexts are easier to hallucinate.</li>
+<li>Huge contexts are not always acceptable in terms of agent capability.</li>
+</ol>
+<p>So you have to tell the agent clearly what to look at and where to change.</p>
+<h3 id="Will-developers-be-eliminated"><a href="#Will-developers-be-eliminated" class="headerlink" title="Will developers be eliminated?"></a>Will developers be eliminated?</h3><p>There is often a dream that agent can replace the developer, I can only say, this is really a dream.</p>
+<p>The project structure this time is quite simple, and the functions are not complicated.</p>
+<p>To put it frankly, it is actually three agents communicate with each other to accomplish one thing.</p>
+<ol>
+<li>Planning agent converts the natural language into a command line to be executed.</li>
+<li>Execution agent executes the command line and reports the result.</li>
+<li>Verification agent checks whether the result is correct or not, if not, it will start again.</li>
+</ol>
+<p>Along the way, I added some new features.</p>
+<ol>
+<li>Use PyInstaller to generate the executable.</li>
+<li>Automatically release with Github Action.</li>
+<li>Support both environment variables and configuration files.</li>
+<li>Model setting.</li>
+<li>Choose the language of the response.</li>
+<li>Hide agent interactions and only get the final result.</li>
+</ol>
+<p>I’ve also done some refactoring, such as splitting <code>main.py</code> into corresponding modules or turning the config module into a singleton pattern.</p>
+<p>But with vibe coding, I feel a bit exhausted, agent’s development efficiency is not as good as my own coding, sometimes, I am really upset to see him playing idiot, but after all, I am practicing vibe coding, so I can only continue to see him playing idiot.</p>
+<p>As models improve, this kind of frustrating behavior will become less frequent, that is to say, it can be easier to write down the prompt.</p>
+<p>Back to the above conclusion, vibe coding can not replace the developer, but for the skilled developers can improve development efficiency.</p>
+<p>For example, if I tell the agent to turn my <code>load_config()</code> into a singleton pattern, he will make a standard singleton class as he imagines, but his context is not enough to change all the callers to <code>load_config</code> and then break the program.</p>
+<p>But if I tell him to turn <code>load_config</code> into a singleton while keeping the <code>load_config</code> interface the same, he’ll be able to make something similar to what I imagined.</p>
+<p>So the role of the developer has become more important.</p>
+<p>Nowadays, more and more agents have orchestractor (dispatcher) mode, which means he will break down complex tasks and assign them to other agents. Honestly, what he does is really not good, it’s better to break down the requirements myself and then use prompt to tell the agent what to do.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Vibe coding is already a trend among developers, but just like we practice writing programs, vibe coding requires continuous practice.</p>
+<p>The more we use an agent, the easier to know where the agent’s limits are, and the easier to make the agent meet the expectations.</p>
+<p>Vibe coding is just a tool, a tool to make things easier for the user, not to replace the user. I hope everyone can become a sophisticated user of vibe coding, I am practicing too.</p>
+<h3 id="Thank-you-for-being-a-part-of-the-community"><a href="#Thank-you-for-being-a-part-of-the-community" class="headerlink" title="Thank you for being a part of the community"></a>Thank you for being a part of the community</h3><p><em>Before you go:</em></p>
+<ul>
+<li>Be sure to <strong>clap</strong> and <strong>follow</strong> the writer ️👏<strong>️️</strong></li>
+<li>Follow us: <a target="_blank" rel="noopener" href="https://x.com/inPlainEngHQ"><strong>X</strong></a> | <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/inplainenglish/"><strong>LinkedIn</strong></a> | <a target="_blank" rel="noopener" href="https://www.youtube.com/@InPlainEnglish"><strong>YouTube</strong></a> | <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>Newsletter</strong></a> | <a target="_blank" rel="noopener" href="https://open.spotify.com/show/7qxylRWKhvZwMz2WuEoua0"><strong>Podcast</strong></a> | <a target="_blank" rel="noopener" href="https://differ.blog/inplainenglish"><strong>Differ</strong></a> | <a target="_blank" rel="noopener" href="https://twitch.tv/inplainenglish"><strong>Twitch</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://differ.blog/"><strong>Start your own free AI-powered blog on Differ</strong></a> 🚀</li>
+<li><a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Join our content creators community on Discord</strong></a> 🧑🏻‍💻</li>
+<li>For more content, visit <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>plainenglish.io</strong></a> + <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/master-vibe-coding-ai-powered-workflow-e32a47bed467">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Diagram-as-Code-from-Mermaid-to-D2/20250427/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/Diagram-as-Code-from-Mermaid-to-D2/20250427/" class="post-title-link" itemprop="url">Diagram as Code: from Mermaid to D2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-04-28 01:40:06" itemprop="dateCreated datePublished" datetime="2025-04-28T01:40:06+08:00">2025-04-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Diagram-as-Code-from-Mermaid-to-D2"><a href="#Diagram-as-Code-from-Mermaid-to-D2" class="headerlink" title="Diagram as Code: from Mermaid to D2"></a>Diagram as Code: from Mermaid to D2</h3><h4 id="Using-D2’s-ELK-layout-and-intuitive-styling-to-simplify-complex-diagrams"><a href="#Using-D2’s-ELK-layout-and-intuitive-styling-to-simplify-complex-diagrams" class="headerlink" title="Using D2’s ELK layout and intuitive styling to simplify complex diagrams"></a>Using D2’s ELK layout and intuitive styling to simplify complex diagrams</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*zJmc71J3WOZfHtvOijyw-A.png"></p>
+<p>Those who follow me on Medium should know I’m a heavy <a target="_blank" rel="noopener" href="https://mermaid.js.org/">mermaid</a> user.</p>
+<p>In almost all of my technical articles, I use mermaid as a way to describe the architecture (and in some cases, <a target="_blank" rel="noopener" href="https://www.drawio.com/">Draw.io</a>).</p>
+<p>The reason why I rely on mermaid so much is because of its extremely expressive syntax, where notation and arrows are all we need to draw components and connections.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">graph LR  </span><br><span class="line">  a --1st--&gt; b --2nd--&gt; c</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*qyLeNZkIOSJVsUUK_xKgpg.png"></p>
+<p>Moreover, such consistency is also applied to sequence diagrams.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram  </span><br><span class="line">  a -&gt;&gt; b: 1st  </span><br><span class="line">  b -&gt;&gt; c: 2nd</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*HuqNZmPcemksXQHVfiKwRg.png"></p>
+<p>For software engineers, architecture diagrams and sequence diagrams are the most commonly used tools to show ideas and implementations. Mermaid makes it incredibly easy to draw diagrams, which saves a lot of time for engineers like me who have to draw a lot of diagrams every day.</p>
+<p>Nevertheless, mermaid has its limitations.</p>
+<p>The simplicity of the syntax makes it difficult to lay out a reasonable diagram. For example, when components and relationships become complex, mermaid drawings start to look worse than expected.</p>
+<p>In the following example, when the component relationships become complex, a bunch of intersecting lines start to appear.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR  </span><br><span class="line">  a --&gt; b --&gt; c  </span><br><span class="line">  a --&gt; d --&gt; e  </span><br><span class="line">  a --&gt; f --&gt; g --&gt; h --&gt; i  </span><br><span class="line">  h --&gt; c &amp; e</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*DQ3glTXCE8flenNNBuLy6A.png"></p>
+<p>To avoid crossing lines, I have to manually adjust the order in which the components are declared to make the layout as clear as possible.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR  </span><br><span class="line">  a --&gt; b --&gt; c  </span><br><span class="line">  a --&gt; f --&gt; g --&gt; h --&gt; i  </span><br><span class="line">  h --&gt; c &amp; e  </span><br><span class="line">  a --&gt; d --&gt; e</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*EoWTrA_-KgA1OVhp3Thi-Q.png"></p>
+<p>This undoubtedly adds a lot of work, especially when the diagram becomes complex, and the amount of fine-tuning can be incredible.</p>
+<p>In addition, our architecture usually has subcomponents. This is also powerful enough in the mermaid, but it can be confusing when we use the notation of the subcomponents. In the following example, my outer <code>db</code> directly overrides the inner <code>db</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph LR  </span><br><span class="line">  subgraph Child  </span><br><span class="line">    b --&gt; db[(DB1)]  </span><br><span class="line">  end  </span><br><span class="line">  db[(DB2)]  </span><br><span class="line">  a --&gt; b &amp; db</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*2u_oNk2RUMTjQFnyCSzxEw.png"></p>
+<p>You might say, wouldn’t the problem be solved by changing the inner <code>db</code> to <code>child_db</code>? True, but this also introduces coupling, i.e. coupling between component names and layers. When the layer changes, the component name will be in an awkward position.</p>
+<p>On the other hand, mermaid is cumbersome to set up styles and is not easy to use.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">flowchart LR  </span><br><span class="line">    id1(Start)--&gt;id2(Stop)  </span><br><span class="line">    style id1 fill:#f9f  </span><br><span class="line">    style id1 stroke:#333,stroke-width:4px  </span><br><span class="line">    style id1 stroke-width:4px  </span><br><span class="line">    style id2 fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*ZrIlg6NewenjzsA2tHd8og.png"></p>
+<p>Declarations and styles are separate, and the attributes of a style can either be declared multiple times, as in <code>id1</code>, or chained together to make them super long, as in <code>id2</code>. Either way, it’s not suitable for complex architecture diagrams.</p>
+<h3 id="D2-comes-to-save-the-day"><a href="#D2-comes-to-save-the-day" class="headerlink" title="D2 comes to save the day"></a>D2 comes to save the day</h3><p>Recently, I’ve been gradually migrating my use of the new diagram as code solution, <a target="_blank" rel="noopener" href="https://d2lang.com/">D2</a>, which effectively solves the previous problems and has many more new features.</p>
+<p>Let’s take a look at the first problem of intersecting lines. When we used D2, the results were clearly improved.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vars: &#123;  </span><br><span class="line">  d2-config: : &#123;  </span><br><span class="line">    layout-engine: elk  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">direction: right  </span><br><span class="line">a -&gt; b -&gt; c  </span><br><span class="line">a -&gt; d -&gt; e  </span><br><span class="line">a -&gt; f -&gt; g -&gt; h -&gt; i  </span><br><span class="line">h -&gt; c  </span><br><span class="line">h -&gt; e</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/0*cJaxiUrC6vTVb7ef.png"></p>
+<p>Thanks to D2’s built-in layout engine, ELK, we don’t need to manually adjust the layout order anymore, ELK will automatically do the rendering with the least staggered layout.</p>
+<p>On the other hand, the problem of sub-component hierarchy is also well solved in D2.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">direction: right  </span><br><span class="line">Child: &#123;  </span><br><span class="line">  db: DB1 &#123;  </span><br><span class="line">    shape: cylinder  </span><br><span class="line">  &#125;  </span><br><span class="line">  b -&gt; db  </span><br><span class="line">&#125;  </span><br><span class="line">db: DB2 &#123;  </span><br><span class="line">  shape: cylinder  </span><br><span class="line">&#125;  </span><br><span class="line">a -&gt; db</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/0*2Rymhaz5A30IQfEP.png"></p>
+<p>To use the inner components we need to call them explicitly. But we can also find that D2 is significantly more bulky than mermaid when it comes to changing the shape, and the need to set it up through metadata is far less delicious than some syntactic candies.</p>
+<p>This is also the advantage of D2, when we want to modify the component styles, mermaid is very annoying.</p>
+<p>However, in D2 this becomes very intuitive.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">direction: right  </span><br><span class="line">id1: Start &#123;  </span><br><span class="line">  style: &#123;  </span><br><span class="line">    fill: &quot;#f9f&quot;  </span><br><span class="line">    stroke: &quot;#333&quot;  </span><br><span class="line">    stroke-width: 4  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line">id2: Stop &#123;  </span><br><span class="line">  style: &#123;  </span><br><span class="line">    fill: &quot;#bbf&quot;  </span><br><span class="line">    stroke: &quot;#f66&quot;  </span><br><span class="line">    stroke-width: 2  </span><br><span class="line">    font-color: &quot;#fff&quot;  </span><br><span class="line">    stroke-dash: 5  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">id1 -&gt; id2</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/0*XtfWCRR8fa49uXw8.png"></p>
+<p>Besides the mermaid optimizations mentioned above, my personal favorite feature is <a target="_blank" rel="noopener" href="https://d2lang.com/tour/globs">Globs</a>.</p>
+<p>When I draw a data pipeline, I often declare all the databases first, and then add the relationships, this operation is completely revolutionized in D2.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">direction: right  </span><br><span class="line">src_db1  </span><br><span class="line">src_db2  </span><br><span class="line">src_db3  </span><br><span class="line">dst_db1  </span><br><span class="line">dst_db2  </span><br><span class="line">dst_db3  </span><br><span class="line">src* -&gt; transform -&gt; dst*</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/0*qwoxORQaBPy0DCNs.png"></p>
+<p>In mermaid, we have to connect the lines one by one, but in D2, we can solve the problem in one go by using the star sign.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>D2 can be seen as an evolution of mermaid, anything mermaid can do, D2 should be able to do, and more elegantly.</p>
+<p>I have to say what drove me to switch from mermaid to D2 in the beginning is the first point of my article, I need to manually rearrange all kinds of declarations just to make the layout clear. This was done with the ELK layout engine built into D2.</p>
+<p>But I found out the new version of mermaid can do the same thing, i.e. <a target="_blank" rel="noopener" href="https://mermaid.js.org/intro/syntax-reference.html#how-to-select-a-layout-algorithm">specify layout engine</a>.</p>
+<p>Let’s try again with the above example of a wonky mermaid.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">---  </span><br><span class="line">config:  </span><br><span class="line">  layout: elk  </span><br><span class="line">---    </span><br><span class="line">graph LR  </span><br><span class="line">  a --&gt; b --&gt; c  </span><br><span class="line">  a --&gt; d --&gt; e  </span><br><span class="line">  a --&gt; f --&gt; g --&gt; h --&gt; i  </span><br><span class="line">  h --&gt; c &amp; e</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/0*QP6kp8kAA01plx8M.png"></p>
+<p>Aha! Turns out mermaid works too. Kinda awkward… now I’m not sure if I should even bother switching to D2. Just kidding, D2 has more advantages anyway.</p>
+<p>I believe mermaid should continue to evolve, and maybe one day, all the flaws I listed above will no longer be flaws.</p>
+<h3 id="Thank-you-for-being-a-part-of-the-community"><a href="#Thank-you-for-being-a-part-of-the-community" class="headerlink" title="Thank you for being a part of the community"></a>Thank you for being a part of the community</h3><p><em>Before you go:</em></p>
+<ul>
+<li>Be sure to <strong>clap</strong> and <strong>follow</strong> the writer ️👏<strong>️️</strong></li>
+<li>Follow us: <a target="_blank" rel="noopener" href="https://x.com/inPlainEngHQ"><strong>X</strong></a> | <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/inplainenglish/"><strong>LinkedIn</strong></a> | <a target="_blank" rel="noopener" href="https://www.youtube.com/@InPlainEnglish"><strong>YouTube</strong></a> | <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>Newsletter</strong></a> | <a target="_blank" rel="noopener" href="https://open.spotify.com/show/7qxylRWKhvZwMz2WuEoua0"><strong>Podcast</strong></a> | <a target="_blank" rel="noopener" href="https://differ.blog/inplainenglish"><strong>Differ</strong></a> | <a target="_blank" rel="noopener" href="https://twitch.tv/inplainenglish"><strong>Twitch</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://cofeed.app/"><strong>Check out CoFeed, the smart way to stay up-to-date with the latest in tech</strong></a> <strong>🧪</strong></li>
+<li><a target="_blank" rel="noopener" href="https://differ.blog/"><strong>Start your own free AI-powered blog on Differ</strong></a> 🚀</li>
+<li><a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Join our content creators community on Discord</strong></a> 🧑🏻‍💻</li>
+<li>For more content, visit <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>plainenglish.io</strong></a> + <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/diagram-as-code-from-mermaid-to-d2-13cb0ff49357">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

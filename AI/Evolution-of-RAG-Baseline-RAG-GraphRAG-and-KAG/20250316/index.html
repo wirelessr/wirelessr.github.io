@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Evolution of RAG: Baseline RAG, GraphRAG, and KAGEnhancing LLM accuracy with structured knowledge, inverted indexes, and dynamic retrieval This article focuses on the evolution of RAG, so technical de">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Evolution of RAG: Baseline RAG, GraphRAG, and KAG">
+<meta property="og:url" content="https://wirelessr.github.io/AI/Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG/20250316/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Evolution of RAG: Baseline RAG, GraphRAG, and KAGEnhancing LLM accuracy with structured knowledge, inverted indexes, and dynamic retrieval This article focuses on the evolution of RAG, so technical de">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*_9x0HKFjvOS049uYQTjfDA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*nCSW0eDiejtv4awYliL4gw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*alXWL5MvSGdxB26R6s0XGA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*1PDUF4bX_XSWRRGZ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*9b_Z4xZqWX_IQehgtxiCUw.png">
+<meta property="article:published_time" content="2025-03-16T18:09:42.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.823Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*_9x0HKFjvOS049uYQTjfDA.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/AI/Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG/20250316/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/AI/Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG/20250316/","path":"AI/Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG/20250316/","title":"Evolution of RAG: Baseline RAG, GraphRAG, and KAG"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Evolution of RAG: Baseline RAG, GraphRAG, and KAG | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG"><span class="nav-number">1.</span> <span class="nav-text">Evolution of RAG: Baseline RAG, GraphRAG, and KAG</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Enhancing-LLM-accuracy-with-structured-knowledge-inverted-indexes-and-dynamic-retrieval"><span class="nav-number">1.1.</span> <span class="nav-text">Enhancing LLM accuracy with structured knowledge, inverted indexes, and dynamic retrieval</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Baseline-RAG"><span class="nav-number">2.</span> <span class="nav-text">Baseline RAG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GraphRAG"><span class="nav-number">3.</span> <span class="nav-text">GraphRAG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KAG"><span class="nav-number">4.</span> <span class="nav-text">KAG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wrap-Up"><span class="nav-number">5.</span> <span class="nav-text">Wrap Up</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG/20250316/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Evolution of RAG: Baseline RAG, GraphRAG, and KAG | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Evolution of RAG: Baseline RAG, GraphRAG, and KAG
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-03-17 02:09:42" itemprop="dateCreated datePublished" datetime="2025-03-17T02:09:42+08:00">2025-03-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG"><a href="#Evolution-of-RAG-Baseline-RAG-GraphRAG-and-KAG" class="headerlink" title="Evolution of RAG: Baseline RAG, GraphRAG, and KAG"></a>Evolution of RAG: Baseline RAG, GraphRAG, and KAG</h3><h4 id="Enhancing-LLM-accuracy-with-structured-knowledge-inverted-indexes-and-dynamic-retrieval"><a href="#Enhancing-LLM-accuracy-with-structured-knowledge-inverted-indexes-and-dynamic-retrieval" class="headerlink" title="Enhancing LLM accuracy with structured knowledge, inverted indexes, and dynamic retrieval"></a>Enhancing LLM accuracy with structured knowledge, inverted indexes, and dynamic retrieval</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*_9x0HKFjvOS049uYQTjfDA.png"></p>
+<p>This article focuses on the evolution of RAG, so technical details will be skipped to avoid this article being too geeky.</p>
+<p>Using LLM for chatbot is the most common application nowadays, but the answer of LLM is too generalized to serve specific application scenarios.</p>
+<p>Therefore, Retrieval-Augmented Generation, aka RAG, has been developed.</p>
+<p>Simply put, it is to store the specialization data needed by LLM, so that LLM can refer to it when answering.</p>
+<h3 id="Baseline-RAG"><a href="#Baseline-RAG" class="headerlink" title="Baseline RAG"></a>Baseline RAG</h3><p>A traditional RAG process is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*nCSW0eDiejtv4awYliL4gw.png"></p>
+<p>Indexing in the left side means to process the data that LLM needs to refer to in advance, and the processing flow is to first divide the chunks and then vectorize the chunks into the vector database.</p>
+<p>When the user asks a question, he also needs to vectorize the query and take the first few similar results from the vector database, which is usually the order of vector product. These chunks are fed to the LLM along with the query, and the LLM generates a “good” answer.</p>
+<p>From the above flow, it is obvious that traditional RAG encounters several problems.</p>
+<ol>
+<li>Context fragmentation due to chunks.</li>
+<li>Vector product is too simple, losing reasoning ability.</li>
+<li>Vectors do not have verification capability, so it is easily to answer the wrong question.</li>
+</ol>
+<p>In order to improve the reasoning ability and overcome the problem, <a target="_blank" rel="noopener" href="https://microsoft.github.io/graphrag/">GraphRAG</a> was born.</p>
+<h3 id="GraphRAG"><a href="#GraphRAG" class="headerlink" title="GraphRAG"></a>GraphRAG</h3><p>To avoid getting into too much in depth theory, let’s look directly at the process.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*alXWL5MvSGdxB26R6s0XGA.png"></p>
+<p>From the diagram, we can see that GraphRAG has more Graph support (as the name suggests) than traditional RAG.</p>
+<p>In particular, this Graph consists of these three elements.</p>
+<ul>
+<li>Entity</li>
+<li>Relationship</li>
+<li>Statement description</li>
+</ul>
+<p>The following is an example.</p>
+<ul>
+<li>(OpenAI) –[developed]–&gt; (ChatGPT)</li>
+<li>(ChatGPT) –[is a]–&gt; (LLM)</li>
+<li>(ChatGPT) –[published in]–&gt; (2022)</li>
+<li>(ChatGPT) –[uses]–&gt; (Transformer)</li>
+<li>(Transformer) –[is a]–&gt; (deep learning architecture)</li>
+<li>(Transformer) –[published in]–&gt; (2017)</li>
+<li>(Transformer) –[is developed by]–&gt; (Google)</li>
+</ul>
+<p>By extracting key information from chunks and constructing a Knowledge Graph, aka KG, the process is similar to the human brain.</p>
+<p>For example, the hippocampus converts short-term memories into long-term memories by filtering and translating information, so that it can use these memories to get better ideas when it encounters similar situations in the future.</p>
+<p>These KGs are graphs, which are not always easy for LLM to use, so there is another important process in GraphRAG called summarization, where these KGs are summarized into paragraph and paragraph of text.</p>
+<p>With summarization, LLM can have a more full picture and get a relatively accurate answer.</p>
+<p>Nevertheless, GraphRAG has its shortcomings.</p>
+<ol>
+<li>Summaries and KGs can be helpful, but they also have the potential to diffuse specialized knowledge.</li>
+<li>Although summarization can help to expand context, the reasoning ability is still insufficient.</li>
+<li>The noise introduced by summarization can still create hallucination.</li>
+</ol>
+<p>Therefore, the idea of converting from KG to summarization is not feasible. However, KG itself is a valuable design, as it simulates the process of knowledge generation.</p>
+<p>What if we could make AI work more like the human brain? Therefore, we meet the Knowledge Augmented Generation, also known as KAG.</p>
+<h3 id="KAG"><a href="#KAG" class="headerlink" title="KAG"></a>KAG</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*1PDUF4bX_XSWRRGZ.png"></p>
+<p>The DIKW pyramid is a famous model that describes the process of wisdom concentration, and it is what we are trying to do to make RAG accurate.</p>
+<p>So, in the GraphRAG implementation, we filter Information from Data, and then try to build a Knowledge Graph. However, <a target="_blank" rel="noopener" href="https://www.atlantis-press.com/article/2276.pdf">the human brain does not think in one direction</a>, any wisdom is generated with multiple references.</p>
+<p>The KAG paper introduces a lot of complex theories, but in short, KAG tries to allow KG to connect back to the original chunk and add more semantic references to the query rather than just vector references, which results in a significant improvement in domain-specific knowledge.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*9b_Z4xZqWX_IQehgtxiCUw.png"></p>
+<p>In terms of process, KAG adds inverted indexing and full-text search, so it can be more semantically precise. In addition, the extracted KG will become the source of input for LLM, so that LLM can have a more comprehensive knowledge base.</p>
+<p>In GraphRAG, only those summaries are provided to LLM, but KAG does not do summaries, but submits the complete KG together with original text to LLM.</p>
+<p>The ability to accept such a large number of inputs is also due to recent modeling advances, such as Gemini 2.0 Flash.</p>
+<p>KAG has a lot of in-depth technical tuning, which makes it difficult to fully implement. However, just adding KG and full text searching over traditional RAG will already achieve good results, and it’s not too difficult to do both, which is the core value of KAG.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Making LLM accurate is a difficult task, especially if we want to turn LLM into a commercial product, it is even more important to answer the question correctly.</p>
+<p>Traditional RAGs have limited ways to improve the accuracy of LLMs, only chunking, embedding and prompting, and then adding rerank and other mechanisms to allow the Top N to find better results.</p>
+<p>GraphRAG adds the concepts of KG and summarization to the traditional RAG to extend the context.</p>
+<p>KAG, on the other hand, is based on GraphRAG and adds KG’s bi-directional links and inverted indexes.</p>
+<p>All of these techniques are designed to expand the contextual information when LLM generates answers, and gradually enable LLM to be accurate enough in specific scenarios.</p>
+<p>In fact, there are some additional variants, such as <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2401.15884">Corrective RAG</a> aka CRAG. However, this kind of variants do not directly enhance the thinking ability of LLM, but rather assist LLM through some external mechanism, so I did not include them.</p>
+<p>In summary, the evolutions of RAG are as follows.</p>
+<blockquote>
+<p><em>LLM -&gt; RAG -&gt; GraphRAG -&gt; KAG</em></p>
+</blockquote>
+<p>RAG is a concept that has only been around for two years, and it’s exciting to see how quickly it has evolved.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/evolution-of-rag-baseline-rag-graphrag-and-kag-93b6f221bde6">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Microservice/Rethinking-Microservice-Decomposition-A-Team-Driven-Approach/20250223/" rel="prev" title="Rethinking Microservice Decomposition: A Team-Driven Approach">
+                  <i class="fa fa-chevron-left"></i> Rethinking Microservice Decomposition: A Team-Driven Approach
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/AI/MCP-Make-Me-Happy/20250406/" rel="next" title="MCP Make Me Happy">
+                  MCP Make Me Happy <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

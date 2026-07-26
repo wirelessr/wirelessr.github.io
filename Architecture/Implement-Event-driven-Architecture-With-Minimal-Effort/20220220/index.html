@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Implement Event-driven Architecture With Minimal EffortTemporal coupling is the most overlooked pitfall Last time, we explained that temporal coupling can be effectively solved through event-driven ar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Implement Event-driven Architecture With Minimal Effort">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Implement-Event-driven-Architecture-With-Minimal-Effort/20220220/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Implement Event-driven Architecture With Minimal EffortTemporal coupling is the most overlooked pitfall Last time, we explained that temporal coupling can be effectively solved through event-driven ar">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*WLldaPqvSOjRmN8s">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*K25enigwiBGTjRrQnfCPDQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*iOo7d75YrvR94pEsY9U0LA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*EURDW5EBuwGQbdqIsU692A.png">
+<meta property="article:published_time" content="2022-02-20T17:16:29.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.825Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*WLldaPqvSOjRmN8s">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Implement-Event-driven-Architecture-With-Minimal-Effort/20220220/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Implement-Event-driven-Architecture-With-Minimal-Effort/20220220/","path":"Architecture/Implement-Event-driven-Architecture-With-Minimal-Effort/20220220/","title":"Implement Event-driven Architecture With Minimal Effort"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Implement Event-driven Architecture With Minimal Effort | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Implement-Event-driven-Architecture-With-Minimal-Effort"><span class="nav-number">1.</span> <span class="nav-text">Implement Event-driven Architecture With Minimal Effort</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Temporal-coupling-is-the-most-overlooked-pitfall"><span class="nav-number">1.1.</span> <span class="nav-text">Temporal coupling is the most overlooked pitfall</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#System-Overview"><span class="nav-number">2.</span> <span class="nav-text">System Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#System-Evolution"><span class="nav-number">3.</span> <span class="nav-text">System Evolution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trade-off"><span class="nav-number">4.</span> <span class="nav-text">Trade-off</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">5.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Implement-Event-driven-Architecture-With-Minimal-Effort/20220220/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Implement Event-driven Architecture With Minimal Effort | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Implement Event-driven Architecture With Minimal Effort
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-02-21 01:16:29" itemprop="dateCreated datePublished" datetime="2022-02-21T01:16:29+08:00">2022-02-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Implement-Event-driven-Architecture-With-Minimal-Effort"><a href="#Implement-Event-driven-Architecture-With-Minimal-Effort" class="headerlink" title="Implement Event-driven Architecture With Minimal Effort"></a>Implement Event-driven Architecture With Minimal Effort</h3><h4 id="Temporal-coupling-is-the-most-overlooked-pitfall"><a href="#Temporal-coupling-is-the-most-overlooked-pitfall" class="headerlink" title="Temporal coupling is the most overlooked pitfall"></a><em>Temporal coupling is the most overlooked pitfall</em></h4><p><img src="https://cdn-images-1.medium.com/max/800/0*WLldaPqvSOjRmN8s"></p>
+<p>Last time, we <a target="_blank" rel="noopener" href="https://betterprogramming.pub/temporal-coupling-in-code-e74899f7a48f">explained that temporal coupling</a> can be effectively solved through event-driven architecture. Among them, we discussed the three approaches separately. Starting with the lowest reliability, simply using the event emitter can solve most of the cases with the least effort; secondly, in order to further improve the reliability, a message queue can be introduced to ensure that the event will be executed at least once. Finally, implement event sourcing to ensure that events are not lost at all.</p>
+<p>Nevertheless, in organizations with some resource constraints, message queues seem to be out of reach. The resources here include human resources and organizational budget, whether there is no extra manpower to maintain a new messaging service or no extra funds to start a messaging service. Message queuing is one of the high price systems in restricted organizations.</p>
+<p>Therefore, in this article, I will introduce how to achieve decoupling through event-driven architecture with minimal resources.</p>
+<h3 id="System-Overview"><a href="#System-Overview" class="headerlink" title="System Overview"></a>System Overview</h3><p>Why this topic is born? Because one of our products belongs to this restricted organization. Therefore, in the process of system evolution, we gradually improve the reliability by making lots of design decisions.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*K25enigwiBGTjRrQnfCPDQ.png"></p>
+<p>The overall architecture above is the final look of our system. We can see from the picture, there is no message queue. Even so, we still achieve high reliability. At least, if something goes wrong, there is a way to recover.</p>
+<p>The components, alert manager, crontab and DB are all existing in the system, and no additional components are added. We just split the unit originally executed by a function into an emitter and a handler.</p>
+<p>In the next section, I’ll explain how we did it step by step.</p>
+<h3 id="System-Evolution"><a href="#System-Evolution" class="headerlink" title="System Evolution"></a>System Evolution</h3><p>The entire system evolution process has gone through four stages, and we have gradually improved the reliability of the entire system.</p>
+<ul>
+<li>Best effort: In the beginning, we simply split the function into emitter and handler, that’s all. This is the most basic practice, all events are fire-and-forget. Of course, if there is no accident occurred, such an implementation is actually not bad. Decoupling can be done with minimal resources. But as mentioned in the previous article, there are two main problems, <strong>event loss</strong> and <strong>emit loss</strong>.</li>
+<li>Integrate with Alert Manager: Then we add an alert when the handler fails to execute. By writing the necessary information into <code>Elastic Search</code> and presenting it on <code>Kibana</code>, the person in charge can take corresponding actions after receiving an alert from slack. That is to say, we resolve <strong>event loss</strong> through manual recovery.</li>
+</ul>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*iOo7d75YrvR94pEsY9U0LA.png"></p>
+<ul>
+<li>Event sourcing: In order to track events more completely to avoid <strong>event loss</strong> and <strong>emit loss</strong>, we use the existing database to implement a simplified version of event sourcing. Before emitting the event, the emitter writes a metadata into the database and marks the expected handler. If the writing to the database fails, it is regarded as an event emission failure, and the alert manager will be triggered. The handler also updates itself into the database when it completes the event. For the example mentioned above, the metadata of the event looks like this:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    eventName: &quot;purchased&quot;,  </span><br><span class="line">    createAt: &quot;2022/01/01 1:11:11&quot;,  </span><br><span class="line">    expected: [&quot;giveCoupon&quot;, &quot;lottery&quot;],  </span><br><span class="line">    status: 0, // 0: emitted, 1: timeout, 2: processed  </span><br><span class="line">    done: [],  </span><br><span class="line">    args: [&quot;user A&quot;, 5000]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*EURDW5EBuwGQbdqIsU692A.png"></p>
+<ul>
+<li>Apply crontab plus event idempotency: At this moment, it is the same as the previous complete architecture diagram. All the above steps have a fatal flaw, and it needs to be manually recovered by humans. Although this can make sure that the problem can be solved eventually, the mean time to recovery (MTTR) will be pretty long. Therefore, the entire recovery mechanism can be further enhanced, through the workflow event pattern introduced in <a target="_blank" rel="noopener" href="https://lazypro.medium.com/design-patterns-of-event-driven-architecture-bf0121cfda7b">my previous article</a>. Periodically check which events are not executed correctly through a crontab, and then rerun it.</li>
+</ul>
+<p>There are two important points worth noting. First, the processing of each event must be idempotent, which is very important even when using message queues. Because message queues provide the guarantee of at-least-once, not exactly-once. Second, even with idempotency, there should be an upper bound on retries. If the retry fails several times, we still have to notify the person in charge to deal with follow-up matters.</p>
+<h3 id="Trade-off"><a href="#Trade-off" class="headerlink" title="Trade-off"></a>Trade-off</h3><p>In fact, the above architecture has a lot to discuss. For example,</p>
+<ul>
+<li>Know which handlers are expected when the emitter writes to the database. In other words, the emitter is somehow coupled to the handler. However, in my opinion, such coupling is acceptable. As long as the coupling can be reduced through appropriate coding, for instance, there is a global mapping table to have the relationship between each event and handlers, so this can be regarded as a configuration rather than a coupling.</li>
+<li>Retry in the handler instead of crontab. Each has its own advantages. Retrying in the handler can recover the error as soon as possible, but sometimes the main reason for the failure of the handler is database congestion, and retrying immediately will further increase the load on the database.</li>
+<li>The data are inconsistent. The handler executes successfully but the update fails. Using idempotency to ensure that even repeated execution will not cause problems. On the other hand, the task of the emitter is executed successfully but fails to write to the database, which has to be re-emitted manually. This can be done with a more complex mechanism to implement automatic retries, but at the cost of more complexity, I don’t feel it’s worth it for the corner case where the write fails.</li>
+</ul>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we discuss some of the trade-offs some restricted organizations face with event-driven architecture. It has to be said that event-driven architecture itself is a highly complex architecture, and whether it is really suitable in small organizations has always been a matter of debate. However, this article provides a simple way to implement event-driven architecture on a small system. In addition to not creating new components, it does not generate too much coding complexity, and it is an easy-to-practice implementation.</p>
+<p>Still, it’s not easy to find the right approach for each organization in this long list of design decisions. Behind every straightforward answer, there are many considerations and possible risks. When I’m designing a system, especially a distributed system, I always remind myself to be careful with FLP Theorem.</p>
+<blockquote>
+<p><em>No completely asynchronous consensus protocol can tolerate even a single unannounced process death</em></p>
+</blockquote>
+<p>In simple english, it is Murphy’s law.</p>
+<blockquote>
+<p><em>Anything that can go wrong will go wrong.</em></p>
+</blockquote>
+<p>How to be as reliable as possible with limited resources, whether in terms of time, manpower, or cost, is the most interesting part of system design.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/implement-event-driven-architecture-with-minimal-effort-182c3bbe5524">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Understand-Temporal-Coupling-in-Code/20220213/" rel="prev" title="Understand Temporal Coupling in Code">
+                  <i class="fa fa-chevron-left"></i> Understand Temporal Coupling in Code
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Development/How-to-Prepare-a-Design-Review-Like-an-Expert/20220228/" rel="next" title="How to Prepare a Design Review Like an Expert?">
+                  How to Prepare a Design Review Like an Expert? <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="This article will:  explain what is the distributed transaction. introduce how to resolve the distributed problem. provide a real-world example to demonstrate how dose the proper solution look like.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Distributed Transaction Introduction">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Distributed-Transaction-Introduction/20211001/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="This article will:  explain what is the distributed transaction. introduce how to resolve the distributed problem. provide a real-world example to demonstrate how dose the proper solution look like.">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*CguLyqdZJ8lNVqmxg-8xdA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*dYiSTnbVAO3P8caAVQVf1A.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*3ilS7E-5m3G370vJU2V2TA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*ZsbogH53HuWUItiktCP1fA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*X--IGPY5ARQRsOG9oTwu3A.png">
+<meta property="article:published_time" content="2021-10-01T19:37:42.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.822Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*CguLyqdZJ8lNVqmxg-8xdA.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Distributed-Transaction-Introduction/20211001/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Distributed-Transaction-Introduction/20211001/","path":"Architecture/Distributed-Transaction-Introduction/20211001/","title":"Distributed Transaction Introduction"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Distributed Transaction Introduction | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#What-is-Transaction"><span class="nav-number">1.</span> <span class="nav-text">What is Transaction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Who-has-Transaction"><span class="nav-number">2.</span> <span class="nav-text">Who has Transaction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#How-about-Distributed-Transaction"><span class="nav-number">3.</span> <span class="nav-text">How about Distributed Transaction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Simple-Design-but-Incorrect"><span class="nav-number">4.</span> <span class="nav-text">Simple Design but Incorrect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Two-phase-Commit-Protocol"><span class="nav-number">5.</span> <span class="nav-text">Two-phase Commit Protocol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Eventually-Consistency"><span class="nav-number">6.</span> <span class="nav-text">Eventually Consistency</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Distributed-Transaction-Introduction/20211001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Distributed Transaction Introduction | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Distributed Transaction Introduction
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-10-02 03:37:42" itemprop="dateCreated datePublished" datetime="2021-10-02T03:37:42+08:00">2021-10-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>This article will:</p>
+<ol>
+<li>explain what is the distributed transaction.</li>
+<li>introduce how to resolve the distributed problem.</li>
+<li>provide a real-world example to demonstrate how dose the proper solution look like.</li>
+</ol>
+<p>To discuss the distributed transaction, we should talk about the transaction first. We will enter the world of the distributed system design step by step. So, let’s begin.</p>
+<h3 id="What-is-Transaction"><a href="#What-is-Transaction" class="headerlink" title="What is Transaction"></a>What is Transaction</h3><p>The traditional transaction system provide 4 guarantees by the definition. They are known as ACID:</p>
+<ul>
+<li>Atomicity: All tasks in a transaction either all have been done or done with nothing. In this premise, we can ensure our database modifications will be all or nothing.</li>
+<li>Consistency: The operation in a transaction still follows the constraint. In addition, once it is committed, the changes can be read by others correctly.</li>
+<li>Isolation: The isolation is defined as 4 isolation levels. They are <code>Read Uncommitted</code>, <code>Read Committed</code>, <code>Repeatable Read</code>, and <code>Serializable</code>. Different isolation levels can solve different user scenarios. The <code>Seriablizable</code> treats all operations are in order; therefore, he will not encounter the racing conditions anymore.</li>
+<li>Durability: Once the data changes are committed, they will not be lost even the database crashes.</li>
+</ul>
+<h3 id="Who-has-Transaction"><a href="#Who-has-Transaction" class="headerlink" title="Who has Transaction"></a>Who has Transaction</h3><p>After describing ACID briefly, let’s see who can support them. I pick 3 very common targets, <code>MySQL</code>, <code>Mongo</code> and <code>Redis</code>.</p>
+<ul>
+<li>MySQL: Of course, yes. As a representative of OLTP(Online Transactional Processing), MySQL supports the transaction very well, and it is widely used to the transaction scheme. Although, the transaction level is usually set to <code>Repeatable Read</code>, MySQL is still the most appropriate solution.</li>
+<li>Mongo: Since v4.0 released, Mongo has supports the transaction. As long as the correct use <code>Write Concern</code> and <code>Read Concern</code> can ensure <code>Consistency</code> of the transaction. In my opinion, Mongo is very suitable for the de-normalized user scenario.</li>
+<li>Redis: Well, not really. We know Redis has the atomical operation due to the single-thread design. In addition, Redis has <code>MULTI</code> to execute multiple commands or <code>EVAL</code> to call the <code>Lua</code> script, so that Redis can perform lots of data changes at once. Moreover, Redis can use AOF to accomplish the data persistence. I have to say that Redis cannot support the transaction. Redis may leverage those mechanisms to solve part of the transaction stories; as a consequence, it does still not fully provide ACID.</li>
+</ul>
+<p>Let me summarize in a table:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*CguLyqdZJ8lNVqmxg-8xdA.png"></p>
+<h3 id="How-about-Distributed-Transaction"><a href="#How-about-Distributed-Transaction" class="headerlink" title="How about Distributed Transaction"></a>How about Distributed Transaction</h3><p>Alright, we have gone through the traditional transaction. Now, we can talk about the distributed transaction. In order to ease the problem scope, I will give a simple definition to the distributed transaction, that is, provide ACID across multiple homogeneous&#x2F;heterogeneous data sources. Here are few examples:</p>
+<ol>
+<li>Insert a row in one MySQL database, and insert another row into another MySQL database.</li>
+<li>Insert a row in a MySQL database, and insert a document into a Mongo database.</li>
+<li>Insert a document in one of Mongo shards, and insert another document into another Mongo shards.</li>
+</ol>
+<blockquote>
+<p><em>The third example can be solved by native Mongo’s transaction after Mongo v4.2 released; therefore, we can skip this example.</em></p>
+</blockquote>
+<h3 id="Simple-Design-but-Incorrect"><a href="#Simple-Design-but-Incorrect" class="headerlink" title="Simple Design but Incorrect"></a>Simple Design but Incorrect</h3><p>Okay, let’s quick look a basic design concept. We perform the transaction on each data source, if there is one of them failed, we rollback the previous tasks.</p>
+<p>Based on our simple design, there is an implementation on data source A, B and C like this:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*dYiSTnbVAO3P8caAVQVf1A.png"></p>
+<p>The problem here is: after we commit the result to A, we are hard to perform rollback on A if B is failed.</p>
+<p>Even if we adopt the nested transaction, the problem is still not resolved like the following diagram:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*3ilS7E-5m3G370vJU2V2TA.png"></p>
+<p>According to the diagram below, we can see the same problem as the figure 1. We cannot rollback on C easily.</p>
+<h3 id="Two-phase-Commit-Protocol"><a href="#Two-phase-Commit-Protocol" class="headerlink" title="Two-phase Commit Protocol"></a>Two-phase Commit Protocol</h3><p>In the field of Microservice, this kind of problems are becoming common; hence, many protocols have been proposed to figure out the solution like <code>XA</code> and <code>SAGA</code>. Both <code>XA</code> and <code>SAGA</code> are based on the same theory, <code>2PC</code>, aka the two-phase commit protocol. I won’t dive into <code>2PC</code>, I will provide an introduction to explain its concept.</p>
+<p>There is a coordinator in the story, everyone want to perform the distributed transaction has to register(first commit) with it. The coordinator will poll every data source who participates in this transaction to get the permission. If there is any participant says no, the coordinator will reject the transaction request and perform rollback to every participant. If fortunately all data sources reply yes, the coordinator will response okay to the client. The client is able to perform the real commit(second commit) to the coordinator to proceed the process.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*ZsbogH53HuWUItiktCP1fA.png"></p>
+<p>See this, we can find out three problems:</p>
+<ol>
+<li>It is very time consuming. Client must wait for every data source agree his request, and then submit the real commit to them. Although this synchronization can ensure the strong consistency on data changes, we have to invest more time.</li>
+<li>SPOF(Single point of failure) is on the coordinator. If the coordinator crashes, all the distributed transactions do not work anymore.</li>
+<li>If the coordinator’s commit is failed due to the network loss or other reasons, the data will be inconsistent on those participated data sources.</li>
+</ol>
+<h3 id="Eventually-Consistency"><a href="#Eventually-Consistency" class="headerlink" title="Eventually Consistency"></a>Eventually Consistency</h3><p>It seems that multi-phase commit protocol is not feasible, we should try to find out a light weight approach called eventually consistency. Literally we know that we give up the strong consistency to reduce the implementation overhead. In other words, we hope the data can be consistent in the end. To achieve the eventually consistency approach, there are two keywords should keep in mind.</p>
+<ol>
+<li>Event sourcing: To make this term simple, it means we record the status changes instead of the status itself. For instance, the bank passbook records every transaction not only the balance.</li>
+<li>Idempotence: The idempotence is quite intuitive. We can perform a tasks many times, and the result is the same as we performed once.</li>
+</ol>
+<p>Combine these two concepts, we can design our system now. We make every transaction be an event, if a client want to perform a distributed transaction which means the client emit an event to the event processor. The event processor receives a event and start to do transaction on those multiple data sources. After all tasks finish, the event can be mark as <code>DONE</code>, and the event processor can handle the next one. If there is a transaction cannot succeed on one of the data sources, we don’t mark this event <code>DONE</code>, so that the event processor will retry later. Due to the idempotence, the event can be processed more than once. Nevertheless, putting a retry limit is recommended.</p>
+<p>Let’s see the diagram to show the design flow:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*X--IGPY5ARQRsOG9oTwu3A.png"></p>
+<p>Perfect, as a result of the design concept, we can handle the distributed transaction correctly, and the data consistency will be kept eventually.</p>
+<p>Even though there is a queue in our design, in fact, you don’t need invoke a real queue in your system. There are many alternatives, e.g., store all events in a MySQL table having a column be the status. The core of this design is the event sourcing and the idempotence, you can accomplish them in what way you preferred.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/distributed-transaction-introduction-1cd105c830a2">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Golang/Common-interface-for-query-functions-in-sqlDB-and-sqlTx/20210930/" rel="prev" title="Common interface for query functions in sql.DB and sql.Tx">
+                  <i class="fa fa-chevron-left"></i> Common interface for query functions in sql.DB and sql.Tx
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Architecture/Design-Patterns-of-Event-driven-Architecture/20211014/" rel="next" title="Design Patterns of Event-driven Architecture">
+                  Design Patterns of Event-driven Architecture <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

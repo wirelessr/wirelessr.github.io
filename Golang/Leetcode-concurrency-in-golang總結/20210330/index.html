@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Leetcode concurrency in golang總結 這次在leetcode中選了concurrency類別的6題(總共也只有6題)來練習golang，主要是為了熟悉golang的語法，和體會goroutine的強大。實際解題後，對於golang這個語言又有了新一層的認知，在這篇我會就我寫過的程式語言做些比較並給點簡單的心得。 首先，先回顧一下這六題： #1114，是最簡單的一題，透過">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode concurrency in golang總結">
+<meta property="og:url" content="https://wirelessr.github.io/Golang/Leetcode-concurrency-in-golang%E7%B8%BD%E7%B5%90/20210330/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Leetcode concurrency in golang總結 這次在leetcode中選了concurrency類別的6題(總共也只有6題)來練習golang，主要是為了熟悉golang的語法，和體會goroutine的強大。實際解題後，對於golang這個語言又有了新一層的認知，在這篇我會就我寫過的程式語言做些比較並給點簡單的心得。 首先，先回顧一下這六題： #1114，是最簡單的一題，透過">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*-0p9sWtQYUqesdqW.jpg">
+<meta property="article:published_time" content="2021-03-30T19:25:37.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.826Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*-0p9sWtQYUqesdqW.jpg">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Golang/Leetcode-concurrency-in-golang%E7%B8%BD%E7%B5%90/20210330/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Golang/Leetcode-concurrency-in-golang%E7%B8%BD%E7%B5%90/20210330/","path":"Golang/Leetcode-concurrency-in-golang總結/20210330/","title":"Leetcode concurrency in golang總結"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Leetcode concurrency in golang總結 | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Leetcode-concurrency-in-golang%E7%B8%BD%E7%B5%90"><span class="nav-number">1.</span> <span class="nav-text">Leetcode concurrency in golang總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Leetcode-concurrency-in-golang%E7%B8%BD%E7%B5%90/20210330/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Leetcode concurrency in golang總結 | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Leetcode concurrency in golang總結
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-03-31 03:25:37" itemprop="dateCreated datePublished" datetime="2021-03-31T03:25:37+08:00">2021-03-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Leetcode-concurrency-in-golang總結"><a href="#Leetcode-concurrency-in-golang總結" class="headerlink" title="Leetcode concurrency in golang總結"></a>Leetcode concurrency in golang總結</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*-0p9sWtQYUqesdqW.jpg"></p>
+<p>這次在leetcode中選了concurrency類別的6題(總共也只有6題)來練習golang，主要是為了熟悉golang的語法，和體會goroutine的強大。實際解題後，對於golang這個語言又有了新一層的認知，在這篇我會就我寫過的程式語言做些比較並給點簡單的心得。</p>
+<p>首先，先回顧一下這六題：</p>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1114-print-in-order-in-golang-f3115f6d82c6">#1114</a>，是最簡單的一題，透過channel的強大支援，就可以很好的協調所有的goroutine。</p>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1115-print-foobar-alternately-in-golang-ca9295ee4b16">#1115</a>，就再稍微有趣一點，依然可以用channel簡單做，但其實也可以透過Barrier收得更美，只是在Barrier底下要維持foobar的順序要花點心思。</p>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1116-print-zero-even-odd-in-golang-bd7e614b04f2">#1116</a>，可以透過channel做，但因為有三個goroutine，要分配誰該做事誰該等待會有點複雜；用Barrier做的話也有誰先誰後的問題要解決。所以最後我決定用一個比較不一樣的選擇：使用生產者消費者模型。</p>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1117-building-h2o-in-golang-29034abd2894">#1117</a>，典型的信號題，透過信號可以順利解決問題，但golang的信號無法空等，和pthread的行為不同，這點要額外注意。</p>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1195-fizz-buzz-multithreaded-in-golang-e01ab37be401">#1195</a>，典型的Barrier題，為什麼這題是典型題，但1115不是？最主要的差別在於，1195的所有worker雖然全部都要按照順序執行某一樣固定任務，但每一個任務只有一個worker確切會做事，因此worker間不需要彼此協調。但1115則是需要foo和bar同步，foo一定要先，才是bar。</p>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/leetcode-concurrency-1226-the-dining-philosophers-in-golang-c73950e098a2">#1226</a>，典型的教科書題，哲學家用餐問題。一堆教科書都寫過解法所以也沒什麼好說的，這邊就是其中一種教科書解法，依序拿兩個鎖，反序釋放。</p>
+<p>練習了這些同步的問題，對於goroutine和channel有了進一步認識，但這些問題其實沒帶到兩個進階用法：buffered channel和select(unblock read&#x2F;write)，之後我會再找機會練習；另外有些進階語法也沒機會使用到，例如把channel當初func的input&#x2F;output。這些其實在看open source的時候都還算常見，但因為不熟所以會看得很痛苦，這次沒練習到實屬可惜。</p>
+<p>最後是與一些常見語言的比較，這邊舉Linux C、Python3和golang做對比。</p>
+<p>語感上Python3還是完勝，主要是因為Python是個弱型別語言，所以變數和容器都可以龍蛇雜處，另外，Python的list&#x2F;dict也不需要allocate，golang必須要在宣告後make，這點在純Python programmer眼裡實在有夠不自然。但golang還是比C語言好上一截，至少在array&#x2F;slice的操作上，比起C更加直覺，天生支援回傳多值也比C方便許多。此外，golang的strcut還可以包function，這點也比C更加實用。</p>
+<p>golang有一點很特別的是，支援指標&#x2F;定址，這點褒貶不一，但在我眼裡其實弊大於利。首先，在宣告func和struct時，實在很難搞懂到底要不要加星號，舉例來說，sync.WaitGroup大部分的範例都有加星號，但sync.Mutex卻沒有，這標準是什麼？我現在就也是照抄而已，還沒搞懂背後的原因。至於func的參數，golang天生就是call-by-value，即使是array&#x2F;slice&#x2F;map也是call-by-value，這很容易讓無論是C還是Python programmer踩坑。</p>
+<p>在multi-task方面，Python可以選擇multi-process&#x2F;multi-thread&#x2F;coroutine，golang有天生自帶的goroutine，而C只有multi-process&#x2F;multi-thread。不得不說，goroutine實在太強太好寫了，Python的coroutine還要搞一堆async&#x2F;await，麻煩到不行，也有夠不直覺。但goroutine不用，就正常寫就好，在這點絕對是大勝Python十條街以上。而且在同步處理的部分，有channel實在方便，可以通知&#x2F;等待，在C&#x2F;Python都必須透過pthread提供的lock和condition來協調，其實不太好用，沒有語法糖。</p>
+<p>總體來說，我個人還是覺得Python &gt; golang &gt; C，但在同步處理上或者單一功能的小型app上，golang &gt; Python &gt; C。主要原因有二，其一是goroutine很容易開發；其二，golang可以直接build出binary比起肥死人的Python和一堆side-packages更容易移植。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/leetcode-concurrency-in-golang%E7%B8%BD%E7%B5%90-4e03838d0602">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Golang/Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang/20210329/" rel="prev" title="Leetcode concurrency #1226 The Dining Philosophers (in golang)">
+                  <i class="fa fa-chevron-left"></i> Leetcode concurrency #1226 The Dining Philosophers (in golang)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Misc/2021%E4%B8%8A%E5%8D%8A%E5%B9%B4%E5%BE%8C%E7%AB%AF%E5%85%A8%E7%AB%AF%E9%9D%A2%E8%A9%A6%E7%B6%93%E6%AD%B7/20210627/" rel="next" title="2021上半年後端/全端面試經歷">
+                  2021上半年後端/全端面試經歷 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

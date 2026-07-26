@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Understanding Partial IndexingWhen and how to use partial indexing A few days ago, a team member asked me a question about partial indexing, and I feel it’s a good topic, so today we’ll talk about par">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Understanding Partial Indexing">
+<meta property="og:url" content="https://wirelessr.github.io/Database/Understanding-Partial-Indexing/20220807/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Understanding Partial IndexingWhen and how to use partial indexing A few days ago, a team member asked me a question about partial indexing, and I feel it’s a good topic, so today we’ll talk about par">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*Qh8C7h4nVT3CTPZi.jpg">
+<meta property="article:published_time" content="2022-08-07T17:20:03.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.829Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*Qh8C7h4nVT3CTPZi.jpg">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Database/Understanding-Partial-Indexing/20220807/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Database/Understanding-Partial-Indexing/20220807/","path":"Database/Understanding-Partial-Indexing/20220807/","title":"Understanding Partial Indexing"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Understanding Partial Indexing | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Understanding-Partial-Indexing"><span class="nav-number">1.</span> <span class="nav-text">Understanding Partial Indexing</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#When-and-how-to-use-partial-indexing"><span class="nav-number">1.1.</span> <span class="nav-text">When and how to use partial indexing</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What-are-the-benefits-of-partial-indexing"><span class="nav-number">2.</span> <span class="nav-text">What are the benefits of partial indexing?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#When-should-I-use-a-partial-index"><span class="nav-number">3.</span> <span class="nav-text">When should I use a partial index?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">4.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Database/Understanding-Partial-Indexing/20220807/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Understanding Partial Indexing | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Understanding Partial Indexing
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-08-08 01:20:03" itemprop="dateCreated datePublished" datetime="2022-08-08T01:20:03+08:00">2022-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Understanding-Partial-Indexing"><a href="#Understanding-Partial-Indexing" class="headerlink" title="Understanding Partial Indexing"></a>Understanding Partial Indexing</h3><h4 id="When-and-how-to-use-partial-indexing"><a href="#When-and-how-to-use-partial-indexing" class="headerlink" title="When and how to use partial indexing"></a>When and how to use partial indexing</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*Qh8C7h4nVT3CTPZi.jpg"></p>
+<p>A few days ago, a team member asked me a question about partial indexing, and I feel it’s a good topic, so today we’ll talk about partial indexing:</p>
+<ol>
+<li>What are the benefits of partial indexing?</li>
+<li>When should I use a partial index?</li>
+</ol>
+<p>Before we talk about the above two questions, let’s have a basic understanding of partial indexing.</p>
+<p>The purpose of database indexing is to speed up query performance by placing data in memory through special data structures in order to avoid long access latency on the hard drive.</p>
+<p>The current mainstream RDBMS MySQL and PostgreSQL, they use B+ tree, while the document-based MongoDB uses B tree.</p>
+<p>Most of the database indexes do not treat each row in the database as a separate leaf node, but use the “value” as the leaf and record the primary key in it, so after finding the leaf, it is necessary to pull the other data from the primary key.</p>
+<p>Partial indexes only create nodes for “values” that meet certain conditions. Currently MongoDB and PostgreSQL both support partial indexes, but InnoDB, which is often used by MySQL, does not. After MySQL 8.0, there is support for functional indexes, which can be used to achieve the effect of partial indexes.</p>
+<h3 id="What-are-the-benefits-of-partial-indexing"><a href="#What-are-the-benefits-of-partial-indexing" class="headerlink" title="What are the benefits of partial indexing?"></a>What are the benefits of partial indexing?</h3><p>After understanding the background of partial indexing, it should be no wonder that the biggest advantage of partial indexing is to reduce the memory size occupied by the index. Compared to creating nodes for all values, partial indexing only creates nodes for some values, so the percentage of reduction depends on the criteria used.</p>
+<p>For example, if I have a single-field (a) index with values from 0 to 9, I can save about 50% of the space overhead if I set the partial index condition to <code>a &gt;= 5</code>. Note that this is not related to the amount of data, but only to the value ranges. Even if the <code>a = 0</code> data has only one row, it will still have an index node as well as the <code>a = 1</code> data with 1000 rows.</p>
+<p>In addition to saving space, the query performance will also be improved. The query efficiency of B tree is <code>O(log N)</code>, where <code>N</code> refers to the number of index nodes, not the number of rows.</p>
+<p>After partial indexing, we can get a more compact tree, let’s say it has M nodes. Due to <code>M &lt; N</code>, so <code>O(log M) &lt; O(log N)</code>, we thus know that partial indexing can improve the query performance. However, the benefit is small, because after <code>log</code>, unless the difference between <code>N</code> and <code>M</code> is significant, the effect on query performance is not much.</p>
+<p>To sum up, the biggest advantage of partial indexing is to reduce the space overhead for indexing and to improve some of the query performance.</p>
+<h3 id="When-should-I-use-a-partial-index"><a href="#When-should-I-use-a-partial-index" class="headerlink" title="When should I use a partial index?"></a>When should I use a partial index?</h3><p>To figure out the time to use it, we first need to know what will happen when the “query results” will contain nodes that don’t meet the partial indexing criteria.</p>
+<p>A bit abstract, right? Let’s use MongoDB as an example.</p>
+<p>First, there is a partial index built on a compound index of the user list, in order to make indexing adults faster.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.users.createIndex(  </span><br><span class="line">   &#123; name: 1 &#125;,  </span><br><span class="line">   &#123; partialFilterExpression: &#123; age: &#123; $gte: 18 &#125; &#125; &#125;  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>However, if our scenario is likely to require a query for a name without an age limit, then such a query will not use the index.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.users.find(&#123;name: &quot;Tom&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>For instance, if there are three Toms aged 8, 18 and 28, then <code>(&quot;Tom&quot;, 18)</code> and <code>(&quot;Tom&quot;, 28)</code> will both be created but not <code>(&quot;Tom&quot;, 8)</code>, so the MongoDB optimizer knows this is the case and will not use partial indexes, but will use full table scans instead.</p>
+<p>Yes, that’s the price. As soon as the scenario contains a condition that is not in the value range of the partial index, then it becomes a full table scan.</p>
+<p>Therefore, what kind of scenario is suitable for partial indexing? In my opinion, two conditions need to be satisfied.</p>
+<ol>
+<li>The value range is large, but the common range of data is small.</li>
+<li>Even without index, the query will not impact the database too much, e.g., query frequency, collection size, etc.</li>
+</ol>
+<p>The second point is simpler to understand, but what does the first point exactly mean?</p>
+<p>From the previous section, we know the biggest advantage of partial indexing is to reduce the space of indexes rather than to improve the performance of queries, so the most effective scenario is when data is scattered and only a fraction of the common data is used by the application.</p>
+<p>Take a practical example of a membership system.</p>
+<p>From registration to membership, a user may need to go through many procedures until finally becoming a member after email verification. But this system, for non-members basically does not care, it only focuses on processing the verified member data.</p>
+<p>Then, the partial index can be designed in this way.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.users.createIndex(  </span><br><span class="line">   &#123; name: 1 &#125;,  </span><br><span class="line">   &#123; partialFilterExpression: &#123; email: &#123; $exists: true &#125; &#125; &#125;  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>Because this membership system only cares about member information, i. e., users must have email. There may be a large number of users who go through the partial registration process at the beginning but do not pass the verification process at the end, then there will be a large amount of data that does not need to be indexed. In this way, the index space can be reduced as much as possible, and the efficiency of the member’s query can be improved.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>After all, there is not a perfect solution. Partial indexing saves index space and improves query performance, but there is a corresponding price to pay for a full table scan.</p>
+<p>Therefore, it is important to understand the principle of partial indexing and the scenario of using it.</p>
+<p>The effectiveness of an indexing mechanism depends entirely on the data distribution and the characteristics of the application, whether it is a regular index or a partial index. Therefore, this article can’t tell you a one size fits all solution, it can only offer you a guideline, and it’s up to you to take the trade-off.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/partial-indexing-faq-55d6f1e10c08">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Ruby/Building-Ruby-on-Rails-from-Scratch-Day-3/20220731/" rel="prev" title="Building Ruby on Rails from Scratch, Day 3">
+                  <i class="fa fa-chevron-left"></i> Building Ruby on Rails from Scratch, Day 3
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Database/Understanding-String-Comparison-of-Databases/20220814/" rel="next" title="Understanding String Comparison of Databases">
+                  Understanding String Comparison of Databases <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

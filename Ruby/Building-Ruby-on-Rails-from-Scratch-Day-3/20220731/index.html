@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Building Ruby on Rails from Scratch, Day 3Pros and Cons of Rails  Day 1: From Nothing to Something Day 2: More Things about Relations, Tests, etc. Day 3: My Thoughts on Ruby  This is the last article">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Building Ruby on Rails from Scratch, Day 3">
+<meta property="og:url" content="https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch-Day-3/20220731/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Building Ruby on Rails from Scratch, Day 3Pros and Cons of Rails  Day 1: From Nothing to Something Day 2: More Things about Relations, Tests, etc. Day 3: My Thoughts on Ruby  This is the last article">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*i2LpIPr9CdH4ax-V.png">
+<meta property="article:published_time" content="2022-07-31T17:46:17.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.821Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*i2LpIPr9CdH4ax-V.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch-Day-3/20220731/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch-Day-3/20220731/","path":"Ruby/Building-Ruby-on-Rails-from-Scratch-Day-3/20220731/","title":"Building Ruby on Rails from Scratch, Day 3"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Building Ruby on Rails from Scratch, Day 3 | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Building-Ruby-on-Rails-from-Scratch-Day-3"><span class="nav-number">1.</span> <span class="nav-text">Building Ruby on Rails from Scratch, Day 3</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pros-and-Cons-of-Rails"><span class="nav-number">1.1.</span> <span class="nav-text">Pros and Cons of Rails</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ranking"><span class="nav-number">2.</span> <span class="nav-text">Ranking</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Benefits-of-Rails"><span class="nav-number">3.</span> <span class="nav-text">Benefits of Rails</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shortcomings-of-Rails"><span class="nav-number">4.</span> <span class="nav-text">Shortcomings of Rails</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">5.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Ruby/Building-Ruby-on-Rails-from-Scratch-Day-3/20220731/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Building Ruby on Rails from Scratch, Day 3 | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Building Ruby on Rails from Scratch, Day 3
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-08-01 01:46:17" itemprop="dateCreated datePublished" datetime="2022-08-01T01:46:17+08:00">2022-08-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Ruby/" itemprop="url" rel="index"><span itemprop="name">Ruby</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Building-Ruby-on-Rails-from-Scratch-Day-3"><a href="#Building-Ruby-on-Rails-from-Scratch-Day-3" class="headerlink" title="Building Ruby on Rails from Scratch, Day 3"></a>Building Ruby on Rails from Scratch, Day 3</h3><h4 id="Pros-and-Cons-of-Rails"><a href="#Pros-and-Cons-of-Rails" class="headerlink" title="Pros and Cons of Rails"></a>Pros and Cons of Rails</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*i2LpIPr9CdH4ax-V.png"></p>
+<ul>
+<li>Day 1: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/building-ruby-on-rails-from-scratch-b855584ff4f8">From Nothing to Something</a></li>
+<li>Day 2: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/building-ruby-on-rails-from-scratch-day-2-d609fce59811">More Things about Relations, Tests, etc.</a></li>
+<li>Day 3: My Thoughts on Ruby</li>
+</ul>
+<p>This is the last article in this series. Instead of building an application from scratch, in this article I’d like to talk about some of my thoughts on Ruby on Rails over the past few weeks.</p>
+<p>First, I’ll start with a brief ranking of the programming languages I’ve experienced on multiple aspects, including <em>C++</em>, Python, Node, Golang, and Rails, and since I haven’t worked with Java or <em>.NET Core</em>, perhaps you can consider <em>C++</em> as an alternative.</p>
+<p>These language comparisons are mainly qualitative rather than quantitative. After all, I don’t really measure anything, it’s mostly “how I feel”.</p>
+<p>Next, I’ll describe the benefits I’ve experienced in Rails. I’ll give a reasonable rating for both extensibility and ease of use.</p>
+<p>Finally, of course, there will be the shortcomings that I feel.</p>
+<p>But what I feel is not the same as what you feel is a pain point. The size of the application, the amount of organizational resources, and other factors can affect how you feel. So I’m only commenting on Rails based on my own experience and understanding of the evolution of the system.</p>
+<h3 id="Ranking"><a href="#Ranking" class="headerlink" title="Ranking"></a>Ranking</h3><p><em><strong>Performance</strong></em></p>
+<p>First, let’s compare performance. As I said earlier, I didn’t do any measurements, I simply did some comparisons based on the nature of the language and my feelings.</p>
+<blockquote>
+<p><code>C++</code> <em>&gt; Golang &gt; Node &gt; Python &#x3D; Rails</em></p>
+</blockquote>
+<p>Ruby and Python are the slowest, I believe, no doubt, because of GIL, which makes these two languages less efficient. I want to emphasize that Python here means CPython, and in fact, GIL-removed implementations like <code>pypy</code> or <code>IronPython</code> perform very well.</p>
+<p>Although Node does not have GIL implementation and is event-driven by nature, Node can still only execute all events through a single process, which is still a gap compared to Golang’s <code>goroutine</code>. <code>C++</code> has a natural advantage due to its closer implementation to the kernel.</p>
+<p><em><strong>Portability</strong></em></p>
+<p>The portability here is not about cross-platform porting, after all, these languages are cross-platform, and <code>C++</code> can also be cross-platform as long as it has a corresponding toolchain.</p>
+<p>So what is the comparison here? I think we can compete in terms of how easy it is to run an application. For example, Python requires the installation of an interpreter, not to mention the dependency on packages like <code>pip install</code>, and the same applies to Node. But Rails, in addition to Ruby itself, sometimes even Node is part of the dependency, and that’s where it loses out.</p>
+<p>Therefore,</p>
+<blockquote>
+<p><code>C++</code> <em>&gt; Golang &gt; Node &#x3D; Python &gt; Rails</em></p>
+</blockquote>
+<p>In addition to judging by the number of package dependencies, we can also compare the container image sizes created with best practices, and the results are the same.</p>
+<p><em><strong>Ease of coding</strong></em></p>
+<p>The first two comparisons I feel there should be no debate about the results, not much difference with the facts, but the next one is more subjective, the ease of coding.</p>
+<blockquote>
+<p><em>Python &#x3D; Rails &gt; Node &gt; Golang &gt;</em> <code>C++</code></p>
+</blockquote>
+<p>First of all, I am a fan of weak typed languages, so Golang and <code>C++</code> must be at the bottom of the list. Golang is a bit easier than <code>C++</code>, with fewer keywords.</p>
+<p>Although Node is a weak typed language, its event-driven nature makes it a bit difficult for people who are new to it to understand when to <code>async/await</code> and when to synchronize, which takes time to get used to. In addition, Node has a lot of difficulties with object-oriented implementation, and honestly, Node is not easy to get objects right.</p>
+<p>As for Python and Rails, they are really easy to code, with a procedural language base and rich syntactic sugar that makes everything possible. If I had to decide between the two, I’d probably vote for Python!</p>
+<p><em><strong>Extensibility (including packages and ecosystems)</strong></em></p>
+<p>Excluding <code>C++</code>, all the other languages have relatively good package management tools, and all have active ecosystems, so it’s a little hard to tell the difference.</p>
+<p>But if I have to say so, Python can do a little more than the other languages, so Python is in the front of my list.</p>
+<blockquote>
+<p><em>Python &gt; Rails &#x3D; Node &#x3D; Golang &gt;</em> <code>C++</code></p>
+</blockquote>
+<h3 id="Benefits-of-Rails"><a href="#Benefits-of-Rails" class="headerlink" title="Benefits of Rails"></a>Benefits of Rails</h3><p>The above comparison is mostly based on my experience, which may not be the same as yours, but in general Rails is still outstanding.</p>
+<p>In particular, as you can see from the descriptions in my first two articles, it can be really fast to build an application with Rails.</p>
+<p>Especially since Rails provides excellent <em>ERb templates</em> that make frontend pages easy to develop, and there are many helpers in Rails that integrate well with the frontend to make things even easier.</p>
+<p>Furthermore, one of the most amazing features of Rails is the <code>ActiveRecord</code> and resource-based routing paradigms that are developed in accordance with the <em>Active Record Pattern</em> mentioned in <em>Patterns of Enterprise Application Architecture</em>, which shows the author’s ingenuity.</p>
+<p>In Rails, you don’t need to care about the database underlying the <code>ActiveRecord</code>. The application is basically written the same way, whether it’s MySQL or MongoDB. More importantly, <code>ActiveRecord</code> can also automatically generate schema for database migration, both in whole and in part, and it can be both up and down, which is really convenient.</p>
+<p>Even when we were developing Node, we used Rails to create the schema for the database migration.</p>
+<p>Finally, Rails has a lot of built-in features that are necessary for the backend development, such as caching through <code>CacheStore</code>, messaging through <code>ActiveMailer</code>, and job scheduling through <code>ActiveJob</code>. Basically, all the tools for backend development are available, and the underlying infrastructure can be modified with a simple setup, without the need to modify the application.</p>
+<p>All of these advantages make Rails the best candidate for a fast development and quick launch.</p>
+<h3 id="Shortcomings-of-Rails"><a href="#Shortcomings-of-Rails" class="headerlink" title="Shortcomings of Rails"></a>Shortcomings of Rails</h3><p>Nevertheless, Rails has some shortcomings.</p>
+<p>First, due to the resource-based routing design, all domain knowledge is built around resources. This may not be a problem in a small to medium-sized application, but when the application becomes large, the resource-to-resource constraints increase significantly and resource-based routing is obviously not sufficient.</p>
+<p>Let me use the most common e-commerce website as an example.</p>
+<p>Suppose there are three resources, order, payment, and transaction history. A typical Rails routing design would generate three routes, all with CRUD capabilities.</p>
+<blockquote>
+<p><em>&#x2F;api&#x2F;orders&#x2F;{oid}<br>&#x2F;api&#x2F;payments&#x2F;{pid}<br>&#x2F;api&#x2F;transactions&#x2F;{tid}</em></p>
+</blockquote>
+<p>When a user places an order, the operation is performed through <code>/api/orders/{oid}</code>, either to update the status or to get the status. The user then proceeds to make a payment, so a transaction is created and managed through <code>/api/transactions/{tid}</code>. But at the same time, the status of the order will need to be changed to in progress, and a payment will need to be inserted but indicated as unconfirmed.</p>
+<p>Based on the above description, we need three API calls.</p>
+<blockquote>
+<p><em>POST &#x2F;api&#x2F;transactions<br>PUT &#x2F;api&#x2F;orders&#x2F;{oid}<br>POST &#x2F;api&#x2F;payments</em></p>
+</blockquote>
+<p>Question, how do we ensure that all API calls are correct in such a situation? This is a typical distributed transaction, and I have already written several articles on the difficulties of distributed transactions.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/distributed-transaction-introduction-1cd105c830a2">Distributed Transaction Introduction</a></li>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/design-distributed-transaction-with-practical-examples-7b1d93fddb63">Design Distributed Transaction With Practical Examples</a></li>
+</ul>
+<p>As resource-to-resource connectivity grows with the complexity of the domain, it becomes obvious that Rails’ most classic routing design is overburdened. In addition, all the domain knowledge is fragmented by the resources, which is a common problem in system design, the anemic model.</p>
+<p>Moreover, when actually doing a code review, I found that Rails was not as readable as I expected. Even though it’s a resource-based routing design, I often couldn’t find a specific route, especially in a <code>config/routes.rb</code> with thousands of lines. I was always confused by the various combinations of <code>concern</code>, <code>resource</code> and <code>namespace</code>.</p>
+<p>In addition to not finding routes, method calls are often not found. Because a class can get the ability of other modules by <code>include</code>, but this <code>include</code> doesn’t require any “declaration” at all. Here the declaration refers to <code>from x import y</code> in Python or <code>import { y } from x</code> in Node, but in Rails there is no need, you can just <code>include y</code>.</p>
+<p>So when a method is used in a class, I have to look through <code>include</code>, <code>extend</code> and <code>pretend</code>, and again, when the application is huge, this process really kills me. When there are methods with the same name, it can be several times worse.</p>
+<p>One more point is that Rails wraps a lot of implementation behind a layer of objects, making the whole thing feel like a black box. Without a clear understanding of the underlying implementation, it’s easy to code something that seems to work, but actually performs horribly, like <em>N + 1 queries</em>.</p>
+<p>If it is a simple object this can save a lot of implementation efforts, such as <code>CacheStore</code>.</p>
+<p>I like Rails’ <code>CacheStore</code>, because it provides a lot of common functionality for caching. But when it comes to <code>ActiveRecord</code>, I honestly don’t have confidence that it will work very well. I’d rather write my own database queries, at least I can be sure that the performance of the queries will be good enough.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Although Rails can quickly generate an application skeleton through <code>scaffold</code>, it is very adaptable to fast launch requirements. But I have to say that this advantage can be replaced very easily, especially nowadays when the ecosystems of various languages are so well organized that it is not difficult to do so.</p>
+<p>In the case of Node, there are now many MERN generators that can do similar or even better things.</p>
+<p>For example,</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://docs.dhiwise.com/knowledgehub/build-node.js-app/Build-app"><em>https://docs.dhiwise.com/knowledgehub/build-node.js-app/Build-app</em></a></p>
+</blockquote>
+<p>An e-commerce site can be built at a mouse click and is production ready. So there are few advantages left in Rails, and the design of <code>ActiveRecord</code>, as mentioned in the previous section, is not an advantage but a disadvantage when the application becomes large.</p>
+<p>Even so, I would rate <code>ActiveRecord</code> very highly. For those who want to move from procedural languages into the object-oriented world, the design offers plenty of perspective, and once you get used to <code>ActiveRecord</code>, I believe that anyone can build elegant objects.</p>
+<p>Besides, I personally like the design of the <code>CacheStore</code>. In addition to the built-in expiration mechanism <code>:expires_in</code>, there is also the elegant <code>:race_condition_ttl</code> to avoid <em>Dog-pile Effect</em>, which is definitely a benefit for people who used to build their own wheels. But I haven’t been in Rails long enough to study what the underlying implementation is, so I’ll leave that for later.</p>
+<p>Overall, I feel that Rails is amazing, has a lot of design wisdom in it, and is very classic.</p>
+<p>But maybe Rails was originally intended for people who wanted to build applications quickly, and when applications became large, most of the original design became useless and ineffective. This takes us back to the basics of Ruby as a language. For Ruby, the ecosystem is complete and the syntax is flexible enough to build large applications.</p>
+<p>But if Rails has to rely on Ruby in the end, why don’t I just use Python? The ecosystem is more complete and the syntax is more flexible.</p>
+<p>Anyway, these are my thoughts on Ruby on Rails, and my next goal is to decompose these legacy large Rails applications into microservices. The next article will introduce the classic approach to decompose microservices.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/building-ruby-on-rails-from-scratch-day-3-ae31c975bf32">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Ruby/Building-Ruby-on-Rails-from-Scratch-Day-2/20220724/" rel="prev" title="Building Ruby on Rails from Scratch, Day 2">
+                  <i class="fa fa-chevron-left"></i> Building Ruby on Rails from Scratch, Day 2
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Database/Understanding-Partial-Indexing/20220807/" rel="next" title="Understanding Partial Indexing">
+                  Understanding Partial Indexing <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

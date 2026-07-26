@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Archiving MongoDB Changes to AWS S3Understanding Hot-Cold Separation In this article, we are going to introduce how to archive the audit logs stored in MongoDB to AWS S3, but before we start, let’s un">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Archiving MongoDB Changes to AWS S3">
+<meta property="og:url" content="https://wirelessr.github.io/MongoDB/Archiving-MongoDB-Changes-to-AWS-S3/20220918/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Archiving MongoDB Changes to AWS S3Understanding Hot-Cold Separation In this article, we are going to introduce how to archive the audit logs stored in MongoDB to AWS S3, but before we start, let’s un">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*56Tzkt4dh5wRxRCi">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*84TBqEDTbTZ-ksnX.png">
+<meta property="article:published_time" content="2022-09-18T17:28:50.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.820Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*56Tzkt4dh5wRxRCi">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/MongoDB/Archiving-MongoDB-Changes-to-AWS-S3/20220918/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/MongoDB/Archiving-MongoDB-Changes-to-AWS-S3/20220918/","path":"MongoDB/Archiving-MongoDB-Changes-to-AWS-S3/20220918/","title":"Archiving MongoDB Changes to AWS S3"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Archiving MongoDB Changes to AWS S3 | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Archiving-MongoDB-Changes-to-AWS-S3"><span class="nav-number">1.</span> <span class="nav-text">Archiving MongoDB Changes to AWS S3</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Understanding-Hot-Cold-Separation"><span class="nav-number">1.1.</span> <span class="nav-text">Understanding Hot-Cold Separation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hot-Cold-Separation-on-MongoDB"><span class="nav-number">2.</span> <span class="nav-text">Hot-Cold Separation on MongoDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Approach-Details"><span class="nav-number">3.</span> <span class="nav-text">Approach Details</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-not-just-let-the-service-write-S3-directly"><span class="nav-number">4.</span> <span class="nav-text">Why not just let the service write S3 directly?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-Kinesis-and-Firehose"><span class="nav-number">5.</span> <span class="nav-text">Why Kinesis and Firehose?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Does-MongoDB%E2%80%99s-TTL-index-affect-database-performance"><span class="nav-number">6.</span> <span class="nav-text">Does MongoDB’s TTL index affect database performance?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">7.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/Archiving-MongoDB-Changes-to-AWS-S3/20220918/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Archiving MongoDB Changes to AWS S3 | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Archiving MongoDB Changes to AWS S3
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-09-19 01:28:50" itemprop="dateCreated datePublished" datetime="2022-09-19T01:28:50+08:00">2022-09-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Archiving-MongoDB-Changes-to-AWS-S3"><a href="#Archiving-MongoDB-Changes-to-AWS-S3" class="headerlink" title="Archiving MongoDB Changes to AWS S3"></a>Archiving MongoDB Changes to AWS S3</h3><h4 id="Understanding-Hot-Cold-Separation"><a href="#Understanding-Hot-Cold-Separation" class="headerlink" title="Understanding Hot-Cold Separation"></a>Understanding Hot-Cold Separation</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*56Tzkt4dh5wRxRCi"></p>
+<p>In this article, we are going to introduce how to archive the audit logs stored in MongoDB to AWS S3, but before we start, let’s understand why we need it and the meaning of the need.</p>
+<p>Audit logs are records of user actions on the system, including signing in and out, modifying data, enabling a feature, and so on. These records are kept as part of the system security, and recent data is made available for users to view. Users may be interested in the last three months of related operations, but not in records older than that.</p>
+<p>Therefore, data that is older than three months is classified as hot data, while data that is older than three months gradually becomes warmer, i.e., rarely accessed, perhaps sometimes still. Data older than six months will be completely cold and will not be accessed except for data analysis and internal system auditing, and users will not care about the existence of such data.</p>
+<p>That is to say, if these cold data are still in the original database, it will consume a lot of resources, including hard disk space and indexes. So, we need a way to archive these data to a lower cost storage space, but we still need to make the cold data directly available when they are to be analyzed, instead of doing further migration.</p>
+<p>So, today’s title tells you that we will archive the data in MongoDB to AWS S3.</p>
+<p>There are several advantages to S3, first of all, the data in AWS S3 can be easily analyzed and SQL-compatible queries can be performed through AWS Athena.</p>
+<p>In addition, S3 is also a storage option supported by many data analytics platforms, such as Apache Spark.</p>
+<p>Furthermore, storage cost of S3 is very low. Moreover, if it is determined that the data in S3 is for preservation purposes only and not for query purposes, it can be easily transferred to much lower cost storage, such as AWS Glacier.</p>
+<h3 id="Hot-Cold-Separation-on-MongoDB"><a href="#Hot-Cold-Separation-on-MongoDB" class="headerlink" title="Hot-Cold Separation on MongoDB"></a>Hot-Cold Separation on MongoDB</h3><p>Now let’s review the requirement again.</p>
+<p>In order to reduce the storage cost, we need to move the past audit logs from MongoDB to AWS S3. In addition, we want this to be fully automated, and I don’t believe anyone wants to manually migrate data periodically.</p>
+<p>So what’s the best way to do this? Yes, through streaming.</p>
+<p>We have three things to do.</p>
+<ol>
+<li>Pass the events from the new audit log through MongoDB’s CDC (and ignore the delete events).</li>
+<li>The stream processor archives the stream events into AWS S3.</li>
+<li>Use MongoDB’s TTL index to automatically delete expired data when adding audit logs.</li>
+</ol>
+<p>By the way, the MongoDB mentioned here is not a self-hosted database, but a managed platform through Atlas. However, the same approach still applies to self-hosted databases, just with a little more setup and implementation than the managed platform.</p>
+<p>After knowing what to do, let’s work out a solution.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*84TBqEDTbTZ-ksnX.png"></p>
+<h3 id="Approach-Details"><a href="#Approach-Details" class="headerlink" title="Approach Details"></a>Approach Details</h3><p>Then, let’s explain the whole solution in detail and provide some key points worth discussing.</p>
+<p>The front services and databases are original to the architecture, only the back of the streaming chain is new. The entire chain ends with our destination, AWS S3.</p>
+<p>The first thing to do is to turn on Atlas’ built-in feature, <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/atlas/triggers/eventbridge/">EventBridge Triggers</a>, and since it is a built-in feature, it only requires a few simple settings following the official documentation. There are a few key points to note here, first we only need to send INSERT events, and we need to turn on the option to send full documents so that we can save the complete audit data.</p>
+<p>Next, we need to add a new rule to EventBridge’s third-party rules: all incoming events are sent to Kinesis, so that the source of the stream is established.</p>
+<p>In order to fully automate S3 archiving and save transmission costs as much as possible, we add Kinesis Firehose as the stream aggregator in the middle of Kinesis and S3. Through Firehose, we can aggregate a stream of events into a batch, and write to S3 in a batch process to save S3’s transmission cost.</p>
+<p>In this way, a fully automatic archiving is accomplished. All audit logs written to MongoDB will be archived into AWS S3 through streams.</p>
+<p>Let’s discuss a few topics.</p>
+<h3 id="Why-not-just-let-the-service-write-S3-directly"><a href="#Why-not-just-let-the-service-write-S3-directly" class="headerlink" title="Why not just let the service write S3 directly?"></a>Why not just let the service write S3 directly?</h3><p>There are two reasons.</p>
+<p>The first is that we can achieve the purpose without changing the original application by such modification.</p>
+<p>The other reason is that audit logs usually require transactional consistency, and it is difficult to ensure that MongoDB and AWS S3 are consistent when the primary database is MongoDB. What if writing MongoDB succeeds, but writing S3 fails?</p>
+<h3 id="Why-Kinesis-and-Firehose"><a href="#Why-Kinesis-and-Firehose" class="headerlink" title="Why Kinesis and Firehose?"></a>Why Kinesis and Firehose?</h3><p>In fact, we can retain one of them, if we want to keep only one I propose to keep Firehose, because we can reduce transmission costs through batch processing.</p>
+<p>But Kinesis has a benefit, if we later want to introduce event-driven architecture or streaming processing architecture, Kinesis can provide a very good extensibility.</p>
+<h3 id="Does-MongoDB’s-TTL-index-affect-database-performance"><a href="#Does-MongoDB’s-TTL-index-affect-database-performance" class="headerlink" title="Does MongoDB’s TTL index affect database performance?"></a>Does MongoDB’s TTL index affect database performance?</h3><p>Yes, it does, but the impact is limited in this context. This is because we will only keep the data for a certain period of time, for example, three months.</p>
+<p>Therefore, the amount of data is limited and the impact on the database is manageable.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Streaming can empower the scalability of the entire system design.</p>
+<p>Whether it’s through database CDC or events from microservices, it can effectively improve system availability and decouple business logic from data. That’s why I’ve been sharing the streaming architecture for the last few weeks.</p>
+<p>This time we experienced the convenience of streaming through the managed platform provided by AWS, a fully automated archiving system. Without the help of streaming, we would have to find a way to activate some scheduled mechanisms, such as a crontab, and get up once a day to check what audit logs needs to be moved, and to do large-scale data migration.</p>
+<p>If we use such a batch design, we will immediately encounter a problem, lack of real time. When we do data migration through periodic tasks, there is a data lag, for example, one day. Any data analysis performed on S3 will not get immediate results, but rather a snapshot of some point in time in the past, which is the biggest problem with batching.</p>
+<p>But we haven’t actually introduced some of the famous streaming framework yet, so maybe we’ll have a chance to do that in the future, but rather than actually operating streaming, I feel I’d share some more topics related to architecture and system design.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/archiving-mongodb-changes-to-aws-s3-9537f793d5a8">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Reducing-Database-Loading/20220911/" rel="prev" title="Reducing Database Loading">
+                  <i class="fa fa-chevron-left"></i> Reducing Database Loading
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Data/Evolutionary-Data-Infrastructure/20220925/" rel="next" title="Evolutionary Data Infrastructure">
+                  Evolutionary Data Infrastructure <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

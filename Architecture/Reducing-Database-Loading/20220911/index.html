@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Reducing Database LoadingThree approaches to improve database elasticity Last week we talked about the difference between scalability and elasticity, and the concept of solutions was mentioned at a hi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Reducing Database Loading">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Reducing-Database-Loading/20220911/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Reducing Database LoadingThree approaches to improve database elasticity Last week we talked about the difference between scalability and elasticity, and the concept of solutions was mentioned at a hi">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*6tX29iYZM7ndHxkx">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*NyvutdsOM3g_lZsTLQwufw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*uQumE0FrrikkRVczieqrjA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*v2lfsRIEgmJxRnKLcE9xAg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*bMNgQafYbgkKtjBxiXCuxw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*gH283i-SpUYWimTznDnZag.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*pcxw2zhD391pIZoNloTRBA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*Jvc3ig-S14dPkr0FdlmgLQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*uGPTmseC78Rh1BdeSUuung.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*7-XxlbHa-6YYAUrW07npRA.png">
+<meta property="article:published_time" content="2022-09-11T17:37:46.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.827Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*6tX29iYZM7ndHxkx">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Reducing-Database-Loading/20220911/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Reducing-Database-Loading/20220911/","path":"Architecture/Reducing-Database-Loading/20220911/","title":"Reducing Database Loading"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Reducing Database Loading | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Reducing-Database-Loading"><span class="nav-number">1.</span> <span class="nav-text">Reducing Database Loading</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Three-approaches-to-improve-database-elasticity"><span class="nav-number">1.1.</span> <span class="nav-text">Three approaches to improve database elasticity</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Read-aside-Cache"><span class="nav-number">2.</span> <span class="nav-text">Read-aside Cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Denormalization"><span class="nav-number">3.</span> <span class="nav-text">Denormalization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Asynchronous-requests-responses"><span class="nav-number">4.</span> <span class="nav-text">Asynchronous requests&#x2F;responses</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">5.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Reducing-Database-Loading/20220911/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Reducing Database Loading | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Reducing Database Loading
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-09-12 01:37:46" itemprop="dateCreated datePublished" datetime="2022-09-12T01:37:46+08:00">2022-09-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Reducing-Database-Loading"><a href="#Reducing-Database-Loading" class="headerlink" title="Reducing Database Loading"></a>Reducing Database Loading</h3><h4 id="Three-approaches-to-improve-database-elasticity"><a href="#Three-approaches-to-improve-database-elasticity" class="headerlink" title="Three approaches to improve database elasticity"></a>Three approaches to improve database elasticity</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*6tX29iYZM7ndHxkx"></p>
+<p>Last week we talked about <a target="_blank" rel="noopener" href="https://betterprogramming.pub/scalability-vs-elasticity-cfae2d7a19b">the difference between scalability and elasticity</a>, and the concept of solutions was mentioned at a high level. In this article, let’s take a look at some practical solutions.</p>
+<p>First, if you haven’t read <a target="_blank" rel="noopener" href="https://betterprogramming.pub/scalability-vs-elasticity-cfae2d7a19b">the last article</a>, I suggest you read it first. This time we are solving the elasticity problem rather than scalability. As mentioned before, the two most common solutions to the elasticity problem are caching and messaging.</p>
+<p>Therefore, in this article, we will list some common practical solutions and briefly analyze the advantages and disadvantages. Let’s get started.</p>
+<h3 id="Read-aside-Cache"><a href="#Read-aside-Cache" class="headerlink" title="Read-aside Cache"></a>Read-aside Cache</h3><p>When talking about caching, the most commonly used mechanism is the read-aside cache.</p>
+<p>The advantage is that it is very easy to understand and implement, and already provides a good consistency level. I’ve explained how it works in <a target="_blank" rel="noopener" href="https://medium.com/starbugs/consistency-between-cache-and-database-part-1-f64f4a76720">my previous article</a>, but let’s review it again.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*NyvutdsOM3g_lZsTLQwufw.png"></p>
+<p>The read mechanism of the read-aside cache is very simple: first try to get the data from the cache, and if you cannot get it, then get it from the database instead, and save it back to the cache. In this way, the next request for the same data can be taken directly from the cache.</p>
+<p>How to ensure that the cached data is up-to-date (consistency)?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uQumE0FrrikkRVczieqrjA.png"></p>
+<p>After updating the database, the corresponding records of the cache should be cleared immediately. When the same request comes in next time, it will be taken from the database first and the latest result will be written back to the cache.</p>
+<p>It looks like both read and write are perfect, so the read-aside cache should have a high degree of consistency! In fact, not really.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*v2lfsRIEgmJxRnKLcE9xAg.png"></p>
+<p>According to the above sequential diagram, we can find that both A and B are behaving correctly, but put together, they make an error, and B gets inconsistent data. This is the first problem.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*bMNgQafYbgkKtjBxiXCuxw.png"></p>
+<p>The second type of error is more intuitive, when A wants to update the data, A is killed after finishing the database update, probably due to bugs or application upgrade and so on. Then the data in the cache will remain inconsistent for a long time, until the next update or timeout.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*gH283i-SpUYWimTznDnZag.png"></p>
+<p>The third error is similar to the first one in that the individual actions of A and B are correct, but put together they are wrong. This inconsistent cache data will also remain for a while until the next update.</p>
+<p>These details have been explained in <a target="_blank" rel="noopener" href="https://medium.com/starbugs/consistency-between-cache-and-database-part-1-f64f4a76720">my previous article</a>, if you want to know more can also be used as a reference.</p>
+<p>In fact, problems 1 and 3 can be greatly mitigated by modifying the implementation of the application. In the first problem, when A finished writing the data, don’t do anything else, then clean up the cache quickly to reduce the possibility of being touched by B.</p>
+<p>The same is true for problem 3. When A finishes querying, don’t do too much processing and write back the cache as soon as possible, which can also greatly reduce the chance of occurring after B.</p>
+<p>However, there are three potential problems with read-aside caching.</p>
+<ol>
+<li>If a cache has a large scope of content, it can be difficult to determine when to clean it and to implement it. On the other hand, when many places have to be cleaned up, it may make the cache less effective.</li>
+<li>Dog pile effect. This refers to when a high-traffic system accesses cache frequently, if it encounters clearing cache or cache expiration, these traffic will still occur on the database. And the database may not be able to hold up.</li>
+<li>No graceful shutdown. Problems 1 and 3 can be improved by modifying the application, but problem 2 is not always possible, especially when the application fails, there is basically nothing to do.</li>
+</ol>
+<h3 id="Denormalization"><a href="#Denormalization" class="headerlink" title="Denormalization"></a>Denormalization</h3><blockquote>
+<p><em>If we have to take data from many places, it is ideal to put it all together and take it only once.</em></p>
+</blockquote>
+<p>Conventionally, in order to avoid data duplication in RDBMS, we would create individual tables according to the data type, and then join each other through foreign keys.</p>
+<p>But this will cause a problem, if it is an aggregated data must be pulled from each table, in the traffic and data volume of the system is not large, this approach is reasonable, and will have good performance. However, in a big data scenario, such performance is tragic.</p>
+<p>The performance of JOIN is not good enough for large data, and it is even worse if it is a subquery.</p>
+<p>Therefore, the idea of denormalization is to put all the data together and pull all the required data through a single query. Common practices include Facts Tables, etc., but this article does not focus on data modeling, but on system architecture.</p>
+<p>However, the problem is that reading from one place is possible, but what about writing to it? The original tables are already in use by clients, so do we need to find all the clients to modify them? No, it’s too much work!</p>
+<p>There are two ways, synchronization and asynchronization.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*pcxw2zhD391pIZoNloTRBA.png"></p>
+<p>This is an architecture of synchronization. The following DBs can be treated as databases or tables or even caches.</p>
+<p>When the service needs to write data, originally only <code>DB1</code>, <code>DB2</code> and <code>DB3</code> need to be written, in order to achieve denormalization, but also need to write <code>NewDB</code> in code, and <code>NewDB</code> is the result of aggregation.</p>
+<p>If someone needs to aggregate results, they can pull them directly from <code>NewDB</code>. If the owners of these DBs all belong to the same functional team, then this implementation looks acceptable.</p>
+<p>On the contrary, if the team that needs to consolidate the results is another functional team, such an architecture will not work. First, the other functional team has to find all the updates, then they have to make changes within the service, and they have to do it transactionally.</p>
+<p>For a cross-functional team, such a workflow is unrealistic and impossible. Hence, asynchronous data replication is introduced.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Jvc3ig-S14dPkr0FdlmgLQ.png"></p>
+<p>This architecture should be very common in my previous articles, it is in fact CQRS.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">Shift from Monolith to CQRS</a></li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/solve-performance-bottleneck-through-cqrs-3fd456df1551">Solve Performance Bottleneck through CQRS</a></li>
+</ul>
+<p>Nevertheless, there are various practices to implement CQRS, some of which are listed below. The following is a list of common practices from long to short time intervals.</p>
+<p><em><strong>ETL</strong></em></p>
+<blockquote>
+<p><em>DBs -&gt; Batching -&gt; Materialized View</em></p>
+</blockquote>
+<p>This is the most common practice nowadays, and almost all data engineers do it this way. Data is migrated from one place to another through batch processing, whether it is Hadoop or Spark.</p>
+<p>Some transformations and business logic may be added in the process. In order to make the data more accessible, if RDBMS is used as the NewDB, then <code>Materialized View</code> may be added. The data is snapshotted by predefined rules, and if the data is updated, it is refreshed to respond to the calculation of new data.</p>
+<p>But data migration is a very costly practice, so ETL does not happen all the time, instead, it happens once an hour or even once a day.</p>
+<p>Therefore, the data obtained from NewDB will not be the latest, but a snapshot at a certain point in time.</p>
+<p><em><strong>CDC</strong></em></p>
+<p>In order to keep the data as up-to-date as possible, we know that ETL is not enough. Therefore, CDC is another common practice.</p>
+<blockquote>
+<p><em>DBs -&gt; Debezium -&gt; Kafka -&gt; Streaming DB</em></p>
+</blockquote>
+<p>When data is updated, it is captured by <a target="_blank" rel="noopener" href="https://debezium.io/">Debezium</a>, streamed out to Kafka, and finally written to a streaming database.</p>
+<p>The streaming database is made available to external users, so the streaming database must be able to support not only streaming writes, but also rapid query capabilities.</p>
+<p>There are many mainstream streaming databases, and <a target="_blank" rel="noopener" href="https://pinot.apache.org/">Apache Pinot</a> is the most popular one recently.</p>
+<p>Because CDC streams are updated in real time, external users can get almost real-time data.</p>
+<p><em><strong>Streaming</strong></em></p>
+<p>Another mechanism for real time streaming comes from the service that originally wrote the data.</p>
+<blockquote>
+<p><em>Service -&gt; Kafka -&gt; Stream Handler -&gt; RocksDB</em></p>
+</blockquote>
+<p>When the service finishes updating the original database, it actively sends an event to Kafka and Kafka dispatches it.</p>
+<p>In such a system, it is most common to use a streaming framework to do the pre-processing of the streams and store them in the database. Common streaming frameworks include Apache Flink or Apache Samza, and of course the recent Kafka Stream.</p>
+<p>For the backend database, we choose a state persistence mechanism that can match the streaming processing framework, and RocksDB is the best choice for several common streaming processing frameworks.</p>
+<p>In this way, we can also get the latest data, but from the query point of view, the query capability provided by the streaming processing framework is not comparable to streaming database.</p>
+<p>The above three are common data replication methods, and it is worth mentioning that the components of each method can be exchanged or even extended to each other, so that different architectures can be built based on requirements.</p>
+<p>However, there are potential problems with asynchronous data replication.</p>
+<ol>
+<li>If there is a wide range of data to be used, it is a big problem to define the data to be replicated. Just as it is difficult to determine the cleanup time for a read-aside cache, it is difficult to define the scope of data replication.</li>
+<li>In addition, whether it is pre-processing through streaming framework or defining query through streaming database, the complexity is obviously high when it comes to complex data structure and complicated computation.</li>
+<li>Among these three methods, ETL has the lowest complexity, but ETL loses data real-time.</li>
+</ol>
+<h3 id="Asynchronous-requests-responses"><a href="#Asynchronous-requests-responses" class="headerlink" title="Asynchronous requests&#x2F;responses"></a>Asynchronous requests&#x2F;responses</h3><p>We all know the traditional request&#x2F;response model as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uGPTmseC78Rh1BdeSUuung.png"></p>
+<p>Although this is a function call here, it can also be a remote call across services.</p>
+<p>After the client sends a request, the server responds to the request through a series of processing, which is the traditional approach. How can we do this asynchronously?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7-XxlbHa-6YYAUrW07npRA.png"></p>
+<p>The answer is to make the implementation of the function behind the server asynchronous.</p>
+<p>What are the benefits of doing this?</p>
+<ol>
+<li>Handle events by using event handlers, then we can control the number of handlers to determine the pressure on the backend system or database. In the synchronization model, when a large number of client requests come in, the server will fork threads accordingly and put pressure on the backend system. However, when the number of event handlers is controllable, the pressure on the backend system can be controlled as well.</li>
+<li>Request dedup. Since all requests from clients are entered into the message queue, event handlers have the ability to perform deduplication according to specific rules.</li>
+<li>Further, if a streaming framework is used, then the third approach from the previous section can be followed to achieve further denormalization.</li>
+</ol>
+<p>However, such an architecture also has drawbacks.</p>
+<ol>
+<li>Such an architecture must be based on the assumption that users will refresh the page a lot in a short period of time in order to be able to play the benefits of dedup. This architecture does not mean that it is only applicable to this context, but if there is no matching context, then the implementation will be too much pain and too little gain.</li>
+<li>Implementation overhead. The server must have the ability to wait for asynchronous messages, which is simple to say, but there are many aspects of the implementation. For example, should we use a temporary queue or a permanent queue? How long should I wait? Questions like these need to be carefully considered.</li>
+<li>Starvation. In order to control the number of concurrent messages, we don’t enable handlers unlimitedly, but this also means that some people can’t wait for processing and time out.</li>
+</ol>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article describes some approaches to improve the elasticity of a database.</p>
+<p>Unlike the approaches to improve scalability, scalability can be achieved through database-oriented approaches such as query optimization, indexing, and data sharding.</p>
+<p>However, improving elasticity cannot be accomplished through databases alone, but must be accompanied by architectural adjustments, so this article lists some common approaches.</p>
+<p>In fact, there are many more useful practices than that, and this article is aimed at small to medium-sized organizations. With a limited number of people and a limited budget, it is not possible to make large-scale changes, so we can only optimize on the original practices.</p>
+<p>Nevertheless, I believe these approaches should provide good insights for further evolution of the system, after all, all methodologies are similar.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/reducing-database-loading-b54f2d8edb39">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Scalability-vs-Elasticity/20220904/" rel="prev" title="Scalability vs. Elasticity">
+                  <i class="fa fa-chevron-left"></i> Scalability vs. Elasticity
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/MongoDB/Archiving-MongoDB-Changes-to-AWS-S3/20220918/" rel="next" title="Archiving MongoDB Changes to AWS S3">
+                  Archiving MongoDB Changes to AWS S3 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

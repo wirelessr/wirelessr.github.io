@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Gitlab CI for Node Testing and CoverageA look at the Gitlab CI v15.0 features for Nodejs Gitlab is a popular open-source version control system which is free to use and can be built on an intranet, an">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gitlab CI for Node Testing and Coverage">
+<meta property="og:url" content="https://wirelessr.github.io/Testing/Gitlab-CI-for-Node-Testing-and-Coverage/20220605/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Gitlab CI for Node Testing and CoverageA look at the Gitlab CI v15.0 features for Nodejs Gitlab is a popular open-source version control system which is free to use and can be built on an intranet, an">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*rX050J7TAy3HREr3">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*zQGFgwZT3Hsd5mDq.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*MhOZvjqVgGGe4Skr.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*fbRPSpLv0dsZUkWv.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*aSHkT7J0mEQ3xjZ-.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*WSekN_7jQQonrbiD.png">
+<meta property="article:published_time" content="2022-06-05T17:29:21.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.823Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*rX050J7TAy3HREr3">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Testing/Gitlab-CI-for-Node-Testing-and-Coverage/20220605/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Testing/Gitlab-CI-for-Node-Testing-and-Coverage/20220605/","path":"Testing/Gitlab-CI-for-Node-Testing-and-Coverage/20220605/","title":"Gitlab CI for Node Testing and Coverage"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Gitlab CI for Node Testing and Coverage | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gitlab-CI-for-Node-Testing-and-Coverage"><span class="nav-number">1.</span> <span class="nav-text">Gitlab CI for Node Testing and Coverage</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-look-at-the-Gitlab-CI-v15-0-features-for-Nodejs"><span class="nav-number">1.1.</span> <span class="nav-text">A look at the Gitlab CI v15.0 features for Nodejs</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Testing-Report"><span class="nav-number">2.</span> <span class="nav-text">Testing Report</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Report-Artifacts"><span class="nav-number">3.</span> <span class="nav-text">Report Artifacts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Test-Summary"><span class="nav-number">4.</span> <span class="nav-text">Test Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Change-Coverage"><span class="nav-number">5.</span> <span class="nav-text">Change Coverage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pipeline-Badges"><span class="nav-number">6.</span> <span class="nav-text">Pipeline Badges</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Detail-in-package-json"><span class="nav-number">7.</span> <span class="nav-text">Detail in package.json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">8.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Testing/Gitlab-CI-for-Node-Testing-and-Coverage/20220605/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Gitlab CI for Node Testing and Coverage | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Gitlab CI for Node Testing and Coverage
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-06-06 01:29:21" itemprop="dateCreated datePublished" datetime="2022-06-06T01:29:21+08:00">2022-06-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Testing/" itemprop="url" rel="index"><span itemprop="name">Testing</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Gitlab-CI-for-Node-Testing-and-Coverage"><a href="#Gitlab-CI-for-Node-Testing-and-Coverage" class="headerlink" title="Gitlab CI for Node Testing and Coverage"></a>Gitlab CI for Node Testing and Coverage</h3><h4 id="A-look-at-the-Gitlab-CI-v15-0-features-for-Nodejs"><a href="#A-look-at-the-Gitlab-CI-v15-0-features-for-Nodejs" class="headerlink" title="A look at the Gitlab CI v15.0 features for Nodejs"></a>A look at the Gitlab CI v15.0 features for Nodejs</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*rX050J7TAy3HREr3"></p>
+<p>Gitlab is a popular open-source version control system which is free to use and can be built on an intranet, and Gitlab has many useful features such as Gitlab CI.</p>
+<p>Gitlab has been integrating CI&#x2F;CD pipelines into Gitlab for a long time, and has evolved the so-called <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/topics/gitlab_flow.html">Gitlab Flow</a>. In this article, I won’t go through the entire Gitlab CI guide, nor will I explain the CI&#x2F;CD concept, but will focus on how to make Node testing reports more presentable.</p>
+<p>Why this topic? The main reason is that we often use <code>nyc</code> and <code>mocha</code> together to build testing reports for Node, but such a combination needs a little twist in order to fit into the rich functionality of Gitlab. This article is about those approaches and will use an actual <code>.gitlab-ci.yml</code> as an example.</p>
+<blockquote>
+<p><em>Please be aware that this article is written based on Gitlab v15.0</em></p>
+</blockquote>
+<h3 id="Testing-Report"><a href="#Testing-Report" class="headerlink" title="Testing Report"></a>Testing Report</h3><p>In a good testing report, we will need several important features.</p>
+<ol>
+<li>an artifact of the full report.</li>
+<li>test summary for each <em>Pull Request</em> or <em>Merge Request</em>.</li>
+<li>the change coverage of each <em>Pull Request</em> or <em>Merge Request</em>.</li>
+<li>the status of the entire pipeline, including the latest success or failure and its coverage, preferably in the form of a badge.</li>
+</ol>
+<h3 id="Report-Artifacts"><a href="#Report-Artifacts" class="headerlink" title="Report Artifacts"></a>Report Artifacts</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*zQGFgwZT3Hsd5mDq.png"></p>
+<p>This is the latest pipeline report, to be able to be downloaded here, we need to add a new <code>artifacts</code> field to specify the path we want to export at the desired stage. For example, in the figure above, the setting would be as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">test_ci:  </span><br><span class="line">  script:  </span><br><span class="line">    - npm run test  </span><br><span class="line">  artifacts:  </span><br><span class="line">    paths:  </span><br><span class="line">      - coverage/</span><br></pre></td></tr></table></figure>
+
+<p>This means we will export everything under the <code>coverage</code> folder as a package.</p>
+<h3 id="Test-Summary"><a href="#Test-Summary" class="headerlink" title="Test Summary"></a>Test Summary</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*MhOZvjqVgGGe4Skr.png"></p>
+<p>In order to display the results of a test in <em>Merge Request</em>, including how many cases were tested and how many succeeded or failed, and even to see how long each case took, you need to let Gitlab know the format of the testing report and produce the results in the corresponding format.</p>
+<p>So let’s continue to extend the <code>.gitlab-ci.yml</code> example above.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">test_ci:  </span><br><span class="line">  script:  </span><br><span class="line">    - npm run test  </span><br><span class="line">  artifacts:  </span><br><span class="line">    paths:  </span><br><span class="line">      - coverage/  </span><br><span class="line">    reports:  </span><br><span class="line">      junit:  </span><br><span class="line">        - test-results.xml</span><br></pre></td></tr></table></figure>
+
+<p>In this example, we use the JUnit format to create the testing report and inform Gitlab of the path to the CI report. In this way, Gitlab has the ability to present the correct report content and summary in each <em>Merge Request</em>.</p>
+<h3 id="Change-Coverage"><a href="#Change-Coverage" class="headerlink" title="Change Coverage"></a><a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/user/project/merge_requests/test_coverage_visualization.html">Change Coverage</a></h3><p>When doing a code review, we all click into <em>Changes</em> to see what parts have been changed.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*fbRPSpLv0dsZUkWv.png"></p>
+<p>It would be more efficient for the reviewer to see the test coverage of the changes here in one place. So, we would like to make it easy for the reviewer to know which code has not been tested.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*aSHkT7J0mEQ3xjZ-.png"></p>
+<p>In this picture, we can see at a glance that line 14 is not covered by the test, while the other lines are tested. It is worth mentioning that even if there is test coverage, it does not mean that the test is complete, for example, here it is impossible to determine the conditions of the boundary test, and we have to rely on the experience of the reviewer.</p>
+<p>Then, we continue to extend the original settings.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">test_ci:  </span><br><span class="line">  script:  </span><br><span class="line">    - npm run test  </span><br><span class="line">  artifacts:  </span><br><span class="line">    paths:  </span><br><span class="line">      - coverage/  </span><br><span class="line">    reports:  </span><br><span class="line">      junit:  </span><br><span class="line">        - test-results.xml  </span><br><span class="line">      coverage_report:  </span><br><span class="line">        coverage_format: cobertura  </span><br><span class="line">        path: coverage/cobertura-coverage.xml</span><br></pre></td></tr></table></figure>
+
+<h3 id="Pipeline-Badges"><a href="#Pipeline-Badges" class="headerlink" title="Pipeline Badges"></a><a target="_blank" rel="noopener" href="https://gitlab.svc.langlive.tech/help/ci/yaml/index#coverage">Pipeline Badges</a></h3><p><img src="https://cdn-images-1.medium.com/max/800/0*WSekN_7jQQonrbiD.png"></p>
+<p>In popular open source projects nowadays, users are informed of the project’s health at the beginning of <code>README.md</code>, which is a useful information for users and a quick way for developers to know the project’s health.</p>
+<p>If you see the status of the pipeline as a failure, something is wrong. On the other hand, the coverage badge is a great indicator of whether the project’s test coverage is complete.</p>
+<p>Fortunately, badges are a built-in feature of Gitlab. You can find out the badge location at Gitlab settings.</p>
+<blockquote>
+<p><em>Settings &gt; CI&#x2F;CD &gt; General pipelines</em></p>
+</blockquote>
+<p>There are three types of badges, <em>Pipeline status</em>, <em>Coverage report</em>, and <em>Latest release</em>. You can pick what you want.</p>
+<p>Since Gitlab v15.0, we can assign a regular expression in <strong>re2 syntax</strong> at <code>.gitlab-ci.yml</code> to identify what the coverage digits are.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">test_ci:  </span><br><span class="line">  script:  </span><br><span class="line">    - npm run test  </span><br><span class="line">  coverage: &#x27;/All files\s+\|\s+\d+\.\d+/&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>The rule for this <strong>re2 syntax</strong> is to find the floating point number that follows <code>All files</code> as the coverage. If you are not using <code>nyc</code>, you have to adjust the rule based on the content.</p>
+<h3 id="Detail-in-package-json"><a href="#Detail-in-package-json" class="headerlink" title="Detail in package.json"></a>Detail in <code>package.json</code></h3><p>The above example has fully implemented the necessary features for development. But we haven’t explained how to generate coverage reports, JUnit reports, and change coverage at the same time.</p>
+<p>The key to all of this is in the <code>npm run test</code>, i. e. <code>package.json</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">  &quot;script&quot;: &#123;  </span><br><span class="line">    &quot;test&quot;: &quot;nyc --reporter=html --reporter=text --reporter=cobertura mocha&quot;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As we can see from the above settings, this busy <code>nyc</code> is responsible for generating three types of outputs for the three different features.</p>
+<ul>
+<li>html: Serves as a coverage report for the entire project, and will be used when downloading artifacts.</li>
+<li>text: The console output is required to generate the badges.</li>
+<li>cobertura: As we know from the previous section, the change coverages are presented using the <code>cobertura</code> format.</li>
+</ul>
+<p>Wait, there’s one missing? Who creates the reports for JUnit? The answer is <code>mocha</code>. But this is not a built-in feature of <code>mocha</code>, so we have to use an additional tool to do it.</p>
+<p>First, download the <code>mocha-junit-reporter</code> package.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i mocha-junit-reporter — save-dev</span><br></pre></td></tr></table></figure>
+
+<p>Next, create the <code>mocha</code> configuration file, <code>.mocharc.js</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;  </span><br><span class="line">  reporter: &quot;./junit-spec-reporter.js&quot;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>In the configuration file we tell <code>mocha</code> to generate the report through another file, which is also the JUnit generator.</p>
+<p>The following is the content of <code>junit-spec-reporter.js</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const mocha = require(&quot;mocha&quot;);  </span><br><span class="line">const JUnit = require(&quot;mocha-junit-reporter&quot;);  </span><br><span class="line">const Spec = mocha.reporters.Spec;  </span><br><span class="line">const Base = mocha.reporters.Base;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function JunitSpecReporter(runner, options) &#123;  </span><br><span class="line">  Base.call(this, runner, options);  </span><br><span class="line">  this._junitReporter = new JUnit(runner, options);  </span><br><span class="line">  this._specReporter = new Spec(runner, options);  </span><br><span class="line">  return this;  </span><br><span class="line">&#125;  </span><br><span class="line">JunitSpecReporter.prototype.__proto__ = Base.prototype;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">module.exports = JunitSpecReporter;</span><br></pre></td></tr></table></figure>
+
+<p>At this point, all the formats we need can be generated correctly, and Gitlab CI will present a rich view based on these outputs, and developers can do most of their routine work on Gitlab’s web page without actually building the outputs locally.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>CI&#x2F;CD is a very important software development practice. However, in order for every developer to have the interest and even the confidence to “continue” the practice, people must be able to “see” the change.</p>
+<p>For engineers, seeing is believing is the belief of most of us. Therefore, these rich features are essential for the pipeline to be effective enough.</p>
+<p>The full <code>.gitlab-ci.yml</code>, which includes all mentioned features, is as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">test_ci:  </span><br><span class="line">  script:  </span><br><span class="line">    - npm run test  </span><br><span class="line">  artifacts:  </span><br><span class="line">    paths:  </span><br><span class="line">      - coverage/  </span><br><span class="line">    reports:  </span><br><span class="line">      junit:  </span><br><span class="line">        - test-results.xml  </span><br><span class="line">      coverage_report:  </span><br><span class="line">        coverage_format: cobertura  </span><br><span class="line">        path: coverage/cobertura-coverage.xml  </span><br><span class="line">  coverage: &#x27;/All files\s+\|\s+\d+\.\d+/&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>In my experience, when a testing platform is built, not everyone is happy to use it, after all, writing tests is extra work. But when the platform is rich enough, most people will be willing to try it.</p>
+<p>For a team just starting to establish a development process, it’s more important to get people willing to try it than anything else.</p>
+<p>So this article focuses on the presentation of Gitlab CI and introduces the role of CI from a different perspective in the development process.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/gitlab-ci-for-node-testing-and-coverage-d8f8c82f8c1e">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Architecture/Analyze-How-to-Scale-Web-Services-From-Various-Perspectives/20220529/" rel="prev" title="Analyze How to Scale Web Services From Various Perspectives">
+                  <i class="fa fa-chevron-left"></i> Analyze How to Scale Web Services From Various Perspectives
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Redis/Explain-Redlock-in-Depth/20220612/" rel="next" title="Explain Redlock in Depth">
+                  Explain Redlock in Depth <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

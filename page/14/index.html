@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/14/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/14/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/14/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Testing/Gitlab-CI-for-Node-Testing-and-Coverage/20220605/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Testing/Gitlab-CI-for-Node-Testing-and-Coverage/20220605/" class="post-title-link" itemprop="url">Gitlab CI for Node Testing and Coverage</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-06-06 01:29:21" itemprop="dateCreated datePublished" datetime="2022-06-06T01:29:21+08:00">2022-06-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Testing/" itemprop="url" rel="index"><span itemprop="name">Testing</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Gitlab-CI-for-Node-Testing-and-Coverage"><a href="#Gitlab-CI-for-Node-Testing-and-Coverage" class="headerlink" title="Gitlab CI for Node Testing and Coverage"></a>Gitlab CI for Node Testing and Coverage</h3><h4 id="A-look-at-the-Gitlab-CI-v15-0-features-for-Nodejs"><a href="#A-look-at-the-Gitlab-CI-v15-0-features-for-Nodejs" class="headerlink" title="A look at the Gitlab CI v15.0 features for Nodejs"></a>A look at the Gitlab CI v15.0 features for Nodejs</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*rX050J7TAy3HREr3"></p>
+<p>Gitlab is a popular open-source version control system which is free to use and can be built on an intranet, and Gitlab has many useful features such as Gitlab CI.</p>
+<p>Gitlab has been integrating CI&#x2F;CD pipelines into Gitlab for a long time, and has evolved the so-called <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/topics/gitlab_flow.html">Gitlab Flow</a>. In this article, I won’t go through the entire Gitlab CI guide, nor will I explain the CI&#x2F;CD concept, but will focus on how to make Node testing reports more presentable.</p>
+<p>Why this topic? The main reason is that we often use <code>nyc</code> and <code>mocha</code> together to build testing reports for Node, but such a combination needs a little twist in order to fit into the rich functionality of Gitlab. This article is about those approaches and will use an actual <code>.gitlab-ci.yml</code> as an example.</p>
+<blockquote>
+<p><em>Please be aware that this article is written based on Gitlab v15.0</em></p>
+</blockquote>
+<h3 id="Testing-Report"><a href="#Testing-Report" class="headerlink" title="Testing Report"></a>Testing Report</h3><p>In a good testing report, we will need several important features.</p>
+<ol>
+<li>an artifact of the full report.</li>
+<li>test summary for each <em>Pull Request</em> or <em>Merge Request</em>.</li>
+<li>the change coverage of each <em>Pull Request</em> or <em>Merge Request</em>.</li>
+<li>the status of the entire pipeline, including the latest success or failure and its coverage, preferably in the form of a badge.</li>
+</ol>
+<h3 id="Report-Artifacts"><a href="#Report-Artifacts" class="headerlink" title="Report Artifacts"></a>Report Artifacts</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*zQGFgwZT3Hsd5mDq.png"></p>
+<p>This is the latest pipeline report, to be able to be downloaded here, we need to add a new <code>artifacts</code> field to specify the path we want to export at the desired stage. For example, in the figure above, the setting would be as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">test_ci:  </span><br><span class="line">  script:  </span><br><span class="line">    - npm run test  </span><br><span class="line">  artifacts:  </span><br><span class="line">    paths:  </span><br><span class="line">      - coverage/</span><br></pre></td></tr></table></figure>
+
+<p>This means we will export everything under the <code>coverage</code> folder as a package.</p>
+<h3 id="Test-Summary"><a href="#Test-Summary" class="headerlink" title="Test Summary"></a>Test Summary</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*MhOZvjqVgGGe4Skr.png"></p>
+<p>In order to display the results of a test in <em>Merge Request</em>, including how many cases were tested and how many succeeded or failed, and even to see how long each case took, you need to let Gitlab know the format of the testing report and produce the results in the corresponding format.</p>
+<p>So let’s continue to extend the <code>.gitlab-ci.yml</code> example above.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">test_ci:  </span><br><span class="line">  script:  </span><br><span class="line">    - npm run test  </span><br><span class="line">  artifacts:  </span><br><span class="line">    paths:  </span><br><span class="line">      - coverage/  </span><br><span class="line">    reports:  </span><br><span class="line">      junit:  </span><br><span class="line">        - test-results.xml</span><br></pre></td></tr></table></figure>
+
+<p>In this example, we use the JUnit format to create the testing report and inform Gitlab of the path to the CI report. In this way, Gitlab has the ability to present the correct report content and summary in each <em>Merge Request</em>.</p>
+<h3 id="Change-Coverage"><a href="#Change-Coverage" class="headerlink" title="Change Coverage"></a><a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/user/project/merge_requests/test_coverage_visualization.html">Change Coverage</a></h3><p>When doing a code review, we all click into <em>Changes</em> to see what parts have been changed.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*fbRPSpLv0dsZUkWv.png"></p>
+<p>It would be more efficient for the reviewer to see the test coverage of the changes here in one place. So, we would like to make it easy for the reviewer to know which code has not been tested.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*aSHkT7J0mEQ3xjZ-.png"></p>
+<p>In this picture, we can see at a glance that line 14 is not covered by the test, while the other lines are tested. It is worth mentioning that even if there is test coverage, it does not mean that the test is complete, for example, here it is impossible to determine the conditions of the boundary test, and we have to rely on the experience of the reviewer.</p>
+<p>Then, we continue to extend the original settings.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">test_ci:  </span><br><span class="line">  script:  </span><br><span class="line">    - npm run test  </span><br><span class="line">  artifacts:  </span><br><span class="line">    paths:  </span><br><span class="line">      - coverage/  </span><br><span class="line">    reports:  </span><br><span class="line">      junit:  </span><br><span class="line">        - test-results.xml  </span><br><span class="line">      coverage_report:  </span><br><span class="line">        coverage_format: cobertura  </span><br><span class="line">        path: coverage/cobertura-coverage.xml</span><br></pre></td></tr></table></figure>
+
+<h3 id="Pipeline-Badges"><a href="#Pipeline-Badges" class="headerlink" title="Pipeline Badges"></a><a target="_blank" rel="noopener" href="https://gitlab.svc.langlive.tech/help/ci/yaml/index#coverage">Pipeline Badges</a></h3><p><img src="https://cdn-images-1.medium.com/max/800/0*WSekN_7jQQonrbiD.png"></p>
+<p>In popular open source projects nowadays, users are informed of the project’s health at the beginning of <code>README.md</code>, which is a useful information for users and a quick way for developers to know the project’s health.</p>
+<p>If you see the status of the pipeline as a failure, something is wrong. On the other hand, the coverage badge is a great indicator of whether the project’s test coverage is complete.</p>
+<p>Fortunately, badges are a built-in feature of Gitlab. You can find out the badge location at Gitlab settings.</p>
+<blockquote>
+<p><em>Settings &gt; CI&#x2F;CD &gt; General pipelines</em></p>
+</blockquote>
+<p>There are three types of badges, <em>Pipeline status</em>, <em>Coverage report</em>, and <em>Latest release</em>. You can pick what you want.</p>
+<p>Since Gitlab v15.0, we can assign a regular expression in <strong>re2 syntax</strong> at <code>.gitlab-ci.yml</code> to identify what the coverage digits are.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">test_ci:  </span><br><span class="line">  script:  </span><br><span class="line">    - npm run test  </span><br><span class="line">  coverage: &#x27;/All files\s+\|\s+\d+\.\d+/&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>The rule for this <strong>re2 syntax</strong> is to find the floating point number that follows <code>All files</code> as the coverage. If you are not using <code>nyc</code>, you have to adjust the rule based on the content.</p>
+<h3 id="Detail-in-package-json"><a href="#Detail-in-package-json" class="headerlink" title="Detail in package.json"></a>Detail in <code>package.json</code></h3><p>The above example has fully implemented the necessary features for development. But we haven’t explained how to generate coverage reports, JUnit reports, and change coverage at the same time.</p>
+<p>The key to all of this is in the <code>npm run test</code>, i. e. <code>package.json</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">  &quot;script&quot;: &#123;  </span><br><span class="line">    &quot;test&quot;: &quot;nyc --reporter=html --reporter=text --reporter=cobertura mocha&quot;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As we can see from the above settings, this busy <code>nyc</code> is responsible for generating three types of outputs for the three different features.</p>
+<ul>
+<li>html: Serves as a coverage report for the entire project, and will be used when downloading artifacts.</li>
+<li>text: The console output is required to generate the badges.</li>
+<li>cobertura: As we know from the previous section, the change coverages are presented using the <code>cobertura</code> format.</li>
+</ul>
+<p>Wait, there’s one missing? Who creates the reports for JUnit? The answer is <code>mocha</code>. But this is not a built-in feature of <code>mocha</code>, so we have to use an additional tool to do it.</p>
+<p>First, download the <code>mocha-junit-reporter</code> package.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i mocha-junit-reporter — save-dev</span><br></pre></td></tr></table></figure>
+
+<p>Next, create the <code>mocha</code> configuration file, <code>.mocharc.js</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;  </span><br><span class="line">  reporter: &quot;./junit-spec-reporter.js&quot;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>In the configuration file we tell <code>mocha</code> to generate the report through another file, which is also the JUnit generator.</p>
+<p>The following is the content of <code>junit-spec-reporter.js</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const mocha = require(&quot;mocha&quot;);  </span><br><span class="line">const JUnit = require(&quot;mocha-junit-reporter&quot;);  </span><br><span class="line">const Spec = mocha.reporters.Spec;  </span><br><span class="line">const Base = mocha.reporters.Base;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function JunitSpecReporter(runner, options) &#123;  </span><br><span class="line">  Base.call(this, runner, options);  </span><br><span class="line">  this._junitReporter = new JUnit(runner, options);  </span><br><span class="line">  this._specReporter = new Spec(runner, options);  </span><br><span class="line">  return this;  </span><br><span class="line">&#125;  </span><br><span class="line">JunitSpecReporter.prototype.__proto__ = Base.prototype;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">module.exports = JunitSpecReporter;</span><br></pre></td></tr></table></figure>
+
+<p>At this point, all the formats we need can be generated correctly, and Gitlab CI will present a rich view based on these outputs, and developers can do most of their routine work on Gitlab’s web page without actually building the outputs locally.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>CI&#x2F;CD is a very important software development practice. However, in order for every developer to have the interest and even the confidence to “continue” the practice, people must be able to “see” the change.</p>
+<p>For engineers, seeing is believing is the belief of most of us. Therefore, these rich features are essential for the pipeline to be effective enough.</p>
+<p>The full <code>.gitlab-ci.yml</code>, which includes all mentioned features, is as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">test_ci:  </span><br><span class="line">  script:  </span><br><span class="line">    - npm run test  </span><br><span class="line">  artifacts:  </span><br><span class="line">    paths:  </span><br><span class="line">      - coverage/  </span><br><span class="line">    reports:  </span><br><span class="line">      junit:  </span><br><span class="line">        - test-results.xml  </span><br><span class="line">      coverage_report:  </span><br><span class="line">        coverage_format: cobertura  </span><br><span class="line">        path: coverage/cobertura-coverage.xml  </span><br><span class="line">  coverage: &#x27;/All files\s+\|\s+\d+\.\d+/&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>In my experience, when a testing platform is built, not everyone is happy to use it, after all, writing tests is extra work. But when the platform is rich enough, most people will be willing to try it.</p>
+<p>For a team just starting to establish a development process, it’s more important to get people willing to try it than anything else.</p>
+<p>So this article focuses on the presentation of Gitlab CI and introduces the role of CI from a different perspective in the development process.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/gitlab-ci-for-node-testing-and-coverage-d8f8c82f8c1e">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Analyze-How-to-Scale-Web-Services-From-Various-Perspectives/20220529/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Analyze-How-to-Scale-Web-Services-From-Various-Perspectives/20220529/" class="post-title-link" itemprop="url">Analyze How to Scale Web Services From Various Perspectives</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-05-30 01:50:36" itemprop="dateCreated datePublished" datetime="2022-05-30T01:50:36+08:00">2022-05-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Analyzing-How-to-Scale-Web-Services-From-Various-Perspectives"><a href="#Analyzing-How-to-Scale-Web-Services-From-Various-Perspectives" class="headerlink" title="Analyzing How to Scale Web Services From Various Perspectives"></a>Analyzing How to Scale Web Services From Various Perspectives</h3><h4 id="Scaling-web-services"><a href="#Scaling-web-services" class="headerlink" title="Scaling web services"></a>Scaling web services</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*EyDbDI5Dq0SYCUj3.png"></p>
+<p>This article is an internal training for my team to explain to newcomers what are the practices and what are the aspects to consider when scaling a web service.</p>
+<p>The scaling mentioned in this article is divided into several different levels.</p>
+<ol>
+<li>Read loading</li>
+<li>Write loading</li>
+<li>Data volume size</li>
+<li>Task loading</li>
+<li>User distribution</li>
+</ol>
+<p>In addition, there is another level of scaling that is not explained in detail in this article, feature scaling, but I will describe the concept of feature scaling a little bit at the end of the article.</p>
+<p>Next, let’s evolve our system step by step.</p>
+<h3 id="Bare-Metal"><a href="#Bare-Metal" class="headerlink" title="Bare Metal"></a>Bare Metal</h3><p>All products start with a single machine. For proof of concept, we take the simplest approach and put everything on the same box, perhaps the laptop at hand. Whether it’s a physical machine, a virtual machine, or a container, a single machine with everything you need on it is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*mJhaHQvfyy8c9Ol60oH6_A.png"></p>
+<p>Users can use this basic service either through the web or through a mobile device. This machine contains the APIs for business logic and a database for data storage. This is where all projects begin and is the easiest to implement.</p>
+<p>When the concept has been successfully validated, the number of users will start to rise, easily exceeding the limit of what a single machine can handle. At this point, we choose to move the service from a laptop to a professional server in order to continue to verify that the project will continue to grow and not be a flash in the pan. The upgrade of hardware specifications is called vertical scaling, a.k.a. scale-up.</p>
+<p>However, even for professional servers, where hardware can be easily upgraded and swapped out, there are limits. The limit here is not only a physical limit, but also a budget limit. For example, a 1TB SSD drive is more than twice as expensive as a 512GB drive. The curve of increasing hardware costs is exponential.</p>
+<p>Therefore it is necessary to separate the components to make the cost more manageable, especially for the database, which is usually the most costly component.</p>
+<h3 id="Layered-Architecture"><a href="#Layered-Architecture" class="headerlink" title="Layered Architecture"></a>Layered Architecture</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*tPii5axH60TmS-tgbpKsyQ.png"></p>
+<p>When we separate the database from the API, we are able to upgrade their hardware individually. From the original scale-up of a single machine to the scale-up of individual components.</p>
+<p>The hardware specifications of the database are usually very advanced, but the API ones are not. The main reason is that as the users grow, the API needs a stronger CPU to handle more traffic, but the rest of the resources are not as urgent. Upgrading CPUs runs into the same problem as hard drives, an exponentially increasing cost curve.</p>
+<p>In other words, it is much more cost effective to increase the number of CPUs than to increase the size of CPUs. So in order to handle the increased traffic, we usually adopt the strategy of increasing the number of APIs.</p>
+<h3 id="Horizontal-Scaling"><a href="#Horizontal-Scaling" class="headerlink" title="Horizontal Scaling"></a>Horizontal Scaling</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*Mo9aNau-KNDwL8OihumzGQ.png"></p>
+<p>In order to get the number of APIs to scale smoothly, we will need a new role to assign all incoming traffic, called load balancer. The load balancer assigns the traffic based on its algorithm, the common algorithms are RR (Round Robin) and LU (Least Used), but I suggest to go for the simplest one, RR, because the complex algorithm puts an extra load on the load balancer and makes it another kind of bottleneck.</p>
+<p>When the user’s usage changes, the number of APIs can be dynamically adjusted, for example, the number of APIs is increased when the usage goes up, which is called scale-out, and the opposite is called scale-in.</p>
+<p>So far, the APIs can be scaled up to handle the increasing traffic, but there is another bottleneck, the database, which can be found in the above diagram.</p>
+<p>When usage increases to a certain amount, a single database will not be able to handle it efficiently, resulting in an overall increase in response time. The result is a poor user experience and possibly even a failure of functionality. There are many articles on <a target="_blank" rel="noopener" href="https://uxplanet.org/how-page-speed-affects-web-user-experience-83b6d6b1d7d7">how page speed affects web user experience</a>, so I won’t go into detail here.</p>
+<p>In order to solve the database bottleneck, we would also like to have horizontal scaling of the database. However, unlike the stateless characteristic of APIs, databases are usually stateful and therefore cannot be simply scale-out.</p>
+<h3 id="Read-Write-Splitting"><a href="#Read-Write-Splitting" class="headerlink" title="Read Write Splitting"></a>Read Write Splitting</h3><p>To enable the database to be scaled horizontally, a common practice is called Read&#x2F;Write Splitting.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*YDcMMhDpJ-_9Bdc41HKCyA.png"></p>
+<p>First, we keep all writes to the same database entity to maintain the state of the database. Reads, on the other hand, are reads on entities that can scale horizontally. Keeping reads and writes split makes it easier to scale-out the database.</p>
+<p>When there are data updates, the primary is responsible for replicating the changes to each of the read entities. In this way, the read entities can be scaled out based on usage.</p>
+<p>This is seen in several common databases, such as MySQL Replication and MongoDB ReplicaSet.</p>
+<p>Nevertheless, there is a problem that in order to handle more reads, we have to create more replicas of the database, which is a challenge for the budget. Because of the high hardware specifications of the databases, creating replicas is a very high price to pay.</p>
+<p>Is there a way to support the traffic and save cost at the same time? Yes, caching.</p>
+<h3 id="Caching"><a href="#Caching" class="headerlink" title="Caching"></a>Caching</h3><p>There are several types of caching practices, the common ones are:</p>
+<ol>
+<li>Read-aside cache</li>
+<li>Content Delivery Network, CDN</li>
+</ol>
+<p>There are advantages and disadvantages to both approaches, which will be briefly analyzed below.</p>
+<h3 id="Read-aside-Cache"><a href="#Read-aside-Cache" class="headerlink" title="Read-aside Cache"></a>Read-aside Cache</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*H3N_CRqQsbbBNP28fgt-hQ.png"></p>
+<p>In addition to the original database, we put a cache aside. The whole process of reading is,</p>
+<ol>
+<li>first read the data from the cache.</li>
+<li>if the data does not exist in the cache, read it from the database instead.</li>
+<li>then write back to the cache.</li>
+</ol>
+<p>This is the most common scenario for caching. Depending on the nature of the data, different time to live, TTL will be set in the cached dataset.</p>
+<h3 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h3><p>Another caching practice is CDN.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*dMOjwBzvwMlyNzB2TzXrIA.png"></p>
+<p>Instead of building a cache, a new component is used and placed in front of the load balancer. When any read request comes in, the CDN first determines if there is already cached data based on the configured rules. If there is, the request will be replied directly. On the other hand, the request will follow the original process, and the data will be cached when the response passes through the CDN so that it can be replied directly next time.</p>
+<p>Compared with the read-aside cache, we can see from the diagram there are fewer lines in the CDN. Fewer lines means less complexity in application implementation and easier to achieve. After all, the CDN only needs to configure the rules and the application does not need to be changed at all.</p>
+<p>One potential problem with caching is the inconsistency of the data. When the data is updated in the database, if the TTL of the cache does not expire, the cached data will not be updated, and then the user may see the inconsistent result.</p>
+<p>For read-aside cache, when the API updates the database, it can delete the data in the cache at the same time, so that the next time when it reads in, it can get the latest data. On the other hand, CDNs have to perform invalidation through the APIs provided by each vendor, which is more complicated than read-aside cache in practice.</p>
+<h3 id="Writing-Bottlenecks"><a href="#Writing-Bottlenecks" class="headerlink" title="Writing Bottlenecks"></a>Writing Bottlenecks</h3><p>Caching and read&#x2F;write splitting have been effective in handling the increasing amount of read requests, but as you can see from the above diagrams, there is still no effective way to deal with the large number of writes to the database. To solve the write bottleneck, there are many different mechanisms that can be applied, and two common approaches are listed below.</p>
+<ol>
+<li>Master-master replication</li>
+<li>Write through cache</li>
+</ol>
+<p>These two approaches are orthogonal and have completely different practical considerations and are difficult to compare with each other. Then, let’s analyze these two approaches.</p>
+<h3 id="Master-master-Replication"><a href="#Master-master-Replication" class="headerlink" title="Master-master Replication"></a>Master-master Replication</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*4843yOgJdM3nknRx80XbPA.png"></p>
+<p>Although there is a corresponding database entity for each of the APIs in the above diagram, the APIs are not actually locked to a particular entity, depending on the database implementation in use and configuration.</p>
+<p>Comparing with read-write split, you will find both read and write can be executed on the same database entity. Writes on any database entity will be synchronized to other entities.</p>
+<p>A typical example of master-master replication is Cassandra, which is very scalable for writes and can support very large numbers of simultaneous writes. On the other hand, MySQL also supports master-master replication, but one major problem with MySQL master-master replication is its replication is performed asynchronously in the background, which sacrifices MySQL’s most important feature, consistency.</p>
+<p>If master-master replication is needed, PACELC must be taken into account.</p>
+<p>Master-master replication is a technique that tolerates partition failure, so you can only choose between consistency and availability. In addition, MySQL can achieve consistent master-master replication with external frameworks, such as Galera Cluster, which in returns, creates long latency.</p>
+<p>Therefore, when choosing master-master replication to improve write performance, it is important to consider whether the usage scenario is appropriate. If you have to apply such a technique to MySQL, it would be better to switch to another database, e.g. Cassandra.</p>
+<p>However, changing the database is a huge effort. Is there a way to solve the write bottleneck without changing the database? Yes, through caching once again.</p>
+<h3 id="Write-through-Cache"><a href="#Write-through-Cache" class="headerlink" title="Write through Cache"></a>Write through Cache</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*PDEjfTJLYXx55BBKb3Nzrw.png"></p>
+<p>Before writing the data into the database by API, write all the data into the cache. After a period of time, the results of the cache are then written into the database in batches. By this way, a large number of write operations can be turned into a small number of batch operations, which can effectively reduce the load on the database.</p>
+<p>The read operation can also be like read-aside cache which reads from the cache first and then the database, so that on the one hand we can get the first update and on the other hand we can reduce the load on the database read.</p>
+<p>Write through cache is a completely different design pattern from master-master replication, which scales the database performance through architectural changes while keeping the original database. Although the application does not need to be modified by changing the database, writing through cache will also create additional complexity.</p>
+<p>We’ve covered how the entire web service deals with heavy traffic, from scale-up to scale-out, from API to database, but the story doesn’t end here. We have overcome the traffic problem, but when the volume of data in the database is very large, the performance of the database, both in terms of reads and writes, is seriously affected. Given the large volume of data, even a few reads can take up a huge amount of resources, which leads to database performance problems.</p>
+<h3 id="Sharding"><a href="#Sharding" class="headerlink" title="Sharding"></a>Sharding</h3><p>Since the amount of data is too large for a single database, it is sufficient to spread the data evenly across several database entities, which is the concept of sharding.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*3VbI4_XijMmJ_b-jSZQTDQ.png"></p>
+<p>Although there is only one database in each of the above clusters, all three of them are actually database clusters, and the mentioned read-write split or master-master replication can be applied. Furthermore, even though the APIs correspond to a database cluster individually, it does not mean that the APIs can only access specific clusters. For example, <code>API2</code> can also access <code>Cluster3</code>.</p>
+<p>Sharding is the technique of dividing a large dataset into several smaller datasets. By using pre-defined indexes such as shard key (MongoDB) or partition key (Cassandra), the data is distributed to the corresponding database entities. Thus, for an application, accessing a specific data will be in a specific database entity, and if the data is spread evenly enough, then the load of individual database entity is <code>1/N</code>, <code>N</code> being the number of clusters.</p>
+<p>Nevertheless, if the data is not spread out enough and is overly concentrated in one database, the meaning of sharding is lost, which is called a hot spot, and this will not only cause the performance to drop, but also the cost of redundant database. As I mentioned earlier, the cost of a database is high, and it would be very wasteful to have a redundant database.</p>
+<p>Once we have overcome the problem of scaling traffic and data volume, the next challenge is what to do when the task to be performed becomes large enough to affect the performance of the API and the database? The answer is to break up the task.</p>
+<h3 id="Messaging"><a href="#Messaging" class="headerlink" title="Messaging"></a>Messaging</h3><p>When the tasks running by the API become large, the response time of the API will be significantly affected. To reduce the response time of the API for large tasks, the most common approach is to perform synchronous tasks asynchronously, and sometimes even divide the large tasks into several smaller ones.</p>
+<p>The asynchronous approach has actually been mentioned in many of my previous articles, that is, the Event-Driven Architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*PoA_dF4nTmON98LB-U909Q.png"></p>
+<p>The API sends tasks to the message queue, which are executed by workers behind the queue. As the number of events grows, the number of workers can be scaled horizontally depending on the number of pending events.</p>
+<p>The details of the event-driven architecture are listed below, so I won’t dive into them in this article.</p>
+<ul>
+<li>How to choose a message queue? <a target="_blank" rel="noopener" href="https://selectfrom.dev/message-queue-in-redis-9efe0de2c39c">There are four main aspects</a>.</li>
+<li>What is the event-driven architecture pattern? <a target="_blank" rel="noopener" href="https://lazypro.medium.com/design-patterns-of-event-driven-architecture-bf0121cfda7b">Design pattern, Part 1</a> and <a target="_blank" rel="noopener" href="https://lazypro.medium.com/design-patterns-of-event-driven-architecture-part-2-ea4296dc58d">Design pattern, Part 2</a>.</li>
+<li>How to implement with minimal effort? <a target="_blank" rel="noopener" href="https://betterprogramming.pub/implement-event-driven-architecture-with-minimal-effort-182c3bbe5524">Solution</a>.</li>
+</ul>
+<p>Finally, when the project has been successful, the users are around the world. If the data center is located in the same place, then for areas that are physically far away, the delay will be noticeable, resulting in a decrease in user acceptance. So, how do we address the scalability of users?</p>
+<h3 id="Edge-Computing"><a href="#Edge-Computing" class="headerlink" title="Edge Computing"></a>Edge Computing</h3><p>Edge means to arrange the system as close to the user as possible for a good user experience.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*ZfFrkurRSLzkUctXTj8msw.png"></p>
+<p>Therefore, for three distant regions, we can set up three different data centers to provide better efficiency for users in each region.</p>
+<p>Nevertheless, when we need to perform data analysis, we will always need data from all three regions. From a data analysis perspective, we need one logically unified database, not three physically independent databases.</p>
+<p>In other words, how to get the database as close to the user as possible and still have a unified entry point?</p>
+<ul>
+<li>DB shards: This is a relatively simple approach to practice. Just use the region as the shard key and create database shards in each region. Then, there will be a unified entry point, which in the case of MongoDB is <code>mongos</code>.</li>
+<li>DB master-master replication: master-master replication also allows different database entities to be placed in different regions, but because of the physical distance, the replication is not very efficient, so the synchronization rate is a potential problem.</li>
+<li>Data ETL: Data is extracted from various databases and transformed and loaded into a unified data store. This is the most common way for data analysts to do this without changing the database structure of the original application, as well as to pre-process the data and even choose their own familiar data storage.</li>
+</ul>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article analyzes how to scale web services from various perspectives. From the beginning of the project, the API is horizontally scaled to handle the large number of incoming requests until the database becomes a bottleneck. To solve the database bottleneck, no simple horizontal scaling can be used, so techniques such as read-write splitting or caching are used to reduce the load on the database. However, if the dataset is very large, we still need to adopt sharding and other methods to separate the dataset. Finally, if the users are worldwide, it is necessary to establish different data centers to physically distribute the workload.</p>
+<p>However, while this article is focused on explaining infrastructure-related topics, there is another kind of service scaling that is actually very important, and that is the scaling of feature requirements.</p>
+<p>As a project moves towards success, more and more feature requests will be made, so how to quickly respond to feature scaling? The most common technology used nowadays is microservices, but microservices also have problems which must be faced, and in my previous article, I introduced what are the aspects of designing a microservice architecture that are worth considering.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/original-sin-of-microservices-part-1-90461ddcefb">Original Sin of Microservices, Part 1</a></li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/original-sin-of-microservices-part-2-8856c0e8426d">Original Sin of Microservices, Part 2</a></li>
+</ul>
+<p>This article serves as an internal training for my team members, because the target is junior engineers, so there is not too much detail on each topic. If you are interested in any of the topics, please let me know and I will analyze those techniques in depth.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/scaling-web-service-b391557a1134">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Solve-Performance-Bottleneck-through-CQRS/20220522/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Solve-Performance-Bottleneck-through-CQRS/20220522/" class="post-title-link" itemprop="url">Solve Performance Bottleneck through CQRS</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-05-23 01:20:56" itemprop="dateCreated datePublished" datetime="2022-05-23T01:20:56+08:00">2022-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Solve-Performance-Bottleneck-through-CQRS"><a href="#Solve-Performance-Bottleneck-through-CQRS" class="headerlink" title="Solve Performance Bottleneck through CQRS"></a>Solve Performance Bottleneck through CQRS</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*Fkg22FyCFBiCeDPp.png"></p>
+<p>Previously, I have introduce how to <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">shift from a monolith to CQRS</a> in order to solve some problems. As the architecture gets bigger, the maintenance effort gets higher, so it is necessary to split the monolith into several execution units to reduce the development difficulty.</p>
+<p>However, CQRS can be used in much more than that. In this article, we will introduce another pattern where CQRS can be applied, and this is the approach I use most often when solving performance bottlenecks.</p>
+<h3 id="Many-to-One-Data-Model"><a href="#Many-to-One-Data-Model" class="headerlink" title="Many-to-One Data Model"></a>Many-to-One Data Model</h3><p>According to my previous introduction, we know CQRS can convert domain objects into several read models in order to extend functional requirements. Such a pattern is what I call a one-to-many transformation. From a single data source, various models for presentation are converted based on business logic.</p>
+<p>But sometimes we need many-to-one transformation, and this usually results in performance bottlenecks.</p>
+<p>Let’s take an e-commerce website as an example. Suppose we call only one API to pull back all the data when we open the homepage of the site.</p>
+<blockquote>
+<p><em>&#x2F;api&#x2F;eshop&#x2F;home</em></p>
+</blockquote>
+<p>The purpose is to reduce the complexity of frontend development by having a single API for a single page, so that frontend developers can focus on rich presentation rather than data collection. This is common in small organizations or startups, in order to quickly produce publishable screens and simplify the communication process with the backend as much as possible.</p>
+<p>Continuing with our example, this homepage API would require order information, user information, recommendation lists, inventory categories, and so on. Whether these data come from microservices or different data stores, they face the problem that their load is different. The data sources with high load will cause higher latency.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Ltt6SPlzWypgTCDTA__qiQ.png"></p>
+<p>According to the above diagram, the order is the most heavily loaded, so the response time is the longest, up to one second. In this case there is a “long-tail effect”, even if some data sources respond quickly, the entire home API time depends on the most heavily loaded data source. In this example, it is one second.</p>
+<h3 id="Start-System-Evolution"><a href="#Start-System-Evolution" class="headerlink" title="Start System Evolution"></a>Start System Evolution</h3><p>To solve the long-tail effect, we can pre-build the homepage data in an independent data source, in other words, the homepage API does not need to take time to collect the desired data from everywhere, just obtain all the desired data from a single place. Ideally, the data would already be assembled.</p>
+<p>So the system will look like this.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*aqx0kCgiu2eOccYdu4VTVw.png"></p>
+<p>This has the additional benefit of eliminating the time spent assembling and collating data, and the efficiency of a single data source, which can significantly reduce latency.</p>
+<p>Nevertheless, the issue remains. Since this is a pre-built data source, who is responsible for updating it?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*ZVE5zDfEvGVJj15MDQH3SA.png"></p>
+<p>The most intuitive approach is that whatever domain service the user is operating, that domain service will update it. In the above example, when a user modifies order data, the order service not only modifies the original database, but also modifies the new database. The same will happen to other domain services.</p>
+<p>Remember the problem we were trying to solve at the beginning? When operating on a busy system, the response time is obviously slow.</p>
+<p>Since it’s a busy system, such a change is like pushing a new problem onto someone who is already busy. We all know that database modifications are complex and time-consuming.</p>
+<h3 id="Evolve-into-CQRS"><a href="#Evolve-into-CQRS" class="headerlink" title="Evolve into CQRS"></a>Evolve into CQRS</h3><p>Therefore, what we expect is when users are operating the original domain service, someone can help us to synchronize the new database in the background without much domain service effort.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*RMCio_D2K4lg1I3E9FoI4w.png"></p>
+<p>The final architecture will be similar to this. Basically, this is the pattern of CQRS.</p>
+<p>According to the previous article, there are three ways to implement the eventual consistency of CQRS, depending on how immediately the new database must be updated. The following is the order from fast to slow, but the implementation details will not be described in this article.</p>
+<ol>
+<li>Background thread</li>
+<li>Message queue plus workers</li>
+<li>ETL</li>
+</ol>
+<p>Finally, we solve the original problem we were trying to solve: long-tail effects. Not only do we not create too much overhead for the original domain services, but we also don’t introduce too much coupling.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>You may ask, “Why not just write all the domain objects to a new database, HomeSource, instead of having a domain database (e.g. OrderSource) at the beginning? A typical example of such a practice is the Service Oriented Architecture.</p>
+<p>If we do this, the problem is no longer the long-tail effect, but how to do the horizontal scaling of HomeSource. In the final architecture, most of the order functions are still done on the original data store, and only the data that needs to be presented on the homepage is transferred to the new data store in an asynchronous way.</p>
+<p>If the data storage of all domain services is unified, the new unified data storage will be under more loading than the sum of the original domain storage. This requires more care and effort in database design, and creates a lot of data-level coupling. This is the main reason why the service-oriented architecture is becoming obsolete.</p>
+<p>So far we have seen two scenarios of CQRS.</p>
+<ol>
+<li>Improving productivity for extended functional requirements.</li>
+<li>Solving performance bottlenecks.</li>
+</ol>
+<p>In fact, CQRS only provides a methodology and does not limit the situations in which it can be applied. Perhaps there is a pattern around you that would be a good fit for a CQRS solution, please feel free to share it with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/solve-performance-bottleneck-through-cqrs-3fd456df1551">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Testing/Property-Based-Testing-Framework-for-Node/20220515/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Testing/Property-Based-Testing-Framework-for-Node/20220515/" class="post-title-link" itemprop="url">Property-Based Testing Framework for Node</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-05-16 01:42:07" itemprop="dateCreated datePublished" datetime="2022-05-16T01:42:07+08:00">2022-05-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Testing/" itemprop="url" rel="index"><span itemprop="name">Testing</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Property-Based-Testing-Framework-for-Node"><a href="#Property-Based-Testing-Framework-for-Node" class="headerlink" title="Property-Based Testing Framework for Node"></a>Property-Based Testing Framework for Node</h3><h4 id="Understand-how-fast-check-works-with-a-practical-example"><a href="#Understand-how-fast-check-works-with-a-practical-example" class="headerlink" title="Understand how fast-check works with a practical example"></a>Understand how fast-check works with a practical example</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*0vIaQCIhozBRhN0q"></p>
+<p><em>The Pragmatic Programmer</em> introduces a method of testing called property-based testing, in which an example is given in Python, using the framework <a target="_blank" rel="noopener" href="https://hypothesis.readthedocs.io/en/latest/">hypothesis</a>.</p>
+<p>The usage of the hypothesis is very intuitive and simple and presents the concept of property-based testing perfectly. So I also wanted to find an equivalent alternative in Node. Two of them have high star ratings on Github, <a target="_blank" rel="noopener" href="https://github.com/jsverify/jsverify">JSVerify</a> with 1.6K stars and <a target="_blank" rel="noopener" href="https://github.com/dubzzz/fast-">fast-check</a> with 2.8K stars. So I took some time to study <code>fast-check</code> a little bit and try to get closer to my daily work.</p>
+<p>This article is a recap, and a simple example to document the experience.</p>
+<h3 id="Why-Property-Based-Testing"><a href="#Why-Property-Based-Testing" class="headerlink" title="Why Property-Based Testing?"></a>Why Property-Based Testing?</h3><p>Before providing examples, let’s explain why we use property-based tests. In fact, I don’t like the term property-based. In my words, “extremely high-volume” testing.</p>
+<p>We all know that Test Pyramid is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*nUdAvOUH7bhp9HG7.png"></p>
+<p>And in my previous article, I mentioned <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/whats-difference-between-unit-test-and-integration-test-aae6ef13220">what’s the difference between unit tests and integration tests</a>. At the lower levels of the pyramid, more test cases are required.</p>
+<p>Even so, it is difficult to generate a large number of test cases. We usually write corresponding tests based on known conditions or product specifications, sometimes we may remember to write boundary tests (sometimes not), and sometimes we may rely on simple random verification of functionality, e.g. <a target="_blank" rel="noopener" href="https://fakerjs.dev/guide/">faker</a>.</p>
+<p>However, in general, even if we try hard to come up with test cases, we cannot cover all scenarios, and we call this testing method example-based testing. This is because the test cases we come up with are basically extended from a certain example and cannot cover all the unknown contexts nor can we test all the boundary conditions.</p>
+<p>At this point, we would like to have a framework automatically generate enough scenarios (reasonable scenarios or not) to verify the code we write, and the test cases we write only need to ensure their “properties” are correct. This is the origin of property-based testing.</p>
+<h3 id="Nevertheless"><a href="#Nevertheless" class="headerlink" title="Nevertheless"></a>Nevertheless</h3><blockquote>
+<p><em>The reality is that integration testing is approximately the same as unit testing.</em></p>
+</blockquote>
+<p>I have worked in many organizations, from large national enterprises to small startups. Whether I am a developer or a mentor, from past experience, unit testing is about as relevant as integration testing.</p>
+<p>For most developers, it is not an easy task to properly divide unit testing and integration testing. To be able to split test cases entirely they need to have the skills of design patterns, dependency injection, dependency inversion, etc. to be able to do it well. Therefore, most test environments are based on a specific test environment, such as using <code>docker-compose</code> to generate a one-time database and test data and test on it.</p>
+<p>The documents of <code>fast-check</code> is written based on the standard of unit test, and it seems that only the verification boolean is provided, that is, <code>fc.assert</code>, so I took some time to research to write a test case close to daily use.</p>
+<p>Generally, I need several abilities.</p>
+<ol>
+<li>Be able to test async&#x2F;await.</li>
+<li>Be able to verify more contexts, such as <code>assertEqual</code>.</li>
+</ol>
+<h3 id="fast-check-Introduction"><a href="#fast-check-Introduction" class="headerlink" title="fast-check Introduction"></a>fast-check Introduction</h3><p>Before we start writing test cases, let’s have a look at the basic usage of <code>fast-check</code>.</p>
+<p>First, let’s introduce the structure of <code>fast-check</code>.</p>
+<ul>
+<li><code>Assertion (fc.assert)</code></li>
+<li><code>Properties (fc.property or fc.asyncProperty)</code></li>
+</ul>
+<p>The function of <code>fc.assert</code> is to verify that all the tests automatically generated by the properties are correct. The properties are needed to describe two important blocks.</p>
+<ul>
+<li>Runner</li>
+<li>Arbitraries</li>
+</ul>
+<p>Runner is the context to be tested, i.e., the target. On the other hand, the arbitraries are the input parameters of the target, which are automatically generated by the properties, and all we have to do is to provide rules for them, e.g., only integers.</p>
+<p>The following is a simple example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fc.assert(  </span><br><span class="line">  fc.property(fc.integer(), fc.integer(), (i, j) =&gt; &#123;  </span><br><span class="line">    return i + j === add(i, j);  </span><br><span class="line">  &#125;)  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>The two <code>fc.integer()</code> are arbitraries, and the later anonymous function is the runner, which takes two arguments <code>i</code> and <code>j</code>, corresponding to the previous arbitraries. We want to verify whether the function <code>add</code> really sums the two arguments correctly, so the result of <code>add</code> should be consistent with <code>+</code>.</p>
+<p>Let’s review the two requirements we just mentioned.</p>
+<ol>
+<li><code>fast-check</code> is able to test async&#x2F;await, runner can be a promise, and <code>fc.assert</code> itself is also a promise.</li>
+<li>Although our test target is <code>add</code>, but a good integration with some conditions in the runner can make not only the effect of boolean.</li>
+</ol>
+<h3 id="fast-check-Examples"><a href="#fast-check-Examples" class="headerlink" title="fast-check Examples"></a>fast-check Examples</h3><p>Now let’s come to a more practical example. Suppose I have a database table with money for each user.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Nque5NtvSpJSqQImeh-G0w.png"></p>
+<p>There is a function <code>async function getMoney(limit)</code> which will sort money in ascending order and also determine how much money to return based on the parameters.</p>
+<p>Now we want to test this black box.</p>
+<p>Let me explain in brief.</p>
+<ol>
+<li>Just simply verify the function really works, there is no use of <code>fast-check</code>.</li>
+<li>Given an arbitrary integer, the length of the return result should be between 0 and 10, because we only created ten records in <code>before</code>.</li>
+<li>Given a range of integers, the length of the return should be equal to the given length.</li>
+<li>Verify the order of the whole array is indeed ascending. From this runner can be seen, even very complex conditions can be verified, but be careful not to make bugs in the test case resulting in the need for a test case of the test case.</li>
+</ol>
+<p>If a problem is detected, <code>fast-check</code> will also tell you what kind of arbitraries it uses to detect the problem. For example,</p>
+<blockquote>
+<p><em>Counterexample: [-1234567890]</em></p>
+</blockquote>
+<p>This means the test case failed when <code>i = -1234567890</code>. It is possible the negative number is not handled correctly or the “large” negative number is not handled correctly. This is the time to write a real unit test (or integration test) and verify -1234567890 so that such a failed case can be used as a regression test afterward.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Ideally, when testing database behavior like this, we would use techniques such as dependency injection to isolate the physical database in order to improve testing performance. But as I said earlier, it is not easy to properly separate code from external dependencies depending on the experience and skill of the developer.</p>
+<p>So in many organizations, we still see that most of the test cases have to rely on the physical database for testing. But I have to say this is incorrect.</p>
+<p>In this article, I explain the usage of <code>fast-check</code> through a real-life example and how it is close to practice. Nevertheless, I hope we don’t have to face this again, at least after reading <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/whats-difference-between-unit-test-and-integration-test-aae6ef13220">my previous article</a>, let’s try to turn over those unreasonable test cases.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/property-based-testing-framework-for-node-1ca702ad30bc">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Database/Solve-Phantom-Read-in-MySQL/20220508/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Database/Solve-Phantom-Read-in-MySQL/20220508/" class="post-title-link" itemprop="url">Solve Phantom Read in MySQL</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-05-09 01:14:07" itemprop="dateCreated datePublished" datetime="2022-05-09T01:14:07+08:00">2022-05-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Solve-Phantom-Read-in-MySQL"><a href="#Solve-Phantom-Read-in-MySQL" class="headerlink" title="Solve Phantom Read in MySQL"></a>Solve Phantom Read in MySQL</h3><h4 id="A-solution-for-write-skew-when-“creating”-data"><a href="#A-solution-for-write-skew-when-“creating”-data" class="headerlink" title="A solution for write skew when “creating” data"></a>A solution for write skew when “creating” data</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*Nkj3KriyNGjlu0aO.jpg"></p>
+<p>The combination of MySQL and its storage engine InnoDB is almost the most widely used relational database nowadays, and <em>Repeatable Read</em> is the most common in the isolation level.</p>
+<p>However, compared to PostgreSQL, InnoDB has several problems that cannot be solved elegantly at the <em>Repeatable Read</em> level.</p>
+<ol>
+<li>Lost updates</li>
+<li>Phantom read</li>
+</ol>
+<p>Lost updates in PostgreSQL can be completely solved without additional hacks. As for phantom reads, there are some small tricks that can be used, such as <code>range types</code> and other mechanisms.</p>
+<p>Nevertheless, MySQL still has to be careful to identify the pitfalls and deal with them properly by developers to solve such problems. In <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/how-to-avoid-the-race-condition-and-the-negative-value-3f397b2b08e4">my previous article</a>, we introduced three ways to address lost updates. Those approaches provide a more flexible solution to lost updates and are suitable for a variety of scenarios.</p>
+<p>In this article, we will further explore how to properly solve the write skew caused by phantom reads.</p>
+<p>There are many types of scenes that result in phantom reads, but in general, they all have the following pattern.</p>
+<ol>
+<li>Search a specific range.</li>
+<li>Do something according to the results of the range (Create, Update, Delete).</li>
+<li>The operation will directly affect the original range results.</li>
+</ol>
+<p>Suppose it is only an update or a delete, the most straightforward way to avoid write skew is to use an exclusive lock. If you use <code>FOR UPDATE</code> at the beginning of <code>SELECT</code>, then two concurrent transactions will be forced to go one after the other, thus effectively avoiding the write skew in the race condition.</p>
+<p>However, in the case of a create, the solution is not so intuitive. Because there is no corresponding row to lock in <code>SELECT</code>, the row is created later. So how to solve it?</p>
+<h3 id="Meeting-Room-Booking-System"><a href="#Meeting-Room-Booking-System" class="headerlink" title="Meeting Room Booking System"></a>Meeting Room Booking System</h3><p>Before introducing the solution, let’s use a practical example to describe the problem caused by phantom read.</p>
+<p>There is a meeting room system that provides users to reserve a meeting room, and when the user has successfully reserved the meeting room, a new corresponding data will be added in the table as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*l3NXQNYuGh7HHswTCHOWfw.png"></p>
+<p>The above table records that user <code>A</code> reserved the meeting room <code>123</code> for one hour on 5&#x2F;1 at 10 am.</p>
+<p>The behavior of this system will be similar to the following pseudo-code.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">count = `SELECT COUNT(*) FROM booking   </span><br><span class="line">         WHERE room_id = 123 AND   </span><br><span class="line">         start_time &lt; &#x27;2022-05-01 11:00&#x27; AND   </span><br><span class="line">         end_time &gt; &#x27;2022-05-01 10:00&#x27;`  </span><br><span class="line">           </span><br><span class="line">if count == 0:  </span><br><span class="line">    `INSERT INTO booking (user, room_id, start_time, end_time)  </span><br><span class="line">     VALUES (&#x27;A&#x27;, 123, &#x27;2022-05-01 10:00&#x27;, &#x27;2022-05-01 11:00&#x27;)`</span><br></pre></td></tr></table></figure>
+
+<p>When the user is sure that the meeting room is unoccupied for the corresponding time slot, then the user can insert an entry as a reservation and the next user will not have a time conflict. Doesn’t that seem nice?</p>
+<p>The problem occurs when two users want to occupy the same time slot in the same meeting room simultaneously, and they can both pass the first <code>SELECT</code> validation, so they can both insert a reservation, and a conflict occurs. And such a situation can not be solved by adding a lock, because there is no row to lock at the beginning.</p>
+<h3 id="Solve-by-Uniqueness-Incomplete-Solution"><a href="#Solve-by-Uniqueness-Incomplete-Solution" class="headerlink" title="Solve by Uniqueness (Incomplete Solution)"></a>Solve by Uniqueness (Incomplete Solution)</h3><p>Since there is no way to turn a simultaneous operation into a sequential operation through a lock, we let one of them simply fail. To do so we need to add some constraints, e.g. unique constraints, to the table.</p>
+<p>One approach is to create a unique constraint index on the room_id, start_time columns, so that the second person trying to reserve the same time slot will fail.</p>
+<blockquote>
+<p><em>The problem is solved if we restrict the use of each room to a maximum of one hour.</em></p>
+</blockquote>
+<p>But if the meeting room can be booked for more than an hour, another problem arises.</p>
+<ol>
+<li>User A is reserved for 5&#x2F;1 from 10am to 12pm</li>
+<li>User B is reserved for 5&#x2F;1 from 11:00 to 12:00</li>
+</ol>
+<p>When both User A and B are operating at the same time, this unique constraint obviously cannot be effective, and then the conflict around the meeting room remains.</p>
+<h3 id="Materialize-Conflicts-Correct-Solution"><a href="#Materialize-Conflicts-Correct-Solution" class="headerlink" title="Materialize Conflicts (Correct Solution)"></a>Materialize Conflicts (Correct Solution)</h3><p>To solve such phantom reads, the developer must use some tricks to reveal conflicts hidden under the same table.</p>
+<p>One way is to create a new table and pre-fill it with data to act as a coordinator for simultaneous operations. In the case of this meeting room system, we can create a table <code>time_slots</code> that lists all time slots in advance as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*LcWy2cRfEA9gzfKpE6DkWA.png"></p>
+<p>When the meeting room is to be reserved, we not only execute <code>SELECT</code> on the original <code>booking</code>, but also <code>SELECT</code> on <code>time_slots</code>, and we can add <code>FOR UPDATE</code> because the data already exists. It is worth noting that the new <code>SELECT FOR UPDATE</code> is executed before the original <code>SELECT</code>.</p>
+<p>In that case, when the expected time slots of two simultaneous users overlap, they will be blocked by the exclusive lock and become one after the other, and the latter will fail directly because it sees the result of the previous completion.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>I have to say such a solution is difficult and not intuitive. However, in order not to sacrifice performance when using MySQL, the isolation level is not configured to be <em>Serializable</em>, which means complexity must be traded off for performance during execution.</p>
+<p>It is a trade-off between complexity and performance. In fact, using <code>FOR UPDATE</code> to process synchronization in such a scenario does affect performance, and if <code>booking</code> is a table that may have phantom reads in all contexts, then making <code>booking</code> individually <em>Serializable</em> is a feasible solution.</p>
+<p>When using a database, we must know the capabilities of the database and understand all the unsolvable situations of the database, so that we can know what kind of behaviors are potential risks when designing and developing.</p>
+<p>In addition, how to properly address the risks is also an important topic. Although the use cases are not exactly the same for everyone, the patterns are similar, and learning how to solve each pattern will help you to deal with similar situations quickly in the future.</p>
+<p>This article provides a solution for write skew when “creating” data, while the previous article is about solving write skew when “updating” data. These should cover most of the situations that you might encounter. If anyone has encountered other kinds of MySQL race conditions, please feel free to discuss them with me as well.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/solve-phantom-read-in-mysql-a1c85f9a8c56">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Redis-as-a-Lock-Are-You-Sure/20220501/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Redis/Redis-as-a-Lock-Are-You-Sure/20220501/" class="post-title-link" itemprop="url">Redis as a Lock! Are You Sure?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-05-02 00:47:23" itemprop="dateCreated datePublished" datetime="2022-05-02T00:47:23+08:00">2022-05-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Redis-as-a-Lock-Are-You-Sure"><a href="#Redis-as-a-Lock-Are-You-Sure" class="headerlink" title="Redis as a Lock! Are You Sure?"></a>Redis as a Lock! Are You Sure?</h3><h4 id="Is-the-lock-you-are-talking-about-an-exclusive-lock-or-a-barrier"><a href="#Is-the-lock-you-are-talking-about-an-exclusive-lock-or-a-barrier" class="headerlink" title="Is the lock you are talking about an exclusive lock or a barrier?"></a>Is the lock you are talking about an exclusive lock or a barrier?</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*ruuHg6RyBfet0s48"></p>
+<p>Redis is a storage that keeps data in memory, and we know anything in memory is unreliable. Furthermore, <a target="_blank" rel="noopener" href="https://towardsdev.com/data-persistence-in-redis-2780c11d1623">Redis’ data persistence</a> is not as reliable as claimed. Therefore, it is very dangerous to use Redis as a lock to achieve some sort of synchronization.</p>
+<p>This article, however, is not intended to focus only on Redis’ unreliability, but rather to further analyze whether those locks are being used correctly.</p>
+<p>In fact, we often refer to two very different concepts as locks.</p>
+<ul>
+<li>Exclusive lock: Used to control the access rights of a critical section, where only one person can be in the critical section at a time. A similar concept is the semaphore, which allows the maximum number of people in the critical section.</li>
+<li>Barrier: Used to reduce the frequency of a specific action.</li>
+</ul>
+<p>Nevertheless, these two concepts have completely different purposes and are implemented in totally different ways. However, usually, we do not carefully define the requirements and choose the correct approach, resulting in an abnormality.</p>
+<h3 id="Exclusive-Lock"><a href="#Exclusive-Lock" class="headerlink" title="Exclusive Lock"></a>Exclusive Lock</h3><p>The purpose of an exclusive lock, also known as a mutex lock, is to control the simultaneous users of a critical section to only one.</p>
+<p>Since it is a critical section, there are two actions, locking and releasing, entering while locking and leaving while releasing. This is often used to avoid racing conditions in databases, e.g. MySQL cannot avoid lost updates, so an additional exclusive lock is used as a synchronization mechanism for two simultaneous updates.</p>
+<p>Based on the above description we can write a pseudo code.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while tryLock(forLongTime):  </span><br><span class="line">    sleep(veryShortTime)  </span><br><span class="line">      </span><br><span class="line">doSomeThing()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">releaseLock()</span><br></pre></td></tr></table></figure>
+
+<p>There are several worth noting points above.</p>
+<ol>
+<li>The <code>tryLock</code> method implies two actions: acquire the lock and lock it. If you can acquire the lock, you have to lock it immediately, otherwise the lock will be taken away by others, and the following critical section will be breached.</li>
+<li>The waiting time should be set very short, the objective is to be able to continue things as soon as possible, rather than spend a bunch of time waiting.</li>
+<li>However, the locking time should be very long to avoid the lock disappearing before things are done, resulting in invalidation of the critical section.</li>
+<li>After doing what needs to be done, the lock must be released immediately so that others can access the critical section immediately.</li>
+</ol>
+<p>Again, the purpose of the exclusive lock is to control access to critical sections. If two actions occur at the same time, then both actions can be completed correctly, just one after another.</p>
+<h3 id="Barrier"><a href="#Barrier" class="headerlink" title="Barrier"></a>Barrier</h3><p>The purpose of the barrier is to reduce the frequency of a certain action. For example, if you call a API twice in a row, and the second time the API responds with “Please try again later”, this is a typical barrier.</p>
+<p>Since the purpose is to reduce the frequency, the timing of the blocking is important, depending on the feature requirements. For instance, if the product specification requires at least 5 seconds between APIs, then the locking time is 5 seconds. This is usually shorter than the locking time of an exclusive lock.</p>
+<p>We also try to write pseudo code.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if tryLock(featureSpecTime):  </span><br><span class="line">    return False</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return doSomeThing()</span><br></pre></td></tr></table></figure>
+
+<p>Compared with the exclusive lock, there is no unlock and wait, but the same <code>tryLock</code> is used, but the lock time is from the product requirements.</p>
+<p>The barrier is to reduce the frequency, so if two actions happen at the same time, then one will succeed and the other will fail.</p>
+<h3 id="How-about-Redis"><a href="#How-about-Redis" class="headerlink" title="How about Redis?"></a>How about Redis?</h3><p>Alright, we know all of this, so what does this matter to Redis? Yes, absolutely.</p>
+<p>Redis is the one that is most often used to implement either exclusive locks or barriers, and <code>tryLock</code>, which is used on both sides, is a one-line command in Redis: <code>SET someKey 1 EX someTime NX</code>. Depending on whether the result is <code>OK</code> or <code>nil</code>, you can tell if the lock has been obtained. In terms of implementation, this is very simple.</p>
+<p>However, as mentioned at the beginning of the article, Redis data is not reliable, and using Redis as an exclusive lock may cause critical sections to become invalid.</p>
+<p>Redis can play a good role as a barrier, because a failure to block is at most an action that is done a few times more and does not affect the stability of the system, but as an exclusive lock, we must carefully consider the pros and cons.</p>
+<p>For me, if I want to avoid MySQL lost updates, I always recommend using MySQL’s native <code>FOR UPDATE</code>, which is not difficult to implement and does not need to wait, and will not be invalid. Of course, to avoid MySQL lost updates, there are several approaches in addition to locking, which can be found in <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/how-to-avoid-the-race-condition-and-the-negative-value-3f397b2b08e4">my previous article</a>.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article explains that there are actually two different meanings of what we commonly call locks, and although they both have a similar appearance, both the purpose and the details of their implementation are entirely different.</p>
+<p>To summarize.</p>
+<ul>
+<li>Exclusive lock: Two simultaneous actions will both succeed, but one after the other.</li>
+<li>Barrier: Two simultaneous actions, only one of which will succeed.</li>
+</ul>
+<p>When it comes to locks, make sure you know exactly which context you want to deal with and get it right. In my case, even if I had Redis in my system and I would use it, I would design my system as if Redis data did not exist, so that you would know if your system would handle it correctly when something unfortunate happened.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/redis-as-a-lock-are-you-sure-a870c9f22ad8">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/The-Mystery-of-MongoDB-Indexing/20220424/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/MongoDB/The-Mystery-of-MongoDB-Indexing/20220424/" class="post-title-link" itemprop="url">The Mystery of MongoDB Indexing</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-04-25 01:17:13" itemprop="dateCreated datePublished" datetime="2022-04-25T01:17:13+08:00">2022-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="The-Mystery-of-MongoDB-Indexing"><a href="#The-Mystery-of-MongoDB-Indexing" class="headerlink" title="The Mystery of MongoDB Indexing"></a>The Mystery of MongoDB Indexing</h3><h4 id="Understand-the-ESR-Rule-and-Index-Intersection"><a href="#Understand-the-ESR-Rule-and-Index-Intersection" class="headerlink" title="Understand the ESR Rule and Index Intersection"></a>Understand the ESR Rule and Index Intersection</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*kJ-YeMcMK3K7POhJ"></p>
+<p>I believe we are all familiar with MySQL’s indexing rules. Because it is built from a B+ tree, MySQL indexes have a leftmost match rule. In order for the query to match the index, the columns used in MySQL query syntax are arranged from left to right. For example:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM table WHERE a = 1 AND b &gt; 2 ORDER BY c;</span><br></pre></td></tr></table></figure>
+
+<p>The most efficient index for such a query is a compound index like <code>(a, b, c)</code>. However, such an index cannot be applied to</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM table WHERE a = 1 ORDER BY c;</span><br></pre></td></tr></table></figure>
+
+<p>This is because it lacks the necessary <code>b</code> column.</p>
+<p>This is the MySQL indexing rule, and in general, relational databases follow pretty much the same rule for implementation. However, there are subtle differences in MongoDB’s implementation with B-trees.</p>
+<h3 id="MongoDB-ESR-Rule"><a href="#MongoDB-ESR-Rule" class="headerlink" title="MongoDB ESR Rule"></a><a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/tutorial/equality-sort-range-rule/#std-label-esr-indexing-rule">MongoDB ESR Rule</a></h3><p>We will continue to use the query mentioned in the previous section as a demonstration.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.table.find(&#123;a: 1, b: &#123;$gt: 2&#125;&#125;).sort(&#123;c: 1&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>Much the same as the MySQL query mentioned earlier, but with MongoDB’s MQL rewritten. However, the index that is valid for such a query is <code>(a, c, b)</code> instead of <code>(a, b, c)</code> as mentioned in the previous section.</p>
+<p>This is because MongoDB’s compound indexes must follow the ESR (Equality, Sort, Range) rule. Hence, in the above example, <code>b</code> is used for range matching and <code>c</code> is used for sorting, so the correct index order is <code>c</code> before <code>b</code>.</p>
+<h3 id="MongoDB-Index-Intersection"><a href="#MongoDB-Index-Intersection" class="headerlink" title="MongoDB Index Intersection"></a><a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/core/index-intersection/">MongoDB Index Intersection</a></h3><p>In addition to the ESR rules, which are different from relational databases, MongoDB has another mystery: it can use multiple (let’s say 2) indexes in the same query, which is called index intersection.</p>
+<p>Continue with the query in the previous section as an example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.table.find(&#123;a: 1, b: &#123;$gt: 2&#125;&#125;).sort(&#123;c: 1&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>To improve the query performance, we suggest to use <code>(a, c, b)</code> compound index, but in fact, we can achieve the same result with two indexes.</p>
+<ol>
+<li>b</li>
+<li>(a, c)</li>
+</ol>
+<p>We create a single index <code>b</code> and a compound index <code>(a, c)</code>, which can also improve the query performance.</p>
+<p>Why do we use <code>(a, c)</code>? Because even index intersection must follow ESR rule, so we separate ES and R.</p>
+<p>What is the advantage of this? The biggest advantage is that the composition of the index becomes more flexible. If only one index <code>(a, c, b)</code> is created, then if <code>b</code> is queried alone, there is no matching index to use, so an additional index of <code>b</code> must be created. As we all know, indexes are actually a cost, which will take up memory and affect writing efficiency. In other words, if a more compact index can be used to cover more complex query conditions, then such an index would be more valuable.</p>
+<h3 id="MongoDB-ESR-“Hidden”-Rule"><a href="#MongoDB-ESR-“Hidden”-Rule" class="headerlink" title="MongoDB ESR “Hidden” Rule"></a><a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/tutorial/equality-sort-range-rule/#additional-considerations">MongoDB ESR “Hidden” Rule</a></h3><p>When using MySQL we use <code>IN</code> to do range queries, but <code>IN</code> is actually an equality in MySQL. That is to say, when the query is <code>WHERE a IN (2, 3)</code> is actually equivalent to <code>WHERE a = 2 OR a = 3</code>.</p>
+<p>However, in MongoDB, it is not.</p>
+<p>If you simply use a single column <code>$in</code> then it still has the same behavior as MySQL.</p>
+<p>For example, <code>find({a: {$in: [2, 3]}})</code> and <code>find({$or: [{a: 2}, {a: 3}]})</code> are equivalent, and both belong to E of the ESR rule.</p>
+<p>But if used with sort, then <code>$in</code> is treated as a range match, i.e. R. For instance:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find(&#123;a: &#123;$in: [2, 3]&#125;&#125;).sort(&#123;b: 1&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>Here <code>a</code> is treated as R, so to meet such a query, the index to be created should be <code>(b, a)</code> instead of <code>(a, b)</code>.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>If you only have experience with relational databases, it’s easy to get confused by feature-rich NoSQL databases, especially since the underlying MongoDB is actually a B-tree family similar to relational databases. However, there are still significant differences in the implementation details.</p>
+<p>When creating MongoDB indexes, it is especially important to pay attention to ESR rule. Many users who have moved from MySQL can easily fall down on this rule without noticing it.</p>
+<p>In fact, even indexes using <code>(a, b, c)</code> don’t cause problems when the data volume is small; MongoDB sorts in memory, but when the data volume grows to a certain size, MongoDB can’t load the entire dataset in memory and uses hard disk accesses. Then the performance will be very tragic.</p>
+<p>Furthermore, the index intersection feature offers users more flexibility to create indexes and provides them with more diverse queries. However, it is also important to be aware of ESR rule when using index intersection in order not to lose more than you gain.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/the-mystery-of-mongodb-indexing-af61766647dc">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Design-an-E-commerce-Website-From-a-High-level-Perspective/20220417/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Microservice/Design-an-E-commerce-Website-From-a-High-level-Perspective/20220417/" class="post-title-link" itemprop="url">Design an E-commerce Website From a High-level Perspective</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-04-18 00:41:17" itemprop="dateCreated datePublished" datetime="2022-04-18T00:41:17+08:00">2022-04-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Put-on-your-software-architecture-hat"><a href="#Put-on-your-software-architecture-hat" class="headerlink" title="Put on your software architecture hat"></a>Put on your software architecture hat</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*W7YBIiPi7xBHFTvQ"></p>
+<p>Last two weeks, there was a gathering of architects, in which we talked about e-commerce websites actually having some regular patterns, so if you want to quickly provide a high-level design, how would you do it?</p>
+<p>This article is a record of that discussion, I will list our ideas based on my impressions, and then present the thinking of architects on this classic design pattern.</p>
+<h3 id="Define-Basic-Domain-Services"><a href="#Define-Basic-Domain-Services" class="headerlink" title="Define Basic Domain Services"></a>Define Basic Domain Services</h3><p>Usually, for a startup system or architecture, I would recommend starting with a monolith. After constructing the MVP (minimum viable product), the architecture evolves depending on the functional and non-functional requirements to see whether it should be decomposed into microservices or the more popular Service-oriented architecture a few years ago.</p>
+<p>But in any case, there will be a monolith as the basis for a quick launch and validation of the idea.</p>
+<p>However, for an e-commerce site, there is no need for quick validation because the success of an e-commerce site depends on the products and exposure strategy rather than the features. Therefore, for e-commerce sites, it is more important to be able to solve the problems that will be encountered in the foreseeable future.</p>
+<p>Here are a few practical examples.</p>
+<p>With the rapid growth of users, the demand for user management will increase significantly, so it is necessary for user-related functions to become a separate service to facilitate fast iteration of the development cycle.</p>
+<p>Inventory, as the number of users on the site rises, the product-related features will drive most of the traffic. Customers are always looking for the products they want on the site and viewing the inventory, so in order to handle the high volume of traffic, it must be able to scale horizontally on its own. Therefore, inventory will also become a standalone service.</p>
+<p>Another core function of an e-commerce website is the purchase and order management. When a customer places an order, external services such as cash flow and logistics must be integrated behind the scenes, and new functions such as connecting different cash flows need to be implemented continuously. However, this development cycle is obviously different from user-related functions, and the need for testing and integration is completely different from the user services, that is, the order must also become a service.</p>
+<p>Finally, we will define basic domain services as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*jtY6iexEvE_m9yN6h0SWxw.png"></p>
+<h3 id="Define-Databases"><a href="#Define-Databases" class="headerlink" title="Define Databases"></a>Define Databases</h3><p>In the previous section we mentioned that we have three independent services, User, Order and Inventory. Then we had to decide what database they should be using.</p>
+<p>For a system that is just starting up, I always recommend using the most mature technology that the team is most familiar with, while taking into account the various use cases.</p>
+<p>For this reason, I believe MySQL should be the best choice for services like Order Service and Inventory Service that require strong consistency. Although MySQL has always been criticized for its lack of horizontal scalability, there have been many new breakthroughs in recent years, and more and more distributed SQL is appearing. If the traffic of an e-commerce site rises to a bottleneck, then the pain of migrating from MySQL to distributed SQL will not be too much, after all, the applications barely need to be modified.</p>
+<p>In the case of User Service, this is more interesting. User-related management functions usually do not have strong consistency requirements, and user information and other data structures are varied and plentiful. As a document-based database, MongoDB can support various kinds of rich data presentation and provide a lot of management convenience. Of course, you can also use MySQL for User Service, but you need to put a little more effort into data normalization.</p>
+<p>Besides, if you use MongoDB to implement User Service, even if you have the need of strong consistency in the future, for example, if you want to give customers discount coupons, MongoDB can still provide enough strong consistency guarantee, since MongoDB also has transactions. However, it must be said that MongoDB transactions are not easy to code, which will increase the development effort.</p>
+<h3 id="Define-Communications"><a href="#Define-Communications" class="headerlink" title="Define Communications"></a>Define Communications</h3><p>Now we have three services in charge of their domain, but how do they communicate with each other? For instance, when a customer selects a product, then dispatches the order, billing and shipping, the three services must communicate with each other to complete the scenario.</p>
+<p>From my point of view, I would recommend that these three services be asynchronous. Although the overall process must ensure consistency, which dramatically increases the implementation effort, only asynchronization can tolerate high availability and high scalability. Availability and scalability are mandatory non-functional requirements for running an e-commerce site.</p>
+<p>For example, in the Black Friday promotion, there will be a large number of customers rushing to the website and placing a large number of orders, assuming that the three services communicate with each other synchronously, then the three services must scale at the same rate, which is obviously unreasonable.</p>
+<p>In addition, when an order must be served by all three services, and any one of them fails temporarily or the network is temporarily down, the whole order will fail. In other words, only through asynchronous communication can we ensure the availability and scalability required for e-commerce sites.</p>
+<p>At this point, we had a prototype of our system architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*x4cwl2bzztJeW-cn8c3O2w.png"></p>
+<p>However, there is one component that we haven’t decided yet, and that is what kind of queue system should be used for asynchronization. In my opinion, we should use <code>Kafka</code>. Why not use a pure message queue like <code>RabbitMQ</code>? One important reason is that, <code>Kafka</code> has higher throughput when it comes to handling large traffic from a promotion event.</p>
+<p>Moreover, for behaviors like order and payment, we all know it is sequential. To preserve the message order while a large number of messages are flooding the queue, it is necessary to scale horizontally through <code>Kafka</code>’s consumer groups so that messages can be handled faster and in order at the same time.</p>
+<h3 id="Sketch-Workflow"><a href="#Sketch-Workflow" class="headerlink" title="Sketch Workflow"></a>Sketch Workflow</h3><p>Once we have a simple system architecture, we begin to sketch out the entire order placement process.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*fiY_vLMN-fZhBOic1EEA_A.png"></p>
+<p>At the beginning, the customer places an order with the inventory service, and the inventory service only handles inventory-related tasks, e.g., pre-deducting inventory. The purpose of reducing inventory before the payment is to avoid competition when a large number of users are consuming, and if the inventory is not actually reduced until the last stage, then there is a high risk that a consumer will buy air.</p>
+<p>When the inventory service has finished processing, the order service is notified that it has taken over the entire transaction while informing the customer that the order has been placed. At this moment, only the order is established, and the payment must be redirected through the frontend so that the customer can properly communicate with the order service to proceed the billing.</p>
+<p>When the payment is completed, the order service will notify the user service. User service can then proceed with user-related tasks, like coupon issuance or user level upgrade. Finally, the inventory service and the order service are informed that the transaction has been successfully completed.</p>
+<p>Or if there is an error in the order service or user service, a message must be sent to inform the other participating services. Then the service that receives the notification can handle it accordingly, for example, the inventory service must add back the pre-reduced inventory.</p>
+<h3 id="But-Not-Enough"><a href="#But-Not-Enough" class="headerlink" title="But, Not Enough"></a>But, Not Enough</h3><p>Readers who have been subscribing to my articles should have seen this is a very typical <a target="_blank" rel="noopener" href="https://betterprogramming.pub/design-distributed-transaction-with-practical-examples-7b1d93fddb63">distributed transaction</a>, and the proper approach to distributed transaction is to always be resilient, i.e., resilient to the errors.</p>
+<p>As I described in my previous article, <a target="_blank" rel="noopener" href="https://betterprogramming.pub/implement-event-driven-architecture-with-minimal-effort-182c3bbe5524">to handle distributed transactions in an event-driven architecture</a>, an arbiter (crontab) is desired. The crontab detects periodically which events have not been handled correctly and takes corresponding actions to repair them.</p>
+<p>The specific details will not be explained again in this article. But we can know in addition to the three domain services, there is another service that monitors the entire workflow.</p>
+<h3 id="But-Still-Not-Enough"><a href="#But-Still-Not-Enough" class="headerlink" title="But, Still Not Enough"></a>But, Still Not Enough</h3><p>Because the entire transaction process is asynchronous, the user must be able to know exactly what the status of the order is, what stage it is at, and so on. Therefore, it is also necessary to have a service that subscribes to the messages sent by each service, and has its own database to record and store the status of all transactions.</p>
+<p>This approach is also known as <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">CQRS</a>. The entire workflow is observed through a standalone cross-domain service, but unlike an arbiter, this observer does not actually participate in the workflow, nor does it make any kind of changes to the workflow.</p>
+<p>The observer exists only to allow the customer to get a proper overview of the workflow.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>E-commerce websites can be considered as the textbook of all backend architectures. All kinds of problems that backend engineers need to deal with will appear on e-commerce websites, but the books currently available on the market often only provide a monolithic solution, and focus on how to implement those functional requirements.</p>
+<p>But as backend experts, we all know using a monolith to run an e-commerce site is ultimately a dead end. Unless the product is completely unsellable, it will sooner or later face the challenge of traffic and availability.</p>
+<p>Although this article is a casual conversation among architects, it is actually a look at the challenges we encounter on a daily routine from a different perspective. Why does a startup e-commerce site need to have five services?</p>
+<ul>
+<li>To add new features more quickly and to have independent integration and testing processes, microservices must be segmented into domains.</li>
+<li>To have high availability and scalability, the coupling between domains must be reduced.</li>
+<li>For better fault tolerance, a resilient error recovery mechanism must be established.</li>
+<li>For a better user experience, a comprehensive presentation of the whole picture must be implemented.</li>
+</ul>
+<p>Previously, I often mentioned the drawbacks of microservices, eg <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/original-sin-of-microservices-part-1-90461ddcefb">Original Sin of Microservices, Part 1</a> and <a target="_blank" rel="noopener" href="https://lazypro.medium.com/original-sin-of-microservices-part-2-8856c0e8426d">Original Sin of Microservices, Part 2</a>.</p>
+<p>But this does not mean I totally reject microservices, instead I hope we can all face microservices with a correct attitude, not as the holy grail but also not as the devil.</p>
+<p>The right trade-off is always the most important core concept of software architecture.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-an-e-commerce-website-from-a-high-level-perspective-184618741ee8">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Unleash-vs-LaunchDarkly-A-Look-at-Feature-Toggling-Solutions/20220410/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/Unleash-vs-LaunchDarkly-A-Look-at-Feature-Toggling-Solutions/20220410/" class="post-title-link" itemprop="url">Unleash vs. LaunchDarkly: A Look at Feature Toggling Solutions</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-04-11 01:13:09" itemprop="dateCreated datePublished" datetime="2022-04-11T01:13:09+08:00">2022-04-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Introduction-to-Unleash-and-LaunchDarkly-to-understand-their-capabilities"><a href="#Introduction-to-Unleash-and-LaunchDarkly-to-understand-their-capabilities" class="headerlink" title="Introduction to Unleash and LaunchDarkly to understand their capabilities"></a>Introduction to Unleash and LaunchDarkly to understand their capabilities</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*kWUD-NYxWO1v4ksv"></p>
+<p>In the <a target="_blank" rel="noopener" href="https://betterprogramming.pub/feature-toggle-introduction-68d58f5c709">previous article</a>, we introduced the timing and usage scenarios of feature toggles. In this article, we will pick two of the more well-known solutions, <a target="_blank" rel="noopener" href="https://www.getunleash.io/">Unleash</a> and <a target="_blank" rel="noopener" href="https://launchdarkly.com/">LaunchDarkly</a>, to provide a basic introduction and my experience.</p>
+<p>Before I begin, let me briefly describe the essential requirements for a feature toggle solution must be.</p>
+<ol>
+<li>Easy-to-use website.</li>
+<li>Easy to integrate SDK.</li>
+<li>Ability to implement 4 types of feature toggles.</li>
+</ol>
+<ul>
+<li>Release toggle: You can percentage rollout to achieve canary deployment.</li>
+<li>Ops toggle: Similar to the release toggle, the percentage adjustment function is also required.</li>
+<li>Experiment toggle: To be able to carry additional information within the toggle, not just true or false.</li>
+<li>Permission toggle: When making toggle judgments, it is important to be able to use additional dynamic parameters such as user id.</li>
+</ul>
+<p>Both Unleash and LaunchDarkly can satisfy these three criteria, and although there are some differences in capability, the basic operation of the feature toggle is not a problem at all.</p>
+<h3 id="Unleash"><a href="#Unleash" class="headerlink" title="Unleash"></a><a target="_blank" rel="noopener" href="https://www.getunleash.io/">Unleash</a></h3><p>Unleash is a mature solution for feature toggle, providing not only an online paid solution but also a self-hosted open-source solution. Therefore, I believe it is very suitable for internal experiments in organizations, after all, it is free. If you have good results with feature toggles, then you can consider upgrading to Unleash’s enterprise solution or switching to another solution.</p>
+<p>Unleash’s open-source solution is very simple in architecture, requiring only an API and a PostgreSQL. There is no cache in the system architecture, so you can understand that every time you get a feature toggle it is run directly on the database, but if you only apply Unleash to the backend environment and only use the server-side SDK, then this amount of usage is indeed not a big deal.</p>
+<p>On the other hand, the SDK provided by Unleash uses a polling mechanism, asking for results every 15 seconds and storing the results in each instance’s memory. This also effectively reduces the frequency of actually touching the database, but at the price of taking up to 15 seconds for changes to take effect. From my point of view, 15 seconds is not an intolerable period, so it is completely acceptable.</p>
+<p>It is also very simple to use, first initialize the Unleash instance, and then it will work properly. All the following examples use Node.js as a demonstration.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const unleash = require(&#x27;unleash-client&#x27;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">unleash.initialize(&#123;  </span><br><span class="line">  url: &#x27;https://YOUR-API-URL&#x27;,  </span><br><span class="line">  appName: &#x27;my-node-name&#x27;,  </span><br><span class="line">  environment: process.env.APP_ENV,  </span><br><span class="line">  customHeaders: &#123; Authorization: &#x27;SOME-SECRET&#x27; &#125;,  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>The initialization process needs to set <code>environment</code>, but in an open-source solution, this parameter is irrelevant because the open-source solution only provides one set of environments. Ideally, it should be possible to generate a corresponding set of settings with various online environments, eg: staging and production.</p>
+<p>In an open-source solution, the only way to distinguish between environments is by using the name of the toggle as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const stgToggle = unleash.isEnabled(&#x27;featureA-stg&#x27;);  </span><br><span class="line">const prodToggle = unleash.isEnabled(&#x27;featureA-prod&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>This can be quite useful when the number of toggles is small, but when the number of toggles becomes large, it can be challenging to manage.</p>
+<p>How to use Unleash to make an experiment toggle? We can do this by using Unleash’s <code>unleash.getVariant</code>, which is additional information that can be attached to the feature toggle and is easily configured on the Unleash web page.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const variant = unleash.getVariant(&#x27;featureA&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>In addition, it is very simple to complete the permission toggle, just bring in the context when <code>isEnabled</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const context = &#123;  </span><br><span class="line">  userId: &#x27;123&#x27;,  </span><br><span class="line">  sessionId: &#x27;123123-123-123&#x27;,  </span><br><span class="line">  remoteAddress: &#x27;127.0.0.1&#x27;,  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const enabled = isEnabled(&#x27;featureA&#x27;, context);</span><br></pre></td></tr></table></figure>
+
+<p>Furthermore, Unleash offers multiple different deployment strategies.</p>
+<ol>
+<li>Standard: Every time, the result will be the same.</li>
+<li>Gradual rollout: It can be set to a specific ratio, so that the result of each time the toggle is asked is determined by chance.</li>
+<li>UserIDs: Use <code>userId</code> in the context to enable targets that satisfy a specific <code>userId</code>.</li>
+<li>IPs: Use <code>sessionId</code> in the context to enable targets that satisfy a specific <code>sessionId</code>.</li>
+<li>Hosts: Use <code>remoteAddress</code> in the context to enable targets that satisfy a specific <code>remoteAddress</code>.</li>
+</ol>
+<p>Thus far in the introduction, we should be able to satisfy the essential use cases of feature toggles with Unleash. However, the functionality of Unleash is very simple in terms of toggling, and there are several challenges that are not easily overcome in the use of Unleash.</p>
+<ol>
+<li>There are only three special contexts that can be used for the deployment strategy, and there is only a judgment of equal or not, and there is no operator provided for either greater than or less than. If you need to implement <a target="_blank" rel="noopener" href="https://github.com/Unleash/unleash-client-node#custom-strategies">custom strategy</a>, you have to inherit the base class of SDK and implement it by yourself.</li>
+<li>Unleash supports the use of multiple policies on a single toggle, but the relationship between the policies is OR. For example, it is not possible to enable a toggle to a specific user in a specific location because the <code>userId</code> and <code>sessionId</code> cannot be AND.</li>
+<li>When choosing a gradual rollout, it can only set one specific rule. For instance, you cannot group by <code>userId</code> and have 40% of the users enabled, because you cannot mix multiple conditions. Otherwise, you can only use totally random distribution.</li>
+</ol>
+<h3 id="LaunchDarkly"><a href="#LaunchDarkly" class="headerlink" title="LaunchDarkly"></a><a target="_blank" rel="noopener" href="https://launchdarkly.com/">LaunchDarkly</a></h3><p>LaunchDarkly is another common solution. It does not provide a free open source solution, in other words, it is only available as a paid commercial solution.</p>
+<p>It is very similar to Unleash in use, and requires initialization at first.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const ld = require(&#x27;launchdarkly-node-server-sdk&#x27;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const client = ld.init(&#x27;YOUR_SDK_KEY&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>Unlike Unleash, it does not need to set the environment parameters in the initialization, because the key has already defined in which environment. The next step is to pick up the corresponding feature toggles.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const user = &#123;  </span><br><span class="line">  firstName: &#x27;Bob&#x27;,  </span><br><span class="line">  lastName: &#x27;Loblaw&#x27;,  </span><br><span class="line">  key: &#x27;example-user-key&#x27;,  </span><br><span class="line">&#125;;  </span><br><span class="line">const value = await client.variation(&#x27;YOUR_FLAG_KEY&#x27;, user, false);</span><br></pre></td></tr></table></figure>
+
+<p>Two things are worth noting here: LaunchDarkly’s user is equivalent to Unleash’s context, but LaunchDarkly’s user is more flexible; Unleash’s context is only available for those specific attributes that are predefined, but LaunchDarkly can use any attribute and only needs to be configure it on the admin page.</p>
+<p>Another point is that Unleash splits the toggle and extra information into two methods, <code>isEnabled</code> and <code>getVariant</code>, but in the LaunchDarkly world, the toggle and extra information are one and the same. That is to say, the <code>value</code> you get through <code>variation</code> already contains the extra information. The <code>value</code> can be a boolean, an integer, a string, or JSON, depending on the setting.</p>
+<p>As for the percentage rollout provided by Unleash, LaunchDarkly also provides it, and it is even more powerful. Not only setting a ratio, LaunchDarkly is a composite attribute toggle, so more than two possibilities can exist at the same time, so you can directly adjust the percentage of each possibility in the percentage setting.</p>
+<p>In addition, LanuchDarkly provides a very powerful rules engine. Unlike Unleash’s monotonous deployment strategy, LauchDarkly can freely set rules for AND, OR, IN, and other matching operations. Moreover, during the percentage rollout, it can also mix percentages and various rules to achieve a very strong conditional matching.</p>
+<p>Due to LaunchDarkly’s entirely freestyle <code>user</code> and powerful rule engine, basically, LaunchDarkly can implement any application scenario you want.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Currently, the toggle update relies on a polling mechanism, so it takes a while for the settings on the website to really reflect on the system behavior. The solution is also proposed in the new version of LaunchDarkly, which provides a streaming mechanism to get instant feedback. However, for the system, it must also consider whether the network environment can tolerate so many persistent connections. This is beyond the scope of this article, so I will not explain it further.</p>
+<p>In fact, the feature toggle solution provides much more than just the toggle itself, how to do access control, audit log, and SSO and other additional features are equally important. However, different payment solutions provide different payment functions, and those functions have actually been detached from the demands of feature toggles, so this article does not introduce those additional functions of Unleash and LaunchDarkly.</p>
+<p>In terms of feature toggling itself, Unleash provides a basic experimental environment in which you can build a feature toggling system in your organization with very little overhead. Unleash also provides all the fundamental features required for feature toggling. For an organization that is just starting up, Unleash provides a great experimental vehicle that can be used as a warm start.</p>
+<p>Once the feature toggle is integrated into an organization’s development process, LaunchDarkly is a good choice for organizations that need to customize the use of the toggle for more situations. LaunchDarkly provides a simple and intuitive experience for setting and matching customization rules.</p>
+<p>From my experience, it is sufficient for small organizations to use Unleash, and the self-hosted solution is simple but enough for most use cases. As long as there are no complex rules to match, there is no need to spend money on other commercial solutions, but if you are having more and more management needs with open source Unleash, then it is necessary to consider commercial solutions and evaluate them carefully. In my opinion, LaunchDarkly is also good.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/unleash-vs-launchdarkly-c35f586ccf49">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Introduction-to-Feature-Toggling-Types-Use-Cases-and-Implementation/20220403/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/Introduction-to-Feature-Toggling-Types-Use-Cases-and-Implementation/20220403/" class="post-title-link" itemprop="url">Introduction to Feature Toggling— Types, Use Cases and Implementation</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-04-04 02:22:35" itemprop="dateCreated datePublished" datetime="2022-04-04T02:22:35+08:00">2022-04-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Introduction-to-Feature-Toggling—-Types-Use-Cases-and-Implementation"><a href="#Introduction-to-Feature-Toggling—-Types-Use-Cases-and-Implementation" class="headerlink" title="Introduction to Feature Toggling— Types, Use Cases, and Implementation"></a>Introduction to Feature Toggling— Types, Use Cases, and Implementation</h3><h4 id="Know-the-many-scenarios-where-feature-toggles-can-be-used-and-how-to-treat-them-properly"><a href="#Know-the-many-scenarios-where-feature-toggles-can-be-used-and-how-to-treat-them-properly" class="headerlink" title="Know the many scenarios where feature toggles can be used and how to treat them properly"></a>Know the many scenarios where feature toggles can be used and how to treat them properly</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*92ROY5iQcpAhd5PG"></p>
+<p>I have been using <a target="_blank" rel="noopener" href="https://lazypro.medium.com/trunk-based-development-can-help-4bb425595c00">trunk-based development</a> for some time to improve productivity in the team I supervise. In order to perform trunk-based development smoothly, feature toggle plays an important role in it, so I use this article to introduce feature toggles, what kinds of toggles are included and how to use them.</p>
+<p>But before we get to that, let’s talk about a concept that is easily confused. What is the difference between feature toggle and configuration?</p>
+<p>First, wherever a configuration is stored, such as a file, or a central storage system, such as <a target="_blank" rel="noopener" href="https://www.consul.io/docs/intro">Consul by HashiCorp</a>, it is considered static. When the system is initialized, the entire configuration file is stored in each instance’s memory to reduce unnecessary I&#x2F;O overhead. That is, if a setting is to be modified, the associated instance must be restarted in order to reload the setting into memory.</p>
+<p>On the other hand, a feature toggle does not work this way; a feature toggle calls the management system each time to get the current settings for the instance or even the feature. Therefore, the feature toggle is more dynamic than the configuration.</p>
+<p>Let’s use code as an example.</p>
+<p>If it is a configuration file, it will look like the following.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const config = loadConfigFromSomewhere();  </span><br><span class="line">function foo() &#123;  </span><br><span class="line">    if (config.featureA) doA();  </span><br><span class="line">    else doB();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As for the feature toggle, it is a little different.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const connection = initFeatureToggle();  </span><br><span class="line">function bar() &#123;  </span><br><span class="line">    if (connection.isEnabled(&quot;featureA&quot;)) doA();  </span><br><span class="line">    else doB();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As you can see from the above example, the configuration is fixed after <code>loadConfigFromSomewhere</code>, and then the value is just taken from the variable. However, the feature toggle may get a different result each time when calling <code>isEnabled</code>, depending on the current environment.</p>
+<h3 id="What-kinds-of-feature-toggles-are-there"><a href="#What-kinds-of-feature-toggles-are-there" class="headerlink" title="What kinds of feature toggles are there?"></a>What kinds of feature toggles are there?</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*T7Hdo7lVIXXrxnag.png"></p>
+<p>There are four types of feature toggles.</p>
+<ol>
+<li>Release Toggles</li>
+<li>Ops Toggles</li>
+<li>Experiment Toggles</li>
+<li>Permission Toggles</li>
+</ol>
+<p>There are two dimensions in the diagram, dynamism and longevity.</p>
+<ul>
+<li>Dynamism said that the frequency of the toggle will be changed, the closer to the right side means the more frequently the toggle will be changed.</li>
+<li>Longevity refers to how long the toggle will stay in the source code, the closer to the bottom the shorter the retention time.</li>
+</ul>
+<p>The release toggle in the blue area is relatively static and is only used when a feature is released, and will be removed when the feature is stable. On the other hand, the toggles in the green area are relatively dynamic and may change according to various needs.</p>
+<h3 id="Release-Toggles"><a href="#Release-Toggles" class="headerlink" title="Release Toggles"></a>Release Toggles</h3><p>Release toggle is the most commonly used form of toggle and is intended to control the impact scope of each release.</p>
+<p>Assuming there is a new requirement for this release, the code for that new requirement should be fully encapsulated by the toggle for this release. At the moment of release, the default toggle should be off, in other words, the behavior of this release and the last release should be exactly the same.</p>
+<p>When the release is successful, the toggle can be turned on gradually on demand. At first, it may be 1% of the calls will get turned on, then 5%, then 10% and so on. In this way, the functionality is gradually opened to 100%. Such an approach is also known as the canary release.</p>
+<p>Alternatively, the toggle is turned on all the way at the beginning. Once any problem is encountered, the toggle is turned off completely to avoid a disaster affecting the entire system. The practice is known as blue-green deployment.</p>
+<p>It is important to note that the life cycle of these release toggles should be just a short period of time. These toggles should be removed from the code as soon as it is determined that the functionality is stable. If you don’t do this, the code will be filled with more and more toggles, which in return will cause a maintenance effort.</p>
+<h3 id="Ops-Toggles"><a href="#Ops-Toggles" class="headerlink" title="Ops Toggles"></a>Ops Toggles</h3><p>Ops toggles are different from release toggles because release toggles are designed to react to each release, but ops toggles are designed to handle changes to the infrastructure. When the infrastructure has to be upgraded or migrated for some purpose, it can be managed through ops toggles.</p>
+<p>For example, if a system starts with a distributed tracking system called <code>Elastic APM</code> and wants to replace it with <code>jaeger</code> for budget or maintenance reasons, then an ops toggle can be used to switch between the two systems. Until we are sure that <code>jaeger</code> can be operated correctly, the two systems will coexist, possibly with a half-monitoring ratio of 50-50. The ops toggle will remain in place until we are confident that we can replace the original system with <code>jaeger</code>, so the duration will be much longer than the release toggle.</p>
+<p>Another example of using ops toggle is a manual circuit breaker. For a high throughput system, a rate limit algorithm is usually implemented, but once the traffic reaches a certain level, it is necessary to directly cut off the excess traffic to avoid impacting the whole system. It is ideal for the system to be able to adjust and recover itself, however, such a mechanism is highly complex and difficult to do well at the beginning, so ops toggle is a good choice.</p>
+<p>This toggle will also exist for a long time until the developer has a way to implement an automatic mechanism.</p>
+<h3 id="Experiment-Toggles"><a href="#Experiment-Toggles" class="headerlink" title="Experiment Toggles"></a>Experiment Toggles</h3><p>Experiment toggles, as the name suggests, are toggles that are used to perform experiments. When a feature has two different behaviors and we want to evaluate the effectiveness of these two behaviors, we use experiment toggles, and the process of experimentation is called A&#x2F;B testing.</p>
+<p>It operates a bit like a release toggle, but unlike a release toggle that allows old and new behaviors to coexist, an experiment toggle allows two new behaviors to coexist. It may even be possible to bring in more experimental parameters through experiment toggles to make the whole experimental process more flexible and efficient.</p>
+<p>Yes, most of the feature toggles can carry additional parameters, not just true or false. Therefore, this can play the most accelerating role for the constantly changing experimental environment.</p>
+<p>Just like other toggles, the experiment toggles should be removed from the code after the experiment is done and the results are confirmed.</p>
+<h3 id="Permission-Toggles"><a href="#Permission-Toggles" class="headerlink" title="Permission Toggles"></a>Permission Toggles</h3><p>This last one is the most complex applicable case. From the diagram, we can see that it is both dynamic and long-lived.</p>
+<p>Then, what exactly is the existence of this toggle?</p>
+<p>From my point of view, it has two scenarios, one is the system-wide access control and another is the product level access control.</p>
+<p>System-wide access control means that there are certain functions or operations that are only available to specific users, thus we manage these restricted functions through permissions toggles. A little hard to imagine? I’ll provide a pseudo code.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function restrictedFunction() &#123;  </span><br><span class="line">    const metadata = &#123;userId, userLevel, userRole&#125;;  </span><br><span class="line">    if (connection.isEabled(&quot;featureA&quot;, metadata))  </span><br><span class="line">        doFunction();  </span><br><span class="line">    else return;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>From the above example, we can know that this specific function is only allowed for certain users, and the user must verify his <code>Id</code>, <code>Level</code> and <code>Role</code> to make sure he meets the eligibility criteria before the function is available, otherwise, it will be skipped.</p>
+<p>Such a toggle seems to be very stable, right? In fact, it is not, the verification method may change, originally only <code>Id</code> and <code>Level</code> maybe required, until one day due to demand and add <code>Role</code>. So the rules of the toggle may change with requirements, and the usage context of the toggle may also change as requirements expand.</p>
+<h3 id="How-to-use-feature-toggles-correctly"><a href="#How-to-use-feature-toggles-correctly" class="headerlink" title="How to use feature toggles correctly?"></a>How to use feature toggles correctly?</h3><p>We’ve already seen what the code looks like when using the feature toggle.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const connection = initFeatureToggle();  </span><br><span class="line">function bar() &#123;  </span><br><span class="line">    if (connection.isEnabled(&quot;featureA&quot;)) doA();  </span><br><span class="line">    else doB();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>When more and more toggles are made, there will be more and more if-else in between, which actually violates most of the clean code principles. Therefore, you should be extra careful when using feature toggle and follow a few basic principles.</p>
+<ol>
+<li>Use only where needed.</li>
+<li>control the number of toggles.</li>
+<li>Toggles do not overlap with each other.</li>
+<li>Regularly clear the useless toggles.</li>
+</ol>
+<p>In addition, the code of using toggles will eventually become as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function bar() &#123;  </span><br><span class="line">    doB();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Because of this, it is very important to be able to remove toggles easily. I recommend using the <em>Factory Method</em> and encapsulating the code with a feature toggle so that only the product inside the <em>Factory Method</em> is removed when removing toggles and not all the external callers are touched. Here is a simple demonstration.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function factory()  </span><br><span class="line">&#123;  </span><br><span class="line">    if ( connection.isEnabled(&quot;featureA&quot;, metadata) ) &#123;  </span><br><span class="line">        return new NewHandler();  </span><br><span class="line">    &#125; else &#123;  </span><br><span class="line">        return new OrigHandler();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// qwer.js  </span><br><span class="line">factory().doA();  </span><br><span class="line">// asdf.js  </span><br><span class="line">factory().doB();  </span><br><span class="line">// zxcv.js  </span><br><span class="line">factory().doC();</span><br></pre></td></tr></table></figure>
+
+<p>Wrapping the whole feature toggle judgment in the factory method, the external caller doesn’t need to know whether he gets a new or old handler. when removing the feature toggle in the future, we only needs to modify the factory method and drop the <code>OrigHandler</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function factory()  </span><br><span class="line">&#123;  </span><br><span class="line">    return new NewHandler();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As a result, whether it is <code>qwer.js</code>, <code>asdf.js</code> or <code>zxcv.js</code> do not need to change.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This time we talked about the many scenarios where feature toggles can be used and how to treat them properly, and you should know why trunk-based development needs feature toggles so much because new versions are released frequently and to avoid affecting the online environment. So all unstable modifications must have a mechanism to isolate them. Feature toggles are exactly such a role.</p>
+<p>Another commonly mentioned use case in using feature toggles is that once a toggle is modified, it must immediately react to some online functionality. Such a requirement can be achieved through <em>Observer Pattern</em>, but I don’t recommend this kind of conjunction. After all, we know that these toggles will eventually be removed and they should not be involved in the whole domain model, instead, they play the role of coordinator, coordinating between people and systems.</p>
+<p>In this article, we have only discussed the use of feature toggles and their considerations, without mentioning specific solutions. Next time I will introduce two famous providers of feature toggle, <a target="_blank" rel="noopener" href="https://lazypro.medium.com/unleash-vs-launchdarkly-c35f586ccf49">LaunchDarkly and Unleash</a>, and provide some comments and guidelines based on my experience with them respectively.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/feature-toggle-introduction-68d58f5c709">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/13/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/15/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

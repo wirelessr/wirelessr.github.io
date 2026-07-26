@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Cardinality Counting in RedisCardinality counting is used to calculate the amount of elements without any duplication. In Redis, there are many data structures able to accomplish this job. However, wh">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cardinality Counting in Redis">
+<meta property="og:url" content="https://wirelessr.github.io/Redis/Cardinality-Counting-in-Redis/20211212/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Cardinality Counting in RedisCardinality counting is used to calculate the amount of elements without any duplication. In Redis, there are many data structures able to accomplish this job. However, wh">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*bSxOtScKHsJAJgygyLKKcQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*GnBR9yFT9UhiCZe5VKZe6g.png">
+<meta property="article:published_time" content="2021-12-12T17:25:57.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.821Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*bSxOtScKHsJAJgygyLKKcQ.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Redis/Cardinality-Counting-in-Redis/20211212/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Redis/Cardinality-Counting-in-Redis/20211212/","path":"Redis/Cardinality-Counting-in-Redis/20211212/","title":"Cardinality Counting in Redis"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Cardinality Counting in Redis | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cardinality-Counting-in-Redis"><span class="nav-number">1.</span> <span class="nav-text">Cardinality Counting in Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#User-Scenario"><span class="nav-number">2.</span> <span class="nav-text">User Scenario</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set"><span class="nav-number">3.</span> <span class="nav-text">Set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sorted-Set"><span class="nav-number">4.</span> <span class="nav-text">Sorted Set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bitmap"><span class="nav-number">5.</span> <span class="nav-text">Bitmap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HyperLogLog"><span class="nav-number">6.</span> <span class="nav-text">HyperLogLog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">7.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Cardinality-Counting-in-Redis/20211212/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Cardinality Counting in Redis | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Cardinality Counting in Redis
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-12-13 01:25:57" itemprop="dateCreated datePublished" datetime="2021-12-13T01:25:57+08:00">2021-12-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Cardinality-Counting-in-Redis"><a href="#Cardinality-Counting-in-Redis" class="headerlink" title="Cardinality Counting in Redis"></a>Cardinality Counting in Redis</h3><p>Cardinality counting is used to calculate the amount of elements without any duplication. In Redis, there are many data structures able to accomplish this job. However, what is the most applicable way for your use cases? This article will show the consideration behind the technical selection.</p>
+<h3 id="User-Scenario"><a href="#User-Scenario" class="headerlink" title="User Scenario"></a>User Scenario</h3><p>Suppose we need to get the failure rate in a sensor network to investigate the reporting qualities. Therefore, we have to record the health status in hours by the incoming requests.</p>
+<p>The key point is to simplify the process, we don’t want to get the value first, determine whether it is existing, and then insert the record like:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*bSxOtScKHsJAJgygyLKKcQ.png"></p>
+<p>Instead, we should insert the record every time, and the storage can de-duplicate for us. Or, we can limited pre-process data to make the storage do faster.</p>
+<blockquote>
+<p><em>Assume that we have a sensor A, and the sensor requested to the server at 1&#x2F;2 1:11, 1&#x2F;3 2:22, and 1&#x2F;8 3:00.</em></p>
+</blockquote>
+<p>Alright, let’s see how Redis did cardinality counting.</p>
+<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><p>The basic idea is using set. Before adding to the set, we have to pre-process the date. Due to our requirement, we only keep the hour without minutes and seconds.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const date1 = new Date(2021, 0, 2, 1, 0);  </span><br><span class="line">const d1 = date1.toISOString();</span><br></pre></td></tr></table></figure>
+
+<p>Then, we can add <code>d1</code> to the set via <code>SADD</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SADD sensorA &quot;2021-01-02T01:00:00.000Z&quot;  </span><br><span class="line">SADD sensorA &quot;2021-01-03T02:00:00.000Z&quot;  </span><br><span class="line">SADD sensorA &quot;2021-01-08T03:00:00.000Z&quot;</span><br></pre></td></tr></table></figure>
+
+<p>In order to get the health status, we can use <code>SCARD</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SCARD sensorA  </span><br><span class="line">&gt; 3</span><br></pre></td></tr></table></figure>
+
+<p>The implementation of using set is simple; nevertheless, if we want to count the health status during the specific period like in 2021, set cannot handle this request.</p>
+<h3 id="Sorted-Set"><a href="#Sorted-Set" class="headerlink" title="Sorted Set"></a>Sorted Set</h3><p>Therefore, if we would like to meet the needs of specific time period and whole time, we can leverage sorted set. The implementation is similar to the set. Firstly, pre-process the date.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const date1 = new Date(2021, 0, 2, 1, 0);  </span><br><span class="line">const d1 = date1.getTime();</span><br></pre></td></tr></table></figure>
+
+<p>It is unlike using ISO string, we are using epoch here to find the specific time range easily. Now, we can add to the sorted set via <code>ZADD</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ZADD sensorA 1609520400000 1609520400000  </span><br><span class="line">ZADD sensorA 1609610400000 1609610400000  </span><br><span class="line">ZADD sensorA 1610046000000 1610046000000</span><br></pre></td></tr></table></figure>
+
+<p>To find whole count in it:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ZCARD sensorA  </span><br><span class="line">&gt; 3</span><br></pre></td></tr></table></figure>
+
+<p>On the other hand, in order to search the specific time range, we assign the start and end in <code>ZCOUNT</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ZCOUNT sensorA 1609520400000 1610040000000  </span><br><span class="line">&gt; 2</span><br></pre></td></tr></table></figure>
+
+<h3 id="Bitmap"><a href="#Bitmap" class="headerlink" title="Bitmap"></a>Bitmap</h3><p>We walked through two approaches, but neither set nor sorted set are space efficiency. The detail implementation in Redis takes a huge space to indicate the data structure. When the amount of sensors become larger or the duration of records become longer, the space in Redis will grow quickly.</p>
+<p>How to reduce the space? We can leverage the extended function of string, bitmap. Bitmap is very space efficiency, each bit takes 1 bit as its meaning.</p>
+<p>But the pre-process is a little complicated, we have to get an offset to operate bits. For example, we can calculate the diff hours between the service launch time and the current time, e.g. 2021&#x2F;1&#x2F;2 1:11.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const base = new Date(2021, 0, 1, 0, 0);  </span><br><span class="line">const date1 = new Date(2021, 0, 2, 1, 11);  </span><br><span class="line">const diffTime = Math.abs(date1 - base);  </span><br><span class="line">const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));</span><br></pre></td></tr></table></figure>
+
+<p>After that, make the <code>diffHours</code> be 26.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SETBIT sensorA 26 1  </span><br><span class="line">SETBIT sensorA 51 1  </span><br><span class="line">SETBIT sensorA 171 1</span><br></pre></td></tr></table></figure>
+
+<p>Hence we can get the total health status by <code>BITCOUNT</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BITCOUNT sensorA  </span><br><span class="line">&gt; 3</span><br></pre></td></tr></table></figure>
+
+<p><code>BITCOUNT</code> also provides the range match, so we can assign start and end to search a specific time range like sorted set. It is noteworthy that the start and end here represents the <strong>bytes</strong> offset. We have to convert the start time and end time to the <strong>diff hours bytes</strong>, the calculation is complex, so I am not going to provide an example in this article to prevent losing focus.</p>
+<h3 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h3><p>The final approach is called hyperloglog. This is an algorithm for big data statistics. Redis provides it as the built-in method.</p>
+<p>Whether it is set, sorted set or bitmap, the space usage will larger and larger as time goes by. For instance, if we keep the health status for 10 years, even bitmap will take huge space, 365 * 10 * 24 &#x2F; 1024 ~ 85.5 KB.</p>
+<p>However, in hyperloglog, the space usage is constant. No matter how long the retention you need, hyperloglog takes 12 KB constantly. And the pre-process is like set,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const date1 = new Date(2021, 0, 2, 1, 0);  </span><br><span class="line">const d1 = date1.toISOString();</span><br></pre></td></tr></table></figure>
+
+<p>Then, we can add the date to hyperloglog via <code>PFADD</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PFADD sensorA &quot;2021-01-02T01:00:00.000Z&quot;  </span><br><span class="line">PFADD sensorA &quot;2021-01-03T02:00:00.000Z&quot;  </span><br><span class="line">PFADD sensorA &quot;2021-01-08T03:00:00.000Z&quot;</span><br></pre></td></tr></table></figure>
+
+<p>It is simple to get the total count.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PFOCUNT sensorA  </span><br><span class="line">&gt; 3</span><br></pre></td></tr></table></figure>
+
+<p>Hyperloglog is not quite precise, the result of <code>PFCOUNT</code> may contain some deviations when the data set is huge, but the performance is pretty well.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Let’s summarize those 4 approaches.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*GnBR9yFT9UhiCZe5VKZe6g.png"></p>
+<p>The example in this article is trivial, however, I believe you can realize the concepts of those approaches. The most important thing is each approach has its own strength and drawback, using them in a smart way is developer’s responsibility.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/cardinality-counting-in-redis-3c3a472e2d9f">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Career/Journey-from-Software-Developer-to-Software-Architect/20211205/" rel="prev" title="Journey from Software Developer to Software Architect">
+                  <i class="fa fa-chevron-left"></i> Journey from Software Developer to Software Architect
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Architecture/Are-Design-Pattern-and-Clean-Code-Useful/20211219/" rel="next" title="Are Design Pattern and Clean Code Useful?">
+                  Are Design Pattern and Clean Code Useful? <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

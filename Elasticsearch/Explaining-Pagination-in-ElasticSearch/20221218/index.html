@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Three Pagination Approaches with SQL and ElasticSearch Demonstration Pagination is a common technique for web page presentation. When there is a lot of returned data, either to reduce the load on the">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Explaining Pagination in ElasticSearch">
+<meta property="og:url" content="https://wirelessr.github.io/Elasticsearch/Explaining-Pagination-in-ElasticSearch/20221218/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Three Pagination Approaches with SQL and ElasticSearch Demonstration Pagination is a common technique for web page presentation. When there is a lot of returned data, either to reduce the load on the">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*z_KdwaWl6y2DMX6w">
+<meta property="article:published_time" content="2022-12-18T17:53:08.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.823Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*z_KdwaWl6y2DMX6w">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Elasticsearch/Explaining-Pagination-in-ElasticSearch/20221218/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Elasticsearch/Explaining-Pagination-in-ElasticSearch/20221218/","path":"Elasticsearch/Explaining-Pagination-in-ElasticSearch/20221218/","title":"Explaining Pagination in ElasticSearch"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Explaining Pagination in ElasticSearch | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Three-Pagination-Approaches-with-SQL-and-ElasticSearch-Demonstration"><span class="nav-number">1.</span> <span class="nav-text">Three Pagination Approaches with SQL and ElasticSearch Demonstration</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Offset-Pagination"><span class="nav-number"></span> <span class="nav-text">Offset Pagination</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Keyset-Pagination"><span class="nav-number"></span> <span class="nav-text">Keyset Pagination</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cursor-based-Pagination"><span class="nav-number"></span> <span class="nav-text">Cursor-based Pagination</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#How-about-ElasticSearch"><span class="nav-number"></span> <span class="nav-text">How about ElasticSearch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Elasticsearch/Explaining-Pagination-in-ElasticSearch/20221218/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Explaining Pagination in ElasticSearch | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Explaining Pagination in ElasticSearch
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-12-19 01:53:08" itemprop="dateCreated datePublished" datetime="2022-12-19T01:53:08+08:00">2022-12-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Three-Pagination-Approaches-with-SQL-and-ElasticSearch-Demonstration"><a href="#Three-Pagination-Approaches-with-SQL-and-ElasticSearch-Demonstration" class="headerlink" title="Three Pagination Approaches with SQL and ElasticSearch Demonstration"></a>Three Pagination Approaches with SQL and ElasticSearch Demonstration</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*z_KdwaWl6y2DMX6w"></p>
+<p>Pagination is a common technique for web page presentation. When there is a lot of returned data, either to reduce the load on the backend or to improve the user experience, it is usually a good idea to limit the amount of presentation and keep the option to continue browsing.</p>
+<p>Here’s a quick look at the most common appearance.</p>
+<p><code>&lt; [1] | 2 | 3 | 4 | ... &gt;</code></p>
+<p>The user can know the current page number, choose the previous or next page, or even jump directly to the specified page. There are three types of pagination approaches as follows.</p>
+<ul>
+<li>Offset Pagination</li>
+<li>Keyset Pagination</li>
+<li>Cursor-based Pagination</li>
+</ul>
+<p>But this article is to introduce ElasticSearch pagination, so I will briefly describe these three.</p>
+<h3 id="Offset-Pagination"><a href="#Offset-Pagination" class="headerlink" title="Offset Pagination"></a>Offset Pagination</h3><p>This is the most common pagination pattern, and let’s represent it in SQL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT *  </span><br><span class="line">FROM table_name  </span><br><span class="line">LIMIT 10 OFFSET 20;</span><br></pre></td></tr></table></figure>
+
+<p>Suppose there are 10 records on one page, then we can get the result of the third page by this command. Use <code>LIMIT</code> to limit the number of records per page and use <code>OFFSET</code> to jump to the specified page.</p>
+<p>There are many advantages of such a pagination.</p>
+<ol>
+<li>It is very easy to implement, as well as very intuitive.</li>
+<li>It is possible to jump to a random page.</li>
+</ol>
+<p>But the disadvantages are also obvious.</p>
+<ol>
+<li>Performance is a problem.</li>
+</ol>
+<p>Why is there a performance problem?</p>
+<p>In the above example, it looks like we only need to take 10 records from the database, but in fact, the database will take 30 records and discard the first 20 records. When <code>OFFSET</code> is very large then the database will still take all the records and create a lot of overhead.</p>
+<h3 id="Keyset-Pagination"><a href="#Keyset-Pagination" class="headerlink" title="Keyset Pagination"></a>Keyset Pagination</h3><p>In order to solve the performance problem, we have the keyset pagination approach.</p>
+<p>We still use SQL as an example, following the above scenario, we limit the number of records per page to 10 and take the third page.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT *  </span><br><span class="line">FROM table_name  </span><br><span class="line">WHERE id &gt; 20  </span><br><span class="line">ORDER BY id  </span><br><span class="line">LIMIT 10;</span><br></pre></td></tr></table></figure>
+
+<p>Using <code>LIMIT</code> to limit the number of records per page is the same as above, except that we first sort by <code>ORDER BY</code> and then set the starting position by <code>WHERE</code> instead of <code>OFFSET</code>. In this way, we can get the third page without taking 30 records.</p>
+<p>There are several implementation details that must be paid attention.</p>
+<ol>
+<li>Must be able to sort quickly, in the case of relational databases, the columns to be sorted must have indexes.</li>
+<li>Where do the <code>WHERE</code> clause come from? It can be from the frontend with the last position of pages, or it can be the backend through some storage mechanism.</li>
+</ol>
+<p>Of course, there are advantages and disadvantages to such a pagination. The advantages are as follows.</p>
+<ol>
+<li>It works well when implemented correctly, e.g., on index columns.</li>
+<li>It can run on very large data sets.</li>
+</ol>
+<p>But these advantages come at a price.</p>
+<ol>
+<li>difficult to implement</li>
+<li>no way to jump to random pages</li>
+</ol>
+<p>I believe the first drawback is easy to understand, after all, it is not a very intuitive approach, the <code>WHERE</code> clause is determined by engineering methods.</p>
+<p>The second drawback is to jump to a specific page, there must be a correct <code>WHERE</code> clause, but this <code>WHERE</code> clause depends on the last page jump result, whether it is frontend or backend processing. Therefore, users cannot jump pages as they wish.</p>
+<h3 id="Cursor-based-Pagination"><a href="#Cursor-based-Pagination" class="headerlink" title="Cursor-based Pagination"></a>Cursor-based Pagination</h3><p>This is an advanced version of keyset pagination, which is actually a special case of cursor-based pagination.</p>
+<p>A cursor is an object defined by the engineering side to mark where the pagination starts. There are several common types of cursors.</p>
+<ol>
+<li>Encoded cursor, such as base64. Suppose the cursor is <code>eyJpZCI6IDIwfQ==</code>, then we will find out it is a JSON format string and the specified <code>id</code> is 20.</li>
+<li>Token cursor, the backend generates a token for each search result and stores the token, the frontend can use the token to specify the jump page, the backend can know where to start from based on the token.</li>
+</ol>
+<p>No matter which cursor is used, the backend still uses the keyset pagination mechanism for pagination.</p>
+<p>The advantages and disadvantages of cursor-based pagination are fully inherited from keyset pagination, but cursor has the extra advantage that cursor can store more information, such as session timeout, user privilege, etc.</p>
+<h3 id="How-about-ElasticSearch"><a href="#How-about-ElasticSearch" class="headerlink" title="How about ElasticSearch"></a>How about ElasticSearch</h3><p>The examples above use SQL as an example, but in fact ElasticSearch supports these methods as well.</p>
+<p>Here is an example of offset pagination.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /index_name/_search  </span><br><span class="line">&#123;  </span><br><span class="line">  &quot;from&quot;: 20,  </span><br><span class="line">  &quot;size&quot;: 10,  </span><br><span class="line">  &quot;query&quot;: &#123;  </span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Similar to the principle of SQL, <code>from</code> is used to specify where to start, and <code>size</code> is used to limit the number of records per page. Then, of course, there are also scalability limitations, and moreover, ElasticSearch directly limits the maximum amount of <code>from</code> and <code>size</code> in order to avoid poorly performing queries from affecting the health of the cluster.</p>
+<ul>
+<li>max_result_window: The maximum amount of data that can be searched at once, the default is 10000. If <code>from + size &gt; 10000</code>, it will directly return an error.</li>
+</ul>
+<p>How to solve it? Use the keyword <code>search_after</code> for keyset pagination.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">GET index_name/_search  </span><br><span class="line">&#123;  </span><br><span class="line">  &quot;size&quot;: 10,  </span><br><span class="line">  &quot;sort&quot;: [  </span><br><span class="line">    &#123;  </span><br><span class="line">      &quot;id&quot;: &#123;  </span><br><span class="line">        &quot;order&quot;: &quot;asc&quot;  </span><br><span class="line">      &#125;  </span><br><span class="line">    &#125;,  </span><br><span class="line">  ],  </span><br><span class="line">  &quot;query&quot;: &#123;  </span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;  </span><br><span class="line">  &#125;,  </span><br><span class="line">  &quot;search_after&quot;: [  </span><br><span class="line">    20  </span><br><span class="line">  ]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This is a typical implementation of keyset pagination on ElasticSearch.</p>
+<p>So does ElasticSearch have support for cursor-based pagination? Yes, and unlike SQL, you have to implement your own cursor in the application. ElasticSearch already has its own cursor mechanism, called the <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/scroll-api.html">Scroll API</a>.</p>
+<p>The principle is to create a snapshot of the current query and jump to the next page by calling <code>scroll</code> every time. A practical example would look like the following one.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST index_name/_search?scroll=1m  </span><br><span class="line">&#123;  </span><br><span class="line">  &quot;size&quot;: 10,  </span><br><span class="line">  &quot;sort&quot;: [  </span><br><span class="line">    &#123;  </span><br><span class="line">      &quot;id&quot;: &#123;  </span><br><span class="line">        &quot;order&quot;: &quot;asc&quot;  </span><br><span class="line">      &#125;  </span><br><span class="line">    &#125;,  </span><br><span class="line">  ],  </span><br><span class="line">  &quot;query&quot;: &#123;  </span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This will get a response with <code>_scroll_id</code>, and then we can jump to the next page just by using this <code>_scroll_id</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST /_search/scroll  </span><br><span class="line">&#123;  </span><br><span class="line">  &quot;scroll&quot;: &quot;1m&quot;,  </span><br><span class="line">  &quot;scroll_id&quot;: &quot;OXOXQQ==&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Since it is a cursor-based pagination, we cannot specify which page we want to jump to, we can only keep going to the next page until there is no result.</p>
+<p>Because <code>Scroll API</code> is a snapshot of the current query result, so we must carefully choose the TTL or delete the snapshot after finishing, otherwise it will occupy the hard drive space.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DELETE /_search/scroll  </span><br><span class="line">&#123;  </span><br><span class="line">  &quot;scroll_id&quot; : &quot;OXOXQQ==&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In the new version of ElasticSearch, it is no longer recommended to use Scroll API for deep pagination, instead, another new mechanism (released after 7.10), <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/point-in-time-api.html">PIT (Point In Time)</a>.</p>
+<p>PIT works similarly to Scroll API, but is more flexible and better optimized for performance.</p>
+<p>Scroll API takes a snapshot of a single query and can only jump pages on that snapshot, but PIT takes a snapshot of the current data set and can do anything after getting the snapshot, not just jump pages.</p>
+<p>However, this is not related to the pagination, so I will not dive into PIT in this article.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In general, there are two major types of pagination, offset pagination and keyset pagination, and only keyset pagination can run on big data, but if you want to jump pages randomly, only offset pagination can, which is a trade-off.</p>
+<p>In fact, in a big data scenario, if the feature requirements strictly define the maximum number of pages, then even using offset pagination will not affect performance.</p>
+<p>Therefore, it is not just a technical decision to choose the implementation method, but more often a trade-off in terms of feature requirements. Nevertheless, engineers should know if there is a requirement for random page jumping on big data without page limit, it is time to say no, please clearly reject.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/explaining-pagination-in-elasticsearch-3ac59656fdd2">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Testing/How-to-Determine-API-Slow-Downs/20221211/" rel="prev" title="How to Determine API Slow Downs">
+                  <i class="fa fa-chevron-left"></i> How to Determine API Slow Downs
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Database/Playing-Window-Function-in-Postgres/20221225/" rel="next" title="Playing Window Function in Postgres">
+                  Playing Window Function in Postgres <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Experience a boost in API response times with our paradigm-shifting move from Semi-Lambda to TiDB &amp; Kappa architecture We recently launched a big technical revamp, and the results have been impres">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Accelerating API Responses with Smart Architecture">
+<meta property="og:url" content="https://wirelessr.github.io/Architecture/Accelerating-API-Responses-with-Smart-Architecture/20240310/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Experience a boost in API response times with our paradigm-shifting move from Semi-Lambda to TiDB &amp; Kappa architecture We recently launched a big technical revamp, and the results have been impres">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*IhK9f60eYRXLUfNL">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*_kpuP6tt0HDMdETQ9Ia12A.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*ZDyYOvNn7QAEyA--dQBfug.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*Smd9TkUWEXNFAViOAbsuyw.png">
+<meta property="article:published_time" content="2024-03-10T17:46:20.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.820Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*IhK9f60eYRXLUfNL">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Architecture/Accelerating-API-Responses-with-Smart-Architecture/20240310/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Architecture/Accelerating-API-Responses-with-Smart-Architecture/20240310/","path":"Architecture/Accelerating-API-Responses-with-Smart-Architecture/20240310/","title":"Accelerating API Responses with Smart Architecture"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Accelerating API Responses with Smart Architecture | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Experience-a-boost-in-API-response-times-with-our-paradigm-shifting-move-from-Semi-Lambda-to-TiDB-Kappa-architecture"><span class="nav-number">1.</span> <span class="nav-text">Experience a boost in API response times with our paradigm-shifting move from Semi-Lambda to TiDB &amp; Kappa architecture</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Semi-Lambda-Architecture"><span class="nav-number"></span> <span class="nav-text">Semi-Lambda Architecture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Streaming-ingest-problem"><span class="nav-number"></span> <span class="nav-text">Streaming ingest problem</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Speed-layer-problem"><span class="nav-number"></span> <span class="nav-text">Speed layer problem</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number"></span> <span class="nav-text">Conclusion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stackademic-%F0%9F%8E%93"><span class="nav-number"></span> <span class="nav-text">Stackademic 🎓</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Accelerating-API-Responses-with-Smart-Architecture/20240310/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Accelerating API Responses with Smart Architecture | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Accelerating API Responses with Smart Architecture
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2024-03-11 01:46:20" itemprop="dateCreated datePublished" datetime="2024-03-11T01:46:20+08:00">2024-03-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Experience-a-boost-in-API-response-times-with-our-paradigm-shifting-move-from-Semi-Lambda-to-TiDB-Kappa-architecture"><a href="#Experience-a-boost-in-API-response-times-with-our-paradigm-shifting-move-from-Semi-Lambda-to-TiDB-Kappa-architecture" class="headerlink" title="Experience a boost in API response times with our paradigm-shifting move from Semi-Lambda to TiDB &amp; Kappa architecture"></a>Experience a boost in API response times with our paradigm-shifting move from Semi-Lambda to TiDB &amp; Kappa architecture</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*IhK9f60eYRXLUfNL"></p>
+<p>We recently launched a big technical revamp, and the results have been impressive. We’ve seen a 9x improvement in response times for specific APIs (from 9 seconds down to 1 second).</p>
+<p>You may ask why the API response time is so long. It’s mainly because of the product characteristics, it’s a data product, there will be a lot of data aggregation and analysis, and the API response will be the result of a period of analysis. Therefore, in general, there will be a longer latency.</p>
+<p>Nevertheless, through this technical revamp, we have significantly reduced the API latency while maintaining the product features.</p>
+<p>This is due to two core changes.</p>
+<ol>
+<li>Database changes</li>
+<li>Kappa architecture</li>
+</ol>
+<p>Let’s take a closer look at what we did.</p>
+<h3 id="Semi-Lambda-Architecture"><a href="#Semi-Lambda-Architecture" class="headerlink" title="Semi-Lambda Architecture"></a>Semi-Lambda Architecture</h3><p>At first, our architecture is a “semi-Lambda” architecture. To understand what a semi-Lambda architecture is, let’s first look at a Lambda architecture.</p>
+<p>A <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Lambda_architecture">typical Lambda architecture</a> has three components.</p>
+<ol>
+<li>Batch layer</li>
+<li>Speed layer</li>
+<li>Serving layer</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_kpuP6tt0HDMdETQ9Ia12A.png"></p>
+<p>Data processing from the data source is divided into two paths, one is periodic batch processing, which has the advantage of processing a large amount of data quickly.</p>
+<p>On the other hand, in order to enhance the freshness of the analysis, there is real-time processing to calculate the data in the current time period. The results from both sides are aggregated into a serving layer so that end users can get the final results.</p>
+<p>For example, if the time is 12:30 and the batch layer runs every full hour, then the data from 12:01 to 12:30 will be processed by the speed layer.</p>
+<p>The above is a standard Lambda architecture.</p>
+<p>Then, what is a semi-Lambda architecture? The illustration is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*ZDyYOvNn7QAEyA--dQBfug.png"></p>
+<p>We also have a batch layer and a serving layer, but we are missing the speed layer. Instead, we write the raw data directly into the serving layer, and the client, e.g. API, which is invoked by the upper layer, runs the logic to process the raw data and combine it with the batch result.</p>
+<p>In other words, we are the on-the-fly speed layer.</p>
+<p>The drawbacks of such an architecture are obvious.</p>
+<ol>
+<li>Postgres is a monolithic database, so even though it can be read-write split, the replicas still need to synchronize with the master constantly. This is fatal in large raw data write scenarios, where I&#x2F;O consumes a lot of system resources.</li>
+<li>Postgres is limited in its capability to handle big data. Although it is possible to make data blocks smaller and easier to read by partitioning, a single database is not enough when the algorithm is designed for a large number of partitions.</li>
+</ol>
+<p>Therefore, we need to propose solutions to these two problems.</p>
+<h3 id="Streaming-ingest-problem"><a href="#Streaming-ingest-problem" class="headerlink" title="Streaming ingest problem"></a>Streaming ingest problem</h3><p>First of all, we need to solve the database bottleneck of writing large amounts of data. Therefore, a proper database is essential.</p>
+<p>For those who have been following me, you should know I have been studying RTOLAP databases such as <a target="_blank" rel="noopener" href="https://medium.com/dev-genius/building-apache-pinot-and-presto-bf91388c7df5">Apache Pinot</a> for some time. But in the end, we didn’t go with RTOLAP.</p>
+<p>The main reason is RTOLAP database does not perform well in two specific scenarios.</p>
+<ol>
+<li>Upsert</li>
+<li>Join</li>
+</ol>
+<p>Because of the application features, we need to perform frequent upserts on big data, and in addition, we need to do a large number of joins, doesn’t matter if it’s a cross-table join or self-table join.</p>
+<p>On the other hand, it is difficult to say RTOLAP database has comprehensive support for SQL statements, and we want to minimize the amount of trial-and-error work required for migration, so we didn’t choose RTOLAP database in the end.</p>
+<p>Fortunately, around the same time, we got some help from a vendor and learned about a distributed database completely compatible with MySQL, i.e. TiDB. Previously, <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/htap-learning-from-xiaohongshu-8d8181d12195">I wrote an article</a> describing TiDB application scenarios. In fact, TiDB can support both OLTP and OLAP scenarios, fitting our needs.</p>
+<h3 id="Speed-layer-problem"><a href="#Speed-layer-problem" class="headerlink" title="Speed layer problem"></a>Speed layer problem</h3><p>Once the database selection is finalized, the next step is to address the lack of a complete speed layer.</p>
+<p>There are two possible directions.</p>
+<ol>
+<li>Build a complete Lambda speed layer.</li>
+<li>Change to Kappa architecture</li>
+</ol>
+<p>In the end, we chose the latter and started to move the architecture to Kappa.</p>
+<p>The reason is both Lambda and Kappa need to build streaming processing capabilities, but to build a speed layer for the Lambda architecture we still need to rewrite the batch logic in a streaming framework. It would be better to migrate the batch logic to the Kappa framework so that if there is a need for any feature in the future, we just need to add the new logic to the streaming framework.</p>
+<p>This is one of the advantages of Kappa over Lambda, there is no need to maintain two pipelines (batch and real-time) with the same logic.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Smd9TkUWEXNFAViOAbsuyw.png"></p>
+<p>After moving to the Kappa paradigm, you can see that the whole architecture has become simple, with Flink being responsible for data processing and batch processing disappearing. In addition, Postgres was moved to TiDB, which of course required changes to the query syntax, but it was well worth it.</p>
+<p>Finally, we solved the OLAP query latency problem by using streaming pre-processing and the power of the TiDB distributed database.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Paradigm shift is a battle against time, and how to keep optimizing the system while guaranteeing development productivity is a big challenge.</p>
+<p>In addition to initiating discussions and a series of technical selections, it is more important to plan the actual migration and develop efficiently. This requires architects, PMs, and developers to work together.</p>
+<p>The question is frequently asked: How much of a benefit is this migration? It’s a tough question to answer before getting one’s hands dirty. But if we don’t know the benefits, how can we have the confidence to invest for such a long period of time?</p>
+<p>From my point of view, we need to list the problems we want to solve and prioritize them in a way that will affect the final solution. Then, identify one or two showcases to act as pilots, and learn as much as possible from these showcases, rather than launching a large-scale revamp all at once.</p>
+<p>When results are achieved in the showcases, we will be able to measure the benefits.</p>
+<p>Engineering is different from science in nature. Engineering is learning by doing, not by theorizing. Airplanes fly before scientific theories can explain them, that’s my mindset on technical revamping, let’s see what you guys think too.</p>
+<h3 id="Stackademic-🎓"><a href="#Stackademic-🎓" class="headerlink" title="Stackademic 🎓"></a>Stackademic 🎓</h3><p>Thank you for reading until the end. Before you go:</p>
+<ul>
+<li>Please consider <strong>clapping</strong> and <strong>following</strong> the writer! 👏</li>
+<li>Follow us <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><strong>X</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><strong>LinkedIn</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><strong>YouTube</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Discord</strong></a></li>
+<li>Visit our other platforms: <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>In Plain English</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://cofeed.app/"><strong>CoFeed</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://venturemagazine.net/"><strong>Venture</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://blog.cubed.run/"><strong>Cubed</strong></a></li>
+<li>More content at <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>Stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/tidb-kappa-accelerating-api-responses-with-smart-architecture-5fe9a28f0f83">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Microservice/Simplify-Web-App-Development-Code-Lite-Create-Big/20240225/" rel="prev" title="Simplify Web App Development: Code Lite, Create Big!">
+                  <i class="fa fa-chevron-left"></i> Simplify Web App Development: Code Lite, Create Big!
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/AI/Making-Gemini-a-Tarot-Master/20240331/" rel="next" title="Making Gemini a Tarot Master">
+                  Making Gemini a Tarot Master <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

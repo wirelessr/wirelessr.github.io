@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CT Wu">
+<meta property="og:url" content="https://wirelessr.github.io/page/2/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/page/2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/2/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">CT Wu</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Python/Solving-Gevent-Pool-Issues-in-Flask-Apps/20251228/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Python/Solving-Gevent-Pool-Issues-in-Flask-Apps/20251228/" class="post-title-link" itemprop="url">Solving Gevent Pool Issues in Flask Apps</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-12-29 01:48:29" itemprop="dateCreated datePublished" datetime="2025-12-29T01:48:29+08:00">2025-12-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Solving-Gevent-Pool-Issues-in-Flask-Apps"><a href="#Solving-Gevent-Pool-Issues-in-Flask-Apps" class="headerlink" title="Solving Gevent Pool Issues in Flask Apps"></a>Solving Gevent Pool Issues in Flask Apps</h3><h4 id="Learn-how-Keep-Alive-connections-can-drain-your-Gevent-pool-and-crash-pods"><a href="#Learn-how-Keep-Alive-connections-can-drain-your-Gevent-pool-and-crash-pods" class="headerlink" title="Learn how Keep-Alive connections can drain your Gevent pool and crash pods"></a>Learn how Keep-Alive connections can drain your Gevent pool and crash pods</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*evEKFdcBcNrvRmhSkuOGAQ.png"></p>
+<p>Recently, we have been troubleshooting a stubborn issue. Pods kept restarting for no apparent reason. The cause was liveness and readiness probe failures.</p>
+<p>This sounds common, right? But here is the catch. We had already tuned our liveness and readiness probes to be as simple as possible. Like this:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&#x27;/health/check&#x27;)  </span><br><span class="line">def check():  </span><br><span class="line">    return &#x27;Hello, World!&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>It always returns HTTP 200 OK. Yes, always.</p>
+<p>Even with this setup, we still saw liveness and readiness failures.</p>
+<p>Before we dig into the problem, let’s look at the microservice’s infrastructure. First, it is a Flask application. However, we aren’t using Gunicorn for concurrency. We are using Gevent.</p>
+<p>This means each pod is effectively a single-process Flask app. It uses coroutines, or “greenlets,” to handle each request. Now that we understand the setup, let’s analyze the root cause layer by layer.</p>
+<h3 id="Question-1-Why-does-such-a-simple-health-check-fail"><a href="#Question-1-Why-does-such-a-simple-health-check-fail" class="headerlink" title="Question 1: Why does such a simple health check fail?"></a>Question 1: Why does such a simple health check fail?</h3><p>Logically, a “Hello World” response shouldn’t trigger errors or timeouts. So why did the health check fail?</p>
+<p>We have to look at the design. To prevent resource exhaustion, we configured a Gevent pool. Whenever a request comes in, we grab a greenlet from the pool to handle it. If the pool is empty, we can’t handle any requests. Not even the simple ones.</p>
+<p>Take a look at the graph below.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*Yfj9PgwCnYaRuP7r.png"></p>
+<p>The red line shows the number of pod restarts. The other lines show the remaining capacity of the Gevent pool, which keeps dropping. When the pool hits zero, the app can’t respond to health checks. This triggers a pod restart.</p>
+<p>After the restart, the Gevent pool in the new pod becomes available again, and it can resume service.</p>
+<h3 id="Question-2-Why-does-the-Gevent-pool-run-out"><a href="#Question-2-Why-does-the-Gevent-pool-run-out" class="headerlink" title="Question 2: Why does the Gevent pool run out?"></a>Question 2: Why does the Gevent pool run out?</h3><p>We know the immediate cause. Now we need to find out what is consuming the Gevent pool. We need to understand why we ran out of greenlets.</p>
+<p>At first, we suspected high CPU usage. If the CPU spikes, every request takes longer to respond. This would mean each greenlet is occupied for more time.</p>
+<p>Eventually, this creates a slow leak.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*QrNrr79Mo2vR0ig0.png"></p>
+<p>The overlay of the Gevent pool and CPU usage seemed to support this theory.</p>
+<p>However, further analysis proved us wrong. Even when the CPU spiked, the peak usage never hit the full CPU request limit for the pod. We also didn’t see any signs of CPU throttling. So, this hypothesis didn’t hold up.</p>
+<h3 id="Question-3-Is-it-a-Gevent-leak"><a href="#Question-3-Is-it-a-Gevent-leak" class="headerlink" title="Question 3: Is it a Gevent leak?"></a>Question 3: Is it a Gevent leak?</h3><p>To figure out what is holding onto the greenlets, we need to dump the current greenlet stack. Fortunately, Gevent provides a tool for this: <code>gevent.utils.print_run_info</code>.</p>
+<p>We used this to analyze the dump and see what each greenlet was doing. We found a huge number of greenlets waiting on <code>read_requestline</code>.</p>
+<p>Below is a breakdown of the code flow.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*5iwuMoMU6B5S8GM1H9d1VA.png"></p>
+<p>This is typical HTTP Keep-Alive behavior. If a client keeps the connection open but doesn’t send a request, the greenlet waits indefinitely.</p>
+<p>Now we have our answer. The greenlets were being forced to stay alive because of the Keep-Alive setting. This eventually drained the Gevent pool.</p>
+<h3 id="Question-4-Who-is-hogging-the-connections"><a href="#Question-4-Who-is-hogging-the-connections" class="headerlink" title="Question 4: Who is hogging the connections?"></a>Question 4: Who is hogging the connections?</h3><p>We have another way to prove that Keep-Alive is the culprit. We can use <code>netstat</code> to check the status of the TCP connections.</p>
+<p>First, let’s verify if there really are persistent TCP connections.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ netstat -tn | grep &#x27;:8080&#x27; | awk &#x27;&#123;print $6&#125;&#x27; | sort | uniq -c  </span><br><span class="line">    234 ESTABLISHED</span><br></pre></td></tr></table></figure>
+
+<p>The results show 234 established connections.</p>
+<p>But who established them? We can use <code>netstat</code> again to find out.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ netstat -tn | grep ESTABLISHED | awk &#x27;&#123;print $5&#125;&#x27; | cut -d: -f1 | sort -u  </span><br><span class="line">172.24.1.100  </span><br><span class="line">172.24.1.101  </span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>Now we know the source IPs. We can analyze who these sources are and figure out how to handle them.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>In fact, there are more questions to answer:</p>
+<ul>
+<li>Question 5: Who exactly is the source?</li>
+<li>Question 6: Why do they open connections but not close them?</li>
+</ul>
+<p>However, these answers depend on the specific infrastructure environment. I won’t go deeper into those details in this article.</p>
+<p>Still, this Root Cause Analysis process should apply to almost any web service. It is especially useful for Python services. By following the flow in this article, we don’t have to blindly suspect CPU or memory issues every time something goes wrong. We have the tools and methods to track down deeper problems.</p>
+<p>Let’s call it a day.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/solving-gevent-pool-issues-in-flask-apps-290a46a488f2">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Abandoning-SDD-My-New-AI-Coding-Workflow/20251214/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/Abandoning-SDD-My-New-AI-Coding-Workflow/20251214/" class="post-title-link" itemprop="url">Abandoning SDD: My New AI Coding Workflow</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-12-15 01:26:31" itemprop="dateCreated datePublished" datetime="2025-12-15T01:26:31+08:00">2025-12-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Abandoning-SDD-My-New-AI-Coding-Workflow"><a href="#Abandoning-SDD-My-New-AI-Coding-Workflow" class="headerlink" title="Abandoning SDD: My New AI Coding Workflow"></a>Abandoning SDD: My New AI Coding Workflow</h3><h4 id="Discover-why-I-ditched-SDD-for-an-efficient-Vibe-Coding-workflow"><a href="#Discover-why-I-ditched-SDD-for-an-efficient-Vibe-Coding-workflow" class="headerlink" title="Discover why I ditched SDD for an efficient Vibe Coding workflow"></a>Discover why I ditched SDD for an efficient Vibe Coding workflow</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*Ho7g9b29SwGNlOOp12xuKQ.png"></p>
+<p>I recently made some major optimizations to the workflow I use for running development tasks with AI agents. I’ve completely abandoned SDD (Spec-driven Development) and shifted to pure vibe coding.</p>
+<p>Even though I used to be a big believer in SDD, I’ve realized its limitations and the new problems it creates over the last few months. I’ll summarize the reasons for the switch and what we’ve found.</p>
+<p>There is actually an article on Martin Fowler’s blog that analyzes SDD tools and processes in depth. I happened to switch my process before seeing that article. It turns out the content mirrored my feelings perfectly, so I highly recommend reading it.</p>
+<p>Back to the main topic. Why give up SDD completely? Let me summarize it in one sentence.</p>
+<blockquote>
+<p>Using SDD for small changes is overkill. Big changes can’t be explained clearly. Even if the documentation is written perfectly, the Agent can’t fully absorb it. Eventually, the documentation and the code drift further apart.</p>
+</blockquote>
+<p>Let’s discuss each of these points in detail.</p>
+<h3 id="Small-changes-are-unnecessary"><a href="#Small-changes-are-unnecessary" class="headerlink" title="Small changes are unnecessary"></a>Small changes are unnecessary</h3><p>The small changes we refer to here are usually things like receiving a bug report or a feature enhancement. This could be tweaking parameters or adjusting part of a flow.</p>
+<p>When we need to execute this kind of small task, let’s take Kiro as an example. Would we use vibe mode or spec mode?</p>
+<p>When I was a devout SDD believer, I always used spec mode. And what did that get us?</p>
+<p>Three lines of code changed. Over three hundred lines of documents generated.</p>
+<p>I don’t know if you’ve had experience using SDD tools, but even for these tiny tasks, their requirement documents still cover backward and forward compatibility, security assessments, performance reviews, and rollout plans.</p>
+<p>Are you kidding? The time it takes to read the generated requirement document far exceeds the time it takes to just jump in and write the code myself.</p>
+<h3 id="Big-changes-aren’t-explained-clearly"><a href="#Big-changes-aren’t-explained-clearly" class="headerlink" title="Big changes aren’t explained clearly"></a>Big changes aren’t explained clearly</h3><p>Big changes are the flip side of small changes.</p>
+<p>When we need to make a change involving thousands of lines (allow me to use numbers for clarity), this scenario is usually where SDD is supposed to shine, right?</p>
+<p>The reality is different. When we give a PRD directly to a spec mode agent, it can’t produce a complete, well-broken-down task list. It easily misses things. And when a massive list actually gets to the agent for implementation, it turns out to be something entirely different.</p>
+<p>If we have to teach the agent to build a complete list through interaction and conversation, why not just grab the list and do it ourselves?</p>
+<p>More importantly, the agent’s context window is limited. When action items aren’t small or precise enough, it will still implement things according to its own ideas, even with a complete design doc.</p>
+<p>This turns into a situation where the agent writes bad specs, and we need to assist it in writing them. Then, once the agent has the specs, it doesn’t follow them well, so we have to supervise it. We basically end up becoming the maintainers of the specs ourselves, which adds a lot of extra effort.</p>
+<h3 id="Agents-can’t-fully-absorb-even-clear-documentation"><a href="#Agents-can’t-fully-absorb-even-clear-documentation" class="headerlink" title="Agents can’t fully absorb even clear documentation"></a>Agents can’t fully absorb even clear documentation</h3><p>There are already many papers analyzing this. I’ve even done quite a few experiments and verifications myself.</p>
+<p>You can refer to my articles and open-source projects for details.</p>
+<p>Simply put, the agent won’t treat the design document as an absolute law. It only treats the design document as a guideline. Sometimes, it doesn’t even read the whole thing.</p>
+<p>The result is that we spend a lot of time discussing a perfect design with the agent. But in the end, we still need to watch over the agent constantly to make sure it doesn’t go off track.</p>
+<h3 id="Documentation-and-code-drift-apart"><a href="#Documentation-and-code-drift-apart" class="headerlink" title="Documentation and code drift apart"></a>Documentation and code drift apart</h3><p>This is the fate of software development. It applies to the past and the future.</p>
+<p>Because documentation only increases and the codebase only gets bigger. No one can remember all the content in the documentation. And no one can update the relevant documents with every single change.</p>
+<p>Whether it’s the Wiki and Confluence of the past or design docs written inside the codebase, they share the same fate. Eventually, they will no longer be consistent with the code.</p>
+<p>The problem lies exactly here. When Wiki or Confluence is inconsistent, we humans might notice it or we might just ignore those documents. But the stuff you write in <code>.kiro/steering</code> gets pulled out and referenced by the agent repeatedly. If the document content is outdated, sadly, the agent’s changes will be a disaster.</p>
+<h3 id="How-do-I-do-it-now"><a href="#How-do-I-do-it-now" class="headerlink" title="How do I do it now?"></a>How do I do it now?</h3><p>Having said so much about the downsides of SDD, how do we handle things now?</p>
+<p>I believe thinking before coding is essential, whether we are using AI coding or not. Therefore, I still keep my past habits. I analyze and design the modifications I’m about to make. The difference is that in the past, we needed to know every aspect of the codebase to make a complete analysis. But now, collaborating with an Agent allows us to analyze the chain of changes and the scope of impact more efficiently.</p>
+<p>Once I’ve run through the simulation in my head, I list all the items to be executed in my own notepad. Then, I tell the agent to execute them one by one using vibe mode.</p>
+<p>Where is the difference? It lies in the granularity. The items in my notepad are precise down to which file, which module, or even which function. And I tell the agent exactly where to make what kind of changes with that same precision.</p>
+<p>Why do we need to be so precise?</p>
+<p>Because I found that AI’s taste in code is still worse than mine. The code it writes looks incredibly ugly to me personally. It has no aesthetic sense at all. So I tell it exactly what to do and how to do it.</p>
+<p>We’ll find that vibe coding is really just a fancier auto-completion for me. But I think that’s enough. Facts have proven that this level of efficiency boost is sufficient.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Why did I make this shift in workflow?</p>
+<p>Thinking back, the straw that broke the camel’s back was that Claude loves writing documents for absolutely everything, big or small. Every document is long and tedious. It got to the point where reading them was painful, but not reading them felt wrong too.</p>
+<p>Instead of torturing ourselves like this, let’s just ditch these intermediate documents. For me, they have no reference value.</p>
+<p>The motivation driving me to slowly transition to this new workflow is something I’ve mentioned before. It’s simply that the code written by AI looks too ugly. It’s full of bad smells.</p>
+<p>Rather than dealing with that, I’d really prefer to write it myself, or make the AI write it strictly according to what I say.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/abandoning-sdd-my-new-ai-coding-workflow-c3ac8627d8be">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Is-AI-Killing-Traditional-Org-Structures/20251130/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/Is-AI-Killing-Traditional-Org-Structures/20251130/" class="post-title-link" itemprop="url">Is AI Killing Traditional Org Structures?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-12-01 01:49:16" itemprop="dateCreated datePublished" datetime="2025-12-01T01:49:16+08:00">2025-12-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Traditional-silos-limit-the-productivity-gains-unlocked-by-AI-workflows"><a href="#Traditional-silos-limit-the-productivity-gains-unlocked-by-AI-workflows" class="headerlink" title="Traditional silos limit the productivity gains unlocked by AI workflows"></a>Traditional silos limit the productivity gains unlocked by AI workflows</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*7qG9zKNBEDHoIZzefziDrQ.png"></p>
+<p>As I mentioned in my previous article, I recently made a career shift. I moved from being a pure software architect to a hands-on staff role. This means I am now deeply involved in implementation.</p>
+<p>I made this adjustment because there were things I wanted to verify. For instance, I wanted to see how much productivity an AI-powered workflow could unlock. The results proved that the efficiency gains are significant.</p>
+<p>This led me to think about another question.</p>
+<blockquote>
+<p>Can traditional organizational structures still serve their purpose?</p>
+</blockquote>
+<p>The “traditional” structures I am referring to fall into two categories:</p>
+<ol>
+<li>Organizations divided by function, such as PM, ENG, QA, etc.</li>
+<li>Organizations divided by Cross-functional teams. For example, a Scrum team has a PO, developers, and QA. This might seem new rather than traditional to some people. Nevertheless, I believe this is still a traditional setup from the era before AI entered our workflows.</li>
+</ol>
+<p>I raise this question because AI empowers us to increase productivity to a dramatic extent. However, the silos created by traditional organizational structures work against this boost.</p>
+<p>There are many reasons for these silos. We have functional silos between roles. We have cognitive silos between different feature modules. And we have responsibility silos between departments. These boundaries used to seem natural. Now, AI breaks them down easily.</p>
+<p>Let’s look at an example. We often used domain boundaries or microservice boundaries to split organizations. When Team A’s changes touched code owned by Team B, it required a lot of communication and coordination. Even development and deployment created dependencies.</p>
+<p>Waiting is inevitable in this process. This constitutes waste.</p>
+<p>But if this traditional organizational structure is broken, how should we define boundaries? Or simply put, how do we clarify responsibilities?</p>
+<p>I don’t have the answer yet. I am still looking into it.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/is-ai-killing-traditional-org-structures-9f77b5cd7604">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/How-Gen-AI-2x-My-Developer-Productivity/20251109/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/How-Gen-AI-2x-My-Developer-Productivity/20251109/" class="post-title-link" itemprop="url">How Gen AI 2x My Developer Productivity</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-11-10 02:06:05" itemprop="dateCreated datePublished" datetime="2025-11-10T02:06:05+08:00">2025-11-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Why-I-switched-from-architect-to-developer-to-validate-Gen-AI-in-practice"><a href="#Why-I-switched-from-architect-to-developer-to-validate-Gen-AI-in-practice" class="headerlink" title="Why I switched from architect to developer to validate Gen AI in practice"></a>Why I switched from architect to developer to validate Gen AI in practice</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*WLD41KFh7OhNWKXs3lXZ3Q.png"></p>
+<p>In the software development track, you have a lot of options. The main choice is between heading down the architect path or focusing on the developer track.</p>
+<p>I chose the architect path for the last few years. My work focused on research, software architecture transformation, and pilot planning. But recently, I switched back to a developer role. I still wear the architect hat sometimes, but I spend most of my time on feature development and troubleshooting.</p>
+<p>A lot of people have asked me why I made this switch. I wanted to use this article to talk about the reasons behind it.</p>
+<p>If you’ve been following me, you might have noticed I started covering Gen AI topics late last year. That’s also when I began seriously studying how to use AI to boost productivity.</p>
+<p>However, in my previous role as a pure architect, I rarely worked on production code. This meant that even though I had all these theories, I could only test their real-world effectiveness on my side projects.</p>
+<p>This presents a problem: theory and practice start to drift apart. It’s a common dilemma for many researchers.</p>
+<p>Therefore, switching to a more hands-on role was a better choice. This way, I can actually validate whether my methodologies work in practice.</p>
+<p>Over the past few months of doing this, I’ve found that Gen AI really does significantly boost my productivity in many areas.</p>
+<p>I’ll list a few of the most obvious examples.</p>
+<h3 id="Quickly-Onboarding-to-Brownfield-Projects"><a href="#Quickly-Onboarding-to-Brownfield-Projects" class="headerlink" title="Quickly Onboarding to Brownfield Projects"></a>Quickly Onboarding to Brownfield Projects</h3><p>I’ve briefly explained how I do this in a previous article. It mainly involves two tools: a Coding Agent and RAG.</p>
+<p>I’m using very general terms here because everyone’s familiar tech stack is different. For my Coding Agent, I use Copilot. Of course, you can use Claude Code, Cursor, or any other tool.</p>
+<p>And for RAG, I use NotebookLM.</p>
+<p>My specific process is to create a Notebook for each feature. Inside each Notebook, I put the feature’s PRD, design document, technical support KBs, and code tracing.</p>
+<p>The technical documents are pretty straightforward. But what is code tracing?</p>
+<p>It’s a complete report I generate using my coding agent. It includes the full e2e flow for all of the feature’s entry points, the data flow, and all related data tables. Even the e2e flow is broken down in great detail, right down to the module, class, and function level.</p>
+<p>With this material, the Notebook RAG can quickly answer almost any basic question about the project. It can even pinpoint the code locations involved in specific problems.</p>
+<p>As a result, I didn’t need to spend much time getting up to speed on a large, unfamiliar project before I could start contributing.</p>
+<h3 id="Efficient-Feature-Iteration"><a href="#Efficient-Feature-Iteration" class="headerlink" title="Efficient Feature Iteration"></a>Efficient Feature Iteration</h3><p>One of the most common scenarios for a developer is feature iteration.</p>
+<p>If you think I’m going to say my coding agent lets me finish programming at lightning speed, you’re going to be disappointed.</p>
+<p>I use AI in two ways in this scenario. First, I’ll write a very rough, quick, handwritten design document. Then, I use Gemini’s OCR capability to convert it into a fully formatted document.</p>
+<p>Designing and developing a feature requires a lot of communication and discussion upfront. I use this method to quickly create discussion materials, meeting notes, and design docs. This really saves me a ton of time.</p>
+<p>I can use pen and paper, which I’m most comfortable with, to turn my ideas into digital documents. This is the first major improvement.</p>
+<p>Second, during the actual software development, I already have a complete design. This includes design patterns, API interfaces, and so on. The entire development process is broken down into small enough units. This makes it very easy for me to use AI for auto-complete.</p>
+<p>As for why I don’t let the AI develop everything and only use it for minimal assistance, I explained that in detail in a <a target="_blank" rel="noopener" href="https://medium.com/stackademic/vibe-coding-is-cooling-off-fast-bd1ea2aa4adb">previous article</a>. I won’t repeat it here.</p>
+<h3 id="Various-Daily-Routines"><a href="#Various-Daily-Routines" class="headerlink" title="Various Daily Routines"></a>Various Daily Routines</h3><p>As a software engineer, I think tedious tasks take up a big part of the day. I’ve automated a large portion of this grunt work.</p>
+<p>Let me give a few examples. I currently work across different time zones, so someone is basically working at all hours of the day.</p>
+<ol>
+<li>Waking up to hundreds of emails? My solution is not to read them. I have AI quickly categorize them. It leaves only the emails I truly need to know about and those that require action. It then provides a consolidated summary so I can see what I need to do at a glance.</li>
+<li>What about all the recorded meetings I missed? I speed-watch them. I use AI to generate and embed captions in the video. This allows me to watch them at 2x or even 4x speed.</li>
+<li>What about all the routine maintenance work? I use AI to generate small tools for me. I even build automated workflows to handle them. This prevents me from having to do so much manual work.</li>
+</ol>
+<p>I don’t use AI in a very generic way. It can’t do everything. But it’s more than enough to solve my specific pain points.</p>
+<h3 id="Troubleshooting"><a href="#Troubleshooting" class="headerlink" title="Troubleshooting"></a>Troubleshooting</h3><p>Debugging. I believe this is the one thing all developers hate the most.</p>
+<p>It’s the same for me. A big part of why it’s so annoying is that we have to guess based on various clues. After guessing, we still have to find evidence among those clues to prove it.</p>
+<p>It is absolutely tedious and mundane work.</p>
+<p>The worst part is digging for evidence in thousands, or even tens of thousands, of log lines. It’s never an easy job, especially when the logs are unstructured. Now, I’ve offloaded this painful task to AI. We used to need <code>grep</code>, <code>sed</code>, and <code>awk</code> to process logs just to find keywords and check a timeline.</p>
+<p>Now, I just need to tell the AI my intent, what I’m looking for. It can take over this dirty work for me.</p>
+<p>Once it finds the relevant logs based on my intent, the guessing starts. I figure it’s easier to have a group guess than to do it alone. So, I feed these logs to several agents and let them all guess. Then we compare their answers.</p>
+<p>By combining all their hypotheses, I can go back and ask the AI to find evidence in that vast sea of logs.</p>
+<p>All of this dirty work? I don’t have to do it myself anymore.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>What I’ve mentioned above should cover most of the different aspects a software engineer deals with.</p>
+<p>How do you use AI to boost productivity?</p>
+<p>I believe the answer is simple. Give it the annoying work you hate doing. Your productivity will naturally go up.</p>
+<p>But there’s one thing to keep in mind. I’ve stressed this point repeatedly in the past: AI isn’t brilliant. It’s just a tool. We must be able to master the tool to get the job done right.</p>
+<p>Especially, remember that AI makes mistakes in many situations. We have to review the critical parts repeatedly. For example, when I ask Gemini to turn my handwritten draft into a design document, I still need to manually fix many details. But this is still much faster than writing one from scratch.</p>
+<p>As for how much productivity has improved with AI, I don’t have exact numbers. Software engineer time estimates are rarely accurate anyway. But my gut feeling is at least a 2x boost. What does that mean? A huge modification that used to take two months now only takes one.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-gen-ai-2x-my-developer-productivity-9738e22d3d68">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Vibe-Coding-is-Cooling-Off-Fast/20251026/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/Vibe-Coding-is-Cooling-Off-Fast/20251026/" class="post-title-link" itemprop="url">Vibe Coding is Cooling Off, Fast</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-10-27 01:14:33" itemprop="dateCreated datePublished" datetime="2025-10-27T01:14:33+08:00">2025-10-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Vibe-Coding-is-Cooling-Off-Fast"><a href="#Vibe-Coding-is-Cooling-Off-Fast" class="headerlink" title="Vibe Coding is Cooling Off, Fast"></a>Vibe Coding is Cooling Off, Fast</h3><h4 id="AI-is-great-for-PoCs-but-fails-at-creating-maintainable-software"><a href="#AI-is-great-for-PoCs-but-fails-at-creating-maintainable-software" class="headerlink" title="AI is great for PoCs, but fails at creating maintainable software"></a>AI is great for PoCs, but fails at creating maintainable software</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*BnB0HCqXINZ2n3rSgiD0VQ.png"></p>
+<p>The title might sound a bit like clickbait, but even the guy who coined the term “vibe coding,” Andrej Karpathy, just pointed out that he hand-wrote his latest project. Whatever his reasons, the bottom line is: vibe coding just wasn’t good enough.</p>
+<ul>
+<li><strong>Feb 3, 2025:</strong> The term “<a target="_blank" rel="noopener" href="https://x.com/karpathy/status/1886192184808149383" title="null">Vibe coding</a>” is born.</li>
+<li><strong>Oct 13, 2025:</strong> Andrej Karpathy gives an <a target="_blank" rel="noopener" href="https://x.com/karpathy/status/1977758204139331904" title="null">update</a> on vibe coding.</li>
+</ul>
+<p>That’s barely half a year. What the hell happened?</p>
+<p>We were just celebrating how insanely capable Claude 4.5 and GPT-5 are, and suddenly the script flips?</p>
+<p>Honestly, I’ve also been hitting the hard limits of vibe coding myself lately.</p>
+<p>Let me provide a real-world example.</p>
+<p>Let’s say we have a huge project and we need to introduce a behavior change. Whether it’s for A&#x2F;B testing or feature toggling, we’re essentially just wrapping the old code in an <code>if-else</code> block to introduce the new behavior, right?</p>
+<p>That’s a bit abstract, so let’s look at some pseudo-code.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if is_enabled(&quot;feature A&quot;):  </span><br><span class="line">    # new behavior / new feature  </span><br><span class="line">    something_new()  </span><br><span class="line">else:  </span><br><span class="line">    # original codeflow  </span><br><span class="line">    something_old()</span><br></pre></td></tr></table></figure>
+
+<p>Super easy to understand, right?</p>
+<p>Now, when this feature is big enough, these <code>if-else</code> blocks are going to be scattered all over the codebase. What do we think an AI Agent will do?</p>
+<p>Yes. Exactly. It’s going to slap an <code>if-else</code> on every single place that needs to change. So, what happens when the feature toggle rollout is complete and it’s time to clean up the codebase?</p>
+<p>Right again. The Agent will just go back and rip out all those <code>if-else</code> statements. What’s the problem with that? If that <code>if-else</code> is spread across 100 different files, this “housekeeping” task is now touching 100 files. Would we feel safe pushing that change to production?</p>
+<p>So, what’s the right way to do it?</p>
+<p>I mentioned this in a <a target="_blank" rel="noopener" href="https://medium.com/better-programming/feature-toggle-introduction-68d58f5c709" title="null">previous article on feature toggling</a>: the correct practice is to introduce the <strong>Factory Pattern</strong>.</p>
+<p>The beauty of this is that after the code is refactored, the actual feature flag check is hidden inside the factory. When it’s time for cleanup, we only have to modify the factory. We don’t have to touch all the integration points.</p>
+<p>Let’s look at a concrete example.</p>
+<h3 id="The-Factory-Pattern-in-Practice"><a href="#The-Factory-Pattern-in-Practice" class="headerlink" title="The Factory Pattern in Practice"></a>The Factory Pattern in Practice</h3><p>Let’s say we have some business logic for getting user data. The old implementation queries the database directly. The new implementation uses a dedicated microservice. We need to migrate all the database queries to the new REST API.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def get_user_profile(customer_id: str, email: str):      </span><br><span class="line">    if feature_flags.is_enabled(customer_id, &#x27;USE_NEW_USER_SERVICE_FF&#x27;):  </span><br><span class="line">        # If the flag is on, call the new API service  </span><br><span class="line">        user_data = call_new_api_service(email)  </span><br><span class="line">    else:  </span><br><span class="line">        # Otherwise, query the old database  </span><br><span class="line">        user_data = query_legacy_database(email)  </span><br><span class="line">          </span><br><span class="line">    return user_data</span><br></pre></td></tr></table></figure>
+
+<p>If we also have functions to get group info by <code>user_id</code> or other queries, we can imagine this <code>if-else</code> getting scattered everywhere.</p>
+<p>This is where we bring in the Factory Pattern. It has three core components: an Interface, Concrete Implementations, and a Factory.</p>
+<p>First, we define an abstract <code>UserProvider</code> interface. It defines the methods that all “user data providers” must have. This way, the calling code doesn’t need to care if the data is coming from a database or an API.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from abc import ABC, abstractmethod  </span><br><span class="line">from typing import Optional, Dict, List, Tuple  </span><br><span class="line">  </span><br><span class="line">class UserProvider(ABC):  </span><br><span class="line">    &quot;&quot;&quot;  </span><br><span class="line">    Abstract interface for a user data provider.  </span><br><span class="line">    Defines methods all concrete providers must implement.  </span><br><span class="line">    &quot;&quot;&quot;  </span><br><span class="line">    @abstractmethod  </span><br><span class="line">    def get_user_by_email(self, customer_id: str, email: str) -&gt; Optional[Dict]:  </span><br><span class="line">        &quot;&quot;&quot;Gets user data by Email&quot;&quot;&quot;  </span><br><span class="line">        pass  </span><br><span class="line">  </span><br><span class="line">    @abstractmethod  </span><br><span class="line">    def get_user_groups(self, customer_id: str, user_id: str) -&gt; List[str]:  </span><br><span class="line">        &quot;&quot;&quot;Gets a list of groups for a user ID&quot;&quot;&quot;  </span><br><span class="line">        pass</span><br></pre></td></tr></table></figure>
+
+<p>Next, we create concrete classes for the old and new services, both of which implement the <code>UserProvider</code> interface.</p>
+<p>The old database service:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class OldDatabaseUserProvider(UserProvider):  </span><br><span class="line">    &quot;&quot;&quot;  </span><br><span class="line">    Implementation for fetching user data from the legacy database.  </span><br><span class="line">    &quot;&quot;&quot;  </span><br><span class="line">    def get_user_by_email(self, customer_id: str, email: str) -&gt; Optional[Dict]:  </span><br><span class="line">        print(f&quot;--- (Legacy System) Querying DB for Email: &#123;email&#125; ---&quot;)  </span><br><span class="line">        # Simulate DB query...  </span><br><span class="line">        if email == &quot;test@example.com&quot;:  </span><br><span class="line">            return &#123;&#x27;user_id&#x27;: &#x27;db_123&#x27;, &#x27;email&#x27;: email, &#x27;name&#x27;: &#x27;DB User&#x27;&#125;  </span><br><span class="line">        return None  </span><br><span class="line">  </span><br><span class="line">    def get_user_groups(self, customer_id: str, user_id: str) -&gt; List[str]:  </span><br><span class="line">        print(f&quot;--- (Legacy System) Querying DB for User ID: &#123;user_id&#125;&#x27;s groups ---&quot;)  </span><br><span class="line">        # Simulate query...  </span><br><span class="line">        return [&#x27;group_a_db&#x27;, &#x27;group_b_db&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>The new API service:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class NewAPIUserProvider(UserProvider):  </span><br><span class="line">    &quot;&quot;&quot;  </span><br><span class="line">    Implementation for fetching user data from the new microservice API.  </span><br><span class="line">    &quot;&quot;&quot;  </span><br><span class="line">    def get_user_by_email(self, customer_id: str, email: str) -&gt; Optional[Dict]:  </span><br><span class="line">        print(f&quot;--- (New System) Calling API for Email: &#123;email&#125; ---&quot;)  </span><br><span class="line">        # Simulate API call...  </span><br><span class="line">        if email == &quot;test@example.com&quot;:  </span><br><span class="line">            return &#123;&#x27;user_id&#x27;: &#x27;api_xyz&#x27;, &#x27;email&#x27;: email, &#x27;name&#x27;: &#x27;API User&#x27;&#125;  </span><br><span class="line">        return None  </span><br><span class="line">  </span><br><span class="line">    def get_user_groups(self, customer_id: str, user_id: str) -&gt; List[str]:  </span><br><span class="line">        print(f&quot;--- (New System) Calling API for User ID: &#123;user_id&#125;&#x27;s groups ---&quot;)  </span><br><span class="line">        # Simulate API call...  </span><br><span class="line">        return [&#x27;group_x_api&#x27;, &#x27;group_y_api&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>Finally, we create a <code>UserProviderFactory</code>. Its only job is to decide which concrete <code>UserProvider</code> instance to return based on the given conditions (here, the <code>customer_id</code> and his feature flag).</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class UserProviderFactory:  </span><br><span class="line">    def __init__(self):  </span><br><span class="line">        # Pre-build and cache the instances to avoid re-creation  </span><br><span class="line">        self._providers = &#123;  </span><br><span class="line">            &#x27;database&#x27;: OldDatabaseUserProvider(),  </span><br><span class="line">            &#x27;api&#x27;: NewAPIUserProvider()  </span><br><span class="line">        &#125;  </span><br><span class="line">      </span><br><span class="line">    def get_provider(self, customer_id: str) -&gt; UserProvider:  </span><br><span class="line">        &quot;&quot;&quot;  </span><br><span class="line">        Decides which provider to return based on the feature flag.  </span><br><span class="line">        This is the core of the pattern, centralizing the &quot;decision logic&quot;.  </span><br><span class="line">        &quot;&quot;&quot;  </span><br><span class="line">        if feature_flags.is_enabled(customer_id, &#x27;USE_NEW_USER_SERVICE_FF&#x27;):  </span><br><span class="line">            print(&quot;Factory Decision: Using NewAPIUserProvider&quot;)  </span><br><span class="line">            return self._providers[&#x27;api&#x27;]  </span><br><span class="line">        else:  </span><br><span class="line">            print(&quot;Factory Decision: Using OldDatabaseUserProvider&quot;)  </span><br><span class="line">            return self._providers[&#x27;database&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>Now, we’ve completely encapsulated the object creation and selection logic within the factory.</p>
+<p>After implementing the factory, the business logic function that was full of <code>if-else</code> statements becomes way simpler.</p>
+<p>The client code no longer needs to care about “which service to use” or “how to build the service object.” It just asks the factory for a usable <code>UserProvider</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">user_provider_factory = UserProviderFactory()  </span><br><span class="line">provider = user_provider_factory.get_provider(customer_id)  </span><br><span class="line">      </span><br><span class="line">user_data = provider.get_user_by_email(customer_id, email)</span><br></pre></td></tr></table></figure>
+
+<p>In the future, when it’s time to clean up, we only need to touch the <code>feature_flags.is_enabled</code> line in the factory and delete the legacy <code>OldDatabaseUserProvider</code>. This ensures all client code is unaffected and dramatically shrinks the cleanup’s blast radius.</p>
+<h3 id="Here’s-Another-Thing-the-Agent-Won’t-Tell-Us"><a href="#Here’s-Another-Thing-the-Agent-Won’t-Tell-Us" class="headerlink" title="Here’s Another Thing the Agent Won’t Tell Us"></a>Here’s Another Thing the Agent Won’t Tell Us</h3><p>Let’s do one more example.</p>
+<p>Today’s AI agents are smart. They even write tests for their code. But if we actually look at the tests they write, we’ll find they are full of duplicated code, especially when they’re trying to cover a bunch of corner cases.</p>
+<p>These kinds of unit tests are basically unmaintainable. A future logic change could instantly break a ton of test cases.</p>
+<p>What’s the right way to do it? As I’ve explained in a <a target="_blank" rel="noopener" href="https://www.google.com/search?q=https://medium.com/better-programming/how-to-make-example-based-testing-better-99dbfbbe5b8c" title="null">previous article</a>, we need to use <strong>table-driven testing</strong> to consolidate all the test cases.</p>
+<p>A unit test follows the Arrange-Act-Assert (AAA) pattern. For different test cases, the only parts that really change are ‘Arrange’ (the inputs) and ‘Assert’ (the expected outputs). So, we can just build a table (an array) of all the cases and run them all through a single loop.</p>
+<p>In fact, a lot of testing frameworks have-built in support for this. For example, <code>pytest</code> does this with <code>mark.parametrize</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import pytest  </span><br><span class="line">  </span><br><span class="line">@pytest.mark.parametrize(&quot;expression,expected&quot;,  </span><br><span class="line">    [  </span><br><span class="line">        (&quot;2 + 3&quot;, 5),  </span><br><span class="line">        (&quot;2 + 3 * 4&quot;, 14),  </span><br><span class="line">        (&quot;(2 + 3) * 4&quot;, 20),  </span><br><span class="line">        # and so on  </span><br><span class="line">    ]  </span><br><span class="line">)  </span><br><span class="line">def test_calculator(expression, expected):  </span><br><span class="line">    ret = calculator(expression)  </span><br><span class="line">    assert ret == expected</span><br></pre></td></tr></table></figure>
+
+<p>The agent won’t tell us any of this.</p>
+<p>Not unless we explicitly tell it: “I want us to implement the Factory Pattern” or “I want us to use table-driven testing.”</p>
+<p>And this is the limit of vibe coding. I’ve spent a lot of time in the past discussing the practical details of vibe coding, and I was an early adopter of spec-driven development workflows.</p>
+<p>But when I seriously review the AI’s output, I find that even with something as powerful as Claude 4.5, the code it produces is still full of redundancy. This redundant code might be correct, and it might even work, but over time, it will become completely unmaintainable.</p>
+<p>Both humans and AI have a limited context window.</p>
+<blockquote>
+<p><em><strong>Ultimately, software development still comes back to good software engineering practices.</strong></em></p>
+</blockquote>
+<p>We need to discuss design patterns. We need to consider feature onboarding and all the other real-world architecture problems. Vibe coding is great for building a PoC (Proof of Concept) really fast. But a PoC is <strong>not</strong> an MVP. The moment we need to turn that PoC into a real product, we still have to rely on the experience and wisdom of a human software engineer to solve those real-world problems.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>We used two concrete examples to explain the limits of vibe coding: one with design patterns and one with table-driven testing.</p>
+<p>We might be thinking, “Well, can’t we just define all these rules in the system instructions?” That’s… yes and no.</p>
+<p>There are so many design patterns. If we don’t specify which one, can the AI really pick the right one? What we call “design patterns” are split into three major categories — Creational, Structural, and Behavioral — each with dozens of different patterns.</p>
+<p>Remember, the AI has a limited context. In a massive codebase, it needs to identify the problem, break it down, and propose the right solution. I don’t need to tell us how hard that is.</p>
+<p>And that’s just talking about the narrow definition of design patterns. That’s not even getting into Pattern-Oriented Software Architecture or all the higher-level architectural problems like microservices, event-driven architecture, etc.</p>
+<p>These are not problems an AI can solve just by glancing at a codebase or reading a detailed spec.</p>
+<p>Don’t get me wrong, I’m still going to use vibe coding. But for me, its value right now has been reduced to just a super-powered auto-complete.</p>
+<p>To put it bluntly, the auto-complete that AI gives me is just a lot more flexible than the old-school, rule-based completion. But at the end of the day, that’s all it is.</p>
+<h3 id="A-message-from-our-Founder"><a href="#A-message-from-our-Founder" class="headerlink" title="A message from our Founder"></a>A message from our Founder</h3><p><strong>Hey,</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>Sunil</strong></a> <strong>here.</strong> I wanted to take a moment to thank you for reading until the end and for being a part of this community.</p>
+<p>Did you know that our team run these publications as a volunteer effort to over 3.5m monthly readers? <strong>We don’t receive any funding, we do this to support the community. ❤️</strong></p>
+<p>If you want to show some love, please take a moment to <strong>follow me on</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>LinkedIn</strong></a><strong>,</strong> <a target="_blank" rel="noopener" href="https://tiktok.com/@messyfounder"><strong>TikTok</strong></a>, <a target="_blank" rel="noopener" href="https://instagram.com/sunilsandhu"><strong>Instagram</strong></a>. You can also subscribe to our <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>weekly newsletter</strong></a>.</p>
+<p>And before you go, don’t forget to <strong>clap</strong> and <strong>follow</strong> the writer️!</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/vibe-coding-is-cooling-off-fast-bd1ea2aa4adb">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Python-DAG-Retries-Rollbacks-Parallel-Runs/20251005/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Development/Python-DAG-Retries-Rollbacks-Parallel-Runs/20251005/" class="post-title-link" itemprop="url">Python DAG: Retries, Rollbacks & Parallel Runs</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-10-06 01:37:53" itemprop="dateCreated datePublished" datetime="2025-10-06T01:37:53+08:00">2025-10-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Python-DAG-Retries-Rollbacks-Parallel-Runs"><a href="#Python-DAG-Retries-Rollbacks-Parallel-Runs" class="headerlink" title="Python DAG: Retries, Rollbacks &amp; Parallel Runs"></a>Python DAG: Retries, Rollbacks &amp; Parallel Runs</h3><h4 id="Enhance-lightweight-DAG-with-robust-features-for-production-ready-workflows"><a href="#Enhance-lightweight-DAG-with-robust-features-for-production-ready-workflows" class="headerlink" title="Enhance lightweight DAG with robust features for production-ready workflows"></a>Enhance lightweight DAG with robust features for production-ready workflows</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*4kEIO3ATDrkfzHSwtKE5FA.png"></p>
+<p>The <a target="_blank" rel="noopener" href="https://medium.com/stackademic/refactor-long-method-with-a-lightweight-dag-d5fda0ae2f04">previous article</a> stopped at building a lightweight DAG with the Command pattern. That alone already made long functions more approachable and easier to test. Over the past week I kept iterating on the idea, because real systems rarely end with a single happy-path runner.</p>
+<p>Three concerns show up almost immediately in production code: transient failures, partial completion, and throughput. They translate nicely into three extensions on top of the original runner: <strong>retry</strong>, <strong>rollback</strong>, and <strong>parallel execution</strong>.</p>
+<p>Before diving into the new capabilities, here is the baseline runner from last week that simply walks the graph in topological order:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from graphlib import TopologicalSorter  </span><br><span class="line">  </span><br><span class="line">class DAGRunner:  </span><br><span class="line">    def __init__(self, graph_definition: dict, commands: dict):  </span><br><span class="line">        self.ts = TopologicalSorter(graph_definition)  </span><br><span class="line">        self.commands = commands  </span><br><span class="line">  </span><br><span class="line">    def run(self):  </span><br><span class="line">        context = &#123;&#125;  </span><br><span class="line">        self.ts.prepare()  </span><br><span class="line">        for task_name in self.ts.static_order():  </span><br><span class="line">            self.commands[task_name].execute(context)  </span><br><span class="line">        return context</span><br></pre></td></tr></table></figure>
+
+<p>This runner is the foundation for every extension in this article.</p>
+<p>What matters here is that all three enhancements live inside the runner. The commands stay thin, the workflow definition stays declarative, and the abstraction keeps paying off. Let’s walk through each scenario.</p>
+<h3 id="Handling-retries-without-polluting-business-logic"><a href="#Handling-retries-without-polluting-business-logic" class="headerlink" title="Handling retries without polluting business logic"></a>Handling retries without polluting business logic</h3><p>External integrations fail from time to time. The naive solution is to wrap every command in its own retry loop, but that instantly clutters the code we just spent effort to clean up. Moving retries into the runner keeps the commands focused while letting us tune policies centrally.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import time  </span><br><span class="line">from graphlib import TopologicalSorter  </span><br><span class="line">  </span><br><span class="line">class DAGRunnerWithRetry:  </span><br><span class="line">    def __init__(self, graph_definition: dict, commands: dict, *, max_retries: int = 3, retry_delay: float = 1.0):  </span><br><span class="line">        self.ts = TopologicalSorter(graph_definition)  </span><br><span class="line">        self.commands = commands  </span><br><span class="line">        self.max_retries = max_retries  </span><br><span class="line">        self.retry_delay = retry_delay  </span><br><span class="line">  </span><br><span class="line">    def run(self):  </span><br><span class="line">        context = &#123;&#125;  </span><br><span class="line">        self.ts.prepare()  </span><br><span class="line">        for task_name in self.ts.static_order():  </span><br><span class="line">            command = self.commands[task_name]  </span><br><span class="line">            last_error = None  </span><br><span class="line">            for attempt in range(1, self.max_retries + 1):  </span><br><span class="line">                try:  </span><br><span class="line">                    command.execute(context)  </span><br><span class="line">                    last_error = None  </span><br><span class="line">                    break  </span><br><span class="line">                except Exception as exc:  </span><br><span class="line">                    last_error = exc  </span><br><span class="line">                    if attempt &lt; self.max_retries:  </span><br><span class="line">                        time.sleep(self.retry_delay)  </span><br><span class="line">            if last_error is not None:  </span><br><span class="line">                raise last_error  </span><br><span class="line">        return context</span><br></pre></td></tr></table></figure>
+
+<p>The graph still decides the order, while the runner handles the repeated attempts. Any transient exception is retried in place; once the configured attempts are exhausted, the original error propagates.</p>
+<h3 id="Rolling-back-after-a-failed-step"><a href="#Rolling-back-after-a-failed-step" class="headerlink" title="Rolling back after a failed step"></a>Rolling back after a failed step</h3><p>The next requirement is undoing work if a later step fails. The Command pattern already hinted at this with its symmetric interface, so introducing <code>undo</code> is a natural extension. The runner simply needs to record the successful commands and process them in reverse when an error bubbles up.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">from graphlib import TopologicalSorter  </span><br><span class="line">  </span><br><span class="line">class DAGRunnerWithRollback:  </span><br><span class="line">    def __init__(self, graph_definition: dict, commands: dict):  </span><br><span class="line">        self.ts = TopologicalSorter(graph_definition)  </span><br><span class="line">        self.commands = commands  </span><br><span class="line">  </span><br><span class="line">    def run(self):  </span><br><span class="line">        context = &#123;&#125;  </span><br><span class="line">        successful_commands = []  </span><br><span class="line">        try:  </span><br><span class="line">            self.ts.prepare()  </span><br><span class="line">            for task_name in self.ts.static_order():  </span><br><span class="line">                command = self.commands[task_name]  </span><br><span class="line">                command.execute(context)  </span><br><span class="line">                successful_commands.append(command)  </span><br><span class="line">        except Exception as exc:  </span><br><span class="line">            for command in reversed(successful_commands):  </span><br><span class="line">                command.undo(context)  </span><br><span class="line">            raise exc  </span><br><span class="line">        return context</span><br></pre></td></tr></table></figure>
+
+<p>Each command now implements both <code>execute</code> and <code>undo</code>. When a later task fails, the runner cleans up previously completed work in last-in-first-out order, mirroring the graph execution.</p>
+<h3 id="Unlocking-parallel-branches"><a href="#Unlocking-parallel-branches" class="headerlink" title="Unlocking parallel branches"></a>Unlocking parallel branches</h3><p>Many workflows contain independent branches that can safely run side by side once their prerequisites finish. The original runner executes nodes sequentially even when the graph exposes available concurrency. Switching to a thread pool allows the runner to schedule every ready node without rewriting the business logic.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">from concurrent.futures import ThreadPoolExecutor, as_completed  </span><br><span class="line">from graphlib import TopologicalSorter  </span><br><span class="line">  </span><br><span class="line">class DAGRunnerWithParallel:  </span><br><span class="line">    def __init__(self, graph_definition: dict, commands: dict):  </span><br><span class="line">        self.ts = TopologicalSorter(graph_definition)  </span><br><span class="line">        self.commands = commands  </span><br><span class="line">  </span><br><span class="line">    def run(self):  </span><br><span class="line">        context = &#123;&#125;  </span><br><span class="line">        self.ts.prepare()  </span><br><span class="line">        with ThreadPoolExecutor() as executor:  </span><br><span class="line">            futures = &#123;&#125;  </span><br><span class="line">            while self.ts.is_active():  </span><br><span class="line">                for task_name in self.ts.get_ready():  </span><br><span class="line">                    command = self.commands[task_name]  </span><br><span class="line">                    futures[executor.submit(command.execute, context)] = task_name  </span><br><span class="line">                for future in as_completed(list(futures)):  </span><br><span class="line">                    task_name = futures.pop(future)  </span><br><span class="line">                    try:  </span><br><span class="line">                        future.result()  </span><br><span class="line">                        self.ts.done(task_name)  </span><br><span class="line">                    except Exception:  </span><br><span class="line">                        for pending in futures:  </span><br><span class="line">                            pending.cancel()  </span><br><span class="line">                        raise  </span><br><span class="line">        return context</span><br></pre></td></tr></table></figure>
+
+<p>The runner keeps asking the topological sorter for ready nodes, submits them to the executor, and marks each task as complete once the future finishes. If any parallel branch fails, the remaining futures are cancelled and the error is surfaced immediately.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>All three extensions reuse the same two abstractions introduced earlier: the DAG encodes dependency, and Command encapsulates each operation behind a stable interface. Because the runner owns orchestration, we can iteratively add capabilities such as retry strategies, rollback semantics, and parallel scheduling without rewriting domain logic.</p>
+<p>That’s the real payoff of the abstraction. Once the seams are in place, new requirements stay localized, the codebase remains comprehensible, and future experiments can continue to build on the same foundation.</p>
+<h3 id="A-message-from-our-Founder"><a href="#A-message-from-our-Founder" class="headerlink" title="A message from our Founder"></a>A message from our Founder</h3><p><strong>Hey,</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>Sunil</strong></a> <strong>here.</strong> I wanted to take a moment to thank you for reading until the end and for being a part of this community.</p>
+<p>Did you know that our team run these publications as a volunteer effort to over 3.5m monthly readers? <strong>We don’t receive any funding, we do this to support the community. ❤️</strong></p>
+<p>If you want to show some love, please take a moment to <strong>follow me on</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>LinkedIn</strong></a><strong>,</strong> <a target="_blank" rel="noopener" href="https://tiktok.com/@messyfounder"><strong>TikTok</strong></a>, <a target="_blank" rel="noopener" href="https://instagram.com/sunilsandhu"><strong>Instagram</strong></a>. You can also subscribe to our <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>weekly newsletter</strong></a>.</p>
+<p>And before you go, don’t forget to <strong>clap</strong> and <strong>follow</strong> the writer️!</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/python-dag-retries-rollbacks-parallel-runs-5a5362353ea5">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Refactor-Long-Method-with-a-Lightweight-DAG/20250928/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Refactor-Long-Method-with-a-Lightweight-DAG/20250928/" class="post-title-link" itemprop="url">Refactor Long Method with a Lightweight DAG</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-09-29 00:18:03" itemprop="dateCreated datePublished" datetime="2025-09-29T00:18:03+08:00">2025-09-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Tame-complex-workflows-and-simplify-testing-with-the-Command-design-pattern"><a href="#Tame-complex-workflows-and-simplify-testing-with-the-Command-design-pattern" class="headerlink" title="Tame complex workflows and simplify testing with the Command design pattern"></a>Tame complex workflows and simplify testing with the Command design pattern</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*tcU611MD19oGjo6esmgANA.png"></p>
+<p>Reviewing some legacy code lately has given me a headache.</p>
+<p>The main issue is one massive function crammed with every piece of logic spread out flat inside it. I have to say, this is what I consider the worst kind of “code smell.”</p>
+<p>You might ask, “But this function works fine, so what’s wrong with it?”</p>
+<p>If it were a static function with no further iterations needed, that’d be fine. But if this function still requires iterations, or worse, isn’t even stable yet with a bunch of process bugs still needing fixing, then it’s absolutely terrible.</p>
+<p>Modifying the flow of a massive function is challenging, whether adding conditional checks or introducing new steps. First, developers must understand every existing process to grasp the context and make changes.</p>
+<p>After spending tremendous effort to understand the function and complete the modification, the next problem is how to test it.</p>
+<p>If it’s a massive function, I believe its unit tests are likely filled with various mocks. Once part of the logic is modified, the worst-case is that all unit tests fail. Moreover, these failures aren’t due to test scenario issues, but simply because the mocks no longer work.</p>
+<p>The book Refactoring also ranks Long Methods very high among code smells.</p>
+<p>To sum up, a massive function causes numerous problems. So, are there any effective approaches to mitigate this?</p>
+<h3 id="Abstraction"><a href="#Abstraction" class="headerlink" title="Abstraction"></a>Abstraction</h3><p>Software development is essentially a series of abstraction processes.</p>
+<p>Therefore, the most common approach to solving the Long Method problem is to encapsulate each process node into a sub-method. Through effective naming of these sub-methods, we can more easily understand the original complete workflow.</p>
+<p>Each sub-method also facilitates unit testing. By ensuring each sub-method functions correctly, the overall behavior remains correct as long as the flow is accurate.</p>
+<p>Abstracting a massive function resolves the first issue: maintainability. New team members can grasp the flow faster and continue development.</p>
+<p>However, sub-methods alone cannot solve every problem.</p>
+<p>For example, in the following example we break down a complex <code>handle_order</code> into a clear, step-by-step process, making it easy for anyone taking over to understand it.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def handle_order(order_data):   </span><br><span class="line">    ok = validateOrder(order_data)  </span><br><span class="line">    if not ok: raise ValidateException()  </span><br><span class="line">  </span><br><span class="line">    ok = processPayment(order_data)  </span><br><span class="line">    if not ok: raise ProcessException()  </span><br><span class="line">      </span><br><span class="line">    ok = sendNotification(order_data)  </span><br><span class="line">    if not ok: raise NotificationException()</span><br></pre></td></tr></table></figure>
+
+<p>Now, we want to add a new process, which is when the order amount exceeds 1000, we need to incorporate an approval step.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def handle_order(order_data):   </span><br><span class="line">    ok = validateOrder(order_data)  </span><br><span class="line">    if not ok: raise ValidateException()  </span><br><span class="line">  </span><br><span class="line">    ok = processPayment(order_data)  </span><br><span class="line">    if not ok: raise ProcessException()  </span><br><span class="line">      </span><br><span class="line">    if order_data[&#x27;amount&#x27;] &gt; 1000:  </span><br><span class="line">        ok = approval(order_data)  </span><br><span class="line">        if not ok: raise ApprovalException()  </span><br><span class="line">      </span><br><span class="line">    ok = sendNotification(order_data)  </span><br><span class="line">    if not ok: raise NotificationException()</span><br></pre></td></tr></table></figure>
+
+<p>Looks fine, right?</p>
+<p>My first thought is it looks a bit tricky to write tests for.</p>
+<p>Let’s write a classic Python test case to demonstrate the underlying logic behind testing.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">@patch(&#x27;orders.sendNotification&#x27;)  </span><br><span class="line">@patch(&#x27;orders.approval&#x27;)  </span><br><span class="line">@patch(&#x27;orders.processPayment&#x27;)  </span><br><span class="line">@patch(&#x27;orders.validateOrder&#x27;)  </span><br><span class="line">def test_approval_is_called_when_amount_is_high(self, mock_validate, mock_payment, mock_approval, mock_notification):  </span><br><span class="line">    # 1. Arrange  </span><br><span class="line">    mock_validate.return_value = True  </span><br><span class="line">    mock_payment.return_value = True  </span><br><span class="line">    mock_approval.return_value = True  </span><br><span class="line">    mock_notification.return_value = True  </span><br><span class="line">  </span><br><span class="line">    order_data = &#123;&#x27;amount&#x27;: 1500, &#x27;user_id&#x27;: &#x27;U123&#x27;&#125;  </span><br><span class="line">  </span><br><span class="line">    # 2. Act  </span><br><span class="line">    handle_order(order_data)  </span><br><span class="line">  </span><br><span class="line">    # 3. Assert  </span><br><span class="line">    mock_validate.assert_called_once()  </span><br><span class="line">    mock_payment.assert_called_once()  </span><br><span class="line">    mock_notification.assert_called_once()  </span><br><span class="line">      </span><br><span class="line">    # Core assert  </span><br><span class="line">    mock_approval.assert_called_once()</span><br></pre></td></tr></table></figure>
+
+<p>This test presents several challenges for me.</p>
+<ol>
+<li>An overwhelming number of mocks, making them extremely difficult to manage</li>
+<li>The use of <code>assert_called_once</code> to validate logic feels counterintuitive</li>
+<li>When if-else conditions multiply, such test cases become highly confusing.</li>
+</ol>
+<p>Therefore, simply extracting sub-methods is insufficient for achieving a high level of abstraction.</p>
+<h3 id="Where’s-the-problem"><a href="#Where’s-the-problem" class="headerlink" title="Where’s the problem?"></a>Where’s the problem?</h3><p>I believe most software development or refactoring actually stops at the previous step. Then layers upon layers get stacked between sub-methods, and eventually spaghetti code emerges.</p>
+<p>Because we haven’t achieved true abstraction.</p>
+<blockquote>
+<p><em>The purpose of abstraction is not to be vague, but to create a new semantic level in which one can be absolutely precise. — Edsger Dijkstra</em></p>
+</blockquote>
+<p>We only handled the syntax but not the semantics.</p>
+<p>If it were me, I would do it this way.</p>
+<p>First, we abstract these tasks to be executed into individual tasks.</p>
+<p>So we would have an abstract list (A, B, C, D), which is the ultimate expression of abstraction.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">commands = &#123;  </span><br><span class="line">    &#x27;A&#x27;: validateOrder,  </span><br><span class="line">    &#x27;B&#x27;: processPayment,  </span><br><span class="line">    &#x27;C&#x27;: approval,  </span><br><span class="line">    &#x27;D&#x27;: sendNotification,  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>We’ve transformed the entire handle order process into the following two types.</p>
+<ol>
+<li>A -&gt; B -&gt; D</li>
+<li>A -&gt; B -&gt; C -&gt; D</li>
+</ol>
+<p>This essentially forms a directed acyclic graph (DAG).</p>
+<p>Consequently, our subsequent tasks involve DAG operations, where any workflow modification simply adds a node or an edge. Our validation no longer needs to focus on what each node does; we only need to verify that the DAG matches our expectations.</p>
+<p>In other words, we are comparing whether <code>assert(workflow == “A -&gt; B -&gt; C -&gt; D”)</code> holds true under specific conditions.</p>
+<h3 id="Command-Design-Pattern"><a href="#Command-Design-Pattern" class="headerlink" title="Command Design Pattern"></a>Command Design Pattern</h3><p>We have now abstracted the process into a DAG, but this is still insufficient.</p>
+<p>For each node, its interface is not standardized, so we cannot treat all nodes equally. Therefore, we need to introduce a common interface for these nodes. In design patterns, there is one that fits this scenario perfectly, called Command.</p>
+<p>Since these nodes are essentially operations, using Command also satisfies the semantic requirements.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class OrderProcessingReceiver:  </span><br><span class="line">    def validate_order(self, context): print(&quot;Step A: validate order&quot;)  </span><br><span class="line">    def process_payment(self, context): print(&quot;Step B: process payment&quot;)  </span><br><span class="line">    def manual_approval(self, context): print(&quot;Step C: approval&quot;)  </span><br><span class="line">    def send_notification(self, context): print(&quot;Step D: send notification&quot;)  </span><br><span class="line">  </span><br><span class="line">class Command(ABC):  </span><br><span class="line">    def __init__(self, receiver): self._receiver = receiver  </span><br><span class="line">      </span><br><span class="line">    @abstractmethod  </span><br><span class="line">    def execute(self, context): pass  </span><br><span class="line">  </span><br><span class="line">class ValidateOrderCommand(Command):  </span><br><span class="line">    def execute(self, context): self._receiver.validate_order(context)  </span><br><span class="line">      </span><br><span class="line">class ProcessPaymentCommand(Command):  </span><br><span class="line">    def execute(self, context): self._receiver.process_payment(context)  </span><br><span class="line">      </span><br><span class="line">class ManualApprovalCommand(Command):  </span><br><span class="line">    def execute(self, context): self._receiver.manual_approval(context)  </span><br><span class="line">      </span><br><span class="line">class SendNotificationCommand(Command):  </span><br><span class="line">    def execute(self, context): self._receiver.send_notification(context)</span><br></pre></td></tr></table></figure>
+
+<p>We consolidated all logic under a single class, <code>OrderProcessingReceiver</code>, to prevent workflow logic from being scattered across multiple locations.</p>
+<p>Next, we defined the standard Command interface method <code>execute</code>. With this Command, we can create the operation classes for the four nodes on the DAG, which will later be converted into nodes A, B, C, and D.</p>
+<h3 id="DAG-Builder"><a href="#DAG-Builder" class="headerlink" title="DAG Builder"></a>DAG Builder</h3><p>Once we have our operations, we proceed to create the DAG.</p>
+<p>First, we need methods to create nodes and edges. In fact, Python 3.9 and later includes a built-in library <code>graphlib</code> that already handles this. We don’t need to reinvent the wheel ourselves.</p>
+<p>However, the data structures used by <code>graphlib</code> are a bit ugly, and I’m not particularly comfortable with them.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph = &#123;  </span><br><span class="line">    &#x27;A&#x27;: set(),  </span><br><span class="line">    &#x27;B&#x27;: &#123;&#x27;A&#x27;&#125;,  </span><br><span class="line">    &#x27;C&#x27;: &#123;&#x27;B&#x27;&#125;,  </span><br><span class="line">    &#x27;D&#x27;: &#123;&#x27;C&#x27;&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The DAG generated by the graph above would be A -&gt; B -&gt; C -&gt; D. However, you may notice that this definition reverses the order of the DAG, which I personally find counterintuitive. Therefore, I referenced <a target="_blank" rel="noopener" href="https://airflow.apache.org/">Airflow</a>’s notation and made some modifications.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class DAGBuilder:  </span><br><span class="line">    def __init__(self):   </span><br><span class="line">        self.graph, self._nodes = &#123;&#125;, &#123;&#125;  </span><br><span class="line">      </span><br><span class="line">    def task(self, name):  </span><br><span class="line">        if name not in self._nodes:  </span><br><span class="line">            self.graph.setdefault(name, set())  </span><br><span class="line">            self._nodes[name] = self._Node(self, name)  </span><br><span class="line">        return self._nodes[name]  </span><br><span class="line">      </span><br><span class="line">    def build(self):   </span><br><span class="line">        return self.graph  </span><br><span class="line">      </span><br><span class="line">    class _Node:  </span><br><span class="line">        def __init__(self, builder, name):   </span><br><span class="line">            self.builder, self.name = builder, name  </span><br><span class="line">              </span><br><span class="line">        def __rshift__(self, other):  </span><br><span class="line">            self.builder.graph[other.name].add(self.name)  </span><br><span class="line">            return other</span><br></pre></td></tr></table></figure>
+
+<p>Within the node, I overrode <code>__rshift__</code>. This is purely to make the edges in the entire DAG resemble Airflow’s style. Using it is essentially syntactic sugar.</p>
+<p>By combining our original example with this <code>DAGBuilder</code>, we can now implement a workflow that generates a DAG.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">def create_workflow_blueprint(order_data: dict) -&gt; dict:  </span><br><span class="line">    builder = DAGBuilder()  </span><br><span class="line">    task_a = builder.task(&#x27;A&#x27;)  </span><br><span class="line">    task_b = builder.task(&#x27;B&#x27;)  </span><br><span class="line">    task_c = builder.task(&#x27;C&#x27;)  </span><br><span class="line">    task_d = builder.task(&#x27;D&#x27;)  </span><br><span class="line">  </span><br><span class="line">    task_a &gt;&gt; task_b  </span><br><span class="line">    if order_data[&#x27;amount&#x27;] &gt; 1000:  </span><br><span class="line">        task_b &gt;&gt; task_c  </span><br><span class="line">        task_c &gt;&gt; task_d  </span><br><span class="line">    else:  </span><br><span class="line">        task_b &gt;&gt; task_d  </span><br><span class="line">          </span><br><span class="line">    return builder.build()</span><br></pre></td></tr></table></figure>
+
+<p>At this point, we can abstract the entire process into a unified notation. But we need to execute this workflow, right?</p>
+<p>So let’s continue.</p>
+<h3 id="DAG-Runner"><a href="#DAG-Runner" class="headerlink" title="DAG Runner"></a>DAG Runner</h3><p>We have previously performed numerous abstractions.</p>
+<ol>
+<li>Abstracting the workflow into a DAG</li>
+<li>Abstracting operations into Commands</li>
+</ol>
+<p>Now, we will combine these two to transform this DAG into an executable sequence of Commands.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from graphlib import TopologicalSorter  </span><br><span class="line">  </span><br><span class="line">class DAGRunner:  </span><br><span class="line">    def __init__(self, graph_definition, commands):  </span><br><span class="line">        self.ts = TopologicalSorter(graph_definition)  </span><br><span class="line">        self.commands = commands  </span><br><span class="line">          </span><br><span class="line">    def run(self):  </span><br><span class="line">        context = &#123;&#125;  </span><br><span class="line">        self.ts.prepare()  </span><br><span class="line">        for task_name in self.ts.static_order():  </span><br><span class="line">            self.commands[task_name].execute(context)  </span><br><span class="line">        return context</span><br></pre></td></tr></table></figure>
+
+<p>This runner doesn’t do anything special. It simply takes the DAG we just generated and our defined commands, feeds them in, and executes them in order using the <code>TopologicalSorter</code>.</p>
+<p>The <code>TopologicalSorter</code> correctly extracts the node that should be executed at any given moment based on the DAG’s content, then finds the corresponding operation in the command list and executes it.</p>
+<p>Finally, let’s see what <code>handle_order</code> will look like.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def handle_order(order_data):  </span><br><span class="line">    graph_def = create_workflow_blueprint(order_data)  </span><br><span class="line">      </span><br><span class="line">    receiver = OrderProcessingReceiver()  </span><br><span class="line">    commands = &#123;  </span><br><span class="line">        &#x27;A&#x27;: ValidateOrderCommand(receiver),  </span><br><span class="line">        &#x27;B&#x27;: ProcessPaymentCommand(receiver),  </span><br><span class="line">        &#x27;C&#x27;: ManualApprovalCommand(receiver),   </span><br><span class="line">        &#x27;D&#x27;: SendNotificationCommand(receiver),  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    runner = DAGRunner(graph_def, commands)  </span><br><span class="line">    runner.run()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>From the final <code>handle_order</code> method, we can see that when abstraction is taken to its extreme, the main program contains no “impurities.” All workflow logic is defined in <code>create_workflow_blueprint</code>, while all operations reside in <code>OrderProcessingReceiver</code>.</p>
+<p>When writing tests, unit tests only need to focus on the internal implementation of each Command, ensuring each Command is correct. Integration tests become even simpler, requiring only verification that <code>create_workflow_blueprint</code> produces the expected DAG.</p>
+<p>For example.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">def test_blueprint_for_high_value_order():  </span><br><span class="line">    # Arrange  </span><br><span class="line">    high_value_order = &#123;&#x27;amount&#x27;: 1500, &#x27;customer_id&#x27;: &#x27;vip-001&#x27;&#125;  </span><br><span class="line">      </span><br><span class="line">    expected_blueprint = &#123;  </span><br><span class="line">        &#x27;A&#x27;: set(),  </span><br><span class="line">        &#x27;B&#x27;: &#123;&#x27;A&#x27;&#125;,  </span><br><span class="line">        &#x27;C&#x27;: &#123;&#x27;B&#x27;&#125;,  </span><br><span class="line">        &#x27;D&#x27;: &#123;&#x27;C&#x27;&#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    # Act  </span><br><span class="line">    actual_blueprint = create_workflow_blueprint(high_value_order)  </span><br><span class="line">      </span><br><span class="line">    # Assert  </span><br><span class="line">    assert actual_blueprint == expected_blueprint</span><br></pre></td></tr></table></figure>
+
+<p>Compared to our initial test full of mock objects, this test is straightforward and easy to understand, and it’s also easier to maintain. That’s the power of abstraction.</p>
+<p>Besides making the process easier to understand and tests easier to write, what other benefits does this kind of abstraction offer?</p>
+<p>Of course it does, and plenty of them.</p>
+<p>When we abstract each operation, all operations become equivalent to the <code>DAGRunner</code>. This allows us to add more functionality to the <code>DAGRunner</code>. For example, we can make each operation retry-capable. Without this abstraction layer, adding retry functionality would require modifying every sub-method individually.</p>
+<p>Moreover, we can even implement rollback using the Command pattern. If you’re familiar with the Command pattern, you’ll notice that besides the required <code>execute</code> interface, we can also introduce a <code>redo</code> method. This allows <code>DAGRunner</code> to perform a sequential rollback after a Command fails.</p>
+<p>Furthermore, we can introduce additional parallel processing. Let’s use the following DAG as an example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*D7MHu7huriH_BBP-kYjgTQ.png"></p>
+<p>After task A completes, tasks B and C can run concurrently until both finish, at which point task D is processed. This mechanism can also be implemented within <code>DAGRunner</code>.</p>
+<p>Since today’s article is already quite large, I can save these follow-up points for the next article if needed.</p>
+<p>Let’s call it a day.</p>
+<h3 id="A-message-from-our-Founder"><a href="#A-message-from-our-Founder" class="headerlink" title="A message from our Founder"></a>A message from our Founder</h3><p><strong>Hey,</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>Sunil</strong></a> <strong>here.</strong> I wanted to take a moment to thank you for reading until the end and for being a part of this community.</p>
+<p>Did you know that our team run these publications as a volunteer effort to over 3.5m monthly readers? <strong>We don’t receive any funding, we do this to support the community. ❤️</strong></p>
+<p>If you want to show some love, please take a moment to <strong>follow me on</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>LinkedIn</strong></a><strong>,</strong> <a target="_blank" rel="noopener" href="https://tiktok.com/@messyfounder"><strong>TikTok</strong></a>, <a target="_blank" rel="noopener" href="https://instagram.com/sunilsandhu"><strong>Instagram</strong></a>. You can also subscribe to our <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>weekly newsletter</strong></a>.</p>
+<p>And before you go, don’t forget to <strong>clap</strong> and <strong>follow</strong> the writer️!</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/refactor-long-method-with-a-lightweight-dag-d5fda0ae2f04">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Testing/Boost-Microservice-Testing-with-DNS-Hijack/20250914/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Testing/Boost-Microservice-Testing-with-DNS-Hijack/20250914/" class="post-title-link" itemprop="url">Boost Microservice Testing with DNS Hijack</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-09-15 00:43:55" itemprop="dateCreated datePublished" datetime="2025-09-15T00:43:55+08:00">2025-09-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Testing/" itemprop="url" rel="index"><span itemprop="name">Testing</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Boost-Microservice-Testing-with-DNS-Hijack"><a href="#Boost-Microservice-Testing-with-DNS-Hijack" class="headerlink" title="Boost Microservice Testing with DNS Hijack"></a>Boost Microservice Testing with DNS Hijack</h3><h4 id="Use-DNS-spoofing-to-create-mock-services-for-easier-local-integration-tests"><a href="#Use-DNS-spoofing-to-create-mock-services-for-easier-local-integration-tests" class="headerlink" title="Use DNS spoofing to create mock services for easier local integration tests"></a>Use DNS spoofing to create mock services for easier local integration tests</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*WF64EocB0XZdwP69aEugBQ.png"></p>
+<p>When developing and testing microservices, we often encounter a common challenge, that is, the functionality of microservices heavily relies on external services. This makes it difficult to conduct functional testing in a closed environment or even a local environment.</p>
+<p>Here is a classic example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uK9V8bl-0uGQeF70tx9S7A.png"></p>
+<p>This microservice has numerous dependencies, some being internal databases and others external web services. When doing integration testing, especially when running locally, we encounter a serious problem, most tests either fail or become difficult to execute.</p>
+<p>There are several common challenging scenarios.</p>
+<ol>
+<li>HTTP requests time out because the external service is unavailable, causing subsequent calls to fail.</li>
+<li>HTTP requests are processed correctly without timeouts, but return unexpected results, such as a 404 Not Found error.</li>
+<li>HTTP requests are received by the corresponding service but cause side effects.</li>
+</ol>
+<p>This scenario makes development and testing extremely difficult. Without a real environment to validate the correctness of our own services, the entire correctness is constrained by those external dependencies.</p>
+<p>Is there a solution?</p>
+<p>Well, we can use DNS Hijack.</p>
+<h3 id="DNS-Hijack"><a href="#DNS-Hijack" class="headerlink" title="DNS Hijack"></a>DNS Hijack</h3><p>DNS Hijack is a common cyberattack that redirects our network connections to unexpected destinations, potentially causing harm.</p>
+<p>The most classic example occurs when using public Wi-Fi, where the DNS server is hijacked to a malicious DNS. When you visit specific websites, your connection is redirected to phishing sites. This leads you to unknowingly enter your credentials, resulting in credential leakage.</p>
+<p>However, DNS Hijack can also be a highly useful tool, particularly during integration testing in development environments, where it significantly boosts development and testing efficiency.</p>
+<p>Let’s continue using the example above to illustrate.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_ciaNQC_pGnM69z8deJx2w.png"></p>
+<p>For the microservices we’re developing, it remains completely unaware. Everything proceeds as usual, continuing to request services A, B, and C. However, these services have actually been hijacked and redirected to a mock service.</p>
+<p>This mock service is highly customizable, capable of consistently returning a 200 OK status or even generating different responses based on the service path and payload.</p>
+<p>As a result, microservices can complete various integration tests without being interfered with or even noticing any changes.</p>
+<h3 id="How-to"><a href="#How-to" class="headerlink" title="How-to"></a>How-to</h3><p>To implement this functionality, two core components are required. One is a DNS server capable of performing spoofing, and the other is a mock service that can handle various requests.</p>
+<blockquote>
+<p><em>I am not teaching you how to perform DNS hijacking. Please exercise caution when deciding where to use this.</em></p>
+</blockquote>
+<p>The final solution is available in this GitHub Repo.</p>
+<p>Let’s quickly understand this project.</p>
+<p>It has three <a target="_blank" rel="noopener" href="https://github.com/wirelessr/dep-hijack-mock/blob/main/docker-compose.yml">components</a>.</p>
+<ol>
+<li>The <code>app</code> plays the role of the original service. It demonstrates a non-intrusive implementation, so the <code>app</code> can be replaced with any service.</li>
+<li><code>dns-proxy</code> is the project’s core component. It redirects all “unknown” hosts to <code>mock-server</code>. The emphasis on “unknown” is crucial because, in microservice integration testing scenarios, we still need microservices to correctly access databases and other essential dependencies.</li>
+<li><code>mock-server</code> is another core component. It responds with a 200 OK to “any” HTTP request. The emphasis on “any” means it can handle requests regardless of the port.</li>
+</ol>
+<p>The entire process is straightforward. The app first sends a hostname query to the DNS proxy to obtain the IP address. Since this is merely a proxy, the DNS proxy then queries the actual DNS server for the IP.</p>
+<p>If the DNS server recognizes the hostname, it returns the real IP address; otherwise, the query fails. When the DNS proxy fails to obtain the IP, it returns the IP address of the mock server to the app.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*5TNYmwh8ojr3Cn0NljrOJg.png"></p>
+<p>Although it’s non-intrusive for the app, we did make a minor modification to it. However, this change is at the infrastructure layer, not at the code level.</p>
+<p>The key to achieving DNS hijacking lies in manually specifying the app’s DNS server and configuring it as a DNS proxy. Details can be found in the <code>docker-compose.yml</code> file.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">app:  </span><br><span class="line">  image: nginx:alpine  # Placeholder - will be replaced with actual application image  </span><br><span class="line">  container_name: dns-hijack-app  </span><br><span class="line">  networks:  </span><br><span class="line">    dns-hijack-net:  </span><br><span class="line">      ipv4_address: 172.19.0.10  </span><br><span class="line">  dns:  </span><br><span class="line">    - 172.19.0.20  # Use DNS proxy as primary DNS server</span><br></pre></td></tr></table></figure>
+
+<p>When using public Wi-Fi, this DNS server is assigned by the DHCP server, which is precisely why public Wi-Fi poses such risks.</p>
+<p>The process above details how a DNS proxy operates. Now let’s examine the mock server.</p>
+<p>The mock server functions relatively simply, it’s essentially a basic HTTP server that always returns a 200 OK response. Despite this, its core functionality lies in the <a target="_blank" rel="noopener" href="https://github.com/wirelessr/dep-hijack-mock/blob/main/mock-server/start-with-port-forwarding.sh">startup script</a>. Within this script, we use a series of <code>iptables</code> <code>nat</code> rules to redirect any destination port to port 8080, which the mock server is listening on.</p>
+<p>This enables the mock server to handle any destination. In other words, when the application initiates requests to external services, whether <code>abc.test:1234</code> or <code>def.svc:5678</code>, they ultimately reach port 8080 on the mock server.</p>
+<h3 id="Integration-Details"><a href="#Integration-Details" class="headerlink" title="Integration Details"></a>Integration Details</h3><p>Since we’re using a DNS proxy without overriding the original DNS server, the network access that was originally available to the app remains completely unaffected.</p>
+<p>I tested numerous target combinations in my end-to-end tests, including hosts within the VPN (<code>internal-db.company.example</code>). If you run the e2e tests directly, they will likely fail. The primary reason is that if your network segment cannot access <code>internal-db.company.example</code>, requests will be redirected to the mock server, which is inconsistent with my test assertions.</p>
+<p>Therefore, you can modify the e2e validation conditions to better align with your use case.</p>
+<p>Additionally, while I mentioned in <a target="_blank" rel="noopener" href="http://readme.md/">README.md</a> that swapping the app image allows testing any service, sometimes we already have a complex Docker Compose script where such changes are difficult. That’s okay, as there’s an even simpler approach.</p>
+<p>Simply add <code>include</code> to the original microservice’s test script and manually configure <code>dns</code> and <code>networks</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">include:  </span><br><span class="line">  - &lt;dep-hijack-mock folder&gt;/docker-compose.yml  </span><br><span class="line">  </span><br><span class="line">services:  </span><br><span class="line">  orig_svc:  </span><br><span class="line">    image: orig_image  </span><br><span class="line">    networks:  </span><br><span class="line">      dns-hijack-net:  </span><br><span class="line">        ipv4_address: 172.19.0.25  </span><br><span class="line">    dns:  </span><br><span class="line">      - 172.19.0.20</span><br></pre></td></tr></table></figure>
+
+<p>If the service was originally running on a VM or physical machine, it’s straightforward, just edit <code>/etc/resolv.conf</code>. Essentially, you need to specify the DNS server to point to the DNS proxy.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Although this article explains DNS Hijack, our use case is development and testing within our local environment. Within our controllable scope, redirecting DNS to our required mock server is the fastest and most effective approach.</p>
+<p>In this project, it’s evident that the mock server I’m using currently has minimal functionality. It simply responds with a 200 OK to all requests. However, we can expand the mock server’s capabilities to better suit integration testing scenarios.</p>
+<p>For example, when the app expects <code>/v1/user/info</code> to return JSON data containing a test user, we can configure the mock server to customize responses based on this path. This depends entirely on what we aim to validate in integration testing and which workflows we wish to replicate.</p>
+<p>Any cyberattack is essentially a double-edged sword. On one hand, we need to understand its underlying principles to avoid being compromised. On the other hand, we can leverage its mechanisms to achieve remarkable results.</p>
+<p>I hope this project brings some fresh insights.</p>
+<h3 id="A-message-from-our-Founder"><a href="#A-message-from-our-Founder" class="headerlink" title="A message from our Founder"></a>A message from our Founder</h3><p><strong>Hey,</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>Sunil</strong></a> <strong>here.</strong> I wanted to take a moment to thank you for reading until the end and for being a part of this community.</p>
+<p>Did you know that our team run these publications as a volunteer effort to over 3.5m monthly readers? <strong>We don’t receive any funding, we do this to support the community. ❤️</strong></p>
+<p>If you want to show some love, please take a moment to <strong>follow me on</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>LinkedIn</strong></a><strong>,</strong> <a target="_blank" rel="noopener" href="https://tiktok.com/@messyfounder"><strong>TikTok</strong></a>, <a target="_blank" rel="noopener" href="https://instagram.com/sunilsandhu"><strong>Instagram</strong></a>. You can also subscribe to our <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>weekly newsletter</strong></a>.</p>
+<p>And before you go, don’t forget to <strong>clap</strong> and <strong>follow</strong> the writer️!</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/boost-microservice-testing-with-dns-hijack-61d655748e92">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Kiro-Workflow-for-Copilot-Claude-More/20250907/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/Kiro-Workflow-for-Copilot-Claude-More/20250907/" class="post-title-link" itemprop="url">Kiro Workflow for Copilot, Claude & More</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-09-08 01:16:04" itemprop="dateCreated datePublished" datetime="2025-09-08T01:16:04+08:00">2025-09-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Kiro-Workflow-for-Copilot-Claude-More"><a href="#Kiro-Workflow-for-Copilot-Claude-More" class="headerlink" title="Kiro Workflow for Copilot, Claude &amp; More"></a>Kiro Workflow for Copilot, Claude &amp; More</h3><h4 id="Implement-spec-driven-development-for-AI-agents-like-Copilot-Claude-and-more"><a href="#Implement-spec-driven-development-for-AI-agents-like-Copilot-Claude-and-more" class="headerlink" title="Implement spec-driven development for AI agents like Copilot, Claude, and more"></a>Implement spec-driven development for AI agents like Copilot, Claude, and more</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*rUoga17Uf0eF6_BN8EyKEg.png"></p>
+<p>Last week we introduced how an agent <a target="_blank" rel="noopener" href="https://medium.com/stackademic/ai-agents-for-complex-codebase-analysis-eef748fe6dfd">understands a codebase</a> and built an actual <a target="_blank" rel="noopener" href="https://github.com/wirelessr/codebase-analyzer-agent">codebase agent</a> to demonstrate the underlying mechanism.</p>
+<p>During this process, we highlighted some current limitations of Kiro. For instance, even with a detailed <code>design.md</code> file, Kiro frequently deviates from the plan during execution, producing results that diverge significantly from the intended design.</p>
+<p>The root cause lies in Kiro’s execution process, where it uses <code>design.md</code> as context but fails to fully read the entire file. This issue becomes particularly serious when steering content is extensive, as the agent tends to protect its context window. Consequently, it may only read the first few lines of a file and consider it fully processed.</p>
+<p>This means when Kiro executes plans, we still need to constantly remind it to deviate from the design. Not only does this waste a lot of vibe request quotas, but it also lowers overall development efficiency. After all, we need to review every detail more carefully.</p>
+<p>The problem is that Kiro is a closed-source product, so we can’t fine-tune its prompts. We’re left watching this cycle repeat over and over. So I wondered if there’s a way to use prompts to make tools like Copilot or Claude Code perform Kiro-like workflows while still allowing adjustment of each execution detail.</p>
+<p>After actually trying it out, it turns out to work.</p>
+<p>Although this project is written in Copilot’s format, it can be applied to any agent, including Claude Code. However, since I’m using Copilot, I’ll demonstrate using its actual workflow.</p>
+<p>Installation is straightforward, simply place these prompt files in the project directory or a global prompts folder to use them directly in Copilot’s chat window.</p>
+<p>All prompt files are thoroughly explained in the <code>README.md</code>. This article will focus on how to use them.</p>
+<h3 id="Copilot-Spec-driven-Development"><a href="#Copilot-Spec-driven-Development" class="headerlink" title="Copilot Spec-driven Development"></a>Copilot Spec-driven Development</h3><p>At first, just like Kiro’s spec mode, we need to ask Copilot to create a spec directory and convert our requirements into an EARS specification document.</p>
+<blockquote>
+<p><code>/createSpec</code> <em>I want to build a web service with OAuth authentication, integrating Google OAuth and requiring a database to store user information.</em></p>
+</blockquote>
+<p>By running the <code>/createSpec</code> command with these requirements, the Agent begins preparing the <code>requirements.md</code> file. If there are materials under <code>.kiro/steering</code> that provide behavioral guidelines for the Agent, it will also reference those contents.</p>
+<p>Throughout the requirements creation process, we can continuously interact with the Agent to refine the details of the entire requirements document.</p>
+<p>Here’s an interesting observation, I’ve noticed Kiro tends to over-engineer things, adding some obsessive details. So I used system instructions to make our Agent more pragmatic like Linus Torvalds, adhering to the KISS (Keep It Simple, Stupid) principle.</p>
+<p>Once we have the <code>requirements.md</code> file, we move on to the design phase.</p>
+<blockquote>
+<p><code>/design</code> <em>I approve the requirements document. Let’s begin the design phase.</em></p>
+</blockquote>
+<p>The design phase requires no prompting, as demonstrated by Kiro. We only need to approve <code>requirements.md</code>, after which the Agent will autonomously initiate the design process. Of course, the Agent will still reference steering documents for design guidance, and we can continue to fine-tune the process throughout.</p>
+<p>Upon completing the design, the Agent will generate the corresponding <code>design.md</code> file, enabling us to proceed to the next step, the planning phase.</p>
+<blockquote>
+<p><code>/createTask</code> <em>I approve the design document. Let’s begin planning.</em></p>
+</blockquote>
+<p>Here, explicit approval is still required; otherwise, the Agent will not proceed.</p>
+<p>After this phase is complete, we will have the three most critical specifications: <code>requirements.md</code>, <code>design.md</code>, and <code>tasks.md</code>. Interestingly, these outputs follow Kiro’s rules exactly. Therefore, switching back to Kiro to execute tasks from this stage is no problem at all.</p>
+<p>After approving <code>tasks.md</code>, the final step is to enter the execution phase.</p>
+<blockquote>
+<p><code>/executeTask</code> <em>task1</em></p>
+</blockquote>
+<p>You can explicitly specify which task to start with, or omit the task number altogether. In that case, the Agent will attempt to begin with the first uncompleted task.</p>
+<p>This workflow finishes once the entire <code>tasks.md</code> file is marked as complete. We can see this is basically identical to Kiro’s process.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>In these prompts, I explicitly state that all documents must be thoroughly reviewed before proceeding. However, the preceding steps don’t need to be so meticulous, as humans will collaborate with the Agent to co-create those specification documents.</p>
+<p>However, <code>/executeTask</code> operates in headless execution mode, so we absolutely must ensure the Agent understands its purpose. Therefore, within the <code>executeTask</code> prompt, I not only require it to thoroughly review all files but also demand it summarize each one. Only by asking for summaries can we enforce sufficient rigor to ensure the Agent genuinely reads everything carefully.</p>
+<p>This insight emerged during my implementation of the codebase agent. The greatest advantage of this workflow is that we can achieve results comparable to Kiro, or even better. Using tools we’re familiar with (and have paid for), we can customize prompts to meet specific needs. Just as I required the agent to thoroughly read files, there’s lots of room for adjustment, allowing us to fully unleash our creativity.</p>
+<p>If you have any good ideas, feel free to contribute to my project. Currently, I’ve tailored the prompts based on my own habits and needs, but you might have even more insights to share.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/kiro-workflow-for-copilot-claude-more-5fce620ab52b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/AI-Agents-for-Complex-Codebase-Analysis/20250831/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/AI-Agents-for-Complex-Codebase-Analysis/20250831/" class="post-title-link" itemprop="url">AI Agents for Complex Codebase Analysis</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-09-01 01:11:07" itemprop="dateCreated datePublished" datetime="2025-09-01T01:11:07+08:00">2025-09-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="AI-Agents-for-Complex-Codebase-Analysis"><a href="#AI-Agents-for-Complex-Codebase-Analysis" class="headerlink" title="AI Agents for Complex Codebase Analysis"></a>AI Agents for Complex Codebase Analysis</h3><h4 id="Discover-a-novel-dual-agent-method-for-accurate-and-deep-codebase-understanding"><a href="#Discover-a-novel-dual-agent-method-for-accurate-and-deep-codebase-understanding" class="headerlink" title="Discover a novel dual-agent method for accurate and deep codebase understanding"></a>Discover a novel dual-agent method for accurate and deep codebase understanding</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*KH9mjV0vImltD_hrAEWqAw.png"></p>
+<p>Vibe coding has become a major trend lately, with many KOLs claiming they can create and monetize products despite lacking programming skills. Well, I generally respect this approach, since vibe coding excels at greenfield projects, meaning building something from scratch.</p>
+<p>As long as the project isn’t overly complex and the requirements are clear, mainstream LLM models can generate decent-quality applications.</p>
+<p>However, the real challenge for vibe coding emerges with brownfield projects, where you don’t start from scratch. Instead, you must first establish foundational knowledge and then iterate upon that understanding. This is where vibe coding faces significant difficulties.</p>
+<p>This challenge comes from many areas, but the core issue lies in how to comprehend the existing massive codebase.</p>
+<p>Therefore, I conducted my own experiments to observe the thought processes of AI agents and attempted to understand their limitations. On one hand, gaining deeper insight into their operations enables more effective utilization. On the other hand, this exploratory journey itself can yield fresh insights.</p>
+<p>I’ll try to describe the evolution of this project in a relatively straightforward way, which might also show you how those vibe coding tools work behind the scenes.</p>
+<h3 id="The-first-step-and-the-most-crucial-one-is-recognition"><a href="#The-first-step-and-the-most-crucial-one-is-recognition" class="headerlink" title="The first step, and the most crucial one, is recognition."></a>The first step, and the most crucial one, is recognition.</h3><p>In order to let the agent understand the codebase, we first need to know a few things.</p>
+<ol>
+<li>Each LLM call is static, so the agent must be able to decide what to do next based on the results of the previous call.</li>
+<li>As an LLM is a large language model, we must empower it to use tools — whether through the LLM’s built-in function tooling capabilities or by having the LLM generate plans executed by code.</li>
+<li>Since understanding the codebase inevitably requires multiple LLM calls, we must establish strategies, such as where to start and what actions to take. The LLM must also recognize the need to prepare for subsequent rounds.</li>
+<li>Multi-round interactions inherently require termination conditions. These conditions must strike a balance between sufficient generalization and maintaining domain expertise. Generalization prevents exhaustive scenario coverage, while expertise ensures reliable outcomes regardless of context.</li>
+<li>Most importantly, the context window size is finite. We cannot overload it with excessive information at once.</li>
+</ol>
+<h3 id="Step-2-Establish-an-analyzer"><a href="#Step-2-Establish-an-analyzer" class="headerlink" title="Step 2: Establish an analyzer"></a>Step 2: Establish an analyzer</h3><p>With the above understanding, we can proceed to design this agent.</p>
+<p>First, we need an analyzer capable of utilizing tools and sustaining multi-round conversations. Additionally, it must incorporate a self-assessment mechanism.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uT2s6tvr2Ti6eYvyPdesSw.png"></p>
+<p>Thus, an agent capable of invoking tools and conducting multi-round conversations is complete.</p>
+<p>But this raises a problem: when an agent reviews its own generated reports, might it fall into a state of self-satisfaction? Perhaps it finds the report perfectly satisfactory, yet others actually consider it worthless.</p>
+<p>Yes, absolutely.</p>
+<p>There are several key reasons.</p>
+<ol>
+<li>Simply teaching an agent to use tools is already difficult.</li>
+<li>Beyond tool usage, teaching an agent to analyze strategies is even more challenging.</li>
+<li>It also requires informing the agent of a reasonable stopping condition.</li>
+</ol>
+<p>From the above description, we can see that an agent is tasked with too many responsibilities, leaving it unable to ensure report quality. After all, the quality of a report depends on numerous factors, not merely reviewing the codebase once, but also systematically gathering and organizing the necessary information related to user queries.</p>
+<p>Simply put, understanding user intent itself requires a dedicated professional to handle.</p>
+<h3 id="Step-3-Establish-a-gatekeeper"><a href="#Step-3-Establish-a-gatekeeper" class="headerlink" title="Step 3: Establish a gatekeeper"></a>Step 3: Establish a gatekeeper</h3><p>Therefore, we need an external authority to oversee the quality of the entire output.</p>
+<p>This authority doesn’t need to use tools or even look at the code. Their role is simply to act as a demanding and nitpicky senior engineer aka a specialist. They possess the expertise of a professional engineer, so they know what’s essential and what’s meaningless.</p>
+<p>Through this specialist, we can validate the analyzer’s output, and the specialist will also guide the analyzer on how to proceed more effectively. In other words, the specialist must understand user intent and enrich user queries.</p>
+<p>This dual-agent design offers significant scalability because both agents have a single, focused responsibility, resulting in a single, unified interface.</p>
+<ul>
+<li>Analyzer’s interface involves receiving a query and attempting to locate corresponding information across the entire codebase to fulfill that query.</li>
+<li>Specialist’s interface involves receiving a query and a report, then defining the report’s value.</li>
+</ul>
+<p>Now, by simply combining these two agents, we can accomplish the challenging task of understanding the codebase.</p>
+<h3 id="Project-Architecture"><a href="#Project-Architecture" class="headerlink" title="Project Architecture"></a>Project Architecture</h3><p>The entire project architecture consists of only three core components.</p>
+<ul>
+<li>Code Analyzer: This is the primary agent responsible for executing analysis tasks. It adeptly invokes various shell commands to accomplish its duties. Most importantly, it possesses the ability to continuously explore. It begins by establishing broad strategies and gradually drills down to the core of the problem, relying on its own iterative process.</li>
+<li>Task Specialist: Where there’s somebody working, there must be somebody verifying. Specialist is responsible for validating the analyzer’s results. If the analysis quality is insufficient, it will be rejected and sent back for rework.</li>
+<li>Agent Manager: This role coordinates the entire analyzer and specialist system. It guides the analyzer through its tasks and passes results to the specialist. However, it also enforces termination conditions to prevent the specialist from operating indefinitely.</li>
+</ul>
+<p>The entire architecture’s workflow is illustrated in the following flowchart.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*gAKNso0945dR-paF14D-3w.png"></p>
+<p>From this diagram, we can observe two distinct cycles.</p>
+<p>The first is the analyzer’s self-iteration process. It initiates multiple rounds of conversations, with each subsequent round building upon the previous one to explore unknown areas. This continues until the analyzer’s self-checking mechanism determines the results meet the criteria. Since these criteria are not overly stringent, the analyzer operates autonomously.</p>
+<p>The second review, however, is significantly more rigorous, as a specialist engineer examines the report’s quality in detail. If the report is poor, it gets sent back for rewriting, but the specialist will specify what additional content is needed.</p>
+<p>This process ensures the final report is perfect. Right?</p>
+<h3 id="Prompt-Engineering"><a href="#Prompt-Engineering" class="headerlink" title="Prompt Engineering"></a>Prompt Engineering</h3><p>All the concepts above are correct, and the workflow is fine. But even for such a single-purpose agent, I spent a lot of time tweaking their prompts to make them look like ordinary people.</p>
+<p>Yes, ordinary people — far from professionals.</p>
+<p>Let me break down the system prompts for this project to understand their respective requirements.</p>
+<h3 id="Code-Analyzer-Prompts"><a href="#Code-Analyzer-Prompts" class="headerlink" title="Code Analyzer Prompts"></a>Code Analyzer Prompts</h3><p>The Analyzer prompt has several key points.</p>
+<ol>
+<li>Key findings: This is the core mechanism for multi-round self-iteration. Each round collaboratively maintains this knowledge base, ensuring the process stays on track throughout iteration.</li>
+<li>Teach the analyzer the multi-round iteration process and how to pass information between rounds.</li>
+<li>The iteration strategy should start with broad classification of project type and language, then identify corresponding classes, methods, and imports for each language.</li>
+<li>Tool usage requires clear guidance: specify what tools are available, what tools are unavailable, and how to use them.</li>
+<li>One crucial point I observed over time: explicitly instruct it on handling varying file sizes. For large files, implement chunk-based reading.</li>
+<li>Finally, clearly define the expected output format and the desired results.</li>
+</ol>
+<p>Points 3 and 5 above are, in my opinion, the most easily overlooked details.</p>
+<p>The third point involves enhancing the analyzer’s generic capabilities. It needs to be able to adapt while handling various languages, so we can only achieve this by providing fundamental principles as guidance. Here, we deliberately used more general terms instead of Python’s <code>def</code> or Node.js’s <code>function</code>.</p>
+<p>The fifth point emerged during its iterative development, where I observed it frequently treating only the first few lines of a file as fully read. This is due to the LLM’s self-imposed limitations. Constrained by window size, the LLM subconsciously takes shortcuts.</p>
+<p>When using Kiro, you might have noticed that even with <code>design.md</code>, it still occasionally makes mistakes. That’s because it doesn’t read the entire file. Other tools like Cursor or Copilot exhibit the same behavior.</p>
+<p>Therefore, when prompting these vibe coding tools, I deliberately emphasize that they must read the entire file and summarize its key points afterward. This is the most effective way to prevent them from cutting corners.</p>
+<h3 id="Task-Specialist-Prompts"><a href="#Task-Specialist-Prompts" class="headerlink" title="Task Specialist Prompts"></a>Task Specialist Prompts</h3><p>Compared to the analyzer, the specialist’s system prompt is much simpler, requiring only telling it the key points to review.</p>
+<ol>
+<li>Establish a strict persona for them, focused on details and resistant to persuasion.</li>
+<li>At the same time, inform them of the content required in the report, including various details.</li>
+<li>Provide examples to guide their judgment.</li>
+</ol>
+<p>Although the core concept is simple, teaching an LLM to refuse requests is truly challenging.</p>
+<p>You may have noticed that most models tend to agree rather than disagree due to their training processes. Consequently, every LLM try to be agreeable, leading to many obviously poor-quality reports being allowed to pass.</p>
+<p>Even though it only needs to focus on refusal, refusal is exactly the psychological barrier that is the hardest to overcome.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The operational flow of this project has been thoroughly explained above. Through analyzing the entire architecture, I believe everyone can gain a deeper understanding of the underlying principles behind vibe coding. I believe most tools incorporate such a deep iterative process, though each offers distinct customizable prompts and tool sets.</p>
+<p>After implementing this project, I finally understood why even a spec-driven development framework like Kiro still fails to solve the problem of agents ignoring designs. The underlying truth is surprisingly simple, and it boils down to the files not being read in their entirety.</p>
+<p>I’ll include a sequence diagram for this project at the end of the article, offering another perspective on how agents comprehend the codebase.</p>
+<p>Through this hands-on process, I refined a set of prompts capable of transforming any vibe coding tool into a spec-driven development like Kiro. Today’s story ran a bit long, so let’s continue next time with the series of prompts I distilled. I’ll show you how to enable Copilot to define requirements, design architectures, establish plans, and execute them step by step.</p>
+<p>Let’s call it a day.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*CGlS70UQ1Aep9tmUOcAVIA.png"></p>
+<h3 id="A-message-from-our-Founder"><a href="#A-message-from-our-Founder" class="headerlink" title="A message from our Founder"></a>A message from our Founder</h3><p><strong>Hey,</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>Sunil</strong></a> <strong>here.</strong> I wanted to take a moment to thank you for reading until the end and for being a part of this community.</p>
+<p>Did you know that our team run these publications as a volunteer effort to over 3.5m monthly readers? <strong>We don’t receive any funding, we do this to support the community. ❤️</strong></p>
+<p>If you want to show some love, please take a moment to <strong>follow me on</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>LinkedIn</strong></a><strong>,</strong> <a target="_blank" rel="noopener" href="https://tiktok.com/@messyfounder"><strong>TikTok</strong></a>, <a target="_blank" rel="noopener" href="https://instagram.com/sunilsandhu"><strong>Instagram</strong></a>. You can also subscribe to our <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>weekly newsletter</strong></a>.</p>
+<p>And before you go, don’t forget to <strong>clap</strong> and <strong>follow</strong> the writer️!</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/ai-agents-for-complex-codebase-analysis-eef748fe6dfd">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

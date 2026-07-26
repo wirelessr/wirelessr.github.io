@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="How to Determine API Slow DownsA statistical solution to know if its time to refactor your code API slowdown has a great impact on the user experience or even loss of trust, so we always want to know">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Determine API Slow Downs">
+<meta property="og:url" content="https://wirelessr.github.io/Testing/How-to-Determine-API-Slow-Downs/20221211/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="How to Determine API Slow DownsA statistical solution to know if its time to refactor your code API slowdown has a great impact on the user experience or even loss of trust, so we always want to know">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*78o50Oz16WdfGi3Z">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*tMj_LdNdjVQMAMAY.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*2xL-leRQxaIq25eB.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*tlEi8HA7jn8aX-MG.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*yVcX05DNgFQgVvX1yJQEtw.png">
+<meta property="article:published_time" content="2022-12-11T17:52:44.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.824Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*78o50Oz16WdfGi3Z">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Testing/How-to-Determine-API-Slow-Downs/20221211/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Testing/How-to-Determine-API-Slow-Downs/20221211/","path":"Testing/How-to-Determine-API-Slow-Downs/20221211/","title":"How to Determine API Slow Downs"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>How to Determine API Slow Downs | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#How-to-Determine-API-Slow-Downs"><span class="nav-number">1.</span> <span class="nav-text">How to Determine API Slow Downs</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-statistical-solution-to-know-if-its-time-to-refactor-your-code"><span class="nav-number">1.1.</span> <span class="nav-text">A statistical solution to know if its time to refactor your code</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#It%E2%80%99s-time-for-statistics-to-come-into-play"><span class="nav-number">2.</span> <span class="nav-text">It’s time for statistics to come into play</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution"><span class="nav-number">3.</span> <span class="nav-text">Solution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">4.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Testing/How-to-Determine-API-Slow-Downs/20221211/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="How to Determine API Slow Downs | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          How to Determine API Slow Downs
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-12-12 01:52:44" itemprop="dateCreated datePublished" datetime="2022-12-12T01:52:44+08:00">2022-12-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Testing/" itemprop="url" rel="index"><span itemprop="name">Testing</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="How-to-Determine-API-Slow-Downs"><a href="#How-to-Determine-API-Slow-Downs" class="headerlink" title="How to Determine API Slow Downs"></a>How to Determine API Slow Downs</h3><h4 id="A-statistical-solution-to-know-if-its-time-to-refactor-your-code"><a href="#A-statistical-solution-to-know-if-its-time-to-refactor-your-code" class="headerlink" title="A statistical solution to know if its time to refactor your code"></a>A statistical solution to know if its time to refactor your code</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*78o50Oz16WdfGi3Z"></p>
+<p>API slowdown has a great impact on the user experience or even loss of trust, so we always want to know the latency as early as possible.</p>
+<p>Therefore, it is common to integrate performance tests and measurement benchmarks into automation testing.</p>
+<p>But the concept of slow is very difficult to evaluate.</p>
+<ul>
+<li>Did it happen by accident? Or is it an ongoing status?</li>
+<li>Is it caused by the experimental environment? Or is it a side effect of the code?</li>
+<li>Is it the result of increased features? Or is it a defect?</li>
+</ul>
+<p>It is difficult to have a clear answer to these questions.</p>
+<p>Assuming we have a way to detect “slow”, then we will send an alarm or a report. But if it’s just a “coincidence” or a false alarm caused by experimental environments, eventually people will try to ignore these signals.</p>
+<p>In addition, it is to be expected that APIs will slow down as features are added. When we have more parameters, more business logic, and more <code>if-else</code>, it’s no wonder that the response time slows down.</p>
+<p>Furthermore, if we use threshold to avoid the above problem, then when we really recognize API slowdown, we won’t know what the root cause of the slowdown is.</p>
+<p>All these factors make the task of detecting API slowdowns extremely hard.</p>
+<h3 id="It’s-time-for-statistics-to-come-into-play"><a href="#It’s-time-for-statistics-to-come-into-play" class="headerlink" title="It’s time for statistics to come into play"></a>It’s time for statistics to come into play</h3><p>To address the mentioned issues, let’s summarize the requirements.</p>
+<ol>
+<li>to be able to know specifically when the problem occurs</li>
+<li>to be able to allow accidental outliers</li>
+<li>to be able to avoid the normal phenomenon of slow rise</li>
+<li>to be able to issue alarms</li>
+</ol>
+<p>First, let’s look at a diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*tMj_LdNdjVQMAMAY.png"></p>
+<ul>
+<li>The horizontal axis indicates each test, which can be considered as time or release version, or even if integrated into CI&#x2F;CD pipeline, that is each commit.</li>
+<li>The vertical axis is the latency of the target tests.</li>
+<li>The red line is the main character of this article, Linear Regression.</li>
+</ul>
+<p>From the diagram, we can know before a certain time, basically the latency is slowly increasing, but after a certain time, the whole latency is rapidly increasing. And that time point is the problem we want to know.</p>
+<p>Perhaps you will say, it is easy to find out by the naked eye by looking at the numbers each time? After all, it is quite intuitive.</p>
+<p>The key is the scale of the latency. If the average of the data points from the group below is 0.1 seconds, and the group behind is 0.2 seconds, will you still feel very intuitive?</p>
+<p>Therefore, we need a brain-friendly standard, i.e., linear regression.</p>
+<p>Through linear regression, we can know the overall trend of the data set is up. However, this is not enough, because just knowing that the trend is up does not mean we can judge whether it is normal or abnormal.</p>
+<p>The group of dense data points in the front is also up, so how can we determine that the trend is abnormal and the front is normal?</p>
+<p>Let’s look at another diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*2xL-leRQxaIq25eB.png"></p>
+<p>Question: Is the latency of this diagram normal or abnormal?</p>
+<p>It looks very similar to the previous diagram, there is a clear upward trend, so it should be abnormal, right? Really?</p>
+<p>Let’s add some reference points and zoom out a bit.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*tlEi8HA7jn8aX-MG.png"></p>
+<p>Have you found? The diagram above is actually a normal part of the original diagram, just a slow rise.</p>
+<p>By simply doing linear regression analysis on a single data set, we may get wrong conclusions because we have no benchmark for comparison and cannot tell whether it is a natural phenomenon caused by increased features or a problem caused by defects.</p>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p>Back to our question, how can we detect the problem as early as possible without false positives?</p>
+<p>First, we need to choose a reference point, e.g., one day ago. Then, we perform a linear regression on the entire data to get a red line. Of course, we also need to perform a linear regression on the data before the reference point, which will lead to the green line.</p>
+<p>The slope of the red line and the green line is used to calculate the angle as the judgment basis. In other words, when the angle between the red line and the green line is larger, then it is more likely to be abnormal.</p>
+<p>Therefore, the threshold for setting an alarm is neither the latency itself nor the slope, but the angle of the two lines.</p>
+<p>Given the slopes of the two lines are k1 and k2, then the formula for the angle θ is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*yVcX05DNgFQgVvX1yJQEtw.png"></p>
+<p>In Python, it would be:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import math  </span><br><span class="line">thera = math.degrees(math.atan2(abs(k2 - k1), abs(1 + k1 * k2)))  </span><br><span class="line"># atan2 does not need to handle denominator zero error cases  </span><br><span class="line"># If we use atan  </span><br><span class="line"># we need to solve the case where k1 * k2 is equal to -1 first</span><br></pre></td></tr></table></figure>
+
+<p>We can do several experiments with simulated values to get our ideal alarm threshold.</p>
+<p>Finally, in addition to the angle threshold, we also need another alarm indicator, which is the upper bound of the allowed latency.</p>
+<p>Why do we need to set an upper bound?</p>
+<p>Because if our latency keeps increasing in a green line trend, one day it will reach an unacceptable value, but if we just set the angle threshold, we will never know how bad the situation is until we have a disaster on the production.</p>
+<p>Finally, the following is an example of how to compute linear regression in Python.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np  </span><br><span class="line">from sklearn.linear_model import LinearRegression  </span><br><span class="line">  </span><br><span class="line"># raw_x and raw_y are the results of each test  </span><br><span class="line"># raw_x can be a time, version or commit normalization  </span><br><span class="line"># raw_y are latencies  </span><br><span class="line">x = np.array(raw_x)[:, np.newaxis]  </span><br><span class="line">y = np.array(raw_y)[:, np.newaxis]  </span><br><span class="line">  </span><br><span class="line">bfl = LinearRegression()  </span><br><span class="line">bfl.fit(x,y)  </span><br><span class="line">y_pred = bfl.predict(x)  </span><br><span class="line">  </span><br><span class="line">slope = bfl.coef_[0, 0]</span><br></pre></td></tr></table></figure>
+
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>So, how do we know if the API is slowing down? We need two alerts.</p>
+<ol>
+<li>the angle between the current data line and the data line of the reference point after linear regression.</li>
+<li>the maximum upper bound of the latency.</li>
+</ol>
+<p>When we have these two alarms, we can know exactly when the code is causing problems and if it is time to refactor the system.</p>
+<p>In fact, this is a statistical approach to achieve the goal, but there are still some drawbacks to this. For example, how to set the threshold value of the slope angle? How to choose the reference point? What is the statistical range to be chosen? All these questions require experiments to find the answers.</p>
+<p>Therefore, the most effective way is to introduce machine learning into the system of latency analysis, and judge whether the current result is normal or abnormal through the prediction model, rather than through human settings. It’s more difficult for humans to make judgments than machines.</p>
+<p>However, to build a machine learning model requires corresponding domain knowledge and skills, which may not be suitable for small organizations, so linear regression is a reliable and low-cost solution.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-know-api-is-slowing-down-2957b9e1341d">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Data/The-Infrastructure-Stack-for-Real-Time-Data-Analysis/20221204/" rel="prev" title="The Infrastructure Stack for Real-Time Data Analysis">
+                  <i class="fa fa-chevron-left"></i> The Infrastructure Stack for Real-Time Data Analysis
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Elasticsearch/Explaining-Pagination-in-ElasticSearch/20221218/" rel="next" title="Explaining Pagination in ElasticSearch">
+                  Explaining Pagination in ElasticSearch <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

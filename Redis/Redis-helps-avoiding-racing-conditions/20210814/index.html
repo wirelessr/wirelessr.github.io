@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="In the previous article, we had introduced how to ensure the integrity of transferring money. However, it’s not good enough to prevent going wrong. That approach will probably take time to retry many">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis helps avoiding racing conditions">
+<meta property="og:url" content="https://wirelessr.github.io/Redis/Redis-helps-avoiding-racing-conditions/20210814/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="In the previous article, we had introduced how to ensure the integrity of transferring money. However, it’s not good enough to prevent going wrong. That approach will probably take time to retry many">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*6zJnpGt56SCgRNUyK7x_zA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*bXMjPAc-2XOawumO4Db9uA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*gWVoWfWzyRm6pq8pOJPqkA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*J2ncLvugpOY-SyD8wKQYHw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*s4kodbsn4aggopSRP1MhRQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*PhgYEVZrH6dnOdhL6GWxJQ.png">
+<meta property="article:published_time" content="2021-08-14T23:33:12.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.827Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*6zJnpGt56SCgRNUyK7x_zA.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Redis/Redis-helps-avoiding-racing-conditions/20210814/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Redis/Redis-helps-avoiding-racing-conditions/20210814/","path":"Redis/Redis-helps-avoiding-racing-conditions/20210814/","title":"Redis helps avoiding racing conditions"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Redis helps avoiding racing conditions | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#User-Scenario"><span class="nav-number">1.</span> <span class="nav-text">User Scenario</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Simple-Design"><span class="nav-number">2.</span> <span class="nav-text">Simple Design</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Random-select"><span class="nav-number">3.</span> <span class="nav-text">Random select</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Requirement"><span class="nav-number">4.</span> <span class="nav-text">Requirement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Final-Solution"><span class="nav-number">5.</span> <span class="nav-text">Final Solution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bad-approach"><span class="nav-number">6.</span> <span class="nav-text">Bad approach</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Good-approach"><span class="nav-number">7.</span> <span class="nav-text">Good approach</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Redis-helps-avoiding-racing-conditions/20210814/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Redis helps avoiding racing conditions | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis helps avoiding racing conditions
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-08-15 07:33:12" itemprop="dateCreated datePublished" datetime="2021-08-15T07:33:12+08:00">2021-08-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>In the <a target="_blank" rel="noopener" href="https://lazypro.medium.com/how-to-avoid-the-race-condition-and-the-negative-value-3f397b2b08e4">previous article</a>, we had introduced how to ensure the integrity of transferring money. However, it’s not good enough to prevent going wrong. That approach will probably take time to retry many times to make things be done, so that it consumes client’s time as well as occupying the database resource.</p>
+<h3 id="User-Scenario"><a href="#User-Scenario" class="headerlink" title="User Scenario"></a>User Scenario</h3><p>Suppose there is a table for maintaining the lottery tickets, and each ticket has its own owner, serial number and a flag, remain, of whether it is used or not. In addition, there is another table to keep winning records.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*6zJnpGt56SCgRNUyK7x_zA.png"><img src="https://cdn-images-1.medium.com/max/800/1*bXMjPAc-2XOawumO4Db9uA.png"></p>
+<p>For instance, <em>A</em> had 3 tickets but used one. And then, <em>B</em> got one ticket. Besides, the used ticket wins 100 dollars for <em>A</em>.</p>
+<h3 id="Simple-Design"><a href="#Simple-Design" class="headerlink" title="Simple Design"></a>Simple Design</h3><p>According the our previous introduction, we will design the <code>remain</code> flag in an unsigned integer with the default value: 1. When consuming this ticket, we uses the atomic update to increase the remain by -1. If a user has only one ticket but wants to draw twice, the second attempt will fail due to the negative value of <code>remain</code>.</p>
+<p>Represent in the psudo code is like:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">`START TRANSACTION`  </span><br><span class="line">A_ticket = `select id from tickets where \  </span><br><span class="line">      remain = 1 and user = &#x27;A&#x27; order by id limit 1`  </span><br><span class="line">`update tickets set remain = remain - 1 where id = A_ticket`  </span><br><span class="line">reward = bingo()  </span><br><span class="line">`insert into rewards (id, reward) values ($&#123;A_ticket&#125;, $&#123;reward&#125;)`  </span><br><span class="line">`COMMIT`</span><br></pre></td></tr></table></figure>
+
+<p>First, <em>A</em>’s first ticket will be picked out, and the lottery will start after deduction. Finally, the result will be updated into the database.</p>
+<p>But the problem occurs in the assumption that <em>A</em> has two tickets like the example at the beginning of this article, which means that <em>A</em> can draw twice at the same time. When <em>A</em> draws twice simultaneously, it should be successful without fail.</p>
+<p>Run the process once with the implementation we mentioned. The first one who comes in will get a ticket number 3 and the second one who comes in will also get the same ticket. As a result, the first draw will succeed but the second attempt will be failed. If it fails, then it must try again, and then it will get the ticket number 4 and succeed.</p>
+<p>Such a procedure would be correct after all, but it is not good enough. When you have <em>n</em> tickets, you obviously can draw <em>n</em> times at the same time within <em>O(1)</em>. However, such an implementation leads to <em>O(n)</em>. Among them, <em>O(n-1)</em> is a retry. And, the higher the <em>n</em>, the worse the user experience.</p>
+<h3 id="Random-select"><a href="#Random-select" class="headerlink" title="Random select"></a>Random select</h3><p>Here comes the second design, we don’t order by the id; instead, we pick the ticket randomly to mitigate the failure. Therefore, we modify the original <code>select</code> statement to become:</p>
+<blockquote>
+<p><em>A_ticket &#x3D; <code>*</code>select id from tickets where remain &#x3D; 1 and user &#x3D; ‘A’ order by RAND() limit 1<code>*</code></em></p>
+</blockquote>
+<p>In this example, we don’t care about the drawback of <code>order by RAND()</code>; nevertheless, the random means it will sometimes go wrong. Worst of all, it may choose the ticket with a long validity period instead of the ticket is about to expire.</p>
+<h3 id="Requirement"><a href="#Requirement" class="headerlink" title="Requirement"></a>Requirement</h3><p>Looking back at our needs, we need to draw a lottery “simultaneously” several times when the user has a few tickets, and use the tickets in order.</p>
+<h3 id="Final-Solution"><a href="#Final-Solution" class="headerlink" title="Final Solution"></a>Final Solution</h3><p>To achieve our goal, we can leverage Redis’ help. The purpose of Redis is to have a congestion control. In order to make all clients can succeed once, we have to dispatch the tickets to them correctly while highly concurrency occurs.</p>
+<h3 id="Bad-approach"><a href="#Bad-approach" class="headerlink" title="Bad approach"></a>Bad approach</h3><p>Usually, Redis is used to be a distributed optimistic lock to make sure the permission of a critical section, e.g.,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ret = `setnx lock 1`  </span><br><span class="line">if not ret:  </span><br><span class="line">    raise Locked(&quot;already locked by others&quot;)  </span><br><span class="line">else:  </span><br><span class="line">    do_something()  </span><br><span class="line">    `del lock`</span><br></pre></td></tr></table></figure>
+
+<p>If an application can set a lock in Redis, which means he can dominate this time period until he finishes his job; on the other hand, everyone must wait for him. Solving the problem in this way is still not very helpful, at most it can only speed up the client’s retry, because the client doesn’t need to go through the database operation and the lottery procedures.</p>
+<h3 id="Good-approach"><a href="#Good-approach" class="headerlink" title="Good approach"></a>Good approach</h3><p>To solve this problem, we want to support multi-entrance by using Redis. The process is to push all the current ticket numbers through <code>LPUSH</code>, and use <code>RPOP</code> to take out the first one.</p>
+<p>Because Redis’ single command is atomic, you can ensure that the tickets are correctly allocated to each call that comes in at the same time.</p>
+<p>Let’s take a simple psudο code as an example:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">do:  </span><br><span class="line">    A_owned_tickets = `select id from tickets where \  </span><br><span class="line">            remain = 1 and user = &#x27;A&#x27; order by id`  </span><br><span class="line">    `LPUSH A_owned_tickets $&#123;owned_tickets&#125;`  </span><br><span class="line">    A_ticket = `RPOP A_owned_tickets`  </span><br><span class="line">while A_ticket != nil</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">`START TRANSACTION`  </span><br><span class="line">`update tickets set remain = remain - 1 where id = A_ticket`  </span><br><span class="line">reward = bingo()  </span><br><span class="line">`insert into rewards (id, reward) values ($&#123;A_ticket&#125;, $&#123;reward&#125;)`  </span><br><span class="line">`COMMIT`  </span><br><span class="line">`DEL A_owned_tickets`</span><br></pre></td></tr></table></figure>
+
+<p>In the above example, we use uppercase to indicate Redis’ instructions. Let’s use the sequential diagram to get a deeper look at what’s going on.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*gWVoWfWzyRm6pq8pOJPqkA.png"></p>
+<p>The above is an ideal situation. Although <em>A1</em> and <em>A2</em> occur simultaneously, <em>A1</em> is slightly earlier than <em>A2</em>, so there will be two complete sequences in Redis, <code>[4, 3, 4, 3]</code>. If <em>A1</em> and <em>A2</em> occur almost at the same time, it will be the following situation:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*J2ncLvugpOY-SyD8wKQYHw.png"></p>
+<p>From the above figure, even if <em>A1</em> and <em>A2</em> occur almost simultaneously, it will not affect the accuracy. So what happens if <em>A1</em> finishes its job faster, COMMIT the result and deletes the list?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*s4kodbsn4aggopSRP1MhRQ.png"></p>
+<p>We can see <em>A2</em> got a <code>nil</code> at the first time, so he therefore had to retrieve the tickets from MySQL and push again to proceed the process. Even so, it is more efficient than the original commit failure after all the processes are run.</p>
+<p>The worst case will happen when there is high concurrency, some clients are very fast and some clients are very slow, which will cause several retries and still fail. The flow as shown below.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*PhgYEVZrH6dnOdhL6GWxJQ.png"></p>
+<p>If this is the case, you can adopt an alternative approach. Do not actively <code>DEL</code> the list, but use <code>EXPIRE</code> to delete. Choosing a reasonable timeout will relieve symptoms. However, it comes another problem, the validity of expired data. This is a trade-off, you can take the approach that suits your user scenario.</p>
+<p>At last, if the amount of coming requests is greater than the owned tickets, the original schema design still works to reject the invalid operations(<code>remain</code> cannot be negative).</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/redis-helps-avoiding-racing-conditions-b970ba3fdd58">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Database/How-to-avoid-the-race-condition-and-the-negative-value/20210721/" rel="prev" title="How to avoid the race condition and the negative value">
+                  <i class="fa fa-chevron-left"></i> How to avoid the race condition and the negative value
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Golang/Make-SQL-Scan-result-be-map-in-golang/20210928/" rel="next" title="Make SQL Scan result be map in golang">
+                  Make SQL Scan result be map in golang <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

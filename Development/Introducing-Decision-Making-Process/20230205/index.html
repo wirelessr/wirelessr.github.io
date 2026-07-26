@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Introducing Decision Making ProcessTop-down and Bottom-up, which one is better Last time we talked about how to do technical selection, the key is to understand the requirements completely, so that we">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introducing Decision Making Process">
+<meta property="og:url" content="https://wirelessr.github.io/Development/Introducing-Decision-Making-Process/20230205/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Introducing Decision Making ProcessTop-down and Bottom-up, which one is better Last time we talked about how to do technical selection, the key is to understand the requirements completely, so that we">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*g9F0dE12dKgQfnsf.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*Llm4KqkC_SnY9cki.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*2CTw7U-26352ihTX.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*QGEdwYUA7-Qj-TNd.png">
+<meta property="article:published_time" content="2023-02-05T17:54:00.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.825Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/0*g9F0dE12dKgQfnsf.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/Development/Introducing-Decision-Making-Process/20230205/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/Development/Introducing-Decision-Making-Process/20230205/","path":"Development/Introducing-Decision-Making-Process/20230205/","title":"Introducing Decision Making Process"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Introducing Decision Making Process | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Introducing-Decision-Making-Process"><span class="nav-number">1.</span> <span class="nav-text">Introducing Decision Making Process</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Top-down-and-Bottom-up-which-one-is-better"><span class="nav-number">1.1.</span> <span class="nav-text">Top-down and Bottom-up, which one is better</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Top-Down-Decision-Making"><span class="nav-number">2.</span> <span class="nav-text">Top Down Decision Making</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bottom-Up-Decision-Making"><span class="nav-number">3.</span> <span class="nav-text">Bottom Up Decision Making</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">4.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Development/Introducing-Decision-Making-Process/20230205/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Introducing Decision Making Process | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Introducing Decision Making Process
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2023-02-06 01:54:00" itemprop="dateCreated datePublished" datetime="2023-02-06T01:54:00+08:00">2023-02-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Introducing-Decision-Making-Process"><a href="#Introducing-Decision-Making-Process" class="headerlink" title="Introducing Decision Making Process"></a>Introducing Decision Making Process</h3><h4 id="Top-down-and-Bottom-up-which-one-is-better"><a href="#Top-down-and-Bottom-up-which-one-is-better" class="headerlink" title="Top-down and Bottom-up, which one is better"></a>Top-down and Bottom-up, which one is better</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*g9F0dE12dKgQfnsf.png"></p>
+<p>Last time we talked about <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-make-a-technical-selection-f1b21b24c503">how to do technical selection</a>, the key is to understand the requirements completely, so that we can pick the most fit among the options. Remember, it’s the right fit, not the best, because there is no perfect solution.</p>
+<p>Nevertheless, sometimes we don’t just make one selection, we have to make a series of decisions, especially when doing a paradigm shift. For example, if we want to decompose a monolith into microservices, then in addition to making technical selections among many databases and backend frameworks, we must also make decisions about service boundaries, communication contracts, and so on.</p>
+<p>This series of decisions will ultimately achieve what we started with: decomposing the monolith.</p>
+<p>In fact, such a decision making process is called top-down decision making.</p>
+<h3 id="Top-Down-Decision-Making"><a href="#Top-Down-Decision-Making" class="headerlink" title="Top Down Decision Making"></a>Top Down Decision Making</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*Llm4KqkC_SnY9cki.png"></p>
+<p>At first, we know exactly what we are aiming for, as we evaluated microservices as a more appropriate architecture for the moment, with a high flexibility and scalability. At the same time, to avoid getting further away from the best practices, we learned the details of microservices and the steps of decomposition from various books and articles.</p>
+<p>After making a series of decisions to define the final service blueprint, that is, the <em>N</em> microservices, we then carefully develop a migration plan on how to implement those services from a monolith step by step. The whole process is established from top to bottom.</p>
+<p>When designing an architecture, we tend to use top-down decision making.</p>
+<p>The most important reason is we know exactly what to do and how to do it right. In order to avoid confusion, we set a complete plan at the beginning and implement it step by step to achieve our goal.</p>
+<p>In fact, many of my previous articles on paradigm shift were written with a top-down decision making process.</p>
+<p>These articles cover how to scale a service, how to decompose a service, and even introduce the evolution of a data architecture. The common point in all these decision making processes is to evolve the system when the current architecture encounters a problem that cannot be solved, but we know how to do it better.</p>
+<h3 id="Bottom-Up-Decision-Making"><a href="#Bottom-Up-Decision-Making" class="headerlink" title="Bottom Up Decision Making"></a>Bottom Up Decision Making</h3><p>Since there is top-down decision making, is there the opposite? Of course yes, that is, bottom-up decision making.</p>
+<p>But this is a strange process, isn’t it? We first define which services we want to do, then we decide the communication medium between the services, and finally we define the service boundaries.</p>
+<p>Well, it’s incorrect.</p>
+<p>Because in this context, a bottom-up decision process “doesn’t fit”.</p>
+<p>What kind of context is right for bottom-up decision making? Let’s take another example.</p>
+<p>Suppose we want to build a complete online environment monitoring, with the goal that any problems are detected and started to be solved before they are aware by the customer, then the customer may not even feel the problem or report it and it is solved in a very short time.</p>
+<p>First, we try to use top-down decision making to see what happens.</p>
+<p>In general, we might start building a monitoring and alerting system that generates alerts and gets people involved when any problem occurs. Hardware metrics such as CPU, memory, and network throughput are basic requirements, while service response latency, error rates, and exception logs are common software metrics.</p>
+<p>But is that enough?</p>
+<p>One very common malfunction is not covered, i.e., data consistency. In addition, I believe there are various software behavior problems that cannot be disclosed by the basic metrics.</p>
+<p>This is where the bottom-up decision process comes into play. First, we analyze the many problems that have been reported, and then set a goal of detecting the same problem next time without being reported.</p>
+<p>Through these practices, we can categorize the types of problems and the corresponding practices, and finally generate a set of rules that can be applied to achieve our original goals.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*2CTw7U-26352ihTX.png"></p>
+<p>Such a process is a classic bottom-up decision. We cannot define a complete framework to achieve our goals at the beginning, whether the scope is too large to focus or the impact level is too large to cause a big bang, so we eventually find a reasonable framework boundary by accumulating successful practices.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The top-down and bottom-up decision making processes are fundamentally different and therefore apply in different contexts. So how do we know from the start whether to go top-down or bottom-up?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*QGEdwYUA7-Qj-TNd.png"></p>
+<p>Let me borrow the above diagram to explain, although what I want to express is not equal to the source diagram.</p>
+<p>In the context of Box 1 and Box 2, we would use top-down, and conversely, in Box 3, we would use bottom-up. As for Box 4, I believe that we rarely need to touch this box in software development.</p>
+<p>Back to the first example of decomposing a monolith, we were convinced that microservices was the most fitting approach and we understood the details of microservices and decomposing a monolith, so we landed at Box 1.</p>
+<p>Even so, we may use unfamiliar databases, software frameworks and even programming languages in the process of implementing microservices, so there must be many problems that need to be experienced, and that would land at Box 2, but that does not affect our migration plan, at most we need to make more decisions and experiment more.</p>
+<p>But if we only have a practice direction, know how to do it better, but do not have an overall view, then we will fall in Box 3. At this point, what we need to do is to accumulate more successful practices, and then find the rules to make those unknowns known.</p>
+<p>Of course, these are ideal scenarios, and most of the time we need to make additional trade-offs in terms of human resources and time, so sometimes the top-down process has to become a bottom-up process. But, no matter what the decision making process is, it is important to choose what is most appropriate at the moment.</p>
+<blockquote>
+<p><em>Never shoot for the best architecture, but rather the least worst architecture.<br> — Neal Ford</em></p>
+</blockquote>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/introducing-decision-making-process-cbb68e3b5f7">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Development/How-to-Make-a-Technical-Selection/20230122/" rel="prev" title="How to Make a Technical Selection?">
+                  <i class="fa fa-chevron-left"></i> How to Make a Technical Selection?
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Microservice/Microservices-start-Here-Chassis-Pattern/20230212/" rel="next" title="Microservices start Here: Chassis Pattern">
+                  Microservices start Here: Chassis Pattern <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

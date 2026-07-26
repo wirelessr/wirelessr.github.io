@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="AI Agents for Complex Codebase AnalysisDiscover a novel dual-agent method for accurate and deep codebase understanding Vibe coding has become a major trend lately, with many KOLs claiming they can cre">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI Agents for Complex Codebase Analysis">
+<meta property="og:url" content="https://wirelessr.github.io/AI/AI-Agents-for-Complex-Codebase-Analysis/20250831/index.html">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="AI Agents for Complex Codebase AnalysisDiscover a novel dual-agent method for accurate and deep codebase understanding Vibe coding has become a major trend lately, with many KOLs claiming they can cre">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*KH9mjV0vImltD_hrAEWqAw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*uT2s6tvr2Ti6eYvyPdesSw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*gAKNso0945dR-paF14D-3w.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*CGlS70UQ1Aep9tmUOcAVIA.png">
+<meta property="article:published_time" content="2025-08-31T17:11:07.000Z">
+<meta property="article:modified_time" content="2026-07-26T09:22:39.820Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*KH9mjV0vImltD_hrAEWqAw.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/AI/AI-Agents-for-Complex-Codebase-Analysis/20250831/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://wirelessr.github.io/AI/AI-Agents-for-Complex-Codebase-Analysis/20250831/","path":"AI/AI-Agents-for-Complex-Codebase-Analysis/20250831/","title":"AI Agents for Complex Codebase Analysis"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>AI Agents for Complex Codebase Analysis | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#AI-Agents-for-Complex-Codebase-Analysis"><span class="nav-number">1.</span> <span class="nav-text">AI Agents for Complex Codebase Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Discover-a-novel-dual-agent-method-for-accurate-and-deep-codebase-understanding"><span class="nav-number">1.1.</span> <span class="nav-text">Discover a novel dual-agent method for accurate and deep codebase understanding</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-first-step-and-the-most-crucial-one-is-recognition"><span class="nav-number">2.</span> <span class="nav-text">The first step, and the most crucial one, is recognition.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2-Establish-an-analyzer"><span class="nav-number">3.</span> <span class="nav-text">Step 2: Establish an analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-3-Establish-a-gatekeeper"><span class="nav-number">4.</span> <span class="nav-text">Step 3: Establish a gatekeeper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Project-Architecture"><span class="nav-number">5.</span> <span class="nav-text">Project Architecture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prompt-Engineering"><span class="nav-number">6.</span> <span class="nav-text">Prompt Engineering</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Code-Analyzer-Prompts"><span class="nav-number">7.</span> <span class="nav-text">Code Analyzer Prompts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task-Specialist-Prompts"><span class="nav-number">8.</span> <span class="nav-text">Task Specialist Prompts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusion"><span class="nav-number">9.</span> <span class="nav-text">Conclusion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-message-from-our-Founder"><span class="nav-number">10.</span> <span class="nav-text">A message from our Founder</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/AI-Agents-for-Complex-Codebase-Analysis/20250831/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="個人技術部落格，記錄軟體架構、後端開發與資料工程的實踐與思考">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="AI Agents for Complex Codebase Analysis | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AI Agents for Complex Codebase Analysis
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-09-01 01:11:07" itemprop="dateCreated datePublished" datetime="2025-09-01T01:11:07+08:00">2025-09-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-26 17:22:39" itemprop="dateModified" datetime="2026-07-26T17:22:39+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="AI-Agents-for-Complex-Codebase-Analysis"><a href="#AI-Agents-for-Complex-Codebase-Analysis" class="headerlink" title="AI Agents for Complex Codebase Analysis"></a>AI Agents for Complex Codebase Analysis</h3><h4 id="Discover-a-novel-dual-agent-method-for-accurate-and-deep-codebase-understanding"><a href="#Discover-a-novel-dual-agent-method-for-accurate-and-deep-codebase-understanding" class="headerlink" title="Discover a novel dual-agent method for accurate and deep codebase understanding"></a>Discover a novel dual-agent method for accurate and deep codebase understanding</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*KH9mjV0vImltD_hrAEWqAw.png"></p>
+<p>Vibe coding has become a major trend lately, with many KOLs claiming they can create and monetize products despite lacking programming skills. Well, I generally respect this approach, since vibe coding excels at greenfield projects, meaning building something from scratch.</p>
+<p>As long as the project isn’t overly complex and the requirements are clear, mainstream LLM models can generate decent-quality applications.</p>
+<p>However, the real challenge for vibe coding emerges with brownfield projects, where you don’t start from scratch. Instead, you must first establish foundational knowledge and then iterate upon that understanding. This is where vibe coding faces significant difficulties.</p>
+<p>This challenge comes from many areas, but the core issue lies in how to comprehend the existing massive codebase.</p>
+<p>Therefore, I conducted my own experiments to observe the thought processes of AI agents and attempted to understand their limitations. On one hand, gaining deeper insight into their operations enables more effective utilization. On the other hand, this exploratory journey itself can yield fresh insights.</p>
+<p>I’ll try to describe the evolution of this project in a relatively straightforward way, which might also show you how those vibe coding tools work behind the scenes.</p>
+<h3 id="The-first-step-and-the-most-crucial-one-is-recognition"><a href="#The-first-step-and-the-most-crucial-one-is-recognition" class="headerlink" title="The first step, and the most crucial one, is recognition."></a>The first step, and the most crucial one, is recognition.</h3><p>In order to let the agent understand the codebase, we first need to know a few things.</p>
+<ol>
+<li>Each LLM call is static, so the agent must be able to decide what to do next based on the results of the previous call.</li>
+<li>As an LLM is a large language model, we must empower it to use tools — whether through the LLM’s built-in function tooling capabilities or by having the LLM generate plans executed by code.</li>
+<li>Since understanding the codebase inevitably requires multiple LLM calls, we must establish strategies, such as where to start and what actions to take. The LLM must also recognize the need to prepare for subsequent rounds.</li>
+<li>Multi-round interactions inherently require termination conditions. These conditions must strike a balance between sufficient generalization and maintaining domain expertise. Generalization prevents exhaustive scenario coverage, while expertise ensures reliable outcomes regardless of context.</li>
+<li>Most importantly, the context window size is finite. We cannot overload it with excessive information at once.</li>
+</ol>
+<h3 id="Step-2-Establish-an-analyzer"><a href="#Step-2-Establish-an-analyzer" class="headerlink" title="Step 2: Establish an analyzer"></a>Step 2: Establish an analyzer</h3><p>With the above understanding, we can proceed to design this agent.</p>
+<p>First, we need an analyzer capable of utilizing tools and sustaining multi-round conversations. Additionally, it must incorporate a self-assessment mechanism.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uT2s6tvr2Ti6eYvyPdesSw.png"></p>
+<p>Thus, an agent capable of invoking tools and conducting multi-round conversations is complete.</p>
+<p>But this raises a problem: when an agent reviews its own generated reports, might it fall into a state of self-satisfaction? Perhaps it finds the report perfectly satisfactory, yet others actually consider it worthless.</p>
+<p>Yes, absolutely.</p>
+<p>There are several key reasons.</p>
+<ol>
+<li>Simply teaching an agent to use tools is already difficult.</li>
+<li>Beyond tool usage, teaching an agent to analyze strategies is even more challenging.</li>
+<li>It also requires informing the agent of a reasonable stopping condition.</li>
+</ol>
+<p>From the above description, we can see that an agent is tasked with too many responsibilities, leaving it unable to ensure report quality. After all, the quality of a report depends on numerous factors, not merely reviewing the codebase once, but also systematically gathering and organizing the necessary information related to user queries.</p>
+<p>Simply put, understanding user intent itself requires a dedicated professional to handle.</p>
+<h3 id="Step-3-Establish-a-gatekeeper"><a href="#Step-3-Establish-a-gatekeeper" class="headerlink" title="Step 3: Establish a gatekeeper"></a>Step 3: Establish a gatekeeper</h3><p>Therefore, we need an external authority to oversee the quality of the entire output.</p>
+<p>This authority doesn’t need to use tools or even look at the code. Their role is simply to act as a demanding and nitpicky senior engineer aka a specialist. They possess the expertise of a professional engineer, so they know what’s essential and what’s meaningless.</p>
+<p>Through this specialist, we can validate the analyzer’s output, and the specialist will also guide the analyzer on how to proceed more effectively. In other words, the specialist must understand user intent and enrich user queries.</p>
+<p>This dual-agent design offers significant scalability because both agents have a single, focused responsibility, resulting in a single, unified interface.</p>
+<ul>
+<li>Analyzer’s interface involves receiving a query and attempting to locate corresponding information across the entire codebase to fulfill that query.</li>
+<li>Specialist’s interface involves receiving a query and a report, then defining the report’s value.</li>
+</ul>
+<p>Now, by simply combining these two agents, we can accomplish the challenging task of understanding the codebase.</p>
+<h3 id="Project-Architecture"><a href="#Project-Architecture" class="headerlink" title="Project Architecture"></a>Project Architecture</h3><p>The entire project architecture consists of only three core components.</p>
+<ul>
+<li>Code Analyzer: This is the primary agent responsible for executing analysis tasks. It adeptly invokes various shell commands to accomplish its duties. Most importantly, it possesses the ability to continuously explore. It begins by establishing broad strategies and gradually drills down to the core of the problem, relying on its own iterative process.</li>
+<li>Task Specialist: Where there’s somebody working, there must be somebody verifying. Specialist is responsible for validating the analyzer’s results. If the analysis quality is insufficient, it will be rejected and sent back for rework.</li>
+<li>Agent Manager: This role coordinates the entire analyzer and specialist system. It guides the analyzer through its tasks and passes results to the specialist. However, it also enforces termination conditions to prevent the specialist from operating indefinitely.</li>
+</ul>
+<p>The entire architecture’s workflow is illustrated in the following flowchart.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*gAKNso0945dR-paF14D-3w.png"></p>
+<p>From this diagram, we can observe two distinct cycles.</p>
+<p>The first is the analyzer’s self-iteration process. It initiates multiple rounds of conversations, with each subsequent round building upon the previous one to explore unknown areas. This continues until the analyzer’s self-checking mechanism determines the results meet the criteria. Since these criteria are not overly stringent, the analyzer operates autonomously.</p>
+<p>The second review, however, is significantly more rigorous, as a specialist engineer examines the report’s quality in detail. If the report is poor, it gets sent back for rewriting, but the specialist will specify what additional content is needed.</p>
+<p>This process ensures the final report is perfect. Right?</p>
+<h3 id="Prompt-Engineering"><a href="#Prompt-Engineering" class="headerlink" title="Prompt Engineering"></a>Prompt Engineering</h3><p>All the concepts above are correct, and the workflow is fine. But even for such a single-purpose agent, I spent a lot of time tweaking their prompts to make them look like ordinary people.</p>
+<p>Yes, ordinary people — far from professionals.</p>
+<p>Let me break down the system prompts for this project to understand their respective requirements.</p>
+<h3 id="Code-Analyzer-Prompts"><a href="#Code-Analyzer-Prompts" class="headerlink" title="Code Analyzer Prompts"></a>Code Analyzer Prompts</h3><p>The Analyzer prompt has several key points.</p>
+<ol>
+<li>Key findings: This is the core mechanism for multi-round self-iteration. Each round collaboratively maintains this knowledge base, ensuring the process stays on track throughout iteration.</li>
+<li>Teach the analyzer the multi-round iteration process and how to pass information between rounds.</li>
+<li>The iteration strategy should start with broad classification of project type and language, then identify corresponding classes, methods, and imports for each language.</li>
+<li>Tool usage requires clear guidance: specify what tools are available, what tools are unavailable, and how to use them.</li>
+<li>One crucial point I observed over time: explicitly instruct it on handling varying file sizes. For large files, implement chunk-based reading.</li>
+<li>Finally, clearly define the expected output format and the desired results.</li>
+</ol>
+<p>Points 3 and 5 above are, in my opinion, the most easily overlooked details.</p>
+<p>The third point involves enhancing the analyzer’s generic capabilities. It needs to be able to adapt while handling various languages, so we can only achieve this by providing fundamental principles as guidance. Here, we deliberately used more general terms instead of Python’s <code>def</code> or Node.js’s <code>function</code>.</p>
+<p>The fifth point emerged during its iterative development, where I observed it frequently treating only the first few lines of a file as fully read. This is due to the LLM’s self-imposed limitations. Constrained by window size, the LLM subconsciously takes shortcuts.</p>
+<p>When using Kiro, you might have noticed that even with <code>design.md</code>, it still occasionally makes mistakes. That’s because it doesn’t read the entire file. Other tools like Cursor or Copilot exhibit the same behavior.</p>
+<p>Therefore, when prompting these vibe coding tools, I deliberately emphasize that they must read the entire file and summarize its key points afterward. This is the most effective way to prevent them from cutting corners.</p>
+<h3 id="Task-Specialist-Prompts"><a href="#Task-Specialist-Prompts" class="headerlink" title="Task Specialist Prompts"></a>Task Specialist Prompts</h3><p>Compared to the analyzer, the specialist’s system prompt is much simpler, requiring only telling it the key points to review.</p>
+<ol>
+<li>Establish a strict persona for them, focused on details and resistant to persuasion.</li>
+<li>At the same time, inform them of the content required in the report, including various details.</li>
+<li>Provide examples to guide their judgment.</li>
+</ol>
+<p>Although the core concept is simple, teaching an LLM to refuse requests is truly challenging.</p>
+<p>You may have noticed that most models tend to agree rather than disagree due to their training processes. Consequently, every LLM try to be agreeable, leading to many obviously poor-quality reports being allowed to pass.</p>
+<p>Even though it only needs to focus on refusal, refusal is exactly the psychological barrier that is the hardest to overcome.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The operational flow of this project has been thoroughly explained above. Through analyzing the entire architecture, I believe everyone can gain a deeper understanding of the underlying principles behind vibe coding. I believe most tools incorporate such a deep iterative process, though each offers distinct customizable prompts and tool sets.</p>
+<p>After implementing this project, I finally understood why even a spec-driven development framework like Kiro still fails to solve the problem of agents ignoring designs. The underlying truth is surprisingly simple, and it boils down to the files not being read in their entirety.</p>
+<p>I’ll include a sequence diagram for this project at the end of the article, offering another perspective on how agents comprehend the codebase.</p>
+<p>Through this hands-on process, I refined a set of prompts capable of transforming any vibe coding tool into a spec-driven development like Kiro. Today’s story ran a bit long, so let’s continue next time with the series of prompts I distilled. I’ll show you how to enable Copilot to define requirements, design architectures, establish plans, and execute them step by step.</p>
+<p>Let’s call it a day.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*CGlS70UQ1Aep9tmUOcAVIA.png"></p>
+<h3 id="A-message-from-our-Founder"><a href="#A-message-from-our-Founder" class="headerlink" title="A message from our Founder"></a>A message from our Founder</h3><p><strong>Hey,</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>Sunil</strong></a> <strong>here.</strong> I wanted to take a moment to thank you for reading until the end and for being a part of this community.</p>
+<p>Did you know that our team run these publications as a volunteer effort to over 3.5m monthly readers? <strong>We don’t receive any funding, we do this to support the community. ❤️</strong></p>
+<p>If you want to show some love, please take a moment to <strong>follow me on</strong> <a target="_blank" rel="noopener" href="https://linkedin.com/in/sunilsandhu"><strong>LinkedIn</strong></a><strong>,</strong> <a target="_blank" rel="noopener" href="https://tiktok.com/@messyfounder"><strong>TikTok</strong></a>, <a target="_blank" rel="noopener" href="https://instagram.com/sunilsandhu"><strong>Instagram</strong></a>. You can also subscribe to our <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>weekly newsletter</strong></a>.</p>
+<p>And before you go, don’t forget to <strong>clap</strong> and <strong>follow</strong> the writer️!</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/ai-agents-for-complex-codebase-analysis-eef748fe6dfd">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/AI/GitHub-Copilot-Agent-A-Disappointing-Review/20250824/" rel="prev" title="GitHub Copilot Agent: A Disappointing Review">
+                  <i class="fa fa-chevron-left"></i> GitHub Copilot Agent: A Disappointing Review
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/AI/Kiro-Workflow-for-Copilot-Claude-More/20250907/" rel="next" title="Kiro Workflow for Copilot, Claude & More">
+                  Kiro Workflow for Copilot, Claude & More <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>
