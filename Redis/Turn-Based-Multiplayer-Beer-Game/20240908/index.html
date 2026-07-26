@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*4pgEt7p5Pw6QD5WP.png">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*_WH25NeLvyV0fz5x.png">
 <meta property="article:published_time" content="2024-09-08T17:35:30.000Z">
-<meta property="article:modified_time" content="2026-07-26T09:27:26.859Z">
+<meta property="article:modified_time" content="2026-07-26T09:41:21.627Z">
 <meta property="article:author" content="CT Wu">
 <meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -322,10 +322,10 @@
 <p>Since this project is using MongoDB, you have to fill in the link with your account password. In addition, <code>admin.key</code> and <code>player.key</code> correspond to the key fields on the UI.</p>
 <p>After all, I’m uploading the app to the public cloud, so I still need a basic authentication mechanism. If you’re running locally only and find authentication troublesome, you can remove the corresponding source code.</p>
 <h3 id="Installation-and-Use"><a href="#Installation-and-Use" class="headerlink" title="Installation and Use"></a>Installation and Use</h3><p>This project has a <code>Dockerfile</code> attached, so it can be run directly with <code>docker</code>.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build -t beer_game .  </span><br><span class="line">docker run --rm --name beer -p 8501:8501 beer_game</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build -t beer_game .  </span><br><span class="line">docker run --<span class="built_in">rm</span> --name beer -p 8501:8501 beer_game</span><br></pre></td></tr></table></figure>
 
 <p>For development, in addition to <code>requiremnts.txt</code>, <code>requirements-test.txt</code>, which runs the unit tests, should also be installed. Then you can run all the unit tests through the <code>Makefile</code>.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requiremnts.txt  </span><br><span class="line">pip install -r requirements-test.txt  </span><br><span class="line">make test</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requiremnts.txt  </span><br><span class="line">pip install -r requirements-test.txt  </span><br><span class="line">make <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="Game-Flow"><a href="#Game-Flow" class="headerlink" title="Game Flow"></a>Game Flow</h3><p>The whole game is divided into a host mode and a participant mode, which correspond to the options in the top corner of the UI.</p>
 <p>The host first assigns a <code>game_id</code> to create the game, and all participants have to fill in the <code>player_game</code> with this id.</p>

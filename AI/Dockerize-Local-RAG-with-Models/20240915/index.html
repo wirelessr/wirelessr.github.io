@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*uydgLGKA2zKqehQDzLElkw.png">
 <meta property="article:published_time" content="2024-09-15T18:27:26.000Z">
-<meta property="article:modified_time" content="2026-07-26T09:27:26.851Z">
+<meta property="article:modified_time" content="2026-07-26T09:41:21.619Z">
 <meta property="article:author" content="CT Wu">
 <meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
 <meta name="twitter:card" content="summary">
@@ -264,7 +264,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -325,7 +325,7 @@
 </blockquote>
 <p>Therefore, we only need to <code>COPY</code> the contents of this directory into the container.</p>
 <p>However, it is important to note that HuggingFace requires <code>config.json</code> when loading models, and this file is very deep.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def init_embeddings():  </span><br><span class="line">    from langchain_huggingface import HuggingFaceEmbeddings  </span><br><span class="line">    HF_EMBEDDING_MODEL = &#x27;./models--BAAI--bge-m3/snapshots/5617a9f61b028005a4858fdac845db406aefb181&#x27;  </span><br><span class="line">  </span><br><span class="line">    return HuggingFaceEmbeddings(  </span><br><span class="line">        model_name=HF_EMBEDDING_MODEL,  </span><br><span class="line">        model_kwargs=&#123;&#x27;device&#x27;: &#x27;cpu&#x27;&#125;,  </span><br><span class="line">        encode_kwargs=&#123;&#x27;normalize_embeddings&#x27;: False&#125;  </span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">init_embeddings</span>():  </span><br><span class="line">    <span class="keyword">from</span> langchain_huggingface <span class="keyword">import</span> HuggingFaceEmbeddings  </span><br><span class="line">    HF_EMBEDDING_MODEL = <span class="string">&#x27;./models--BAAI--bge-m3/snapshots/5617a9f61b028005a4858fdac845db406aefb181&#x27;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> HuggingFaceEmbeddings(  </span><br><span class="line">        model_name=HF_EMBEDDING_MODEL,  </span><br><span class="line">        model_kwargs=&#123;<span class="string">&#x27;device&#x27;</span>: <span class="string">&#x27;cpu&#x27;</span>&#125;,  </span><br><span class="line">        encode_kwargs=&#123;<span class="string">&#x27;normalize_embeddings&#x27;</span>: <span class="literal">False</span>&#125;  </span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
 
 <p>As we can see from this code, we actually need to specify the snapshot that is used at the moment when using the model.</p>
 <p>Well, we are left with the last one, reranker.</p>
@@ -335,7 +335,7 @@
 
 <p>So what we need to do is copy <code>/tmp/ms-marco-MultiBERT-L-12</code> into the container.</p>
 <p>But that’s not enough, we need to explicitly specify on the client side that the model’s directory has been changed to the container’s current directory. This is a bit complicated to explain, so let’s just look at an example.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from flashrank import Ranker  </span><br><span class="line">from langchain.retrievers.document_compressors import FlashrankRerank  </span><br><span class="line">  </span><br><span class="line">ranker = Ranker(model_name=&#x27;ms-marco-MultiBERT-L-12&#x27;, cache_dir=&#x27;.&#x27;)  </span><br><span class="line">compressor = FlashrankRerank(client=ranker, top_n=5)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flashrank <span class="keyword">import</span> Ranker  </span><br><span class="line"><span class="keyword">from</span> langchain.retrievers.document_compressors <span class="keyword">import</span> FlashrankRerank  </span><br><span class="line">  </span><br><span class="line">ranker = Ranker(model_name=<span class="string">&#x27;ms-marco-MultiBERT-L-12&#x27;</span>, cache_dir=<span class="string">&#x27;.&#x27;</span>)  </span><br><span class="line">compressor = FlashrankRerank(client=ranker, top_n=<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
 
 <p>All right, we’ve got the three models we need in the container.</p>
 <h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Although this article provides a containerized RAG solution, I have to say that the container image is 18 GB.</p>

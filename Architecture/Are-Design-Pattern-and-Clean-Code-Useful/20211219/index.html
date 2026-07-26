@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*QxMg2AdK-5LGu8N3">
 <meta property="article:published_time" content="2021-12-19T17:09:48.000Z">
-<meta property="article:modified_time" content="2026-07-26T09:27:26.848Z">
+<meta property="article:modified_time" content="2026-07-26T09:41:21.616Z">
 <meta property="article:author" content="CT Wu">
 <meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
 <meta name="twitter:card" content="summary">
@@ -264,7 +264,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -305,7 +305,7 @@
 <p>If I were in their position, I perhaps agreed with them. Nevertheless, I had not joined their discussion. After all, I am more close to an authority for them. But, I have to say in their mentioned examples, those methodologies have its meaning.</p>
 <p>Firstly, restricting the function length must be combined with a well-defined naming convention and a good parameter design to let everyone understand what’s the purpose of this function without traversing the detail implementations. Secondly, encapsulating objects is to accomplish a better abstraction and become easier to achieve Open-Closed Principle. Whether encapsulate logic in Strategy Pattern or encapsulate the creation in Factory Method, they make developers be able to use the existing code without reinventing the wheel. In addition, developers can extend the functionality more easily.</p>
 <p>Design pattern and clean code provide some tricks and principles, however, the most important thing is the spirit and purpose behind them. For example,</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if prop == 1:  </span><br><span class="line">    do_a()  </span><br><span class="line">elif prop == 2:  </span><br><span class="line">    do_b()  </span><br><span class="line">elif prop == 3:  </span><br><span class="line">    do_c()  </span><br><span class="line">else:  </span><br><span class="line">    do_default()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> prop == <span class="number">1</span>:  </span><br><span class="line">    do_a()  </span><br><span class="line"><span class="keyword">elif</span> prop == <span class="number">2</span>:  </span><br><span class="line">    do_b()  </span><br><span class="line"><span class="keyword">elif</span> prop == <span class="number">3</span>:  </span><br><span class="line">    do_c()  </span><br><span class="line"><span class="keyword">else</span>:  </span><br><span class="line">    do_default()</span><br></pre></td></tr></table></figure>
 
 <p>This simple example can be considered that those <code>do_XX</code> are some flatted source code. Those junior developers would like to see those behaviors clearly on the same code level like the above python example. In order to understand the implementation at a glance, actually, there are many a way to do better.</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func = &#123;  </span><br><span class="line">    1: do_a,  </span><br><span class="line">    2: do_b,  </span><br><span class="line">    3: do_c,  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>

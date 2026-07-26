@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*_ciaNQC_pGnM69z8deJx2w.png">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*5TNYmwh8ojr3Cn0NljrOJg.png">
 <meta property="article:published_time" content="2025-09-14T16:43:55.000Z">
-<meta property="article:modified_time" content="2026-07-26T09:27:26.849Z">
+<meta property="article:modified_time" content="2026-07-26T09:41:21.617Z">
 <meta property="article:author" content="CT Wu">
 <meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
 <meta name="twitter:card" content="summary">
@@ -267,7 +267,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -335,7 +335,7 @@
 <p><img src="https://cdn-images-1.medium.com/max/800/1*5TNYmwh8ojr3Cn0NljrOJg.png"></p>
 <p>Although it’s non-intrusive for the app, we did make a minor modification to it. However, this change is at the infrastructure layer, not at the code level.</p>
 <p>The key to achieving DNS hijacking lies in manually specifying the app’s DNS server and configuring it as a DNS proxy. Details can be found in the <code>docker-compose.yml</code> file.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">app:  </span><br><span class="line">  image: nginx:alpine  # Placeholder - will be replaced with actual application image  </span><br><span class="line">  container_name: dns-hijack-app  </span><br><span class="line">  networks:  </span><br><span class="line">    dns-hijack-net:  </span><br><span class="line">      ipv4_address: 172.19.0.10  </span><br><span class="line">  dns:  </span><br><span class="line">    - 172.19.0.20  # Use DNS proxy as primary DNS server</span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">app:</span>  </span><br><span class="line">  <span class="attr">image:</span> <span class="string">nginx:alpine</span>  <span class="comment"># Placeholder - will be replaced with actual application image  </span></span><br><span class="line">  <span class="attr">container_name:</span> <span class="string">dns-hijack-app</span>  </span><br><span class="line">  <span class="attr">networks:</span>  </span><br><span class="line">    <span class="attr">dns-hijack-net:</span>  </span><br><span class="line">      <span class="attr">ipv4_address:</span> <span class="number">172.19</span><span class="number">.0</span><span class="number">.10</span>  </span><br><span class="line">  <span class="attr">dns:</span>  </span><br><span class="line">    <span class="bullet">-</span> <span class="number">172.19</span><span class="number">.0</span><span class="number">.20</span>  <span class="comment"># Use DNS proxy as primary DNS server</span></span><br></pre></td></tr></table></figure>
 
 <p>When using public Wi-Fi, this DNS server is assigned by the DHCP server, which is precisely why public Wi-Fi poses such risks.</p>
 <p>The process above details how a DNS proxy operates. Now let’s examine the mock server.</p>

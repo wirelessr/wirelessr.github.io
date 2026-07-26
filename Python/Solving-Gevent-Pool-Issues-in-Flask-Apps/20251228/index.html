@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*QrNrr79Mo2vR0ig0.png">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*5iwuMoMU6B5S8GM1H9d1VA.png">
 <meta property="article:published_time" content="2025-12-28T17:48:29.000Z">
-<meta property="article:modified_time" content="2026-07-26T09:27:26.859Z">
+<meta property="article:modified_time" content="2026-07-26T09:41:21.627Z">
 <meta property="article:author" content="CT Wu">
 <meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
 <meta name="twitter:card" content="summary">
@@ -267,7 +267,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -299,7 +299,7 @@
         <h3 id="Solving-Gevent-Pool-Issues-in-Flask-Apps"><a href="#Solving-Gevent-Pool-Issues-in-Flask-Apps" class="headerlink" title="Solving Gevent Pool Issues in Flask Apps"></a>Solving Gevent Pool Issues in Flask Apps</h3><h4 id="Learn-how-Keep-Alive-connections-can-drain-your-Gevent-pool-and-crash-pods"><a href="#Learn-how-Keep-Alive-connections-can-drain-your-Gevent-pool-and-crash-pods" class="headerlink" title="Learn how Keep-Alive connections can drain your Gevent pool and crash pods"></a>Learn how Keep-Alive connections can drain your Gevent pool and crash pods</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*evEKFdcBcNrvRmhSkuOGAQ.png"></p>
 <p>Recently, we have been troubleshooting a stubborn issue. Pods kept restarting for no apparent reason. The cause was liveness and readiness probe failures.</p>
 <p>This sounds common, right? But here is the catch. We had already tuned our liveness and readiness probes to be as simple as possible. Like this:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&#x27;/health/check&#x27;)  </span><br><span class="line">def check():  </span><br><span class="line">    return &#x27;Hello, World!&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/health/check&#x27;</span></span>)  </span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check</span>():  </span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Hello, World!&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p>It always returns HTTP 200 OK. Yes, always.</p>
 <p>Even with this setup, we still saw liveness and readiness failures.</p>

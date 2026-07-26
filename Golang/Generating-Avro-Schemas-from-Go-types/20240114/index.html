@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*7dOs8Bc1w_EkK-LsA8WITA.png">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*F-LynAHg0cMvENt1R2Og8A.png">
 <meta property="article:published_time" content="2024-01-14T17:35:11.000Z">
-<meta property="article:modified_time" content="2026-07-26T09:27:26.852Z">
+<meta property="article:modified_time" content="2026-07-26T09:41:21.620Z">
 <meta property="article:author" content="CT Wu">
 <meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
 <meta name="twitter:card" content="summary">
@@ -266,7 +266,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -348,7 +348,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">type Book struct &#123;  </span><br><span class="line">	mgm.DefaultModel `bson:&quot;,inline&quot;`  </span><br><span class="line">	Name             string             `json:&quot;name&quot; bson:&quot;name&quot;`  </span><br><span class="line">	Pages            int                `json:&quot;pages&quot; bson:&quot;pages&quot;`  </span><br><span class="line">	ObjId            primitive.ObjectID `json:&quot;obj_id&quot; bson:&quot;obj_id&quot;`  </span><br><span class="line">	ArrivedAt        primitive.DateTime `json:&quot;arrived_at&quot; bson:&quot;arrived_at&quot;`  </span><br><span class="line">	RefData          bson.M             `json:&quot;ref_data&quot; bson:&quot;ref_data&quot;`  </span><br><span class="line">	Author           []string           `json:&quot;author&quot; bson:&quot;author&quot;`  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>To support these special types, you can use the built-in custom <code>MgmExtension</code>. This works just like the original <code>Reflect</code>, except it requires the use of a customized instance.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import (  </span><br><span class="line">	&quot;github.com/wirelessr/avroschema&quot;  </span><br><span class="line">	&quot;github.com/wirelessr/avroschema/mongo&quot;  </span><br><span class="line">)  </span><br><span class="line">  </span><br><span class="line">reflector := new(avroschema.Reflector)  </span><br><span class="line">reflector.Mapper = MgmExtension  </span><br><span class="line">  </span><br><span class="line">reflector.Reflect(&amp;Book&#123;&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (  </span><br><span class="line">	<span class="string">&quot;github.com/wirelessr/avroschema&quot;</span>  </span><br><span class="line">	<span class="string">&quot;github.com/wirelessr/avroschema/mongo&quot;</span>  </span><br><span class="line">)  </span><br><span class="line">  </span><br><span class="line">reflector := <span class="built_in">new</span>(avroschema.Reflector)  </span><br><span class="line">reflector.Mapper = MgmExtension  </span><br><span class="line">  </span><br><span class="line">reflector.Reflect(&amp;Book&#123;&#125;)</span><br></pre></td></tr></table></figure>
 
 <p>There are a couple of important points to note here.</p>
 <ol>

@@ -258,7 +258,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -283,7 +283,7 @@
           <h4 id="Master-settings-json-MCP-and-subagents-to-bring-Claude-Code’s-power-into-Pi"><a href="#Master-settings-json-MCP-and-subagents-to-bring-Claude-Code’s-power-into-Pi" class="headerlink" title="Master settings.json, MCP, and subagents to bring Claude Code’s power into Pi"></a>Master settings.json, MCP, and subagents to bring Claude Code’s power into Pi</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*ynbjshQhr8Y92Ii08ZrCXg.png"></p>
 <p>In my previous post, I talked about migrating from Claude Code to Pi. Since space was limited, I only covered the basics. In this article, I will explain the specific setup in detail.</p>
 <p>First, let’s look at the global configuration layout.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ls -al ~/.pi/agent  </span><br><span class="line">    608 Jul 18 16:49 .  </span><br><span class="line">     96 Jul  4 17:21 ..  </span><br><span class="line">     28 Jun 23 16:25 AGENTS.md -&gt; /Users/ctw/.claude/CLAUDE.md  </span><br><span class="line">   1856 Jul  6 18:05 APPEND_SYSTEM.md  </span><br><span class="line">     63 Jul  7 10:09 agents -&gt; /Users/ctw/Workdir/ctw-skills/plugins/ct/agents  </span><br><span class="line">    118 Jul 16 19:28 mcp.json  </span><br><span class="line">     27 Jun 25 15:42 prompts -&gt; /Users/ctw/.claude/commands  </span><br><span class="line">    546 Jul 17 14:47 settings.json  </span><br><span class="line">     63 Jul  7 10:15 skills -&gt; /Users/ctw/Workdir/ctw-skills/plugins/ct/pi-skills</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -al ~/.pi/agent  </span><br><span class="line">    608 Jul 18 16:49 .  </span><br><span class="line">     96 Jul  4 17:21 ..  </span><br><span class="line">     28 Jun 23 16:25 AGENTS.md -&gt; /Users/ctw/.claude/CLAUDE.md  </span><br><span class="line">   1856 Jul  6 18:05 APPEND_SYSTEM.md  </span><br><span class="line">     63 Jul  7 10:09 agents -&gt; /Users/ctw/Workdir/ctw-skills/plugins/ct/agents  </span><br><span class="line">    118 Jul 16 19:28 mcp.json  </span><br><span class="line">     27 Jun 25 15:42 prompts -&gt; /Users/ctw/.claude/commands  </span><br><span class="line">    546 Jul 17 14:47 settings.json  </span><br><span class="line">     63 Jul  7 10:15 skills -&gt; /Users/ctw/Workdir/ctw-skills/plugins/ct/pi-skills</span><br></pre></td></tr></table></figure>
 
 <p>There is a core configuration file in here called <code>settings.json</code>.</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">  &quot;skills&quot;: [  </span><br><span class="line">    &quot;~/.claude/skills&quot;  </span><br><span class="line">  ],  </span><br><span class="line">  &quot;packages&quot;: [  </span><br><span class="line">    &quot;npm:pi-mcp-adapter&quot;  </span><br><span class="line">  ],  </span><br><span class="line">  &quot;extensions&quot;: [  </span><br><span class="line">    &quot;/Users/ctw/.nvm/versions/node/v22.23.0/lib/node_modules/@earendil-works/pi-coding-agent/examples/extensions/subagent&quot;,  </span><br><span class="line">    &quot;/Users/ctw/.nvm/versions/node/v22.23.0/lib/node_modules/@earendil-works/pi-coding-agent/examples/extensions/permission-gate&quot;  </span><br><span class="line">  ]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -393,7 +393,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -524,7 +524,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -665,7 +665,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -802,7 +802,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -891,7 +891,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -999,7 +999,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1089,7 +1089,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1230,7 +1230,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1373,7 +1373,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">

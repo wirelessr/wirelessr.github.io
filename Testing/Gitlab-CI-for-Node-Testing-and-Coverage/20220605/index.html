@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*aSHkT7J0mEQ3xjZ-.png">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*WSekN_7jQQonrbiD.png">
 <meta property="article:published_time" content="2022-06-05T17:29:21.000Z">
-<meta property="article:modified_time" content="2026-07-26T09:27:26.852Z">
+<meta property="article:modified_time" content="2026-07-26T09:41:21.620Z">
 <meta property="article:author" content="CT Wu">
 <meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -355,18 +355,18 @@
 </ul>
 <p>Wait, there’s one missing? Who creates the reports for JUnit? The answer is <code>mocha</code>. But this is not a built-in feature of <code>mocha</code>, so we have to use an additional tool to do it.</p>
 <p>First, download the <code>mocha-junit-reporter</code> package.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i mocha-junit-reporter — save-dev</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i mocha-junit-reporter — save-dev</span><br></pre></td></tr></table></figure>
 
 <p>Next, create the <code>mocha</code> configuration file, <code>.mocharc.js</code>.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;  </span><br><span class="line">  reporter: &quot;./junit-spec-reporter.js&quot;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;  </span><br><span class="line">  <span class="attr">reporter</span>: <span class="string">&quot;./junit-spec-reporter.js&quot;</span>  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>In the configuration file we tell <code>mocha</code> to generate the report through another file, which is also the JUnit generator.</p>
 <p>The following is the content of <code>junit-spec-reporter.js</code>.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const mocha = require(&quot;mocha&quot;);  </span><br><span class="line">const JUnit = require(&quot;mocha-junit-reporter&quot;);  </span><br><span class="line">const Spec = mocha.reporters.Spec;  </span><br><span class="line">const Base = mocha.reporters.Base;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mocha = <span class="built_in">require</span>(<span class="string">&quot;mocha&quot;</span>);  </span><br><span class="line"><span class="keyword">const</span> <span class="title class_">JUnit</span> = <span class="built_in">require</span>(<span class="string">&quot;mocha-junit-reporter&quot;</span>);  </span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Spec</span> = mocha.<span class="property">reporters</span>.<span class="property">Spec</span>;  </span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Base</span> = mocha.<span class="property">reporters</span>.<span class="property">Base</span>;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function JunitSpecReporter(runner, options) &#123;  </span><br><span class="line">  Base.call(this, runner, options);  </span><br><span class="line">  this._junitReporter = new JUnit(runner, options);  </span><br><span class="line">  this._specReporter = new Spec(runner, options);  </span><br><span class="line">  return this;  </span><br><span class="line">&#125;  </span><br><span class="line">JunitSpecReporter.prototype.__proto__ = Base.prototype;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">JunitSpecReporter</span>(<span class="params">runner, options</span>) &#123;  </span><br><span class="line">  <span class="title class_">Base</span>.<span class="title function_">call</span>(<span class="variable language_">this</span>, runner, options);  </span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">_junitReporter</span> = <span class="keyword">new</span> <span class="title class_">JUnit</span>(runner, options);  </span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">_specReporter</span> = <span class="keyword">new</span> <span class="title class_">Spec</span>(runner, options);  </span><br><span class="line">  <span class="keyword">return</span> <span class="variable language_">this</span>;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="title class_">JunitSpecReporter</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">__proto__</span> = <span class="title class_">Base</span>.<span class="property"><span class="keyword">prototype</span></span>;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">module.exports = JunitSpecReporter;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title class_">JunitSpecReporter</span>;</span><br></pre></td></tr></table></figure>
 
 <p>At this point, all the formats we need can be generated correctly, and Gitlab CI will present a rich view based on these outputs, and developers can do most of their routine work on Gitlab’s web page without actually building the outputs locally.</p>
 <h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>CI&#x2F;CD is a very important software development practice. However, in order for every developer to have the interest and even the confidence to “continue” the practice, people must be able to “see” the change.</p>

@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*Qh8C7h4nVT3CTPZi.jpg">
 <meta property="article:published_time" content="2022-08-07T17:20:03.000Z">
-<meta property="article:modified_time" content="2026-07-26T09:27:26.860Z">
+<meta property="article:modified_time" content="2026-07-26T09:41:21.628Z">
 <meta property="article:author" content="CT Wu">
 <meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
 <meta name="twitter:card" content="summary">
@@ -264,7 +264,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -312,10 +312,10 @@
 <h3 id="When-should-I-use-a-partial-index"><a href="#When-should-I-use-a-partial-index" class="headerlink" title="When should I use a partial index?"></a>When should I use a partial index?</h3><p>To figure out the time to use it, we first need to know what will happen when the “query results” will contain nodes that don’t meet the partial indexing criteria.</p>
 <p>A bit abstract, right? Let’s use MongoDB as an example.</p>
 <p>First, there is a partial index built on a compound index of the user list, in order to make indexing adults faster.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.users.createIndex(  </span><br><span class="line">   &#123; name: 1 &#125;,  </span><br><span class="line">   &#123; partialFilterExpression: &#123; age: &#123; $gte: 18 &#125; &#125; &#125;  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="property">users</span>.<span class="title function_">createIndex</span>(  </span><br><span class="line">   &#123; <span class="attr">name</span>: <span class="number">1</span> &#125;,  </span><br><span class="line">   &#123; <span class="attr">partialFilterExpression</span>: &#123; <span class="attr">age</span>: &#123; <span class="attr">$gte</span>: <span class="number">18</span> &#125; &#125; &#125;  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 <p>However, if our scenario is likely to require a query for a name without an age limit, then such a query will not use the index.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.users.find(&#123;name: &quot;Tom&quot;&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="property">users</span>.<span class="title function_">find</span>(&#123;<span class="attr">name</span>: <span class="string">&quot;Tom&quot;</span>&#125;)</span><br></pre></td></tr></table></figure>
 
 <p>For instance, if there are three Toms aged 8, 18 and 28, then <code>(&quot;Tom&quot;, 18)</code> and <code>(&quot;Tom&quot;, 28)</code> will both be created but not <code>(&quot;Tom&quot;, 8)</code>, so the MongoDB optimizer knows this is the case and will not use partial indexes, but will use full table scans instead.</p>
 <p>Yes, that’s the price. As soon as the scenario contains a condition that is not in the value range of the partial index, then it becomes a full table scan.</p>
@@ -329,7 +329,7 @@
 <p>Take a practical example of a membership system.</p>
 <p>From registration to membership, a user may need to go through many procedures until finally becoming a member after email verification. But this system, for non-members basically does not care, it only focuses on processing the verified member data.</p>
 <p>Then, the partial index can be designed in this way.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.users.createIndex(  </span><br><span class="line">   &#123; name: 1 &#125;,  </span><br><span class="line">   &#123; partialFilterExpression: &#123; email: &#123; $exists: true &#125; &#125; &#125;  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="property">users</span>.<span class="title function_">createIndex</span>(  </span><br><span class="line">   &#123; <span class="attr">name</span>: <span class="number">1</span> &#125;,  </span><br><span class="line">   &#123; <span class="attr">partialFilterExpression</span>: &#123; <span class="attr">email</span>: &#123; <span class="attr">$exists</span>: <span class="literal">true</span> &#125; &#125; &#125;  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 <p>Because this membership system only cares about member information, i. e., users must have email. There may be a large number of users who go through the partial registration process at the beginning but do not pass the verification process at the end, then there will be a large amount of data that does not need to be indexed. In this way, the index space can be reduced as much as possible, and the efficiency of the member’s query can be improved.</p>
 <h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>After all, there is not a perfect solution. Partial indexing saves index space and improves query performance, but there is a corresponding price to pay for a full table scan.</p>

@@ -258,7 +258,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -389,7 +389,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -522,7 +522,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -564,7 +564,7 @@
 <p>Let’s take a look at the two scenarios mentioned above and see what they look like in n8n.</p>
 <p><img src="https://cdn-images-1.medium.com/max/800/0*Sb5m7Jh4UppFSNll.png"></p>
 <p>The last two nodes are <code>Execute Command</code> nodes, which are BASH nodes. What they’re trying to do is something like this.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl exec   </span><br><span class="line">--kubeconfig &#123;&#123; $(&#x27;Pick one&#x27;).item.json.kubeconf &#125;&#125;  </span><br><span class="line">&#123;&#123; $(&#x27;Pick one&#x27;).item.json.name &#125;&#125;   </span><br><span class="line">-n &#123;&#123; $(&#x27;Pick one&#x27;).item.json.namespace &#125;&#125;   </span><br><span class="line">-c &#123;&#123; $(&#x27;Pick one&#x27;).item.json.container &#125;&#125;   </span><br><span class="line">-- &#123;&#123; $(&#x27;Keep loop items&#x27;).item.json.command &#125;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">exec</span>   </span><br><span class="line">--kubeconfig &#123;&#123; $(<span class="string">&#x27;Pick one&#x27;</span>).item.json.kubeconf &#125;&#125;  </span><br><span class="line">&#123;&#123; $(<span class="string">&#x27;Pick one&#x27;</span>).item.json.name &#125;&#125;   </span><br><span class="line">-n &#123;&#123; $(<span class="string">&#x27;Pick one&#x27;</span>).item.json.namespace &#125;&#125;   </span><br><span class="line">-c &#123;&#123; $(<span class="string">&#x27;Pick one&#x27;</span>).item.json.container &#125;&#125;   </span><br><span class="line">-- &#123;&#123; $(<span class="string">&#x27;Keep loop items&#x27;</span>).item.json.command &#125;&#125;</span><br></pre></td></tr></table></figure>
 
 <p>These variables framed in curly brackets are actually the outputs of the previous nodes, and I can specify which node I want to fetch which output from, or even just drag and drop it on the UI.</p>
 <p>Another case is loop processing.</p>
@@ -660,7 +660,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -786,7 +786,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -908,7 +908,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1049,7 +1049,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1207,7 +1207,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1324,7 +1324,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1508,7 +1508,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1534,32 +1534,53 @@
 <p>Those who follow me on Medium should know I’m a heavy <a target="_blank" rel="noopener" href="https://mermaid.js.org/">mermaid</a> user.</p>
 <p>In almost all of my technical articles, I use mermaid as a way to describe the architecture (and in some cases, <a target="_blank" rel="noopener" href="https://www.drawio.com/">Draw.io</a>).</p>
 <p>The reason why I rely on mermaid so much is because of its extremely expressive syntax, where notation and arrows are all we need to draw components and connections.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">graph LR  </span><br><span class="line">  a --1st--&gt; b --2nd--&gt; c</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight mermaid">graph LR  
+  a --1st--&gt; b --2nd--&gt; c</code></pre>
 
 <p><img src="https://cdn-images-1.medium.com/max/800/1*qyLeNZkIOSJVsUUK_xKgpg.png"></p>
 <p>Moreover, such consistency is also applied to sequence diagrams.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram  </span><br><span class="line">  a -&gt;&gt; b: 1st  </span><br><span class="line">  b -&gt;&gt; c: 2nd</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight mermaid">sequenceDiagram  
+  a -&gt;&gt; b: 1st  
+  b -&gt;&gt; c: 2nd</code></pre>
 
 <p><img src="https://cdn-images-1.medium.com/max/800/1*HuqNZmPcemksXQHVfiKwRg.png"></p>
 <p>For software engineers, architecture diagrams and sequence diagrams are the most commonly used tools to show ideas and implementations. Mermaid makes it incredibly easy to draw diagrams, which saves a lot of time for engineers like me who have to draw a lot of diagrams every day.</p>
 <p>Nevertheless, mermaid has its limitations.</p>
 <p>The simplicity of the syntax makes it difficult to lay out a reasonable diagram. For example, when components and relationships become complex, mermaid drawings start to look worse than expected.</p>
 <p>In the following example, when the component relationships become complex, a bunch of intersecting lines start to appear.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR  </span><br><span class="line">  a --&gt; b --&gt; c  </span><br><span class="line">  a --&gt; d --&gt; e  </span><br><span class="line">  a --&gt; f --&gt; g --&gt; h --&gt; i  </span><br><span class="line">  h --&gt; c &amp; e</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight mermaid">graph LR  
+  a --&gt; b --&gt; c  
+  a --&gt; d --&gt; e  
+  a --&gt; f --&gt; g --&gt; h --&gt; i  
+  h --&gt; c &amp; e</code></pre>
 
 <p><img src="https://cdn-images-1.medium.com/max/800/1*DQ3glTXCE8flenNNBuLy6A.png"></p>
 <p>To avoid crossing lines, I have to manually adjust the order in which the components are declared to make the layout as clear as possible.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR  </span><br><span class="line">  a --&gt; b --&gt; c  </span><br><span class="line">  a --&gt; f --&gt; g --&gt; h --&gt; i  </span><br><span class="line">  h --&gt; c &amp; e  </span><br><span class="line">  a --&gt; d --&gt; e</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight mermaid">graph LR  
+  a --&gt; b --&gt; c  
+  a --&gt; f --&gt; g --&gt; h --&gt; i  
+  h --&gt; c &amp; e  
+  a --&gt; d --&gt; e</code></pre>
 
 <p><img src="https://cdn-images-1.medium.com/max/800/1*EoWTrA_-KgA1OVhp3Thi-Q.png"></p>
 <p>This undoubtedly adds a lot of work, especially when the diagram becomes complex, and the amount of fine-tuning can be incredible.</p>
 <p>In addition, our architecture usually has subcomponents. This is also powerful enough in the mermaid, but it can be confusing when we use the notation of the subcomponents. In the following example, my outer <code>db</code> directly overrides the inner <code>db</code>.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph LR  </span><br><span class="line">  subgraph Child  </span><br><span class="line">    b --&gt; db[(DB1)]  </span><br><span class="line">  end  </span><br><span class="line">  db[(DB2)]  </span><br><span class="line">  a --&gt; b &amp; db</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight mermaid">graph LR  
+  subgraph Child  
+    b --&gt; db[(DB1)]  
+  end  
+  db[(DB2)]  
+  a --&gt; b &amp; db</code></pre>
 
 <p><img src="https://cdn-images-1.medium.com/max/800/1*2u_oNk2RUMTjQFnyCSzxEw.png"></p>
 <p>You might say, wouldn’t the problem be solved by changing the inner <code>db</code> to <code>child_db</code>? True, but this also introduces coupling, i.e. coupling between component names and layers. When the layer changes, the component name will be in an awkward position.</p>
 <p>On the other hand, mermaid is cumbersome to set up styles and is not easy to use.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">flowchart LR  </span><br><span class="line">    id1(Start)--&gt;id2(Stop)  </span><br><span class="line">    style id1 fill:#f9f  </span><br><span class="line">    style id1 stroke:#333,stroke-width:4px  </span><br><span class="line">    style id1 stroke-width:4px  </span><br><span class="line">    style id2 fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight mermaid">flowchart LR  
+    id1(Start)--&gt;id2(Stop)  
+    style id1 fill:#f9f  
+    style id1 stroke:#333,stroke-width:4px  
+    style id1 stroke-width:4px  
+    style id2 fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5</code></pre>
 
 <p><img src="https://cdn-images-1.medium.com/max/800/1*ZrIlg6NewenjzsA2tHd8og.png"></p>
 <p>Declarations and styles are separate, and the attributes of a style can either be declared multiple times, as in <code>id1</code>, or chained together to make them super long, as in <code>id2</code>. Either way, it’s not suitable for complex architecture diagrams.</p>

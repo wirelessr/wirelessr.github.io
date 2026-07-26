@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*huNV3uOmTLrTv1Z0.png">
 <meta property="article:published_time" content="2021-10-24T22:21:05.000Z">
-<meta property="article:modified_time" content="2026-07-26T09:27:26.854Z">
+<meta property="article:modified_time" content="2026-07-26T09:41:21.622Z">
 <meta property="article:author" content="CT Wu">
 <meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
 <meta name="twitter:card" content="summary">
@@ -264,7 +264,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -317,7 +317,7 @@
 
 <p>And, the shard key is <code>{month: 1, type: 1}</code>.</p>
 <p>The key point here is we use <code>month</code> instead of <code>ts</code> to avoid frequently rebalancing. The <code>month</code> is not made just for the shard key; on the contrary, we also use it for our search pattern. Instead of calculating the relationship between timestamp and the date, we can use <code>getMonth</code> to find results faster. For instance,</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var d = new Date();  </span><br><span class="line">d.setMonth(d.getMonth() - 1); //1 month ago  </span><br><span class="line">db.data.find(&#123;month:&#123;$gte: d&#125;&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="title class_">Date</span>();  </span><br><span class="line">d.<span class="title function_">setMonth</span>(d.<span class="title function_">getMonth</span>() - <span class="number">1</span>); <span class="comment">//1 month ago  </span></span><br><span class="line">db.<span class="property">data</span>.<span class="title function_">find</span>(&#123;<span class="attr">month</span>:&#123;<span class="attr">$gte</span>: d&#125;&#125;);</span><br></pre></td></tr></table></figure>
 
 <p>To sum up, this article provides the concepts of designing MongoDB shard key. You might not have a coarsely ascending data so, but you can refer to the concepts and find out a proper key design for your applications.</p>
 <blockquote>

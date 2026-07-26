@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*H1EtHr2h0kRGBqj5iUBbdQ.png">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*BI7_kNugq6tdvRGX9jOQlA.png">
 <meta property="article:published_time" content="2022-10-30T17:21:29.000Z">
-<meta property="article:modified_time" content="2026-07-26T09:27:26.860Z">
+<meta property="article:modified_time" content="2026-07-26T09:41:21.628Z">
 <meta property="article:author" content="CT Wu">
 <meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
 <meta name="twitter:card" content="summary">
@@ -267,7 +267,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -335,7 +335,7 @@
 <p>As mentioned in the previous section, putting a GUID inside each message is an obvious solution. Consumers store handled messages in a durable storage, and each consumer must verify whether a message has been handled before handling it.</p>
 <p>In addition, consumers must avoid duplicate updates when updating the storage by using transactions.</p>
 <p>Let’s take MySQL as an example.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">START TRANSACTION;  </span><br><span class="line">$RET = UPDATE event SET handled = true WHERE msg_id = 123 AND handled = false;  </span><br><span class="line">if $RET == 1:  </span><br><span class="line">    Do whatever you want;  </span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;  </span><br><span class="line">$RET <span class="operator">=</span> <span class="keyword">UPDATE</span> event <span class="keyword">SET</span> handled <span class="operator">=</span> <span class="literal">true</span> <span class="keyword">WHERE</span> msg_id <span class="operator">=</span> <span class="number">123</span> <span class="keyword">AND</span> handled <span class="operator">=</span> <span class="literal">false</span>;  </span><br><span class="line">if $RET <span class="operator">=</span><span class="operator">=</span> <span class="number">1</span>:  </span><br><span class="line">    Do whatever you want;  </span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
 
 <p>Please notice in the first line after the transaction, in addition to <code>msg_id</code> in the <code>WHERE</code> clause we must also add <code>handled = false</code>, this is one of the ways to avoid MySQL having racing conditions. If we don’t add this check condition, it is still possible to process the same message twice under race conditions.</p>
 <p>There is a detailed explanation of how MySQL handles race conditions in my previous article, if you want to know the details you can refer to the following.</p>

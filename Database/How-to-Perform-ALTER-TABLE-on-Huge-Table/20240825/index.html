@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*ICjiDbUr9M67hqhTAbd3aA.png">
 <meta property="article:published_time" content="2024-08-25T17:39:06.000Z">
-<meta property="article:modified_time" content="2026-07-26T09:27:26.854Z">
+<meta property="article:modified_time" content="2026-07-26T09:41:21.622Z">
 <meta property="article:author" content="CT Wu">
 <meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
 <meta name="twitter:card" content="summary">
@@ -264,7 +264,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -299,7 +299,7 @@
 <p>Well, it’s not that bad if you do it correctly.</p>
 <p>Let’s start by understanding why we all have a given idea that this is a dangerous thing to do.</p>
 <p>In Postgres, for example, when we want to add a new column with a default value, we execute the following command.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name  </span><br><span class="line">ADD COLUMN column_name data_type DEFAULT default_value;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name  </span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">COLUMN</span> column_name data_type <span class="keyword">DEFAULT</span> default_value;</span><br></pre></td></tr></table></figure>
 
 <p>When Postgres recognizes this is an <code>ALTER TABLE</code> command and affects the entire table by default, it requests an <code>AccessExclusiveLock</code>. The lock is a table-level lock and is so exclusive that all other locks cannot coexist, including the lowest-level <code>AccessShareLock</code>, and all <code>SELECT</code>s require at least <code>AccessShareLock</code>, which results in the entire table being stuck.</p>
 <p>When this <code>ALTER TABLE</code> is executed on a large table, it means all rows have to be modified and updated to the default values, which also means that it will take a long time and consume a lot of system resources, and then, of course, the system will be crashed.</p>
@@ -308,10 +308,10 @@
 <p>When we expect the table to get this big, we’ll have to partition it.</p>
 <p>Continuing with the Postgres example, suppose our order table grows over time and one day overwhelms Postgres. At some point, we should consider partitioning.</p>
 <p>Assume we have the following order table.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE orders (  </span><br><span class="line">    order_id SERIAL PRIMARY KEY,  </span><br><span class="line">    tenant_id INTEGER,  </span><br><span class="line">    order_date DATE,  </span><br><span class="line">    -- other columns  </span><br><span class="line">) PARTITION BY RANGE (tenant_id);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orders (  </span><br><span class="line">    order_id SERIAL <span class="keyword">PRIMARY</span> KEY,  </span><br><span class="line">    tenant_id <span class="type">INTEGER</span>,  </span><br><span class="line">    order_date <span class="type">DATE</span>,  </span><br><span class="line">    <span class="comment">-- other columns  </span></span><br><span class="line">) <span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">RANGE</span> (tenant_id);</span><br></pre></td></tr></table></figure>
 
 <p>We can consider partitioning by <code>tenant_id</code> so that the data is spread out in many smaller tables on a tenant basis.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE orders_part1 PARTITION OF orders  </span><br><span class="line">FOR VALUES FROM (1) TO (1000);  </span><br><span class="line">  </span><br><span class="line">CREATE TABLE orders_part2 PARTITION OF orders  </span><br><span class="line">FOR VALUES FROM (1001) TO (2000);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orders_part1 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> orders  </span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1</span>) <span class="keyword">TO</span> (<span class="number">1000</span>);  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orders_part2 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> orders  </span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1001</span>) <span class="keyword">TO</span> (<span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
 
 <p>In this example, each child table would only have order information for 1000 tenants, which would effectively prevent the table from growing to a huge size.</p>
 <h3 id="The-reality-is"><a href="#The-reality-is" class="headerlink" title="The reality is"></a>The reality is</h3><p>But it’s a bit unrealistic to think about partitioning right from the beginning, because the management of a partitioned table is also a bit complicated.</p>
@@ -319,17 +319,17 @@
 <p>What should we do?</p>
 <p>Well, we need to minimize the negative impact of <code>ALTER TABLE</code>.</p>
 <p>First, let’s ignore the default value and set the column to nullable.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name  </span><br><span class="line">ADD COLUMN column_name data_type;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name  </span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">COLUMN</span> column_name data_type;</span><br></pre></td></tr></table></figure>
 
 <p>Keep in mind, do not insert in the middle of existing columns.</p>
 <p>This operation is pretty lightweight and can be done in a very short time even for huge tables.</p>
 <p>Next, we’ll start filling in the default values for this new column in batches with the primary key.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPDATE table_name  </span><br><span class="line">SET column_name = default_value  </span><br><span class="line">WHERE primary_key_column BETWEEN start_value AND end_value;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> table_name  </span><br><span class="line"><span class="keyword">SET</span> column_name <span class="operator">=</span> default_value  </span><br><span class="line"><span class="keyword">WHERE</span> primary_key_column <span class="keyword">BETWEEN</span> start_value <span class="keyword">AND</span> end_value;</span><br></pre></td></tr></table></figure>
 
 <p>Remember, it has to be a batch, i.e. just a few hundred rows at a time, and we’ll do it in batches until all the new columns in the table have values.</p>
 <p>The reason for the batch is because the lookup of the primary key is extremely efficient, and each update only locks a portion of rows, which on the one hand improves efficiency, and on the other hand reduces the scope of the affected data.</p>
 <p>Finally, we change the columns back to what we wanted at the beginning.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name  </span><br><span class="line">ALTER COLUMN column_name data_type DEFAULT default_value;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name  </span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">COLUMN</span> column_name data_type <span class="keyword">DEFAULT</span> default_value;</span><br></pre></td></tr></table></figure>
 
 <p>This operation will take a little longer than the first step, but it is acceptable.</p>
 <p>Splitting a command with a huge impact into three steps, each step with a limited range of impacts, will allow the avaiability of the system to be increased dramatically.</p>

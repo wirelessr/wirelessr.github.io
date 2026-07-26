@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/800/0*z_KdwaWl6y2DMX6w">
 <meta property="article:published_time" content="2022-12-18T17:53:08.000Z">
-<meta property="article:modified_time" content="2026-07-26T09:27:26.852Z">
+<meta property="article:modified_time" content="2026-07-26T09:41:21.620Z">
 <meta property="article:author" content="CT Wu">
 <meta property="article:tag" content="software architecture, backend, data engineering, distributed system">
 <meta name="twitter:card" content="summary">
@@ -264,7 +264,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -305,7 +305,7 @@
 </ul>
 <p>But this article is to introduce ElasticSearch pagination, so I will briefly describe these three.</p>
 <h3 id="Offset-Pagination"><a href="#Offset-Pagination" class="headerlink" title="Offset Pagination"></a>Offset Pagination</h3><p>This is the most common pagination pattern, and let’s represent it in SQL.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT *  </span><br><span class="line">FROM table_name  </span><br><span class="line">LIMIT 10 OFFSET 20;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span>  </span><br><span class="line"><span class="keyword">FROM</span> table_name  </span><br><span class="line">LIMIT <span class="number">10</span> <span class="keyword">OFFSET</span> <span class="number">20</span>;</span><br></pre></td></tr></table></figure>
 
 <p>Suppose there are 10 records on one page, then we can get the result of the third page by this command. Use <code>LIMIT</code> to limit the number of records per page and use <code>OFFSET</code> to jump to the specified page.</p>
 <p>There are many advantages of such a pagination.</p>
@@ -321,7 +321,7 @@
 <p>In the above example, it looks like we only need to take 10 records from the database, but in fact, the database will take 30 records and discard the first 20 records. When <code>OFFSET</code> is very large then the database will still take all the records and create a lot of overhead.</p>
 <h3 id="Keyset-Pagination"><a href="#Keyset-Pagination" class="headerlink" title="Keyset Pagination"></a>Keyset Pagination</h3><p>In order to solve the performance problem, we have the keyset pagination approach.</p>
 <p>We still use SQL as an example, following the above scenario, we limit the number of records per page to 10 and take the third page.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT *  </span><br><span class="line">FROM table_name  </span><br><span class="line">WHERE id &gt; 20  </span><br><span class="line">ORDER BY id  </span><br><span class="line">LIMIT 10;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span>  </span><br><span class="line"><span class="keyword">FROM</span> table_name  </span><br><span class="line"><span class="keyword">WHERE</span> id <span class="operator">&gt;</span> <span class="number">20</span>  </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> id  </span><br><span class="line">LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
 
 <p>Using <code>LIMIT</code> to limit the number of records per page is the same as above, except that we first sort by <code>ORDER BY</code> and then set the starting position by <code>WHERE</code> instead of <code>OFFSET</code>. In this way, we can get the third page without taking 30 records.</p>
 <p>There are several implementation details that must be paid attention.</p>
@@ -370,7 +370,7 @@
 
 <p>Since it is a cursor-based pagination, we cannot specify which page we want to jump to, we can only keep going to the next page until there is no result.</p>
 <p>Because <code>Scroll API</code> is a snapshot of the current query result, so we must carefully choose the TTL or delete the snapshot after finishing, otherwise it will occupy the hard drive space.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DELETE /_search/scroll  </span><br><span class="line">&#123;  </span><br><span class="line">  &quot;scroll_id&quot; : &quot;OXOXQQ==&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="operator">/</span>_search<span class="operator">/</span><span class="keyword">scroll</span>  </span><br><span class="line">&#123;  </span><br><span class="line">  &quot;scroll_id&quot; : &quot;OXOXQQ==&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>In the new version of ElasticSearch, it is no longer recommended to use Scroll API for deep pagination, instead, another new mechanism (released after 7.10), <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/point-in-time-api.html">PIT (Point In Time)</a>.</p>
 <p>PIT works similarly to Scroll API, but is more flexible and better optimized for performance.</p>

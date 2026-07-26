@@ -258,7 +258,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -378,7 +378,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -419,10 +419,10 @@
 <h3 id="When-should-I-use-a-partial-index"><a href="#When-should-I-use-a-partial-index" class="headerlink" title="When should I use a partial index?"></a>When should I use a partial index?</h3><p>To figure out the time to use it, we first need to know what will happen when the “query results” will contain nodes that don’t meet the partial indexing criteria.</p>
 <p>A bit abstract, right? Let’s use MongoDB as an example.</p>
 <p>First, there is a partial index built on a compound index of the user list, in order to make indexing adults faster.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.users.createIndex(  </span><br><span class="line">   &#123; name: 1 &#125;,  </span><br><span class="line">   &#123; partialFilterExpression: &#123; age: &#123; $gte: 18 &#125; &#125; &#125;  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="property">users</span>.<span class="title function_">createIndex</span>(  </span><br><span class="line">   &#123; <span class="attr">name</span>: <span class="number">1</span> &#125;,  </span><br><span class="line">   &#123; <span class="attr">partialFilterExpression</span>: &#123; <span class="attr">age</span>: &#123; <span class="attr">$gte</span>: <span class="number">18</span> &#125; &#125; &#125;  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 <p>However, if our scenario is likely to require a query for a name without an age limit, then such a query will not use the index.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.users.find(&#123;name: &quot;Tom&quot;&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="property">users</span>.<span class="title function_">find</span>(&#123;<span class="attr">name</span>: <span class="string">&quot;Tom&quot;</span>&#125;)</span><br></pre></td></tr></table></figure>
 
 <p>For instance, if there are three Toms aged 8, 18 and 28, then <code>(&quot;Tom&quot;, 18)</code> and <code>(&quot;Tom&quot;, 28)</code> will both be created but not <code>(&quot;Tom&quot;, 8)</code>, so the MongoDB optimizer knows this is the case and will not use partial indexes, but will use full table scans instead.</p>
 <p>Yes, that’s the price. As soon as the scenario contains a condition that is not in the value range of the partial index, then it becomes a full table scan.</p>
@@ -436,7 +436,7 @@
 <p>Take a practical example of a membership system.</p>
 <p>From registration to membership, a user may need to go through many procedures until finally becoming a member after email verification. But this system, for non-members basically does not care, it only focuses on processing the verified member data.</p>
 <p>Then, the partial index can be designed in this way.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.users.createIndex(  </span><br><span class="line">   &#123; name: 1 &#125;,  </span><br><span class="line">   &#123; partialFilterExpression: &#123; email: &#123; $exists: true &#125; &#125; &#125;  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="property">users</span>.<span class="title function_">createIndex</span>(  </span><br><span class="line">   &#123; <span class="attr">name</span>: <span class="number">1</span> &#125;,  </span><br><span class="line">   &#123; <span class="attr">partialFilterExpression</span>: &#123; <span class="attr">email</span>: &#123; <span class="attr">$exists</span>: <span class="literal">true</span> &#125; &#125; &#125;  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 <p>Because this membership system only cares about member information, i. e., users must have email. There may be a large number of users who go through the partial registration process at the beginning but do not pass the verification process at the end, then there will be a large amount of data that does not need to be indexed. In this way, the index space can be reduced as much as possible, and the efficiency of the member’s query can be improved.</p>
 <h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>After all, there is not a perfect solution. Partial indexing saves index space and improves query performance, but there is a corresponding price to pay for a full table scan.</p>
@@ -507,7 +507,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -680,7 +680,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -840,7 +840,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -988,7 +988,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1173,7 +1173,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1375,7 +1375,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1416,7 +1416,7 @@
 <li>When A and B each draw 50 at the same time, but there are only 70 in the machine, one of them will get the 50 in the batch, while the other will draw 20 first, and then wait for the refill before drawing 30.</li>
 </ul>
 <p>With the use case, we can either draw a flowchart or write a process based on it. In this example, I chose to write the process in <code>Python</code> as follows.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def draw(n, machine):  </span><br><span class="line">    gachas = machine.pop(n)  </span><br><span class="line">      </span><br><span class="line">    if len(gachas) &lt; n:  </span><br><span class="line">        machine.refill()  </span><br><span class="line">        gachas += draw(n - len(gachas), machine)  </span><br><span class="line">      </span><br><span class="line">    return gachas</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">draw</span>(<span class="params">n, machine</span>):  </span><br><span class="line">    gachas = machine.pop(n)  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(gachas) &lt; n:  </span><br><span class="line">        machine.refill()  </span><br><span class="line">        gachas += draw(n - <span class="built_in">len</span>(gachas), machine)  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">return</span> gachas</span><br></pre></td></tr></table></figure>
 
 <p>In the user story, we mentioned that we will model a gashapon machine and a gacha. So the <code>machine</code> in this example code is the gashapon machine, which provides both <code>pop</code> and <code>refill</code> methods. On the other hand, gachas are a list with <code>gacha</code> in it.</p>
 <p>Before we go any further, there is one very important thing that must be stated. Both the <code>pop</code> and <code>refill</code> methods must be atomic. To avoid racing conditions, both methods must be atomic and cannot be preempted, while there will be multiple users drawing simultaneously.</p>
@@ -1437,12 +1437,12 @@
 <p><code>Gacha</code>’s domain model is straightforward, which is <code>gacha_id</code> or more detailed, which may be the theme plus items, such as: Jurassic Park and T-Rex.</p>
 <p>A more interesting topic to discuss is <code>machine</code>. <code>machine</code> needs to define several attributes. First, it should be able to specify an id in the constructor, and second, there are two atomic methods, <code>pop</code> and <code>refill</code>. We will focus on these two methods in the following sections.</p>
 <h3 id="Atomic-Pop"><a href="#Atomic-Pop" class="headerlink" title="Atomic Pop"></a>Atomic Pop</h3><p>It is not difficult to implement an atomic <code>pop</code>: first sort by sequence number, then take out the first <code>n</code> rows, and finally set <code>is_drawn</code> to <code>true</code>. Let’s take the Jurassic Park machine as an example.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">START TRANSACTION;  </span><br><span class="line">SELECT * FROM GachaTable WHERE machine_id = 1 AND is_drawn = false ORDER BY gacha_seq LIMIT n FOR UPDATE;  </span><br><span class="line">UPDATE GachaTable SET is_drawn = true WHERE gacha_seq IN $&#123;resultSeqs&#125;;  </span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> GachaTable <span class="keyword">WHERE</span> machine_id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> is_drawn <span class="operator">=</span> <span class="literal">false</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> gacha_seq LIMIT n <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;  </span><br><span class="line"><span class="keyword">UPDATE</span> GachaTable <span class="keyword">SET</span> is_drawn <span class="operator">=</span> <span class="literal">true</span> <span class="keyword">WHERE</span> gacha_seq <span class="keyword">IN</span> $&#123;resultSeqs&#125;;  </span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
 
 <p>As mentioned in <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/how-to-avoid-the-race-condition-and-the-negative-value-3f397b2b08e4">my previous article</a>, in order to avoid lost updates, MySQL has three approaches. In this example, to achieve atomic updates, it is easiest to add <code>FOR UPDATE</code> to the end of <code>SELECT</code> to preempt these rows.</p>
 <p>When the update is complete, the result of <code>SELECT</code> can be wrapped into <code>Gacha</code> instances and returned. This way the caller will be able to get the gachas drawn and know how many were drawn.</p>
 <h3 id="Atomic-Refill"><a href="#Atomic-Refill" class="headerlink" title="Atomic Refill"></a>Atomic Refill</h3><p>Another atomic method is <code>refill</code>. It is simple to not get interrupted in the middle of the fill process. Because MySQL transactions are not read by the rest of clients until <code>COMMIT</code> under the <code>Repeatable Read</code> condition.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">START TRANSACTION;  </span><br><span class="line">for gacha in newGachaPackage():  </span><br><span class="line">    INSERT INTO GachaTable VALUES $&#123;gacha&#125;;  </span><br><span class="line">      </span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;  </span><br><span class="line"><span class="keyword">for</span> gacha <span class="keyword">in</span> newGachaPackage():  </span><br><span class="line">    <span class="keyword">INSERT</span> <span class="keyword">INTO</span> GachaTable <span class="keyword">VALUES</span> $&#123;gacha&#125;;  </span><br><span class="line">      </span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
 
 <p>Is that all? No, not really.</p>
 <p>This problem occurs when both users draw <code>n</code>, but there are not enough <code>n</code> gachas to draw.</p>
@@ -1454,7 +1454,7 @@
 <p>In this example, we can add a new table, <code>MachineTable</code>.</p>
 <p><img src="https://cdn-images-1.medium.com/max/800/1*WeEyK9FEAwIzvSuKRlT85Q.png"></p>
 <p>This table also allows the original <code>machine_id</code> of <code>GachaTable</code> to have an additional foreign key reference target. When we do <code>refill</code>, we have to lock this machine first before we can update it.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">START TRANSACTION;  </span><br><span class="line">SELECT * FROM MachineTable WHERE machine_id = 1 FOR UPDATE;  </span><br><span class="line">SELECT COUNT(*) FROM GachaTable WHERE machine_id = 1 AND is_drawn = false;  </span><br><span class="line">if !cnt:  </span><br><span class="line">    for gacha in newGachaPackage():  </span><br><span class="line">        INSERT INTO GachaTable VALUES $&#123;gacha&#125;;  </span><br><span class="line">      </span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> MachineTable <span class="keyword">WHERE</span> machine_id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> GachaTable <span class="keyword">WHERE</span> machine_id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> is_drawn <span class="operator">=</span> <span class="literal">false</span>;  </span><br><span class="line">if <span class="operator">!</span>cnt:  </span><br><span class="line">    <span class="keyword">for</span> gacha <span class="keyword">in</span> newGachaPackage():  </span><br><span class="line">        <span class="keyword">INSERT</span> <span class="keyword">INTO</span> GachaTable <span class="keyword">VALUES</span> $&#123;gacha&#125;;  </span><br><span class="line">      </span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
 
 <p>At first, we acquire the exclusive lock, then we re-confirm whether <code>GachaTable</code> needs <code>refill</code>, and finally, we actually insert the data into it. If it is not reconfirmed, then it is still possible to repeat <code>refill</code>.</p>
 <p>Here are a few extended discussions.</p>
@@ -1539,7 +1539,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1594,15 +1594,15 @@
 <p><em>(type: ‘client’ | ‘subscriber’ | ‘bclient’, config?: Redis.RedisOptions): Redis.Redis | Redis.Cluster;</em></p>
 </blockquote>
 <p><code>Redis.Redis</code> and <code>Redis.Cluster</code> at the end of the rule actually refer to the <a target="_blank" rel="noopener" href="https://github.com/luin/ioredis">ioredis</a> constructors, so to set them up, we must use the ioredis constructors.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const Redis = require(&quot;ioredis&quot;);  </span><br><span class="line">Redis.Redis  </span><br><span class="line">Redis.Cluster</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">Redis</span> = <span class="built_in">require</span>(<span class="string">&quot;ioredis&quot;</span>);  </span><br><span class="line"><span class="title class_">Redis</span>.<span class="property">Redis</span>  </span><br><span class="line"><span class="title class_">Redis</span>.<span class="property">Cluster</span></span><br></pre></td></tr></table></figure>
 
 <p>Even so, I don’t understand what kind of format <code>createClient</code> needs to provide, is it an object? What are the keys to <code>Redis.Redis</code> and <code>Redis.Cluster</code>?</p>
 <p>Finally, I found out from another section of the document, <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/PATTERNS.md#reusing-redis-connections">Reusing Redis Connections</a> I realized that it was a function. Anyway, put the pieces together.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const Redis = require(&#x27;ioredis&#x27;);  </span><br><span class="line">let client;  </span><br><span class="line">let subscriber;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">Redis</span> = <span class="built_in">require</span>(<span class="string">&#x27;ioredis&#x27;</span>);  </span><br><span class="line"><span class="keyword">let</span> client;  </span><br><span class="line"><span class="keyword">let</span> subscriber;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const opts = &#123;  </span><br><span class="line">  // redisOpts here will contain at least a property of connectionName which will identify the queue based on its name  </span><br><span class="line">  createClient: function (type, redisOpts) &#123;  </span><br><span class="line">    switch (type) &#123;  </span><br><span class="line">      case &#x27;client&#x27;:  </span><br><span class="line">        if (!client) &#123;  </span><br><span class="line">          client = new Redis.Cluster(REDIS_URL, redisOpts);  </span><br><span class="line">        &#125;  </span><br><span class="line">        return client;  </span><br><span class="line">      case &#x27;subscriber&#x27;:  </span><br><span class="line">        if (!subscriber) &#123;  </span><br><span class="line">          subscriber = new Redis.Cluster(REDIS_URL, redisOpts);  </span><br><span class="line">        &#125;  </span><br><span class="line">        return subscriber;  </span><br><span class="line">      case &#x27;bclient&#x27;:  </span><br><span class="line">        return new Redis.Cluster(REDIS_URL, redisOpts);  </span><br><span class="line">      default:  </span><br><span class="line">        throw new Error(&#x27;Unexpected connection type: &#x27;, type);  </span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;,  </span><br><span class="line">  prefix: &#x27;&#123;myprefix&#125;&#x27;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> opts = &#123;  </span><br><span class="line">  <span class="comment">// redisOpts here will contain at least a property of connectionName which will identify the queue based on its name  </span></span><br><span class="line">  <span class="attr">createClient</span>: <span class="keyword">function</span> (<span class="params">type, redisOpts</span>) &#123;  </span><br><span class="line">    <span class="keyword">switch</span> (type) &#123;  </span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;client&#x27;</span>:  </span><br><span class="line">        <span class="keyword">if</span> (!client) &#123;  </span><br><span class="line">          client = <span class="keyword">new</span> <span class="title class_">Redis</span>.<span class="title class_">Cluster</span>(<span class="variable constant_">REDIS_URL</span>, redisOpts);  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> client;  </span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;subscriber&#x27;</span>:  </span><br><span class="line">        <span class="keyword">if</span> (!subscriber) &#123;  </span><br><span class="line">          subscriber = <span class="keyword">new</span> <span class="title class_">Redis</span>.<span class="title class_">Cluster</span>(<span class="variable constant_">REDIS_URL</span>, redisOpts);  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> subscriber;  </span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;bclient&#x27;</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Redis</span>.<span class="title class_">Cluster</span>(<span class="variable constant_">REDIS_URL</span>, redisOpts);  </span><br><span class="line">      <span class="attr">default</span>:  </span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;Unexpected connection type: &#x27;</span>, type);  </span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;,  </span><br><span class="line">  <span class="attr">prefix</span>: <span class="string">&#x27;&#123;myprefix&#125;&#x27;</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const queueFoo = new Queue(&#x27;foobar&#x27;, opts);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> queueFoo = <span class="keyword">new</span> <span class="title class_">Queue</span>(<span class="string">&#x27;foobar&#x27;</span>, opts);</span><br></pre></td></tr></table></figure>
 
 <p>In this way, Redis clusters can be used as brokers.</p>
 <h3 id="Memory-Leakage"><a href="#Memory-Leakage" class="headerlink" title="Memory Leakage"></a>Memory Leakage</h3><p>Once we got over the cluster issue, we pulled <em>Bull</em> online and started testing. Then we ran into a serious problem where the underlying Redis started leaking memory.</p>
@@ -1613,7 +1613,7 @@
 <p>A job begins as <code>Job Added</code> and ends up as <code>Job Finished</code>, regardless of whether it succeeds or fails. In other words, as soon as the job enters Redis, it stays there, regardless of whether it succeeds or fails. How do we solve this?</p>
 <p>Specify the parameters <code>removeOnComplete</code> and <code>removeOnFail</code> in <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueadd">add</a> to ensure jobs do not stay in the last finish state. I believe that <code>removeOnComplete</code> can definitely be set, but <code>removeOnFail</code> depends on the needs of each user, e.g., whether they want a failure count, whether they want a manual recovery from failure, etc. In our case, we don’t need to keep the job even if it fails, so both parameters are <code>true</code>.</p>
 <p>What about the jobs left online? <em>Bull</em> also provides a way to <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueclean">clean jobs</a>.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//cleans all jobs that completed over 5 seconds ago.  </span><br><span class="line">await queue.clean(5000);  </span><br><span class="line">//clean all jobs that failed over 10 seconds ago.  </span><br><span class="line">await queue.clean(10000, &#x27;failed&#x27;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//cleans all <span class="built_in">jobs</span> that completed over 5 seconds ago.  </span><br><span class="line">await queue.clean(5000);  </span><br><span class="line">//clean all <span class="built_in">jobs</span> that failed over 10 seconds ago.  </span><br><span class="line">await queue.clean(10000, <span class="string">&#x27;failed&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
 <p>After running online, you will see an extremely significant drop in usage.</p>
 <p><img src="https://cdn-images-1.medium.com/max/800/0*6AmYB1IKIkF7zya0.png"></p>
@@ -1688,7 +1688,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-26 17:27:26" itemprop="dateModified" datetime="2026-07-26T17:27:26+08:00">2026-07-26</time>
+      <time title="修改時間：2026-07-26 17:41:21" itemprop="dateModified" datetime="2026-07-26T17:41:21+08:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
