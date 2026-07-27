@@ -1748,7 +1748,21 @@
 
   
   <url>
+    <loc>https://wirelessr.github.io/tags/System-Design/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://wirelessr.github.io/tags/Interview/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Scalability/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1769,20 +1783,6 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/System-Design/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Scalability/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://wirelessr.github.io/tags/Dev-Tools/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -1791,20 +1791,6 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Onboarding/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/AI-Agent/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Codebase-Analysis/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1826,6 +1812,20 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Database/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/AI-Agent/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Codebase-Analysis/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2035,6 +2035,13 @@
   </url>
   
   <url>
+    <loc>https://wirelessr.github.io/tags/Best-Practices/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://wirelessr.github.io/tags/Books/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -2043,13 +2050,6 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Learning/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Best-Practices/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2175,6 +2175,27 @@
   </url>
   
   <url>
+    <loc>https://wirelessr.github.io/tags/Redis/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Cardinality/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/HyperLogLog/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://wirelessr.github.io/tags/Claude-Code/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -2197,27 +2218,6 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Migration/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Redis/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Cardinality/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/HyperLogLog/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2413,6 +2413,13 @@
   </url>
   
   <url>
+    <loc>https://wirelessr.github.io/tags/E-commerce/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://wirelessr.github.io/tags/Clean-Architecture/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -2449,13 +2456,6 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Architecture/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/E-commerce/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2602,20 +2602,6 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Avro/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Schema/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://wirelessr.github.io/tags/Game/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -2624,6 +2610,20 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Prototype/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Avro/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Schema/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2714,13 +2714,6 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Meta/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://wirelessr.github.io/tags/Hexo/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -2728,21 +2721,14 @@
   </url>
   
   <url>
+    <loc>https://wirelessr.github.io/tags/Meta/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://wirelessr.github.io/tags/Hexagonal-Architecture/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Kanban/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Scrum/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2763,6 +2749,20 @@
   </url>
   
   <url>
+    <loc>https://wirelessr.github.io/tags/Kanban/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Scrum/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://wirelessr.github.io/tags/Pipeline/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -2777,20 +2777,6 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Shopify/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Availability/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://wirelessr.github.io/tags/Uber/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -2799,6 +2785,20 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Data-Quality/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Shopify/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Availability/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2833,6 +2833,20 @@
   </url>
   
   <url>
+    <loc>https://wirelessr.github.io/tags/Example-based-Testing/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Test-Quality/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://wirelessr.github.io/tags/Technical-Selection/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -2847,14 +2861,21 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Example-based-Testing/</loc>
+    <loc>https://wirelessr.github.io/tags/MySQL/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Test-Quality/</loc>
+    <loc>https://wirelessr.github.io/tags/ALTER-TABLE/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/DDL/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2882,13 +2903,6 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/MySQL/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://wirelessr.github.io/tags/Race-Condition/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -2903,28 +2917,7 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/ALTER-TABLE/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/DDL/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://wirelessr.github.io/tags/Discussion/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Vibe-Coding/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2945,6 +2938,13 @@
   </url>
   
   <url>
+    <loc>https://wirelessr.github.io/tags/Vibe-Coding/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://wirelessr.github.io/tags/Feature-Toggle/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -2953,6 +2953,20 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Feature-Flag/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Organization/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Management/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2980,14 +2994,21 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Organization/</loc>
+    <loc>https://wirelessr.github.io/tags/Template-String/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Management/</loc>
+    <loc>https://wirelessr.github.io/tags/Architect/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Journey/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3022,27 +3043,6 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Template-String/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Architect/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Journey/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://wirelessr.github.io/tags/Layered-Architecture/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -3071,6 +3071,13 @@
   </url>
   
   <url>
+    <loc>https://wirelessr.github.io/tags/Summary/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://wirelessr.github.io/tags/MCP/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -3085,7 +3092,7 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Summary/</loc>
+    <loc>https://wirelessr.github.io/tags/Map/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3100,13 +3107,6 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Auth/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Map/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3148,14 +3148,7 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Reindex/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Zero-Downtime/</loc>
+    <loc>https://wirelessr.github.io/tags/Chassis-Pattern/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3176,14 +3169,28 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Chassis-Pattern/</loc>
+    <loc>https://wirelessr.github.io/tags/NotebookLM/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/NotebookLM/</loc>
+    <loc>https://wirelessr.github.io/tags/Reindex/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Zero-Downtime/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Distributed-System/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3205,13 +3212,6 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Orchestration/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Distributed-System/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3281,20 +3281,6 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Property-based-Testing/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/QuickCheck/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://wirelessr.github.io/tags/Full-Text-Search/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -3323,14 +3309,21 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Read-after-write/</loc>
+    <loc>https://wirelessr.github.io/tags/Property-based-Testing/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Refactoring/</loc>
+    <loc>https://wirelessr.github.io/tags/QuickCheck/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Read-after-write/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3344,7 +3337,7 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Resilience/</loc>
+    <loc>https://wirelessr.github.io/tags/Refactoring/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3352,6 +3345,20 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Medium/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Resilience/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Elasticity/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3372,7 +3379,7 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Elasticity/</loc>
+    <loc>https://wirelessr.github.io/tags/Monolith/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3380,13 +3387,6 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Auto-Increment/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Monolith/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3428,6 +3428,13 @@
   </url>
   
   <url>
+    <loc>https://wirelessr.github.io/tags/Dogpile-Effect/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://wirelessr.github.io/tags/Phantom-Read/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -3442,7 +3449,14 @@
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/tags/Dogpile-Effect/</loc>
+    <loc>https://wirelessr.github.io/tags/Gevent/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wirelessr.github.io/tags/Flask/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3464,20 +3478,6 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Spec-driven/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Gevent/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Flask/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3547,6 +3547,13 @@
   </url>
   
   <url>
+    <loc>https://wirelessr.github.io/tags/Adventure/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://wirelessr.github.io/tags/Trunk-based/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -3555,13 +3562,6 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Git/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Adventure/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3645,6 +3645,13 @@
   </url>
   
   <url>
+    <loc>https://wirelessr.github.io/tags/Trend/</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://wirelessr.github.io/tags/Systems-Thinking/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -3667,13 +3674,6 @@
   
   <url>
     <loc>https://wirelessr.github.io/tags/Integration-Test/</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wirelessr.github.io/tags/Trend/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3724,14 +3724,14 @@
 
   
   <url>
-    <loc>https://wirelessr.github.io/categories/Career/</loc>
+    <loc>https://wirelessr.github.io/categories/Architecture/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://wirelessr.github.io/categories/Architecture/</loc>
+    <loc>https://wirelessr.github.io/categories/Career/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
