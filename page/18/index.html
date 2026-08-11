@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,251 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Design-Patterns-of-Event-driven-Architecture/20211014/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Design-Patterns-of-Event-driven-Architecture/20211014/" class="post-title-link" itemprop="url">Design Patterns of Event-driven Architecture</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-10-14 09:45:39" itemprop="dateCreated datePublished" datetime="2021-10-14T09:45:39+08:00">2021-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>According to the <a target="_blank" rel="noopener" href="https://www.gartner.com/ngw/globalassets/en/information-technology/documents/top-10-strategic-technology-trends-for-2018.pdf">report</a>, we can see the event-driven model is a hot topic for the system design. However, designing a good event-driven architecture is quite challenging. We are familiar with the synchronization models, which request and response directly, but the stories are totally different in the asynchronization schemes. Nevertheless, here are some architecture patterns for reference.</p>
+<p>The blueprint comes from the <a target="_blank" rel="noopener" href="https://youtu.be/dc20BQ9izs8">video</a> and shows the whole vision on a well-defined event-driven architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*__KCJ15dla1qq0Rb.png"></p>
+<p>I will briefly introduce those terminologies in the later sections.</p>
+<h3 id="Channel-monitoring-pattern"><a href="#Channel-monitoring-pattern" class="headerlink" title="Channel monitoring pattern"></a>Channel monitoring pattern</h3><p>The channel monitoring pattern define a role called channel monitor to watch the usage and utilization of the main queue. It monitors some metrics like the amount of pending messages, the amount of consumers and the consuming rate.</p>
+<p>Having those metrics helps to understand the workload and the healthy of the system. Moreover, the information can let the system be able to self-healing by adjusting the amount of consumers and throttling the producer.</p>
+<h3 id="Consumer-supervisor-pattern"><a href="#Consumer-supervisor-pattern" class="headerlink" title="Consumer supervisor pattern"></a>Consumer supervisor pattern</h3><p>This supervisor is responsible for adjusting the amount of consumers. It listens to the channel monitor and determines if the current consumers can handle the events. If the supervisor thinks the throughput of consumers is not enough, it will call more consumers to help, and vise versa.</p>
+<h3 id="Producer-control-flow-pattern"><a href="#Producer-control-flow-pattern" class="headerlink" title="Producer control flow pattern"></a>Producer control flow pattern</h3><p>In the previous section, the supervisor improves the throughput by making more consumers. However, if the cost is a concern, using more consumers obviously is infeasible.</p>
+<p>Therefore, there is another approach, producer control flow pattern. When the consuming rate cannot align to the producing rate, a controller will send a signal to the producer to slow down the event generation. After the pending events are processed, the producer can disable the throttling to restore the normal state.</p>
+<h3 id="Thread-delegate-pattern"><a href="#Thread-delegate-pattern" class="headerlink" title="Thread delegate pattern"></a>Thread delegate pattern</h3><p>The thread delegate pattern is a useful pattern not only in the event-driven architecture but the other types of the system design.</p>
+<p>The pattern has two purposes:</p>
+<ol>
+<li>Preserve the message order</li>
+<li>Track the metrics of event processing, ex. response time.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*TzGIitumPt_dW98W.png"></p>
+<p>Let’s begin from the first purpose. When a huge amounts of events enter the queue, we are used to bring up more consumers to handle them, aka scale-out. This method is common in the stateless scenarios. But, some kind of events are stateful, the order of events must be addressed. For instance,</p>
+<ul>
+<li>Put some items in the cart</li>
+<li>Clean up the cart</li>
+<li>Put other items in the same cart</li>
+<li>Charge it</li>
+</ul>
+<p>The event order must be kept; otherwise, you may buy the wrong items. Thus, how to handle the events on multiple consumers? In thread delegate pattern, it introduces a new role, event dispatcher, and the dispatcher dispatch an event to the corresponding consumer based on the event type. In other words, all events with the same type will be in the same place, and the order can be ensured.</p>
+<p>So, the dispatcher maintains a mapping table to record which type of event belongs to who. After the consumer finishes an event, it callback to the dispatcher. The dispatcher knows all processing results of consumers, i.e., it can track the response time as well.</p>
+<h3 id="Workflow-event-pattern"><a href="#Workflow-event-pattern" class="headerlink" title="Workflow event pattern"></a>Workflow event pattern</h3><p>When event consumer encounter an error while processing, it may not fix the error due to many reasons like the malformed event, transaction conflicts, etc. Hence, the consumer emit this event to another queue handled by workflow processor. The processor will either fix the event or store the event in the storage. In addition, the processor can display the event on the dashboard and inform the human to take over the case. The human can fix the situation manually and resend this event to the queue.</p>
+<p>It is worth to mention that if the event is resent to the queue, the order cannot be guaranteed.</p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>We walk through several design patterns of an event-driven architecture. We can design a self-monitoring and self-healing system leverage those patterns. The system is scalable, robust, efficient, and fault-tolerant. However, there are some noteworthy patterns that have not been covered. I will introduce them in the future.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-patterns-of-event-driven-architecture-bf0121cfda7b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Distributed-Transaction-Introduction/20211001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Distributed-Transaction-Introduction/20211001/" class="post-title-link" itemprop="url">Distributed Transaction Introduction</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-10-02 03:37:42" itemprop="dateCreated datePublished" datetime="2021-10-02T03:37:42+08:00">2021-10-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>This article will:</p>
+<ol>
+<li>explain what is the distributed transaction.</li>
+<li>introduce how to resolve the distributed problem.</li>
+<li>provide a real-world example to demonstrate how dose the proper solution look like.</li>
+</ol>
+<p>To discuss the distributed transaction, we should talk about the transaction first. We will enter the world of the distributed system design step by step. So, let’s begin.</p>
+<h3 id="What-is-Transaction"><a href="#What-is-Transaction" class="headerlink" title="What is Transaction"></a>What is Transaction</h3><p>The traditional transaction system provide 4 guarantees by the definition. They are known as ACID:</p>
+<ul>
+<li>Atomicity: All tasks in a transaction either all have been done or done with nothing. In this premise, we can ensure our database modifications will be all or nothing.</li>
+<li>Consistency: The operation in a transaction still follows the constraint. In addition, once it is committed, the changes can be read by others correctly.</li>
+<li>Isolation: The isolation is defined as 4 isolation levels. They are <code>Read Uncommitted</code>, <code>Read Committed</code>, <code>Repeatable Read</code>, and <code>Serializable</code>. Different isolation levels can solve different user scenarios. The <code>Seriablizable</code> treats all operations are in order; therefore, he will not encounter the racing conditions anymore.</li>
+<li>Durability: Once the data changes are committed, they will not be lost even the database crashes.</li>
+</ul>
+<h3 id="Who-has-Transaction"><a href="#Who-has-Transaction" class="headerlink" title="Who has Transaction"></a>Who has Transaction</h3><p>After describing ACID briefly, let’s see who can support them. I pick 3 very common targets, <code>MySQL</code>, <code>Mongo</code> and <code>Redis</code>.</p>
+<ul>
+<li>MySQL: Of course, yes. As a representative of OLTP(Online Transactional Processing), MySQL supports the transaction very well, and it is widely used to the transaction scheme. Although, the transaction level is usually set to <code>Repeatable Read</code>, MySQL is still the most appropriate solution.</li>
+<li>Mongo: Since v4.0 released, Mongo has supports the transaction. As long as the correct use <code>Write Concern</code> and <code>Read Concern</code> can ensure <code>Consistency</code> of the transaction. In my opinion, Mongo is very suitable for the de-normalized user scenario.</li>
+<li>Redis: Well, not really. We know Redis has the atomical operation due to the single-thread design. In addition, Redis has <code>MULTI</code> to execute multiple commands or <code>EVAL</code> to call the <code>Lua</code> script, so that Redis can perform lots of data changes at once. Moreover, Redis can use AOF to accomplish the data persistence. I have to say that Redis cannot support the transaction. Redis may leverage those mechanisms to solve part of the transaction stories; as a consequence, it does still not fully provide ACID.</li>
+</ul>
+<p>Let me summarize in a table:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*CguLyqdZJ8lNVqmxg-8xdA.png"></p>
+<h3 id="How-about-Distributed-Transaction"><a href="#How-about-Distributed-Transaction" class="headerlink" title="How about Distributed Transaction"></a>How about Distributed Transaction</h3><p>Alright, we have gone through the traditional transaction. Now, we can talk about the distributed transaction. In order to ease the problem scope, I will give a simple definition to the distributed transaction, that is, provide ACID across multiple homogeneous&#x2F;heterogeneous data sources. Here are few examples:</p>
+<ol>
+<li>Insert a row in one MySQL database, and insert another row into another MySQL database.</li>
+<li>Insert a row in a MySQL database, and insert a document into a Mongo database.</li>
+<li>Insert a document in one of Mongo shards, and insert another document into another Mongo shards.</li>
+</ol>
+<blockquote>
+<p><em>The third example can be solved by native Mongo’s transaction after Mongo v4.2 released; therefore, we can skip this example.</em></p>
+</blockquote>
+<h3 id="Simple-Design-but-Incorrect"><a href="#Simple-Design-but-Incorrect" class="headerlink" title="Simple Design but Incorrect"></a>Simple Design but Incorrect</h3><p>Okay, let’s quick look a basic design concept. We perform the transaction on each data source, if there is one of them failed, we rollback the previous tasks.</p>
+<p>Based on our simple design, there is an implementation on data source A, B and C like this:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*dYiSTnbVAO3P8caAVQVf1A.png"></p>
+<p>The problem here is: after we commit the result to A, we are hard to perform rollback on A if B is failed.</p>
+<p>Even if we adopt the nested transaction, the problem is still not resolved like the following diagram:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*3ilS7E-5m3G370vJU2V2TA.png"></p>
+<p>According to the diagram below, we can see the same problem as the figure 1. We cannot rollback on C easily.</p>
+<h3 id="Two-phase-Commit-Protocol"><a href="#Two-phase-Commit-Protocol" class="headerlink" title="Two-phase Commit Protocol"></a>Two-phase Commit Protocol</h3><p>In the field of Microservice, this kind of problems are becoming common; hence, many protocols have been proposed to figure out the solution like <code>XA</code> and <code>SAGA</code>. Both <code>XA</code> and <code>SAGA</code> are based on the same theory, <code>2PC</code>, aka the two-phase commit protocol. I won’t dive into <code>2PC</code>, I will provide an introduction to explain its concept.</p>
+<p>There is a coordinator in the story, everyone want to perform the distributed transaction has to register(first commit) with it. The coordinator will poll every data source who participates in this transaction to get the permission. If there is any participant says no, the coordinator will reject the transaction request and perform rollback to every participant. If fortunately all data sources reply yes, the coordinator will response okay to the client. The client is able to perform the real commit(second commit) to the coordinator to proceed the process.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*ZsbogH53HuWUItiktCP1fA.png"></p>
+<p>See this, we can find out three problems:</p>
+<ol>
+<li>It is very time consuming. Client must wait for every data source agree his request, and then submit the real commit to them. Although this synchronization can ensure the strong consistency on data changes, we have to invest more time.</li>
+<li>SPOF(Single point of failure) is on the coordinator. If the coordinator crashes, all the distributed transactions do not work anymore.</li>
+<li>If the coordinator’s commit is failed due to the network loss or other reasons, the data will be inconsistent on those participated data sources.</li>
+</ol>
+<h3 id="Eventually-Consistency"><a href="#Eventually-Consistency" class="headerlink" title="Eventually Consistency"></a>Eventually Consistency</h3><p>It seems that multi-phase commit protocol is not feasible, we should try to find out a light weight approach called eventually consistency. Literally we know that we give up the strong consistency to reduce the implementation overhead. In other words, we hope the data can be consistent in the end. To achieve the eventually consistency approach, there are two keywords should keep in mind.</p>
+<ol>
+<li>Event sourcing: To make this term simple, it means we record the status changes instead of the status itself. For instance, the bank passbook records every transaction not only the balance.</li>
+<li>Idempotence: The idempotence is quite intuitive. We can perform a tasks many times, and the result is the same as we performed once.</li>
+</ol>
+<p>Combine these two concepts, we can design our system now. We make every transaction be an event, if a client want to perform a distributed transaction which means the client emit an event to the event processor. The event processor receives a event and start to do transaction on those multiple data sources. After all tasks finish, the event can be mark as <code>DONE</code>, and the event processor can handle the next one. If there is a transaction cannot succeed on one of the data sources, we don’t mark this event <code>DONE</code>, so that the event processor will retry later. Due to the idempotence, the event can be processed more than once. Nevertheless, putting a retry limit is recommended.</p>
+<p>Let’s see the diagram to show the design flow:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*X--IGPY5ARQRsOG9oTwu3A.png"></p>
+<p>Perfect, as a result of the design concept, we can handle the distributed transaction correctly, and the data consistency will be kept eventually.</p>
+<p>Even though there is a queue in our design, in fact, you don’t need invoke a real queue in your system. There are many alternatives, e.g., store all events in a MySQL table having a column be the status. The core of this design is the event sourcing and the idempotence, you can accomplish them in what way you preferred.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/distributed-transaction-introduction-1cd105c830a2">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1123,179 +1368,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang/20210329/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Golang/Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang/20210329/" class="post-title-link" itemprop="url">Leetcode concurrency #1226 The Dining Philosophers (in golang)</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-03-30 07:13:02" itemprop="dateCreated datePublished" datetime="2021-03-30T07:13:02+08:00">2021-03-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang"><a href="#Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang" class="headerlink" title="Leetcode concurrency #1226 The Dining Philosophers (in golang)"></a>Leetcode concurrency #1226 The Dining Philosophers (in golang)</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*a4VJDRhYg9aMTZFX.png"></p>
-<p>這是concurrency的最後一篇，前面已經試過幾種常見的同步模式，這次要解的題目是經典的哲學家問題，但處理的手法應該已經被很多教科書討論過了，不外乎引入服務生、搶到叉子就吃搶不到就等，和比較近期的用餐券換叉子。</p>
-<p>這麼經典的問題教科書應該都有寫過我就大略描述下就好。總之，五個哲學家坐在同一張圓桌，每個人都有一碗吃不完的麵，但只有五支叉子放在人與人之間，要吃麵就一定要用兩支叉子，沒有兩支叉子就發呆。這裡有個變體，要接收一個整數，代表每個人至少要吃過幾次，例如：n&#x3D;1，表示每個人都至少吃過一次就散會。</p>
-<p>解法也很簡單，我選用最單純的搶叉子，每支叉子按順時鐘順序編號，每個人都要先拿編號小的才能拿編號大的，但放叉子要從編號大的先放，才能放小的。</p>
-<p>每個叉子都是一個互斥鎖，小的先鎖再鎖大的，大的先解鎖才解小的。唯一要注意的一點是，吃完以後要看一下是不是每個人都吃過了，如果大家都吃過就準備結束散會；一定要在吃完的時候就看，因為這時候才是在critical section內，過了就要再搶一次，那沒必要。</p>
-<p>有趣的一點是，我在Leetcode的playground跑這段code，會發現有些哲學家餓到不行，會狂搶叉子，導致結束的時候某人大概續了幾千次麵，真是個大胃王。</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/leetcode-concurrency-1226-the-dining-philosophers-in-golang-c73950e098a2">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Leetcode-concurrency-1195-Fizz-Buzz-Multithreaded-in-golang/20210329/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Golang/Leetcode-concurrency-1195-Fizz-Buzz-Multithreaded-in-golang/20210329/" class="post-title-link" itemprop="url">Leetcode concurrency #1195 Fizz Buzz Multithreaded (in golang)</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-03-30 01:19:22" itemprop="dateCreated datePublished" datetime="2021-03-30T01:19:22+08:00">2021-03-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Leetcode-concurrency-1195-Fizz-Buzz-Multithreaded-in-golang"><a href="#Leetcode-concurrency-1195-Fizz-Buzz-Multithreaded-in-golang" class="headerlink" title="Leetcode concurrency #1195 Fizz Buzz Multithreaded (in golang)"></a>Leetcode concurrency #1195 Fizz Buzz Multithreaded (in golang)</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*NRXXWBp9q2oz3nYB"></p>
-<p>從開始刷concurrency到現在已經接觸過，Event、Lock和Semaphore，這題會用到另一個同步處理也會使用的技術：Barrier，Barrier是指當所有做事的人都必須將queue內的event全部依序執行，例如：ABC三個人同時拿queue[0]做，等大家都做完後，三人繼續拿queue[1]，依此類推。</p>
-<p>先看一下題目，看完就會知道為什麼一看就知道要用Barrier。有一個class有四個method(又來了)，必須將四個method放在四個thread上執行，這四個method分別是：在3的倍數時印fizz、在5的倍數時印buzz、在15的倍數時印fizzbuzz，最後是上面都沒中就印數字。</p>
-<p>因為golang沒有實作自己的Barrier，我本來想用WaitGroup來做，但怎麼試怎麼怪，最後決定WaitGroup還是維持他單純的用途就好：等所有人做完。那麼，就需要實作一個Barrier，這邊可以使用sync.Cond。如果寫過linux C應該會對pthread_cond_t有印象，這兩個是等價的。</p>
-<p>當有了Barrier的實作，這題就一點也不難，就是分別判斷能不能整除3或5來決定個別要做甚麼，把輸入的整數丟進去大家一起一個一個做就好。</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/leetcode-concurrency-1195-fizz-buzz-multithreaded-in-golang-e01ab37be401">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/17/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/19/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/17/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/19/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

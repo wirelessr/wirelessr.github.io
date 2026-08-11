@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,269 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Message-Queue-in-Redis-Part-2/20220619/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Redis/Message-Queue-in-Redis-Part-2/20220619/" class="post-title-link" itemprop="url">Message Queue in Redis, Part 2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-06-20 01:26:55" itemprop="dateCreated datePublished" datetime="2022-06-20T01:26:55+08:00">2022-06-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Message-Queue-in-Redis-Part-2"><a href="#Message-Queue-in-Redis-Part-2" class="headerlink" title="Message Queue in Redis, Part 2"></a>Message Queue in Redis, Part 2</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*wzEJNGsUN1hOnCvp.jpg"></p>
+<p>A while ago, I mentioned that I’m in a budget-constrained organization, so we can’t afford to use a true message queue. Instead, we have chosen to use a second-best approach to meet our immediate needs and a simple solution to implement, using Redis.</p>
+<p>Nevertheless, there are still <a target="_blank" rel="noopener" href="https://selectfrom.dev/message-queue-in-redis-9efe0de2c39c">many different ways to implement</a> Redis as a message broker. At that time, we chose the option which was the fastest to get up and running with the least implementation effort: lists. However, as the system evolved and new feature requests were made, the original solution no longer worked.</p>
+<p>The advantages of the list are</p>
+<ol>
+<li>easy to implement</li>
+<li>support for consumer groups</li>
+<li>the ability to decouple producers and consumers</li>
+</ol>
+<p>The disadvantages are also obvious.</p>
+<ul>
+<li>At-most-once guarantee</li>
+</ul>
+<p>Now, we need <em>at-least-once guarantee</em>, and lists don’t cover this need. The <em>Redis Stream</em> mentioned in the previous article was not adopted because of the large implementation effort. So we started looking for a new alternative.</p>
+<h3 id="Bull-js"><a href="#Bull-js" class="headerlink" title="Bull.js"></a><a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull">Bull.js</a></h3><p>After some comparisons, we finally chose <em>Bull.js</em>.</p>
+<p>The reasons are as follows.</p>
+<ol>
+<li>support <em>at-least-once guarantee</em>.</li>
+<li>it has a lower implementation effort and provides many monitoring tools, e.g., <a target="_blank" rel="noopener" href="https://github.com/UpHabit/bull_exporter">Bull Exporter</a>.</li>
+<li>full-featured, including retry, time delay, etc.</li>
+<li>even support rate limit.</li>
+</ol>
+<p>However, in the working process, I have to say that the official document is not detailed enough and it took us some time to try it successfully. In this article I will show the two most important issues we encountered and explain the solutions.</p>
+<h3 id="Redis-Cluster"><a href="#Redis-Cluster" class="headerlink" title="Redis Cluster"></a>Redis Cluster</h3><p><em>Bull</em> is supported for Redis clusters. Unfortunately, the description is scattered in several places in the document.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queue">Queue Constructor</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/PATTERNS.md#redis-cluster">Redis Cluster Config</a></li>
+</ul>
+<p>First, the description from the constructor’s document needs to provide the parameter <code>createClient</code>, and the rule is</p>
+<blockquote>
+<p><em>(type: ‘client’ | ‘subscriber’ | ‘bclient’, config?: Redis.RedisOptions): Redis.Redis | Redis.Cluster;</em></p>
+</blockquote>
+<p><code>Redis.Redis</code> and <code>Redis.Cluster</code> at the end of the rule actually refer to the <a target="_blank" rel="noopener" href="https://github.com/luin/ioredis">ioredis</a> constructors, so to set them up, we must use the ioredis constructors.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">Redis</span> = <span class="built_in">require</span>(<span class="string">&quot;ioredis&quot;</span>);  </span><br><span class="line"><span class="title class_">Redis</span>.<span class="property">Redis</span>  </span><br><span class="line"><span class="title class_">Redis</span>.<span class="property">Cluster</span></span><br></pre></td></tr></table></figure>
+
+<p>Even so, I don’t understand what kind of format <code>createClient</code> needs to provide, is it an object? What are the keys to <code>Redis.Redis</code> and <code>Redis.Cluster</code>?</p>
+<p>Finally, I found out from another section of the document, <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/PATTERNS.md#reusing-redis-connections">Reusing Redis Connections</a> I realized that it was a function. Anyway, put the pieces together.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">Redis</span> = <span class="built_in">require</span>(<span class="string">&#x27;ioredis&#x27;</span>);  </span><br><span class="line"><span class="keyword">let</span> client;  </span><br><span class="line"><span class="keyword">let</span> subscriber;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> opts = &#123;  </span><br><span class="line">  <span class="comment">// redisOpts here will contain at least a property of connectionName which will identify the queue based on its name  </span></span><br><span class="line">  <span class="attr">createClient</span>: <span class="keyword">function</span> (<span class="params">type, redisOpts</span>) &#123;  </span><br><span class="line">    <span class="keyword">switch</span> (type) &#123;  </span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;client&#x27;</span>:  </span><br><span class="line">        <span class="keyword">if</span> (!client) &#123;  </span><br><span class="line">          client = <span class="keyword">new</span> <span class="title class_">Redis</span>.<span class="title class_">Cluster</span>(<span class="variable constant_">REDIS_URL</span>, redisOpts);  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> client;  </span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;subscriber&#x27;</span>:  </span><br><span class="line">        <span class="keyword">if</span> (!subscriber) &#123;  </span><br><span class="line">          subscriber = <span class="keyword">new</span> <span class="title class_">Redis</span>.<span class="title class_">Cluster</span>(<span class="variable constant_">REDIS_URL</span>, redisOpts);  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> subscriber;  </span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;bclient&#x27;</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Redis</span>.<span class="title class_">Cluster</span>(<span class="variable constant_">REDIS_URL</span>, redisOpts);  </span><br><span class="line">      <span class="attr">default</span>:  </span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;Unexpected connection type: &#x27;</span>, type);  </span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;,  </span><br><span class="line">  <span class="attr">prefix</span>: <span class="string">&#x27;&#123;myprefix&#125;&#x27;</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> queueFoo = <span class="keyword">new</span> <span class="title class_">Queue</span>(<span class="string">&#x27;foobar&#x27;</span>, opts);</span><br></pre></td></tr></table></figure>
+
+<p>In this way, Redis clusters can be used as brokers.</p>
+<h3 id="Memory-Leakage"><a href="#Memory-Leakage" class="headerlink" title="Memory Leakage"></a>Memory Leakage</h3><p>Once we got over the cluster issue, we pulled <em>Bull</em> online and started testing. Then we ran into a serious problem where the underlying Redis started leaking memory.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*R2ImsAsRSRFm0ixO.png"></p>
+<p>As you can see from the figure, Redis memory usage has been skyrocketing since it was enabled.</p>
+<p>So we took a closer look at the document to find out what we missed, and finally found a hint in the <a target="_blank" rel="noopener" href="https://optimalbits.github.io/bull/">tutorial</a>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*yauK1vgMO0y-BLRU.png"></p>
+<p>A job begins as <code>Job Added</code> and ends up as <code>Job Finished</code>, regardless of whether it succeeds or fails. In other words, as soon as the job enters Redis, it stays there, regardless of whether it succeeds or fails. How do we solve this?</p>
+<p>Specify the parameters <code>removeOnComplete</code> and <code>removeOnFail</code> in <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueadd">add</a> to ensure jobs do not stay in the last finish state. I believe that <code>removeOnComplete</code> can definitely be set, but <code>removeOnFail</code> depends on the needs of each user, e.g., whether they want a failure count, whether they want a manual recovery from failure, etc. In our case, we don’t need to keep the job even if it fails, so both parameters are <code>true</code>.</p>
+<p>What about the jobs left online? <em>Bull</em> also provides a way to <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueclean">clean jobs</a>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//cleans all <span class="built_in">jobs</span> that completed over 5 seconds ago.  </span><br><span class="line">await queue.clean(5000);  </span><br><span class="line">//clean all <span class="built_in">jobs</span> that failed over 10 seconds ago.  </span><br><span class="line">await queue.clean(10000, <span class="string">&#x27;failed&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>After running online, you will see an extremely significant drop in usage.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*6AmYB1IKIkF7zya0.png"></p>
+<p>The first half remains horizontal because we have already added <code>removeOnComplete</code> and <code>removeOnFail</code>, so no more increases are made. The vertical line in the middle is the process of <code>clean</code>.</p>
+<p>It is worth mentioned that the <code>clean</code> process locks the entire message queue, so it may affect the online functions and is not recommended to perform it under production environment. The duration of the lock depends on the number of jobs to be cleaned.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>I always talked about the evolution of systems. As you should have noticed from my previous articles, in a limited organization, we do not always have enough manpower, budget or even knowledge to build the perfect system, or to be more precise, no system is perfect.</p>
+<p>Every time we design a system, we choose the relatively acceptable solution among many factors, which means we have to face the potential problems. For me, I always take the most achievable implementation, but with the understanding that such choices are not static and retain the flexibility to meet future requirements.</p>
+<p>For many people, the replacement of the message queue is a very huge exercise. But for my organization, it’s a simple implementation by a few people, and then it’s done. The reason why I always mention domain-driven design and decoupling is to make it easier to do system evolution when needed.</p>
+<p><em>Bull</em> currently meets all of our needs, is reliable enough, and even offers a monitoring solution. I believe we will probably be able to stop worrying about message queues for a long time.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/message-queue-in-redis-part-2-61c0d22735fe">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Explain-Redlock-in-Depth/20220612/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Redis/Explain-Redlock-in-Depth/20220612/" class="post-title-link" itemprop="url">Explain Redlock in Depth</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-06-13 01:39:07" itemprop="dateCreated datePublished" datetime="2022-06-13T01:39:07+08:00">2022-06-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Explain-Redlock-in-Depth"><a href="#Explain-Redlock-in-Depth" class="headerlink" title="Explain Redlock in Depth"></a>Explain Redlock in Depth</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*pTqqpePHil02H4_x.jpg"></p>
+<p>Previously, I <a target="_blank" rel="noopener" href="https://betterprogramming.pub/redis-as-a-lock-are-you-sure-a870c9f22ad8">introduced two types of locks</a>, mutex locks and barriers, and I used Redis as an example to explain the differences between the two types of locks. Shortly after that, I received a reply saying that if you want to implement distributed locks, the Redis approach is not enough and you should refer to Redlock.</p>
+<p>Well, his opinion is basically right.</p>
+<p>Although Redlock is implemented through Redis, it can achieve a very high level of consistency and is one of the best paradigms for implementing distributed locking. However, Redlock has a very high cost behind it and is not suitable for all organizations and services.</p>
+<p>Nevertheless, I will introduce Redlock and present my thoughts on why Redlock is impractical.</p>
+<h3 id="Redis-is-not-reliable"><a href="#Redis-is-not-reliable" class="headerlink" title="Redis is not reliable"></a>Redis is not reliable</h3><p>Before getting started, I should emphasize that <a target="_blank" rel="noopener" href="https://towardsdev.com/data-persistence-in-redis-2780c11d1623">Redis persistence is unreliable, even with the most strict settings</a>.</p>
+<p>However, in a cluster environment, a <em>Master</em> may have a number of <em>Slave</em> redundancies. Is Redis still unreliable under these conditions? The answer is yes.</p>
+<p>In Redis implementation, data replication is performed by the background process, not the master thread, so when a client writes successfully, it does not mean the data is replicated successfully. One of the procedures leading to the problem is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*q4lBE0VJECydo6Uu-qoSww.png"></p>
+<p>When Client 1 successfully locks via the original <em>Master</em>, but the <em>Master</em> dies before the data is replicated, then Client 2 can still successfully lock via the original <em>Slave</em> (the new <em>Master</em>).</p>
+<p>This is the reason why Redis clusters are still unreliable.</p>
+<h3 id="Redlock-Concept"><a href="#Redlock-Concept" class="headerlink" title="Redlock Concept"></a>Redlock Concept</h3><p>As we have seen, a single Redis is not reliable, even in a cluster of multiple Redis. So how do we use Redis to implement a reliable Redlock?</p>
+<p>The answer is through majority consensus. Since one Redis is not reliable, we form a committee of multiple Redis. If and only if more than half of the committee members agree, the lock will take effect; otherwise, the lock is invalid. The members can be single, master-slave, or even clusters, but nevertheless, they are independent of each other, in other words, they are not duplicates of each other, not to mention the same cluster.</p>
+<blockquote>
+<p><em>According to the majority consensus algorithm, the committee should have an odd number of members and be approved when a majority of the members (</em><code>N/2 + 1</code><em>) agree.</em> <code>N</code> <em>indicates the total number of members.</em></p>
+</blockquote>
+<p>The detailed process is written in the <a target="_blank" rel="noopener" href="https://redis.io/docs/reference/patterns/distributed-locks/">official Redis documentation on distributed locking</a>, so I’ll briefly describe the process below.</p>
+<p>Suppose our committee is composed of three Redis.</p>
+<p>The following is the process of successfully locking up and doing the task and unlocking successfully.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*9tbZXuVgSvt7di5l91ganQ.png"></p>
+<ol>
+<li>The client who wants to obtain the lock generates a globally unique ID, and the official document selects the system time to use.</li>
+<li>Try to use this ID to get the consent of all committee members. Use the command <code>SETNX</code> to do this.</li>
+<li>2 members agree, then the lock is successfully in place.</li>
+<li>After getting the lock, the user can do what desired.</li>
+<li>The next step is to unlock on every member, whether or not the lock is successfully getting.</li>
+</ol>
+<p>The process for unsuccessful locking is similar, as long as <code>Redis1</code> or <code>Redis2</code> also fails to respond, then the lock cannot be acquired, that is to say, you cannot do anything, but you still have to perform the process of unlocking all the members.</p>
+<h3 id="Redlock-Issues"><a href="#Redlock-Issues" class="headerlink" title="Redlock Issues"></a>Redlock Issues</h3><p>After describing the Redlock process above, I’d like to explain why I rarely consider such an approach.</p>
+<p>Firstly, the entire Redlock implementation process, as mentioned in the previous section, is very time-consuming. Particularly if you want to lock for 3 seconds, but actually only 2 seconds or less are left after the locking process. <strong>Because the application must be initiated to all Redis first, even with parallel processing, the network delay and packet loss still make the communication chaotic and complicated.</strong></p>
+<p>Secondly, in order to make unreliable Redis reliable, many independent Redis must be launched. In the context of site reliability engineering, the maintenance effort for so many Redis is very high, and it is also a problem to make the participating clients aware of the existence of so many Redis. Such a approach is impractical in terms of cost, maintenance effort, and complexity of implementation.</p>
+<p>Furthermore, the core of this approach is <strong>GUID</strong>. If IDs are duplicated, both locking and unlocking may result in false positives and unpredictable results. When this happens, the difficulty of detecting it is also significant. Nevertheless, the system time, as officially documented, is a very weak guarantee. <strong>In a distributed system, it is difficult to ensure that all instances have the same time</strong>, which is known as <em>clock skew</em> in system design.</p>
+<p>To sum up, Redlock is an expensive approach with a lot of technical depth. Although many people have implemented packages in various programming languages based on official documents, does each user understand the potential risks behind the simple use of the packages?</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The main reason I don’t use Redlock is because making unreliable Redis reliable is putting the cart before the horse. I always tell my team members, “Data in Redis needs to be aware that it will disappear without warning”. If you want to keep the data persistent, you should consider a more persistent database rather than a cache.</p>
+<p>When implementing distributed locking, instead of using Redis, we should use a more reliable database, such as MySQL, which is strongly consistent, or MongoDB, which is my personal preference. But even if we use a database, we should pay attention to the implementation details of the database. Take MongoDB as an example, if we want to implement a lock, then we need to be aware of <a target="_blank" rel="noopener" href="https://towardsdev.com/read-after-write-consistency-in-mongodb-ea4cd91d0d3">read-after-write consistency</a>.</p>
+<p>There are many aspects to consider behind the system design, and it is not enough to just make the function work. How to control the budget? How to allocate manpower? How to maintain day-to-day? How to troubleshoot? All of these factors involve the capacity of the team, which I believe is far more important than the actual functionality.</p>
+<p>When considering the use of distributed locks, I first ask myself, “Do we really need locks? Is there a way to avoid possible race conditions through architecture design?” <strong>It is far more effective to avoid locking by improving the architecture than to seek synchronization in a distributed system.</strong> If we really have to use a distributed lock, and we need to keep the usage to a minimum, then we don’t need to use Redis but can use a relatively slow database to implement it.</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.infoworld.com/article/3639050/complexity-is-killing-software-developers.html"><em>Complexity is killing software developers</em></a></p>
+</blockquote>
+<p>And Redlock is one of the most complicated approaches. In my opinion, it should be avoided.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/explain-redlock-in-depth-dba95c107102">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1326,310 +1589,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Backend/Unleash-vs-LaunchDarkly-A-Look-at-Feature-Toggling-Solutions/20220410/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Backend/Unleash-vs-LaunchDarkly-A-Look-at-Feature-Toggling-Solutions/20220410/" class="post-title-link" itemprop="url">Unleash vs. LaunchDarkly: A Look at Feature Toggling Solutions</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-04-11 01:13:09" itemprop="dateCreated datePublished" datetime="2022-04-11T01:13:09+08:00">2022-04-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Backend/" itemprop="url" rel="index"><span itemprop="name">Backend</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="Introduction-to-Unleash-and-LaunchDarkly-to-understand-their-capabilities"><a href="#Introduction-to-Unleash-and-LaunchDarkly-to-understand-their-capabilities" class="headerlink" title="Introduction to Unleash and LaunchDarkly to understand their capabilities"></a>Introduction to Unleash and LaunchDarkly to understand their capabilities</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*kWUD-NYxWO1v4ksv"></p>
-<p>In the <a target="_blank" rel="noopener" href="https://betterprogramming.pub/feature-toggle-introduction-68d58f5c709">previous article</a>, we introduced the timing and usage scenarios of feature toggles. In this article, we will pick two of the more well-known solutions, <a target="_blank" rel="noopener" href="https://www.getunleash.io/">Unleash</a> and <a target="_blank" rel="noopener" href="https://launchdarkly.com/">LaunchDarkly</a>, to provide a basic introduction and my experience.</p>
-<p>Before I begin, let me briefly describe the essential requirements for a feature toggle solution must be.</p>
-<ol>
-<li>Easy-to-use website.</li>
-<li>Easy to integrate SDK.</li>
-<li>Ability to implement 4 types of feature toggles.</li>
-</ol>
-<ul>
-<li>Release toggle: You can percentage rollout to achieve canary deployment.</li>
-<li>Ops toggle: Similar to the release toggle, the percentage adjustment function is also required.</li>
-<li>Experiment toggle: To be able to carry additional information within the toggle, not just true or false.</li>
-<li>Permission toggle: When making toggle judgments, it is important to be able to use additional dynamic parameters such as user id.</li>
-</ul>
-<p>Both Unleash and LaunchDarkly can satisfy these three criteria, and although there are some differences in capability, the basic operation of the feature toggle is not a problem at all.</p>
-<h3 id="Unleash"><a href="#Unleash" class="headerlink" title="Unleash"></a><a target="_blank" rel="noopener" href="https://www.getunleash.io/">Unleash</a></h3><p>Unleash is a mature solution for feature toggle, providing not only an online paid solution but also a self-hosted open-source solution. Therefore, I believe it is very suitable for internal experiments in organizations, after all, it is free. If you have good results with feature toggles, then you can consider upgrading to Unleash’s enterprise solution or switching to another solution.</p>
-<p>Unleash’s open-source solution is very simple in architecture, requiring only an API and a PostgreSQL. There is no cache in the system architecture, so you can understand that every time you get a feature toggle it is run directly on the database, but if you only apply Unleash to the backend environment and only use the server-side SDK, then this amount of usage is indeed not a big deal.</p>
-<p>On the other hand, the SDK provided by Unleash uses a polling mechanism, asking for results every 15 seconds and storing the results in each instance’s memory. This also effectively reduces the frequency of actually touching the database, but at the price of taking up to 15 seconds for changes to take effect. From my point of view, 15 seconds is not an intolerable period, so it is completely acceptable.</p>
-<p>It is also very simple to use, first initialize the Unleash instance, and then it will work properly. All the following examples use Node.js as a demonstration.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> unleash = <span class="built_in">require</span>(<span class="string">&#x27;unleash-client&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">unleash.initialize(&#123;  </span><br><span class="line">  url: &#x27;https://YOUR-API-URL&#x27;,  </span><br><span class="line">  appName: &#x27;my-node-name&#x27;,  </span><br><span class="line">  environment: process.env.APP_ENV,  </span><br><span class="line">  customHeaders: &#123; Authorization: &#x27;SOME-SECRET&#x27; &#125;,  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>The initialization process needs to set <code>environment</code>, but in an open-source solution, this parameter is irrelevant because the open-source solution only provides one set of environments. Ideally, it should be possible to generate a corresponding set of settings with various online environments, eg: staging and production.</p>
-<p>In an open-source solution, the only way to distinguish between environments is by using the name of the toggle as follows.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const stgToggle = unleash.isEnabled(&#x27;featureA-stg&#x27;);  </span><br><span class="line">const prodToggle = unleash.isEnabled(&#x27;featureA-prod&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>This can be quite useful when the number of toggles is small, but when the number of toggles becomes large, it can be challenging to manage.</p>
-<p>How to use Unleash to make an experiment toggle? We can do this by using Unleash’s <code>unleash.getVariant</code>, which is additional information that can be attached to the feature toggle and is easily configured on the Unleash web page.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const variant = unleash.getVariant(&#x27;featureA&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>In addition, it is very simple to complete the permission toggle, just bring in the context when <code>isEnabled</code>.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> context = &#123;  </span><br><span class="line">  <span class="attr">userId</span>: <span class="string">&#x27;123&#x27;</span>,  </span><br><span class="line">  <span class="attr">sessionId</span>: <span class="string">&#x27;123123-123-123&#x27;</span>,  </span><br><span class="line">  <span class="attr">remoteAddress</span>: <span class="string">&#x27;127.0.0.1&#x27;</span>,  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const enabled = isEnabled(&#x27;featureA&#x27;, context);</span><br></pre></td></tr></table></figure>
-
-<p>Furthermore, Unleash offers multiple different deployment strategies.</p>
-<ol>
-<li>Standard: Every time, the result will be the same.</li>
-<li>Gradual rollout: It can be set to a specific ratio, so that the result of each time the toggle is asked is determined by chance.</li>
-<li>UserIDs: Use <code>userId</code> in the context to enable targets that satisfy a specific <code>userId</code>.</li>
-<li>IPs: Use <code>sessionId</code> in the context to enable targets that satisfy a specific <code>sessionId</code>.</li>
-<li>Hosts: Use <code>remoteAddress</code> in the context to enable targets that satisfy a specific <code>remoteAddress</code>.</li>
-</ol>
-<p>Thus far in the introduction, we should be able to satisfy the essential use cases of feature toggles with Unleash. However, the functionality of Unleash is very simple in terms of toggling, and there are several challenges that are not easily overcome in the use of Unleash.</p>
-<ol>
-<li>There are only three special contexts that can be used for the deployment strategy, and there is only a judgment of equal or not, and there is no operator provided for either greater than or less than. If you need to implement <a target="_blank" rel="noopener" href="https://github.com/Unleash/unleash-client-node#custom-strategies">custom strategy</a>, you have to inherit the base class of SDK and implement it by yourself.</li>
-<li>Unleash supports the use of multiple policies on a single toggle, but the relationship between the policies is OR. For example, it is not possible to enable a toggle to a specific user in a specific location because the <code>userId</code> and <code>sessionId</code> cannot be AND.</li>
-<li>When choosing a gradual rollout, it can only set one specific rule. For instance, you cannot group by <code>userId</code> and have 40% of the users enabled, because you cannot mix multiple conditions. Otherwise, you can only use totally random distribution.</li>
-</ol>
-<h3 id="LaunchDarkly"><a href="#LaunchDarkly" class="headerlink" title="LaunchDarkly"></a><a target="_blank" rel="noopener" href="https://launchdarkly.com/">LaunchDarkly</a></h3><p>LaunchDarkly is another common solution. It does not provide a free open source solution, in other words, it is only available as a paid commercial solution.</p>
-<p>It is very similar to Unleash in use, and requires initialization at first.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ld = <span class="built_in">require</span>(<span class="string">&#x27;launchdarkly-node-server-sdk&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const client = ld.init(&#x27;YOUR_SDK_KEY&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>Unlike Unleash, it does not need to set the environment parameters in the initialization, because the key has already defined in which environment. The next step is to pick up the corresponding feature toggles.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = &#123;  </span><br><span class="line">  <span class="attr">firstName</span>: <span class="string">&#x27;Bob&#x27;</span>,  </span><br><span class="line">  <span class="attr">lastName</span>: <span class="string">&#x27;Loblaw&#x27;</span>,  </span><br><span class="line">  <span class="attr">key</span>: <span class="string">&#x27;example-user-key&#x27;</span>,  </span><br><span class="line">&#125;;  </span><br><span class="line"><span class="keyword">const</span> value = <span class="keyword">await</span> client.<span class="title function_">variation</span>(<span class="string">&#x27;YOUR_FLAG_KEY&#x27;</span>, user, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
-
-<p>Two things are worth noting here: LaunchDarkly’s user is equivalent to Unleash’s context, but LaunchDarkly’s user is more flexible; Unleash’s context is only available for those specific attributes that are predefined, but LaunchDarkly can use any attribute and only needs to be configure it on the admin page.</p>
-<p>Another point is that Unleash splits the toggle and extra information into two methods, <code>isEnabled</code> and <code>getVariant</code>, but in the LaunchDarkly world, the toggle and extra information are one and the same. That is to say, the <code>value</code> you get through <code>variation</code> already contains the extra information. The <code>value</code> can be a boolean, an integer, a string, or JSON, depending on the setting.</p>
-<p>As for the percentage rollout provided by Unleash, LaunchDarkly also provides it, and it is even more powerful. Not only setting a ratio, LaunchDarkly is a composite attribute toggle, so more than two possibilities can exist at the same time, so you can directly adjust the percentage of each possibility in the percentage setting.</p>
-<p>In addition, LanuchDarkly provides a very powerful rules engine. Unlike Unleash’s monotonous deployment strategy, LauchDarkly can freely set rules for AND, OR, IN, and other matching operations. Moreover, during the percentage rollout, it can also mix percentages and various rules to achieve a very strong conditional matching.</p>
-<p>Due to LaunchDarkly’s entirely freestyle <code>user</code> and powerful rule engine, basically, LaunchDarkly can implement any application scenario you want.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Currently, the toggle update relies on a polling mechanism, so it takes a while for the settings on the website to really reflect on the system behavior. The solution is also proposed in the new version of LaunchDarkly, which provides a streaming mechanism to get instant feedback. However, for the system, it must also consider whether the network environment can tolerate so many persistent connections. This is beyond the scope of this article, so I will not explain it further.</p>
-<p>In fact, the feature toggle solution provides much more than just the toggle itself, how to do access control, audit log, and SSO and other additional features are equally important. However, different payment solutions provide different payment functions, and those functions have actually been detached from the demands of feature toggles, so this article does not introduce those additional functions of Unleash and LaunchDarkly.</p>
-<p>In terms of feature toggling itself, Unleash provides a basic experimental environment in which you can build a feature toggling system in your organization with very little overhead. Unleash also provides all the fundamental features required for feature toggling. For an organization that is just starting up, Unleash provides a great experimental vehicle that can be used as a warm start.</p>
-<p>Once the feature toggle is integrated into an organization’s development process, LaunchDarkly is a good choice for organizations that need to customize the use of the toggle for more situations. LaunchDarkly provides a simple and intuitive experience for setting and matching customization rules.</p>
-<p>From my experience, it is sufficient for small organizations to use Unleash, and the self-hosted solution is simple but enough for most use cases. As long as there are no complex rules to match, there is no need to spend money on other commercial solutions, but if you are having more and more management needs with open source Unleash, then it is necessary to consider commercial solutions and evaluate them carefully. In my opinion, LaunchDarkly is also good.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/unleash-vs-launchdarkly-c35f586ccf49">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Backend/Introduction-to-Feature-Toggling-Types-Use-Cases-and-Implementation/20220403/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Backend/Introduction-to-Feature-Toggling-Types-Use-Cases-and-Implementation/20220403/" class="post-title-link" itemprop="url">Introduction to Feature Toggling— Types, Use Cases and Implementation</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-04-04 02:22:35" itemprop="dateCreated datePublished" datetime="2022-04-04T02:22:35+08:00">2022-04-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Backend/" itemprop="url" rel="index"><span itemprop="name">Backend</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Introduction-to-Feature-Toggling—-Types-Use-Cases-and-Implementation"><a href="#Introduction-to-Feature-Toggling—-Types-Use-Cases-and-Implementation" class="headerlink" title="Introduction to Feature Toggling— Types, Use Cases, and Implementation"></a>Introduction to Feature Toggling— Types, Use Cases, and Implementation</h3><h4 id="Know-the-many-scenarios-where-feature-toggles-can-be-used-and-how-to-treat-them-properly"><a href="#Know-the-many-scenarios-where-feature-toggles-can-be-used-and-how-to-treat-them-properly" class="headerlink" title="Know the many scenarios where feature toggles can be used and how to treat them properly"></a>Know the many scenarios where feature toggles can be used and how to treat them properly</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*92ROY5iQcpAhd5PG"></p>
-<p>I have been using <a target="_blank" rel="noopener" href="https://lazypro.medium.com/trunk-based-development-can-help-4bb425595c00">trunk-based development</a> for some time to improve productivity in the team I supervise. In order to perform trunk-based development smoothly, feature toggle plays an important role in it, so I use this article to introduce feature toggles, what kinds of toggles are included and how to use them.</p>
-<p>But before we get to that, let’s talk about a concept that is easily confused. What is the difference between feature toggle and configuration?</p>
-<p>First, wherever a configuration is stored, such as a file, or a central storage system, such as <a target="_blank" rel="noopener" href="https://www.consul.io/docs/intro">Consul by HashiCorp</a>, it is considered static. When the system is initialized, the entire configuration file is stored in each instance’s memory to reduce unnecessary I&#x2F;O overhead. That is, if a setting is to be modified, the associated instance must be restarted in order to reload the setting into memory.</p>
-<p>On the other hand, a feature toggle does not work this way; a feature toggle calls the management system each time to get the current settings for the instance or even the feature. Therefore, the feature toggle is more dynamic than the configuration.</p>
-<p>Let’s use code as an example.</p>
-<p>If it is a configuration file, it will look like the following.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = <span class="title function_">loadConfigFromSomewhere</span>();  </span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="keyword">if</span> (config.<span class="property">featureA</span>) <span class="title function_">doA</span>();  </span><br><span class="line">    <span class="keyword">else</span> <span class="title function_">doB</span>();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>As for the feature toggle, it is a little different.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> connection = <span class="title function_">initFeatureToggle</span>();  </span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="keyword">if</span> (connection.<span class="title function_">isEnabled</span>(<span class="string">&quot;featureA&quot;</span>)) <span class="title function_">doA</span>();  </span><br><span class="line">    <span class="keyword">else</span> <span class="title function_">doB</span>();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>As you can see from the above example, the configuration is fixed after <code>loadConfigFromSomewhere</code>, and then the value is just taken from the variable. However, the feature toggle may get a different result each time when calling <code>isEnabled</code>, depending on the current environment.</p>
-<h3 id="What-kinds-of-feature-toggles-are-there"><a href="#What-kinds-of-feature-toggles-are-there" class="headerlink" title="What kinds of feature toggles are there?"></a>What kinds of feature toggles are there?</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*T7Hdo7lVIXXrxnag.png"></p>
-<p>There are four types of feature toggles.</p>
-<ol>
-<li>Release Toggles</li>
-<li>Ops Toggles</li>
-<li>Experiment Toggles</li>
-<li>Permission Toggles</li>
-</ol>
-<p>There are two dimensions in the diagram, dynamism and longevity.</p>
-<ul>
-<li>Dynamism said that the frequency of the toggle will be changed, the closer to the right side means the more frequently the toggle will be changed.</li>
-<li>Longevity refers to how long the toggle will stay in the source code, the closer to the bottom the shorter the retention time.</li>
-</ul>
-<p>The release toggle in the blue area is relatively static and is only used when a feature is released, and will be removed when the feature is stable. On the other hand, the toggles in the green area are relatively dynamic and may change according to various needs.</p>
-<h3 id="Release-Toggles"><a href="#Release-Toggles" class="headerlink" title="Release Toggles"></a>Release Toggles</h3><p>Release toggle is the most commonly used form of toggle and is intended to control the impact scope of each release.</p>
-<p>Assuming there is a new requirement for this release, the code for that new requirement should be fully encapsulated by the toggle for this release. At the moment of release, the default toggle should be off, in other words, the behavior of this release and the last release should be exactly the same.</p>
-<p>When the release is successful, the toggle can be turned on gradually on demand. At first, it may be 1% of the calls will get turned on, then 5%, then 10% and so on. In this way, the functionality is gradually opened to 100%. Such an approach is also known as the canary release.</p>
-<p>Alternatively, the toggle is turned on all the way at the beginning. Once any problem is encountered, the toggle is turned off completely to avoid a disaster affecting the entire system. The practice is known as blue-green deployment.</p>
-<p>It is important to note that the life cycle of these release toggles should be just a short period of time. These toggles should be removed from the code as soon as it is determined that the functionality is stable. If you don’t do this, the code will be filled with more and more toggles, which in return will cause a maintenance effort.</p>
-<h3 id="Ops-Toggles"><a href="#Ops-Toggles" class="headerlink" title="Ops Toggles"></a>Ops Toggles</h3><p>Ops toggles are different from release toggles because release toggles are designed to react to each release, but ops toggles are designed to handle changes to the infrastructure. When the infrastructure has to be upgraded or migrated for some purpose, it can be managed through ops toggles.</p>
-<p>For example, if a system starts with a distributed tracking system called <code>Elastic APM</code> and wants to replace it with <code>jaeger</code> for budget or maintenance reasons, then an ops toggle can be used to switch between the two systems. Until we are sure that <code>jaeger</code> can be operated correctly, the two systems will coexist, possibly with a half-monitoring ratio of 50-50. The ops toggle will remain in place until we are confident that we can replace the original system with <code>jaeger</code>, so the duration will be much longer than the release toggle.</p>
-<p>Another example of using ops toggle is a manual circuit breaker. For a high throughput system, a rate limit algorithm is usually implemented, but once the traffic reaches a certain level, it is necessary to directly cut off the excess traffic to avoid impacting the whole system. It is ideal for the system to be able to adjust and recover itself, however, such a mechanism is highly complex and difficult to do well at the beginning, so ops toggle is a good choice.</p>
-<p>This toggle will also exist for a long time until the developer has a way to implement an automatic mechanism.</p>
-<h3 id="Experiment-Toggles"><a href="#Experiment-Toggles" class="headerlink" title="Experiment Toggles"></a>Experiment Toggles</h3><p>Experiment toggles, as the name suggests, are toggles that are used to perform experiments. When a feature has two different behaviors and we want to evaluate the effectiveness of these two behaviors, we use experiment toggles, and the process of experimentation is called A&#x2F;B testing.</p>
-<p>It operates a bit like a release toggle, but unlike a release toggle that allows old and new behaviors to coexist, an experiment toggle allows two new behaviors to coexist. It may even be possible to bring in more experimental parameters through experiment toggles to make the whole experimental process more flexible and efficient.</p>
-<p>Yes, most of the feature toggles can carry additional parameters, not just true or false. Therefore, this can play the most accelerating role for the constantly changing experimental environment.</p>
-<p>Just like other toggles, the experiment toggles should be removed from the code after the experiment is done and the results are confirmed.</p>
-<h3 id="Permission-Toggles"><a href="#Permission-Toggles" class="headerlink" title="Permission Toggles"></a>Permission Toggles</h3><p>This last one is the most complex applicable case. From the diagram, we can see that it is both dynamic and long-lived.</p>
-<p>Then, what exactly is the existence of this toggle?</p>
-<p>From my point of view, it has two scenarios, one is the system-wide access control and another is the product level access control.</p>
-<p>System-wide access control means that there are certain functions or operations that are only available to specific users, thus we manage these restricted functions through permissions toggles. A little hard to imagine? I’ll provide a pseudo code.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">restrictedFunction</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="keyword">const</span> metadata = &#123;userId, userLevel, userRole&#125;;  </span><br><span class="line">    <span class="keyword">if</span> (connection.<span class="title function_">isEabled</span>(<span class="string">&quot;featureA&quot;</span>, metadata))  </span><br><span class="line">        <span class="title function_">doFunction</span>();  </span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>From the above example, we can know that this specific function is only allowed for certain users, and the user must verify his <code>Id</code>, <code>Level</code> and <code>Role</code> to make sure he meets the eligibility criteria before the function is available, otherwise, it will be skipped.</p>
-<p>Such a toggle seems to be very stable, right? In fact, it is not, the verification method may change, originally only <code>Id</code> and <code>Level</code> maybe required, until one day due to demand and add <code>Role</code>. So the rules of the toggle may change with requirements, and the usage context of the toggle may also change as requirements expand.</p>
-<h3 id="How-to-use-feature-toggles-correctly"><a href="#How-to-use-feature-toggles-correctly" class="headerlink" title="How to use feature toggles correctly?"></a>How to use feature toggles correctly?</h3><p>We’ve already seen what the code looks like when using the feature toggle.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> connection = <span class="title function_">initFeatureToggle</span>();  </span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="keyword">if</span> (connection.<span class="title function_">isEnabled</span>(<span class="string">&quot;featureA&quot;</span>)) <span class="title function_">doA</span>();  </span><br><span class="line">    <span class="keyword">else</span> <span class="title function_">doB</span>();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>When more and more toggles are made, there will be more and more if-else in between, which actually violates most of the clean code principles. Therefore, you should be extra careful when using feature toggle and follow a few basic principles.</p>
-<ol>
-<li>Use only where needed.</li>
-<li>control the number of toggles.</li>
-<li>Toggles do not overlap with each other.</li>
-<li>Regularly clear the useless toggles.</li>
-</ol>
-<p>In addition, the code of using toggles will eventually become as follows.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="title function_">doB</span>();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Because of this, it is very important to be able to remove toggles easily. I recommend using the <em>Factory Method</em> and encapsulating the code with a feature toggle so that only the product inside the <em>Factory Method</em> is removed when removing toggles and not all the external callers are touched. Here is a simple demonstration.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">factory</span>(<span class="params"></span>)  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="keyword">if</span> ( connection.<span class="title function_">isEnabled</span>(<span class="string">&quot;featureA&quot;</span>, metadata) ) &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">NewHandler</span>();  </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">OrigHandler</span>();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// qwer.js  </span><br><span class="line">factory().doA();  </span><br><span class="line">// asdf.js  </span><br><span class="line">factory().doB();  </span><br><span class="line">// zxcv.js  </span><br><span class="line">factory().doC();</span><br></pre></td></tr></table></figure>
-
-<p>Wrapping the whole feature toggle judgment in the factory method, the external caller doesn’t need to know whether he gets a new or old handler. when removing the feature toggle in the future, we only needs to modify the factory method and drop the <code>OrigHandler</code>.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">factory</span>(<span class="params"></span>)  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">NewHandler</span>();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>As a result, whether it is <code>qwer.js</code>, <code>asdf.js</code> or <code>zxcv.js</code> do not need to change.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This time we talked about the many scenarios where feature toggles can be used and how to treat them properly, and you should know why trunk-based development needs feature toggles so much because new versions are released frequently and to avoid affecting the online environment. So all unstable modifications must have a mechanism to isolate them. Feature toggles are exactly such a role.</p>
-<p>Another commonly mentioned use case in using feature toggles is that once a toggle is modified, it must immediately react to some online functionality. Such a requirement can be achieved through <em>Observer Pattern</em>, but I don’t recommend this kind of conjunction. After all, we know that these toggles will eventually be removed and they should not be involved in the whole domain model, instead, they play the role of coordinator, coordinating between people and systems.</p>
-<p>In this article, we have only discussed the use of feature toggles and their considerations, without mentioning specific solutions. Next time I will introduce two famous providers of feature toggle, <a target="_blank" rel="noopener" href="https://lazypro.medium.com/unleash-vs-launchdarkly-c35f586ccf49">LaunchDarkly and Unleash</a>, and provide some comments and guidelines based on my experience with them respectively.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/feature-toggle-introduction-68d58f5c709">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/13/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/15/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/13/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/15/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

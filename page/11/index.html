@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,247 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Backend/How-to-Make-a-Technical-Selection/20230122/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Backend/How-to-Make-a-Technical-Selection/20230122/" class="post-title-link" itemprop="url">How to Make a Technical Selection?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-01-23 01:52:13" itemprop="dateCreated datePublished" datetime="2023-01-23T01:52:13+08:00">2023-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Backend/" itemprop="url" rel="index"><span itemprop="name">Backend</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="There-are-so-many-tradeoffs-how-to-carry-on"><a href="#There-are-so-many-tradeoffs-how-to-carry-on" class="headerlink" title="There are so many tradeoffs, how to carry on?"></a>There are so many tradeoffs, how to carry on?</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*6FYZM1uKNUSB3jTu"></p>
+<p>Last week, an engineer asked me how to make a technical selection. And he provided a real-world example. Their organization wanted to implement an event-driven architecture, and there were three options available right now — MQTT, AMQP, and Kafka — but he didn’t know how to make a decision.</p>
+<p>My answer, as always, was “it depends”.</p>
+<blockquote>
+<p><em>“Everything in software architecture is a tradeoff”. — Mark Richards</em></p>
+</blockquote>
+<p>Because of the tradeoffs, there will never be a standard answer, in other words, there will never be a silver bullet.</p>
+<p>However, we always have to make a decision, what are the tradeoffs? At that moment, I turned back to him and asked.</p>
+<ul>
+<li>Do you understand your requirements completely?</li>
+<li>Do you know what these three techniques are exactly doing?</li>
+</ul>
+<p>Take message queues as an example, I have written an article previously on what use cases to consider when choosing a message queue.</p>
+<ul>
+<li>Propagation: Can fan-out be supported?</li>
+<li>Delivery: What kind of delivery guarantee does it have? At least once or exactly once?</li>
+<li>Persistence: Can messages be persisted?</li>
+<li>Consumer group: Does the receiver scale horizontally?</li>
+</ul>
+<p>These are the generic requirements for a message queue, and even if you don’t choose a message queue, listing the generic requirements for a technical stack can more or less filter out some options.</p>
+<p>Then, after filtering by generic requirements, further filtering could be done based on the specific use cases. For instance.</p>
+<ul>
+<li>Is there a large volume of messages to be written?</li>
+<li>Is there a limit to the bandwidth that can be transferred?</li>
+<li>What kind of security is required?</li>
+<li>What programming languages are expected to be integrated?</li>
+</ul>
+<p>To answer questions such as these, in addition to a precise understanding of the requirements, we must also have a clear understanding of the technical stack candidates.</p>
+<p>Therefore, architects use a similar thought process when making a technical selection to clarify requirements and learn about the technical stack, and finally make a decision. The decision is not about choosing the latest technique, or just playing around with it as if it works.</p>
+<p>Nevertheless, we will always encounter the situation that all needs are well met, after all, nowadays technology is developing rapidly, and many of our needs have already been implemented, so what should we do? Throw the dice?</p>
+<p>Wait, you can ask more questions.</p>
+<ul>
+<li>Should we maintain this technical stack ourselves or purchase a managed service?</li>
+<li>Is there a budget limit?</li>
+<li>How do we monitor it, whether we operate it ourselves or buy a managed service?</li>
+<li>Do we have any experience in using it?</li>
+</ul>
+<p>When there is no more question to ask to filter, then the last thing to do is to choose what we love and love what we choose, and not to waver from one option to another.</p>
+<p>Any technical stack from finalization to production environment must go through time, experience and learning in the process of use. If we change our choices easily, it’s hard to become an expert.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-make-a-technical-selection-f1b21b24c503">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Data-Pipeline-From-ETL-to-EL-Plus-T/20230108/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Data-Pipeline-From-ETL-to-EL-Plus-T/20230108/" class="post-title-link" itemprop="url">Data Pipeline: From ETL to EL Plus T</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-01-09 02:12:35" itemprop="dateCreated datePublished" datetime="2023-01-09T02:12:35+08:00">2023-01-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Data-Pipeline-From-ETL-to-EL-Plus-T"><a href="#Data-Pipeline-From-ETL-to-EL-Plus-T" class="headerlink" title="Data Pipeline: From ETL to EL Plus T"></a>Data Pipeline: From ETL to EL Plus T</h3><h4 id="New-challenges-lead-to-new-tools-then-new-challenges"><a href="#New-challenges-lead-to-new-tools-then-new-challenges" class="headerlink" title="New challenges lead to new tools, then new challenges?"></a>New challenges lead to new tools, then new challenges?</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*bJUifR2TtbI7hmA7"></p>
+<p>In the data pipeline, we often talk about ETL, aka Extract-Transform-Load, which is actually a very simple process as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*r_MNWhwg7nVKZm-_B-2JtA.png"></p>
+<p>Given an application extracts data from a source and saves it to another data storage after some processing and conversion, this is what ETL does. This is a complete ETL process, and to be honest, most non-ETL applications are doing something like that.</p>
+<p>Let me use a simple Python example to demonstrate the implementation of ETL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># Open the CSV file containing the data  </span><br><span class="line">with open(&quot;orders.csv&quot;, &quot;r&quot;) as file:  </span><br><span class="line">  # Use the CSV module to read the data  </span><br><span class="line">  reader = csv.DictReader(file)  </span><br><span class="line">  </span><br><span class="line">  # Iterate over the rows in the CSV file  </span><br><span class="line">  for row in reader:  </span><br><span class="line">    # Extract the data from the row  </span><br><span class="line">    order_id = row[&quot;order_id&quot;]  </span><br><span class="line">    customer_name = row[&quot;customer_name&quot;]  </span><br><span class="line">    order_date = row[&quot;order_date&quot;]  </span><br><span class="line">    order_total = row[&quot;order_total&quot;]  </span><br><span class="line">    # Insert the data into the database  </span><br><span class="line">    cursor = db.cursor()  </span><br><span class="line">    cursor.execute(  </span><br><span class="line">      &quot;INSERT INTO orders (order_id, customer_name, order_date, order_total) VALUES (%s, %s, %s, %s)&quot;,  </span><br><span class="line">      (order_id, customer_name, order_date, order_total)  </span><br><span class="line">    )  </span><br><span class="line">    db.commit()</span><br></pre></td></tr></table></figure>
+
+<p>This is a simple ETL example, we extract each line from a CSV file (data source), and convert the order details from CSV format to the corresponding columns in the database, and finally write to the database.</p>
+<p>As the database evolves, this process also evolves, and the ETL also has a variation, ELT, which seems to be a sequential exchange of T and L. But behind the scenes, the database has actually become more powerful.</p>
+<p>Let’s continue with the above example, and see how would ELT be handled?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">with open(&quot;orders.csv&quot;, &quot;r&quot;) as file:  </span><br><span class="line">  # Use the LOAD DATA INFILE statement to load the data into the database  </span><br><span class="line">  cursor = db.cursor()  </span><br><span class="line">  cursor.execute(  </span><br><span class="line">    &quot;LOAD DATA INFILE &#x27;orders.csv&#x27; INTO TABLE orders FIELDS TERMINATED BY &#x27;,&#x27; ENCLOSED BY &#x27;\&quot;&#x27; LINES TERMINATED BY &#x27;\n&#x27; IGNORE 1 ROWS&quot;  </span><br><span class="line">  )  </span><br><span class="line">  db.commit()</span><br></pre></td></tr></table></figure>
+
+<p>In this example, we use MySQL’s <code>LOAD DATA</code> command to write a CSV file directly into the database, converting it during the writing process, rather than converting the format first and then writing it to the database.</p>
+<p>In the data pipeline, it is actually various combinations of ETL and ELT, and eventually we will produce a data structure to fit the analysis and utilization.</p>
+<p>This process is the same concept in the big data domain, except that the data pipeline of big data multiplies a much larger volume of data and needs to face a more diverse data storage.</p>
+<h3 id="From-ETL-to-EL-plus-T"><a href="#From-ETL-to-EL-plus-T" class="headerlink" title="From ETL to EL plus T"></a>From ETL to EL plus T</h3><p>In my previous articles, we have already discussed the implementation of many big data pipeline architectures.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/evolutionary-data-infrastructure-4ddce2ec8a7e" title="https://betterprogramming.pub/evolutionary-data-infrastructure-4ddce2ec8a7e">Evolutionary Data Infrastructure</a></li>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/real-time-data-infra-stack-73c597ed05ee" title="https://betterprogramming.pub/real-time-data-infra-stack-73c597ed05ee">The Infrastructure Stack for Real-Time Data Analysis</a></li>
+</ul>
+<p>For the data source part, we rely heavily on <a target="_blank" rel="noopener" href="https://debezium.io/">Debezium</a> to capture data changes (CDC).</p>
+<p>The process underlying Debezium is that a group of workers extracts the binlogs of various databases, restores the binlogs to the original data, and identifies the contents of the schema to be passed on to the next data storage.</p>
+<p>In other words, each data source must have a group of Debezium workers to be responsible for it.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*iMSO6zO4Wh1RgowDIeVbgA.png"></p>
+<p>When the number of data sources is large, it is a huge effort just to build and maintain the corresponding Debezium. After all, the software does not work properly when left alone, but also requires a complete monitoring and alerting mechanism, which will eventually create a huge operation overhead.</p>
+<p>In fact, E and L in ETL are the most worthless things in a pipeline. For a pipeline to be effective, the most important thing is to produce effective data based on business logic, and T should be the part we should be focusing on.</p>
+<p>However, we have to take a lot of time on E and L in the operation of the pipeline, which is not what we expect.</p>
+<p>So, is there a solution to this dilemma?</p>
+<p>Yes, absolutely, <a target="_blank" rel="noopener" href="https://airbyte.com/">Airbyte</a>, and there are many similar solutions, but Airbyte is open source and relatively easy to use.</p>
+<p>Let’s take MongoDB to Kafka as an example, as soon as the setup is done it will be like the example below.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*m2lRwue0sdFazt45.png"></p>
+<p>Airbyte can sync automatically or manually according to the settings, and it can choose incremental sync or full sync. Each sync record is listed, and the sync process can be seen after expanding logs.</p>
+<p>As a result, the creation of data pipelines is effectively simplified, and data storage can be integrated smoothly through Airbyte’s Web UI.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article is not to promote Airbyte, nor is it to introduce the Airbyte architecture in depth, but from the standpoint of an architect, we will find that in the domain of big data, we will face various challenges, and each challenge has a corresponding solution, but also requires high learning costs.</p>
+<p>In fact, Airbyte also has its limitations, for example, the synchronization period must specify a regular time interval, such as every hour, even though it can use <a target="_blank" rel="noopener" href="https://crontab.guru/">cron representation</a>, but still limited by the fixed time, can not do the real streaming, i.e., once the data is triggered.</p>
+<p>In addition, when relying on additional tools, it can be frustrating to encounter this problem.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*bGwrLDPiDy3z6igO.png"></p>
+<p>Once the problem occurs, where to start to troubleshoot, and how to clarify the scope of the disaster, all need to experience and in-depth learning before there is a way to deal with.</p>
+<p>Learning these tools is also the biggest challenge for data engineers and data architects, there are many tools to solve many problems. However, big data is really big, and learning all tools is almost impossible.</p>
+<p>Finally, let me conclude with a picture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*5i9hq78ueoNhPD1d.jpg"></p>
+<p>What’s the next?</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/data-pipeline-from-etl-to-el-plus-t-4cbf3d5a6c1e">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1379,272 +1620,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/What-pattern-is-considered-CQRS/20221106/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/What-pattern-is-considered-CQRS/20221106/" class="post-title-link" itemprop="url">What pattern is considered CQRS?</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-11-07 00:33:17" itemprop="dateCreated datePublished" datetime="2022-11-07T00:33:17+08:00">2022-11-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="Does-it-matter"><a href="#Does-it-matter" class="headerlink" title="Does it matter?"></a>Does it matter?</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*AxgedTNPoqnZlpir"></p>
-<p>This week, in our study group, there is an interesting question.</p>
-<blockquote>
-<p><em>If our service use MongoDB as the primary database and leverage ElasticSearch to benefit searching. Each request is in, our service is responsible for a dual write to update both MongoDB and ElasticSearch. Is this implementation considered CQRS?</em></p>
-</blockquote>
-<p>In fact, this implementation is indeed generating a read model for searching and a write model for domain operations. If there is any search request, we can build a search layer or a search service for that.</p>
-<p>This looks like CQRS, doesn’t it?</p>
-<p>In my opinion, such an implementation is not CQRS.</p>
-<p>There are two core concepts about CQRS.</p>
-<ol>
-<li>event sourcing</li>
-<li>responsibility segregation</li>
-</ol>
-<p>Let’s see their actual meaning.</p>
-<h3 id="Event-sourcing"><a href="#Event-sourcing" class="headerlink" title="Event sourcing"></a>Event sourcing</h3><p>Event sourcing is the most important concept for CQRS. When we have a new feature requirement, we can leverage the existed events and replay to generate a new read model so that we don’t need to modify the original code base.</p>
-<p>In other words, we can easily fulfill any query requirement without impact the production functionality.</p>
-<p>Let’s go back to the original example.</p>
-<p>If our service keeps every input event in MongoDB so that new read models can be generated in the future, then I would say it’s “very much like” CQRS.</p>
-<h3 id="Responsibility-segregation"><a href="#Responsibility-segregation" class="headerlink" title="Responsibility segregation"></a>Responsibility segregation</h3><p>The another key point is the responsibility segregation, i.e., the last two letters of CQRS.</p>
-<p>What does that mean?</p>
-<p>From my point of view, responsibility for building the read and write models must be separated.</p>
-<p>If our service is responsible for both update MongoDB and update ElasticSearch, that doesn’t sound separate at all.</p>
-<p>In order to release the burden of updating many models, CQRS introduces an event synchronization mechanism for event consumers to generate read models and make them consistent eventually.</p>
-<p>Let’s continue with the original example.</p>
-<p>If our service maintain the MongoDB’s domain states and keep every domain operation as audit logs. Then, we can build a worker who regularly digest these logs and update ElasticSearch. So, this is a CQRS definitely.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Why do we need to clarify these terminology details? Is it important to know if it is considered CQRS?</p>
-<p>Well, it depends.</p>
-<p>If we want to make the original system better, then we need to know exactly what a paradigm means. If we hastily assume that the original system is already a paradigm, then we miss the opportunity to look at it deeply.</p>
-<p>The original implementation actually works well at the moment. However, if the input request increases, updating ElasticSearch will become a bottleneck while handling domain operations. At that time, we then have to make additional improvements.</p>
-<p>Those paradigms are the indexes that provide how to improve. Because of this, we need to understand the specifics of the paradigms.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/what-pattern-is-considered-cqrs-6de7ccb13047">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Understanding-Exactly-once-Semantics/20221030/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/Understanding-Exactly-once-Semantics/20221030/" class="post-title-link" itemprop="url">Understanding Exactly-once Semantics</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-10-31 01:21:29" itemprop="dateCreated datePublished" datetime="2022-10-31T01:21:29+08:00">2022-10-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="Explaining-how-to-achieve-end-to-end-exactly-once-guarantee"><a href="#Explaining-how-to-achieve-end-to-end-exactly-once-guarantee" class="headerlink" title="Explaining how to achieve end-to-end exactly-once guarantee"></a>Explaining how to achieve end-to-end exactly-once guarantee</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*LFngB3Juj-a2xErh"></p>
-<p>Previously, when <a target="_blank" rel="noopener" href="https://selectfrom.dev/message-queue-in-redis-9efe0de2c39c">discussing message queues</a>, we mentioned that when selecting a message queue, we should consider its delivery guarantee. Depending on the needs, there are different requirements for the delivery guarantee. The more critical the application, the higher level of guarantee is required.</p>
-<p>There are three different levels of delivery guarantees, ranging from weak to strong as follows.</p>
-<ol>
-<li>At most once</li>
-<li>At least once</li>
-<li>Exactly once</li>
-</ol>
-<p>When we define a delivery guarantee, in fact, we need to understand the scope of the guarantee. In an end-to-end delivery guarantee, there are three different paths that work together to define a complete end-to-end delivery guarantee.</p>
-<p>These three paths are as follows.</p>
-<ul>
-<li>Producer Perspective</li>
-<li>Consumer Perspective</li>
-<li>Sink Perspective</li>
-</ul>
-<p>An end-to-end delivery guarantee is actually determined by the weakest of these three paths. For example, if the producer has an exactly-once guarantee, but the consumer can only achieve at-least once, and the sink has at-least once too, then end-to-end is at-least once guaranteed.</p>
-<p>In this article, we will focus on how to achieve an exactly-once guarantee. Therefore, it is necessary to understand the meaning of these three paths and how to handle failures.</p>
-<h3 id="Producer-Perspective"><a href="#Producer-Perspective" class="headerlink" title="Producer Perspective"></a>Producer Perspective</h3><p>From the producer’s point of view, we always want any message that is sent to be delivered.</p>
-<p>Most message queues are able to tell the producer whether the message was sent successfully or not, and when the message is sent successfully, the producer will receive a response. We can be sure that if we receive a response, it was successful, and if we don’t receive it, it’s basically a failure.</p>
-<p>However, if we just lose the response but send it successfully, we have a problem.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*DHa-QK5vqP4oPqh6O2KRuA.png"></p>
-<p>The diagram above shows a common error process, so how do we avoid sending twice?</p>
-<p>There are several approaches.</p>
-<p>The first approach is for the producer to maintain a unique constraint on the message, e.g. <code>(producer_id, msg_id)</code>. When a send failure occurs, the producer goes to the broker and queries the broker’s internal storage to determine whether the send failed or the response was lost.</p>
-<p>Nevertheless, not every message queue supports this approach. If the message disappears as soon as it is taken away by the consumer, such as RabbitMQ, then this approach will not work. Conversely, systems like Kafka, which store messages as logs, can provide producers with queries.</p>
-<p>In the second approach, the producer does not identify if a response is lost, instead resending the message anyway, but leaving a GUID (globally unique ID) on the message. On the other hand, the consumer receives the message and has to determine if the GUID has been processed, or simply ignore it if it has been processed.</p>
-<p>If using Kafka, there is another approach to guarantee exactly-once, that is, through message transactions.</p>
-<p>Just like a relational database, declare <code>START TRANSACTION</code> before sending a message, and declare <code>COMMIT</code> after the message is sent. If any of the intermediate messages fail, then the producer does not <code>COMMIT</code> but simply aborts the entire transaction and resends it. In this way, a failed resend does not result in a duplicate send.</p>
-<h3 id="Consumer-Perspective"><a href="#Consumer-Perspective" class="headerlink" title="Consumer Perspective"></a>Consumer Perspective</h3><p>This is the scenario that all message queues focus on. The delivery guarantee provided by the message queue is only a part of the overall end-to-end delivery guarantee from the consumer perspective.</p>
-<p>Most message queues can only provide at-least once guarantee. Once the consumer has correctly processed the message, an acknowledgment is sent to the message queue, and the message is removed only when the message queue receives the acknowledgment.</p>
-<p>And, the flow of the problem is as follows.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*H1EtHr2h0kRGBqj5iUBbdQ.png"></p>
-<p>When Consumer 1 handles Message A and an acknowledgment is lost, then Consumer 2 can continue to get the same Message A and handle it, resulting in handling twice.</p>
-<p>Basically, this is a common problem for messages queues that are supported at-least once.</p>
-<p><em><strong>Idempotent Updates</strong></em></p>
-<p>In general, developers try to make messages as idempotent as possible so that they do not cause problems no matter how many times a message is handled.</p>
-<p>As mentioned in the previous section, putting a GUID inside each message is an obvious solution. Consumers store handled messages in a durable storage, and each consumer must verify whether a message has been handled before handling it.</p>
-<p>In addition, consumers must avoid duplicate updates when updating the storage by using transactions.</p>
-<p>Let’s take MySQL as an example.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;  </span><br><span class="line">$RET <span class="operator">=</span> <span class="keyword">UPDATE</span> event <span class="keyword">SET</span> handled <span class="operator">=</span> <span class="literal">true</span> <span class="keyword">WHERE</span> msg_id <span class="operator">=</span> <span class="number">123</span> <span class="keyword">AND</span> handled <span class="operator">=</span> <span class="literal">false</span>;  </span><br><span class="line">if $RET <span class="operator">=</span><span class="operator">=</span> <span class="number">1</span>:  </span><br><span class="line">    Do whatever you want;  </span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
-
-<p>Please notice in the first line after the transaction, in addition to <code>msg_id</code> in the <code>WHERE</code> clause we must also add <code>handled = false</code>, this is one of the ways to avoid MySQL having racing conditions. If we don’t add this check condition, it is still possible to process the same message twice under race conditions.</p>
-<p>There is a detailed explanation of how MySQL handles race conditions in my previous article, if you want to know the details you can refer to the following.</p>
-<p>Nevertheless, it is not easy to make the message idempotent. In addition to the consumer, it often requires the cooperation of the producer, which adds to the coupling and complexity.</p>
-<p><em><strong>Event Sourcing</strong></em></p>
-<p>Another approach is to use event sourcing. To implement event sourcing, the message queue must support querying message logs, such as Kafka.</p>
-<p>Event sourcing means that the current state of the consumer is generated by replaying all events, so any event handling failure can be recovered by simply replaying the event from the beginning.</p>
-<p>However, this approach creates two problems.</p>
-<ol>
-<li>The efficiency of replaying from scratch is not good.</li>
-<li>It is difficult to get a list of several current states.</li>
-</ol>
-<p>To solve the first problem, a checkpoint mechanism is usually used. Take snapshots of the states and record offsets at regular time intervals or for each batch of messages handled.</p>
-<p>When a problem occurs, just restore the last snapshot and replay the last offset to the latest data. Through the checkpoint mechanism, we can greatly improve the replay efficiency.</p>
-<p>The second problem is usually solved by using CQRS, so that a variety of different read requirements have a snapshot available for reference. For more information on how to evolve the CQRS architecture, please refer to my previous article.</p>
-<p>To sum up, in order to achieve an exactly-once guarantee by using event sourcing, the consumer must be able to record the handled states and offsets; when each error occurs, the consumer discards the current result and tries to replay it from the previous state snapshot to get the correct result.</p>
-<h3 id="Sink-Perspective"><a href="#Sink-Perspective" class="headerlink" title="Sink Perspective"></a>Sink Perspective</h3><p>Sink means downstream of the message. In fact, the sink perspective is a special case of the customer perspective.</p>
-<p>Suppose the sink is a database, the consumer itself can already achieve exactly-once guarantee through the event sourcing.</p>
-<p>But this is not enough, because in the process of recovering the consumer will propagate the event to the next again, resulting in downstream receiving duplicate results of the same event.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*BI7_kNugq6tdvRGX9jOQlA.png"></p>
-<p>In the above process, the consumer itself can guarantee exactly-once by restoring the state, but the downstream database has been written twice, which is still a problem.</p>
-<p>Honestly, there is no silver bullet in sink that can completely achieve exactly-once guarantee without side effects.</p>
-<p>Let’s check Solution 1, we only output the accumulated results after the consumer has successfully created a checkpoint.</p>
-<p>Since consumers are guaranteed exactly-once through the checkpoint mechanism, we only output the results when the checkpoint is created, thus ensuring consistency between consumer and sink. It is important to make the checkpoint creation and output be transactional.</p>
-<p>However, Solution 1 has an obvious drawback. The message handling loses its real-time nature and generates spikes in the database. Because the checkpoints are created in batches, not for each message, i.e., there are no current results in the database. In addition, the output process is also batch, which results in a large number of writes to the database at regular intervals.</p>
-<p>So, let’s see Solution 2, which makes the database update idempotent.</p>
-<p>It is straightforward to simply make each database update have a primary key and overwrite the rows with the same primary key.</p>
-<p>However, Solution 2 also has drawbacks. Firstly, it is not easy to define the primary key for each update. Secondly, when a consumer fails to handle and starts a replay, the saved results may time travel and be reverted back to the past then updated again.</p>
-<p>This inconsistency depends on how often the checkpoints are created and how efficiently they are replayed, which can take up to a couple of minutes.</p>
-<p>Both Solution 1 and Solution 2 have their potential risks, but if I had to choose, I would prefer Solution 2 more.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we take a closer look at the semantics of exactly-once and understand how end-to-end exactly-once can be implemented.</p>
-<p>Starting with the message producer at the beginning, the message is sent and enters the message queue, then is read and handled by the consumer, and finally the result is output downstream.</p>
-<p>I have to say exactly-once guarantee is a very difficult holy grail to achieve, and it has to be done correctly at every stage of the message flow in order to fully achieve end-to-end exactly-once guarantee.</p>
-<p>I believe there must be some original designs besides listed in this article that I have never noticed, if you have your own implementation, please feel free to share with me.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/understanding-exactly-once-semantics-338a56d8ba6a">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/12/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/12/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

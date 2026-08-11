@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,308 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Backend/Unleash-vs-LaunchDarkly-A-Look-at-Feature-Toggling-Solutions/20220410/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Backend/Unleash-vs-LaunchDarkly-A-Look-at-Feature-Toggling-Solutions/20220410/" class="post-title-link" itemprop="url">Unleash vs. LaunchDarkly: A Look at Feature Toggling Solutions</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-04-11 01:13:09" itemprop="dateCreated datePublished" datetime="2022-04-11T01:13:09+08:00">2022-04-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Backend/" itemprop="url" rel="index"><span itemprop="name">Backend</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Introduction-to-Unleash-and-LaunchDarkly-to-understand-their-capabilities"><a href="#Introduction-to-Unleash-and-LaunchDarkly-to-understand-their-capabilities" class="headerlink" title="Introduction to Unleash and LaunchDarkly to understand their capabilities"></a>Introduction to Unleash and LaunchDarkly to understand their capabilities</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*kWUD-NYxWO1v4ksv"></p>
+<p>In the <a target="_blank" rel="noopener" href="https://betterprogramming.pub/feature-toggle-introduction-68d58f5c709">previous article</a>, we introduced the timing and usage scenarios of feature toggles. In this article, we will pick two of the more well-known solutions, <a target="_blank" rel="noopener" href="https://www.getunleash.io/">Unleash</a> and <a target="_blank" rel="noopener" href="https://launchdarkly.com/">LaunchDarkly</a>, to provide a basic introduction and my experience.</p>
+<p>Before I begin, let me briefly describe the essential requirements for a feature toggle solution must be.</p>
+<ol>
+<li>Easy-to-use website.</li>
+<li>Easy to integrate SDK.</li>
+<li>Ability to implement 4 types of feature toggles.</li>
+</ol>
+<ul>
+<li>Release toggle: You can percentage rollout to achieve canary deployment.</li>
+<li>Ops toggle: Similar to the release toggle, the percentage adjustment function is also required.</li>
+<li>Experiment toggle: To be able to carry additional information within the toggle, not just true or false.</li>
+<li>Permission toggle: When making toggle judgments, it is important to be able to use additional dynamic parameters such as user id.</li>
+</ul>
+<p>Both Unleash and LaunchDarkly can satisfy these three criteria, and although there are some differences in capability, the basic operation of the feature toggle is not a problem at all.</p>
+<h3 id="Unleash"><a href="#Unleash" class="headerlink" title="Unleash"></a><a target="_blank" rel="noopener" href="https://www.getunleash.io/">Unleash</a></h3><p>Unleash is a mature solution for feature toggle, providing not only an online paid solution but also a self-hosted open-source solution. Therefore, I believe it is very suitable for internal experiments in organizations, after all, it is free. If you have good results with feature toggles, then you can consider upgrading to Unleash’s enterprise solution or switching to another solution.</p>
+<p>Unleash’s open-source solution is very simple in architecture, requiring only an API and a PostgreSQL. There is no cache in the system architecture, so you can understand that every time you get a feature toggle it is run directly on the database, but if you only apply Unleash to the backend environment and only use the server-side SDK, then this amount of usage is indeed not a big deal.</p>
+<p>On the other hand, the SDK provided by Unleash uses a polling mechanism, asking for results every 15 seconds and storing the results in each instance’s memory. This also effectively reduces the frequency of actually touching the database, but at the price of taking up to 15 seconds for changes to take effect. From my point of view, 15 seconds is not an intolerable period, so it is completely acceptable.</p>
+<p>It is also very simple to use, first initialize the Unleash instance, and then it will work properly. All the following examples use Node.js as a demonstration.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> unleash = <span class="built_in">require</span>(<span class="string">&#x27;unleash-client&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">unleash.initialize(&#123;  </span><br><span class="line">  url: &#x27;https://YOUR-API-URL&#x27;,  </span><br><span class="line">  appName: &#x27;my-node-name&#x27;,  </span><br><span class="line">  environment: process.env.APP_ENV,  </span><br><span class="line">  customHeaders: &#123; Authorization: &#x27;SOME-SECRET&#x27; &#125;,  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>The initialization process needs to set <code>environment</code>, but in an open-source solution, this parameter is irrelevant because the open-source solution only provides one set of environments. Ideally, it should be possible to generate a corresponding set of settings with various online environments, eg: staging and production.</p>
+<p>In an open-source solution, the only way to distinguish between environments is by using the name of the toggle as follows.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const stgToggle = unleash.isEnabled(&#x27;featureA-stg&#x27;);  </span><br><span class="line">const prodToggle = unleash.isEnabled(&#x27;featureA-prod&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>This can be quite useful when the number of toggles is small, but when the number of toggles becomes large, it can be challenging to manage.</p>
+<p>How to use Unleash to make an experiment toggle? We can do this by using Unleash’s <code>unleash.getVariant</code>, which is additional information that can be attached to the feature toggle and is easily configured on the Unleash web page.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const variant = unleash.getVariant(&#x27;featureA&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>In addition, it is very simple to complete the permission toggle, just bring in the context when <code>isEnabled</code>.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> context = &#123;  </span><br><span class="line">  <span class="attr">userId</span>: <span class="string">&#x27;123&#x27;</span>,  </span><br><span class="line">  <span class="attr">sessionId</span>: <span class="string">&#x27;123123-123-123&#x27;</span>,  </span><br><span class="line">  <span class="attr">remoteAddress</span>: <span class="string">&#x27;127.0.0.1&#x27;</span>,  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const enabled = isEnabled(&#x27;featureA&#x27;, context);</span><br></pre></td></tr></table></figure>
+
+<p>Furthermore, Unleash offers multiple different deployment strategies.</p>
+<ol>
+<li>Standard: Every time, the result will be the same.</li>
+<li>Gradual rollout: It can be set to a specific ratio, so that the result of each time the toggle is asked is determined by chance.</li>
+<li>UserIDs: Use <code>userId</code> in the context to enable targets that satisfy a specific <code>userId</code>.</li>
+<li>IPs: Use <code>sessionId</code> in the context to enable targets that satisfy a specific <code>sessionId</code>.</li>
+<li>Hosts: Use <code>remoteAddress</code> in the context to enable targets that satisfy a specific <code>remoteAddress</code>.</li>
+</ol>
+<p>Thus far in the introduction, we should be able to satisfy the essential use cases of feature toggles with Unleash. However, the functionality of Unleash is very simple in terms of toggling, and there are several challenges that are not easily overcome in the use of Unleash.</p>
+<ol>
+<li>There are only three special contexts that can be used for the deployment strategy, and there is only a judgment of equal or not, and there is no operator provided for either greater than or less than. If you need to implement <a target="_blank" rel="noopener" href="https://github.com/Unleash/unleash-client-node#custom-strategies">custom strategy</a>, you have to inherit the base class of SDK and implement it by yourself.</li>
+<li>Unleash supports the use of multiple policies on a single toggle, but the relationship between the policies is OR. For example, it is not possible to enable a toggle to a specific user in a specific location because the <code>userId</code> and <code>sessionId</code> cannot be AND.</li>
+<li>When choosing a gradual rollout, it can only set one specific rule. For instance, you cannot group by <code>userId</code> and have 40% of the users enabled, because you cannot mix multiple conditions. Otherwise, you can only use totally random distribution.</li>
+</ol>
+<h3 id="LaunchDarkly"><a href="#LaunchDarkly" class="headerlink" title="LaunchDarkly"></a><a target="_blank" rel="noopener" href="https://launchdarkly.com/">LaunchDarkly</a></h3><p>LaunchDarkly is another common solution. It does not provide a free open source solution, in other words, it is only available as a paid commercial solution.</p>
+<p>It is very similar to Unleash in use, and requires initialization at first.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ld = <span class="built_in">require</span>(<span class="string">&#x27;launchdarkly-node-server-sdk&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const client = ld.init(&#x27;YOUR_SDK_KEY&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>Unlike Unleash, it does not need to set the environment parameters in the initialization, because the key has already defined in which environment. The next step is to pick up the corresponding feature toggles.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = &#123;  </span><br><span class="line">  <span class="attr">firstName</span>: <span class="string">&#x27;Bob&#x27;</span>,  </span><br><span class="line">  <span class="attr">lastName</span>: <span class="string">&#x27;Loblaw&#x27;</span>,  </span><br><span class="line">  <span class="attr">key</span>: <span class="string">&#x27;example-user-key&#x27;</span>,  </span><br><span class="line">&#125;;  </span><br><span class="line"><span class="keyword">const</span> value = <span class="keyword">await</span> client.<span class="title function_">variation</span>(<span class="string">&#x27;YOUR_FLAG_KEY&#x27;</span>, user, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Two things are worth noting here: LaunchDarkly’s user is equivalent to Unleash’s context, but LaunchDarkly’s user is more flexible; Unleash’s context is only available for those specific attributes that are predefined, but LaunchDarkly can use any attribute and only needs to be configure it on the admin page.</p>
+<p>Another point is that Unleash splits the toggle and extra information into two methods, <code>isEnabled</code> and <code>getVariant</code>, but in the LaunchDarkly world, the toggle and extra information are one and the same. That is to say, the <code>value</code> you get through <code>variation</code> already contains the extra information. The <code>value</code> can be a boolean, an integer, a string, or JSON, depending on the setting.</p>
+<p>As for the percentage rollout provided by Unleash, LaunchDarkly also provides it, and it is even more powerful. Not only setting a ratio, LaunchDarkly is a composite attribute toggle, so more than two possibilities can exist at the same time, so you can directly adjust the percentage of each possibility in the percentage setting.</p>
+<p>In addition, LanuchDarkly provides a very powerful rules engine. Unlike Unleash’s monotonous deployment strategy, LauchDarkly can freely set rules for AND, OR, IN, and other matching operations. Moreover, during the percentage rollout, it can also mix percentages and various rules to achieve a very strong conditional matching.</p>
+<p>Due to LaunchDarkly’s entirely freestyle <code>user</code> and powerful rule engine, basically, LaunchDarkly can implement any application scenario you want.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Currently, the toggle update relies on a polling mechanism, so it takes a while for the settings on the website to really reflect on the system behavior. The solution is also proposed in the new version of LaunchDarkly, which provides a streaming mechanism to get instant feedback. However, for the system, it must also consider whether the network environment can tolerate so many persistent connections. This is beyond the scope of this article, so I will not explain it further.</p>
+<p>In fact, the feature toggle solution provides much more than just the toggle itself, how to do access control, audit log, and SSO and other additional features are equally important. However, different payment solutions provide different payment functions, and those functions have actually been detached from the demands of feature toggles, so this article does not introduce those additional functions of Unleash and LaunchDarkly.</p>
+<p>In terms of feature toggling itself, Unleash provides a basic experimental environment in which you can build a feature toggling system in your organization with very little overhead. Unleash also provides all the fundamental features required for feature toggling. For an organization that is just starting up, Unleash provides a great experimental vehicle that can be used as a warm start.</p>
+<p>Once the feature toggle is integrated into an organization’s development process, LaunchDarkly is a good choice for organizations that need to customize the use of the toggle for more situations. LaunchDarkly provides a simple and intuitive experience for setting and matching customization rules.</p>
+<p>From my experience, it is sufficient for small organizations to use Unleash, and the self-hosted solution is simple but enough for most use cases. As long as there are no complex rules to match, there is no need to spend money on other commercial solutions, but if you are having more and more management needs with open source Unleash, then it is necessary to consider commercial solutions and evaluate them carefully. In my opinion, LaunchDarkly is also good.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/unleash-vs-launchdarkly-c35f586ccf49">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Backend/Introduction-to-Feature-Toggling-Types-Use-Cases-and-Implementation/20220403/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Backend/Introduction-to-Feature-Toggling-Types-Use-Cases-and-Implementation/20220403/" class="post-title-link" itemprop="url">Introduction to Feature Toggling— Types, Use Cases and Implementation</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-04-04 02:22:35" itemprop="dateCreated datePublished" datetime="2022-04-04T02:22:35+08:00">2022-04-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Backend/" itemprop="url" rel="index"><span itemprop="name">Backend</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Introduction-to-Feature-Toggling—-Types-Use-Cases-and-Implementation"><a href="#Introduction-to-Feature-Toggling—-Types-Use-Cases-and-Implementation" class="headerlink" title="Introduction to Feature Toggling— Types, Use Cases, and Implementation"></a>Introduction to Feature Toggling— Types, Use Cases, and Implementation</h3><h4 id="Know-the-many-scenarios-where-feature-toggles-can-be-used-and-how-to-treat-them-properly"><a href="#Know-the-many-scenarios-where-feature-toggles-can-be-used-and-how-to-treat-them-properly" class="headerlink" title="Know the many scenarios where feature toggles can be used and how to treat them properly"></a>Know the many scenarios where feature toggles can be used and how to treat them properly</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*92ROY5iQcpAhd5PG"></p>
+<p>I have been using <a target="_blank" rel="noopener" href="https://lazypro.medium.com/trunk-based-development-can-help-4bb425595c00">trunk-based development</a> for some time to improve productivity in the team I supervise. In order to perform trunk-based development smoothly, feature toggle plays an important role in it, so I use this article to introduce feature toggles, what kinds of toggles are included and how to use them.</p>
+<p>But before we get to that, let’s talk about a concept that is easily confused. What is the difference between feature toggle and configuration?</p>
+<p>First, wherever a configuration is stored, such as a file, or a central storage system, such as <a target="_blank" rel="noopener" href="https://www.consul.io/docs/intro">Consul by HashiCorp</a>, it is considered static. When the system is initialized, the entire configuration file is stored in each instance’s memory to reduce unnecessary I&#x2F;O overhead. That is, if a setting is to be modified, the associated instance must be restarted in order to reload the setting into memory.</p>
+<p>On the other hand, a feature toggle does not work this way; a feature toggle calls the management system each time to get the current settings for the instance or even the feature. Therefore, the feature toggle is more dynamic than the configuration.</p>
+<p>Let’s use code as an example.</p>
+<p>If it is a configuration file, it will look like the following.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = <span class="title function_">loadConfigFromSomewhere</span>();  </span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="keyword">if</span> (config.<span class="property">featureA</span>) <span class="title function_">doA</span>();  </span><br><span class="line">    <span class="keyword">else</span> <span class="title function_">doB</span>();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As for the feature toggle, it is a little different.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> connection = <span class="title function_">initFeatureToggle</span>();  </span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="keyword">if</span> (connection.<span class="title function_">isEnabled</span>(<span class="string">&quot;featureA&quot;</span>)) <span class="title function_">doA</span>();  </span><br><span class="line">    <span class="keyword">else</span> <span class="title function_">doB</span>();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As you can see from the above example, the configuration is fixed after <code>loadConfigFromSomewhere</code>, and then the value is just taken from the variable. However, the feature toggle may get a different result each time when calling <code>isEnabled</code>, depending on the current environment.</p>
+<h3 id="What-kinds-of-feature-toggles-are-there"><a href="#What-kinds-of-feature-toggles-are-there" class="headerlink" title="What kinds of feature toggles are there?"></a>What kinds of feature toggles are there?</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*T7Hdo7lVIXXrxnag.png"></p>
+<p>There are four types of feature toggles.</p>
+<ol>
+<li>Release Toggles</li>
+<li>Ops Toggles</li>
+<li>Experiment Toggles</li>
+<li>Permission Toggles</li>
+</ol>
+<p>There are two dimensions in the diagram, dynamism and longevity.</p>
+<ul>
+<li>Dynamism said that the frequency of the toggle will be changed, the closer to the right side means the more frequently the toggle will be changed.</li>
+<li>Longevity refers to how long the toggle will stay in the source code, the closer to the bottom the shorter the retention time.</li>
+</ul>
+<p>The release toggle in the blue area is relatively static and is only used when a feature is released, and will be removed when the feature is stable. On the other hand, the toggles in the green area are relatively dynamic and may change according to various needs.</p>
+<h3 id="Release-Toggles"><a href="#Release-Toggles" class="headerlink" title="Release Toggles"></a>Release Toggles</h3><p>Release toggle is the most commonly used form of toggle and is intended to control the impact scope of each release.</p>
+<p>Assuming there is a new requirement for this release, the code for that new requirement should be fully encapsulated by the toggle for this release. At the moment of release, the default toggle should be off, in other words, the behavior of this release and the last release should be exactly the same.</p>
+<p>When the release is successful, the toggle can be turned on gradually on demand. At first, it may be 1% of the calls will get turned on, then 5%, then 10% and so on. In this way, the functionality is gradually opened to 100%. Such an approach is also known as the canary release.</p>
+<p>Alternatively, the toggle is turned on all the way at the beginning. Once any problem is encountered, the toggle is turned off completely to avoid a disaster affecting the entire system. The practice is known as blue-green deployment.</p>
+<p>It is important to note that the life cycle of these release toggles should be just a short period of time. These toggles should be removed from the code as soon as it is determined that the functionality is stable. If you don’t do this, the code will be filled with more and more toggles, which in return will cause a maintenance effort.</p>
+<h3 id="Ops-Toggles"><a href="#Ops-Toggles" class="headerlink" title="Ops Toggles"></a>Ops Toggles</h3><p>Ops toggles are different from release toggles because release toggles are designed to react to each release, but ops toggles are designed to handle changes to the infrastructure. When the infrastructure has to be upgraded or migrated for some purpose, it can be managed through ops toggles.</p>
+<p>For example, if a system starts with a distributed tracking system called <code>Elastic APM</code> and wants to replace it with <code>jaeger</code> for budget or maintenance reasons, then an ops toggle can be used to switch between the two systems. Until we are sure that <code>jaeger</code> can be operated correctly, the two systems will coexist, possibly with a half-monitoring ratio of 50-50. The ops toggle will remain in place until we are confident that we can replace the original system with <code>jaeger</code>, so the duration will be much longer than the release toggle.</p>
+<p>Another example of using ops toggle is a manual circuit breaker. For a high throughput system, a rate limit algorithm is usually implemented, but once the traffic reaches a certain level, it is necessary to directly cut off the excess traffic to avoid impacting the whole system. It is ideal for the system to be able to adjust and recover itself, however, such a mechanism is highly complex and difficult to do well at the beginning, so ops toggle is a good choice.</p>
+<p>This toggle will also exist for a long time until the developer has a way to implement an automatic mechanism.</p>
+<h3 id="Experiment-Toggles"><a href="#Experiment-Toggles" class="headerlink" title="Experiment Toggles"></a>Experiment Toggles</h3><p>Experiment toggles, as the name suggests, are toggles that are used to perform experiments. When a feature has two different behaviors and we want to evaluate the effectiveness of these two behaviors, we use experiment toggles, and the process of experimentation is called A&#x2F;B testing.</p>
+<p>It operates a bit like a release toggle, but unlike a release toggle that allows old and new behaviors to coexist, an experiment toggle allows two new behaviors to coexist. It may even be possible to bring in more experimental parameters through experiment toggles to make the whole experimental process more flexible and efficient.</p>
+<p>Yes, most of the feature toggles can carry additional parameters, not just true or false. Therefore, this can play the most accelerating role for the constantly changing experimental environment.</p>
+<p>Just like other toggles, the experiment toggles should be removed from the code after the experiment is done and the results are confirmed.</p>
+<h3 id="Permission-Toggles"><a href="#Permission-Toggles" class="headerlink" title="Permission Toggles"></a>Permission Toggles</h3><p>This last one is the most complex applicable case. From the diagram, we can see that it is both dynamic and long-lived.</p>
+<p>Then, what exactly is the existence of this toggle?</p>
+<p>From my point of view, it has two scenarios, one is the system-wide access control and another is the product level access control.</p>
+<p>System-wide access control means that there are certain functions or operations that are only available to specific users, thus we manage these restricted functions through permissions toggles. A little hard to imagine? I’ll provide a pseudo code.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">restrictedFunction</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="keyword">const</span> metadata = &#123;userId, userLevel, userRole&#125;;  </span><br><span class="line">    <span class="keyword">if</span> (connection.<span class="title function_">isEabled</span>(<span class="string">&quot;featureA&quot;</span>, metadata))  </span><br><span class="line">        <span class="title function_">doFunction</span>();  </span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>From the above example, we can know that this specific function is only allowed for certain users, and the user must verify his <code>Id</code>, <code>Level</code> and <code>Role</code> to make sure he meets the eligibility criteria before the function is available, otherwise, it will be skipped.</p>
+<p>Such a toggle seems to be very stable, right? In fact, it is not, the verification method may change, originally only <code>Id</code> and <code>Level</code> maybe required, until one day due to demand and add <code>Role</code>. So the rules of the toggle may change with requirements, and the usage context of the toggle may also change as requirements expand.</p>
+<h3 id="How-to-use-feature-toggles-correctly"><a href="#How-to-use-feature-toggles-correctly" class="headerlink" title="How to use feature toggles correctly?"></a>How to use feature toggles correctly?</h3><p>We’ve already seen what the code looks like when using the feature toggle.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> connection = <span class="title function_">initFeatureToggle</span>();  </span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="keyword">if</span> (connection.<span class="title function_">isEnabled</span>(<span class="string">&quot;featureA&quot;</span>)) <span class="title function_">doA</span>();  </span><br><span class="line">    <span class="keyword">else</span> <span class="title function_">doB</span>();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>When more and more toggles are made, there will be more and more if-else in between, which actually violates most of the clean code principles. Therefore, you should be extra careful when using feature toggle and follow a few basic principles.</p>
+<ol>
+<li>Use only where needed.</li>
+<li>control the number of toggles.</li>
+<li>Toggles do not overlap with each other.</li>
+<li>Regularly clear the useless toggles.</li>
+</ol>
+<p>In addition, the code of using toggles will eventually become as follows.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="title function_">doB</span>();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Because of this, it is very important to be able to remove toggles easily. I recommend using the <em>Factory Method</em> and encapsulating the code with a feature toggle so that only the product inside the <em>Factory Method</em> is removed when removing toggles and not all the external callers are touched. Here is a simple demonstration.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">factory</span>(<span class="params"></span>)  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="keyword">if</span> ( connection.<span class="title function_">isEnabled</span>(<span class="string">&quot;featureA&quot;</span>, metadata) ) &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">NewHandler</span>();  </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">OrigHandler</span>();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// qwer.js  </span><br><span class="line">factory().doA();  </span><br><span class="line">// asdf.js  </span><br><span class="line">factory().doB();  </span><br><span class="line">// zxcv.js  </span><br><span class="line">factory().doC();</span><br></pre></td></tr></table></figure>
+
+<p>Wrapping the whole feature toggle judgment in the factory method, the external caller doesn’t need to know whether he gets a new or old handler. when removing the feature toggle in the future, we only needs to modify the factory method and drop the <code>OrigHandler</code>.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">factory</span>(<span class="params"></span>)  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">NewHandler</span>();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As a result, whether it is <code>qwer.js</code>, <code>asdf.js</code> or <code>zxcv.js</code> do not need to change.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This time we talked about the many scenarios where feature toggles can be used and how to treat them properly, and you should know why trunk-based development needs feature toggles so much because new versions are released frequently and to avoid affecting the online environment. So all unstable modifications must have a mechanism to isolate them. Feature toggles are exactly such a role.</p>
+<p>Another commonly mentioned use case in using feature toggles is that once a toggle is modified, it must immediately react to some online functionality. Such a requirement can be achieved through <em>Observer Pattern</em>, but I don’t recommend this kind of conjunction. After all, we know that these toggles will eventually be removed and they should not be involved in the whole domain model, instead, they play the role of coordinator, coordinating between people and systems.</p>
+<p>In this article, we have only discussed the use of feature toggles and their considerations, without mentioning specific solutions. Next time I will introduce two famous providers of feature toggle, <a target="_blank" rel="noopener" href="https://lazypro.medium.com/unleash-vs-launchdarkly-c35f586ccf49">LaunchDarkly and Unleash</a>, and provide some comments and guidelines based on my experience with them respectively.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/feature-toggle-introduction-68d58f5c709">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1344,271 +1646,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/" class="post-title-link" itemprop="url">Designing Software Using Clean Architecture: Domain-Driven Design</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-01-31 00:38:31" itemprop="dateCreated datePublished" datetime="2022-01-31T00:38:31+08:00">2022-01-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="Explained-with-a-code-sample"><a href="#Explained-with-a-code-sample" class="headerlink" title="Explained with a code sample"></a>Explained with a code sample</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*M0ppuIun1CRj3WJX"></p>
-<p>This article is the last of this series. We have already described the problem encountered in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">data-oriented design</a>. In this article, we will introduce a better way to tackle a feature requirement.</p>
-<p>We continue the previous example, a sign-in mission, and try a different design flow. Before we start, let’s review the onion architecture again.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*xAqzUzJ40tAvdG2Q.jpg"></p>
-<p>In order to make it easier to understand the process to be introduced later, let’s first define several important legends of this diagram.</p>
-<ul>
-<li>Entity: In clean architecture, entity means the business logic. Different from the entity in domain-driven design, the entity here can be realized as the domain in domain-driven design.</li>
-<li>Use cases: With the domain, the outer layer is use cases, which refers to clients who use domain knowledge to fulfill specific needs. In domain-driven design, it is also known as the domain service.</li>
-<li>Controller: The Controller is quite simple. It is responsible for managing the ingress and egress of the entire domain, including input checking, and converting domain knowledge into a data structure that is presented on the client side.</li>
-<li>DB: The outermost layer is the external dependencies of the system, including the database.</li>
-<li>Arrows: The arrow pointing from the outside to the inside is a reference. The outer module can reference the inner module, but it cannot be referenced from the inside to the outside.</li>
-</ul>
-<p>According to this description, we can know that the order of design should be from the inside to the outside. After the inner layer is established, and then it is able to be referenced by the outer layer. In other words, to complete a design in a clean architecture way, the domain behavior must be defined first, and the database design should be the last. This is the exact opposite of data-oriented design.</p>
-<h3 id="Domain-driven-Design"><a href="#Domain-driven-Design" class="headerlink" title="Domain-driven Design"></a>Domain-driven Design</h3><p>Before starting the actual design, let me explain my usual design process, which also echos the onion architecture.</p>
-<ol>
-<li>Discover user stories (entities)</li>
-<li>Design use cases</li>
-<li>Model domain objects</li>
-<li>Implement unit tests</li>
-<li>Code</li>
-</ol>
-<p>In later sections, I will also design with this process. The problem we want to solve is to build a sign-in mission mentioned earlier.</p>
-<h3 id="Discover-user-stories"><a href="#Discover-user-stories" class="headerlink" title="Discover user stories"></a>Discover user stories</h3><p>To start a design, we must be able to understand the whole picture of the entire requirement, and user stories are a language that can describe the requirements. In our needs this time, the stories are similar to the following.</p>
-<ol>
-<li>Get corresponding rewards when you sign in consecutively.</li>
-<li>Display the sign-in status and received rewards for this cycle.</li>
-<li>Get 100 diamonds when opening the gift box.</li>
-</ol>
-<p>We convert the descriptions in the requirements document into semantics that developers can understand through an ubiquitous language. With any requirement, there must be a story behind it, and the designer’s job is to discover those stories. On the other hand, for the developers, they implement those stories in coding.</p>
-<h3 id="Design-use-cases"><a href="#Design-use-cases" class="headerlink" title="Design use cases"></a>Design use cases</h3><p>With the story, then we need design the use cases that the story faces. Unlike a story, a use case refers to the outcome of a given user scenario. For example:</p>
-<ol>
-<li>Sign in: When a user signs in for four consecutive days, the first sign-in on the fifth day can get 30 diamonds and a gift box. But the second sign-in got nothing.</li>
-<li>Open the gift box: When opening the gift box, you can get 100 diamonds, but it cannot be opened again.</li>
-</ol>
-<p>From the above description, use cases are actually an extension of user stories and describe details that are not defined in the story. Therefore, from the use cases, we can draw a flowchart to explain the whole user scenario in detail. Let’s take sign-in as an example with a flowchart.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*WtFC6OlXrCqrmlsffaYV4g.png"></p>
-<p>Starting from the top starting point, it is the moment when the sign-in action occurs, so it is represented by <code>SignIn: now</code>. Next, we need to know how long is the difference between this sign-in and the “last sign-in” in days. If it is 0 days, it means that you have already signed in, and there is no reward to get. Or the difference is greater than 1, indicating that the sign-in is not continuous this time, and the entire cycle needs to be reset. In case of 1 exactly, it is continuous sign-in, thus the continuous date is incremented, and the current time is recorded.</p>
-<p>Finally, check the table according to the number of consecutive days to know how many rewards you will get.</p>
-<p>It is also easy to display how many consecutive days you have signed in. Suppose we use list to represent the signed-in records.</p>
-<ul>
-<li>Only sign in for one day: <code>[1, 0, 0, 0, 0, 0, 0]</code></li>
-<li>Sign in for three consecutive days: <code>[1, 1, 1, 0, 0, 0, 0]</code></li>
-</ul>
-<p>Therefore, we can know how many <code>1</code> to insert to the list from <code>counter</code>.</p>
-<p>The flow of opening the gift box is similar, so I won’t explain too much here. The final code will include opening the gift box.</p>
-<h3 id="Model-domain-objects"><a href="#Model-domain-objects" class="headerlink" title="Model domain objects"></a>Model domain objects</h3><p>From the use cases we can know that we will need two very important variables: <code>counter</code> and <code>last</code>. In fact, the rest of the state is determined by these two variables, so we can start modeling.</p>
-<p>In order to describe the entire sign-in mission, I believe that each user will have its own state, so we encapsulate the user state into a domain object called <code>SignInRepo</code>. The Repository in <code>DDD</code> is used here. Then with the user state, we can describe the whole story. There are two actions in the story, <code>signIn</code> and <code>getTimeline</code>, which represent story 1 and story 2 respectively.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*7Ayrd6xhBnn8UefYeG6oQg.png"></p>
-<p>Because <code>SignInRepo</code> is defined on the basis of use cases, it is part of the entity in the onion architecture. According to the flowchart, it has two private variables and two public methods. The reason why <code>update</code> has a parameter is that we can see from the flowchart that we only have one operation <code>counter++, set last=now</code>, and <code>now</code> must be passed in from the outside. As for <code>SignInService</code>, it can be known from the name that it belongs to the domain service.</p>
-<p>Once we have domain objects, we can start developing in test-driven development, TDD.</p>
-<h3 id="Implement-unit-tests"><a href="#Implement-unit-tests" class="headerlink" title="Implement unit tests"></a>Implement unit tests</h3><p>In the development process of TDD, we write the corresponding tests according to our user stories at first, and then the actual coding is carried out. Hence, in this section, we’ll explain how to write unit tests with our defined stories and models. Let’s take a regular story as an example, suppose we’ve signed in for six days continuously, and on the seventh day, we’ll get 100 diamonds and a gift box.</p>
-<p>First, write a test based on our story.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">describe</span>(<span class="string">&quot;step1&quot;</span>, <span class="function">() =&gt;</span> &#123;  </span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&quot;continuous 6d and signin 7th day&quot;</span>, <span class="function">() =&gt;</span> &#123;  </span><br><span class="line">    <span class="keyword">const</span> user = <span class="string">&quot;User A&quot;</span>;  </span><br><span class="line">    <span class="keyword">const</span> now = <span class="string">&quot;2022-01-07 1:11:11&quot;</span>;  </span><br><span class="line">    <span class="keyword">const</span> service = <span class="keyword">new</span> <span class="title class_">SignInService</span>(user);  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">const</span> timeline1 = service.<span class="title function_">getTimeline</span>();  </span><br><span class="line">    <span class="title function_">expect</span>(timeline1).<span class="property">to</span>.<span class="property">deep</span>.<span class="title function_">equal</span>([<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>]);  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">const</span> result = service.<span class="title function_">signIn</span>(now);  </span><br><span class="line">    <span class="title function_">expect</span>(result).<span class="property">to</span>.<span class="property">be</span>.<span class="title function_">equal</span>(<span class="number">100</span>);  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">const</span> timeline2 = service.<span class="title function_">getTimeline</span>();  </span><br><span class="line">    <span class="title function_">expect</span>(timeline2).<span class="property">to</span>.<span class="property">deep</span>.<span class="title function_">equal</span>([<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]);  </span><br><span class="line">        </span><br><span class="line">    <span class="keyword">const</span> result = service.<span class="title function_">signIn</span>(now);  </span><br><span class="line">    <span class="title function_">expect</span>(result).<span class="property">to</span>.<span class="property">be</span>.<span class="title function_">equal</span>(<span class="number">0</span>);  </span><br><span class="line">  &#125;);  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>One of the stories is briefly described above, there is a user, A, who has signed in for six consecutive days, and when he signs in at <code>2022-01-07 1:11:11</code>, it is the seventh day to sign in. He gets 100 diamonds as our expectation.</p>
-<p>But such a story is not complete, because six consecutive sign-ins have not been defined. So let’s modify the test a bit.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">describe</span>(<span class="string">&quot;step2&quot;</span>, <span class="function">() =&gt;</span> &#123;  </span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&quot;continuous 6d and signin 7th day&quot;</span>, <span class="function">() =&gt;</span> &#123;  </span><br><span class="line">    <span class="keyword">const</span> user = <span class="string">&quot;User A&quot;</span>;  </span><br><span class="line">    <span class="keyword">const</span> now = <span class="string">&quot;2022-01-07 1:11:11&quot;</span>;  </span><br><span class="line">    <span class="keyword">const</span> repo = <span class="keyword">new</span> <span class="title class_">SignInRepo</span>(user);  </span><br><span class="line">    repo.<span class="title function_">restoreSingInRecord</span>(<span class="number">6</span>, <span class="string">&quot;2022-01-06 5:55:55&quot;</span>);  </span><br><span class="line">    <span class="keyword">const</span> service = <span class="keyword">new</span> <span class="title class_">SignInService</span>(repo);  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">const</span> timeline1 = service.<span class="title function_">getTimeline</span>();  </span><br><span class="line">    <span class="title function_">expect</span>(timeline1).<span class="property">to</span>.<span class="property">deep</span>.<span class="title function_">equal</span>([<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>]);  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">const</span> result = service.<span class="title function_">signIn</span>(now);  </span><br><span class="line">    <span class="title function_">expect</span>(result).<span class="property">to</span>.<span class="property">be</span>.<span class="title function_">equal</span>(<span class="number">100</span>);  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">const</span> timeline2 = service.<span class="title function_">getTimeline</span>();  </span><br><span class="line">    <span class="title function_">expect</span>(timeline2).<span class="property">to</span>.<span class="property">deep</span>.<span class="title function_">equal</span>([<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]);  </span><br><span class="line">        </span><br><span class="line">    <span class="keyword">const</span> result = service.<span class="title function_">signIn</span>(now);  </span><br><span class="line">    <span class="title function_">expect</span>(result).<span class="property">to</span>.<span class="property">be</span>.<span class="title function_">equal</span>(<span class="number">0</span>);  </span><br><span class="line">  &#125;);  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>In order to restore the entire use cases, we newly defined a repo and added an auxiliary method: <code>restoreSingInRecord</code>. This helper can also be used as an interface to retrieve values from the database in future implementations. Subsequently, such a story is complete and can begin to go into the production code.</p>
-<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p>In the previous section, we have a complete unit test, and then start implementing <code>SignInRepo</code> and <code>SignInService</code>.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*zIdOV_9FZ1y1PUF4-IDhyw.png"></p>
-<p><code>SignInRepo</code> is easy to implement when there is no database, just follow the flowchart to finish <code>update</code> and <code>reset</code>. <code>SignInService</code> is totally implemented in accordance with the use cases, and the flowchart is converted into the actual code.</p>
-<p>In this way, this requirement is half completed, and the remaining process of opening the gift box is basically the same, so I will just post the final result. The full implementation can be seen as follows.</p>
-<h3 id="Summary-of-Domain-driven-Design"><a href="#Summary-of-Domain-driven-Design" class="headerlink" title="Summary of Domain-driven Design"></a>Summary of Domain-driven Design</h3><p>In fact, the above implementation just borrows some DDD terminologies, and does not fully implement DDD’s “prescriptions”. From my point of view, DDD provides a concept that enables people to know the importance of the domain and has the ability to abstract the domain.</p>
-<p>That is to say, it is up to you whether to follow the textbook to implement Entity, Value Object, Aggregate, and Repository or not. It needn’t implement in DDD by following the textbook approach. The implementation depends on the proficiency and understanding of needs.</p>
-<p>In this article, a standard design process is provided, so that everyone can disassemble the original requirements and convert them into models with domain knowledge by following this process.</p>
-<p>The process of implementing the model, it begins with the corresponding tests to achieve test-driven development.</p>
-<p>Of course, in the real world, it is not as simple as the example in this article. But the design process is the same, starting from the story, defining the use cases through the story, then modeling according to the use cases, writing tests according to the stories, and finally implementing it.</p>
-<p>By the way, I explained some design details a while ago, such as:</p>
-<ul>
-<li>Q1: Why do we need to define a repo? <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/whats-difference-between-unit-test-and-integration-test-aae6ef13220">Dependency Injection</a></li>
-<li>Q2: Why do we need layers? <a target="_blank" rel="noopener" href="https://lazypro.medium.com/layered-architecture-clarification-e55b69d60e98">Layered Architecture</a></li>
-<li>Q3: How to evolve a system? <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">Shift from Monolith to CQRS</a></li>
-</ul>
-<p>If you encounter software design problems, you are also welcome to discuss them with me.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/How-to-Design-Software-in-a-Clean-Architecture-Way/20220123/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/How-to-Design-Software-in-a-Clean-Architecture-Way/20220123/" class="post-title-link" itemprop="url">How to Design Software in a Clean Architecture Way</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-01-24 01:11:28" itemprop="dateCreated datePublished" datetime="2022-01-24T01:11:28+08:00">2022-01-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="A-look-at-the-data-oriented-design-approach"><a href="#A-look-at-the-data-oriented-design-approach" class="headerlink" title="A look at the data-oriented design approach"></a>A look at the data-oriented design approach</h4><ul>
-<li>Part 1, <a target="_blank" rel="noopener" href="https://lazypro.medium.com/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">Data-oriented Design</a></li>
-<li>Part 2, <a target="_blank" rel="noopener" href="https://lazypro.medium.com/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">Domain-driven Design</a></li>
-</ul>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*fdnh2MllxpiW0mcK.jpg"></p>
-<p>There are many articles and books talking about <em>Clean Architecture</em>, but the focus is on why and what, such as why to use an onion architecture, what each layer represents, and what is the <code>SOLID</code> principle.</p>
-<p>However, developers actually want to pay more attention to how, that is, how to write a good program architecture according to those design principles.</p>
-<p>In this article, we try to solve a common architectural problem in a clean architectural way.</p>
-<p>In many mobile games or commercial websites, in order to improve user retention, a sign-in mission is designed. If you sign in, you will get some rewards. When you sign in continuously for a certain number of days, there will be additional <strong>gift boxes</strong> that can be opened, and you will get bonuses after opening. Let’s try to fulfill this requirement together.</p>
-<h3 id="Problem-Domain"><a href="#Problem-Domain" class="headerlink" title="Problem Domain"></a>Problem Domain</h3><p>Users who log in continuously will get diamonds, as shown in the following table:</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*_AmFxl_4bLq0Vi1m4eTf9w.png"></p>
-<p>To simplify the problem, let’s get a fixed amount of 100 diamonds the gift box is opened each time. For example, if a user signs in for four consecutive days, the user can get 30 and a gift box on the fifth day of sign-in.</p>
-<p>Every time the user enters the homepage, he will see a sign-in map, telling the user how many consecutive sign-ins have been completed in this cycle and how many rewards have been received.</p>
-<h3 id="Design-Phase"><a href="#Design-Phase" class="headerlink" title="Design Phase"></a>Design Phase</h3><p>There are two different design approaches, data-oriented design and domain-driven design. We will start talking about data-oriented design and tell you why it’s not a mainstream design solution.</p>
-<h3 id="Data-oriented-Design-Can’t-Say-Good-Approach"><a href="#Data-oriented-Design-Can’t-Say-Good-Approach" class="headerlink" title="Data-oriented Design (Can’t Say Good Approach)"></a>Data-oriented Design (Can’t Say Good Approach)</h3><p>The data-oriented design means that when we see a problem, we first think about how to store the data, and then manipulate the defined data format to try to solve the original problem.</p>
-<p>Therefore, after getting the question, the first step is to think about what database to use, what schema it will have, and what format the data will exist in.</p>
-<p>Let’s take the sign-in mission as an example. Suppose we design on a small monolith, usually with a relational database, so we first define a table to realize our problem. Define a sign-in table to store the time of each sign-in, so that you can know how many rewards you can get based on the previous sign-in records.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*bVsEN_OV0l2mHsfLfSia3w.png"></p>
-<p>From the above table, if today is <code>2022-01-04</code>, then John can get 15 diamonds when he signs in, and Mary will start a new cycle because she has not signed in consecutively and only get 10 diamonds.</p>
-<p>The logic of the mission will be to filter the sign-in date of a specific user and sort them by date, then retrieve the latest <code>N</code> records. By calculating the total days of the consecutive sign-ins, and then you can know what reward to get this time.</p>
-<p>There is a problem with such design. When the user’s sign-in is not interrupted at all, i.e., the number of consecutive sign-in days is greater than <code>N</code>, then the amount of data is not enough to determine the current reward. Nevertheless, we do not want to expand <code>N</code> to avoid pulling too much data makes the database a bottleneck. Thus, we should try making some changes to the original schema, such as adding a new field, diamond.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*aECKyWRW9iLDbj54SnbvYw.png"></p>
-<p>For John, signing in on <code>2022-01-09</code> will get 10 diamonds because we know the end of the previous cycle was <code>2022-01-07</code>.</p>
-<p>The story is not over yet. When the number of users grow, the performance of RDBMS will be tough. Every time you enter the homepage, you have to pull data from the database, run a complex calculation, and finally see the result. This process is very inefficient.</p>
-<p>In order to improve the efficiency of the homepage, most projects will introduce a cache to record the status of the entire sign-in. However, how do you know if the cache is invalid? Or the cache is actually not invalid, but distorted. I have covered this problem in a previous article <a target="_blank" rel="noopener" href="https://towardsdev.com/resilient-caching-in-redis-a5b3c1a49f14">Resilient Caching</a>. By adding integrity, we can distinguish whether the data is reliable. Once the data is corrupted, we will rebuild the data from the RDBMS.</p>
-<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>From the above introduction, we found that even the cache has many aspects to consider, the whole data-oriented design is very complicated, and the process is very struggled.</p>
-<p>Hence, the domain-driven design was born.</p>
-<p>In part 2, we will start designing from Entity, covering use cases, then implementing the unit tests like TDD, and finally completing our mission. I will provide a better design process, and you can follow the steps to simplify every user stories you will encounter. Let’s call it a day. Until next time</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/14/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/16/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/14/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/16/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

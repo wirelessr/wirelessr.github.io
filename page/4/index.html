@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,357 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Master-Vibe-Coding-AI-Powered-Workflow/20250511/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/Master-Vibe-Coding-AI-Powered-Workflow/20250511/" class="post-title-link" itemprop="url">Master Vibe Coding: AI-Powered Workflow</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-05-12 01:33:28" itemprop="dateCreated datePublished" datetime="2025-05-12T01:33:28+08:00">2025-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Taming-AI-code-agents-for-better-workflows"><a href="#Taming-AI-code-agents-for-better-workflows" class="headerlink" title="Taming AI code agents for better workflows"></a>Taming AI code agents for better workflows</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*JXOxDw3A8bxDPKmh6oaomw.png"></p>
+<p>Recently, I’ve taken a lot of time to actually experience vibe coding, and I’ve come up with a few tips.</p>
+<p>TL;DR</p>
+<ol>
+<li>The used agent must support differential mode modification instead of overwriting the entire file.</li>
+<li>Commit continuously.</li>
+<li>The commands should be clear and simple, and context-sensitive.</li>
+</ol>
+<p>Before describing the experience I’d like to briefly introduce the toolset I use.</p>
+<ul>
+<li>IDE is VS Code.</li>
+<li>Agent is a plugin from <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items/?itemName=RooVeterinaryInc.roo-cline">RooCode</a>.</li>
+<li>Model uses several free models provided by <a target="_blank" rel="noopener" href="https://openrouter.ai/">OpenRouter</a>.</li>
+<li>The main model is <a target="_blank" rel="noopener" href="https://openrouter.ai/deepseek/deepseek-chat-v3-0324:free">deepseek-v3–0324</a></li>
+<li>Occasionally <a target="_blank" rel="noopener" href="https://openrouter.ai/meta-llama/llama-4-scout:free">llama-4-scout</a></li>
+</ul>
+<p>As you can see I use free tools, which I believe is the best setup for the common developer. But it also creates a lot of headaches, which I’ll talk about in a bit more detail.</p>
+<p>Next, this is a complete project I made using vibe coding.</p>
+<p>Alice is a command line tool that converts the natural language into the actual terminal command to be executed and gets the result.</p>
+<p>In fact, many tools have similar functions, as follows.</p>
+<ol>
+<li>Warp (AI-powered terminal tool)</li>
+<li>iTerm2 AI</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/TheR1D/shell_gpt">ShellGPT</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/BuilderIO/ai-shell">ai-shell</a></li>
+<li>etc.</li>
+</ol>
+<p>There are many more, but they all have their own problems.</p>
+<p>The main one is they don’t support customized models like OpenRouter or Anthropic, and the second one is that the results are not very good, either the results are not on point or they aren’t easy to use.</p>
+<p>So I wrote a tool for my own needs, and I won’t dive into the details of the tool.</p>
+<p>The whole development process is I wrote a basic working script first, which is <code>main.py</code> and then I rely on vibe coding to start refactoring and adding new features step by step.</p>
+<p>This development process should fit the scenario of most developers practicing vibe coding. Instead of using vibe coding to create a project from scratch, we use vibe coding to iterate on an existing project.</p>
+<p>Let’s start by explaining the three points mentioned at the beginning of the article.</p>
+<h3 id="Diff-mode-patching"><a href="#Diff-mode-patching" class="headerlink" title="Diff mode patching"></a>Diff mode patching</h3><p>I think this is one of the most important things, why?</p>
+<p>When the model is not smart enough, it is easy to overwrite the whole file and change something that is not a problem. Here is an example of deepseek-v3–0324 muddying the water.</p>
+<p>The project I developed uses <a target="_blank" rel="noopener" href="https://github.com/microsoft/autogen">AutoGen</a> to implement the communication between agents, here is the import I used.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from autogen_ext.models.openai import OpenAIChatCompletionClient  </span><br><span class="line">from autogen_core.models import ModelInfo  </span><br><span class="line">from autogen_agentchat.agents import AssistantAgent</span><br></pre></td></tr></table></figure>
+
+<p>But when RooCode wanted to make some changes to the code, he would often overwrite my entire file. Then the code breaks. This is the most common “unauthorized” change he does.</p>
+<p>For some unknown reason, it often changes <code>models</code> to <code>model</code> and <code>agents</code> to <code>agent</code>, breaking my code.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from autogen_ext.model.openai import OpenAIChatCompletionClient  </span><br><span class="line">from autogen_core.model import ModelInfo  </span><br><span class="line">from autogen_agentchat.agent import AssistantAgent</span><br></pre></td></tr></table></figure>
+
+<p>Therefore, I’ve added a couple of absolute rules to my RooCode.</p>
+<p><em>.roo&#x2F;rules&#x2F;rules.md</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. Do not overwrite the whole file easily.  </span><br><span class="line">2. Just modify parts that is asked.  </span><br><span class="line">3. Do not change any no bug part.</span><br></pre></td></tr></table></figure>
+
+<h3 id="Commit-continuously"><a href="#Commit-continuously" class="headerlink" title="Commit continuously"></a>Commit continuously</h3><p>In vibe coding, agent behavior is largely unpredictable, especially with dummy agents like the example above.</p>
+<p>So when you make a command, and you get an acceptable result, you have to make a <code>git commit</code> right away. Even if the command is only partially complete, at least the result is acceptable, so save it.</p>
+<p>In the beginning, I often let the agent do what he wants and I ask him to do what I want, and then I have no idea what he’s changed, or even what he’s changed that’s broken.</p>
+<p>Therefore, please remember, as long as you see the result is acceptable, then just commit.</p>
+<p>With commit, you will be able to compare what you have changed in subsequent commands, and you will also be able to know what needs to be fixed in this prompt.</p>
+<h3 id="Prompt-should-be-clear-and-contextualized"><a href="#Prompt-should-be-clear-and-contextualized" class="headerlink" title="Prompt should be clear and contextualized"></a>Prompt should be clear and contextualized</h3><p>Don’t expect the agent to know what you want to change.</p>
+<p>If you want to change something, tell the agent exactly what you want, which file, which function or even which lines you want to change. The clearer you are, the more you can get the expected result, not the free-for-all of a creative person.</p>
+<p>When I first came across vibe coding, I always thought that agent can see all the code and structure, so agent should know what to change. But I was wrong, and very wrong.</p>
+<p>There is a limit to the context that Agent can see. Of course, you can make that context huge, but there are a couple of problems.</p>
+<ol>
+<li>Huge contexts cost money.</li>
+<li>Huge contexts are easier to hallucinate.</li>
+<li>Huge contexts are not always acceptable in terms of agent capability.</li>
+</ol>
+<p>So you have to tell the agent clearly what to look at and where to change.</p>
+<h3 id="Will-developers-be-eliminated"><a href="#Will-developers-be-eliminated" class="headerlink" title="Will developers be eliminated?"></a>Will developers be eliminated?</h3><p>There is often a dream that agent can replace the developer, I can only say, this is really a dream.</p>
+<p>The project structure this time is quite simple, and the functions are not complicated.</p>
+<p>To put it frankly, it is actually three agents communicate with each other to accomplish one thing.</p>
+<ol>
+<li>Planning agent converts the natural language into a command line to be executed.</li>
+<li>Execution agent executes the command line and reports the result.</li>
+<li>Verification agent checks whether the result is correct or not, if not, it will start again.</li>
+</ol>
+<p>Along the way, I added some new features.</p>
+<ol>
+<li>Use PyInstaller to generate the executable.</li>
+<li>Automatically release with Github Action.</li>
+<li>Support both environment variables and configuration files.</li>
+<li>Model setting.</li>
+<li>Choose the language of the response.</li>
+<li>Hide agent interactions and only get the final result.</li>
+</ol>
+<p>I’ve also done some refactoring, such as splitting <code>main.py</code> into corresponding modules or turning the config module into a singleton pattern.</p>
+<p>But with vibe coding, I feel a bit exhausted, agent’s development efficiency is not as good as my own coding, sometimes, I am really upset to see him playing idiot, but after all, I am practicing vibe coding, so I can only continue to see him playing idiot.</p>
+<p>As models improve, this kind of frustrating behavior will become less frequent, that is to say, it can be easier to write down the prompt.</p>
+<p>Back to the above conclusion, vibe coding can not replace the developer, but for the skilled developers can improve development efficiency.</p>
+<p>For example, if I tell the agent to turn my <code>load_config()</code> into a singleton pattern, he will make a standard singleton class as he imagines, but his context is not enough to change all the callers to <code>load_config</code> and then break the program.</p>
+<p>But if I tell him to turn <code>load_config</code> into a singleton while keeping the <code>load_config</code> interface the same, he’ll be able to make something similar to what I imagined.</p>
+<p>So the role of the developer has become more important.</p>
+<p>Nowadays, more and more agents have orchestractor (dispatcher) mode, which means he will break down complex tasks and assign them to other agents. Honestly, what he does is really not good, it’s better to break down the requirements myself and then use prompt to tell the agent what to do.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Vibe coding is already a trend among developers, but just like we practice writing programs, vibe coding requires continuous practice.</p>
+<p>The more we use an agent, the easier to know where the agent’s limits are, and the easier to make the agent meet the expectations.</p>
+<p>Vibe coding is just a tool, a tool to make things easier for the user, not to replace the user. I hope everyone can become a sophisticated user of vibe coding, I am practicing too.</p>
+<h3 id="Thank-you-for-being-a-part-of-the-community"><a href="#Thank-you-for-being-a-part-of-the-community" class="headerlink" title="Thank you for being a part of the community"></a>Thank you for being a part of the community</h3><p><em>Before you go:</em></p>
+<ul>
+<li>Be sure to <strong>clap</strong> and <strong>follow</strong> the writer ️👏<strong>️️</strong></li>
+<li>Follow us: <a target="_blank" rel="noopener" href="https://x.com/inPlainEngHQ"><strong>X</strong></a> | <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/inplainenglish/"><strong>LinkedIn</strong></a> | <a target="_blank" rel="noopener" href="https://www.youtube.com/@InPlainEnglish"><strong>YouTube</strong></a> | <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>Newsletter</strong></a> | <a target="_blank" rel="noopener" href="https://open.spotify.com/show/7qxylRWKhvZwMz2WuEoua0"><strong>Podcast</strong></a> | <a target="_blank" rel="noopener" href="https://differ.blog/inplainenglish"><strong>Differ</strong></a> | <a target="_blank" rel="noopener" href="https://twitch.tv/inplainenglish"><strong>Twitch</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://differ.blog/"><strong>Start your own free AI-powered blog on Differ</strong></a> 🚀</li>
+<li><a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Join our content creators community on Discord</strong></a> 🧑🏻‍💻</li>
+<li>For more content, visit <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>plainenglish.io</strong></a> + <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/master-vibe-coding-ai-powered-workflow-e32a47bed467">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Backend/Diagram-as-Code-from-Mermaid-to-D2/20250427/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Backend/Diagram-as-Code-from-Mermaid-to-D2/20250427/" class="post-title-link" itemprop="url">Diagram as Code: from Mermaid to D2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-04-28 01:40:06" itemprop="dateCreated datePublished" datetime="2025-04-28T01:40:06+08:00">2025-04-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Backend/" itemprop="url" rel="index"><span itemprop="name">Backend</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Diagram-as-Code-from-Mermaid-to-D2"><a href="#Diagram-as-Code-from-Mermaid-to-D2" class="headerlink" title="Diagram as Code: from Mermaid to D2"></a>Diagram as Code: from Mermaid to D2</h3><h4 id="Using-D2’s-ELK-layout-and-intuitive-styling-to-simplify-complex-diagrams"><a href="#Using-D2’s-ELK-layout-and-intuitive-styling-to-simplify-complex-diagrams" class="headerlink" title="Using D2’s ELK layout and intuitive styling to simplify complex diagrams"></a>Using D2’s ELK layout and intuitive styling to simplify complex diagrams</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*zJmc71J3WOZfHtvOijyw-A.png"></p>
+<p>Those who follow me on Medium should know I’m a heavy <a target="_blank" rel="noopener" href="https://mermaid.js.org/">mermaid</a> user.</p>
+<p>In almost all of my technical articles, I use mermaid as a way to describe the architecture (and in some cases, <a target="_blank" rel="noopener" href="https://www.drawio.com/">Draw.io</a>).</p>
+<p>The reason why I rely on mermaid so much is because of its extremely expressive syntax, where notation and arrows are all we need to draw components and connections.</p>
+<pre><code class="highlight mermaid">graph LR  
+  a --1st--&gt; b --2nd--&gt; c</code></pre>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*qyLeNZkIOSJVsUUK_xKgpg.png"></p>
+<p>Moreover, such consistency is also applied to sequence diagrams.</p>
+<pre><code class="highlight mermaid">sequenceDiagram  
+  a -&gt;&gt; b: 1st  
+  b -&gt;&gt; c: 2nd</code></pre>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*HuqNZmPcemksXQHVfiKwRg.png"></p>
+<p>For software engineers, architecture diagrams and sequence diagrams are the most commonly used tools to show ideas and implementations. Mermaid makes it incredibly easy to draw diagrams, which saves a lot of time for engineers like me who have to draw a lot of diagrams every day.</p>
+<p>Nevertheless, mermaid has its limitations.</p>
+<p>The simplicity of the syntax makes it difficult to lay out a reasonable diagram. For example, when components and relationships become complex, mermaid drawings start to look worse than expected.</p>
+<p>In the following example, when the component relationships become complex, a bunch of intersecting lines start to appear.</p>
+<pre><code class="highlight mermaid">graph LR  
+  a --&gt; b --&gt; c  
+  a --&gt; d --&gt; e  
+  a --&gt; f --&gt; g --&gt; h --&gt; i  
+  h --&gt; c &amp; e</code></pre>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*DQ3glTXCE8flenNNBuLy6A.png"></p>
+<p>To avoid crossing lines, I have to manually adjust the order in which the components are declared to make the layout as clear as possible.</p>
+<pre><code class="highlight mermaid">graph LR  
+  a --&gt; b --&gt; c  
+  a --&gt; f --&gt; g --&gt; h --&gt; i  
+  h --&gt; c &amp; e  
+  a --&gt; d --&gt; e</code></pre>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*EoWTrA_-KgA1OVhp3Thi-Q.png"></p>
+<p>This undoubtedly adds a lot of work, especially when the diagram becomes complex, and the amount of fine-tuning can be incredible.</p>
+<p>In addition, our architecture usually has subcomponents. This is also powerful enough in the mermaid, but it can be confusing when we use the notation of the subcomponents. In the following example, my outer <code>db</code> directly overrides the inner <code>db</code>.</p>
+<pre><code class="highlight mermaid">graph LR  
+  subgraph Child  
+    b --&gt; db[(DB1)]  
+  end  
+  db[(DB2)]  
+  a --&gt; b &amp; db</code></pre>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*2u_oNk2RUMTjQFnyCSzxEw.png"></p>
+<p>You might say, wouldn’t the problem be solved by changing the inner <code>db</code> to <code>child_db</code>? True, but this also introduces coupling, i.e. coupling between component names and layers. When the layer changes, the component name will be in an awkward position.</p>
+<p>On the other hand, mermaid is cumbersome to set up styles and is not easy to use.</p>
+<pre><code class="highlight mermaid">flowchart LR  
+    id1(Start)--&gt;id2(Stop)  
+    style id1 fill:#f9f  
+    style id1 stroke:#333,stroke-width:4px  
+    style id1 stroke-width:4px  
+    style id2 fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5</code></pre>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*ZrIlg6NewenjzsA2tHd8og.png"></p>
+<p>Declarations and styles are separate, and the attributes of a style can either be declared multiple times, as in <code>id1</code>, or chained together to make them super long, as in <code>id2</code>. Either way, it’s not suitable for complex architecture diagrams.</p>
+<h3 id="D2-comes-to-save-the-day"><a href="#D2-comes-to-save-the-day" class="headerlink" title="D2 comes to save the day"></a>D2 comes to save the day</h3><p>Recently, I’ve been gradually migrating my use of the new diagram as code solution, <a target="_blank" rel="noopener" href="https://d2lang.com/">D2</a>, which effectively solves the previous problems and has many more new features.</p>
+<p>Let’s take a look at the first problem of intersecting lines. When we used D2, the results were clearly improved.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vars: &#123;  </span><br><span class="line">  d2-config: : &#123;  </span><br><span class="line">    layout-engine: elk  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">direction: right  </span><br><span class="line">a -&gt; b -&gt; c  </span><br><span class="line">a -&gt; d -&gt; e  </span><br><span class="line">a -&gt; f -&gt; g -&gt; h -&gt; i  </span><br><span class="line">h -&gt; c  </span><br><span class="line">h -&gt; e</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/0*cJaxiUrC6vTVb7ef.png"></p>
+<p>Thanks to D2’s built-in layout engine, ELK, we don’t need to manually adjust the layout order anymore, ELK will automatically do the rendering with the least staggered layout.</p>
+<p>On the other hand, the problem of sub-component hierarchy is also well solved in D2.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">direction: right  </span><br><span class="line">Child: &#123;  </span><br><span class="line">  db: DB1 &#123;  </span><br><span class="line">    shape: cylinder  </span><br><span class="line">  &#125;  </span><br><span class="line">  b -&gt; db  </span><br><span class="line">&#125;  </span><br><span class="line">db: DB2 &#123;  </span><br><span class="line">  shape: cylinder  </span><br><span class="line">&#125;  </span><br><span class="line">a -&gt; db</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/0*2Rymhaz5A30IQfEP.png"></p>
+<p>To use the inner components we need to call them explicitly. But we can also find that D2 is significantly more bulky than mermaid when it comes to changing the shape, and the need to set it up through metadata is far less delicious than some syntactic candies.</p>
+<p>This is also the advantage of D2, when we want to modify the component styles, mermaid is very annoying.</p>
+<p>However, in D2 this becomes very intuitive.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">direction: right  </span><br><span class="line">id1: Start &#123;  </span><br><span class="line">  style: &#123;  </span><br><span class="line">    fill: &quot;#f9f&quot;  </span><br><span class="line">    stroke: &quot;#333&quot;  </span><br><span class="line">    stroke-width: 4  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line">id2: Stop &#123;  </span><br><span class="line">  style: &#123;  </span><br><span class="line">    fill: &quot;#bbf&quot;  </span><br><span class="line">    stroke: &quot;#f66&quot;  </span><br><span class="line">    stroke-width: 2  </span><br><span class="line">    font-color: &quot;#fff&quot;  </span><br><span class="line">    stroke-dash: 5  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">id1 -&gt; id2</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/0*XtfWCRR8fa49uXw8.png"></p>
+<p>Besides the mermaid optimizations mentioned above, my personal favorite feature is <a target="_blank" rel="noopener" href="https://d2lang.com/tour/globs">Globs</a>.</p>
+<p>When I draw a data pipeline, I often declare all the databases first, and then add the relationships, this operation is completely revolutionized in D2.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">direction: right  </span><br><span class="line">src_db1  </span><br><span class="line">src_db2  </span><br><span class="line">src_db3  </span><br><span class="line">dst_db1  </span><br><span class="line">dst_db2  </span><br><span class="line">dst_db3  </span><br><span class="line">src* -&gt; transform -&gt; dst*</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/0*qwoxORQaBPy0DCNs.png"></p>
+<p>In mermaid, we have to connect the lines one by one, but in D2, we can solve the problem in one go by using the star sign.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>D2 can be seen as an evolution of mermaid, anything mermaid can do, D2 should be able to do, and more elegantly.</p>
+<p>I have to say what drove me to switch from mermaid to D2 in the beginning is the first point of my article, I need to manually rearrange all kinds of declarations just to make the layout clear. This was done with the ELK layout engine built into D2.</p>
+<p>But I found out the new version of mermaid can do the same thing, i.e. <a target="_blank" rel="noopener" href="https://mermaid.js.org/intro/syntax-reference.html#how-to-select-a-layout-algorithm">specify layout engine</a>.</p>
+<p>Let’s try again with the above example of a wonky mermaid.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">---  </span><br><span class="line">config:  </span><br><span class="line">  layout: elk  </span><br><span class="line">---    </span><br><span class="line">graph LR  </span><br><span class="line">  a --&gt; b --&gt; c  </span><br><span class="line">  a --&gt; d --&gt; e  </span><br><span class="line">  a --&gt; f --&gt; g --&gt; h --&gt; i  </span><br><span class="line">  h --&gt; c &amp; e</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/0*QP6kp8kAA01plx8M.png"></p>
+<p>Aha! Turns out mermaid works too. Kinda awkward… now I’m not sure if I should even bother switching to D2. Just kidding, D2 has more advantages anyway.</p>
+<p>I believe mermaid should continue to evolve, and maybe one day, all the flaws I listed above will no longer be flaws.</p>
+<h3 id="Thank-you-for-being-a-part-of-the-community"><a href="#Thank-you-for-being-a-part-of-the-community" class="headerlink" title="Thank you for being a part of the community"></a>Thank you for being a part of the community</h3><p><em>Before you go:</em></p>
+<ul>
+<li>Be sure to <strong>clap</strong> and <strong>follow</strong> the writer ️👏<strong>️️</strong></li>
+<li>Follow us: <a target="_blank" rel="noopener" href="https://x.com/inPlainEngHQ"><strong>X</strong></a> | <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/inplainenglish/"><strong>LinkedIn</strong></a> | <a target="_blank" rel="noopener" href="https://www.youtube.com/@InPlainEnglish"><strong>YouTube</strong></a> | <a target="_blank" rel="noopener" href="https://newsletter.plainenglish.io/"><strong>Newsletter</strong></a> | <a target="_blank" rel="noopener" href="https://open.spotify.com/show/7qxylRWKhvZwMz2WuEoua0"><strong>Podcast</strong></a> | <a target="_blank" rel="noopener" href="https://differ.blog/inplainenglish"><strong>Differ</strong></a> | <a target="_blank" rel="noopener" href="https://twitch.tv/inplainenglish"><strong>Twitch</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://cofeed.app/"><strong>Check out CoFeed, the smart way to stay up-to-date with the latest in tech</strong></a> <strong>🧪</strong></li>
+<li><a target="_blank" rel="noopener" href="https://differ.blog/"><strong>Start your own free AI-powered blog on Differ</strong></a> 🚀</li>
+<li><a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Join our content creators community on Discord</strong></a> 🧑🏻‍💻</li>
+<li>For more content, visit <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>plainenglish.io</strong></a> + <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/diagram-as-code-from-mermaid-to-d2-13cb0ff49357">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1218,289 +1569,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Apache-Paimon-with-Flink-Trino-A-Streaming-Lakehouse-Playground/20241117/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Data/Apache-Paimon-with-Flink-Trino-A-Streaming-Lakehouse-Playground/20241117/" class="post-title-link" itemprop="url">Apache Paimon with Flink & Trino: A Streaming Lakehouse Playground</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-11-18 01:46:06" itemprop="dateCreated datePublished" datetime="2024-11-18T01:46:06+08:00">2024-11-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="A-hands-on-guide-to-integrating-Apache-Paimon-Flink-and-Trino-for-efficient-streaming-and-querying-in-data-lakehouses"><a href="#A-hands-on-guide-to-integrating-Apache-Paimon-Flink-and-Trino-for-efficient-streaming-and-querying-in-data-lakehouses" class="headerlink" title="A hands-on guide to integrating Apache Paimon, Flink, and Trino for efficient streaming and querying in data lakehouses."></a>A hands-on guide to integrating Apache Paimon, Flink, and Trino for efficient streaming and querying in data lakehouses.</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*00-VCVqXDzfqRweB-fLqsw.png"></p>
-<p><a target="_blank" rel="noopener" href="https://paimon.apache.org/">Apache Paimon</a> is a new data lakehouse format that focuses on solving the challenges of streaming scenarios, but also supports batch processing. Overall, Paimon has the potential to replace the existing Iceberg as the new standard for data lakehousing.</p>
-<p>Why Iceberg and not the other two (Hudi and Delta Lake)?</p>
-<p>Iceberg is the most widely supported by various open-source engines, including pure query engines (e.g., Trino), New SQL databases (e.g., StarRocks, Doris), and streaming frameworks (e.g., Flink, Spark), all of which support Iceberg.</p>
-<p>However, Iceberg faces several problems in streaming scenarios, the most serious one is the fragmentation of small files. Queries in data lakehouses rely heavily on file reads, and if a query has to scan many files at once, it will of course perform poorly.</p>
-<p>To address this issue, an external orchestrator is required to regularly merge files. Paimon is designed with a built-in merge mechanism, and many other optimizations for mass writes, making it more adaptable to streaming scenarios.</p>
-<h3 id="Experiment-environment"><a href="#Experiment-environment" class="headerlink" title="Experiment environment"></a>Experiment environment</h3><p>In order to learn more about Iceberg, I have set up two experimental environments.</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/flink-iceberg-playground">Iceberg + Flink</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/trino-iceberg-playground">Iceberg + Trino</a></li>
-</ul>
-<p>This time I also built a playground for Paimon, which also includes Trino and Flink.</p>
-<p>In addition, StarRocks was also put in as a representative of New SQL.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*wEKEG2_InrfRhR8Nnjrerw.png"></p>
-<p>Because neither Trino nor StarRocks support streaming writes at this stage, Paimon’s writes come from Flink.</p>
-<h3 id="How-to-use"><a href="#How-to-use" class="headerlink" title="How to use"></a>How to use</h3><blockquote>
-<p><em>NOTE: Since some of the links to the official Paimon files are not working, I’ve put the files into this repo. However, some of the files are huge, so I put them in via LFS, so be sure to install</em> <code>git-lfs</code><em>.</em></p>
-</blockquote>
-<p>Trino driver is in <code>paimon-trino-427-0.8-20241112.000605-197-plugin.tar.gz</code>.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf paimon-trino-427-0.8-20241112.000605-197-plugin.tar.gz</span><br></pre></td></tr></table></figure>
-
-<p>Then it will run normally with <code>docker compose up -d</code>.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
-
-<h3 id="Flink"><a href="#Flink" class="headerlink" title="Flink"></a>Flink</h3><p>Let’s start by connecting to Flink SQL.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker compose <span class="built_in">exec</span> flink-jobmanager ./bin/sql-client.sh  </span><br><span class="line">./bin/sql-client.sh</span><br></pre></td></tr></table></figure>
-
-<p>To write data using Flink we first need to create the correct catalog.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> CATALOG my_catalog <span class="keyword">WITH</span> (  </span><br><span class="line">    <span class="string">&#x27;type&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;paimon&#x27;</span>,  </span><br><span class="line">    <span class="string">&#x27;warehouse&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;s3://warehouse/flink&#x27;</span>,  </span><br><span class="line">    <span class="string">&#x27;s3.endpoint&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;http://storage:9000&#x27;</span>,  </span><br><span class="line">    <span class="string">&#x27;s3.access-key&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;admin&#x27;</span>,  </span><br><span class="line">    <span class="string">&#x27;s3.secret-key&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;password&#x27;</span>,  </span><br><span class="line">    <span class="string">&#x27;s3.path.style.access&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;true&#x27;</span>  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<p>As shown in the above commands, we’re using the <code>MinIO</code> as an <code>S3</code> to store the Paimon.</p>
-<p>The next step in creating the table and writing the data is quite simple, just run the commands according to the <a target="_blank" rel="noopener" href="https://paimon.apache.org/docs/0.9/flink/quick-start/">official documentat</a>.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">USE CATALOG my_catalog;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">-- create a word count table  </span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> word_count (  </span><br><span class="line">    word STRING <span class="keyword">PRIMARY</span> KEY <span class="keyword">NOT</span> ENFORCED,  </span><br><span class="line">    cnt <span class="type">BIGINT</span>  </span><br><span class="line">);  </span><br><span class="line"><span class="comment">-- create a word data generator table  </span></span><br><span class="line"><span class="keyword">CREATE</span> TEMPORARY <span class="keyword">TABLE</span> word_table (  </span><br><span class="line">    word STRING  </span><br><span class="line">) <span class="keyword">WITH</span> (  </span><br><span class="line">    <span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;datagen&#x27;</span>,  </span><br><span class="line">    <span class="string">&#x27;fields.word.length&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span>  </span><br><span class="line">);  </span><br><span class="line"><span class="comment">-- paimon requires checkpoint interval in streaming mode  </span></span><br><span class="line"><span class="keyword">SET</span> <span class="string">&#x27;execution.checkpointing.interval&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;10 s&#x27;</span>;  </span><br><span class="line"><span class="comment">-- write streaming data to dynamic table  </span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> word_count <span class="keyword">SELECT</span> word, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> word_table <span class="keyword">GROUP</span> <span class="keyword">BY</span> word;</span><br></pre></td></tr></table></figure>
-
-<p>Then we actually read it and see the result of what we’ve written.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- use tableau result mode  </span></span><br><span class="line"><span class="keyword">SET</span> <span class="string">&#x27;sql-client.execution.result-mode&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;tableau&#x27;</span>;  </span><br><span class="line"><span class="comment">-- switch to batch mode  </span></span><br><span class="line">RESET <span class="string">&#x27;execution.checkpointing.interval&#x27;</span>;  </span><br><span class="line"><span class="keyword">SET</span> <span class="string">&#x27;execution.runtime-mode&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;batch&#x27;</span>;  </span><br><span class="line"><span class="comment">-- olap query the table  </span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> word_count;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Trino"><a href="#Trino" class="headerlink" title="Trino"></a>Trino</h3><p>Let’s go to Trino’s cli first.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose <span class="built_in">exec</span> trino trino</span><br></pre></td></tr></table></figure>
-
-<p>Trino’s paimon catalog is already set up, but I didn’t add a new schema but just used the default one.</p>
-<p>So we can query the Flink write result directly.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> paimon.default.word_count;</span><br></pre></td></tr></table></figure>
-
-<p>We should see something similar to the Flink query.</p>
-<h3 id="StarRocks"><a href="#StarRocks" class="headerlink" title="StarRocks"></a>StarRocks</h3><p>This is an extra, just to show how much attention Paimon is getting now that many New SQL databases are starting to support it.</p>
-<p>Prepare a <code>mysql</code> client locally to connect to StarRocks.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -P 9030 -h 127.0.0.1 -u root --prompt=<span class="string">&quot;StarRocks &gt; &quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>We still need to create a catalog.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> CATALOG paimon_catalog_flink  </span><br><span class="line">PROPERTIES  </span><br><span class="line">(  </span><br><span class="line">    &quot;type&quot; <span class="operator">=</span> &quot;paimon&quot;,  </span><br><span class="line">    &quot;paimon.catalog.type&quot; <span class="operator">=</span> &quot;filesystem&quot;,  </span><br><span class="line">    &quot;paimon.catalog.warehouse&quot; <span class="operator">=</span> &quot;s3://warehouse/flink&quot;,  </span><br><span class="line">    &quot;aws.s3.enable_path_style_access&quot; <span class="operator">=</span> &quot;true&quot;,  </span><br><span class="line">    &quot;aws.s3.endpoint&quot; <span class="operator">=</span> &quot;http://storage:9000&quot;,  </span><br><span class="line">    &quot;aws.s3.access_key&quot; <span class="operator">=</span> &quot;admin&quot;,  </span><br><span class="line">    &quot;aws.s3.secret_key&quot; <span class="operator">=</span> &quot;password&quot;  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<p>The mysql client should not support Trino’s table locator format: <code>&lt;catalog&gt;. &lt;schema&gt;. &lt;table&gt;</code>, so we have to switch to the db before we can query.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USE paimon_catalog_flink.default;  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> word_count;</span><br></pre></td></tr></table></figure>
-
-<p>The results here will be similar to the above.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Although Paimon supports many kinds of metastore as follows.</p>
-<ul>
-<li>filesystem</li>
-<li>hive metastore</li>
-<li>jdbc</li>
-</ul>
-<p>For the sake of simplicity, I didn’t use extra components, so I only use S3 aka filesystem as metastore. Although the function is fine, according to the <a target="_blank" rel="noopener" href="https://paimon.apache.org/docs/0.9/concepts/concurrency-control/">official document</a>, using S3 as warehouse needs to be paired with Hive or JDBC metastore to ensure consistency.</p>
-<blockquote>
-<p><em>But for object storage such as OSS and S3, their ‘RENAME’ does not have atomic semantic. We need to configure Hive or jdbc metastore and enable ‘lock.enabled’ option for the catalog. Otherwise, there may be a chance of losing the snapshot.</em></p>
-</blockquote>
-<p>My future experiments will focus on understanding the scenarios that require this level of consistency.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/apache-paimon-with-flink-trino-a-streaming-lakehouse-playground-17efdbc713c9">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Is-there-an-Alternative-to-Debezium-Kafka/20241103/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Data/Is-there-an-Alternative-to-Debezium-Kafka/20241103/" class="post-title-link" itemprop="url">Is there an Alternative to Debezium + Kafka?</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-11-04 01:23:14" itemprop="dateCreated datePublished" datetime="2024-11-04T01:23:14+08:00">2024-11-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Is-there-an-Alternative-to-Debezium-Kafka"><a href="#Is-there-an-Alternative-to-Debezium-Kafka" class="headerlink" title="Is there an Alternative to Debezium + Kafka?"></a>Is there an Alternative to Debezium + Kafka?</h3><h4 id="Evaluating-open-source-options-to-improve-performance-and-scalability-in-CDC-pipelines"><a href="#Evaluating-open-source-options-to-improve-performance-and-scalability-in-CDC-pipelines" class="headerlink" title="Evaluating open-source options to improve performance and scalability in CDC pipelines"></a>Evaluating open-source options to improve performance and scalability in CDC pipelines</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*E29Qz6t-stViDDtBGem1pg.png"></p>
-<p>I asked this question on <a target="_blank" rel="noopener" href="https://www.reddit.com/r/dataengineering/comments/1fv186f/is_there_an_alternative_to_debezium_kafka/">Reddit</a> a while back and received lots of valuable answers.</p>
-<p>Therefore, I’ve looked into each answer and documented the results in this article.</p>
-<h4 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h4><p>No, Debezium dominates the market at the moment, despite some drawbacks.</p>
-<h3 id="Background-Explanation"><a href="#Background-Explanation" class="headerlink" title="Background Explanation"></a>Background Explanation</h3><p>Why would we want to find an alternative to Debezium? The main reason is we encountered a challenging scenario.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*gu1kCRklam07TGLx78hyNg.png"></p>
-<p>This is a typical scenario for Debezium, where any modifications to the data source are captured and fed into Kafka for downstream processing.</p>
-<p>The advantage of this architecture is simple and efficient, ensuring all downstream processes are as real-time as possible.</p>
-<p>If the source has a large number of updates, Debezium can scale horizontally until a large number of updates are concentrated in a single table. This is where Debezium hits its limits.</p>
-<p>Even though Debezium can scale horizontally, it means the updates originally handled by one process can be distributed to multiple processes. If each table already has a dedicated process, horizontal scaling is no longer feasible.</p>
-<p>We are in such a situation, in our environment, even if the machine specification is stretched, the CDC throughput of a single table is capped at 25 MB&#x2F;s.</p>
-<p>This is certainly not a regular case, after all, 25 MB&#x2F;s change for a single table is quite significant. However, if we encounter a data source that is doing large-scale data migration, this limit can be easily breached.</p>
-<p>In order to ensure the real-time performance of our data pipeline downstream, we can only ask the upstream to be merciful when encountering this level of data migration, and try to do a good job of rate limiting.</p>
-<p>However, this limitation will greatly reduce the productivity of the upstream developers. On the one hand, they have to add auditing process to their regular maintenance, and on the other hand, they need to develop an additional rate limit for each maintenance.</p>
-<p>So let’s find a solution.</p>
-<h3 id="Solution-Overview"><a href="#Solution-Overview" class="headerlink" title="Solution Overview"></a>Solution Overview</h3><p>The following solutions were gathered from that Reddit article.</p>
-<ol>
-<li><a target="_blank" rel="noopener" href="https://estuary.dev/vs-debezium/">Estuary Flow</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.striim.com/">Striim</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.fivetran.com/data-movement">Fivetran HVR</a></li>
-<li>Proprietary CDC</li>
-<li><a target="_blank" rel="noopener" href="https://conduit.io/">Conduit</a></li>
-</ol>
-<p>The first three solutions are enterprise services without open source, so they’re not going to work for us. After all, we’re trying to solve a partial use case, not a complete do-over.</p>
-<p>Although Estuary Flow says they have a local deployment approach, I couldn’t find any information about it.</p>
-<p>The fourth solution was to develop a new tool ourselves, which I believe would be a fundamental solution to the problem. After all, Debezium is developed in JAVA, and we should be able to achieve better performance with Golang, Rust, or even C&#x2F;C++. However, the development cost was too high for us, and it was difficult to start from scratch.</p>
-<p>The first four options didn’t meet our needs, but the fifth option caught my attention as a promising solution.</p>
-<p>Conduit is an open source data migration platform developed in Golang, and provides a variety of connectors to integrate many data stores. In addition, we can also develop our own converter to do data format preprocessing.</p>
-<p>Therefore, I started to test the performance of Conduit.</p>
-<h3 id="Expirement-Environment"><a href="#Expirement-Environment" class="headerlink" title="Expirement Environment"></a>Expirement Environment</h3><p>To keep things simple, I used Kafka Connect in place of Debezium. The two are essentially the same but with different dispatchers, and behind the scenes they all use the same <a target="_blank" rel="noopener" href="https://github.com/mongodb/mongo-kafka">library</a>.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*h4QTwMPu5qI6cNgeTkfbVg.png"></p>
-<p>Locust is responsible for generating MongoDB changes, then Conduit and Kafka Connect will write to different Kafka topics.</p>
-<p>We can observe the writing speed of Kafka topics to determine who has better performance.</p>
-<p>The whole experiment environment is as follows.</p>
-<p>I use two of my own packaged images, Conduit and Kafka Connect, which have MongoDB connectors.</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/conduit-mongo-connect">Conduit + Mongo connector</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/mongodb-kafka-connect">Kafka Connect + Mongo connector</a></li>
-</ul>
-<p>It’s easy to generate a large amount of change by stuffing MongoDB with a bunch of fat documents and then just changing the value of a field in all the documents.</p>
-<p>The locust script used is as follows.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">from</span> locust <span class="keyword">import</span> User, task, between  </span><br><span class="line"><span class="keyword">import</span> pymongo  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MongoDBUser</span>(<span class="title class_ inherited__">User</span>):  </span><br><span class="line">    wait_time = between(<span class="number">1</span>, <span class="number">5</span>)  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, environment</span>):  </span><br><span class="line">        <span class="built_in">super</span>().__init__(environment)  </span><br><span class="line">        self.env = environment  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">on_start</span>(<span class="params">self</span>):  </span><br><span class="line">        self.client = pymongo.MongoClient(self.host)  </span><br><span class="line">        self.db = self.client[<span class="string">&quot;test&quot;</span>]  </span><br><span class="line">        self.collection = self.db[<span class="string">&quot;test_new&quot;</span>]  </span><br><span class="line">      </span><br><span class="line"><span class="meta">    @task  </span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">incr_seq</span>(<span class="params">self</span>):  </span><br><span class="line">        response = <span class="literal">None</span>  </span><br><span class="line">        exception = <span class="literal">None</span>  </span><br><span class="line">        start_perf_counter = time.perf_counter()  </span><br><span class="line">        response_length = <span class="number">0</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">try</span>:  </span><br><span class="line">            response = self.collection.update_many(  </span><br><span class="line">                &#123;&#125;,  </span><br><span class="line">                &#123;<span class="string">&quot;$inc&quot;</span>: &#123;<span class="string">&quot;seq&quot;</span>: <span class="number">1</span>&#125;&#125;  </span><br><span class="line">            )  </span><br><span class="line">            response_length = response.matched_count  </span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:  </span><br><span class="line">            exception = e  </span><br><span class="line">  </span><br><span class="line">        self.env.events.request.fire(  </span><br><span class="line">            request_type=<span class="string">&quot;mongo&quot;</span>,  </span><br><span class="line">            name=<span class="string">&quot;incr seq&quot;</span>,  </span><br><span class="line">            response_time=(time.perf_counter() - start_perf_counter) * <span class="number">1000</span>,  </span><br><span class="line">            response_length=response_length,  </span><br><span class="line">            response=response,  </span><br><span class="line">            context=<span class="literal">None</span>,  </span><br><span class="line">            exception=exception,  </span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
-
-<h3 id="Load-Test-Result"><a href="#Load-Test-Result" class="headerlink" title="Load Test Result"></a>Load Test Result</h3><p>For this test, I used a local machine without fully stressing its CPU or memory, leaving some resources available to avoid errors from performance bottlenecks.</p>
-<p>In other words, this test shows the regular ability of a single process to handle a single table load.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*wx2LwtN4oUPwbOC2.png"><img src="https://cdn-images-1.medium.com/max/800/0*W_ugqkV_Doh43U9o.png"></p>
-<p>As the results show, Kafka Connect’s throughput significantly outperforms Conduit’s when system resources are sufficient.</p>
-<p>I was a bit confused about this result, so I repeated the test a few times, but I got similar numbers.</p>
-<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Back to the question in the title.</p>
-<blockquote>
-<p><em>Is there an alternative to Debezium + Kafka?</em></p>
-</blockquote>
-<p>Not at the moment — at least, not among open-source tools.</p>
-<p>I’ve asked on Reddit, but maybe Medium will have a different answer, so feel free to offer your solutions.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/is-there-an-alternative-to-debezium-kafka-0ff112db83a9">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

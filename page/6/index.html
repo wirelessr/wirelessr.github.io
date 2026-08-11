@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,304 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/When-to-Consider-Design-Patterns/20240804/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/When-to-Consider-Design-Patterns/20240804/" class="post-title-link" itemprop="url">When to Consider Design Patterns</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-08-05 01:44:05" itemprop="dateCreated datePublished" datetime="2024-08-05T01:44:05+08:00">2024-08-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="When-to-Consider-Design-Patterns"><a href="#When-to-Consider-Design-Patterns" class="headerlink" title="When to Consider Design Patterns"></a>When to Consider Design Patterns</h3><h4 id="Balancing-practicality-and-over-engineering-in-software-development"><a href="#Balancing-practicality-and-over-engineering-in-software-development" class="headerlink" title="Balancing practicality and over-engineering in software development"></a>Balancing practicality and over-engineering in software development</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*AMROf0mlE-X7Zqd6tpfwSA.png"></p>
+<p>This week, at the study group, our engineer asked a question: Should we follow the design pattern to design and implement the project from the beginning?</p>
+<p>The design pattern mentioned here refers to GoF’s <code>Design Patterns</code>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*iNMvKrBpAzn0jPK2.png"></p>
+<p>Meanwhile, there is a related context which suggests that our coding should follow <code>SOLID principle</code> as much as possible, especially the first S and the second O, anyway.</p>
+<p>Since SOLID principle should be followed as much as possible, then the design pattern should also be taken into consideration from the very beginning, right?</p>
+<p>No, not really.</p>
+<h3 id="What-are-design-patterns"><a href="#What-are-design-patterns" class="headerlink" title="What are design patterns?"></a>What are design patterns?</h3><blockquote>
+<p><em>The design patterns we often talk about actually refer to those solutions defined by GoF, which are designed to solve the problems often faced in object-oriented programming.</em></p>
+</blockquote>
+<blockquote>
+<p><em>When we want the code to be easy to maintain and easy to modify, i.e., the open and closed principle, we abstract the problems through various encapsulation techniques, and eventually become those interesting design patterns.</em></p>
+</blockquote>
+<p>Did you notice two key points in this paragraph?</p>
+<ol>
+<li>OOP-specific problems</li>
+<li>Ease of maintenance and modification</li>
+</ol>
+<p>If your project has just started and there is still a question mark over whether it will be successful or not, why do you need to think about the flexibility in the long term?</p>
+<p>If your project requirements are fixed, why do you need to worry about maintenance and modification?</p>
+<p>If you’re one of my regular readers, you’ll remember we’ve talked about a similar question before.</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/when-to-consider-clean-architecture-a-practical-guide-6a21fccb5e6b"><em>When to consider clean architecture?</em></a></p>
+</blockquote>
+<p>Even earlier on, we have talked about another similar issue.</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://interviewnoodle.com/do-you-really-need-a-microservice-91a48cbea8c1"><em>Do you really need a microservice?</em></a></p>
+</blockquote>
+<p>Most of time, I’m on the side of “don’t over-engineering”.</p>
+<p>Whether it’s design patterns, clean architecture, or even microservice architecture, they are all means to solve problems, but first, you have to encounter the problem. If you have a clear problem, find the right solution, and don’t do it just for the sake of doing it.</p>
+<h3 id="What-exactly-is-a-Pattern"><a href="#What-exactly-is-a-Pattern" class="headerlink" title="What exactly is a Pattern?"></a>What exactly is a Pattern?</h3><p>By the way, what is pattern?</p>
+<p>As I mentioned at the beginning, the design patterns we often talk about actually refer to the solutions listed in the GoF book.</p>
+<p>Pattern is like a “symptom”, when you have a cold over and over again, you will know that you need to drink more water and take more rest, the same is true when we program. When we see a certain problem over and over again, we will naturally have a corresponding solution, but will this solution be the most effective one?</p>
+<p>The design pattern is the medicine for that symptom. When we come across a symptom, we will find out the corresponding medicine to solve the problem, and therefore, you should not usually take medicine without thinking about it, right? It’s unhealthy to take medicine when you don’t have symptoms.</p>
+<p>In fact, patterns are everywhere.</p>
+<p>Object-oriented programming has its patterns, software architecture has its patterns, and even system architecture has its patterns.</p>
+<p>For example, the following book should not be unfamiliar to you.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*E5DDIVAVxVUTZ0Fa.png"></p>
+<p>This book may feel a little unfamiliar.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*ZdKc7OfUv7vL705D.png"></p>
+<p>Here is a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Pattern-Oriented_Software_Architecture">series of books</a> from Volume 1 to Volume 5.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*LlkHCi-TI0vs5pzG.png"></p>
+<p>These books are all about the patterns encountered in various software development contexts, in short, a list of medicines.</p>
+<p>If we’re sick, we can get something out of it, but if we’ve never been sick, we don’t even know what they’re talking about, not to mention when to consider the patterns.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Software development is a pragmatic process.</p>
+<p>What we are doing is always encountering problems, thinking about them, and finally solving them.</p>
+<p>“This may be needed in the future, so I’m ready for it.” I’ve heard this phrase a lot, but in reality, most of these pre-prepared things don’t work. Because requirements are always changing.</p>
+<p>But if we find requirements have changed and it’s hard for us to implement them, then it’s not too late to consider what medicine we need to take. This is refactoring.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/when-to-consider-design-patterns-7d0507d1c429">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Backend/Paradigm-Shift-in-Software-Development-Part-2/20240728/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Backend/Paradigm-Shift-in-Software-Development-Part-2/20240728/" class="post-title-link" itemprop="url">Paradigm Shift in Software Development, Part 2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-07-29 01:50:57" itemprop="dateCreated datePublished" datetime="2024-07-29T01:50:57+08:00">2024-07-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Backend/" itemprop="url" rel="index"><span itemprop="name">Backend</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Paradigm-Shift-in-Software-Development-Part-2"><a href="#Paradigm-Shift-in-Software-Development-Part-2" class="headerlink" title="Paradigm Shift in Software Development, Part 2"></a>Paradigm Shift in Software Development, Part 2</h3><h4 id="Addressing-the-limitations-of-GenAI-via-REST-API-function-calling"><a href="#Addressing-the-limitations-of-GenAI-via-REST-API-function-calling" class="headerlink" title="Addressing the limitations of GenAI via REST API function calling"></a>Addressing the limitations of GenAI via REST API function calling</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*R45EJH8jQ-H4IeYMD1OB7Q.png"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/a-paradigm-shift-in-software-development-leveraging-genai-for-direct-business-logic-processing-9929a724cc1c">Paradigm Shift in Software Development, Part 1</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/paradigm-shift-in-software-development-part-2-60703d518ac9">Paradigm Shift in Software Development, Part 2</a></li>
+</ul>
+<p>Last time, we mentioned that GenAI can be used to implement business logic and dramatically increase development productivity and reduce the effort of debugging.</p>
+<p>However, I have to say that GenAI is not suitable for applications that require accurate computation. In other words, the demonstration in the previous article was just a demo and not a recommendation to use GenAI for calculating promotions.</p>
+<p>But that doesn’t mean using GenAI as a business logic is a bad idea. On the contrary, GenAI is really suitable for replacing “some” business logic.</p>
+<p>Maybe you will ask, most of the business logic needs to be calculated and requires accuracy, so what exactly can GenAI help? Well, I’ll tell you, it helps call the APIs that have already been coded.</p>
+<p>The correct way to use GenAI to handle business logic is to encapsulate that business logic directly into a Remote Procedure Call (RPC) and let GenAI prepare the parameters needed for the RPC and call the corresponding RPC correctly.</p>
+<p>Currently, the RPC that is easiest for GenAI to handle is the REST API for the following reasons.</p>
+<ol>
+<li>Plain text style, no matter the URI, HTTP header, HTTP method, query parameter and request payload are all plain text.</li>
+<li>Full specification support. Nowadays, the most straightforward way to describe a REST API is to use a swagger, and the description file of the swagger is also plain text.</li>
+<li>REST is a mature and relatively less dependency choice, on the contrary, such as gRPC and other protocols need to have to install additional drivers.</li>
+</ol>
+<p>Therefore it’s pretty clear what we’re going to do, so let’s follow the steps and explain them. We will still use Gemini as a demonstration as in the previous article, but once again, you can use what you are familiar with.</p>
+<h3 id="Experimental-environment-introduction"><a href="#Experimental-environment-introduction" class="headerlink" title="Experimental environment introduction"></a>Experimental environment introduction</h3><p>I have prepared a web service with basic CRUD.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wirelessr/genai_api_calling">https://github.com/wirelessr/genai_api_calling</a></p>
+<p>Just <code>docker compose up</code> to get the service up.</p>
+<p>This service is a product microservice that handles CRUD for a single product and saves the results in a database. For ease of use, I’m using Redis as the database for this example.</p>
+<p>This service has two entry points.</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://localhost:50000/">http://localhost:50000</a> is the home page of the microservice, with a simple list page and blocks for adding and modifying products.</li>
+<li><a target="_blank" rel="noopener" href="http://localhost:50000/apidocs">http://localhost:50000/apidocs</a> is the swagger home page, which lists all the API descriptions and specifications.</li>
+</ol>
+<p>Then prepare some basic test data.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST <span class="string">&quot;http://localhost:50000/api/product&quot;</span> -H <span class="string">&quot;accept: application/json&quot;</span> -H <span class="string">&quot;Content-Type: application/x-www-form-urlencoded&quot;</span> -d <span class="string">&quot;id=123&amp;name=Apple&amp;description=Fruit&quot;</span>  </span><br><span class="line">curl -X POST <span class="string">&quot;http://localhost:50000/api/product&quot;</span> -H <span class="string">&quot;accept: application/json&quot;</span> -H <span class="string">&quot;Content-Type: application/x-www-form-urlencoded&quot;</span> -d <span class="string">&quot;id=234&amp;name=Bird&amp;description=Animal&quot;</span>  </span><br><span class="line">curl -X POST <span class="string">&quot;http://localhost:50000/api/product&quot;</span> -H <span class="string">&quot;accept: application/json&quot;</span> -H <span class="string">&quot;Content-Type: application/x-www-form-urlencoded&quot;</span> -d <span class="string">&quot;id=345&amp;name=Cat&amp;description=Animal&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>It is worth noting that creating a new product and modifying a product are actually the same API: <code>POST /api/product</code>. When the product ID doesn’t exist, the API will create a new product; on the other hand, if the product ID exists, then it will modify the product.</p>
+<p>Remember this, because it’s relevant to the business logic we’re trying to implement.</p>
+<p>The following examples are actually listed in <a target="_blank" rel="noopener" href="https://github.com/wirelessr/genai_api_calling/blob/main/rest_api_calling.ipynb">rest_api_calling.ipynb</a>.</p>
+<h3 id="GenAI-calls-RPC"><a href="#GenAI-calls-RPC" class="headerlink" title="GenAI calls RPC"></a>GenAI calls RPC</h3><p>First, we need to enable GenAI to call RPCs, which is called function calling, and both OpenAI’s ChatGPT and Google’s Gemini have similar capabilities.</p>
+<p>Reference links are listed here.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/function-calling">ChatGPT function calling</a></li>
+<li><a target="_blank" rel="noopener" href="https://ai.google.dev/gemini-api/docs/function-calling">Gemini function calling</a></li>
+</ul>
+<p>The following is an example.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_website_content</span>(<span class="params">url: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:  </span><br><span class="line">  <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">  Get the content from a specific URL similar to curl -X GET.Args.  </span></span><br><span class="line"><span class="string">      url (str, required): The target URL is either remote or local.  </span></span><br><span class="line"><span class="string">  Returns.  </span></span><br><span class="line"><span class="string">      str: The raw content from a specific URL.  </span></span><br><span class="line"><span class="string">  &quot;&quot;&quot;</span>  </span><br><span class="line">  response = requests.get(url)  </span><br><span class="line">  <span class="keyword">return</span> response.text  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">post_request</span>(<span class="params">url: <span class="built_in">str</span>, data: <span class="built_in">str</span></span>) -&gt; <span class="built_in">dict</span>:  </span><br><span class="line">  <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">  Send a request similar to curl -X POST.  </span></span><br><span class="line"><span class="string">  Args.  </span></span><br><span class="line"><span class="string">      url (str, required): Target URL.  </span></span><br><span class="line"><span class="string">      data (str, required): The data of the form in &quot;id=value1&amp;name=value2&amp;description=value3&quot; format.  </span></span><br><span class="line"><span class="string">  Returns.  </span></span><br><span class="line"><span class="string">      dict: Dictionary containing the status code and response content.  </span></span><br><span class="line"><span class="string">  &quot;&quot;&quot;</span>  </span><br><span class="line">  response = requests.post(url, headers=&#123;<span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/x-www-form-urlencoded&quot;</span>&#125;, data=data)  </span><br><span class="line">  <span class="keyword">try</span>:  </span><br><span class="line">      response_content = response.json()  </span><br><span class="line">  <span class="keyword">except</span> ValueError:  </span><br><span class="line">      response_content = response.text  </span><br><span class="line">  <span class="keyword">return</span> &#123;  </span><br><span class="line">      <span class="string">&quot;status_code&quot;</span>: response.status_code,  </span><br><span class="line">      <span class="string">&quot;content&quot;</span>: response_content,  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">system_instruction = <span class="string">&#x27;&#x27;&#x27;You are a professional web crawler and familiar with swagger usage.  </span></span><br><span class="line"><span class="string">You can get the content you want by yourself through web api,   </span></span><br><span class="line"><span class="string">and when you utilize web api, you will actively list which api is used.  </span></span><br><span class="line"><span class="string">If you don&#x27;t know the answer to a question, just answer no, don&#x27;t make up an answer.  </span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>  </span><br><span class="line">  </span><br><span class="line">model = genai.GenerativeModel(model_name=<span class="string">&#x27;gemini-1.5-pro&#x27;</span>,  </span><br><span class="line">                              tools=[get_website_content, post_request],  </span><br><span class="line">                              system_instruction=system_instruction,)</span><br></pre></td></tr></table></figure>
+
+<p>We have designed two tools for Gemini, <code>get_website_content</code> and <code>post_request</code>. The code comments and annotations must be written in detail so that GenAI can realize the use of these tools.</p>
+<p>Now GenAI can use <code>GET</code> and <code>POST</code>.</p>
+<h3 id="GenAI-understands-RPC-specifications"><a href="#GenAI-understands-RPC-specifications" class="headerlink" title="GenAI understands RPC specifications"></a>GenAI understands RPC specifications</h3><p>Once GenAI is able to invoke RPC, we then need to enable GenAI to learn “all” RPC specifications.</p>
+<p>In the case of REST APIs, the simplest way is to use a swagger to describe all the APIs, including their inputs and outputs, as well as their functionality. The more detailed the information, the more GenAI can operate correctly without having to spend a lot of effort tuning prompts.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">chat_session = model.start_chat(  </span><br><span class="line">    enable_automatic_function_calling=True,  </span><br><span class="line">    history=[  </span><br><span class="line">        &#123;  </span><br><span class="line">            &quot;role&quot;: &quot;user&quot;,  </span><br><span class="line">            &quot;parts&quot;: [  </span><br><span class="line">                &quot;I have a website and this website provides full swagger: http://localhost:50000/apispec_1.json Please tell me the features of this website.&quot;  </span><br><span class="line">            ]  </span><br><span class="line">        &#125;,  </span><br><span class="line">        &#123;  </span><br><span class="line">            &quot;role&quot;: &quot;model&quot;,  </span><br><span class="line">            &quot;parts&quot;: [  </span><br><span class="line">                &quot;&quot;&quot;This website provides four API endpoints:- Create or update a product: You can send a POST request to `/api/product` with product ID, name, and description to create or update a product.  </span><br><span class="line">- Delete a product: You can send a POST request to `/api/product/delete/&#123;product_id&#125;` to delete a product by its ID.  </span><br><span class="line">- Get a product: You can send a GET request to `/api/product/&#123;product_id&#125;` to retrieve the details of a product by its ID.  </span><br><span class="line">- Get all products: You can send a GET request to `/api/products` to get a list of all products. &quot;&quot;&quot;  </span><br><span class="line">            ]  </span><br><span class="line">        &#125;  </span><br><span class="line">    ]  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>This is the record I left after talking to Gemini beforehand, it can be used as the history of the prompt.</p>
+<p>You can also do some additional conversations to verify that Gemini has really learned it.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">response = chat_session.send_message(&quot;Create a new product by your own thought&quot;)  </span><br><span class="line">  </span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Practical-Business-Logic"><a href="#Practical-Business-Logic" class="headerlink" title="Practical Business Logic"></a>Practical Business Logic</h3><p>Now we’ve made sure that GenAI knows the basics, we can make GenAI implement business logic based on those basics.</p>
+<p>For example, the current <code>POST /api/product</code> is a combination of creation and modification, with the <code>id</code> determining whether to create or modify. The <code>id</code> is filled in by the client itself, so it is very likely to be wrong.</p>
+<p>Then we can ask GenAI to find out the unused <code>id</code> to add based on the result of <code>list</code>.</p>
+<blockquote>
+<p><em>Avoid the existing ids and create a new product.</em></p>
+</blockquote>
+<p>In this way, the client does not need to fill in the <code>id</code> itself but GenAI is responsible for generating the <code>id</code>.</p>
+<p>Or another use case, right now the <code>description</code> is free format, so it can be written any way we want. But we can use GenAI to provide a template so that all creations and modifications are in a fixed format, such as the following template.</p>
+<blockquote>
+<p>When creating and modifying products, the description must conform to the following format.</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>Category: str, the category of the product.</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Price: int, the price of the product.</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Notes: str, additional information.</li>
+</ul>
+</blockquote>
+<p>The implementation of this business logic doesn’t involve computation, it’s just a matter of letting GenAI call on a known API to accomplish a specific goal.</p>
+<p>You can use your imagination to make more variations.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In the previous article we mentioned that GenAI can be used to implement business logic, and this is true. But in practice, we still need to do some development work to make GenAI able to implement business logic accurately.</p>
+<p>Because GenAI may be good at business logic, but it’s not accurate, so in order to maximize GenAI’s strengths, we need to make GenAI do as little computation as possible. By encapsulating the business logic that needs to be computed and enabling GenAI to execute it exactly according to the instructions we provide, we can maximize productivity.</p>
+<p>Why do we use GenAI to implement business logic?</p>
+<p>Let’s go back and answer this fundamental question. Because GenAI has the ability to understand natural language and execute our predefined scripts or steps, implementing business logic with GenAI becomes software development in natural language.</p>
+<p>Of course, GenAI is not perfect, there are a few core concepts in the development process.</p>
+<ol>
+<li>Integration must be done properly. Although the examples I have provided are all working scripts, in fact, to make GenAI actually put into production environment requires a lot of infrastructure. For example, LLM caching, vector databases, and model repository. Each of these components is a new tech stack for organizations that have never introduced GenAI before.</li>
+<li>Prompts must be good. Although we are developing in natural language, GenAI can easily “learn the wrong way” if we are not precise enough. Moreover, GenAI may perform normally but crash when it encounters a specific pattern, which will be very difficult to debug.</li>
+<li>Testing must be done right. We have already encapsulated business logic into RPC for GenAI, but we still need to make sure that GenAI works properly in all kinds of scenarios, so we must have a high coverage of test cases.</li>
+</ol>
+<p>As we can see, although software development with GenAI may seem attractive, there are many challenges that must be overcome. If we want to become a master of prompting, we still have to be a developer first.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/paradigm-shift-in-software-development-part-2-60703d518ac9">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1251,297 +1549,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Accelerating-API-Responses-with-Smart-Architecture/20240310/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/Accelerating-API-Responses-with-Smart-Architecture/20240310/" class="post-title-link" itemprop="url">Accelerating API Responses with Smart Architecture</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-03-11 01:46:20" itemprop="dateCreated datePublished" datetime="2024-03-11T01:46:20+08:00">2024-03-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="Experience-a-boost-in-API-response-times-with-our-paradigm-shifting-move-from-Semi-Lambda-to-TiDB-Kappa-architecture"><a href="#Experience-a-boost-in-API-response-times-with-our-paradigm-shifting-move-from-Semi-Lambda-to-TiDB-Kappa-architecture" class="headerlink" title="Experience a boost in API response times with our paradigm-shifting move from Semi-Lambda to TiDB &amp; Kappa architecture"></a>Experience a boost in API response times with our paradigm-shifting move from Semi-Lambda to TiDB &amp; Kappa architecture</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*IhK9f60eYRXLUfNL"></p>
-<p>We recently launched a big technical revamp, and the results have been impressive. We’ve seen a 9x improvement in response times for specific APIs (from 9 seconds down to 1 second).</p>
-<p>You may ask why the API response time is so long. It’s mainly because of the product characteristics, it’s a data product, there will be a lot of data aggregation and analysis, and the API response will be the result of a period of analysis. Therefore, in general, there will be a longer latency.</p>
-<p>Nevertheless, through this technical revamp, we have significantly reduced the API latency while maintaining the product features.</p>
-<p>This is due to two core changes.</p>
-<ol>
-<li>Database changes</li>
-<li>Kappa architecture</li>
-</ol>
-<p>Let’s take a closer look at what we did.</p>
-<h3 id="Semi-Lambda-Architecture"><a href="#Semi-Lambda-Architecture" class="headerlink" title="Semi-Lambda Architecture"></a>Semi-Lambda Architecture</h3><p>At first, our architecture is a “semi-Lambda” architecture. To understand what a semi-Lambda architecture is, let’s first look at a Lambda architecture.</p>
-<p>A <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Lambda_architecture">typical Lambda architecture</a> has three components.</p>
-<ol>
-<li>Batch layer</li>
-<li>Speed layer</li>
-<li>Serving layer</li>
-</ol>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*_kpuP6tt0HDMdETQ9Ia12A.png"></p>
-<p>Data processing from the data source is divided into two paths, one is periodic batch processing, which has the advantage of processing a large amount of data quickly.</p>
-<p>On the other hand, in order to enhance the freshness of the analysis, there is real-time processing to calculate the data in the current time period. The results from both sides are aggregated into a serving layer so that end users can get the final results.</p>
-<p>For example, if the time is 12:30 and the batch layer runs every full hour, then the data from 12:01 to 12:30 will be processed by the speed layer.</p>
-<p>The above is a standard Lambda architecture.</p>
-<p>Then, what is a semi-Lambda architecture? The illustration is as follows.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*ZDyYOvNn7QAEyA--dQBfug.png"></p>
-<p>We also have a batch layer and a serving layer, but we are missing the speed layer. Instead, we write the raw data directly into the serving layer, and the client, e.g. API, which is invoked by the upper layer, runs the logic to process the raw data and combine it with the batch result.</p>
-<p>In other words, we are the on-the-fly speed layer.</p>
-<p>The drawbacks of such an architecture are obvious.</p>
-<ol>
-<li>Postgres is a monolithic database, so even though it can be read-write split, the replicas still need to synchronize with the master constantly. This is fatal in large raw data write scenarios, where I&#x2F;O consumes a lot of system resources.</li>
-<li>Postgres is limited in its capability to handle big data. Although it is possible to make data blocks smaller and easier to read by partitioning, a single database is not enough when the algorithm is designed for a large number of partitions.</li>
-</ol>
-<p>Therefore, we need to propose solutions to these two problems.</p>
-<h3 id="Streaming-ingest-problem"><a href="#Streaming-ingest-problem" class="headerlink" title="Streaming ingest problem"></a>Streaming ingest problem</h3><p>First of all, we need to solve the database bottleneck of writing large amounts of data. Therefore, a proper database is essential.</p>
-<p>For those who have been following me, you should know I have been studying RTOLAP databases such as <a target="_blank" rel="noopener" href="https://medium.com/dev-genius/building-apache-pinot-and-presto-bf91388c7df5">Apache Pinot</a> for some time. But in the end, we didn’t go with RTOLAP.</p>
-<p>The main reason is RTOLAP database does not perform well in two specific scenarios.</p>
-<ol>
-<li>Upsert</li>
-<li>Join</li>
-</ol>
-<p>Because of the application features, we need to perform frequent upserts on big data, and in addition, we need to do a large number of joins, doesn’t matter if it’s a cross-table join or self-table join.</p>
-<p>On the other hand, it is difficult to say RTOLAP database has comprehensive support for SQL statements, and we want to minimize the amount of trial-and-error work required for migration, so we didn’t choose RTOLAP database in the end.</p>
-<p>Fortunately, around the same time, we got some help from a vendor and learned about a distributed database completely compatible with MySQL, i.e. TiDB. Previously, <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/htap-learning-from-xiaohongshu-8d8181d12195">I wrote an article</a> describing TiDB application scenarios. In fact, TiDB can support both OLTP and OLAP scenarios, fitting our needs.</p>
-<h3 id="Speed-layer-problem"><a href="#Speed-layer-problem" class="headerlink" title="Speed layer problem"></a>Speed layer problem</h3><p>Once the database selection is finalized, the next step is to address the lack of a complete speed layer.</p>
-<p>There are two possible directions.</p>
-<ol>
-<li>Build a complete Lambda speed layer.</li>
-<li>Change to Kappa architecture</li>
-</ol>
-<p>In the end, we chose the latter and started to move the architecture to Kappa.</p>
-<p>The reason is both Lambda and Kappa need to build streaming processing capabilities, but to build a speed layer for the Lambda architecture we still need to rewrite the batch logic in a streaming framework. It would be better to migrate the batch logic to the Kappa framework so that if there is a need for any feature in the future, we just need to add the new logic to the streaming framework.</p>
-<p>This is one of the advantages of Kappa over Lambda, there is no need to maintain two pipelines (batch and real-time) with the same logic.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*Smd9TkUWEXNFAViOAbsuyw.png"></p>
-<p>After moving to the Kappa paradigm, you can see that the whole architecture has become simple, with Flink being responsible for data processing and batch processing disappearing. In addition, Postgres was moved to TiDB, which of course required changes to the query syntax, but it was well worth it.</p>
-<p>Finally, we solved the OLAP query latency problem by using streaming pre-processing and the power of the TiDB distributed database.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Paradigm shift is a battle against time, and how to keep optimizing the system while guaranteeing development productivity is a big challenge.</p>
-<p>In addition to initiating discussions and a series of technical selections, it is more important to plan the actual migration and develop efficiently. This requires architects, PMs, and developers to work together.</p>
-<p>The question is frequently asked: How much of a benefit is this migration? It’s a tough question to answer before getting one’s hands dirty. But if we don’t know the benefits, how can we have the confidence to invest for such a long period of time?</p>
-<p>From my point of view, we need to list the problems we want to solve and prioritize them in a way that will affect the final solution. Then, identify one or two showcases to act as pilots, and learn as much as possible from these showcases, rather than launching a large-scale revamp all at once.</p>
-<p>When results are achieved in the showcases, we will be able to measure the benefits.</p>
-<p>Engineering is different from science in nature. Engineering is learning by doing, not by theorizing. Airplanes fly before scientific theories can explain them, that’s my mindset on technical revamping, let’s see what you guys think too.</p>
-<h3 id="Stackademic-🎓"><a href="#Stackademic-🎓" class="headerlink" title="Stackademic 🎓"></a>Stackademic 🎓</h3><p>Thank you for reading until the end. Before you go:</p>
-<ul>
-<li>Please consider <strong>clapping</strong> and <strong>following</strong> the writer! 👏</li>
-<li>Follow us <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><strong>X</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><strong>LinkedIn</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><strong>YouTube</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Discord</strong></a></li>
-<li>Visit our other platforms: <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>In Plain English</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://cofeed.app/"><strong>CoFeed</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://venturemagazine.net/"><strong>Venture</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://blog.cubed.run/"><strong>Cubed</strong></a></li>
-<li>More content at <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>Stackademic.com</strong></a></li>
-</ul>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/tidb-kappa-accelerating-api-responses-with-smart-architecture-5fe9a28f0f83">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Simplify-Web-App-Development-Code-Lite-Create-Big/20240225/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Microservice/Simplify-Web-App-Development-Code-Lite-Create-Big/20240225/" class="post-title-link" itemprop="url">Simplify Web App Development: Code Lite, Create Big!</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-02-26 02:19:28" itemprop="dateCreated datePublished" datetime="2024-02-26T02:19:28+08:00">2024-02-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Simplify-Web-App-Development-Code-Lite-Create-Big"><a href="#Simplify-Web-App-Development-Code-Lite-Create-Big" class="headerlink" title="Simplify Web App Development: Code Lite, Create Big!"></a>Simplify Web App Development: Code Lite, Create Big!</h3><h4 id="Empower-your-ideas-with-Streamlit’s-Magic-—-build-feature-rich-Web-Apps-effortlessly"><a href="#Empower-your-ideas-with-Streamlit’s-Magic-—-build-feature-rich-Web-Apps-effortlessly" class="headerlink" title="Empower your ideas with Streamlit’s Magic — build feature-rich Web Apps effortlessly"></a>Empower your ideas with Streamlit’s Magic — build feature-rich Web Apps effortlessly</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*iyZdGiduMHAeJYvi"></p>
-<p>Hello data engineers and backend engineers!</p>
-<ul>
-<li>Have you ever wanted to implement a Web App but didn’t know where to start because you don’t have frontend skills?</li>
-<li>Have you ever struggled to write interactive components and spent a lot of development time?</li>
-<li>Have you ever wanted to present an idea quickly but didn’t have the right tools?</li>
-</ul>
-<p>Here’s your savior, let’s welcome <a target="_blank" rel="noopener" href="https://streamlit.io/">Streamlit</a>.</p>
-<p>It’s a full-stack framework for Python that allows you to write scripts to generate a Web App that can really work, and it supports a variety of interactive components as well.</p>
-<p>Let me show the power of Streamlit with a real-world example.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*sq55R7q8mzAOiSoF.png"></p>
-<p>The above Web App is a demo of what I actually developed after I know about Streamlit, with several interactive components and integration with the database, and it’s even already live. Guess how long it took me?</p>
-<blockquote>
-<p><em>Less than an hour.</em></p>
-</blockquote>
-<p>A beginner who can write Python can write a Web App in a very short time, and I have to say that this practical experience is truly amazing.</p>
-<p>Moreover, the goal of Streamlit is to provide a framework for fast data visualization, so even drawing is as easy as the following.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*U3y5e36cyMit0DPJ.png"></p>
-<p>In the <a target="_blank" rel="noopener" href="https://streamlit.io/gallery">Streamlit gallery</a> there are a lot of examples that have already been done, and you can see that Streamlit covers almost all of the common components needed for daily work.</p>
-<h3 id="Demo-Site"><a href="#Demo-Site" class="headerlink" title="Demo Site"></a>Demo Site</h3><p>Let’s go back to the beginning of the example I worked on.</p>
-<p>As we can see from the diagram, we have used six input components in the following order.</p>
-<ul>
-<li>Select box</li>
-<li>Calendar</li>
-<li>Time picker</li>
-<li>Text input</li>
-<li>Number input</li>
-<li>Button</li>
-</ul>
-<p>The actual code is quite simple.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@st.cache_data(<span class="params">ttl=<span class="number">600</span></span>)  </span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_user</span>():  </span><br><span class="line">    db = client.dev  </span><br><span class="line">    users = db.user.find().sort(<span class="string">&#x27;_id&#x27;</span>, -<span class="number">1</span>)  </span><br><span class="line">    users = [x[<span class="string">&#x27;name&#x27;</span>] <span class="keyword">for</span> x <span class="keyword">in</span> users]  </span><br><span class="line">    <span class="keyword">return</span> users  </span><br><span class="line">  </span><br><span class="line">user = st.selectbox(<span class="string">&#x27;User&#x27;</span>, get_user())  </span><br><span class="line">d = st.date_input(<span class="string">&#x27;Date&#x27;</span>)  </span><br><span class="line">t = st.time_input(<span class="string">&#x27;Time&#x27;</span>)  </span><br><span class="line">item = st.text_input(<span class="string">&#x27;Item&#x27;</span>)  </span><br><span class="line">amount = <span class="built_in">int</span>(st.number_input(<span class="string">&#x27;Amount&#x27;</span>, step=<span class="number">1</span>))  </span><br><span class="line">dt = datetime.combine(d, t)  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">if</span> st.button(<span class="string">&#x27;Submit&#x27;</span>) <span class="keyword">and</span> item <span class="keyword">and</span> amount:  </span><br><span class="line">    db = client.dev  </span><br><span class="line">    db.accounting.insert_one(&#123;<span class="string">&#x27;DateTime&#x27;</span>: dt, <span class="string">&#x27;Item&#x27;</span>: item, <span class="string">&#x27;Amount&#x27;</span>: amount, <span class="string">&#x27;User&#x27;</span>: user&#125;)  </span><br><span class="line">    st.write(<span class="string">&#x27;Submitted&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>Each input component is actually a function, and the return value is the result of the input component, which makes the whole program as easy as writing a script. There is no callback and no signal, which makes the development of Web App extremely trivial.</p>
-<p>After the script is executed, the corresponding frontend page will be generated.</p>
-<h3 id="Why-am-I-so-impressed"><a href="#Why-am-I-so-impressed" class="headerlink" title="Why am I so impressed?"></a>Why am I so impressed?</h3><p>For someone without frontend skills, making an interactive UI used to rely on packages like <code>PyQt</code> or <code>tkinter</code>.</p>
-<p>Taking <code>PyQt</code> as an example, the way to write a select box is as follows.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>():  </span><br><span class="line">    text = box.currentText()  </span><br><span class="line">    <span class="built_in">print</span>(text)  </span><br><span class="line">  </span><br><span class="line">box = QtWidgets.QComboBox(form)  </span><br><span class="line">box.addItems([<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>,<span class="string">&#x27;D&#x27;</span>])  </span><br><span class="line">box.currentIndexChanged.connect(show)</span><br></pre></td></tr></table></figure>
-
-<p>For components to be able to interact, they need to deal with event binding in addition to appearance definition, which is not intuitive.</p>
-<p>Each component has its own events, and various callbacks need to be defined, all of which are learning curve. In fact, <code>tkinter</code> is a similar implementation.</p>
-<p>But in Streamlit, you can do the same thing with just one line.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">text = st.selectbox(<span class="string">&#x27;Label&#x27;</span>, [<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>,<span class="string">&#x27;D&#x27;</span>])  </span><br><span class="line"><span class="built_in">print</span>(text)</span><br></pre></td></tr></table></figure>
-
-<p>This makes development very natural. I call the component I need, and the return result is what I want.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The greatest advantage of Streamlit is that a person without any frontend skills (HTML, CSS and Javascript) can build a full-featured Web App in a very short time. In addition, Streamlit is a differentiator from many UI packages in providing a simple concept that makes the operation of interactive components natural, and truly what you see is what you get.</p>
-<p>Streamlit is best suited as an internal data analytics platform or a PoC for quick validation, while its biggest shortcoming is that such a Web App is not well suited for high-traffic systems.</p>
-<p>The main reason is because Streamlit, in order to build up the simple concept mentioned above, its implementation is to reload the whole script every time any component changes, which has a very high system load.</p>
-<p>On the other hand, this means that the Web App is stateful and cannot be scaled horizontally through a load balancer.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*6uQlPrZloPCZrHPdnZLm2Q.png"></p>
-<p>And Streamlit itself <a target="_blank" rel="noopener" href="https://docs.streamlit.io/knowledge-base/deploy/does-streamlit-support-wsgi-protocol">so far</a> does not support <a target="_blank" rel="noopener" href="https://gunicorn.org/">Gunicorn</a>, so its vertical scalability is limited.</p>
-<p>In summary, Streamlit is best suited for Data Apps, as mentioned in the official website.</p>
-<blockquote>
-<p><em>A faster way to build and share data apps.</em></p>
-</blockquote>
-<p>Nevertheless, for me, even though I’m able to develop frontend pages, I don’t feel I’ll ever touch HTML again. After all, who wants to deal with the extra technical stack when you can do it all in Python.</p>
-<h3 id="Stackademic-🎓"><a href="#Stackademic-🎓" class="headerlink" title="Stackademic 🎓"></a>Stackademic 🎓</h3><p>Thank you for reading until the end. Before you go:</p>
-<ul>
-<li>Please consider <strong>clapping</strong> and <strong>following</strong> the writer! 👏</li>
-<li>Follow us <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><strong>X</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><strong>LinkedIn</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><strong>YouTube</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Discord</strong></a></li>
-<li>Visit our other platforms: <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>In Plain English</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://cofeed.app/"><strong>CoFeed</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://venturemagazine.net/"><strong>Venture</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://blog.cubed.run/"><strong>Cubed</strong></a></li>
-<li>More content at <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>Stackademic.com</strong></a></li>
-</ul>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/simplify-web-app-development-code-lite-create-big-6f87e21ea71c">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

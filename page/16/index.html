@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,269 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Designing-Software-Using-Clean-Architecture-Domain-Driven-Design/20220130/" class="post-title-link" itemprop="url">Designing Software Using Clean Architecture: Domain-Driven Design</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-01-31 00:38:31" itemprop="dateCreated datePublished" datetime="2022-01-31T00:38:31+08:00">2022-01-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Explained-with-a-code-sample"><a href="#Explained-with-a-code-sample" class="headerlink" title="Explained with a code sample"></a>Explained with a code sample</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*M0ppuIun1CRj3WJX"></p>
+<p>This article is the last of this series. We have already described the problem encountered in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">data-oriented design</a>. In this article, we will introduce a better way to tackle a feature requirement.</p>
+<p>We continue the previous example, a sign-in mission, and try a different design flow. Before we start, let’s review the onion architecture again.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*xAqzUzJ40tAvdG2Q.jpg"></p>
+<p>In order to make it easier to understand the process to be introduced later, let’s first define several important legends of this diagram.</p>
+<ul>
+<li>Entity: In clean architecture, entity means the business logic. Different from the entity in domain-driven design, the entity here can be realized as the domain in domain-driven design.</li>
+<li>Use cases: With the domain, the outer layer is use cases, which refers to clients who use domain knowledge to fulfill specific needs. In domain-driven design, it is also known as the domain service.</li>
+<li>Controller: The Controller is quite simple. It is responsible for managing the ingress and egress of the entire domain, including input checking, and converting domain knowledge into a data structure that is presented on the client side.</li>
+<li>DB: The outermost layer is the external dependencies of the system, including the database.</li>
+<li>Arrows: The arrow pointing from the outside to the inside is a reference. The outer module can reference the inner module, but it cannot be referenced from the inside to the outside.</li>
+</ul>
+<p>According to this description, we can know that the order of design should be from the inside to the outside. After the inner layer is established, and then it is able to be referenced by the outer layer. In other words, to complete a design in a clean architecture way, the domain behavior must be defined first, and the database design should be the last. This is the exact opposite of data-oriented design.</p>
+<h3 id="Domain-driven-Design"><a href="#Domain-driven-Design" class="headerlink" title="Domain-driven Design"></a>Domain-driven Design</h3><p>Before starting the actual design, let me explain my usual design process, which also echos the onion architecture.</p>
+<ol>
+<li>Discover user stories (entities)</li>
+<li>Design use cases</li>
+<li>Model domain objects</li>
+<li>Implement unit tests</li>
+<li>Code</li>
+</ol>
+<p>In later sections, I will also design with this process. The problem we want to solve is to build a sign-in mission mentioned earlier.</p>
+<h3 id="Discover-user-stories"><a href="#Discover-user-stories" class="headerlink" title="Discover user stories"></a>Discover user stories</h3><p>To start a design, we must be able to understand the whole picture of the entire requirement, and user stories are a language that can describe the requirements. In our needs this time, the stories are similar to the following.</p>
+<ol>
+<li>Get corresponding rewards when you sign in consecutively.</li>
+<li>Display the sign-in status and received rewards for this cycle.</li>
+<li>Get 100 diamonds when opening the gift box.</li>
+</ol>
+<p>We convert the descriptions in the requirements document into semantics that developers can understand through an ubiquitous language. With any requirement, there must be a story behind it, and the designer’s job is to discover those stories. On the other hand, for the developers, they implement those stories in coding.</p>
+<h3 id="Design-use-cases"><a href="#Design-use-cases" class="headerlink" title="Design use cases"></a>Design use cases</h3><p>With the story, then we need design the use cases that the story faces. Unlike a story, a use case refers to the outcome of a given user scenario. For example:</p>
+<ol>
+<li>Sign in: When a user signs in for four consecutive days, the first sign-in on the fifth day can get 30 diamonds and a gift box. But the second sign-in got nothing.</li>
+<li>Open the gift box: When opening the gift box, you can get 100 diamonds, but it cannot be opened again.</li>
+</ol>
+<p>From the above description, use cases are actually an extension of user stories and describe details that are not defined in the story. Therefore, from the use cases, we can draw a flowchart to explain the whole user scenario in detail. Let’s take sign-in as an example with a flowchart.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*WtFC6OlXrCqrmlsffaYV4g.png"></p>
+<p>Starting from the top starting point, it is the moment when the sign-in action occurs, so it is represented by <code>SignIn: now</code>. Next, we need to know how long is the difference between this sign-in and the “last sign-in” in days. If it is 0 days, it means that you have already signed in, and there is no reward to get. Or the difference is greater than 1, indicating that the sign-in is not continuous this time, and the entire cycle needs to be reset. In case of 1 exactly, it is continuous sign-in, thus the continuous date is incremented, and the current time is recorded.</p>
+<p>Finally, check the table according to the number of consecutive days to know how many rewards you will get.</p>
+<p>It is also easy to display how many consecutive days you have signed in. Suppose we use list to represent the signed-in records.</p>
+<ul>
+<li>Only sign in for one day: <code>[1, 0, 0, 0, 0, 0, 0]</code></li>
+<li>Sign in for three consecutive days: <code>[1, 1, 1, 0, 0, 0, 0]</code></li>
+</ul>
+<p>Therefore, we can know how many <code>1</code> to insert to the list from <code>counter</code>.</p>
+<p>The flow of opening the gift box is similar, so I won’t explain too much here. The final code will include opening the gift box.</p>
+<h3 id="Model-domain-objects"><a href="#Model-domain-objects" class="headerlink" title="Model domain objects"></a>Model domain objects</h3><p>From the use cases we can know that we will need two very important variables: <code>counter</code> and <code>last</code>. In fact, the rest of the state is determined by these two variables, so we can start modeling.</p>
+<p>In order to describe the entire sign-in mission, I believe that each user will have its own state, so we encapsulate the user state into a domain object called <code>SignInRepo</code>. The Repository in <code>DDD</code> is used here. Then with the user state, we can describe the whole story. There are two actions in the story, <code>signIn</code> and <code>getTimeline</code>, which represent story 1 and story 2 respectively.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7Ayrd6xhBnn8UefYeG6oQg.png"></p>
+<p>Because <code>SignInRepo</code> is defined on the basis of use cases, it is part of the entity in the onion architecture. According to the flowchart, it has two private variables and two public methods. The reason why <code>update</code> has a parameter is that we can see from the flowchart that we only have one operation <code>counter++, set last=now</code>, and <code>now</code> must be passed in from the outside. As for <code>SignInService</code>, it can be known from the name that it belongs to the domain service.</p>
+<p>Once we have domain objects, we can start developing in test-driven development, TDD.</p>
+<h3 id="Implement-unit-tests"><a href="#Implement-unit-tests" class="headerlink" title="Implement unit tests"></a>Implement unit tests</h3><p>In the development process of TDD, we write the corresponding tests according to our user stories at first, and then the actual coding is carried out. Hence, in this section, we’ll explain how to write unit tests with our defined stories and models. Let’s take a regular story as an example, suppose we’ve signed in for six days continuously, and on the seventh day, we’ll get 100 diamonds and a gift box.</p>
+<p>First, write a test based on our story.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">describe</span>(<span class="string">&quot;step1&quot;</span>, <span class="function">() =&gt;</span> &#123;  </span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&quot;continuous 6d and signin 7th day&quot;</span>, <span class="function">() =&gt;</span> &#123;  </span><br><span class="line">    <span class="keyword">const</span> user = <span class="string">&quot;User A&quot;</span>;  </span><br><span class="line">    <span class="keyword">const</span> now = <span class="string">&quot;2022-01-07 1:11:11&quot;</span>;  </span><br><span class="line">    <span class="keyword">const</span> service = <span class="keyword">new</span> <span class="title class_">SignInService</span>(user);  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">const</span> timeline1 = service.<span class="title function_">getTimeline</span>();  </span><br><span class="line">    <span class="title function_">expect</span>(timeline1).<span class="property">to</span>.<span class="property">deep</span>.<span class="title function_">equal</span>([<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>]);  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">const</span> result = service.<span class="title function_">signIn</span>(now);  </span><br><span class="line">    <span class="title function_">expect</span>(result).<span class="property">to</span>.<span class="property">be</span>.<span class="title function_">equal</span>(<span class="number">100</span>);  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">const</span> timeline2 = service.<span class="title function_">getTimeline</span>();  </span><br><span class="line">    <span class="title function_">expect</span>(timeline2).<span class="property">to</span>.<span class="property">deep</span>.<span class="title function_">equal</span>([<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]);  </span><br><span class="line">        </span><br><span class="line">    <span class="keyword">const</span> result = service.<span class="title function_">signIn</span>(now);  </span><br><span class="line">    <span class="title function_">expect</span>(result).<span class="property">to</span>.<span class="property">be</span>.<span class="title function_">equal</span>(<span class="number">0</span>);  </span><br><span class="line">  &#125;);  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>One of the stories is briefly described above, there is a user, A, who has signed in for six consecutive days, and when he signs in at <code>2022-01-07 1:11:11</code>, it is the seventh day to sign in. He gets 100 diamonds as our expectation.</p>
+<p>But such a story is not complete, because six consecutive sign-ins have not been defined. So let’s modify the test a bit.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">describe</span>(<span class="string">&quot;step2&quot;</span>, <span class="function">() =&gt;</span> &#123;  </span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&quot;continuous 6d and signin 7th day&quot;</span>, <span class="function">() =&gt;</span> &#123;  </span><br><span class="line">    <span class="keyword">const</span> user = <span class="string">&quot;User A&quot;</span>;  </span><br><span class="line">    <span class="keyword">const</span> now = <span class="string">&quot;2022-01-07 1:11:11&quot;</span>;  </span><br><span class="line">    <span class="keyword">const</span> repo = <span class="keyword">new</span> <span class="title class_">SignInRepo</span>(user);  </span><br><span class="line">    repo.<span class="title function_">restoreSingInRecord</span>(<span class="number">6</span>, <span class="string">&quot;2022-01-06 5:55:55&quot;</span>);  </span><br><span class="line">    <span class="keyword">const</span> service = <span class="keyword">new</span> <span class="title class_">SignInService</span>(repo);  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">const</span> timeline1 = service.<span class="title function_">getTimeline</span>();  </span><br><span class="line">    <span class="title function_">expect</span>(timeline1).<span class="property">to</span>.<span class="property">deep</span>.<span class="title function_">equal</span>([<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>]);  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">const</span> result = service.<span class="title function_">signIn</span>(now);  </span><br><span class="line">    <span class="title function_">expect</span>(result).<span class="property">to</span>.<span class="property">be</span>.<span class="title function_">equal</span>(<span class="number">100</span>);  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">const</span> timeline2 = service.<span class="title function_">getTimeline</span>();  </span><br><span class="line">    <span class="title function_">expect</span>(timeline2).<span class="property">to</span>.<span class="property">deep</span>.<span class="title function_">equal</span>([<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]);  </span><br><span class="line">        </span><br><span class="line">    <span class="keyword">const</span> result = service.<span class="title function_">signIn</span>(now);  </span><br><span class="line">    <span class="title function_">expect</span>(result).<span class="property">to</span>.<span class="property">be</span>.<span class="title function_">equal</span>(<span class="number">0</span>);  </span><br><span class="line">  &#125;);  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>In order to restore the entire use cases, we newly defined a repo and added an auxiliary method: <code>restoreSingInRecord</code>. This helper can also be used as an interface to retrieve values from the database in future implementations. Subsequently, such a story is complete and can begin to go into the production code.</p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p>In the previous section, we have a complete unit test, and then start implementing <code>SignInRepo</code> and <code>SignInService</code>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*zIdOV_9FZ1y1PUF4-IDhyw.png"></p>
+<p><code>SignInRepo</code> is easy to implement when there is no database, just follow the flowchart to finish <code>update</code> and <code>reset</code>. <code>SignInService</code> is totally implemented in accordance with the use cases, and the flowchart is converted into the actual code.</p>
+<p>In this way, this requirement is half completed, and the remaining process of opening the gift box is basically the same, so I will just post the final result. The full implementation can be seen as follows.</p>
+<h3 id="Summary-of-Domain-driven-Design"><a href="#Summary-of-Domain-driven-Design" class="headerlink" title="Summary of Domain-driven Design"></a>Summary of Domain-driven Design</h3><p>In fact, the above implementation just borrows some DDD terminologies, and does not fully implement DDD’s “prescriptions”. From my point of view, DDD provides a concept that enables people to know the importance of the domain and has the ability to abstract the domain.</p>
+<p>That is to say, it is up to you whether to follow the textbook to implement Entity, Value Object, Aggregate, and Repository or not. It needn’t implement in DDD by following the textbook approach. The implementation depends on the proficiency and understanding of needs.</p>
+<p>In this article, a standard design process is provided, so that everyone can disassemble the original requirements and convert them into models with domain knowledge by following this process.</p>
+<p>The process of implementing the model, it begins with the corresponding tests to achieve test-driven development.</p>
+<p>Of course, in the real world, it is not as simple as the example in this article. But the design process is the same, starting from the story, defining the use cases through the story, then modeling according to the use cases, writing tests according to the stories, and finally implementing it.</p>
+<p>By the way, I explained some design details a while ago, such as:</p>
+<ul>
+<li>Q1: Why do we need to define a repo? <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/whats-difference-between-unit-test-and-integration-test-aae6ef13220">Dependency Injection</a></li>
+<li>Q2: Why do we need layers? <a target="_blank" rel="noopener" href="https://lazypro.medium.com/layered-architecture-clarification-e55b69d60e98">Layered Architecture</a></li>
+<li>Q3: How to evolve a system? <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">Shift from Monolith to CQRS</a></li>
+</ul>
+<p>If you encounter software design problems, you are also welcome to discuss them with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/How-to-Design-Software-in-a-Clean-Architecture-Way/20220123/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/How-to-Design-Software-in-a-Clean-Architecture-Way/20220123/" class="post-title-link" itemprop="url">How to Design Software in a Clean Architecture Way</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-01-24 01:11:28" itemprop="dateCreated datePublished" datetime="2022-01-24T01:11:28+08:00">2022-01-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="A-look-at-the-data-oriented-design-approach"><a href="#A-look-at-the-data-oriented-design-approach" class="headerlink" title="A look at the data-oriented design approach"></a>A look at the data-oriented design approach</h4><ul>
+<li>Part 1, <a target="_blank" rel="noopener" href="https://lazypro.medium.com/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">Data-oriented Design</a></li>
+<li>Part 2, <a target="_blank" rel="noopener" href="https://lazypro.medium.com/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">Domain-driven Design</a></li>
+</ul>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*fdnh2MllxpiW0mcK.jpg"></p>
+<p>There are many articles and books talking about <em>Clean Architecture</em>, but the focus is on why and what, such as why to use an onion architecture, what each layer represents, and what is the <code>SOLID</code> principle.</p>
+<p>However, developers actually want to pay more attention to how, that is, how to write a good program architecture according to those design principles.</p>
+<p>In this article, we try to solve a common architectural problem in a clean architectural way.</p>
+<p>In many mobile games or commercial websites, in order to improve user retention, a sign-in mission is designed. If you sign in, you will get some rewards. When you sign in continuously for a certain number of days, there will be additional <strong>gift boxes</strong> that can be opened, and you will get bonuses after opening. Let’s try to fulfill this requirement together.</p>
+<h3 id="Problem-Domain"><a href="#Problem-Domain" class="headerlink" title="Problem Domain"></a>Problem Domain</h3><p>Users who log in continuously will get diamonds, as shown in the following table:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_AmFxl_4bLq0Vi1m4eTf9w.png"></p>
+<p>To simplify the problem, let’s get a fixed amount of 100 diamonds the gift box is opened each time. For example, if a user signs in for four consecutive days, the user can get 30 and a gift box on the fifth day of sign-in.</p>
+<p>Every time the user enters the homepage, he will see a sign-in map, telling the user how many consecutive sign-ins have been completed in this cycle and how many rewards have been received.</p>
+<h3 id="Design-Phase"><a href="#Design-Phase" class="headerlink" title="Design Phase"></a>Design Phase</h3><p>There are two different design approaches, data-oriented design and domain-driven design. We will start talking about data-oriented design and tell you why it’s not a mainstream design solution.</p>
+<h3 id="Data-oriented-Design-Can’t-Say-Good-Approach"><a href="#Data-oriented-Design-Can’t-Say-Good-Approach" class="headerlink" title="Data-oriented Design (Can’t Say Good Approach)"></a>Data-oriented Design (Can’t Say Good Approach)</h3><p>The data-oriented design means that when we see a problem, we first think about how to store the data, and then manipulate the defined data format to try to solve the original problem.</p>
+<p>Therefore, after getting the question, the first step is to think about what database to use, what schema it will have, and what format the data will exist in.</p>
+<p>Let’s take the sign-in mission as an example. Suppose we design on a small monolith, usually with a relational database, so we first define a table to realize our problem. Define a sign-in table to store the time of each sign-in, so that you can know how many rewards you can get based on the previous sign-in records.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*bVsEN_OV0l2mHsfLfSia3w.png"></p>
+<p>From the above table, if today is <code>2022-01-04</code>, then John can get 15 diamonds when he signs in, and Mary will start a new cycle because she has not signed in consecutively and only get 10 diamonds.</p>
+<p>The logic of the mission will be to filter the sign-in date of a specific user and sort them by date, then retrieve the latest <code>N</code> records. By calculating the total days of the consecutive sign-ins, and then you can know what reward to get this time.</p>
+<p>There is a problem with such design. When the user’s sign-in is not interrupted at all, i.e., the number of consecutive sign-in days is greater than <code>N</code>, then the amount of data is not enough to determine the current reward. Nevertheless, we do not want to expand <code>N</code> to avoid pulling too much data makes the database a bottleneck. Thus, we should try making some changes to the original schema, such as adding a new field, diamond.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*aECKyWRW9iLDbj54SnbvYw.png"></p>
+<p>For John, signing in on <code>2022-01-09</code> will get 10 diamonds because we know the end of the previous cycle was <code>2022-01-07</code>.</p>
+<p>The story is not over yet. When the number of users grow, the performance of RDBMS will be tough. Every time you enter the homepage, you have to pull data from the database, run a complex calculation, and finally see the result. This process is very inefficient.</p>
+<p>In order to improve the efficiency of the homepage, most projects will introduce a cache to record the status of the entire sign-in. However, how do you know if the cache is invalid? Or the cache is actually not invalid, but distorted. I have covered this problem in a previous article <a target="_blank" rel="noopener" href="https://towardsdev.com/resilient-caching-in-redis-a5b3c1a49f14">Resilient Caching</a>. By adding integrity, we can distinguish whether the data is reliable. Once the data is corrupted, we will rebuild the data from the RDBMS.</p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>From the above introduction, we found that even the cache has many aspects to consider, the whole data-oriented design is very complicated, and the process is very struggled.</p>
+<p>Hence, the domain-driven design was born.</p>
+<p>In part 2, we will start designing from Entity, covering use cases, then implementing the unit tests like TDD, and finally completing our mission. I will provide a better design process, and you can follow the steps to simplify every user stories you will encounter. Let’s call it a day. Until next time</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-design-in-clean-architecture-way-part-1-36c3e558517b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1153,329 +1416,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/Unique-Array-in-MongoDB-Document/20211121/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/MongoDB/Unique-Array-in-MongoDB-Document/20211121/" class="post-title-link" itemprop="url">Unique Array in MongoDB Document</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-11-22 07:43:05" itemprop="dateCreated datePublished" datetime="2021-11-22T07:43:05+08:00">2021-11-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Unique-Array-in-MongoDB-Document"><a href="#Unique-Array-in-MongoDB-Document" class="headerlink" title="Unique Array in MongoDB Document"></a>Unique Array in MongoDB Document</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*9KOWrIA6crjXcMXM.png"></p>
-<p>In order to explain the solution in detail, I have to introduce the user scenario first. We need a collection to record the group information including name, members, etc. However, we cannot allow a group with the same members in another group. For example, if <code>A</code> and <code>B</code> are in group 1, then they cannot be in group 2. Thus, we need maintain a members array which has an unique constraint.</p>
-<p>There is an assumption in our requirement.</p>
-<blockquote>
-<p><em>The amount of group members will be always 2. In other words, a group only has members</em> <code>[&quot;A&quot;, &quot;B&quot;]</code> <em>but not</em> <code>[&quot;A&quot;, &quot;B&quot;, &quot;C&quot;]</code><em>.</em></p>
-</blockquote>
-<p>Here comes an example collection:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[&#123;  </span><br><span class="line">    &quot;_id&quot;: 1,  </span><br><span class="line">    &quot;name&quot;: &quot;group1&quot;,  </span><br><span class="line">    &quot;members&quot;: [&quot;A&quot;, &quot;B&quot;]  </span><br><span class="line">&#125;, &#123;  </span><br><span class="line">    &quot;_id&quot;: 2,  </span><br><span class="line">    &quot;name&quot;: &quot;group2&quot;,  </span><br><span class="line">    &quot;members&quot;: [&quot;A&quot;, &quot;C&quot;]  </span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
-
-<p>We want to query more faster, so we add an index on members, however, <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/core/index-multikey/">MongoDB Multikey Index</a> is very different from what our thought.</p>
-<ul>
-<li>Can we add an unique index on members?</li>
-<li>If the index type is regular, the answer is no.</li>
-<li>Can <code>db.group.find({members: [&quot;B&quot;, &quot;A&quot;]})</code> find anything？</li>
-<li>No, the array should be exactly matched.</li>
-</ul>
-<p>The root cause is creating an index on array, the index will become multikey index automatically. For the document with id 1, there will be two indexes Indicating to this document, namely <code>&quot;A&quot;</code> and <code>&quot;B&quot;</code>. In the same way, there will be two indexes, <code>&quot;A&quot;</code> and <code>&quot;C&quot;</code>, on document with id 2. That is to say, unique constraint doesn’t work while they all have index <code>&quot;A&quot;</code>.</p>
-<p>Although, there are two indexes <code>&quot;A&quot;</code> and <code>&quot;B&quot;</code> on document 1, it just makes MongoDB retrieve data faster. Instead of the full-table scan, MongoDB can reduce the search scope, especially, the linear search with <code>O(n)</code> is very slow on the array match. However, it has to exactly match the array including the order.</p>
-<p>How to solve these problems? There is a trick can handle, that is, use <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/core/index-text/">text index</a>. The figure comes from MongoDB Compass as follows.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*oGdHtxi0cZWTF2md.png"></p>
-<p>Although the number of uses is 0, this is actually caused by MongoDB’s implementation. The search for the text index is to compare the text first, and then use <code>_id</code> to locate the real content.</p>
-<p>Nevertheless, this approach comes other problems when implementing applications:</p>
-<ol>
-<li>To find the content, we must know the order of members; otherwise, data cannot be retrieved.</li>
-<li>Similar to the problem one, even though this approach can make sure <code>[&quot;A&quot;, &quot;B&quot;]</code> will not be duplicated, it cannot reject the insertion with <code>[&quot;B&quot;, &quot;A&quot;]</code>.</li>
-<li>The search pattern, regarding whether a single target exists in members, is inefficient. We have to use <code>$in</code> without the bound from an index to reduce the search scope.</li>
-</ol>
-<p>There is a comprise solution to the problem 1 and 2. Before inserting or fetching data in the database, we sort the members in the application. However, this approach ties the data model and application logic together, which is hard to maintain and use. Hence, it is highly not recommended. As for the problem 3, there is no alternative solution.</p>
-<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p>The correct (*see the last section) approach is still using the multikey and text index. But we don’t store scalar string in members; instead, we store objects. Thus, the original example will be modified slightly:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[&#123;  </span><br><span class="line">    &quot;_id&quot;: 1,  </span><br><span class="line">    &quot;name&quot;: &quot;group1&quot;,  </span><br><span class="line">    &quot;members&quot;: [&#123;&quot;name&quot;: &quot;A&quot;&#125;, &#123;&quot;name&quot;: &quot;B&quot;&#125;]  </span><br><span class="line">&#125;, &#123;  </span><br><span class="line">    &quot;_id&quot;: 2,  </span><br><span class="line">    &quot;name&quot;: &quot;group2&quot;,  </span><br><span class="line">    &quot;members&quot;: [&#123;&quot;name&quot;: &quot;A&quot;&#125;, &#123;&quot;name&quot;: &quot;C&quot;&#125;]  </span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
-
-<p>In addition, the index on members should be on <code>members.name</code> with the text type and unique constraint.</p>
-<p>From the above example we can see the original members is changed from <code>[&quot;A&quot;, &quot;B&quot;]</code> to <code>[{&quot;name&quot;: &quot;A&quot;}, {&quot;name&quot;: &quot;B&quot;}]</code>. So what are the benefits of doing this? Yes, in fact, the three problems mentioned above have all been solved.</p>
-<ol>
-<li>We don’t care the order of members when searching a group. We can just use <code>db.group.find({$and: [{&quot;members.name&quot;: &quot;A&quot;}, {&quot;members.name&quot;: &quot;B&quot;}]})</code>.</li>
-<li>We don’t care whether <code>&quot;A&quot;</code> is the former or the letter, it can be rejected correctly if there is indeed a group with <code>&quot;A&quot;</code> and <code>&quot;B&quot;</code>.</li>
-<li>To find a group belongs to a specific member, we can use <code>db.group.find({&quot;members.name&quot;: &quot;A&quot;})</code>. This can find out all groups <code>&quot;A&quot;</code> belongs.</li>
-</ol>
-<p>It must be emphasized again that this solution is only applicable when all groups are composed of two members. Take the above example, if you want to create a group 3 with members <code>&quot;A&quot;, &quot;B&quot;, &quot;C&quot;</code>, it will be denied.</p>
-<p>Why we have a such requirement? We want to simplify the know-how of database operations on the client side. In theory, the client does not need to have any knowledge to manipulate the data of the database, and the database can always respond under inappropriate circumstances. Therefore, we don’t have to embed the database logic into every client. Nonetheless, the approach has its disadvantages. Firstly, the design has been fixed to only support groups of 2 members. Secondly, there is only one text index in a collection, i.e., we sacrifice the possibility of other text indexes. Finally, text index takes lots of spaces, it is considered a high price index.</p>
-<p>What should be the correct way? There are many possibilities, but the most feasible one should be <code>findAndModify</code> with <code>upsert</code>. By doing this, we can avoid creating a group with duplicated<br>members under the race condition. If there is a need to add more members, we can leverage <code>$addToSet</code> to operate on members to keep the uniqueness in members. From this we can know that to maintain the correctness of the data, there are many implementation requirements on the client side, so in the end we decided to write the integrity to the database and let the database take care of part of the correctness of the data.</p>
-<h3 id="Updated"><a href="#Updated" class="headerlink" title="Updated"></a>Updated</h3><p>We have found the multikey index in text type does not work in some conditions. Therefore, we are using <code>$addToSet</code> to be the temporary solution and still trying to find out a better approach.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/unique-array-in-mongodb-document-b77456fe88b4">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Message-Queue-in-Redis/20211118/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Redis/Message-Queue-in-Redis/20211118/" class="post-title-link" itemprop="url">Message Queue in Redis</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-11-18 13:29:56" itemprop="dateCreated datePublished" datetime="2021-11-18T13:29:56+08:00">2021-11-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Message-Queue-in-Redis"><a href="#Message-Queue-in-Redis" class="headerlink" title="Message Queue in Redis"></a>Message Queue in Redis</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*tCQ0jBqMoZYPbRem"></p>
-<p>My organization has done the technical selection recently, and we want to build an event-driven system. However, the budget is limited. We cannot choose a classic queuing service like RabbitMQ or a streaming process like Kafka. We have to find an affordable solution that can meet our needs. Currently, all we have is Redis. Therefore, we will build a message queue in Redis.</p>
-<p>In this article, I will introduce some properties of a message queue and describe how Redis can be used to build a message queue.</p>
-<h3 id="Message-Queue"><a href="#Message-Queue" class="headerlink" title="Message Queue"></a>Message Queue</h3><p>There are many aspects to consider when choosing a message queue, such as propagation, delivery, persistence, and consumer groups. In this section, I will explain them briefly.</p>
-<h3 id="Propagation"><a href="#Propagation" class="headerlink" title="Propagation"></a>Propagation</h3><p>The propagation means how messages are transferred by the message queue. There are 2 types of propagation,</p>
-<ul>
-<li>1-to-1</li>
-<li>1-to-many (fan-out)</li>
-</ul>
-<p>One-to-one is quite simple. The producer sends a message to the queue, and this message is received by only one consumer. On the other hand, one-to-many is a message that can be delivered to multiple consumers. It’s worth mentioning that the producer just sent a message, but the message can be transferred to many receivers. Such behavior is also called fan-out.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*J90JkLxFZDtdkrserWp-SA.png"></p>
-<h3 id="Delivery"><a href="#Delivery" class="headerlink" title="Delivery"></a>Delivery</h3><p>Delivery is interesting. Most queuing systems have their delivery guarantees. There are three common guarantees,</p>
-<ul>
-<li>At-most-once</li>
-<li>At-least-once</li>
-<li>Exactly-once</li>
-</ul>
-<p>At-most-once is relatively easy to achieve. It can be said that all queuing systems have this guarantee. The consumer can receive a sent message or nothing. This may happen in several situations. Firstly, the message is lost whereas a networking problem occurred. Secondly, although the consumer received it, he did not handle it well like crashed. The message disappears if it is gone, and it is impossible to retrieve the message again.</p>
-<p>At-least-once is a guarantee often used by some well-known systems such as RabbitMQ, Kafka, etc. Compared to at-most-once, at-least-once has a stronger guarantee. It can make sure the message must be processed. However, the message may be processed many times. For instance, a consumer does not acknowledge the queue that the message is handled, thus the queue sends a message to that consumer again.</p>
-<p>Exactly-once is the strictest guarantee. It ensures the message must be handled <strong>once</strong>. Even the popular systems can’t do this well, e.g. RabbitMQ. Nevertheless, the correct use and configuration of Kafka can still be achieved. The price is to sacrifice some performance.</p>
-<h3 id="Persistence"><a href="#Persistence" class="headerlink" title="Persistence"></a>Persistence</h3><p>Persistence means whether the message will disappear after it is sent to the system. There are also three types of persistence,</p>
-<ul>
-<li>In-memory</li>
-<li>In-disk</li>
-<li>Hybrid</li>
-</ul>
-<p>We all know what they means. But the interesting thing is, is it slower to persist messages in disk? No, not really. It depends on how persistence is implemented. Kafka uses LSM-tree to achieve a lot of throughput; in addition, it is better than RabbitMQ who uses memory. There is another example in Cassandra, Cassandra has very fast writing speed and uses LSM-tree as well.</p>
-<p>Hybrid is a special case combined with in-memory and in-disk. In order to improve the writing performance, the queuing system writes to the memory first, and then flush into the disk. RabbitMQ is a typical example in hybrid. However, RabbitMQ is also able to be configured as in-disk.</p>
-<h3 id="Consumer-Group"><a href="#Consumer-Group" class="headerlink" title="Consumer Group"></a>Consumer Group</h3><p>In my opinion, consumer group is the most important feature in a queuing system. Processing a message usually takes time, so that we have to use more consumers to deal with messages, aka scale-out. In consumer group scenes, both the target of one-to-one and one-to-many become a group of consumers instead of a single consumer.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*6BPlsfNqN6AVnl-2xAW7Jg.png"></p>
-<h3 id="Redis-Queue"><a href="#Redis-Queue" class="headerlink" title="Redis Queue"></a>Redis Queue</h3><p>After talking about the properties in a queuing system, let’s talk about how Redis be a message queue. There are 3 ways to do it,</p>
-<ul>
-<li>Pub&#x2F;Sub</li>
-<li>List</li>
-<li>Stream</li>
-</ul>
-<p>We will introduce one by one, and then give a comprehensive summary.</p>
-<h3 id="Pub-Sub"><a href="#Pub-Sub" class="headerlink" title="Pub&#x2F;Sub"></a>Pub&#x2F;Sub</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*C_jjZQ-aa5bXQ0bsuttziA.png"></p>
-<p>Pub&#x2F;Sub is a widely known solution for notifying, this feature was born almost at the same time as Redis. The consumer <code>SUBSCRIBE</code> a topic, aka a key, and then receive the data after a client <code>PUBLISH</code> messages to the same topic. As a traditional Pub&#x2F;Sub feature, it also can fan-out a message to multiple consumers. Moreover, A certain degree of messaging routing can also be achieved through <code>PSUBSCRIBE</code>.</p>
-<p>But Pub&#x2F;Sub in Redis are not popular for most use cases. The biggest problem is the message will delivery at most once. When a message is published, if the consumer doesn’t receive it right now, the message disappears. Furthermore, Redis doesn’t persist messages. All messages are gone away if Redis is shutdown.</p>
-<p>Let’s summarize Pub&#x2F;Sub:</p>
-<ul>
-<li>1-to-1 and 1-to-many are fine</li>
-<li>at-most-once</li>
-<li>no persistence</li>
-<li>no consumer group</li>
-</ul>
-<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*27N6WQ2Oas82SitCl10A8g.png"></p>
-<p>List is a useful data structure in Redis, and we can accomplish a FIFO queue easily by using it. The trick is we can use <code>BLPOP</code> to wait for a message in blocking mode. However, adding a timeout is recommended.</p>
-<p>According to the figure, we can see if there are multiple consumers wait for the same list, they are becoming a consumer group. Without configuring anything, the consumer group can be spontaneously formed by consumers. On the other hand, list cannot fan-out a message. If a message is <code>BLPOP</code> by a consumer, others can not be retrieved this message anymore, even the message is lost in that consumer.</p>
-<p>Nevertheless, Redis list can persist messages in memory. In addition, if you are enabling <code>AOF</code> or <code>RDB</code>, messages can be backed up into the disk. I have to say, following <a target="_blank" rel="noopener" href="https://lazypro.medium.com/data-persistence-in-redis-2780c11d1623">my previous article</a>, this approach is not entirely data persistence.</p>
-<p>To sum up,</p>
-<ul>
-<li>1-to-1 is okay, but no 1-to-many</li>
-<li>at-most-once</li>
-<li>persist in-memory, and backup in-disk</li>
-<li>consumer group works</li>
-</ul>
-<h3 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h3><p>After introducing the Pub&#x2F;Sub and List, we notice that neither of these two methods is very good. They have their own drawbacks. Therefore, Stream has come to solve these issues since Redis 5.0.</p>
-<p>Because Stream is much more complicated, let’s first look at what benefits Stream brings.</p>
-<ul>
-<li>1-to-1 and 1-to-many are fine</li>
-<li>at-least-once</li>
-<li>persist in-memory, and backup in-disk</li>
-<li>consumer group works</li>
-</ul>
-<p>As a result, Stream solves all issues in Pub&#x2F;Sub and List and enhances a lot, for e.g., at-least-once delivery.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*UTwE0z5imsbukNG_mEnSvw.png"></p>
-<p>The diagram is like Pub&#x2F;Sub, but the workflow is closer to List. The producer can generate messages at any time, and then <code>XADD</code> to Redis Stream. You can consider Stream as a list maintains all incoming messages. Consumers can also retrieve messages at any time via <code>XREAD</code>. The identifier in <code>XREAD</code> command represents where you want to read the message from.</p>
-<ul>
-<li><code>$</code>: No matter what messages are in Stream before, only retrieve from now on.</li>
-<li><code>0-0</code>: Always read from the head.</li>
-<li><code>&lt;id&gt;</code>: Start from the specific message id.</li>
-</ul>
-<p>Apart from supporting one-to-one mapping, Stream supports consumer groups as follows:</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*IOg5-gQnDynx8HjDe7YuRg.png"></p>
-<p>To achieve at-least-once guarantee, like most queuing systems, the consumer must acknowledge Stream after processing a message by using <code>XACK</code>.</p>
-<p>The use of the special identifier, <code>&lt;</code>, here is to start reading from a position that no one has read in the group.</p>
-<p>After the above explanation, I provide a real example to show a consumer’s bootstrap in Node.js.</p>
-<p>Please note that every consumer has his own name, <code>ConsumerName</code>. First, the consumer read from the beginning to determine its last position. The response will be a empty array with no length, so that the consumer can get the correct <code>lastid</code>. Then, the consumer reads from the <code>lastid</code> and processes those messages. Finally, acknowledge Stream with finished <code>id</code>.</p>
-<h3 id="Stream-Consumer-Failover"><a href="#Stream-Consumer-Failover" class="headerlink" title="Stream Consumer Failover"></a>Stream Consumer Failover</h3><p>In the distributed system, we cannot name a consumer easily. For example, the consumer is run in a container within K8s: How do I maintain names to every pod? Even if we lock everyone’s name, how do we face the scale-out and scale-in scene?</p>
-<p>Therefore, keeping the name in the distributed system is impractical.</p>
-<p>In spite of this, we cannot name a consumer in <code>uuid</code> and forget the name after the consumer is down. Redis Stream maintains a table of names against last positions. So, if we generate a random name every time, the mapping table will become larger and larger. Worst of all, those messages that have been received but not acknowledged will never be processed.</p>
-<p>Fortunately, Redis Stream provides a method to claim those pending messages. The workflow is like this:</p>
-<ol>
-<li>Find out all pending message ids.</li>
-<li>Claim those ids to transfer the ownership.</li>
-</ol>
-<p>Therefore, the completed workflow in a consumer bootstrap is:</p>
-<ol>
-<li><code>XPENDING StreamName GroupName</code></li>
-<li><code>XCLAIM StreamName GroupName &lt;ConsumerName in uuid&gt; &lt;min-idle-time&gt; &lt;ID-1&gt; &lt;ID-2&gt; ... &lt;ID-N&gt;</code></li>
-<li>The above script</li>
-</ol>
-<p>The <code>min-idle-time</code> is a very useful approach. By using <code>min-idle-time</code>, we can avoid multiple consumers claim the same messages at the same time. The first consumer claims some messages, so such messages will no longer be idle. Hence, other consumers cannot claim those messages again.</p>
-<h3 id="Redis-Stream-Persistence"><a href="#Redis-Stream-Persistence" class="headerlink" title="Redis Stream Persistence"></a>Redis Stream Persistence</h3><p>Redis does not guarantee that the data will not be lost at all, even if the strictest setting is turned on. If we use Redis as a message queue, we must take additional measures to ensure persistence. The most common way is event-sourcing. Before publishing a message, we write this message into a durable storage like MySQL. Our consumers can work generally. However, if an error occurs, we can still leverage the durable messages in MySQL to recover our work.</p>
-<p>Besides, if Stream persists more and more messages, the memory usage of Redis would be a disaster. If we are looking at the Redis manual, we can find a command, <code>XDEL</code>. However, <code>XDEL</code> does not delete the messages, it only marks those messages as unused, and the messages are still there.</p>
-<p>How can we prevent memory leakage in Redis Stream? We can use <code>MAXLEN</code> whereas <code>XADD</code> is invoking. The command line is:</p>
-<blockquote>
-<p><em>XADD StreamName MAXLEN 1000 * foo bar</em></p>
-</blockquote>
-<p>But there is one thing you have to know, <code>MAXLEN</code> affects performance of Redis very much. It blocks the main process for a while, and no command can be executed during that period. If there are many incoming messages and the amount of queued messages reaches maximum, then Stream will be very busy to maintain <code>MAXLEN</code>.</p>
-<p>An alternative approach can be adopted. Instead of fixing the hard limit, we can give Redis the right to choose a comfortable length at its free time. Hence, the command will be:</p>
-<blockquote>
-<p><em>XADD StreamName MAXLEN ~ 1000 * foo bar</em></p>
-</blockquote>
-<p>The <code>~</code> sign means the maximum length is about 1000, it might be 900 or even 1300. Redis will pick a good time to strip a good size for it.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Let me summarize these three approaches.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*o68_P7KksDT9gt13nouN_g.png"></p>
-<p>There is an unfamiliar property complexity, which refers to the complexity of a technology but also the complexity of implementing a consumer.</p>
-<p>From my point of view, these three approaches have their pros and cons and also have their own applicable scenarios.</p>
-<ul>
-<li>Pub&#x2F;Sub: Best-effort notification.</li>
-<li>List: Tolerate message queues with some data loss.</li>
-<li>Stream: Loose streaming process.</li>
-</ul>
-<p>So, why is Redis Stream a loose streaming process? Because the consumer group in Redis Stream is not like Kafka. It cannot preserve the message ordering. In a high-volume traffic environment, consumers within the same group cannot be scaled out successfully.</p>
-<p>In the end, we chose List as the message queue. Our use cases are simple. We just want to throttle the notifications in the broadcast scene. The broadcast notification can tolerate the message loss. It’s good enough that most users can receive the message. In addition, the implementation effort is very low in Node.js, so we can finish it as soon as possible. Although it is not the best solution, it is good enough for our organization.</p>
-<h4 id="The-world’s-fastest-cloud-data-warehouse"><a href="#The-world’s-fastest-cloud-data-warehouse" class="headerlink" title="The world’s fastest cloud data warehouse:"></a>The world’s fastest cloud data warehouse:</h4><p>When designing analytics experiences which are consumed by customers in production, even the smallest delays in query response times become critical. Learn how to achieve <strong>sub-second</strong> performance over TBs of data with <a target="_blank" rel="noopener" href="https://www.firebolt.io/?v=m"><strong>Firebolt</strong>.</a></p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/message-queue-in-redis-9efe0de2c39c">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/15/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/17/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/15/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/17/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

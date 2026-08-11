@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,255 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Handling-Stale-Sets-and-Thundering-Herds-of-Cache/20231022/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Handling-Stale-Sets-and-Thundering-Herds-of-Cache/20231022/" class="post-title-link" itemprop="url">Handling Stale Sets and Thundering Herds of Cache</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-10-23 02:19:13" itemprop="dateCreated datePublished" datetime="2023-10-23T02:19:13+08:00">2023-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Handling-Stale-Sets-and-Thundering-Herds-of-Cache"><a href="#Handling-Stale-Sets-and-Thundering-Herds-of-Cache" class="headerlink" title="Handling Stale Sets and Thundering Herds of Cache"></a>Handling Stale Sets and Thundering Herds of Cache</h3><h4 id="Simplified-Approach-Inspired-by-Facebook’s-Innovative-Solution"><a href="#Simplified-Approach-Inspired-by-Facebook’s-Innovative-Solution" class="headerlink" title="Simplified Approach Inspired by Facebook’s Innovative Solution"></a>Simplified Approach Inspired by Facebook’s Innovative Solution</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*sGFeNnBV2GtxJrGO"></p>
+<p>Recently, I’ve been studying how Facebook handles <a target="_blank" rel="noopener" href="https://research.facebook.com/publications/scaling-memcache-at-facebook/">caching at scale</a>, and one of the subsections describes how they handle stale sets and thundering herds. They use a lease mechanism to face these two problems at once, which is very interesting.</p>
+<p>What are stale sets and thundering herds? Let me explain each in one simple sentence.</p>
+<ul>
+<li>Stale sets: Data inconsistency between cache and database.</li>
+<li>Thundering herds (aka Dogpile effect): High concurrency request to knock down the database.</li>
+</ul>
+<p>In fact, I have also introduced how to solve the problem of stale sets and thundering herds, only that I have proposed my own solutions to each problem, and I do not have a one-size-fits-all solution.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/consistency-between-cache-and-database-part-1-f64f4a76720">Solving stale sets</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/solving-dogpile-effect-9d869174d302">Solving thundering herds</a></li>
+</ul>
+<p>Let’s take a look at how Facebook solved two problems at once.</p>
+<h3 id="Problem-Description"><a href="#Problem-Description" class="headerlink" title="Problem Description"></a>Problem Description</h3><p>First, let me briefly explain the two problems.</p>
+<p>In general, the behavior of a read-aside cache is to read from the cache first, and if it can’t be found, then read from the database instead. After retrieving data, write the data back to the cache. If the database is updated, the cached data is cleared without writing it back.</p>
+<p>Even with this process, there are still problems, the most typical of which are the two problems mentioned in this article. The process of how stale sets occur is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*XxQDJR6m2XMB7udx.png"></p>
+<p>Although <code>B</code> has cleared the cache, <code>A</code> is delayed for “some reason”, so the data in the cache is written to the old data, which is the data stale or inconsistent.</p>
+<p>On the other hand, when a cache miss occurs in a highly concurrent system, then all these clients will query the database, in other words, the database will fall down in a short time due to high concurrency. This problem is also known as the Dogpile effect.</p>
+<h3 id="Facebook’s-solution"><a href="#Facebook’s-solution" class="headerlink" title="Facebook’s solution"></a>Facebook’s solution</h3><p>How did Facebook solve these two problems? They use a lease mechanism, which is described in section 3.2.1 of the paper, but the explanation is not very complete, it is roughly the following two paragraphs.</p>
+<blockquote>
+<p><em>A memcached instance gives a lease to a<br>client to set data back into the cache when that client experiences a cache miss. Verification can fail if<br>memcached has invalidated the lease token due to receiving a delete request for that item.</em></p>
+</blockquote>
+<p>And.</p>
+<blockquote>
+<p><em>We configure these<br>servers to return a token only once every 10 seconds per<br>key.</em></p>
+</blockquote>
+<p>When writing data to the cache, it must carry the token that was obtained during the cache miss. The cache will first validate the token before updating, and if the token validation fails, then it will be ignored. The token will be cleared when the database is updated.</p>
+<p>Let’s explain this with the sequence diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7OHj6rSIU9UxoqQM1w9HcA.png"></p>
+<p>The difference between this diagram and the problem one is the first interaction will get a token, when write cache need to carry the token, but because the token has been cleared after updating the database, so write cache will be rejected, this will solve the first problem.</p>
+<p>As for the second problem is not difficult to deal with, just need to set the rules for the token release, every 10 seconds to send a token, if the client does not get the token then there is no authority to update the cache naturally there is no need to query the database, the Dogpile effect can be solved.</p>
+<h3 id="Simple-implementation"><a href="#Simple-implementation" class="headerlink" title="Simple implementation"></a>Simple implementation</h3><p>To implement this logic is not so difficult, let’s use Python and Redis to write a simple example.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Cache</span>:  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):  </span><br><span class="line">        <span class="comment"># ignore implementation  </span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self, k</span>):  </span><br><span class="line">        v = self.redis.get(k)  </span><br><span class="line">        token = random.getrandbits(<span class="number">64</span>) <span class="comment"># Facebook says the token has to be 64 bit.  </span></span><br><span class="line">        ret = self.redis.<span class="built_in">set</span>(<span class="string">f&#x27;<span class="subst">&#123;self.prefix&#125;</span>#<span class="subst">&#123;k&#125;</span>&#x27;</span>, token, <span class="string">&#x27;NX&#x27;</span>, <span class="string">&#x27;EX&#x27;</span>, <span class="number">10</span>) <span class="comment"># 10s for token refresh  </span></span><br><span class="line">        <span class="keyword">return</span> (v, token <span class="keyword">if</span> ret == <span class="string">&#x27;OK&#x27;</span> <span class="keyword">else</span> <span class="literal">None</span>)  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">set</span>(<span class="params">self, k, v, token</span>):  </span><br><span class="line">        saved_token = self.redis.get(<span class="string">f&#x27;<span class="subst">&#123;self.prefix&#125;</span>#<span class="subst">&#123;k&#125;</span>&#x27;</span>)  </span><br><span class="line">        <span class="keyword">if</span> token == saved_token:  </span><br><span class="line">            ret = self.redis.<span class="built_in">set</span>(k, v)  </span><br><span class="line">        <span class="keyword">else</span>:  </span><br><span class="line">            ret = <span class="literal">False</span>  </span><br><span class="line">              </span><br><span class="line">        <span class="keyword">return</span> ret == <span class="string">&#x27;OK&#x27;</span> <span class="keyword">or</span> <span class="literal">False</span>  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">clean</span>(<span class="params">self, k</span>):  </span><br><span class="line">        self.redis.<span class="keyword">del</span>(k, <span class="string">f&#x27;<span class="subst">&#123;self.prefix&#125;</span>#<span class="subst">&#123;k&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>To make it easier to understand, here we only show the core implementation and do not use Lua or other pipeline optimization methods.</p>
+<p>In <code>get</code>, two values are returned, one is the result of the cache and the other is the token, if the original token still exists and has not expired, which means there is a possibility of thundering herds, then the token is not returned, and if the client does not receive the token, then he should not query the database.</p>
+<p>In <code>set</code>, in addition to the key and value to write, we also need to carry the token, when the validation of the token fails, we don’t update the cache and just end it so as to avoid stale sets.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Stale sets and thundering herds are pretty common problems when using caches, and there are many solutions for them. But when I actually wrote the program based on Facebook’s solution, I realized that it can be so simple, which made me a bit surprised that we were “overthinking” before.</p>
+<p>I believe that the simpler the solution, the better, and I will use Facebook’s solution to deal with the problem at hand in the future. In fact, there are many more methods and optimizations for dealing with caching at scale in this paper, making it a very worthwhile study.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/handling-stale-sets-and-thundering-herds-of-cache-28d52780fbca">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/Squeezing-out-MongoDBs-available-storage/20231015/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/MongoDB/Squeezing-out-MongoDBs-available-storage/20231015/" class="post-title-link" itemprop="url">Squeezing out MongoDB’s available storage</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-10-16 02:01:10" itemprop="dateCreated datePublished" datetime="2023-10-16T02:01:10+08:00">2023-10-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Exploring-Three-Viable-Approaches-to-Optimize-Database-Resources"><a href="#Exploring-Three-Viable-Approaches-to-Optimize-Database-Resources" class="headerlink" title="Exploring Three Viable Approaches to Optimize Database Resources"></a>Exploring Three Viable Approaches to Optimize Database Resources</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*6lpp4RNmAV8n6SNo"></p>
+<p>There are always times when the available space in the database is exhausted, and we need to take action.</p>
+<p>Generally, the most common approach is vertical scaling, also known as scale-up, which involves increasing the specifications of the machine directly to expand the available space. Another alternative solution is horizontal scaling, also known as scale-out or sharding, which enhances overall available space by distributing data across different machines.</p>
+<p>However, both scale-up and scale-out involve costs, and these can be substantial. For organizations with budget constraints, neither of these approaches may be immediately feasible. So, what can be done?</p>
+<p>In such cases, the only option is to squeeze out as much space as possible from the existing machines, no matter what it takes, just pure squeezing.</p>
+<p>In this article, we take MongoDB as an example to explore the viable approaches for squeezing out available space.</p>
+<h3 id="Remove-useless-index"><a href="#Remove-useless-index" class="headerlink" title="Remove useless index"></a>Remove useless index</h3><p>Indexes are a trade-off of space for time to improve query performance. Therefore, if unused indexes can be identified and removed, the initially consumed space can be reclaimed.</p>
+<p>Why do indexes become redundant?</p>
+<p>There are several common reasons as follows:</p>
+<ol>
+<li>Because MongoDB’s WiredTiger is a B-tree-based storage engine, it has a feature known as the leftmost-prefix. Thus, if a new index and an old index have the same prefix, the old index can be safely removed without affecting query performance.</li>
+<li>Due to feature iterations, some queries that were required initially are no longer in use.</li>
+</ol>
+<p>Regarding the first point, we can easily identify which indexes can be removed by carefully scanning each index. However, for the second point, some additional preparation is necessary.</p>
+<p>We need to know which indexes are not being used. Apart from tracing clues from the code, there is a more efficient approach, which is to directly examine the index metrics. In the case of MongoDB, the <code>$indexStats</code> <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexStats/#mongodb-pipeline-pipe.-indexStats">aggregation operation</a> can provide statistical data on the indexes.</p>
+<p>By comparing the statistics from two time periods, we can determine which indexes are not being used.</p>
+<h3 id="Remove-useless-data"><a href="#Remove-useless-data" class="headerlink" title="Remove useless data"></a>Remove useless data</h3><p>The above-mentioned approach of deleting indexes is a relatively straightforward solution that does not affect the production environment. However, if more available space needs to be squeezed out, consider deleting unused data.</p>
+<p>Defining what constitutes unused data entirely depends on the application. For instance, some applications use flags to mark softly deleted documents, allowing these softly deleted documents to be removed or archived to cold storage.</p>
+<p>Another scenario involves time-series data, where defining how old the data should be before it can be deleted becomes relevant. However, whichever solution is chosen depends entirely on the application.</p>
+<h3 id="Reshard"><a href="#Reshard" class="headerlink" title="Reshard"></a>Reshard</h3><p>This is a more advanced approach compared to the previous two, directly impacting the performance of the production environment.</p>
+<p>If the MongoDB cluster is already a sharded cluster but some collections have not been sharded, setting the appropriate shard key and enabling sharding can be a relatively straightforward process.</p>
+<p>However, if all collections have already been sharded, it’s essential to examine which collections have uneven data distribution. Consider modifying the shard key and even taking further steps to rebalance. Phew, as of MongoDB 5.0, we can finally reshard a collection.</p>
+<p>I previously wrote an article describing how to correctly design a shard key to achieve as even a data distribution as possible.</p>
+<p>We can determine whether data distribution is uniform by using the command <code>sh.status()</code>. <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/reference/method/sh.status/#mongodb-data-sh.status.databases.-collection-.chunks">This command</a> provides explicit information in the output regarding how many shards are being used for a collection and how many chunks each shard holds. A chunk represents the unit of data distribution.</p>
+<h3 id="However"><a href="#However" class="headerlink" title="However"></a>However</h3><p>It seems like we have several approaches that should all be effective if carefully implemented, right?</p>
+<p>In reality, after implementing the second and third approaches, observing the available space reveals no improvement. In fact, it may even worsen, especially after executing the third approach.</p>
+<p>The following diagram illustrates the usage space of a particular shard on the y-axis over time on the x-axis. Here, <code>t1</code> denotes the initiation of sharding, while <code>t2</code> represents the completion of the sharding process.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*w-V9o9TJxgfUObOq6MfJPg.png"></p>
+<p>We aimed to shard a collection that had not been sharded yet to release the available space in the original shard. However, as we can see from the diagram, after the sharding process was completed, the situation worsened, which was entirely contrary to our expectations.</p>
+<p>Why did this happen?</p>
+<p>The reason lies in WiredTiger’s behavior. After deleting documents, it does not immediately release the space. Instead, it retains the already allocated space, ensuring prepared chunks for future data writes in the collection.</p>
+<p>This intention is well-meaning, as disk I&#x2F;O performance is poor, and having a pre-arranged “clean slate” is valuable. However, this contradicts our goal of having the data disappear immediately after deletion. Hence, we see that although data is deleted, the available space does not increase.</p>
+<p>Why did the diagram not only fail to decrease but also grow?</p>
+<p>During the sharding process, to enable more efficient sharded queries, an index is created on the shard key. The additional space consumption represents the space occupied by these indexes.</p>
+<p>Can we determine how much space WiredTiger has covertly consumed? The answer is yes.</p>
+<p>Executing <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/reference/method/db.collection.stats/#mongodb-method-db.collection.stats">the command</a> <code>db.collection.stats()</code> yields an output segment that describes “file bytes available for reuse,” representing the space that has been covertly taken.</p>
+<p>If we can find it, we can certainly reclaim it. Running the <code>compact</code> <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/reference/command/compact/#mongodb-dbcommand-dbcmd.compact">command accomplishes this</a>. It’s worth noting that the space regained through <code>compact</code> can only be used by the same collection, so the problem remains unresolved.</p>
+<p>To enable all collections to reuse the occupied space, a <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/core/replica-set-sync/#initial-sync">complex procedure</a> is required. Let me simplify the explanation.</p>
+<p>When we add a new member to a ReplicaSet in MongoDB, the new member executes an <code>Init Sync</code> to synchronize the current data. However, this <code>Init Sync</code> only synchronizes actual data and not the occupied space. In other words, the new member does not occupy the available space.</p>
+<p>Thus, if we gradually replace all the members in a ReplicaSet, we can obtain a new cluster (or Ship of Theseus) with the same dataset but without the occupied space. However, this process requires a “slight” additional budget to enable an extra machine as a new member, which is no longer necessary after the entire replacement process is complete, resulting in significant savings compared to scaling up or scaling out.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>For any organization, finances are always a significant concern, particularly when it comes to database expenses, which can be quite substantial. While we aim to minimize costs wherever possible, the options available to us are limited. However, let’s quickly summarize the three methods to squeeze out available space:</p>
+<ol>
+<li>Remove useless indexes</li>
+<li>Remove useless data</li>
+<li>Reshard</li>
+</ol>
+<p>These three methods are in his order of precedence, with the first one being the quickest to implement and having the least impact on the production environment, and vice versa.</p>
+<p>Moreover, executing solutions 2 and 3 requires additional processes to ensure that the space is genuinely available and not occupied.</p>
+<p>Perhaps there are some secret techniques that I haven’t thought of yet. Feel free to share them with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/squeezing-out-mongodbs-available-storage-40c731a923c4">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1296,276 +1545,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-1/20230625/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/Flink-SQL-Performance-Tuning-Part-1/20230625/" class="post-title-link" itemprop="url">Flink SQL Performance Tuning, Part 1</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-06-26 01:51:42" itemprop="dateCreated datePublished" datetime="2023-06-26T01:51:42+08:00">2023-06-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Flink-SQL-Performance-Tuning-Part-1"><a href="#Flink-SQL-Performance-Tuning-Part-1" class="headerlink" title="Flink SQL Performance Tuning, Part 1"></a>Flink SQL Performance Tuning, Part 1</h3><h4 id="Explaining-the-concept-of-reduce-sub-plan-mini-batch-and-Local-Global-aggregation"><a href="#Explaining-the-concept-of-reduce-sub-plan-mini-batch-and-Local-Global-aggregation" class="headerlink" title="Explaining the concept of reduce sub plan, mini batch and Local-Global aggregation"></a>Explaining the concept of reduce sub plan, mini batch and Local-Global aggregation</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*3omIjk3XZOlpX8Z8"></p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/flink-sql-performance-tuning-part-1-f71a0a0ee91">Flink SQL Performance Tuning, Part 1</a></li>
-<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/flink-sql-performance-tuning-part-2-c102177b1ce1">Flink SQL Performance Tuning, Part 2</a></li>
-</ul>
-<p>Before talking about the tuning, we have to understand how Flink SQL works. In general, there are several steps as follows.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*fb2k2PK_Lkm1-Ykm9iPuhg.png"></p>
-<p>After receiving a SQL command, it is first parsed into a logical plan, and then the execution plan is generated by the optimizer. With the execution plan, the actual code for execution can be generated and finally turned into a job.</p>
-<p>The only step we can control on the whole process is the optimizer.</p>
-<p>And, the following are factors affecting Optimizer.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*212V1L7af9jC2-VrjrimZw.png"></p>
-<ul>
-<li>LogicalPlan: Generated from SQL parser, it can be said that a good writing style basically solves most of the performance problems.</li>
-<li>FlinkConf: In Flink, there are many optimizer-related <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/config/">settings</a> that can be adjusted.</li>
-<li>SchemaDesign: Of course, the schema design also determines some of the performance, such as the primary key.</li>
-<li>Hints: Although the optimizer will try to cover as many scenarios as possible, sometimes we still need to “tell” the optimizer what to do, and that can be done through <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/hints/">hints</a>.</li>
-</ul>
-<p>Thus, this article will introduce a few common scenarios on how to tune.</p>
-<h3 id="Reuse-Sub-Plan"><a href="#Reuse-Sub-Plan" class="headerlink" title="Reuse Sub Plan"></a>Reuse Sub Plan</h3><p>In Flink’s settings, <code>table.optimizer.reuse-sub-plan-enabled</code> is turned on by default. The functionality of this setting can be explained by a simple example.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> sink1 <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> a <span class="operator">&gt;</span> <span class="number">0</span>;  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> sink2 <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> a <span class="operator">&gt;</span> <span class="number">0</span> <span class="keyword">AND</span> b <span class="operator">&lt;</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-
-<p>First, convert the above two SQL commands into a logical plan.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*Xvf-gmBSO_norc8CTjr21Q.png"></p>
-<p>Then, after the <code>reuse-sub-plan</code> of the optimizer, the following execution plan will be generated.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*zeWnVE-AoEBqZVYwKbuCBg.png"></p>
-<p>What the optimizer does is to merge the same parts, so that there is no need to repeat the process. But from our naked eyes, we can still see one identical part can be merged.</p>
-<blockquote>
-<p><em>WHERE a &gt; 0</em></p>
-</blockquote>
-<p>However, the optimizer does not recognize this clause, so we need to rewrite the original SQL to make the optimizer understand the merging rules for this filter.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> TEMPORARY <span class="keyword">VIEW</span> v <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> a <span class="operator">&gt;</span> <span class="number">0</span>;  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> sink1 <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> v;  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> sink2 <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> v <span class="keyword">WHERE</span> b <span class="operator">&lt;</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-
-<p>By creating a temporary view, the optimizer can generate a more efficient execution plan.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*Afp6IrI5T5PM721my6GEog.png"></p>
-<h3 id="MiniBatch-Aggregation"><a href="#MiniBatch-Aggregation" class="headerlink" title="MiniBatch Aggregation"></a><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/tuning/#minibatch-aggregation">MiniBatch Aggregation</a></h3><p>Mini batch is a built-in performance optimization mechanism for Flink. The mechanism behind is explained in the <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/tuning/#minibatch-aggregation">official document</a>.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*QA_kV30-7fPG745x.png"></p>
-<p>The above diagram shows an overview of a mini batch, in plain English, mini batch drastically reduces the number of accesses to the state.</p>
-<p>Let’s use a practical example to explain this.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> color, <span class="built_in">SUM</span>(id)  </span><br><span class="line"><span class="keyword">FROM</span> T  </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> color</span><br></pre></td></tr></table></figure>
-
-<p>This is a typical SQL aggregation operation, in fact, the internal operation of Flink is each event must access the state once, so it can be summed up.</p>
-<p>It is written in Python as pseudocode as follows.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">process</span>(<span class="params"><span class="built_in">input</span></span>):  </span><br><span class="line">    color, <span class="built_in">id</span> = extract(<span class="built_in">input</span>)  </span><br><span class="line">    ret = state.get(color)  </span><br><span class="line">    ret += <span class="built_in">id</span>  </span><br><span class="line">    state.update(color, ret)  </span><br><span class="line">    <span class="keyword">yield</span> ret</span><br></pre></td></tr></table></figure>
-
-<p>When inputting an event, first of all we find its <code>color</code>, then we take out the previous summation result, then we add the <code>id</code> to it, and finally we write the result back to the state. The next event comes in and repeats the process.</p>
-<p>Such a iteration will be extremely frequent to access the state, resulting in performance impact. So mini batch collects events and accesses the state only once for each specific <code>color</code>.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">mini_batch_process</span>(<span class="params">batch</span>):  </span><br><span class="line">    <span class="keyword">for</span> color <span class="keyword">in</span> batch:  </span><br><span class="line">        ret = state.get(color)  </span><br><span class="line">        <span class="keyword">for</span> <span class="built_in">id</span> <span class="keyword">in</span> batch[color]:  </span><br><span class="line">            ret += <span class="built_in">id</span>  </span><br><span class="line">        state.update(color, ret)  </span><br><span class="line">        <span class="keyword">yield</span> ret</span><br></pre></td></tr></table></figure>
-
-<p>As you can see from the code above, the process of mini batch is to collect the events of the same <code>color</code>, so the sum of the same <code>color</code> can be done at once, without the need to access the state frequently.</p>
-<p>To enable mini batch is as simple as turning on the settings of the optimizer.</p>
-<ul>
-<li>table.exec.mini-batch.enabled</li>
-<li>table.exec.mini-batch.allow-latency</li>
-<li>table.exec.mini-batch.size</li>
-</ul>
-<p>The first setting is on&#x2F;off, the rest is to determine the size of the batch, which can be based on the amount or duration.</p>
-<h3 id="Local-Global-Aggregation"><a href="#Local-Global-Aggregation" class="headerlink" title="Local-Global Aggregation"></a><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/tuning/#local-global-aggregation">Local-Global Aggregation</a></h3><p>There is a further optimization approach to <code>GROUP BY</code>, called Local-Global aggregation, which is an extension of mini batch.</p>
-<p>The biggest problem of mini batch is that it will be grouped by <code>color</code>. If a particular <code>color</code> is especially large, then the downstream operator assigned to this <code>color</code> will have to process much more data, which is also called data skew. Therefore, Flink provides a mechanism to perform pre-aggregation in the mini batch in order to reduce the downstream load.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*URiwZKU1iTrr7Ds0.png"></p>
-<p>From the above diagram, we can see that after turning on Local-Global aggregation, the summation operation will be done inside the mini batch, and the last data aggregation will be done with a small amount of data. In the example red <em>Agg</em>, the amount of processed data will be changed from 12 to 3, i.e., the data skewing problem is solved.</p>
-<p>To enable Local-Global aggregation, it is necessary to use the following settings in addition to the mini batch already enabled.</p>
-<blockquote>
-<p><em>table.optimizer.agg-phase-strategy: “TWO_PHASE”</em></p>
-</blockquote>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article first introduces three of Flink’s built-in optimization mechanisms:</p>
-<ul>
-<li>Reduce sub plan</li>
-<li>MiniBatch aggregation</li>
-<li>Local-Global aggregation</li>
-</ul>
-<p>Only the first one is enabled by default, but there is still room for manual optimization. The other two are turned off by default, especially the Local-Global aggregation, which requires an additional mini batch to be enabled in addition to the two phases.</p>
-<p>Since these mechanisms look so good, why are they not turned on by default?</p>
-<p>Because, these mechanisms are not without cost.</p>
-<p>In the case of mini batch, when mini batch is turned on, it means the freshness of data will be affected, depending on the mini batch settings.</p>
-<p>In addition, Local-Global aggregation is not available for all operations. It is only used for aggregations that can be merged, such as <code>SUM</code>, <code>MAX</code>, <code>COUNT</code>, etc., and not for <code>DISTINCT</code>. Moreover, Local-Global aggregation increases the computation complexity and therefore consumes additional computing resources, which is not always reasonable if the data skew is not large.</p>
-<p>These optimization mechanisms must be understood before using in order to use them correctly, and turning them all on unconditionally may lead to counterproductive results.</p>
-<p>Of course, Flink’s optimization mechanism is not just these, next time we will talk about <code>DISTINCT</code> and <code>JOIN</code> which are not covered in this article.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/flink-sql-performance-tuning-part-1-f71a0a0ee91">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Elasticsearch/Best-Practices-of-Using-ElasticSearch/20230604/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Elasticsearch/Best-Practices-of-Using-ElasticSearch/20230604/" class="post-title-link" itemprop="url">Best Practices of Using ElasticSearch</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-06-05 01:38:26" itemprop="dateCreated datePublished" datetime="2023-06-05T01:38:26+08:00">2023-06-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="Explaining-how-to-use-ElasticSearch-in-a-better-way"><a href="#Explaining-how-to-use-ElasticSearch-in-a-better-way" class="headerlink" title="Explaining how to use ElasticSearch in a better way"></a>Explaining how to use ElasticSearch in a better way</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*ZBNdENpLL5oTQaVi"></p>
-<p>Last time, we have introduced some tips for boosting ElasticSearch performance.</p>
-<p>In addition, that article explains the underlying details of ElasticSearch. This time, we are going to talk a little more about best practices for using ElasticSearch.</p>
-<p>These practices are general recommendations and can be applied to any use cases. Let’s go.</p>
-<ul>
-<li><strong>Bulk Requests</strong>: The Bulk API makes it possible to perform many index&#x2F;delete operations in a single API call. This can greatly increase the<br>indexing speed. Each subrequest is executed independently, so the failure of one subrequest won’t affect the success of the others. If<br>any of the requests fail, the top-level error flag is set to true and the error details will be reported under the relevant request.</li>
-<li><strong>Multithread clients to Index Data</strong>: A single thread sending bulk requests is unlikely to be able to max out the indexing capacity of an<br>ElasticSearch cluster. In order to use all resources of the cluster, you should send data from multiple threads or processes. In addition to<br>making better use of the resources of the cluster, this should help reduce the cost of each fsync. Both the index data and transaction log<br>are periodically flushed to disk. If there are more data with multithread, the more data is synced to disk to reduce I&#x2F;O to improve<br>performance.</li>
-<li><strong>index.refresh_interval</strong>: By default, ElasticSearch periodically refreshes indices every second, but only on indices that have received one<br>search request or more in the last 30 seconds.This is the optimal configuration if you have no or very little search traffic (e.g. less than<br>one search request every 5 minutes) and want to optimize for indexing speed. This behavior aims to automatically optimize bulk indexing<br>in the default case when no searches are performed. In order to opt out of this behavior set the refresh interval explicitly. On the other<br>hand, if your index experiences regular search requests, this default behavior means that ElasticSearch will refresh your index every 1<br>second. If you can afford to increase the amount of time between when a document gets indexed and when it becomes visible,<br>increasing the index.refresh_interval to a larger value, e.g. 30s, might help improve indexing speed.</li>
-<li><strong>Auto generated IDs</strong>: When indexing a document that has an explicit id, ElasticSearch needs to check whether a document with the same<br>id already exists within the same shard, which is a costly operation and gets even more costly as the index grows. By using auto-<br>generated ids, ElasticSearch can skip this check, which makes indexing faster.</li>
-<li><strong>index.translog.sync_interval</strong>: This parameter determines how often the translog is fsynced to disk and committed, regardless of write<br>operations. Defaults to 5s. Values less than 100ms are not allowed.</li>
-<li><strong>index.translog.flush_threshold_size</strong>: The translog stores all operations that are not yet safely persisted in Lucene (i.e., are not part of a<br>Lucene commit point). Although these operations are available for reads, they will need to be replayed if the shard was stopped and had<br>to be recovered. This setting controls the maximum total size of these operations, to prevent recoveries from taking too long. Once the<br>maximum size has been reached a flush will happen, generating a new Lucene commit point. Defaults to 512mb.</li>
-<li><strong>Large Documents</strong>: Large documents put more stress on network, memory usage and disk. Indexing large document can use an amount<br>of memory that is a multiplier of the original size of the document. Proximity search (phrase queries for instance) and highlighting also<br>becomes more expensive since their cost directly depends on the size of the original document.</li>
-<li><strong>Set Index Mapping Explicitly</strong>: ElasticSearch can create mapping dynamically, but it might be not suitable for all scenarios. For example,<br>the default string field mappings in ElasticSearch 5.x are both “keyword” and “text” types. It’s unnecessary in a lot of scenarios.</li>
-<li><strong>Index Mapping — Nested Types</strong>: Querying on nested fields is slower compared to fields in parent document. Retrieval of matching<br>nested fields adds an additional slowdown. Once you update any field of a document containing nested fields, independent of whether<br>you updated a nested field or not, all the underlying Lucene documents (parent and all its nested children) need to be marked as deleted<br>and rewritten. In addition to slowing down your updates, such an operation also creates garbage to be cleaned up by segment merging<br>later on.</li>
-<li><strong>Index Mapping</strong>: Disable the <strong>_all</strong> <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/6.7/mapping-all-field.html">field</a> concatenates the values of all other fields into one string. It requires more CPU and disk space<br>than other fields. Most use cases don’t require the _all field. You can concatenate multiple fields using the <code>copy_to</code> parameter. The _all<br>field is disabled by default in ElasticSearch versions 6.0 and later. To disable the _all field in earlier versions, set enabled to false.</li>
-<li><strong>Leverage Index Templates</strong>: Index templates define settings like number of shards, replicas and mappings that you can automatically<br>apply when creating new indices. ElasticSearch applies templates to new indices based on an index pattern that matches the index name.</li>
-<li><strong>Use Replicas for Scalability &amp; Resilience</strong>: ElasticSearch is built to be always available and to scale with your needs. It does this by being<br>distributed in nature. You can add nodes to a cluster to increase capacity and ElasticSearch automatically distributes your data and query<br>load across all of the available nodes. For ElasticSearch to be highly available, its indices needs to have fault tolerance in place. This can be<br>achieved using replica shards. A replica shard is a copy of a primary shard. Replicas provide redundant copies of your data to protect<br>against hardware failure and increase capacity to serve read requests like searching or retrieving a document.</li>
-<li><strong>Shard Sizing</strong>: A shard is a Lucene index under the covers, which uses file handles, memory, and CPU cycles. Default shard strategy for an<br>index in ES is 5 primary shards with a replica. The goal of choosing a number of shards is to distribute an index evenly across all data<br>nodes in the cluster. However, these shards shouldn’t be too large or too numerous. A good rule of thumb is to try to keep shard size<br>between 10–50 GB. Large shards can make it difficult for ElasticSearch to recover from failure, but because each shard uses some amount<br>of CPU and memory, having too many small shards can cause performance issues and out of memory errors.</li>
-<li><strong>Keep shard count of index in multiple of data nodes</strong> with <strong>equivalent size</strong> and <strong>distributed across nodes</strong>. Set a primary shard count,<br>via a template, by targeting 50GB max per primary shard (log analytics) or 30GB max (search use cases)<br>Shard assignment across data nodes will happen based on 2 important rules.</li>
-</ul>
-<blockquote>
-<p><strong>Primary</strong> and <strong>replica</strong> shard of same index will not be assigned on same data nodes.</p>
-</blockquote>
-<blockquote>
-<p>A shard is placed on a node based on how many shards are available on that node or to equalize the number of shards per index<br>across all nodes in the cluster. Also note there can be chances of bigger shards allocated to some node and smaller to others.<br>It is recommended that shard count of an index (primary + replica) should be multiple of data node count. Let’s say, you have a 4<br>node cluster, the total shards (primary + Replica) for your index should be either 4 or 8 or 12 etc. This ensures that the data is evenly<br>distributed across the nodes.</p>
-</blockquote>
-<ul>
-<li><strong>Index State Management</strong>: ISM lets you define custom management policies to automate routine tasks and apply them to indices and<br>index patterns. You no longer need to set up and manage external processes to run your index operations. A policy contains a default<br>state and a list of states for the index to transition between. Within each state, you can define a list of actions to perform and conditions<br>that trigger these transitions. A typical use case is to periodically delete old indices after a certain period of time.</li>
-<li><strong>Organize the data in index by date</strong>: For most logging or monitoring use cases, we can organize indices to be daily, weekly, or monthly,<br>and then we can get an index list by a specified date range. ElasticSearch only needs to query on a smaller dataset instead of the whole<br>dataset. In addition, it would be easy to shrink&#x2F;delete the old indices when data has expired.</li>
-<li><strong>Use Curator to rotate data</strong>: Curator offers numerous filters to help you identify indices and snapshots that meet certain criteria, such<br>as indices created more than 60 days ago or snapshots that failed to complete</li>
-</ul>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/best-practices-of-using-elasticsearch-2a2485a289c7">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/9/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/9/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

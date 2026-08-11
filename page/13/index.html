@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,289 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Design-Pattern-of-Streaming-Enrichment/20220828/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Design-Pattern-of-Streaming-Enrichment/20220828/" class="post-title-link" itemprop="url">Design Pattern of Streaming Enrichment</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-08-29 01:15:34" itemprop="dateCreated datePublished" datetime="2022-08-29T01:15:34+08:00">2022-08-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Understanding-the-concept-of-streaming-architecture"><a href="#Understanding-the-concept-of-streaming-architecture" class="headerlink" title="Understanding the concept of streaming architecture"></a>Understanding the concept of streaming architecture</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*gwm6shsOymkXvJPF"></p>
+<p>Last time, we <a target="_blank" rel="noopener" href="https://lazypro.medium.com/stream-processing-introduction-796f15061880">introduced streaming processing</a>. In order to be able to handle batch and real-time data with a more pure infrastructure, we introduced Kafka and the streaming framework.</p>
+<p>In this article, we will introduce a common design pattern for streaming, enrichment, and examine what benefits the streaming framework can bring.</p>
+<p>What is enrichment? Briefly, it is the implementation of extending the original events to meet the new feature requirements.</p>
+<h3 id="Feature-Description"><a href="#Feature-Description" class="headerlink" title="Feature Description"></a>Feature Description</h3><p>Similar features are available on many social media platforms.</p>
+<ol>
+<li>Who visits me</li>
+<li>Others are also viewing</li>
+<li>What is the identity to view me</li>
+</ol>
+<p>The first feature is how many people have viewed my profile in a given time period. For example, how many times my profile has been viewed in a week.</p>
+<p>The second feature is an advanced version of the previous feature, who else did these people view? For example, 10 people viewed my profile in a week, and they also viewed Elon Musk.</p>
+<p>The third feature is a derivative of the first one. What is the identity of these people who viewed me? For example, 10 people viewed my profile in a week, and three of them were google employees.</p>
+<h3 id="Who-visits-me-Others-are-also-viewing"><a href="#Who-visits-me-Others-are-also-viewing" class="headerlink" title="Who visits me &amp; Others are also viewing"></a>Who visits me &amp; Others are also viewing</h3><p>The first and second features can be easily implemented using event streaming techniques. First, let’s define a “view” event.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    eventType: &quot;PageView&quot;,  </span><br><span class="line">    timestamp: 1660270009,  </span><br><span class="line">    viewerId: 1234,  </span><br><span class="line">    viewedId: 5678  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This event includes the time of occurrence and who viewed who. Then we just need to create a stream that collects all view events to analyze the features we need.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*TirXw-Z-2iyoHmgd.png"></p>
+<p>In the above diagram, suppose my user id is 4567, then it is easy to find two users who have viewed me from the event stream, which are 2345 and 1234.</p>
+<p>Further from the stream record, we can also understand that 2345 has viewed 1234, while 1234 has viewed 5678 and 2345.</p>
+<p>Putting this information together, we can answer.</p>
+<ol>
+<li>Who visits me? 2345 and 1234.</li>
+<li>Others are also viewing 1234, 5678, and 2345.</li>
+</ol>
+<p>With all the event streams recorded by the streaming framework, we can perform a simple analysis to get the desired features.</p>
+<h3 id="What-is-the-identity-to-view-me"><a href="#What-is-the-identity-to-view-me" class="headerlink" title="What is the identity to view me?"></a>What is the identity to view me?</h3><p>However, it is not so simple to know what the identity to view my profile is.</p>
+<p>Because our original event did not define additional attributes, only the id. Well, it is necessary to modify the original implementation to add new features.</p>
+<h3 id="Add-metadata-in-events"><a href="#Add-metadata-in-events" class="headerlink" title="Add metadata in events"></a>Add metadata in events</h3><p>Let’s add the job to the original event. When the user is viewing, in addition to sending the event with the id, the job must also be attached.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    eventType: &quot;PageView&quot;,  </span><br><span class="line">    timestamp: 1660270009,  </span><br><span class="line">    viewerId: 1234,  </span><br><span class="line">    viewedId: 5678,  </span><br><span class="line">    viewerJob: &quot;Google&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The problem seems to be solved, but is it really so?</p>
+<p>There are several obvious issues with such a solution. Firstly, modifying the event format directly affects all downstream consumers. Under an event-driven architecture, the producer would not know the consumer’s use cases because the two are decoupled.</p>
+<p>Secondly, events become larger, and each original event must add this new field, whether the consumer needs it or not. In other words, the overhead has gotten bigger, not just in terms of storage overhead, but also transmission overhead.</p>
+<p>Moreover, what to do if we want to add new features? In addition to the job, the feature requires a new title, age, and so on. Then the issues mentioned above will happen again and again.</p>
+<p>Therefore, we know this is not a good approach.</p>
+<h3 id="Query-from-external-datastores"><a href="#Query-from-external-datastores" class="headerlink" title="Query from external datastores"></a>Query from external datastores</h3><p>Since modifying the original event is not a good approach, we will query the required data from elsewhere as soon as we receive the event.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*RO4y1Z5g8mZWnMY4.png"></p>
+<p>Although it is stated in the diagram as a database, it can also be a microservice or any platform that can provide information.</p>
+<p>Basically, this is the most typical implementation of an event-driven architecture. When workers take events from the message queue, they process the data, either by getting the necessary information from other data sources or by storing the results in a data store, and finally by sending the enriched events to the next one.</p>
+<p>This implementation is fine in a message queue architecture. However, in a streaming framework, such an implementation creates a performance bottleneck. Let’s say a streaming framework has an average throughput of more than ten times of a database. If every event had to rely on external data sources, the overall throughput would become <code>1/10</code>.</p>
+<p>In addition, there is an existing issue with such an architecture.</p>
+<p>When a worker cluster or streaming processing cluster crashes, this is very likely to happen, after all, errors are everywhere. At this point, events will continue to accumulate because no consumer will be able to handle them. This is still the normal situation.</p>
+<p>Once the worker cluster is repaired and all workers are online, all workers will start digesting the message at full speed and a spike will hit the data source and most likely shut it down.</p>
+<p>Own failure affects other services in a cascading manner. This tight coupling is to be avoided in the system design. Therefore, such a solution is not good enough.</p>
+<h3 id="Merge-events"><a href="#Merge-events" class="headerlink" title="Merge events"></a>Merge events</h3><p>No new metadata into the event and can not be queried from external sources, then how to deal with the enrichment? This is the streaming framework to deliver the advantages.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*Ap2LAwIOIrq_r3Ob.png"></p>
+<p>In this example, we have chosen Apache Samza as an illustration, but in fact there are many good alternatives, such as Apache Flink.</p>
+<p>In addition to changing the handler mentioned in the previous section to a stream processing framework, there is a new event source, <code>ProfileEdit</code>.</p>
+<p>This modification event can either come from the Change Data Capture (CDC) of the database, or the modification event can be sent from the user service, but the details are not the focus of this article.</p>
+<p>The database from the previous section becomes the state in the stream processing framework. This state can be considered as a memory space for each worker, and is therefore very efficient. In addition, each worker shares the state, so the capacity is much larger than a single instance’s memory.</p>
+<p>When Samza receives <code>ProfileEdit</code>, it can save the latest state of each user. Once <code>PageView</code> is received, it can pull out the required information from the saved state, and assemble new events.</p>
+<p>This approach solves the problem of tight coupling and significantly improves processing performance. More importantly, Samza provides an exactly-once guarantee to avoid duplication of events due to failure of external data sources.</p>
+<p>Although the state is shared by multiple instances, it is still possible to hit the upper limit. How to solve the scalability issue?</p>
+<p>In Kafka, a message partitioning mechanism is provided, where messages with the same key are assigned to the same partition and processed by the same consumer group. In the streaming framework, the partitioning mechanism still exists and has been abstracted to a higher level. Different streams can share the same key space, i.e., as long as <code>PageView</code> and <code>ProfileEdit</code> have the same key, they can be processed by the same workers.</p>
+<p>In this way, the state can be stored by horizontal scalability.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we introduce a common design pattern that both traditional message queue architecture and modern stream processing architecture encounter the same issue, i. e., event enrichment.</p>
+<p>When designing a system, it is important to take into account the robustness and performance of the system in addition to the feature implementation. This is why streaming frameworks are on the rise. Streaming offers the possibility to handle real-time heavy traffic, while streaming frameworks additionally provide a variety of useful tools to make development easy.</p>
+<p>As mentioned in the <a target="_blank" rel="noopener" href="https://lazypro.medium.com/stream-processing-introduction-796f15061880">previous article on streaming architecture</a>, the streaming architecture has the ability to collapse many technology stacks into two core components: Kafka and the streaming processing framework. Therefore, I recommend that every developer, even if you are not a data engineer, should learn about the streaming framework. I believe having more insight will lead to a more reliable system design.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-pattern-of-streaming-enrichment-17a9eb065eca">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Stream-Processing-Introduction/20220821/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Stream-Processing-Introduction/20220821/" class="post-title-link" itemprop="url">Stream Processing Introduction</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-08-22 01:18:09" itemprop="dateCreated datePublished" datetime="2022-08-22T01:18:09+08:00">2022-08-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Easy-to-understand-what-is-streaming-architecture"><a href="#Easy-to-understand-what-is-streaming-architecture" class="headerlink" title="Easy to understand what is streaming architecture"></a>Easy to understand what is streaming architecture</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*mMsRDE9XQ6abWUEI"></p>
+<p>The purpose of this article is to introduce stream processing in an easy-to-understand way, so it does not dive too deep into the technical details, nor does it mention specific frameworks. However, a few popular frameworks will be used as examples to illustrate.</p>
+<p>Before we start to introduce stream processing, let’s talk about batch processing, i.e., the opposing concept of stream processing.</p>
+<h3 id="Batch-processing"><a href="#Batch-processing" class="headerlink" title="Batch processing"></a>Batch processing</h3><p>I believe most of you are familiar with batch processing, in which a large scale data processing is performed after a given period of data and the final result is produced. This is the actual operation of batch processing, and the expertise area of batch processing is fixed amount of data processing.</p>
+<p>However, in an event-driven architecture, the data, i.e., the events, are endless, that is to say, it is difficult to define a fixed amount. Therefore, the compromise is to change the fixed amount to a fixed time, so that the amount of data can be expected after a given time interval, and batch processing can be applied.</p>
+<p>In other words, batch processing can be summarized in several characteristics.</p>
+<ol>
+<li>Fixed. Whether it is fixed time or fixed volume, the key is to make the amount of data predictable.</li>
+<li>Discrete. The data is computed in a specific interval, and the intervals are not related to each other at all.</li>
+</ol>
+<p>The most typical approach is to process the data at the moment per second&#x2F;minute&#x2F;hr&#x2F;day.</p>
+<h3 id="Stream-processing"><a href="#Stream-processing" class="headerlink" title="Stream processing"></a>Stream processing</h3><p>However, there is a difference in the approach of stream processing.</p>
+<p>First of all, there is no concept of fixation in stream processing. Imagine it as a river, where water keeps flowing down from upstream, and if you don’t catch it where you are at, the water will flow away.</p>
+<p>The same is happening with data. The data source keeps generating data into the stream, and the application has to retrieve what it needs in the stream and use it.</p>
+<p>Unlike batch processing, which is fixed time or fixed volume, if there is no given time interval, then the amount of data can be considered basically infinite. On the other hand, since the data is not divided into several time intervals by batching, there is a context between the data.</p>
+<p>We can also summarize several characteristics for stream processing, which are exactly the opposite of batch processing.</p>
+<ol>
+<li>Infinite. In the lack of a specified time interval, both the amount of data and the time can be considered infinite.</li>
+<li>Continuous. The data in the data stream are related to each other.</li>
+</ol>
+<p>Nevertheless, applications do not work that way, or perhaps it should be said that the human brain cannot understand the concept of continuous infinity. When we develop an application, we always give the input, compute it, and produce the output.</p>
+<p>Therefore, when we develop stream processing applications, we take some techniques to make the data stream fit our mind as much as possible, in other words, we slice the data stream. The method of slicing is called windows.</p>
+<p>There are three common types of windows.</p>
+<ol>
+<li>Tumbling window</li>
+<li>Sliding window</li>
+<li>Session window</li>
+</ol>
+<h3 id="Tumbling-window"><a href="#Tumbling-window" class="headerlink" title="Tumbling window"></a>Tumbling window</h3><p>The first method of data slicing is tumbling window also known as micro-batch.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*dxpS_mvEQNgKzuQv.png"></p>
+<p>The continuous data is processed by dividing the data into intervals of a fixed time. This is the same concept as batch processing, but the only difference is the length of the time interval. In batch processing, the time span is larger than the tumbling window.</p>
+<p>In this way, data streams can be processed in a batch manner. Most of the streaming frameworks support this technique, e.g. Apache Spark Streaming, Apache Flink, Apache Samza, etc.</p>
+<h3 id="Sliding-window"><a href="#Sliding-window" class="headerlink" title="Sliding window"></a>Sliding window</h3><p>The second approach is the sliding window.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*L-Kn6bGZ1POF3PH2.png"></p>
+<p>Given a window size and a window slide to move the window, a sliding window will be created. As you can see from the diagram, it is possible to overlap data between windows, and therefore to discover the context of the data.</p>
+<p>The tumbling window mentioned in the previous section is actually a special case of a sliding window. When the window size is equal to the window slide, the sliding window becomes a tumbling window.</p>
+<p>This is a very common data slicing pattern used in streaming, and not every streaming framework supports it; Apache Spark has streaming capabilities, but it only supports micro-batches.</p>
+<h3 id="Session-window"><a href="#Session-window" class="headerlink" title="Session window"></a>Session window</h3><p>The third approach is the session window.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*HbEb7ZCscU5L_Aua.png"></p>
+<p>Unlike the previous two methods, the session window does not have a fixed window size; instead, it has to wait until the data stops for a period of time, which is called session gap.</p>
+<p>After the data is stopped for a period of time, the received data segments are processed, so the real-time performance is slightly worse than the previous two methods. However, since the data is grouped in advance and accumulated for a period of time, it is easier to process.</p>
+<p>In addition, the session window provides an additional information about the data density at this point by the amount of data collected.</p>
+<p>Again, this is not supported by every streaming framework, and Apache Spark does not support it.</p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>It sounds like stream processing is the same as traditional message queue processing, where a broker stores the message and assigns it to a handler responsible for execution.</p>
+<p>Is the difference only that one is a single message and another is a data stream?</p>
+<p>In fact, this is only one of the differences. Stream processing has three advantages over traditional message workers.</p>
+<ol>
+<li>Understand the context of the data. Although this depends on the window setting, due to the nature of data streams, they are able to express much more semantically than a single message.</li>
+<li>Stream processing has state. To enable faster processing of message streams, streaming frameworks provide internal state management and also state persistence.</li>
+<li>Simultaneous processing of concurrent data streams. In a message queue worker architecture, it would be a challenge to handle multiple messages simultaneously, but in a stream processing framework, it is possible. Furthermore, the framework provides more methods for handling multiple event streams, such as join operations.</li>
+</ol>
+<p>Overall, stream processing can be regarded as an advanced version of the message queue worker architecture.</p>
+<p>There are two core components in the entire stream processing. The first one is Kafka as a broker and the other one is the streaming framework.</p>
+<p>Kafka is able to provide very good functionality, including fault tolerance, persistence and ensuring message order, while also providing very high throughput.</p>
+<p>On the other hand, the streaming framework is to provide a higher level of abstraction based on Kafka. It can make it easier for developers to get started, including the various windowing methods mentioned in this article and concurrent event stream processing.</p>
+<p>More importantly, the streaming framework provides an exactly-once guarantee. in the message queue worker architecture, often only at-least-once guarantee, but in the streaming framework can further support exactly-once.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Traditional data processing architectures are very complex and often require various technologies, for example, ETL technology is required to extract and transform data from various data stores into a unified data warehouse or data lake, and various batch processing methods such as Map-reduce must be used to transform data into a useful format during analysis.</p>
+<p>In order to solve the real-time problem of batch processing, different message queue processing frameworks are integrated to aggregate the batch dataset with the real-time dataset under specific real-time requirements.</p>
+<p>The entire data processing architecture involves a variety of storage, message queues, scheduling and processing technologies. It is difficult to become master of all of them, and new requirements have to be developed to continue stacking on top of this complex architecture, which also affects productivity.</p>
+<p>Streaming architectures were created to address these complexities. It is possible to use only two core components, Kafka and the streaming framework, to accomplish various feature requirements that previously required various technology stacks.</p>
+<p>Of course, no technical selection is perfect.</p>
+<p>To me, the biggest problem with stream processing is that it’s not easy, either to understand or to develop. As described earlier in this article, the concept of continuous infinity is not intuitive to humans. Even if it is possible to collapse the stack of techniques into a single solution, it requires developers to have more experience and overcome a learning curve. Moreover, when problems are encountered that cannot be solved by a framework, there is still a need to mix solutions.</p>
+<p>Nevertheless, the streaming framework still offers a good entry point to meet most development needs with minimal overhead.</p>
+<p>The next article will introduce a common streaming design pattern, which is enrichments. Let’s call it a day.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/stream-processing-introduction-796f15061880">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1440,271 +1723,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Message-Queue-in-Redis-Part-2/20220619/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Redis/Message-Queue-in-Redis-Part-2/20220619/" class="post-title-link" itemprop="url">Message Queue in Redis, Part 2</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-06-20 01:26:55" itemprop="dateCreated datePublished" datetime="2022-06-20T01:26:55+08:00">2022-06-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Message-Queue-in-Redis-Part-2"><a href="#Message-Queue-in-Redis-Part-2" class="headerlink" title="Message Queue in Redis, Part 2"></a>Message Queue in Redis, Part 2</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*wzEJNGsUN1hOnCvp.jpg"></p>
-<p>A while ago, I mentioned that I’m in a budget-constrained organization, so we can’t afford to use a true message queue. Instead, we have chosen to use a second-best approach to meet our immediate needs and a simple solution to implement, using Redis.</p>
-<p>Nevertheless, there are still <a target="_blank" rel="noopener" href="https://selectfrom.dev/message-queue-in-redis-9efe0de2c39c">many different ways to implement</a> Redis as a message broker. At that time, we chose the option which was the fastest to get up and running with the least implementation effort: lists. However, as the system evolved and new feature requests were made, the original solution no longer worked.</p>
-<p>The advantages of the list are</p>
-<ol>
-<li>easy to implement</li>
-<li>support for consumer groups</li>
-<li>the ability to decouple producers and consumers</li>
-</ol>
-<p>The disadvantages are also obvious.</p>
-<ul>
-<li>At-most-once guarantee</li>
-</ul>
-<p>Now, we need <em>at-least-once guarantee</em>, and lists don’t cover this need. The <em>Redis Stream</em> mentioned in the previous article was not adopted because of the large implementation effort. So we started looking for a new alternative.</p>
-<h3 id="Bull-js"><a href="#Bull-js" class="headerlink" title="Bull.js"></a><a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull">Bull.js</a></h3><p>After some comparisons, we finally chose <em>Bull.js</em>.</p>
-<p>The reasons are as follows.</p>
-<ol>
-<li>support <em>at-least-once guarantee</em>.</li>
-<li>it has a lower implementation effort and provides many monitoring tools, e.g., <a target="_blank" rel="noopener" href="https://github.com/UpHabit/bull_exporter">Bull Exporter</a>.</li>
-<li>full-featured, including retry, time delay, etc.</li>
-<li>even support rate limit.</li>
-</ol>
-<p>However, in the working process, I have to say that the official document is not detailed enough and it took us some time to try it successfully. In this article I will show the two most important issues we encountered and explain the solutions.</p>
-<h3 id="Redis-Cluster"><a href="#Redis-Cluster" class="headerlink" title="Redis Cluster"></a>Redis Cluster</h3><p><em>Bull</em> is supported for Redis clusters. Unfortunately, the description is scattered in several places in the document.</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queue">Queue Constructor</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/PATTERNS.md#redis-cluster">Redis Cluster Config</a></li>
-</ul>
-<p>First, the description from the constructor’s document needs to provide the parameter <code>createClient</code>, and the rule is</p>
-<blockquote>
-<p><em>(type: ‘client’ | ‘subscriber’ | ‘bclient’, config?: Redis.RedisOptions): Redis.Redis | Redis.Cluster;</em></p>
-</blockquote>
-<p><code>Redis.Redis</code> and <code>Redis.Cluster</code> at the end of the rule actually refer to the <a target="_blank" rel="noopener" href="https://github.com/luin/ioredis">ioredis</a> constructors, so to set them up, we must use the ioredis constructors.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">Redis</span> = <span class="built_in">require</span>(<span class="string">&quot;ioredis&quot;</span>);  </span><br><span class="line"><span class="title class_">Redis</span>.<span class="property">Redis</span>  </span><br><span class="line"><span class="title class_">Redis</span>.<span class="property">Cluster</span></span><br></pre></td></tr></table></figure>
-
-<p>Even so, I don’t understand what kind of format <code>createClient</code> needs to provide, is it an object? What are the keys to <code>Redis.Redis</code> and <code>Redis.Cluster</code>?</p>
-<p>Finally, I found out from another section of the document, <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/PATTERNS.md#reusing-redis-connections">Reusing Redis Connections</a> I realized that it was a function. Anyway, put the pieces together.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">Redis</span> = <span class="built_in">require</span>(<span class="string">&#x27;ioredis&#x27;</span>);  </span><br><span class="line"><span class="keyword">let</span> client;  </span><br><span class="line"><span class="keyword">let</span> subscriber;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> opts = &#123;  </span><br><span class="line">  <span class="comment">// redisOpts here will contain at least a property of connectionName which will identify the queue based on its name  </span></span><br><span class="line">  <span class="attr">createClient</span>: <span class="keyword">function</span> (<span class="params">type, redisOpts</span>) &#123;  </span><br><span class="line">    <span class="keyword">switch</span> (type) &#123;  </span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;client&#x27;</span>:  </span><br><span class="line">        <span class="keyword">if</span> (!client) &#123;  </span><br><span class="line">          client = <span class="keyword">new</span> <span class="title class_">Redis</span>.<span class="title class_">Cluster</span>(<span class="variable constant_">REDIS_URL</span>, redisOpts);  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> client;  </span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;subscriber&#x27;</span>:  </span><br><span class="line">        <span class="keyword">if</span> (!subscriber) &#123;  </span><br><span class="line">          subscriber = <span class="keyword">new</span> <span class="title class_">Redis</span>.<span class="title class_">Cluster</span>(<span class="variable constant_">REDIS_URL</span>, redisOpts);  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> subscriber;  </span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;bclient&#x27;</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Redis</span>.<span class="title class_">Cluster</span>(<span class="variable constant_">REDIS_URL</span>, redisOpts);  </span><br><span class="line">      <span class="attr">default</span>:  </span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;Unexpected connection type: &#x27;</span>, type);  </span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;,  </span><br><span class="line">  <span class="attr">prefix</span>: <span class="string">&#x27;&#123;myprefix&#125;&#x27;</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> queueFoo = <span class="keyword">new</span> <span class="title class_">Queue</span>(<span class="string">&#x27;foobar&#x27;</span>, opts);</span><br></pre></td></tr></table></figure>
-
-<p>In this way, Redis clusters can be used as brokers.</p>
-<h3 id="Memory-Leakage"><a href="#Memory-Leakage" class="headerlink" title="Memory Leakage"></a>Memory Leakage</h3><p>Once we got over the cluster issue, we pulled <em>Bull</em> online and started testing. Then we ran into a serious problem where the underlying Redis started leaking memory.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*R2ImsAsRSRFm0ixO.png"></p>
-<p>As you can see from the figure, Redis memory usage has been skyrocketing since it was enabled.</p>
-<p>So we took a closer look at the document to find out what we missed, and finally found a hint in the <a target="_blank" rel="noopener" href="https://optimalbits.github.io/bull/">tutorial</a>.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*yauK1vgMO0y-BLRU.png"></p>
-<p>A job begins as <code>Job Added</code> and ends up as <code>Job Finished</code>, regardless of whether it succeeds or fails. In other words, as soon as the job enters Redis, it stays there, regardless of whether it succeeds or fails. How do we solve this?</p>
-<p>Specify the parameters <code>removeOnComplete</code> and <code>removeOnFail</code> in <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueadd">add</a> to ensure jobs do not stay in the last finish state. I believe that <code>removeOnComplete</code> can definitely be set, but <code>removeOnFail</code> depends on the needs of each user, e.g., whether they want a failure count, whether they want a manual recovery from failure, etc. In our case, we don’t need to keep the job even if it fails, so both parameters are <code>true</code>.</p>
-<p>What about the jobs left online? <em>Bull</em> also provides a way to <a target="_blank" rel="noopener" href="https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueclean">clean jobs</a>.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//cleans all <span class="built_in">jobs</span> that completed over 5 seconds ago.  </span><br><span class="line">await queue.clean(5000);  </span><br><span class="line">//clean all <span class="built_in">jobs</span> that failed over 10 seconds ago.  </span><br><span class="line">await queue.clean(10000, <span class="string">&#x27;failed&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>After running online, you will see an extremely significant drop in usage.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*6AmYB1IKIkF7zya0.png"></p>
-<p>The first half remains horizontal because we have already added <code>removeOnComplete</code> and <code>removeOnFail</code>, so no more increases are made. The vertical line in the middle is the process of <code>clean</code>.</p>
-<p>It is worth mentioned that the <code>clean</code> process locks the entire message queue, so it may affect the online functions and is not recommended to perform it under production environment. The duration of the lock depends on the number of jobs to be cleaned.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>I always talked about the evolution of systems. As you should have noticed from my previous articles, in a limited organization, we do not always have enough manpower, budget or even knowledge to build the perfect system, or to be more precise, no system is perfect.</p>
-<p>Every time we design a system, we choose the relatively acceptable solution among many factors, which means we have to face the potential problems. For me, I always take the most achievable implementation, but with the understanding that such choices are not static and retain the flexibility to meet future requirements.</p>
-<p>For many people, the replacement of the message queue is a very huge exercise. But for my organization, it’s a simple implementation by a few people, and then it’s done. The reason why I always mention domain-driven design and decoupling is to make it easier to do system evolution when needed.</p>
-<p><em>Bull</em> currently meets all of our needs, is reliable enough, and even offers a monitoring solution. I believe we will probably be able to stop worrying about message queues for a long time.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/message-queue-in-redis-part-2-61c0d22735fe">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Explain-Redlock-in-Depth/20220612/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Redis/Explain-Redlock-in-Depth/20220612/" class="post-title-link" itemprop="url">Explain Redlock in Depth</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-06-13 01:39:07" itemprop="dateCreated datePublished" datetime="2022-06-13T01:39:07+08:00">2022-06-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Explain-Redlock-in-Depth"><a href="#Explain-Redlock-in-Depth" class="headerlink" title="Explain Redlock in Depth"></a>Explain Redlock in Depth</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*pTqqpePHil02H4_x.jpg"></p>
-<p>Previously, I <a target="_blank" rel="noopener" href="https://betterprogramming.pub/redis-as-a-lock-are-you-sure-a870c9f22ad8">introduced two types of locks</a>, mutex locks and barriers, and I used Redis as an example to explain the differences between the two types of locks. Shortly after that, I received a reply saying that if you want to implement distributed locks, the Redis approach is not enough and you should refer to Redlock.</p>
-<p>Well, his opinion is basically right.</p>
-<p>Although Redlock is implemented through Redis, it can achieve a very high level of consistency and is one of the best paradigms for implementing distributed locking. However, Redlock has a very high cost behind it and is not suitable for all organizations and services.</p>
-<p>Nevertheless, I will introduce Redlock and present my thoughts on why Redlock is impractical.</p>
-<h3 id="Redis-is-not-reliable"><a href="#Redis-is-not-reliable" class="headerlink" title="Redis is not reliable"></a>Redis is not reliable</h3><p>Before getting started, I should emphasize that <a target="_blank" rel="noopener" href="https://towardsdev.com/data-persistence-in-redis-2780c11d1623">Redis persistence is unreliable, even with the most strict settings</a>.</p>
-<p>However, in a cluster environment, a <em>Master</em> may have a number of <em>Slave</em> redundancies. Is Redis still unreliable under these conditions? The answer is yes.</p>
-<p>In Redis implementation, data replication is performed by the background process, not the master thread, so when a client writes successfully, it does not mean the data is replicated successfully. One of the procedures leading to the problem is as follows.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*q4lBE0VJECydo6Uu-qoSww.png"></p>
-<p>When Client 1 successfully locks via the original <em>Master</em>, but the <em>Master</em> dies before the data is replicated, then Client 2 can still successfully lock via the original <em>Slave</em> (the new <em>Master</em>).</p>
-<p>This is the reason why Redis clusters are still unreliable.</p>
-<h3 id="Redlock-Concept"><a href="#Redlock-Concept" class="headerlink" title="Redlock Concept"></a>Redlock Concept</h3><p>As we have seen, a single Redis is not reliable, even in a cluster of multiple Redis. So how do we use Redis to implement a reliable Redlock?</p>
-<p>The answer is through majority consensus. Since one Redis is not reliable, we form a committee of multiple Redis. If and only if more than half of the committee members agree, the lock will take effect; otherwise, the lock is invalid. The members can be single, master-slave, or even clusters, but nevertheless, they are independent of each other, in other words, they are not duplicates of each other, not to mention the same cluster.</p>
-<blockquote>
-<p><em>According to the majority consensus algorithm, the committee should have an odd number of members and be approved when a majority of the members (</em><code>N/2 + 1</code><em>) agree.</em> <code>N</code> <em>indicates the total number of members.</em></p>
-</blockquote>
-<p>The detailed process is written in the <a target="_blank" rel="noopener" href="https://redis.io/docs/reference/patterns/distributed-locks/">official Redis documentation on distributed locking</a>, so I’ll briefly describe the process below.</p>
-<p>Suppose our committee is composed of three Redis.</p>
-<p>The following is the process of successfully locking up and doing the task and unlocking successfully.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*9tbZXuVgSvt7di5l91ganQ.png"></p>
-<ol>
-<li>The client who wants to obtain the lock generates a globally unique ID, and the official document selects the system time to use.</li>
-<li>Try to use this ID to get the consent of all committee members. Use the command <code>SETNX</code> to do this.</li>
-<li>2 members agree, then the lock is successfully in place.</li>
-<li>After getting the lock, the user can do what desired.</li>
-<li>The next step is to unlock on every member, whether or not the lock is successfully getting.</li>
-</ol>
-<p>The process for unsuccessful locking is similar, as long as <code>Redis1</code> or <code>Redis2</code> also fails to respond, then the lock cannot be acquired, that is to say, you cannot do anything, but you still have to perform the process of unlocking all the members.</p>
-<h3 id="Redlock-Issues"><a href="#Redlock-Issues" class="headerlink" title="Redlock Issues"></a>Redlock Issues</h3><p>After describing the Redlock process above, I’d like to explain why I rarely consider such an approach.</p>
-<p>Firstly, the entire Redlock implementation process, as mentioned in the previous section, is very time-consuming. Particularly if you want to lock for 3 seconds, but actually only 2 seconds or less are left after the locking process. <strong>Because the application must be initiated to all Redis first, even with parallel processing, the network delay and packet loss still make the communication chaotic and complicated.</strong></p>
-<p>Secondly, in order to make unreliable Redis reliable, many independent Redis must be launched. In the context of site reliability engineering, the maintenance effort for so many Redis is very high, and it is also a problem to make the participating clients aware of the existence of so many Redis. Such a approach is impractical in terms of cost, maintenance effort, and complexity of implementation.</p>
-<p>Furthermore, the core of this approach is <strong>GUID</strong>. If IDs are duplicated, both locking and unlocking may result in false positives and unpredictable results. When this happens, the difficulty of detecting it is also significant. Nevertheless, the system time, as officially documented, is a very weak guarantee. <strong>In a distributed system, it is difficult to ensure that all instances have the same time</strong>, which is known as <em>clock skew</em> in system design.</p>
-<p>To sum up, Redlock is an expensive approach with a lot of technical depth. Although many people have implemented packages in various programming languages based on official documents, does each user understand the potential risks behind the simple use of the packages?</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The main reason I don’t use Redlock is because making unreliable Redis reliable is putting the cart before the horse. I always tell my team members, “Data in Redis needs to be aware that it will disappear without warning”. If you want to keep the data persistent, you should consider a more persistent database rather than a cache.</p>
-<p>When implementing distributed locking, instead of using Redis, we should use a more reliable database, such as MySQL, which is strongly consistent, or MongoDB, which is my personal preference. But even if we use a database, we should pay attention to the implementation details of the database. Take MongoDB as an example, if we want to implement a lock, then we need to be aware of <a target="_blank" rel="noopener" href="https://towardsdev.com/read-after-write-consistency-in-mongodb-ea4cd91d0d3">read-after-write consistency</a>.</p>
-<p>There are many aspects to consider behind the system design, and it is not enough to just make the function work. How to control the budget? How to allocate manpower? How to maintain day-to-day? How to troubleshoot? All of these factors involve the capacity of the team, which I believe is far more important than the actual functionality.</p>
-<p>When considering the use of distributed locks, I first ask myself, “Do we really need locks? Is there a way to avoid possible race conditions through architecture design?” <strong>It is far more effective to avoid locking by improving the architecture than to seek synchronization in a distributed system.</strong> If we really have to use a distributed lock, and we need to keep the usage to a minimum, then we don’t need to use Redis but can use a relatively slow database to implement it.</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.infoworld.com/article/3639050/complexity-is-killing-software-developers.html"><em>Complexity is killing software developers</em></a></p>
-</blockquote>
-<p>And Redlock is one of the most complicated approaches. In my opinion, it should be avoided.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/explain-redlock-in-depth-dba95c107102">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/12/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/14/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/12/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/14/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

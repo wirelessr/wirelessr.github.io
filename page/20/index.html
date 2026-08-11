@@ -23,7 +23,7 @@
     <meta name="description" content="Personal tech blog on software architecture, backend development, and data engineering">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CT Wu">
-<meta property="og:url" content="https://wirelessr.github.io/tags/Flask/">
+<meta property="og:url" content="https://wirelessr.github.io/page/20/">
 <meta property="og:site_name" content="CT Wu">
 <meta property="og:description" content="Personal tech blog on software architecture, backend development, and data engineering">
 <meta property="og:locale" content="en_US">
@@ -32,14 +32,14 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://wirelessr.github.io/tags/Flask/">
+<link rel="canonical" href="https://wirelessr.github.io/page/20/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"en","comments":"","permalink":"","path":"tags/Flask/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"page/20/index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Tag: Flask | CT Wu</title>
+<title>CT Wu - Software Architect · Backend · Data Engineering</title>
   
 
 
@@ -82,7 +82,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">CT Wu</p>
+      <h1 class="site-title">CT Wu</h1>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -213,50 +213,182 @@
 
     </div>
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner index posts-expand">
+
+    
 
 
+<div class="post-block">
   
   
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/Game-Prototype/20180614/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Misc/Game-Prototype/20180614/" class="post-title-link" itemprop="url">Game Prototype</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-06-14 13:13:23" itemprop="dateCreated datePublished" datetime="2018-06-14T13:13:23+08:00">2018-06-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
+        </span>
+    </span>
+
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">Flask
-          <small>Tag</small>
-        </h1>
-      </div>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Yesterday, I told I want to develop a game, and I draw a blueprint:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*S2CVQBbteyG9y3QF4kmWog.png"></p>
+<p>The game is web based and like a RPG. The player can control a character with several skills, and those skills come from his job. There are two kinds of jobs: attack by weapon or by magic. The player can pick 8 skills on the desk and fight to an enemy. If you win this enemy, you can get some experiences, money, and items. The goal of this game is to defeat the final boss.</p>
+<p>The code flow is like:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*KmJheSZXw92KaYpwUl-SVw.png"></p>
+<p>To reduce the traffic between the frontend and the backend, the game loop is in browser, but the status and gaming engine are in backend. Therefore, the backend can determine what the enemy you encounter and what rewards you will receive.</p>
+<p>The communication between the browser and the backend is session, and I will use an encrypted cookie to keep the game states. However, I am not sure this method is secure enough or not. If you have the better idea, please tell me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/game-prototype-f91a341e7417">Medium</a></p>
+</blockquote>
 
       
-    <div class="collection-year">
-      <span class="collection-header">2025</span>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2025-12-29T01:48:29+08:00"
-              content="2025-12-29">
-          12-29
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/Backend/Solving-Gevent-Pool-Issues-in-Flask-Apps/20251228/" itemprop="url">
-            <span itemprop="name">Solving Gevent Pool Issues in Flask Apps</span>
-          </a>
-      </div>
-
+    <footer class="post-footer">
+        <div class="post-eof"></div>
       
-    </header>
+    </footer>
   </article>
+</div>
 
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/Hello-Medium/20180613/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Misc/Hello-Medium/20180613/" class="post-title-link" itemprop="url">Hello Medium</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-06-13 13:28:09" itemprop="dateCreated datePublished" datetime="2018-06-13T13:28:09+08:00">2018-06-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Hi guys,</p>
+<p>I come from Taiwan, a free and kind country, and work in an international company. I had been an embedded engineer and coded in C&#x2F;C++, but now I am a backend developer with Python. No one around me can discuss technology, e.g., machine learning, web development, or even programming. So, I try to find some people having the same habit in computer science from the Internet. On the other hand, I need practice my English to work with foreigners from our branch office.</p>
+<p>I will attempt to update my stories about my side projects every week. Actually, I will design and develop a web game by using HTML&#x2F;CSS&#x2F;JavaScript and Node.JS. In addition, if I find something interesting, I will share with you. Therefore, follow me and become my friend. At least, please point out my English mistake, and this is very helpful to me.</p>
+<p>Thank you for your reading.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/hello-medium-466f5dabc4e">Medium</a></p>
+</blockquote>
+
+      
     </div>
-  </div>
-  
-  
-  
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/19/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span>
+  </nav>
 
 </div>
   </main>

@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,270 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/What-pattern-is-considered-CQRS/20221106/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/What-pattern-is-considered-CQRS/20221106/" class="post-title-link" itemprop="url">What pattern is considered CQRS?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-11-07 00:33:17" itemprop="dateCreated datePublished" datetime="2022-11-07T00:33:17+08:00">2022-11-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Does-it-matter"><a href="#Does-it-matter" class="headerlink" title="Does it matter?"></a>Does it matter?</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*AxgedTNPoqnZlpir"></p>
+<p>This week, in our study group, there is an interesting question.</p>
+<blockquote>
+<p><em>If our service use MongoDB as the primary database and leverage ElasticSearch to benefit searching. Each request is in, our service is responsible for a dual write to update both MongoDB and ElasticSearch. Is this implementation considered CQRS?</em></p>
+</blockquote>
+<p>In fact, this implementation is indeed generating a read model for searching and a write model for domain operations. If there is any search request, we can build a search layer or a search service for that.</p>
+<p>This looks like CQRS, doesn’t it?</p>
+<p>In my opinion, such an implementation is not CQRS.</p>
+<p>There are two core concepts about CQRS.</p>
+<ol>
+<li>event sourcing</li>
+<li>responsibility segregation</li>
+</ol>
+<p>Let’s see their actual meaning.</p>
+<h3 id="Event-sourcing"><a href="#Event-sourcing" class="headerlink" title="Event sourcing"></a>Event sourcing</h3><p>Event sourcing is the most important concept for CQRS. When we have a new feature requirement, we can leverage the existed events and replay to generate a new read model so that we don’t need to modify the original code base.</p>
+<p>In other words, we can easily fulfill any query requirement without impact the production functionality.</p>
+<p>Let’s go back to the original example.</p>
+<p>If our service keeps every input event in MongoDB so that new read models can be generated in the future, then I would say it’s “very much like” CQRS.</p>
+<h3 id="Responsibility-segregation"><a href="#Responsibility-segregation" class="headerlink" title="Responsibility segregation"></a>Responsibility segregation</h3><p>The another key point is the responsibility segregation, i.e., the last two letters of CQRS.</p>
+<p>What does that mean?</p>
+<p>From my point of view, responsibility for building the read and write models must be separated.</p>
+<p>If our service is responsible for both update MongoDB and update ElasticSearch, that doesn’t sound separate at all.</p>
+<p>In order to release the burden of updating many models, CQRS introduces an event synchronization mechanism for event consumers to generate read models and make them consistent eventually.</p>
+<p>Let’s continue with the original example.</p>
+<p>If our service maintain the MongoDB’s domain states and keep every domain operation as audit logs. Then, we can build a worker who regularly digest these logs and update ElasticSearch. So, this is a CQRS definitely.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Why do we need to clarify these terminology details? Is it important to know if it is considered CQRS?</p>
+<p>Well, it depends.</p>
+<p>If we want to make the original system better, then we need to know exactly what a paradigm means. If we hastily assume that the original system is already a paradigm, then we miss the opportunity to look at it deeply.</p>
+<p>The original implementation actually works well at the moment. However, if the input request increases, updating ElasticSearch will become a bottleneck while handling domain operations. At that time, we then have to make additional improvements.</p>
+<p>Those paradigms are the indexes that provide how to improve. Because of this, we need to understand the specifics of the paradigms.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/what-pattern-is-considered-cqrs-6de7ccb13047">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Understanding-Exactly-once-Semantics/20221030/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Understanding-Exactly-once-Semantics/20221030/" class="post-title-link" itemprop="url">Understanding Exactly-once Semantics</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-10-31 01:21:29" itemprop="dateCreated datePublished" datetime="2022-10-31T01:21:29+08:00">2022-10-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Explaining-how-to-achieve-end-to-end-exactly-once-guarantee"><a href="#Explaining-how-to-achieve-end-to-end-exactly-once-guarantee" class="headerlink" title="Explaining how to achieve end-to-end exactly-once guarantee"></a>Explaining how to achieve end-to-end exactly-once guarantee</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*LFngB3Juj-a2xErh"></p>
+<p>Previously, when <a target="_blank" rel="noopener" href="https://selectfrom.dev/message-queue-in-redis-9efe0de2c39c">discussing message queues</a>, we mentioned that when selecting a message queue, we should consider its delivery guarantee. Depending on the needs, there are different requirements for the delivery guarantee. The more critical the application, the higher level of guarantee is required.</p>
+<p>There are three different levels of delivery guarantees, ranging from weak to strong as follows.</p>
+<ol>
+<li>At most once</li>
+<li>At least once</li>
+<li>Exactly once</li>
+</ol>
+<p>When we define a delivery guarantee, in fact, we need to understand the scope of the guarantee. In an end-to-end delivery guarantee, there are three different paths that work together to define a complete end-to-end delivery guarantee.</p>
+<p>These three paths are as follows.</p>
+<ul>
+<li>Producer Perspective</li>
+<li>Consumer Perspective</li>
+<li>Sink Perspective</li>
+</ul>
+<p>An end-to-end delivery guarantee is actually determined by the weakest of these three paths. For example, if the producer has an exactly-once guarantee, but the consumer can only achieve at-least once, and the sink has at-least once too, then end-to-end is at-least once guaranteed.</p>
+<p>In this article, we will focus on how to achieve an exactly-once guarantee. Therefore, it is necessary to understand the meaning of these three paths and how to handle failures.</p>
+<h3 id="Producer-Perspective"><a href="#Producer-Perspective" class="headerlink" title="Producer Perspective"></a>Producer Perspective</h3><p>From the producer’s point of view, we always want any message that is sent to be delivered.</p>
+<p>Most message queues are able to tell the producer whether the message was sent successfully or not, and when the message is sent successfully, the producer will receive a response. We can be sure that if we receive a response, it was successful, and if we don’t receive it, it’s basically a failure.</p>
+<p>However, if we just lose the response but send it successfully, we have a problem.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*DHa-QK5vqP4oPqh6O2KRuA.png"></p>
+<p>The diagram above shows a common error process, so how do we avoid sending twice?</p>
+<p>There are several approaches.</p>
+<p>The first approach is for the producer to maintain a unique constraint on the message, e.g. <code>(producer_id, msg_id)</code>. When a send failure occurs, the producer goes to the broker and queries the broker’s internal storage to determine whether the send failed or the response was lost.</p>
+<p>Nevertheless, not every message queue supports this approach. If the message disappears as soon as it is taken away by the consumer, such as RabbitMQ, then this approach will not work. Conversely, systems like Kafka, which store messages as logs, can provide producers with queries.</p>
+<p>In the second approach, the producer does not identify if a response is lost, instead resending the message anyway, but leaving a GUID (globally unique ID) on the message. On the other hand, the consumer receives the message and has to determine if the GUID has been processed, or simply ignore it if it has been processed.</p>
+<p>If using Kafka, there is another approach to guarantee exactly-once, that is, through message transactions.</p>
+<p>Just like a relational database, declare <code>START TRANSACTION</code> before sending a message, and declare <code>COMMIT</code> after the message is sent. If any of the intermediate messages fail, then the producer does not <code>COMMIT</code> but simply aborts the entire transaction and resends it. In this way, a failed resend does not result in a duplicate send.</p>
+<h3 id="Consumer-Perspective"><a href="#Consumer-Perspective" class="headerlink" title="Consumer Perspective"></a>Consumer Perspective</h3><p>This is the scenario that all message queues focus on. The delivery guarantee provided by the message queue is only a part of the overall end-to-end delivery guarantee from the consumer perspective.</p>
+<p>Most message queues can only provide at-least once guarantee. Once the consumer has correctly processed the message, an acknowledgment is sent to the message queue, and the message is removed only when the message queue receives the acknowledgment.</p>
+<p>And, the flow of the problem is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*H1EtHr2h0kRGBqj5iUBbdQ.png"></p>
+<p>When Consumer 1 handles Message A and an acknowledgment is lost, then Consumer 2 can continue to get the same Message A and handle it, resulting in handling twice.</p>
+<p>Basically, this is a common problem for messages queues that are supported at-least once.</p>
+<p><em><strong>Idempotent Updates</strong></em></p>
+<p>In general, developers try to make messages as idempotent as possible so that they do not cause problems no matter how many times a message is handled.</p>
+<p>As mentioned in the previous section, putting a GUID inside each message is an obvious solution. Consumers store handled messages in a durable storage, and each consumer must verify whether a message has been handled before handling it.</p>
+<p>In addition, consumers must avoid duplicate updates when updating the storage by using transactions.</p>
+<p>Let’s take MySQL as an example.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;  </span><br><span class="line">$RET <span class="operator">=</span> <span class="keyword">UPDATE</span> event <span class="keyword">SET</span> handled <span class="operator">=</span> <span class="literal">true</span> <span class="keyword">WHERE</span> msg_id <span class="operator">=</span> <span class="number">123</span> <span class="keyword">AND</span> handled <span class="operator">=</span> <span class="literal">false</span>;  </span><br><span class="line">if $RET <span class="operator">=</span><span class="operator">=</span> <span class="number">1</span>:  </span><br><span class="line">    Do whatever you want;  </span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Please notice in the first line after the transaction, in addition to <code>msg_id</code> in the <code>WHERE</code> clause we must also add <code>handled = false</code>, this is one of the ways to avoid MySQL having racing conditions. If we don’t add this check condition, it is still possible to process the same message twice under race conditions.</p>
+<p>There is a detailed explanation of how MySQL handles race conditions in my previous article, if you want to know the details you can refer to the following.</p>
+<p>Nevertheless, it is not easy to make the message idempotent. In addition to the consumer, it often requires the cooperation of the producer, which adds to the coupling and complexity.</p>
+<p><em><strong>Event Sourcing</strong></em></p>
+<p>Another approach is to use event sourcing. To implement event sourcing, the message queue must support querying message logs, such as Kafka.</p>
+<p>Event sourcing means that the current state of the consumer is generated by replaying all events, so any event handling failure can be recovered by simply replaying the event from the beginning.</p>
+<p>However, this approach creates two problems.</p>
+<ol>
+<li>The efficiency of replaying from scratch is not good.</li>
+<li>It is difficult to get a list of several current states.</li>
+</ol>
+<p>To solve the first problem, a checkpoint mechanism is usually used. Take snapshots of the states and record offsets at regular time intervals or for each batch of messages handled.</p>
+<p>When a problem occurs, just restore the last snapshot and replay the last offset to the latest data. Through the checkpoint mechanism, we can greatly improve the replay efficiency.</p>
+<p>The second problem is usually solved by using CQRS, so that a variety of different read requirements have a snapshot available for reference. For more information on how to evolve the CQRS architecture, please refer to my previous article.</p>
+<p>To sum up, in order to achieve an exactly-once guarantee by using event sourcing, the consumer must be able to record the handled states and offsets; when each error occurs, the consumer discards the current result and tries to replay it from the previous state snapshot to get the correct result.</p>
+<h3 id="Sink-Perspective"><a href="#Sink-Perspective" class="headerlink" title="Sink Perspective"></a>Sink Perspective</h3><p>Sink means downstream of the message. In fact, the sink perspective is a special case of the customer perspective.</p>
+<p>Suppose the sink is a database, the consumer itself can already achieve exactly-once guarantee through the event sourcing.</p>
+<p>But this is not enough, because in the process of recovering the consumer will propagate the event to the next again, resulting in downstream receiving duplicate results of the same event.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*BI7_kNugq6tdvRGX9jOQlA.png"></p>
+<p>In the above process, the consumer itself can guarantee exactly-once by restoring the state, but the downstream database has been written twice, which is still a problem.</p>
+<p>Honestly, there is no silver bullet in sink that can completely achieve exactly-once guarantee without side effects.</p>
+<p>Let’s check Solution 1, we only output the accumulated results after the consumer has successfully created a checkpoint.</p>
+<p>Since consumers are guaranteed exactly-once through the checkpoint mechanism, we only output the results when the checkpoint is created, thus ensuring consistency between consumer and sink. It is important to make the checkpoint creation and output be transactional.</p>
+<p>However, Solution 1 has an obvious drawback. The message handling loses its real-time nature and generates spikes in the database. Because the checkpoints are created in batches, not for each message, i.e., there are no current results in the database. In addition, the output process is also batch, which results in a large number of writes to the database at regular intervals.</p>
+<p>So, let’s see Solution 2, which makes the database update idempotent.</p>
+<p>It is straightforward to simply make each database update have a primary key and overwrite the rows with the same primary key.</p>
+<p>However, Solution 2 also has drawbacks. Firstly, it is not easy to define the primary key for each update. Secondly, when a consumer fails to handle and starts a replay, the saved results may time travel and be reverted back to the past then updated again.</p>
+<p>This inconsistency depends on how often the checkpoints are created and how efficiently they are replayed, which can take up to a couple of minutes.</p>
+<p>Both Solution 1 and Solution 2 have their potential risks, but if I had to choose, I would prefer Solution 2 more.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we take a closer look at the semantics of exactly-once and understand how end-to-end exactly-once can be implemented.</p>
+<p>Starting with the message producer at the beginning, the message is sent and enters the message queue, then is read and handled by the consumer, and finally the result is output downstream.</p>
+<p>I have to say exactly-once guarantee is a very difficult holy grail to achieve, and it has to be done correctly at every stage of the message flow in order to fully achieve end-to-end exactly-once guarantee.</p>
+<p>I believe there must be some original designs besides listed in this article that I have never noticed, if you have your own implementation, please feel free to share with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/understanding-exactly-once-semantics-338a56d8ba6a">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1377,291 +1641,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Design-Pattern-of-Streaming-Enrichment/20220828/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/Design-Pattern-of-Streaming-Enrichment/20220828/" class="post-title-link" itemprop="url">Design Pattern of Streaming Enrichment</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-08-29 01:15:34" itemprop="dateCreated datePublished" datetime="2022-08-29T01:15:34+08:00">2022-08-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="Understanding-the-concept-of-streaming-architecture"><a href="#Understanding-the-concept-of-streaming-architecture" class="headerlink" title="Understanding the concept of streaming architecture"></a>Understanding the concept of streaming architecture</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*gwm6shsOymkXvJPF"></p>
-<p>Last time, we <a target="_blank" rel="noopener" href="https://lazypro.medium.com/stream-processing-introduction-796f15061880">introduced streaming processing</a>. In order to be able to handle batch and real-time data with a more pure infrastructure, we introduced Kafka and the streaming framework.</p>
-<p>In this article, we will introduce a common design pattern for streaming, enrichment, and examine what benefits the streaming framework can bring.</p>
-<p>What is enrichment? Briefly, it is the implementation of extending the original events to meet the new feature requirements.</p>
-<h3 id="Feature-Description"><a href="#Feature-Description" class="headerlink" title="Feature Description"></a>Feature Description</h3><p>Similar features are available on many social media platforms.</p>
-<ol>
-<li>Who visits me</li>
-<li>Others are also viewing</li>
-<li>What is the identity to view me</li>
-</ol>
-<p>The first feature is how many people have viewed my profile in a given time period. For example, how many times my profile has been viewed in a week.</p>
-<p>The second feature is an advanced version of the previous feature, who else did these people view? For example, 10 people viewed my profile in a week, and they also viewed Elon Musk.</p>
-<p>The third feature is a derivative of the first one. What is the identity of these people who viewed me? For example, 10 people viewed my profile in a week, and three of them were google employees.</p>
-<h3 id="Who-visits-me-Others-are-also-viewing"><a href="#Who-visits-me-Others-are-also-viewing" class="headerlink" title="Who visits me &amp; Others are also viewing"></a>Who visits me &amp; Others are also viewing</h3><p>The first and second features can be easily implemented using event streaming techniques. First, let’s define a “view” event.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    eventType: &quot;PageView&quot;,  </span><br><span class="line">    timestamp: 1660270009,  </span><br><span class="line">    viewerId: 1234,  </span><br><span class="line">    viewedId: 5678  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>This event includes the time of occurrence and who viewed who. Then we just need to create a stream that collects all view events to analyze the features we need.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*TirXw-Z-2iyoHmgd.png"></p>
-<p>In the above diagram, suppose my user id is 4567, then it is easy to find two users who have viewed me from the event stream, which are 2345 and 1234.</p>
-<p>Further from the stream record, we can also understand that 2345 has viewed 1234, while 1234 has viewed 5678 and 2345.</p>
-<p>Putting this information together, we can answer.</p>
-<ol>
-<li>Who visits me? 2345 and 1234.</li>
-<li>Others are also viewing 1234, 5678, and 2345.</li>
-</ol>
-<p>With all the event streams recorded by the streaming framework, we can perform a simple analysis to get the desired features.</p>
-<h3 id="What-is-the-identity-to-view-me"><a href="#What-is-the-identity-to-view-me" class="headerlink" title="What is the identity to view me?"></a>What is the identity to view me?</h3><p>However, it is not so simple to know what the identity to view my profile is.</p>
-<p>Because our original event did not define additional attributes, only the id. Well, it is necessary to modify the original implementation to add new features.</p>
-<h3 id="Add-metadata-in-events"><a href="#Add-metadata-in-events" class="headerlink" title="Add metadata in events"></a>Add metadata in events</h3><p>Let’s add the job to the original event. When the user is viewing, in addition to sending the event with the id, the job must also be attached.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    eventType: &quot;PageView&quot;,  </span><br><span class="line">    timestamp: 1660270009,  </span><br><span class="line">    viewerId: 1234,  </span><br><span class="line">    viewedId: 5678,  </span><br><span class="line">    viewerJob: &quot;Google&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>The problem seems to be solved, but is it really so?</p>
-<p>There are several obvious issues with such a solution. Firstly, modifying the event format directly affects all downstream consumers. Under an event-driven architecture, the producer would not know the consumer’s use cases because the two are decoupled.</p>
-<p>Secondly, events become larger, and each original event must add this new field, whether the consumer needs it or not. In other words, the overhead has gotten bigger, not just in terms of storage overhead, but also transmission overhead.</p>
-<p>Moreover, what to do if we want to add new features? In addition to the job, the feature requires a new title, age, and so on. Then the issues mentioned above will happen again and again.</p>
-<p>Therefore, we know this is not a good approach.</p>
-<h3 id="Query-from-external-datastores"><a href="#Query-from-external-datastores" class="headerlink" title="Query from external datastores"></a>Query from external datastores</h3><p>Since modifying the original event is not a good approach, we will query the required data from elsewhere as soon as we receive the event.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*RO4y1Z5g8mZWnMY4.png"></p>
-<p>Although it is stated in the diagram as a database, it can also be a microservice or any platform that can provide information.</p>
-<p>Basically, this is the most typical implementation of an event-driven architecture. When workers take events from the message queue, they process the data, either by getting the necessary information from other data sources or by storing the results in a data store, and finally by sending the enriched events to the next one.</p>
-<p>This implementation is fine in a message queue architecture. However, in a streaming framework, such an implementation creates a performance bottleneck. Let’s say a streaming framework has an average throughput of more than ten times of a database. If every event had to rely on external data sources, the overall throughput would become <code>1/10</code>.</p>
-<p>In addition, there is an existing issue with such an architecture.</p>
-<p>When a worker cluster or streaming processing cluster crashes, this is very likely to happen, after all, errors are everywhere. At this point, events will continue to accumulate because no consumer will be able to handle them. This is still the normal situation.</p>
-<p>Once the worker cluster is repaired and all workers are online, all workers will start digesting the message at full speed and a spike will hit the data source and most likely shut it down.</p>
-<p>Own failure affects other services in a cascading manner. This tight coupling is to be avoided in the system design. Therefore, such a solution is not good enough.</p>
-<h3 id="Merge-events"><a href="#Merge-events" class="headerlink" title="Merge events"></a>Merge events</h3><p>No new metadata into the event and can not be queried from external sources, then how to deal with the enrichment? This is the streaming framework to deliver the advantages.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*Ap2LAwIOIrq_r3Ob.png"></p>
-<p>In this example, we have chosen Apache Samza as an illustration, but in fact there are many good alternatives, such as Apache Flink.</p>
-<p>In addition to changing the handler mentioned in the previous section to a stream processing framework, there is a new event source, <code>ProfileEdit</code>.</p>
-<p>This modification event can either come from the Change Data Capture (CDC) of the database, or the modification event can be sent from the user service, but the details are not the focus of this article.</p>
-<p>The database from the previous section becomes the state in the stream processing framework. This state can be considered as a memory space for each worker, and is therefore very efficient. In addition, each worker shares the state, so the capacity is much larger than a single instance’s memory.</p>
-<p>When Samza receives <code>ProfileEdit</code>, it can save the latest state of each user. Once <code>PageView</code> is received, it can pull out the required information from the saved state, and assemble new events.</p>
-<p>This approach solves the problem of tight coupling and significantly improves processing performance. More importantly, Samza provides an exactly-once guarantee to avoid duplication of events due to failure of external data sources.</p>
-<p>Although the state is shared by multiple instances, it is still possible to hit the upper limit. How to solve the scalability issue?</p>
-<p>In Kafka, a message partitioning mechanism is provided, where messages with the same key are assigned to the same partition and processed by the same consumer group. In the streaming framework, the partitioning mechanism still exists and has been abstracted to a higher level. Different streams can share the same key space, i.e., as long as <code>PageView</code> and <code>ProfileEdit</code> have the same key, they can be processed by the same workers.</p>
-<p>In this way, the state can be stored by horizontal scalability.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we introduce a common design pattern that both traditional message queue architecture and modern stream processing architecture encounter the same issue, i. e., event enrichment.</p>
-<p>When designing a system, it is important to take into account the robustness and performance of the system in addition to the feature implementation. This is why streaming frameworks are on the rise. Streaming offers the possibility to handle real-time heavy traffic, while streaming frameworks additionally provide a variety of useful tools to make development easy.</p>
-<p>As mentioned in the <a target="_blank" rel="noopener" href="https://lazypro.medium.com/stream-processing-introduction-796f15061880">previous article on streaming architecture</a>, the streaming architecture has the ability to collapse many technology stacks into two core components: Kafka and the streaming processing framework. Therefore, I recommend that every developer, even if you are not a data engineer, should learn about the streaming framework. I believe having more insight will lead to a more reliable system design.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-pattern-of-streaming-enrichment-17a9eb065eca">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Stream-Processing-Introduction/20220821/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/Stream-Processing-Introduction/20220821/" class="post-title-link" itemprop="url">Stream Processing Introduction</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-08-22 01:18:09" itemprop="dateCreated datePublished" datetime="2022-08-22T01:18:09+08:00">2022-08-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="Easy-to-understand-what-is-streaming-architecture"><a href="#Easy-to-understand-what-is-streaming-architecture" class="headerlink" title="Easy to understand what is streaming architecture"></a>Easy to understand what is streaming architecture</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*mMsRDE9XQ6abWUEI"></p>
-<p>The purpose of this article is to introduce stream processing in an easy-to-understand way, so it does not dive too deep into the technical details, nor does it mention specific frameworks. However, a few popular frameworks will be used as examples to illustrate.</p>
-<p>Before we start to introduce stream processing, let’s talk about batch processing, i.e., the opposing concept of stream processing.</p>
-<h3 id="Batch-processing"><a href="#Batch-processing" class="headerlink" title="Batch processing"></a>Batch processing</h3><p>I believe most of you are familiar with batch processing, in which a large scale data processing is performed after a given period of data and the final result is produced. This is the actual operation of batch processing, and the expertise area of batch processing is fixed amount of data processing.</p>
-<p>However, in an event-driven architecture, the data, i.e., the events, are endless, that is to say, it is difficult to define a fixed amount. Therefore, the compromise is to change the fixed amount to a fixed time, so that the amount of data can be expected after a given time interval, and batch processing can be applied.</p>
-<p>In other words, batch processing can be summarized in several characteristics.</p>
-<ol>
-<li>Fixed. Whether it is fixed time or fixed volume, the key is to make the amount of data predictable.</li>
-<li>Discrete. The data is computed in a specific interval, and the intervals are not related to each other at all.</li>
-</ol>
-<p>The most typical approach is to process the data at the moment per second&#x2F;minute&#x2F;hr&#x2F;day.</p>
-<h3 id="Stream-processing"><a href="#Stream-processing" class="headerlink" title="Stream processing"></a>Stream processing</h3><p>However, there is a difference in the approach of stream processing.</p>
-<p>First of all, there is no concept of fixation in stream processing. Imagine it as a river, where water keeps flowing down from upstream, and if you don’t catch it where you are at, the water will flow away.</p>
-<p>The same is happening with data. The data source keeps generating data into the stream, and the application has to retrieve what it needs in the stream and use it.</p>
-<p>Unlike batch processing, which is fixed time or fixed volume, if there is no given time interval, then the amount of data can be considered basically infinite. On the other hand, since the data is not divided into several time intervals by batching, there is a context between the data.</p>
-<p>We can also summarize several characteristics for stream processing, which are exactly the opposite of batch processing.</p>
-<ol>
-<li>Infinite. In the lack of a specified time interval, both the amount of data and the time can be considered infinite.</li>
-<li>Continuous. The data in the data stream are related to each other.</li>
-</ol>
-<p>Nevertheless, applications do not work that way, or perhaps it should be said that the human brain cannot understand the concept of continuous infinity. When we develop an application, we always give the input, compute it, and produce the output.</p>
-<p>Therefore, when we develop stream processing applications, we take some techniques to make the data stream fit our mind as much as possible, in other words, we slice the data stream. The method of slicing is called windows.</p>
-<p>There are three common types of windows.</p>
-<ol>
-<li>Tumbling window</li>
-<li>Sliding window</li>
-<li>Session window</li>
-</ol>
-<h3 id="Tumbling-window"><a href="#Tumbling-window" class="headerlink" title="Tumbling window"></a>Tumbling window</h3><p>The first method of data slicing is tumbling window also known as micro-batch.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*dxpS_mvEQNgKzuQv.png"></p>
-<p>The continuous data is processed by dividing the data into intervals of a fixed time. This is the same concept as batch processing, but the only difference is the length of the time interval. In batch processing, the time span is larger than the tumbling window.</p>
-<p>In this way, data streams can be processed in a batch manner. Most of the streaming frameworks support this technique, e.g. Apache Spark Streaming, Apache Flink, Apache Samza, etc.</p>
-<h3 id="Sliding-window"><a href="#Sliding-window" class="headerlink" title="Sliding window"></a>Sliding window</h3><p>The second approach is the sliding window.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*L-Kn6bGZ1POF3PH2.png"></p>
-<p>Given a window size and a window slide to move the window, a sliding window will be created. As you can see from the diagram, it is possible to overlap data between windows, and therefore to discover the context of the data.</p>
-<p>The tumbling window mentioned in the previous section is actually a special case of a sliding window. When the window size is equal to the window slide, the sliding window becomes a tumbling window.</p>
-<p>This is a very common data slicing pattern used in streaming, and not every streaming framework supports it; Apache Spark has streaming capabilities, but it only supports micro-batches.</p>
-<h3 id="Session-window"><a href="#Session-window" class="headerlink" title="Session window"></a>Session window</h3><p>The third approach is the session window.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*HbEb7ZCscU5L_Aua.png"></p>
-<p>Unlike the previous two methods, the session window does not have a fixed window size; instead, it has to wait until the data stops for a period of time, which is called session gap.</p>
-<p>After the data is stopped for a period of time, the received data segments are processed, so the real-time performance is slightly worse than the previous two methods. However, since the data is grouped in advance and accumulated for a period of time, it is easier to process.</p>
-<p>In addition, the session window provides an additional information about the data density at this point by the amount of data collected.</p>
-<p>Again, this is not supported by every streaming framework, and Apache Spark does not support it.</p>
-<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>It sounds like stream processing is the same as traditional message queue processing, where a broker stores the message and assigns it to a handler responsible for execution.</p>
-<p>Is the difference only that one is a single message and another is a data stream?</p>
-<p>In fact, this is only one of the differences. Stream processing has three advantages over traditional message workers.</p>
-<ol>
-<li>Understand the context of the data. Although this depends on the window setting, due to the nature of data streams, they are able to express much more semantically than a single message.</li>
-<li>Stream processing has state. To enable faster processing of message streams, streaming frameworks provide internal state management and also state persistence.</li>
-<li>Simultaneous processing of concurrent data streams. In a message queue worker architecture, it would be a challenge to handle multiple messages simultaneously, but in a stream processing framework, it is possible. Furthermore, the framework provides more methods for handling multiple event streams, such as join operations.</li>
-</ol>
-<p>Overall, stream processing can be regarded as an advanced version of the message queue worker architecture.</p>
-<p>There are two core components in the entire stream processing. The first one is Kafka as a broker and the other one is the streaming framework.</p>
-<p>Kafka is able to provide very good functionality, including fault tolerance, persistence and ensuring message order, while also providing very high throughput.</p>
-<p>On the other hand, the streaming framework is to provide a higher level of abstraction based on Kafka. It can make it easier for developers to get started, including the various windowing methods mentioned in this article and concurrent event stream processing.</p>
-<p>More importantly, the streaming framework provides an exactly-once guarantee. in the message queue worker architecture, often only at-least-once guarantee, but in the streaming framework can further support exactly-once.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Traditional data processing architectures are very complex and often require various technologies, for example, ETL technology is required to extract and transform data from various data stores into a unified data warehouse or data lake, and various batch processing methods such as Map-reduce must be used to transform data into a useful format during analysis.</p>
-<p>In order to solve the real-time problem of batch processing, different message queue processing frameworks are integrated to aggregate the batch dataset with the real-time dataset under specific real-time requirements.</p>
-<p>The entire data processing architecture involves a variety of storage, message queues, scheduling and processing technologies. It is difficult to become master of all of them, and new requirements have to be developed to continue stacking on top of this complex architecture, which also affects productivity.</p>
-<p>Streaming architectures were created to address these complexities. It is possible to use only two core components, Kafka and the streaming framework, to accomplish various feature requirements that previously required various technology stacks.</p>
-<p>Of course, no technical selection is perfect.</p>
-<p>To me, the biggest problem with stream processing is that it’s not easy, either to understand or to develop. As described earlier in this article, the concept of continuous infinity is not intuitive to humans. Even if it is possible to collapse the stack of techniques into a single solution, it requires developers to have more experience and overcome a learning curve. Moreover, when problems are encountered that cannot be solved by a framework, there is still a need to mix solutions.</p>
-<p>Nevertheless, the streaming framework still offers a good entry point to meet most development needs with minimal overhead.</p>
-<p>The next article will introduce a common streaming design pattern, which is enrichments. Let’s call it a day.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/stream-processing-introduction-796f15061880">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/11/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/13/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/11/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/13/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

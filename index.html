@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,374 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Building-an-AI-Digital-Twin-with-Claude-Code/20260811/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/Building-an-AI-Digital-Twin-with-Claude-Code/20260811/" class="post-title-link" itemprop="url">Building an AI Digital Twin with Claude Code</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2026-08-11 13:30:03" itemprop="dateCreated datePublished" datetime="2026-08-11T13:30:03+08:00">2026-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Praveen Daniel highlighted</p>
+<h2 id="How-to-architect-a-digital-brain-for-AI-agents-using-hooks-and-Knowledge-Base"><a href="#How-to-architect-a-digital-brain-for-AI-agents-using-hooks-and-Knowledge-Base" class="headerlink" title="How to architect a digital brain for AI agents using hooks and Knowledge Base"></a>How to architect a digital brain for AI agents using hooks and Knowledge Base</h2><p><img src="https://miro.medium.com/v2/resize:fit:1388/1*u8eu1ciiIY3Ew8Ay2O_jlg.png"></p>
+<p>In Part 1, I mentioned that we need to build a brain for our agent. This is the only way to truly empower the agent so it becomes a genuine twin rather than just a contractor.</p>
+<p>A contractor simply carries out tasks as instructed. They don’t share our intuition for subtle details, leaving them to rely on educated guesses. This might work fine in simple greenfield projects. However, dropping them into complex projects to handle intricate tasks eventually leads to disaster.</p>
+<p>In this article, I will use Claude Code, a popular harness tool, as an example. We will look at what it takes to build a digital twin and how to actually implement one. I will share how I set up my own configuration. That said, I will skip most of the granular details because my twin will naturally look very different from yours.</p>
+<p>First, we need a digital brain. We have already broken down the essential components of a digital brain:</p>
+<ol>
+<li><p>An LLM capable of reasoning and processing input. I use Claude Opus here, prioritizing high reasoning intelligence and a large context window. We need a model with high intelligence. Sonnet can work, but it is not comprehensive enough.</p>
+</li>
+<li><p>A harness that can implement the ReAct pattern and interact with the real world. I use Claude Code along with various skills and scripts. I previously explained the underlying logic of my skills. Each skill acts as an execution unit, but everything underneath is a script. This approach gives me maximum control over how the agent reacts instead of letting it freestyle. Just like our own brains, every operation needs clear boundaries to prevent rogue behavior. The skill documentation represents our cognition, while the script acts as the brain’s brakes.</p>
+</li>
+<li><p>A Knowledge Base (KB) that stores domain knowledge while providing search and linking capabilities. I use an LLM wiki paired with Obsidian. Importantly, I do not use any MCP or APIs here. The agent works directly with plain text files.</p>
+</li>
+<li><p>An offline batch data pipeline that converts short-term memory into long-term memory. At its core, this is a scheduled job designed to ingest large amounts of data. We can keep it simple with Cron or scale up with Airflow, depending on our goals. I built a custom service for this because Airflow felt too heavy, while Cron felt too basic.</p>
+</li>
+</ol>
+<p>On a side note, let me expand a bit on skills.</p>
+<p>Most of my skills perform purely mechanical operations. For instance, my Jira skill wraps various Jira APIs into a script. Then, my SKILL.md tells the agent how to invoke this script. It can search Jira, post comments, or create tickets. However, it contains zero writing guidelines on how to craft those comments or descriptions.</p>
+<p>Similarly, skills like Confluence, Grafana, and Kubernetes focus strictly on execution. They wrap APIs into scripts accompanied by an instruction manual, without interfering with the agent’s cognition.</p>
+<p>To me, a skill should focus on how to do something. It defines how the harness interacts with the real world, rather than forcing the agent into a rigid way of thinking. Over 90% of my skills focus purely on execution rather than reasoning. As I mentioned before, an agent is simply an execution loop: it ingests inputs, reasons, acts, and produces outputs.</p>
+<p>Anchoring behavior with scripts effectively controls randomness and keeps costs down.</p>
+<p>So how do we give the agent intelligence and make it act more like a human? Or more specifically, like me? That is precisely what the brain does. Let us walk through how this brain pipeline actually works.</p>
+<h2 id="Overall-Architecture"><a href="#Overall-Architecture" class="headerlink" title="Overall Architecture"></a>Overall Architecture</h2><p>Let us break down the overall architecture. I will explain what each block and edge represents, without diving too deep into implementation details.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/1*veDs6AvS75ZoRjywKDMb-g.png"></p>
+<p>We can see three distinct sections here. They represent three key components of the brain: Thinking and Reaction (Claude Code), Cognition (Human + KB), and the Hippocampus (Offline Batch).</p>
+<p>The human user does not just provide input here. We also serve as the Meta-cognition engine. We monitor the agent’s execution steps and offer guidance when it gets stuck.</p>
+<p>What happens inside Claude Code is fairly straightforward. The only unique elements are the hooks and prompt injections.</p>
+<p>How do we make Claude Code aware that it has a brain to consult? Using a skill is one approach, but it is unreliable because skills can easily lose the model’s focus. Using CLAUDE.md works since it gets injected into the context during conversation. Still, it is not foolproof. As the session gets longer, the influence of CLAUDE.md steadily degrades.</p>
+<p>To ensure the agent never forgets its brain and continuously reads and updates it, the most direct approach is to inject a prompt into every User Message. This prompt reminds the agent that its brain exists and needs updating.</p>
+<p>I document my thought processes entirely inside the wiki, including a page dedicated to how to think. Using hooks, we remind the agent about its brain and direct it to that thinking framework page. Consequently, the agent reiterates this context during every execution step, reinforcing its cognition. When it hits a roadblock, it proactively searches the wiki for answers. This mirrors how humans build self-awareness. We rely on logic to structure our thinking patterns continuously.</p>
+<p>The final section is Cron, which acts as the human brain’s hippocampus.</p>
+<p>It handles three main responsibilities:</p>
+<ol>
+<li><p>Decision distillation. We want the agent to mimic us closely. To achieve this, we must feed it natural conversational data to show how we think. I extract dialogue from session logs, have the agent identify underlying patterns, and write actionable, generalizable rules into the wiki. This wiki content serves as the source of truth for our hook injections.</p>
+</li>
+<li><p>Domain knowledge distillation. Although our hooks remind the agent to record what it learns, this is not a hard constraint. The agent still decides whether something is worth recording. That subjective judgment means it might skip useful information, much like the human brain. Late at night, the hippocampus kicks in to consolidate short-term memories into long-term memories. Domain distillation handles this exact process.</p>
+</li>
+<li><p>Wiki maintenance. Without ongoing maintenance, a wiki quickly turns into a cluttered mess. Garbage in, garbage out applies directly to artificial brains. Therefore, a separate scheduled job periodically cleans up wiki content and indexing. It enforces our taxonomy framework and the MECE principle. It also keeps data fresh by cross-referencing sources. If an entry mentions code, it checks the actual repository. If it mentions Jira, it checks Jira directly.</p>
+</li>
+</ol>
+<p>With this architecture, the agent can operate much more like a real person. It internalizes our mental models and responds with high precision.</p>
+<h2 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h2><p>This entire setup requires fine-tuning across several key areas:</p>
+<ol>
+<li><p>The content used in hook injections</p>
+</li>
+<li><p>Wiki content and taxonomy</p>
+</li>
+<li><p>The implementation and prompts for the three offline pipelines</p>
+</li>
+</ol>
+<p>That is not even mentioning prompt engineering and skill tuning.</p>
+<p>There are no silver bullets for these details. Every use case demands a different approach based on task requirements. That is why this article focuses purely on the architectural framework rather than implementation specifics.</p>
+<p>On a final note, I have since migrated away from Claude Code as my primary harness. As mentioned in my previous post, I shifted from Claude Code + Opus to Pi + GLM. This move lowered operational costs while open-source tools provided far greater flexibility for customization.</p>
+<p>However, the underlying architecture remains unchanged. A harness can only do so much. If we want to grant true intelligence to an agent, we must start by studying how the human brain functions.</p>
+<p>Plenty of open-source skills exist today, but I do not use any of them. Skills should fit specific workflows and line up with our exact habits. Every skill I build simply provides the agent with tools to interact with the world, without imposing how it should think.</p>
+<p>True thinking stems from accumulated experience. I have lived by this principle throughout my career as an architect, and AI agents are no exception.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://lazypro.medium.com/building-an-ai-digital-twin-with-claude-code-91e8b8b8751c">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/How-to-Build-True-Digital-Twins-with-AI-Agents/20260811/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/How-to-Build-True-Digital-Twins-with-AI-Agents/20260811/" class="post-title-link" itemprop="url">How to Build True Digital Twins with AI Agents</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2026-08-11 13:30:03" itemprop="dateCreated datePublished" datetime="2026-08-11T13:30:03+08:00">2026-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="Build-smarter-AI-agents-by-mimicking-human-cognitive-memory-loops"><a href="#Build-smarter-AI-agents-by-mimicking-human-cognitive-memory-loops" class="headerlink" title="Build smarter AI agents by mimicking human cognitive memory loops"></a>Build smarter AI agents by mimicking human cognitive memory loops</h2><p><img src="https://miro.medium.com/v2/resize:fit:1400/1*GpE_P04H1kvKEwjuitlx6A.png"></p>
+<p>Lately, a bunch of marketing buzzwords have popped up, like Loop engineering and Graph engineering. But really, these are just old software engineering practices wrapped in shiny new packaging. The core methodologies remain identical. Only the tools and platforms have changed.</p>
+<p>Both Loop engineering and Graph engineering aim to help AI agents run autonomously within clear boundaries and long-term goals. But beneath these flashy names, a fundamental question remains: Can an AI agent truly outperform a seasoned Subject Matter Expert (SME)?</p>
+<p>I agree that current AI agents are capable enough to handle fundamental tasks easily. However, when it comes to executing complex work inside a complex system, today’s agents lack the required intelligence. This is where loop engineering runs into real trouble. Right now, keeping a loop running smoothly requires clear goals, strict validation gates, and a smart orchestrator.</p>
+<p>The core problem lies in that orchestrator. How smart does it actually need to be?</p>
+<p>Loop engineering fails to solve this issue, which limits its loops to simple, intuitive tasks. The AI agents we actually want are true digital twins. They should mirror our domain knowledge and decision-making style. They need to handle the heavy mental lifting in our daily work reliably while running continuously in the background.</p>
+<p>There is still a big gap between current LLMs and the human brain. An LLM might be a generalist, but domain experts are the specialists.</p>
+<p>How do we close this gap for our agents? The most critical step is giving them a proper brain.</p>
+<h2 id="Cognitive-Closed-Loop"><a href="#Cognitive-Closed-Loop" class="headerlink" title="Cognitive Closed-Loop"></a>Cognitive Closed-Loop</h2><p>We can explain this using a simplified human cognitive model without getting bogged down in academic jargon. If you want a deep dive into cognitive science or neuroscience, you can check standard textbooks on those subjects.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/1*3X-iFba3KCRXJmTEjHM6yw.png"></p>
+<ul>
+<li><p>In the Selective Attention stage, our brain filters out noise and extracts key signals from massive streams of input. Otherwise, we would quickly suffer from information overload.</p>
+</li>
+<li><p>In the Pattern Matching stage, incoming signals trigger retrieval and prediction rather than active thinking. The brain compares inputs with past experiences to find relevant mental links.</p>
+</li>
+<li><p>In the Mental Simulation stage, once the brain gathers relevant material, it simulates possible outcomes and uses them to make predictions.</p>
+</li>
+<li><p>In the Pruning &amp; Heuristics stage, the brain evaluates trade-offs based on past experience and discards impractical options.</p>
+</li>
+<li><p>In the React &amp; Output stage, the brain takes concrete action based on the final evaluation.</p>
+</li>
+<li><p>Meta-cognition runs in parallel to monitor thinking processes. It produces circuit-breaker signals when needed, such as asking, Am I going in circles?</p>
+</li>
+<li><p>The Consolidation &amp; Plasticity stage works asynchronously offline rather than during active thought. This is the process where short-term memory turns into long-term memory. We reflect, summarize, and digest events, creating raw material for future retrieval.</p>
+</li>
+</ul>
+<p>Now that we understand how the brain operates, how do we build a brain for an LLM?</p>
+<p>First, we need a Knowledge Base (KB).</p>
+<h2 id="Build-a-KB"><a href="#Build-a-KB" class="headerlink" title="Build a KB"></a>Build a KB</h2><p>An LLM is a reasoning engine. It takes input, processes a reaction, and generates output. This gives us both the beginning and the end of the chain.</p>
+<p>Cognitive steps show us that pattern matching and mental simulation form the core of mental processing. This requires a dedicated memory storage system with fast query and search capabilities.</p>
+<p>To make an LLM accurate, we must fetch relevant material from memory and convert it into a format the model can process easily. High-quality input context is the only way to produce high-quality output results. This concept lies at the heart of context engineering. Nothing is truly new under the sun.</p>
+<p>A Knowledge Base serves exactly this purpose.</p>
+<p>A KB can take many shapes, ranging from Andrej Karpathy’s popular LLM wiki to traditional RAG architectures. The specific format does not matter much because both provide storage and retrieval. They simply differ in implementation details.</p>
+<p>I previously wrote an article detailing the evolution of RAG, which you can read here.</p>
+<p>The key requirement is storing high-quality, interconnected content. If a brain holds garbage, it will produce garbage decisions. Similarly, if memory stores isolated facts without context, decisions will suffer from narrow perspectives and blind spots.</p>
+<p>Both quality and interconnectedness are essential.</p>
+<p>However, high-quality data alone is not enough. Without a structured entry point, extensive knowledge remains useless theoretical noise. We also need proper classification and indexing.</p>
+<h2 id="Proper-Categorization"><a href="#Proper-Categorization" class="headerlink" title="Proper Categorization"></a>Proper Categorization</h2><p>Just as traditional databases rely on indexing, sharding, and partitioning for fast lookups, human memory operates on similar mechanisms.</p>
+<p>Brain memory requires similar mechanisms. In practice, software development already relies on proven approaches like taxonomy. The taxonomy methodology acts as an externalized, standardized version of human categorization.</p>
+<p>We can skip dense theories and explain this approach in plain language. We see the same pattern at work in human cognition.</p>
+<p>Taxonomy relies on four core principles:</p>
+<ul>
+<li><p>Feature Extraction: Breaking objects down into key attributes. For instance, when processing an apple, we extract attributes like Type: Fruit, Color: Red, and Texture: Crunchy.</p>
+</li>
+<li><p>Relational Structuring: Linking objects through logical relationships, most commonly Is-a or Part-of connections. For example, an Apple is a Fruit, and a Fruit is a Food. A Tire is part of a Car.</p>
+</li>
+<li><p>Controlled Vocabulary &amp; Mapping: Establishing canonical terms while mapping slang, typos, and synonyms to those canonical terms. If a user searches for potato or spud, the underlying system maps both queries to the same category ID.</p>
+</li>
+<li><p>Boundary Setting &#x2F; MECE Principle: A well-designed taxonomy follows the MECE principle (Mutually Exclusive, Collectively Exhaustive). This ensures every item has a clear location without falling into conflicting categories.</p>
+</li>
+</ul>
+<p>Cognitive psychology shows that the brain groups similar concepts automatically to conserve energy. When we see an unfamiliar dog breed, our brain immediately categorizes it as a dog rather than analyzing it as an entirely new species. Taxonomy puts this mental principle into practice.</p>
+<h2 id="The-Final-Step-Feedback-Loop"><a href="#The-Final-Step-Feedback-Loop" class="headerlink" title="The Final Step: Feedback Loop"></a>The Final Step: Feedback Loop</h2><p>The final stage of cognitive processing involves an offline background component.</p>
+<p>During sleep cycles, the hippocampus consolidates processed daily events into experiences and writes them to long-term memory. This creates traceable paths, making future lookups faster and more thorough while enabling safer, more efficient pruning.</p>
+<p>To maintain an effective KB, we need two write paths. Beyond asking the agent to memorize facts directly, we need an offline processing pipeline.</p>
+<p>Continuous KB updates are the only way to provide an agent with rich, complete context.</p>
+<h2 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h2><p>The market today is flooded with flashy tech buzzwords. But as I mentioned earlier, nothing is new under the sun. Marketing jargon simply repackages foundational concepts without altering their underlying nature.</p>
+<p>If we want an LLM to become genuine AI with real intelligence rather than just next-token prediction, we must equip our agent with human-like cognitive loops and deep experience. Only then can an agent become truly smart.</p>
+<p>People often conflate LLM, Agent, and AI. In reality, these represent completely different technical tiers. An LLM handles input and output. An agent adds the ability to react. But reaching true AI requires an actual cognitive brain.</p>
+<p>In this article, we explored how to build a digital twin through the lens of cognitive science. In the next post, I will share my exact implementation step by step. Let’s call it a day.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://lazypro.medium.com/how-to-build-true-digital-twins-with-ai-agents-748916d10f43">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Backend/Solving-Gevent-Pool-Issues-in-Flask-Apps-957154/20260801/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Backend/Solving-Gevent-Pool-Issues-in-Flask-Apps-957154/20260801/" class="post-title-link" itemprop="url">Solving Gevent Pool Issues in Flask Apps</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2026-08-01 13:50:12" itemprop="dateCreated datePublished" datetime="2026-08-01T13:50:12+08:00">2026-08-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Backend/" itemprop="url" rel="index"><span itemprop="name">Backend</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="Learn-how-Keep-Alive-connections-can-drain-your-Gevent-pool-and-crash-pods"><a href="#Learn-how-Keep-Alive-connections-can-drain-your-Gevent-pool-and-crash-pods" class="headerlink" title="Learn how Keep-Alive connections can drain your Gevent pool and crash pods"></a>Learn how Keep-Alive connections can drain your Gevent pool and crash pods</h2><p><img src="https://miro.medium.com/v2/resize:fit:1400/1*evEKFdcBcNrvRmhSkuOGAQ.png"></p>
+<p>Recently, we have been troubleshooting a stubborn issue. Pods kept restarting for no apparent reason.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/health/check&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Hello, World!&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>It always returns HTTP 200 OK.</p>
+<h2 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h2><ul>
+<li><p>Question 5: Who exactly is the source?</p>
+</li>
+<li><p>Question 6: Why do they open connections but not close them?</p>
+</li>
+</ul>
+<p>Let’s call it a day.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://python.plainenglish.io/solving-gevent-pool-issues-in-flask-apps-290a46a488f2">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -997,382 +1365,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/100k-RPS-System-Design-The-Ultimate-Interview-Guide/20260315/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/100k-RPS-System-Design-The-Ultimate-Interview-Guide/20260315/" class="post-title-link" itemprop="url">100k RPS System Design: The Ultimate Interview Guide</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2026-03-16 01:36:00" itemprop="dateCreated datePublished" datetime="2026-03-16T01:36:00+08:00">2026-03-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="Master-senior-engineering-hires-with-this-high-concurrency-RDBMS-challenge"><a href="#Master-senior-engineering-hires-with-this-high-concurrency-RDBMS-challenge" class="headerlink" title="Master senior engineering hires with this high-concurrency RDBMS challenge"></a>Master senior engineering hires with this high-concurrency RDBMS challenge</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*CPBRK9b9BCHsqWbTdAQKyw.png"></p>
-<p>I recently designed an interview question for our team’s hiring process. I put a lot of thought into it and hid some clever details inside. Without further ado, let’s take a look at the prompt.</p>
-<blockquote>
-<p>[Interview Prompt: Large-Scale Security Agent Status &amp; Event Tracking System]<br>We have an enterprise-grade security monitoring product. The system must ingest telemetry from 100,000 endpoint Security Agents deployed globally. The reported data includes “Endpoint Connection Status” (e.g., Online&#x2F;Offline) and “Security Events &#x2F; Alerts”.<br>Due to the massive fleet size and high-frequency reporting, the system experiences a write throughput of 100,000 RPS.<br>To evaluate your understanding of core database mechanics, you are strictly constrained to use a traditional RDBMS (PostgreSQL or MySQL) as the primary storage layer. You may not rely on NoSQL solutions (such as Redis or Elasticsearch) to bypass this constraint.<br>Please provide the following:  </p>
-<ol>
-<li>DB Schema Design: Detail your table structures, column data types, and Primary Keys.  </li>
-<li>Index Design: Specify which indexes you would create and explain the reasoning behind your choices.  </li>
-<li>SQL Queries: Write the exact SQL statements responsible for “Agents reporting data” (writes) and “Querying an Agent’s current status and events” (reads).</li>
-</ol>
-</blockquote>
-<p>The beauty of this question lies in its hidden details. For example:</p>
-<ol>
-<li>It closely mirrors our actual product scenarios. This allows me to introduce our daily work and job requirements during the interview.</li>
-<li>Depending on my guidance or the candidate’s approach, we can turn this into a system design question for senior roles. Alternatively, we can scale it down to a basic CRUD problem for mid-level positions.</li>
-<li>It looks simple but contains many traps. It is very easy to make mistakes.</li>
-</ol>
-<p>Let’s walk through the details one by one. I will explain this from the perspective of interviewing a senior candidate.</p>
-<h3 id="Level-1-CQRS"><a href="#Level-1-CQRS" class="headerlink" title="Level 1: CQRS"></a>Level 1: CQRS</h3><p>First, I expect the candidate to ask the most critical question. With such high RPS, what is the read-to-write ratio? I can tell them it is 1:100 or even higher. This is heavily write-bound.</p>
-<p>When designing the database schema, we must optimize for writes. This means we need to design a separate data model specifically for reads.</p>
-<p>How we design the read model leads to the second key question. What do the reports look like? After all, we need to customize the read model to handle this massive volume of data.</p>
-<p>If we are building time-based aggregated reports, we might need to consider a sliding window design. If we are tracking recent events for individual agents, we could use a simple, lean table and implement data rotation to balance costs.</p>
-<p>This is the first level. If the candidate fails this, I mentally lower the bar and switch to mid-level mode. Naturally, they will not secure a senior offer from me at that point.</p>
-<h3 id="Level-2-Insert-or-Update"><a href="#Level-2-Insert-or-Update" class="headerlink" title="Level 2: Insert or Update"></a>Level 2: Insert or Update</h3><p>Usually, a candidate’s first reaction is to design an agent table. Each agent gets a row with a status field indicating online or offline.</p>
-<p>This design is fine for small datasets. However, it carries severe risks at scale, such as lock contention. When a company has a massive fleet of agents and the network is unstable, online and offline events trigger constantly. If we update a single column, countless services might end up waiting for the same row lock at the same time. This creates massive backpressure and can crash the service.</p>
-<p>Therefore, we should prioritize an append-only design pattern for the status table.</p>
-<p>But this introduces another problem. How do we handle agent retries? For instance, an agent sends a request but does not receive a response due to network issues. The standard behavior is to retry. How do we guarantee idempotency? A common approach is for the agent to generate a GUID (like UUIDv4) for each request. The service then writes this field to the database to deduplicate entries.</p>
-<h3 id="Level-3-Pagination"><a href="#Level-3-Pagination" class="headerlink" title="Level 3: Pagination"></a>Level 3: Pagination</h3><p>Whether we use CQRS or a single table for reads and writes, querying massive fact tables always requires pagination. We obviously cannot load all the data at once. So, how do we paginate?</p>
-<p>I am sure many people immediately think of offset and limit. This is known as offset-based pagination. When the offset gets huge, the pressure on the database becomes immense. If a candidate can suggest keyset-based pagination here, they definitely earn bonus points.</p>
-<p>What we need to do is design an auto-incrementing ID in the fact table. Every batch remembers the maximum ID of the current fetch. We then use that value as the starting point for the next batch. This method drastically reduces database pagination overhead.</p>
-<p>If the candidate notices that this incrementing ID should be the primary key, that earns extra points too.</p>
-<p>I have written an article about pagination before. Feel free to check it out if you are interested. I used several real-world examples to explain why we need to abandon offset. <a target="_blank" rel="noopener" href="https://medium.com/starbugs/explaining-pagination-in-elasticsearch-3ac59656fdd2">Explaining Pagination in Elasticsearch</a></p>
-<p>This also brings up another issue. Keyset-based pagination makes it impossible to jump to a specific page or get the total record count. What if the product requires those features? This is not a technical test question, but I want to leave it here for everyone to ponder.</p>
-<h3 id="Level-4-Auto-increment"><a href="#Level-4-Auto-increment" class="headerlink" title="Level 4: Auto-increment"></a>Level 4: Auto-increment</h3><p>The previous level mentioned using an auto-incrementing ID as the primary key. The problem is that such massive tables will easily overflow a standard auto-increment integer. We have two options here.</p>
-<p>The first option is to use a relatively large number space as the primary key. Timestamps are a good example. It is even better if the candidate knows about Snowflake IDs.</p>
-<p>Timestamps solve most problems, but we do need to watch out for clock skew. However, clock skew does not cause major issues on this type of fact table.</p>
-<p>The second option is to consider data partitioning or sharding. This leads us directly to the next level.</p>
-<h3 id="Level-5-Shard-Key"><a href="#Level-5-Shard-Key" class="headerlink" title="Level 5: Shard Key"></a>Level 5: Shard Key</h3><p>Given our current setup with both a fact table and a dedicated read model, how would we shard the data?</p>
-<p>There are two common approaches. One is to shard by tenant or even by agent. This is simple, intuitive, and effective. However, it creates hotspots. Shards belonging to large or highly active customers might not hold up for long.</p>
-<p>I previously shared a classic formula for choosing a shard key. If you have not seen it, you can review it here. <a target="_blank" rel="noopener" href="https://interviewnoodle.com/how-to-choose-a-mongodb-shard-key-e4063b636c26">How to Choose a MongoDB Shard Key</a></p>
-<p>The other approach is to shard by time. This adds extra complexity to our queries. This is standard practice in data engineering, but backend engineers are usually not accustomed to it.</p>
-<h3 id="Level-6-Index"><a href="#Level-6-Index" class="headerlink" title="Level 6: Index"></a>Level 6: Index</h3><p>How should we build indexes on the read table? The answer is simple. It completely depends on the specific product requirements. But what about the fact table?</p>
-<p>The answer might be surprising. Do not use indexes. More accurately, do not build any extra indexes other than the primary key.</p>
-<p>I actually already mentioned the reason. We are using keyset-based pagination. We only need the primary key as our query condition. We will not use any other queries.</p>
-<p>Every added index on a fact table is an extra burden. This includes hardware costs and write performance penalties. The hardware burden happens because fact tables are massive, meaning the index will also consume a huge amount of disk space. On the other hand, writing data also involves updating the index B-tree, which slows down performance.</p>
-<h3 id="Level-7-Hot-and-Cold-Data-Separation"><a href="#Level-7-Hot-and-Cold-Data-Separation" class="headerlink" title="Level 7: Hot and Cold Data Separation"></a>Level 7: Hot and Cold Data Separation</h3><p>No matter how we shard, infinitely growing data will eventually hit physical limits or budget constraints.</p>
-<p>How do we implement hot and cold data separation? This steps a bit outside the realm of pure SQL. However, a candidate who can consider this level of architecture is definitely expert-tier.</p>
-<p>Why do we need to think about this from the start? If we do not establish this premise early on, adding it later as a new requirement becomes exceptionally troublesome.</p>
-<p>I wrote an article detailing my practical experience with hot and cold data separation. It took months to finally push it to production. I linked the article right here, and it is absolutely a great read. <a target="_blank" rel="noopener" href="https://blog.stackademic.com/how-shopline-saves-40-space-in-main-database-9504a1eb2472">How SHOPLINE Saves 40% Space in Main Database</a></p>
-<p>Therefore, it is best to factor this into the design right from the beginning.</p>
-<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>The clever part of this problem is its flexibility. We can adjust the scenario at any time based on the candidate’s answers. This allows us to evaluate every candidate as fairly as possible.</p>
-<p>The biggest problem with system design interviews is the lack of objective standards. Carefully crafted questions like this let us clearly grade a candidate’s actual skills.</p>
-<p>Practical validation has shown that this approach brings solid guidelines to otherwise chaotic system design interviews.</p>
-<p>Besides that, we can always scale this question down into a coding interview. For instance, we can ask the candidate to design a pagination algorithm or a sliding window algorithm. We can set goals based on the desired difficulty while avoiding the trap of AI-generated answers. I find this type of question very interesting.</p>
-<p>I will continue to try expanding my own question bank. I want to design even more useful and practical interview questions in the future.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/100k-rps-system-design-the-ultimate-interview-guide-613ab1d9eb8e">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Hexagonal-Architecture-The-Best-AI-Vibe-Coding-Guide/20260301/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/AI/Hexagonal-Architecture-The-Best-AI-Vibe-Coding-Guide/20260301/" class="post-title-link" itemprop="url">Hexagonal Architecture: The Best AI Vibe Coding Guide</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2026-03-02 01:01:00" itemprop="dateCreated datePublished" datetime="2026-03-02T01:01:00+08:00">2026-03-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Hexagonal-Architecture-The-Best-AI-Vibe-Coding-Guide"><a href="#Hexagonal-Architecture-The-Best-AI-Vibe-Coding-Guide" class="headerlink" title="Hexagonal Architecture: The Best AI Vibe Coding Guide"></a>Hexagonal Architecture: The Best AI Vibe Coding Guide</h3><h4 id="Boost-review-efficiency-and-code-accuracy-using-layered-architecture-with-AI"><a href="#Boost-review-efficiency-and-code-accuracy-using-layered-architecture-with-AI" class="headerlink" title="Boost review efficiency and code accuracy using layered architecture with AI"></a>Boost review efficiency and code accuracy using layered architecture with AI</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*7FKBYW4FcC-JTVxwOimVeg.png"></p>
-<p>I finally found a development workflow that suits me best. It is highly efficient and ensures extremely high accuracy at the same time.</p>
-<p>I think we can all agree on delegating the tedious task of coding to AI as much as possible. We humans just need to define what to do and verify the results. But I am not sure if we have noticed a problem. Humans eventually become the blocker in the whole process. AI writes code incredibly fast. We simply cannot do a complete code review. This usually results in an “always approve” situation.</p>
-<p>This “always approve” habit is the exact reason why various bugs keep popping up. AI is great at writing code. However, it definitely does not guarantee zero mistakes.</p>
-<p>So how can our review process keep up with the speed of AI? This is a question I have been thinking about lately.</p>
-<p>Actually, the answer is already there. Long before AI came into the world, we already had a methodology to improve software maintainability. That methodology is layering.</p>
-<p>Yes, layered architecture is nothing new. I have also written many articles about how to implement layered architecture and Domain-Driven Design (DDD). The most classic one is this article.</p>
-<p>But in fact, I only favored basic layering in the past. I did not favor extreme layering strategies like hexagonal architecture. However, it is exactly the hexagonal architecture that can completely solve the current problem of inefficient reviews and excessive errors. Let us see why.</p>
-<h3 id="Hexagonal-Architecture"><a href="#Hexagonal-Architecture" class="headerlink" title="Hexagonal Architecture"></a>Hexagonal Architecture</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*pl4UBM-IJLe-X9iE.png"></p>
-<p>This is a classic hexagonal architecture diagram. It has a few key points.</p>
-<ol>
-<li>Clear external dependencies. This includes the inbound interfaces (ports) flowing into the service and the outbound dependencies. All external dependencies have clear and well-defined interfaces to set the boundaries.</li>
-<li>Every external dependency has a corresponding adapter for implementation. For instance, a Postgres has a database adapter. External API calls have REST adapters.</li>
-<li>Inside the service, aside from boundary definitions, the rest is purely domain-specific business logic.</li>
-</ol>
-<p>I believe even those unfamiliar with clean architecture or DDD can easily see the strengths of hexagonal boundaries from this diagram.</p>
-<p>But the main reason I did not promote hexagonal architecture in the past is the manual labor involved. All these layers, adapters, and boundaries require manual coding one by one. This involves a massive amount of coding effort just to describe specifications instead of actually solving problems.</p>
-<p>Therefore, at that time, hexagonal architecture would ironically become another blocker. It was not a review blocker but a coding blocker.</p>
-<p>Let me give a classic example from my own experience. I can build three APIs in Golang with about 600 to 1000 lines of code, excluding tests. But if I use hexagonal architecture, it takes about 3000 to 4000 lines of code. This means 4–5x more effort, or even more, just for coding.</p>
-<h3 id="Vibe-Coding-Era"><a href="#Vibe-Coding-Era" class="headerlink" title="Vibe Coding Era"></a>Vibe Coding Era</h3><p>But times have changed now. Writing code is no longer the bottleneck. As long as we have clear and specific specifications, AI can easily generate thousands of lines of code.</p>
-<p>That is right. Clear and specific specifications are exactly the strengths of hexagonal architecture. And the shortcomings of hexagonal architecture are perfectly covered by AI. They are a perfect match.</p>
-<p>So what are the benefits of hexagonal architecture for us today? Let me explain using a concrete development workflow.</p>
-<p>When we need to develop a complex microservice API, it will have many external dependencies. These include RPC between services, its own data storage, and even complex business logic.</p>
-<p>We can manage all of these using the following development workflow. This is a specific example from a project I am currently working on. I strictly followed everything defined by hexagonal architecture.</p>
-<p><strong>Phase 1: Domain and Ports</strong></p>
-<ul>
-<li>Details: Struct fields and interface method signatures.</li>
-<li>Human Focus: Check if the design is correct and if anything is missing.</li>
-</ul>
-<p><strong>Phase 2: Repository</strong></p>
-<ul>
-<li>Details: SQL, SQLC, and mapping.</li>
-<li>Human Focus: A quick glance is enough. Tests will catch errors.</li>
-</ul>
-<p><strong>Phase 3: Infrastructure</strong></p>
-<ul>
-<li>Details: HTTP adapter, middleware, and Wire.</li>
-<li>Human Focus: A quick glance is enough. If it compiles, it is mostly fine.</li>
-</ul>
-<p><strong>Phase 4: Service Layer</strong></p>
-<ul>
-<li>Details: State machine, validation, and notification.</li>
-<li>Human Focus: Read line by line to ensure business rules are correct.</li>
-</ul>
-<p><strong>Phase 5: Integration Test</strong></p>
-<ul>
-<li>Details: 16 DB tests.</li>
-<li>Human Focus: Ensure important scenarios are covered.</li>
-</ul>
-<p>We can almost completely let AI write code for all phases. Each phase will correspond to a complete PR. This naturally includes a complete CI&#x2F;CD process.</p>
-<p>We can see that the scope requiring my careful review is clearly defined. It only includes phase 1 and phase 4.</p>
-<p>Once I deeply verify in phase 1 that the interfaces of every external dependency are defined correctly, the behavior of the entire microservice is basically solid. Then, I just need to verify the internal core business logic is correct. This keeps the quality of the entire microservice at a high level.</p>
-<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Through the strict layering of hexagonal architecture, we can easily achieve separation of concerns. We only need to focus on where we must focus. For the rest, we can trust the power of AI.</p>
-<p>This is the core reason why I am embracing hexagonal architecture again in this era.</p>
-<p>When we have the correct interfaces, even if errors occur, they will not be disastrous. Moreover, reviewing interfaces is relatively easy for humans.</p>
-<p>I have been running this workflow for a while now. Facts prove that it is highly effective. It can significantly boost overall productivity. After all, we always say humans are the bottleneck of AI. I am working hard to eliminate this blocker.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/hexagonal-architecture-the-best-ai-vibe-coding-guide-3ca8acad77d7">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Claude-Code-vs-Copilot-My-2026-AI-Workflow/20260215/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/AI/Claude-Code-vs-Copilot-My-2026-AI-Workflow/20260215/" class="post-title-link" itemprop="url">Claude Code vs Copilot: My 2026 AI Workflow</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2026-02-16 01:36:01" itemprop="dateCreated datePublished" datetime="2026-02-16T01:36:01+08:00">2026-02-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Claude-Code-vs-Copilot-My-2026-AI-Workflow"><a href="#Claude-Code-vs-Copilot-My-2026-AI-Workflow" class="headerlink" title="Claude Code vs Copilot: My 2026 AI Workflow"></a>Claude Code vs Copilot: My 2026 AI Workflow</h3><h4 id="How-to-adapt-to-the-unstoppable-AI-wave-and-new-agent-driven-workflows"><a href="#How-to-adapt-to-the-unstoppable-AI-wave-and-new-agent-driven-workflows" class="headerlink" title="How to adapt to the unstoppable AI wave and new agent-driven workflows"></a>How to adapt to the unstoppable AI wave and new agent-driven workflows</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*WLRGkNiTsIDjidADS-AEqg.png"></p>
-<p>My last article wrapped up at the end of 2025. This means I haven’t put out anything new for a few months.</p>
-<p>I have a few direct and indirect reasons for this.</p>
-<p><strong>Direct Reasons:</strong></p>
-<ol>
-<li>Winter is when I take long vacations for skiing and outdoor activities. The snow conditions are perfect in January and February.</li>
-<li>I need to stay extra focused on work to make those long breaks happen.</li>
-<li>I used to spend a lot of energy on Copilot. Now I am moving to Claude Code. It takes a lot of time to fine-tune the new workflow.</li>
-</ol>
-<p><strong>Indirect Reasons:</strong></p>
-<ol>
-<li>I noticed that fewer people read traditional or digital media in the AI era. This includes platforms like Medium.</li>
-<li>Most new learning principles and methods are actually the same as before. Only the tools changed.</li>
-<li>I can already delegate most tasks to agents. There isn’t much left to share.</li>
-</ol>
-<p>One major point to watch is media influence.</p>
-<p>I used to work in e-commerce. I know how traditional operations work. This includes things like SEO, ads, and CRM. But AI is taking over the entry points for media. In the future, people might not even browse stores. AI will just place the orders directly. Traditional methods will not be very effective then.</p>
-<p>This is happening on platforms like Medium too. To be honest, my month-over-month views on Medium are dropping fast. My revenue reflects this as well. This is a huge turning point for content creators. We must adapt to this new digital transformation. If we don’t, we will get left behind.</p>
-<p>Another key point is tool integration. Every coding tool uses the same models now. The winner will be whoever can build a better workflow.</p>
-<p>Let’s look at <strong>Skills</strong> as an example. Claude Code launched Skills to fix a major pain point with MCP. Usually, listing an agent’s abilities eats up a lot of context. Skills provides an index instead. The agent only reads the details when it actually needs a specific ability.</p>
-<p>This concept is simple. I was already using Copilot this way before Skills even existed. I wrote my own Markdown files for common commands like <code>gh.md</code>, <code>jira.md</code>, and <code>confluence.md</code>. I told the agent about these files in the system prompt and to check those files when it needed details.</p>
-<p>This gave the agent clear instructions for platforms like GitHub or Jira. This is exactly what Skills does. Claude Code just made it a built-in feature. Copilot recently added a similar Skills concept too. These are not groundbreaking features. They are just workflow integrations. But these tiny tweaks are what created the massive agent ecosystem we see today.</p>
-<p>I didn’t feel a massive jump in quality when I moved from Copilot to Claude Code. Instead, the whole process just felt smoother. Take <strong>Hooks</strong> for example. I used to spend a lot of time tuning Copilot to get them right. Claude Code has them built-in. This makes everything much easier.</p>
-<p>These are my takeaways from working and learning in 2026. I can’t put together a fully structured report yet. But I can say one thing for sure. This AI wave is unstoppable.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/claude-code-vs-copilot-my-2026-ai-workflow-718abf3e3e19">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,295 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Accelerating-API-Responses-with-Smart-Architecture/20240310/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Accelerating-API-Responses-with-Smart-Architecture/20240310/" class="post-title-link" itemprop="url">Accelerating API Responses with Smart Architecture</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-03-11 01:46:20" itemprop="dateCreated datePublished" datetime="2024-03-11T01:46:20+08:00">2024-03-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Experience-a-boost-in-API-response-times-with-our-paradigm-shifting-move-from-Semi-Lambda-to-TiDB-Kappa-architecture"><a href="#Experience-a-boost-in-API-response-times-with-our-paradigm-shifting-move-from-Semi-Lambda-to-TiDB-Kappa-architecture" class="headerlink" title="Experience a boost in API response times with our paradigm-shifting move from Semi-Lambda to TiDB &amp; Kappa architecture"></a>Experience a boost in API response times with our paradigm-shifting move from Semi-Lambda to TiDB &amp; Kappa architecture</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*IhK9f60eYRXLUfNL"></p>
+<p>We recently launched a big technical revamp, and the results have been impressive. We’ve seen a 9x improvement in response times for specific APIs (from 9 seconds down to 1 second).</p>
+<p>You may ask why the API response time is so long. It’s mainly because of the product characteristics, it’s a data product, there will be a lot of data aggregation and analysis, and the API response will be the result of a period of analysis. Therefore, in general, there will be a longer latency.</p>
+<p>Nevertheless, through this technical revamp, we have significantly reduced the API latency while maintaining the product features.</p>
+<p>This is due to two core changes.</p>
+<ol>
+<li>Database changes</li>
+<li>Kappa architecture</li>
+</ol>
+<p>Let’s take a closer look at what we did.</p>
+<h3 id="Semi-Lambda-Architecture"><a href="#Semi-Lambda-Architecture" class="headerlink" title="Semi-Lambda Architecture"></a>Semi-Lambda Architecture</h3><p>At first, our architecture is a “semi-Lambda” architecture. To understand what a semi-Lambda architecture is, let’s first look at a Lambda architecture.</p>
+<p>A <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Lambda_architecture">typical Lambda architecture</a> has three components.</p>
+<ol>
+<li>Batch layer</li>
+<li>Speed layer</li>
+<li>Serving layer</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_kpuP6tt0HDMdETQ9Ia12A.png"></p>
+<p>Data processing from the data source is divided into two paths, one is periodic batch processing, which has the advantage of processing a large amount of data quickly.</p>
+<p>On the other hand, in order to enhance the freshness of the analysis, there is real-time processing to calculate the data in the current time period. The results from both sides are aggregated into a serving layer so that end users can get the final results.</p>
+<p>For example, if the time is 12:30 and the batch layer runs every full hour, then the data from 12:01 to 12:30 will be processed by the speed layer.</p>
+<p>The above is a standard Lambda architecture.</p>
+<p>Then, what is a semi-Lambda architecture? The illustration is as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*ZDyYOvNn7QAEyA--dQBfug.png"></p>
+<p>We also have a batch layer and a serving layer, but we are missing the speed layer. Instead, we write the raw data directly into the serving layer, and the client, e.g. API, which is invoked by the upper layer, runs the logic to process the raw data and combine it with the batch result.</p>
+<p>In other words, we are the on-the-fly speed layer.</p>
+<p>The drawbacks of such an architecture are obvious.</p>
+<ol>
+<li>Postgres is a monolithic database, so even though it can be read-write split, the replicas still need to synchronize with the master constantly. This is fatal in large raw data write scenarios, where I&#x2F;O consumes a lot of system resources.</li>
+<li>Postgres is limited in its capability to handle big data. Although it is possible to make data blocks smaller and easier to read by partitioning, a single database is not enough when the algorithm is designed for a large number of partitions.</li>
+</ol>
+<p>Therefore, we need to propose solutions to these two problems.</p>
+<h3 id="Streaming-ingest-problem"><a href="#Streaming-ingest-problem" class="headerlink" title="Streaming ingest problem"></a>Streaming ingest problem</h3><p>First of all, we need to solve the database bottleneck of writing large amounts of data. Therefore, a proper database is essential.</p>
+<p>For those who have been following me, you should know I have been studying RTOLAP databases such as <a target="_blank" rel="noopener" href="https://medium.com/dev-genius/building-apache-pinot-and-presto-bf91388c7df5">Apache Pinot</a> for some time. But in the end, we didn’t go with RTOLAP.</p>
+<p>The main reason is RTOLAP database does not perform well in two specific scenarios.</p>
+<ol>
+<li>Upsert</li>
+<li>Join</li>
+</ol>
+<p>Because of the application features, we need to perform frequent upserts on big data, and in addition, we need to do a large number of joins, doesn’t matter if it’s a cross-table join or self-table join.</p>
+<p>On the other hand, it is difficult to say RTOLAP database has comprehensive support for SQL statements, and we want to minimize the amount of trial-and-error work required for migration, so we didn’t choose RTOLAP database in the end.</p>
+<p>Fortunately, around the same time, we got some help from a vendor and learned about a distributed database completely compatible with MySQL, i.e. TiDB. Previously, <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/htap-learning-from-xiaohongshu-8d8181d12195">I wrote an article</a> describing TiDB application scenarios. In fact, TiDB can support both OLTP and OLAP scenarios, fitting our needs.</p>
+<h3 id="Speed-layer-problem"><a href="#Speed-layer-problem" class="headerlink" title="Speed layer problem"></a>Speed layer problem</h3><p>Once the database selection is finalized, the next step is to address the lack of a complete speed layer.</p>
+<p>There are two possible directions.</p>
+<ol>
+<li>Build a complete Lambda speed layer.</li>
+<li>Change to Kappa architecture</li>
+</ol>
+<p>In the end, we chose the latter and started to move the architecture to Kappa.</p>
+<p>The reason is both Lambda and Kappa need to build streaming processing capabilities, but to build a speed layer for the Lambda architecture we still need to rewrite the batch logic in a streaming framework. It would be better to migrate the batch logic to the Kappa framework so that if there is a need for any feature in the future, we just need to add the new logic to the streaming framework.</p>
+<p>This is one of the advantages of Kappa over Lambda, there is no need to maintain two pipelines (batch and real-time) with the same logic.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Smd9TkUWEXNFAViOAbsuyw.png"></p>
+<p>After moving to the Kappa paradigm, you can see that the whole architecture has become simple, with Flink being responsible for data processing and batch processing disappearing. In addition, Postgres was moved to TiDB, which of course required changes to the query syntax, but it was well worth it.</p>
+<p>Finally, we solved the OLAP query latency problem by using streaming pre-processing and the power of the TiDB distributed database.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Paradigm shift is a battle against time, and how to keep optimizing the system while guaranteeing development productivity is a big challenge.</p>
+<p>In addition to initiating discussions and a series of technical selections, it is more important to plan the actual migration and develop efficiently. This requires architects, PMs, and developers to work together.</p>
+<p>The question is frequently asked: How much of a benefit is this migration? It’s a tough question to answer before getting one’s hands dirty. But if we don’t know the benefits, how can we have the confidence to invest for such a long period of time?</p>
+<p>From my point of view, we need to list the problems we want to solve and prioritize them in a way that will affect the final solution. Then, identify one or two showcases to act as pilots, and learn as much as possible from these showcases, rather than launching a large-scale revamp all at once.</p>
+<p>When results are achieved in the showcases, we will be able to measure the benefits.</p>
+<p>Engineering is different from science in nature. Engineering is learning by doing, not by theorizing. Airplanes fly before scientific theories can explain them, that’s my mindset on technical revamping, let’s see what you guys think too.</p>
+<h3 id="Stackademic-🎓"><a href="#Stackademic-🎓" class="headerlink" title="Stackademic 🎓"></a>Stackademic 🎓</h3><p>Thank you for reading until the end. Before you go:</p>
+<ul>
+<li>Please consider <strong>clapping</strong> and <strong>following</strong> the writer! 👏</li>
+<li>Follow us <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><strong>X</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><strong>LinkedIn</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><strong>YouTube</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Discord</strong></a></li>
+<li>Visit our other platforms: <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>In Plain English</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://cofeed.app/"><strong>CoFeed</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://venturemagazine.net/"><strong>Venture</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://blog.cubed.run/"><strong>Cubed</strong></a></li>
+<li>More content at <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>Stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/tidb-kappa-accelerating-api-responses-with-smart-architecture-5fe9a28f0f83">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Simplify-Web-App-Development-Code-Lite-Create-Big/20240225/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Microservice/Simplify-Web-App-Development-Code-Lite-Create-Big/20240225/" class="post-title-link" itemprop="url">Simplify Web App Development: Code Lite, Create Big!</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-02-26 02:19:28" itemprop="dateCreated datePublished" datetime="2024-02-26T02:19:28+08:00">2024-02-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Simplify-Web-App-Development-Code-Lite-Create-Big"><a href="#Simplify-Web-App-Development-Code-Lite-Create-Big" class="headerlink" title="Simplify Web App Development: Code Lite, Create Big!"></a>Simplify Web App Development: Code Lite, Create Big!</h3><h4 id="Empower-your-ideas-with-Streamlit’s-Magic-—-build-feature-rich-Web-Apps-effortlessly"><a href="#Empower-your-ideas-with-Streamlit’s-Magic-—-build-feature-rich-Web-Apps-effortlessly" class="headerlink" title="Empower your ideas with Streamlit’s Magic — build feature-rich Web Apps effortlessly"></a>Empower your ideas with Streamlit’s Magic — build feature-rich Web Apps effortlessly</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*iyZdGiduMHAeJYvi"></p>
+<p>Hello data engineers and backend engineers!</p>
+<ul>
+<li>Have you ever wanted to implement a Web App but didn’t know where to start because you don’t have frontend skills?</li>
+<li>Have you ever struggled to write interactive components and spent a lot of development time?</li>
+<li>Have you ever wanted to present an idea quickly but didn’t have the right tools?</li>
+</ul>
+<p>Here’s your savior, let’s welcome <a target="_blank" rel="noopener" href="https://streamlit.io/">Streamlit</a>.</p>
+<p>It’s a full-stack framework for Python that allows you to write scripts to generate a Web App that can really work, and it supports a variety of interactive components as well.</p>
+<p>Let me show the power of Streamlit with a real-world example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*sq55R7q8mzAOiSoF.png"></p>
+<p>The above Web App is a demo of what I actually developed after I know about Streamlit, with several interactive components and integration with the database, and it’s even already live. Guess how long it took me?</p>
+<blockquote>
+<p><em>Less than an hour.</em></p>
+</blockquote>
+<p>A beginner who can write Python can write a Web App in a very short time, and I have to say that this practical experience is truly amazing.</p>
+<p>Moreover, the goal of Streamlit is to provide a framework for fast data visualization, so even drawing is as easy as the following.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*U3y5e36cyMit0DPJ.png"></p>
+<p>In the <a target="_blank" rel="noopener" href="https://streamlit.io/gallery">Streamlit gallery</a> there are a lot of examples that have already been done, and you can see that Streamlit covers almost all of the common components needed for daily work.</p>
+<h3 id="Demo-Site"><a href="#Demo-Site" class="headerlink" title="Demo Site"></a>Demo Site</h3><p>Let’s go back to the beginning of the example I worked on.</p>
+<p>As we can see from the diagram, we have used six input components in the following order.</p>
+<ul>
+<li>Select box</li>
+<li>Calendar</li>
+<li>Time picker</li>
+<li>Text input</li>
+<li>Number input</li>
+<li>Button</li>
+</ul>
+<p>The actual code is quite simple.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@st.cache_data(<span class="params">ttl=<span class="number">600</span></span>)  </span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_user</span>():  </span><br><span class="line">    db = client.dev  </span><br><span class="line">    users = db.user.find().sort(<span class="string">&#x27;_id&#x27;</span>, -<span class="number">1</span>)  </span><br><span class="line">    users = [x[<span class="string">&#x27;name&#x27;</span>] <span class="keyword">for</span> x <span class="keyword">in</span> users]  </span><br><span class="line">    <span class="keyword">return</span> users  </span><br><span class="line">  </span><br><span class="line">user = st.selectbox(<span class="string">&#x27;User&#x27;</span>, get_user())  </span><br><span class="line">d = st.date_input(<span class="string">&#x27;Date&#x27;</span>)  </span><br><span class="line">t = st.time_input(<span class="string">&#x27;Time&#x27;</span>)  </span><br><span class="line">item = st.text_input(<span class="string">&#x27;Item&#x27;</span>)  </span><br><span class="line">amount = <span class="built_in">int</span>(st.number_input(<span class="string">&#x27;Amount&#x27;</span>, step=<span class="number">1</span>))  </span><br><span class="line">dt = datetime.combine(d, t)  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">if</span> st.button(<span class="string">&#x27;Submit&#x27;</span>) <span class="keyword">and</span> item <span class="keyword">and</span> amount:  </span><br><span class="line">    db = client.dev  </span><br><span class="line">    db.accounting.insert_one(&#123;<span class="string">&#x27;DateTime&#x27;</span>: dt, <span class="string">&#x27;Item&#x27;</span>: item, <span class="string">&#x27;Amount&#x27;</span>: amount, <span class="string">&#x27;User&#x27;</span>: user&#125;)  </span><br><span class="line">    st.write(<span class="string">&#x27;Submitted&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Each input component is actually a function, and the return value is the result of the input component, which makes the whole program as easy as writing a script. There is no callback and no signal, which makes the development of Web App extremely trivial.</p>
+<p>After the script is executed, the corresponding frontend page will be generated.</p>
+<h3 id="Why-am-I-so-impressed"><a href="#Why-am-I-so-impressed" class="headerlink" title="Why am I so impressed?"></a>Why am I so impressed?</h3><p>For someone without frontend skills, making an interactive UI used to rely on packages like <code>PyQt</code> or <code>tkinter</code>.</p>
+<p>Taking <code>PyQt</code> as an example, the way to write a select box is as follows.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>():  </span><br><span class="line">    text = box.currentText()  </span><br><span class="line">    <span class="built_in">print</span>(text)  </span><br><span class="line">  </span><br><span class="line">box = QtWidgets.QComboBox(form)  </span><br><span class="line">box.addItems([<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>,<span class="string">&#x27;D&#x27;</span>])  </span><br><span class="line">box.currentIndexChanged.connect(show)</span><br></pre></td></tr></table></figure>
+
+<p>For components to be able to interact, they need to deal with event binding in addition to appearance definition, which is not intuitive.</p>
+<p>Each component has its own events, and various callbacks need to be defined, all of which are learning curve. In fact, <code>tkinter</code> is a similar implementation.</p>
+<p>But in Streamlit, you can do the same thing with just one line.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">text = st.selectbox(<span class="string">&#x27;Label&#x27;</span>, [<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>,<span class="string">&#x27;D&#x27;</span>])  </span><br><span class="line"><span class="built_in">print</span>(text)</span><br></pre></td></tr></table></figure>
+
+<p>This makes development very natural. I call the component I need, and the return result is what I want.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The greatest advantage of Streamlit is that a person without any frontend skills (HTML, CSS and Javascript) can build a full-featured Web App in a very short time. In addition, Streamlit is a differentiator from many UI packages in providing a simple concept that makes the operation of interactive components natural, and truly what you see is what you get.</p>
+<p>Streamlit is best suited as an internal data analytics platform or a PoC for quick validation, while its biggest shortcoming is that such a Web App is not well suited for high-traffic systems.</p>
+<p>The main reason is because Streamlit, in order to build up the simple concept mentioned above, its implementation is to reload the whole script every time any component changes, which has a very high system load.</p>
+<p>On the other hand, this means that the Web App is stateful and cannot be scaled horizontally through a load balancer.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*6uQlPrZloPCZrHPdnZLm2Q.png"></p>
+<p>And Streamlit itself <a target="_blank" rel="noopener" href="https://docs.streamlit.io/knowledge-base/deploy/does-streamlit-support-wsgi-protocol">so far</a> does not support <a target="_blank" rel="noopener" href="https://gunicorn.org/">Gunicorn</a>, so its vertical scalability is limited.</p>
+<p>In summary, Streamlit is best suited for Data Apps, as mentioned in the official website.</p>
+<blockquote>
+<p><em>A faster way to build and share data apps.</em></p>
+</blockquote>
+<p>Nevertheless, for me, even though I’m able to develop frontend pages, I don’t feel I’ll ever touch HTML again. After all, who wants to deal with the extra technical stack when you can do it all in Python.</p>
+<h3 id="Stackademic-🎓"><a href="#Stackademic-🎓" class="headerlink" title="Stackademic 🎓"></a>Stackademic 🎓</h3><p>Thank you for reading until the end. Before you go:</p>
+<ul>
+<li>Please consider <strong>clapping</strong> and <strong>following</strong> the writer! 👏</li>
+<li>Follow us <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><strong>X</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><strong>LinkedIn</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><strong>YouTube</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://discord.gg/in-plain-english-709094664682340443"><strong>Discord</strong></a></li>
+<li>Visit our other platforms: <a target="_blank" rel="noopener" href="https://plainenglish.io/"><strong>In Plain English</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://cofeed.app/"><strong>CoFeed</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://venturemagazine.net/"><strong>Venture</strong></a> <strong>|</strong> <a target="_blank" rel="noopener" href="https://blog.cubed.run/"><strong>Cubed</strong></a></li>
+<li>More content at <a target="_blank" rel="noopener" href="https://stackademic.com/"><strong>Stackademic.com</strong></a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/simplify-web-app-development-code-lite-create-big-6f87e21ea71c">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1188,257 +1477,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Handling-Stale-Sets-and-Thundering-Herds-of-Cache/20231022/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/Handling-Stale-Sets-and-Thundering-Herds-of-Cache/20231022/" class="post-title-link" itemprop="url">Handling Stale Sets and Thundering Herds of Cache</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-10-23 02:19:13" itemprop="dateCreated datePublished" datetime="2023-10-23T02:19:13+08:00">2023-10-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Handling-Stale-Sets-and-Thundering-Herds-of-Cache"><a href="#Handling-Stale-Sets-and-Thundering-Herds-of-Cache" class="headerlink" title="Handling Stale Sets and Thundering Herds of Cache"></a>Handling Stale Sets and Thundering Herds of Cache</h3><h4 id="Simplified-Approach-Inspired-by-Facebook’s-Innovative-Solution"><a href="#Simplified-Approach-Inspired-by-Facebook’s-Innovative-Solution" class="headerlink" title="Simplified Approach Inspired by Facebook’s Innovative Solution"></a>Simplified Approach Inspired by Facebook’s Innovative Solution</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*sGFeNnBV2GtxJrGO"></p>
-<p>Recently, I’ve been studying how Facebook handles <a target="_blank" rel="noopener" href="https://research.facebook.com/publications/scaling-memcache-at-facebook/">caching at scale</a>, and one of the subsections describes how they handle stale sets and thundering herds. They use a lease mechanism to face these two problems at once, which is very interesting.</p>
-<p>What are stale sets and thundering herds? Let me explain each in one simple sentence.</p>
-<ul>
-<li>Stale sets: Data inconsistency between cache and database.</li>
-<li>Thundering herds (aka Dogpile effect): High concurrency request to knock down the database.</li>
-</ul>
-<p>In fact, I have also introduced how to solve the problem of stale sets and thundering herds, only that I have proposed my own solutions to each problem, and I do not have a one-size-fits-all solution.</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/consistency-between-cache-and-database-part-1-f64f4a76720">Solving stale sets</a></li>
-<li><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/solving-dogpile-effect-9d869174d302">Solving thundering herds</a></li>
-</ul>
-<p>Let’s take a look at how Facebook solved two problems at once.</p>
-<h3 id="Problem-Description"><a href="#Problem-Description" class="headerlink" title="Problem Description"></a>Problem Description</h3><p>First, let me briefly explain the two problems.</p>
-<p>In general, the behavior of a read-aside cache is to read from the cache first, and if it can’t be found, then read from the database instead. After retrieving data, write the data back to the cache. If the database is updated, the cached data is cleared without writing it back.</p>
-<p>Even with this process, there are still problems, the most typical of which are the two problems mentioned in this article. The process of how stale sets occur is as follows.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*XxQDJR6m2XMB7udx.png"></p>
-<p>Although <code>B</code> has cleared the cache, <code>A</code> is delayed for “some reason”, so the data in the cache is written to the old data, which is the data stale or inconsistent.</p>
-<p>On the other hand, when a cache miss occurs in a highly concurrent system, then all these clients will query the database, in other words, the database will fall down in a short time due to high concurrency. This problem is also known as the Dogpile effect.</p>
-<h3 id="Facebook’s-solution"><a href="#Facebook’s-solution" class="headerlink" title="Facebook’s solution"></a>Facebook’s solution</h3><p>How did Facebook solve these two problems? They use a lease mechanism, which is described in section 3.2.1 of the paper, but the explanation is not very complete, it is roughly the following two paragraphs.</p>
-<blockquote>
-<p><em>A memcached instance gives a lease to a<br>client to set data back into the cache when that client experiences a cache miss. Verification can fail if<br>memcached has invalidated the lease token due to receiving a delete request for that item.</em></p>
-</blockquote>
-<p>And.</p>
-<blockquote>
-<p><em>We configure these<br>servers to return a token only once every 10 seconds per<br>key.</em></p>
-</blockquote>
-<p>When writing data to the cache, it must carry the token that was obtained during the cache miss. The cache will first validate the token before updating, and if the token validation fails, then it will be ignored. The token will be cleared when the database is updated.</p>
-<p>Let’s explain this with the sequence diagram.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*7OHj6rSIU9UxoqQM1w9HcA.png"></p>
-<p>The difference between this diagram and the problem one is the first interaction will get a token, when write cache need to carry the token, but because the token has been cleared after updating the database, so write cache will be rejected, this will solve the first problem.</p>
-<p>As for the second problem is not difficult to deal with, just need to set the rules for the token release, every 10 seconds to send a token, if the client does not get the token then there is no authority to update the cache naturally there is no need to query the database, the Dogpile effect can be solved.</p>
-<h3 id="Simple-implementation"><a href="#Simple-implementation" class="headerlink" title="Simple implementation"></a>Simple implementation</h3><p>To implement this logic is not so difficult, let’s use Python and Redis to write a simple example.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Cache</span>:  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):  </span><br><span class="line">        <span class="comment"># ignore implementation  </span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self, k</span>):  </span><br><span class="line">        v = self.redis.get(k)  </span><br><span class="line">        token = random.getrandbits(<span class="number">64</span>) <span class="comment"># Facebook says the token has to be 64 bit.  </span></span><br><span class="line">        ret = self.redis.<span class="built_in">set</span>(<span class="string">f&#x27;<span class="subst">&#123;self.prefix&#125;</span>#<span class="subst">&#123;k&#125;</span>&#x27;</span>, token, <span class="string">&#x27;NX&#x27;</span>, <span class="string">&#x27;EX&#x27;</span>, <span class="number">10</span>) <span class="comment"># 10s for token refresh  </span></span><br><span class="line">        <span class="keyword">return</span> (v, token <span class="keyword">if</span> ret == <span class="string">&#x27;OK&#x27;</span> <span class="keyword">else</span> <span class="literal">None</span>)  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">set</span>(<span class="params">self, k, v, token</span>):  </span><br><span class="line">        saved_token = self.redis.get(<span class="string">f&#x27;<span class="subst">&#123;self.prefix&#125;</span>#<span class="subst">&#123;k&#125;</span>&#x27;</span>)  </span><br><span class="line">        <span class="keyword">if</span> token == saved_token:  </span><br><span class="line">            ret = self.redis.<span class="built_in">set</span>(k, v)  </span><br><span class="line">        <span class="keyword">else</span>:  </span><br><span class="line">            ret = <span class="literal">False</span>  </span><br><span class="line">              </span><br><span class="line">        <span class="keyword">return</span> ret == <span class="string">&#x27;OK&#x27;</span> <span class="keyword">or</span> <span class="literal">False</span>  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">clean</span>(<span class="params">self, k</span>):  </span><br><span class="line">        self.redis.<span class="keyword">del</span>(k, <span class="string">f&#x27;<span class="subst">&#123;self.prefix&#125;</span>#<span class="subst">&#123;k&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>To make it easier to understand, here we only show the core implementation and do not use Lua or other pipeline optimization methods.</p>
-<p>In <code>get</code>, two values are returned, one is the result of the cache and the other is the token, if the original token still exists and has not expired, which means there is a possibility of thundering herds, then the token is not returned, and if the client does not receive the token, then he should not query the database.</p>
-<p>In <code>set</code>, in addition to the key and value to write, we also need to carry the token, when the validation of the token fails, we don’t update the cache and just end it so as to avoid stale sets.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Stale sets and thundering herds are pretty common problems when using caches, and there are many solutions for them. But when I actually wrote the program based on Facebook’s solution, I realized that it can be so simple, which made me a bit surprised that we were “overthinking” before.</p>
-<p>I believe that the simpler the solution, the better, and I will use Facebook’s solution to deal with the problem at hand in the future. In fact, there are many more methods and optimizations for dealing with caching at scale in this paper, making it a very worthwhile study.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/handling-stale-sets-and-thundering-herds-of-cache-28d52780fbca">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/Squeezing-out-MongoDBs-available-storage/20231015/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/MongoDB/Squeezing-out-MongoDBs-available-storage/20231015/" class="post-title-link" itemprop="url">Squeezing out MongoDB’s available storage</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-10-16 02:01:10" itemprop="dateCreated datePublished" datetime="2023-10-16T02:01:10+08:00">2023-10-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="Exploring-Three-Viable-Approaches-to-Optimize-Database-Resources"><a href="#Exploring-Three-Viable-Approaches-to-Optimize-Database-Resources" class="headerlink" title="Exploring Three Viable Approaches to Optimize Database Resources"></a>Exploring Three Viable Approaches to Optimize Database Resources</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*6lpp4RNmAV8n6SNo"></p>
-<p>There are always times when the available space in the database is exhausted, and we need to take action.</p>
-<p>Generally, the most common approach is vertical scaling, also known as scale-up, which involves increasing the specifications of the machine directly to expand the available space. Another alternative solution is horizontal scaling, also known as scale-out or sharding, which enhances overall available space by distributing data across different machines.</p>
-<p>However, both scale-up and scale-out involve costs, and these can be substantial. For organizations with budget constraints, neither of these approaches may be immediately feasible. So, what can be done?</p>
-<p>In such cases, the only option is to squeeze out as much space as possible from the existing machines, no matter what it takes, just pure squeezing.</p>
-<p>In this article, we take MongoDB as an example to explore the viable approaches for squeezing out available space.</p>
-<h3 id="Remove-useless-index"><a href="#Remove-useless-index" class="headerlink" title="Remove useless index"></a>Remove useless index</h3><p>Indexes are a trade-off of space for time to improve query performance. Therefore, if unused indexes can be identified and removed, the initially consumed space can be reclaimed.</p>
-<p>Why do indexes become redundant?</p>
-<p>There are several common reasons as follows:</p>
-<ol>
-<li>Because MongoDB’s WiredTiger is a B-tree-based storage engine, it has a feature known as the leftmost-prefix. Thus, if a new index and an old index have the same prefix, the old index can be safely removed without affecting query performance.</li>
-<li>Due to feature iterations, some queries that were required initially are no longer in use.</li>
-</ol>
-<p>Regarding the first point, we can easily identify which indexes can be removed by carefully scanning each index. However, for the second point, some additional preparation is necessary.</p>
-<p>We need to know which indexes are not being used. Apart from tracing clues from the code, there is a more efficient approach, which is to directly examine the index metrics. In the case of MongoDB, the <code>$indexStats</code> <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexStats/#mongodb-pipeline-pipe.-indexStats">aggregation operation</a> can provide statistical data on the indexes.</p>
-<p>By comparing the statistics from two time periods, we can determine which indexes are not being used.</p>
-<h3 id="Remove-useless-data"><a href="#Remove-useless-data" class="headerlink" title="Remove useless data"></a>Remove useless data</h3><p>The above-mentioned approach of deleting indexes is a relatively straightforward solution that does not affect the production environment. However, if more available space needs to be squeezed out, consider deleting unused data.</p>
-<p>Defining what constitutes unused data entirely depends on the application. For instance, some applications use flags to mark softly deleted documents, allowing these softly deleted documents to be removed or archived to cold storage.</p>
-<p>Another scenario involves time-series data, where defining how old the data should be before it can be deleted becomes relevant. However, whichever solution is chosen depends entirely on the application.</p>
-<h3 id="Reshard"><a href="#Reshard" class="headerlink" title="Reshard"></a>Reshard</h3><p>This is a more advanced approach compared to the previous two, directly impacting the performance of the production environment.</p>
-<p>If the MongoDB cluster is already a sharded cluster but some collections have not been sharded, setting the appropriate shard key and enabling sharding can be a relatively straightforward process.</p>
-<p>However, if all collections have already been sharded, it’s essential to examine which collections have uneven data distribution. Consider modifying the shard key and even taking further steps to rebalance. Phew, as of MongoDB 5.0, we can finally reshard a collection.</p>
-<p>I previously wrote an article describing how to correctly design a shard key to achieve as even a data distribution as possible.</p>
-<p>We can determine whether data distribution is uniform by using the command <code>sh.status()</code>. <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/reference/method/sh.status/#mongodb-data-sh.status.databases.-collection-.chunks">This command</a> provides explicit information in the output regarding how many shards are being used for a collection and how many chunks each shard holds. A chunk represents the unit of data distribution.</p>
-<h3 id="However"><a href="#However" class="headerlink" title="However"></a>However</h3><p>It seems like we have several approaches that should all be effective if carefully implemented, right?</p>
-<p>In reality, after implementing the second and third approaches, observing the available space reveals no improvement. In fact, it may even worsen, especially after executing the third approach.</p>
-<p>The following diagram illustrates the usage space of a particular shard on the y-axis over time on the x-axis. Here, <code>t1</code> denotes the initiation of sharding, while <code>t2</code> represents the completion of the sharding process.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*w-V9o9TJxgfUObOq6MfJPg.png"></p>
-<p>We aimed to shard a collection that had not been sharded yet to release the available space in the original shard. However, as we can see from the diagram, after the sharding process was completed, the situation worsened, which was entirely contrary to our expectations.</p>
-<p>Why did this happen?</p>
-<p>The reason lies in WiredTiger’s behavior. After deleting documents, it does not immediately release the space. Instead, it retains the already allocated space, ensuring prepared chunks for future data writes in the collection.</p>
-<p>This intention is well-meaning, as disk I&#x2F;O performance is poor, and having a pre-arranged “clean slate” is valuable. However, this contradicts our goal of having the data disappear immediately after deletion. Hence, we see that although data is deleted, the available space does not increase.</p>
-<p>Why did the diagram not only fail to decrease but also grow?</p>
-<p>During the sharding process, to enable more efficient sharded queries, an index is created on the shard key. The additional space consumption represents the space occupied by these indexes.</p>
-<p>Can we determine how much space WiredTiger has covertly consumed? The answer is yes.</p>
-<p>Executing <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/reference/method/db.collection.stats/#mongodb-method-db.collection.stats">the command</a> <code>db.collection.stats()</code> yields an output segment that describes “file bytes available for reuse,” representing the space that has been covertly taken.</p>
-<p>If we can find it, we can certainly reclaim it. Running the <code>compact</code> <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/reference/command/compact/#mongodb-dbcommand-dbcmd.compact">command accomplishes this</a>. It’s worth noting that the space regained through <code>compact</code> can only be used by the same collection, so the problem remains unresolved.</p>
-<p>To enable all collections to reuse the occupied space, a <a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/core/replica-set-sync/#initial-sync">complex procedure</a> is required. Let me simplify the explanation.</p>
-<p>When we add a new member to a ReplicaSet in MongoDB, the new member executes an <code>Init Sync</code> to synchronize the current data. However, this <code>Init Sync</code> only synchronizes actual data and not the occupied space. In other words, the new member does not occupy the available space.</p>
-<p>Thus, if we gradually replace all the members in a ReplicaSet, we can obtain a new cluster (or Ship of Theseus) with the same dataset but without the occupied space. However, this process requires a “slight” additional budget to enable an extra machine as a new member, which is no longer necessary after the entire replacement process is complete, resulting in significant savings compared to scaling up or scaling out.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>For any organization, finances are always a significant concern, particularly when it comes to database expenses, which can be quite substantial. While we aim to minimize costs wherever possible, the options available to us are limited. However, let’s quickly summarize the three methods to squeeze out available space:</p>
-<ol>
-<li>Remove useless indexes</li>
-<li>Remove useless data</li>
-<li>Reshard</li>
-</ol>
-<p>These three methods are in his order of precedence, with the first one being the quickest to implement and having the least impact on the production environment, and vice versa.</p>
-<p>Moreover, executing solutions 2 and 3 requires additional processes to ensure that the space is genuinely available and not occupied.</p>
-<p>Perhaps there are some secret techniques that I haven’t thought of yet. Feel free to share them with me.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/squeezing-out-mongodbs-available-storage-40c731a923c4">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/8/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

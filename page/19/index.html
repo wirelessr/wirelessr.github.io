@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,177 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang/20210329/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Golang/Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang/20210329/" class="post-title-link" itemprop="url">Leetcode concurrency #1226 The Dining Philosophers (in golang)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-03-30 07:13:02" itemprop="dateCreated datePublished" datetime="2021-03-30T07:13:02+08:00">2021-03-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang"><a href="#Leetcode-concurrency-1226-The-Dining-Philosophers-in-golang" class="headerlink" title="Leetcode concurrency #1226 The Dining Philosophers (in golang)"></a>Leetcode concurrency #1226 The Dining Philosophers (in golang)</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*a4VJDRhYg9aMTZFX.png"></p>
+<p>這是concurrency的最後一篇，前面已經試過幾種常見的同步模式，這次要解的題目是經典的哲學家問題，但處理的手法應該已經被很多教科書討論過了，不外乎引入服務生、搶到叉子就吃搶不到就等，和比較近期的用餐券換叉子。</p>
+<p>這麼經典的問題教科書應該都有寫過我就大略描述下就好。總之，五個哲學家坐在同一張圓桌，每個人都有一碗吃不完的麵，但只有五支叉子放在人與人之間，要吃麵就一定要用兩支叉子，沒有兩支叉子就發呆。這裡有個變體，要接收一個整數，代表每個人至少要吃過幾次，例如：n&#x3D;1，表示每個人都至少吃過一次就散會。</p>
+<p>解法也很簡單，我選用最單純的搶叉子，每支叉子按順時鐘順序編號，每個人都要先拿編號小的才能拿編號大的，但放叉子要從編號大的先放，才能放小的。</p>
+<p>每個叉子都是一個互斥鎖，小的先鎖再鎖大的，大的先解鎖才解小的。唯一要注意的一點是，吃完以後要看一下是不是每個人都吃過了，如果大家都吃過就準備結束散會；一定要在吃完的時候就看，因為這時候才是在critical section內，過了就要再搶一次，那沒必要。</p>
+<p>有趣的一點是，我在Leetcode的playground跑這段code，會發現有些哲學家餓到不行，會狂搶叉子，導致結束的時候某人大概續了幾千次麵，真是個大胃王。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/leetcode-concurrency-1226-the-dining-philosophers-in-golang-c73950e098a2">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Golang/Leetcode-concurrency-1195-Fizz-Buzz-Multithreaded-in-golang/20210329/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Golang/Leetcode-concurrency-1195-Fizz-Buzz-Multithreaded-in-golang/20210329/" class="post-title-link" itemprop="url">Leetcode concurrency #1195 Fizz Buzz Multithreaded (in golang)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-03-30 01:19:22" itemprop="dateCreated datePublished" datetime="2021-03-30T01:19:22+08:00">2021-03-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Leetcode-concurrency-1195-Fizz-Buzz-Multithreaded-in-golang"><a href="#Leetcode-concurrency-1195-Fizz-Buzz-Multithreaded-in-golang" class="headerlink" title="Leetcode concurrency #1195 Fizz Buzz Multithreaded (in golang)"></a>Leetcode concurrency #1195 Fizz Buzz Multithreaded (in golang)</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*NRXXWBp9q2oz3nYB"></p>
+<p>從開始刷concurrency到現在已經接觸過，Event、Lock和Semaphore，這題會用到另一個同步處理也會使用的技術：Barrier，Barrier是指當所有做事的人都必須將queue內的event全部依序執行，例如：ABC三個人同時拿queue[0]做，等大家都做完後，三人繼續拿queue[1]，依此類推。</p>
+<p>先看一下題目，看完就會知道為什麼一看就知道要用Barrier。有一個class有四個method(又來了)，必須將四個method放在四個thread上執行，這四個method分別是：在3的倍數時印fizz、在5的倍數時印buzz、在15的倍數時印fizzbuzz，最後是上面都沒中就印數字。</p>
+<p>因為golang沒有實作自己的Barrier，我本來想用WaitGroup來做，但怎麼試怎麼怪，最後決定WaitGroup還是維持他單純的用途就好：等所有人做完。那麼，就需要實作一個Barrier，這邊可以使用sync.Cond。如果寫過linux C應該會對pthread_cond_t有印象，這兩個是等價的。</p>
+<p>當有了Barrier的實作，這題就一點也不難，就是分別判斷能不能整除3或5來決定個別要做甚麼，把輸入的整數丟進去大家一起一個一個做就好。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/leetcode-concurrency-1195-fizz-buzz-multithreaded-in-golang-e01ab37be401">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -945,179 +1116,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/Game-Prototype/20180614/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Misc/Game-Prototype/20180614/" class="post-title-link" itemprop="url">Game Prototype</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-06-14 13:13:23" itemprop="dateCreated datePublished" datetime="2018-06-14T13:13:23+08:00">2018-06-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Yesterday, I told I want to develop a game, and I draw a blueprint:</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*S2CVQBbteyG9y3QF4kmWog.png"></p>
-<p>The game is web based and like a RPG. The player can control a character with several skills, and those skills come from his job. There are two kinds of jobs: attack by weapon or by magic. The player can pick 8 skills on the desk and fight to an enemy. If you win this enemy, you can get some experiences, money, and items. The goal of this game is to defeat the final boss.</p>
-<p>The code flow is like:</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*KmJheSZXw92KaYpwUl-SVw.png"></p>
-<p>To reduce the traffic between the frontend and the backend, the game loop is in browser, but the status and gaming engine are in backend. Therefore, the backend can determine what the enemy you encounter and what rewards you will receive.</p>
-<p>The communication between the browser and the backend is session, and I will use an encrypted cookie to keep the game states. However, I am not sure this method is secure enough or not. If you have the better idea, please tell me.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/game-prototype-f91a341e7417">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/Hello-Medium/20180613/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Misc/Hello-Medium/20180613/" class="post-title-link" itemprop="url">Hello Medium</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-06-13 13:28:09" itemprop="dateCreated datePublished" datetime="2018-06-13T13:28:09+08:00">2018-06-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Hi guys,</p>
-<p>I come from Taiwan, a free and kind country, and work in an international company. I had been an embedded engineer and coded in C&#x2F;C++, but now I am a backend developer with Python. No one around me can discuss technology, e.g., machine learning, web development, or even programming. So, I try to find some people having the same habit in computer science from the Internet. On the other hand, I need practice my English to work with foreigners from our branch office.</p>
-<p>I will attempt to update my stories about my side projects every week. Actually, I will design and develop a web game by using HTML&#x2F;CSS&#x2F;JavaScript and Node.JS. In addition, if I find something interesting, I will share with you. Therefore, follow me and become my friend. At least, please point out my English mistake, and this is very helpful to me.</p>
-<p>Thank you for your reading.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/hello-medium-466f5dabc4e">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/18/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/18/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/20/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

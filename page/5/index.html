@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,287 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Apache-Paimon-with-Flink-Trino-A-Streaming-Lakehouse-Playground/20241117/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Apache-Paimon-with-Flink-Trino-A-Streaming-Lakehouse-Playground/20241117/" class="post-title-link" itemprop="url">Apache Paimon with Flink & Trino: A Streaming Lakehouse Playground</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-11-18 01:46:06" itemprop="dateCreated datePublished" datetime="2024-11-18T01:46:06+08:00">2024-11-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="A-hands-on-guide-to-integrating-Apache-Paimon-Flink-and-Trino-for-efficient-streaming-and-querying-in-data-lakehouses"><a href="#A-hands-on-guide-to-integrating-Apache-Paimon-Flink-and-Trino-for-efficient-streaming-and-querying-in-data-lakehouses" class="headerlink" title="A hands-on guide to integrating Apache Paimon, Flink, and Trino for efficient streaming and querying in data lakehouses."></a>A hands-on guide to integrating Apache Paimon, Flink, and Trino for efficient streaming and querying in data lakehouses.</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*00-VCVqXDzfqRweB-fLqsw.png"></p>
+<p><a target="_blank" rel="noopener" href="https://paimon.apache.org/">Apache Paimon</a> is a new data lakehouse format that focuses on solving the challenges of streaming scenarios, but also supports batch processing. Overall, Paimon has the potential to replace the existing Iceberg as the new standard for data lakehousing.</p>
+<p>Why Iceberg and not the other two (Hudi and Delta Lake)?</p>
+<p>Iceberg is the most widely supported by various open-source engines, including pure query engines (e.g., Trino), New SQL databases (e.g., StarRocks, Doris), and streaming frameworks (e.g., Flink, Spark), all of which support Iceberg.</p>
+<p>However, Iceberg faces several problems in streaming scenarios, the most serious one is the fragmentation of small files. Queries in data lakehouses rely heavily on file reads, and if a query has to scan many files at once, it will of course perform poorly.</p>
+<p>To address this issue, an external orchestrator is required to regularly merge files. Paimon is designed with a built-in merge mechanism, and many other optimizations for mass writes, making it more adaptable to streaming scenarios.</p>
+<h3 id="Experiment-environment"><a href="#Experiment-environment" class="headerlink" title="Experiment environment"></a>Experiment environment</h3><p>In order to learn more about Iceberg, I have set up two experimental environments.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/flink-iceberg-playground">Iceberg + Flink</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/trino-iceberg-playground">Iceberg + Trino</a></li>
+</ul>
+<p>This time I also built a playground for Paimon, which also includes Trino and Flink.</p>
+<p>In addition, StarRocks was also put in as a representative of New SQL.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*wEKEG2_InrfRhR8Nnjrerw.png"></p>
+<p>Because neither Trino nor StarRocks support streaming writes at this stage, Paimon’s writes come from Flink.</p>
+<h3 id="How-to-use"><a href="#How-to-use" class="headerlink" title="How to use"></a>How to use</h3><blockquote>
+<p><em>NOTE: Since some of the links to the official Paimon files are not working, I’ve put the files into this repo. However, some of the files are huge, so I put them in via LFS, so be sure to install</em> <code>git-lfs</code><em>.</em></p>
+</blockquote>
+<p>Trino driver is in <code>paimon-trino-427-0.8-20241112.000605-197-plugin.tar.gz</code>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf paimon-trino-427-0.8-20241112.000605-197-plugin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>Then it will run normally with <code>docker compose up -d</code>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
+
+<h3 id="Flink"><a href="#Flink" class="headerlink" title="Flink"></a>Flink</h3><p>Let’s start by connecting to Flink SQL.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker compose <span class="built_in">exec</span> flink-jobmanager ./bin/sql-client.sh  </span><br><span class="line">./bin/sql-client.sh</span><br></pre></td></tr></table></figure>
+
+<p>To write data using Flink we first need to create the correct catalog.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> CATALOG my_catalog <span class="keyword">WITH</span> (  </span><br><span class="line">    <span class="string">&#x27;type&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;paimon&#x27;</span>,  </span><br><span class="line">    <span class="string">&#x27;warehouse&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;s3://warehouse/flink&#x27;</span>,  </span><br><span class="line">    <span class="string">&#x27;s3.endpoint&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;http://storage:9000&#x27;</span>,  </span><br><span class="line">    <span class="string">&#x27;s3.access-key&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;admin&#x27;</span>,  </span><br><span class="line">    <span class="string">&#x27;s3.secret-key&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;password&#x27;</span>,  </span><br><span class="line">    <span class="string">&#x27;s3.path.style.access&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;true&#x27;</span>  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>As shown in the above commands, we’re using the <code>MinIO</code> as an <code>S3</code> to store the Paimon.</p>
+<p>The next step in creating the table and writing the data is quite simple, just run the commands according to the <a target="_blank" rel="noopener" href="https://paimon.apache.org/docs/0.9/flink/quick-start/">official documentat</a>.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">USE CATALOG my_catalog;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">-- create a word count table  </span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> word_count (  </span><br><span class="line">    word STRING <span class="keyword">PRIMARY</span> KEY <span class="keyword">NOT</span> ENFORCED,  </span><br><span class="line">    cnt <span class="type">BIGINT</span>  </span><br><span class="line">);  </span><br><span class="line"><span class="comment">-- create a word data generator table  </span></span><br><span class="line"><span class="keyword">CREATE</span> TEMPORARY <span class="keyword">TABLE</span> word_table (  </span><br><span class="line">    word STRING  </span><br><span class="line">) <span class="keyword">WITH</span> (  </span><br><span class="line">    <span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;datagen&#x27;</span>,  </span><br><span class="line">    <span class="string">&#x27;fields.word.length&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span>  </span><br><span class="line">);  </span><br><span class="line"><span class="comment">-- paimon requires checkpoint interval in streaming mode  </span></span><br><span class="line"><span class="keyword">SET</span> <span class="string">&#x27;execution.checkpointing.interval&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;10 s&#x27;</span>;  </span><br><span class="line"><span class="comment">-- write streaming data to dynamic table  </span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> word_count <span class="keyword">SELECT</span> word, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> word_table <span class="keyword">GROUP</span> <span class="keyword">BY</span> word;</span><br></pre></td></tr></table></figure>
+
+<p>Then we actually read it and see the result of what we’ve written.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- use tableau result mode  </span></span><br><span class="line"><span class="keyword">SET</span> <span class="string">&#x27;sql-client.execution.result-mode&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;tableau&#x27;</span>;  </span><br><span class="line"><span class="comment">-- switch to batch mode  </span></span><br><span class="line">RESET <span class="string">&#x27;execution.checkpointing.interval&#x27;</span>;  </span><br><span class="line"><span class="keyword">SET</span> <span class="string">&#x27;execution.runtime-mode&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;batch&#x27;</span>;  </span><br><span class="line"><span class="comment">-- olap query the table  </span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> word_count;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Trino"><a href="#Trino" class="headerlink" title="Trino"></a>Trino</h3><p>Let’s go to Trino’s cli first.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose <span class="built_in">exec</span> trino trino</span><br></pre></td></tr></table></figure>
+
+<p>Trino’s paimon catalog is already set up, but I didn’t add a new schema but just used the default one.</p>
+<p>So we can query the Flink write result directly.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> paimon.default.word_count;</span><br></pre></td></tr></table></figure>
+
+<p>We should see something similar to the Flink query.</p>
+<h3 id="StarRocks"><a href="#StarRocks" class="headerlink" title="StarRocks"></a>StarRocks</h3><p>This is an extra, just to show how much attention Paimon is getting now that many New SQL databases are starting to support it.</p>
+<p>Prepare a <code>mysql</code> client locally to connect to StarRocks.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -P 9030 -h 127.0.0.1 -u root --prompt=<span class="string">&quot;StarRocks &gt; &quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>We still need to create a catalog.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> CATALOG paimon_catalog_flink  </span><br><span class="line">PROPERTIES  </span><br><span class="line">(  </span><br><span class="line">    &quot;type&quot; <span class="operator">=</span> &quot;paimon&quot;,  </span><br><span class="line">    &quot;paimon.catalog.type&quot; <span class="operator">=</span> &quot;filesystem&quot;,  </span><br><span class="line">    &quot;paimon.catalog.warehouse&quot; <span class="operator">=</span> &quot;s3://warehouse/flink&quot;,  </span><br><span class="line">    &quot;aws.s3.enable_path_style_access&quot; <span class="operator">=</span> &quot;true&quot;,  </span><br><span class="line">    &quot;aws.s3.endpoint&quot; <span class="operator">=</span> &quot;http://storage:9000&quot;,  </span><br><span class="line">    &quot;aws.s3.access_key&quot; <span class="operator">=</span> &quot;admin&quot;,  </span><br><span class="line">    &quot;aws.s3.secret_key&quot; <span class="operator">=</span> &quot;password&quot;  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>The mysql client should not support Trino’s table locator format: <code>&lt;catalog&gt;. &lt;schema&gt;. &lt;table&gt;</code>, so we have to switch to the db before we can query.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USE paimon_catalog_flink.default;  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> word_count;</span><br></pre></td></tr></table></figure>
+
+<p>The results here will be similar to the above.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Although Paimon supports many kinds of metastore as follows.</p>
+<ul>
+<li>filesystem</li>
+<li>hive metastore</li>
+<li>jdbc</li>
+</ul>
+<p>For the sake of simplicity, I didn’t use extra components, so I only use S3 aka filesystem as metastore. Although the function is fine, according to the <a target="_blank" rel="noopener" href="https://paimon.apache.org/docs/0.9/concepts/concurrency-control/">official document</a>, using S3 as warehouse needs to be paired with Hive or JDBC metastore to ensure consistency.</p>
+<blockquote>
+<p><em>But for object storage such as OSS and S3, their ‘RENAME’ does not have atomic semantic. We need to configure Hive or jdbc metastore and enable ‘lock.enabled’ option for the catalog. Otherwise, there may be a chance of losing the snapshot.</em></p>
+</blockquote>
+<p>My future experiments will focus on understanding the scenarios that require this level of consistency.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/apache-paimon-with-flink-trino-a-streaming-lakehouse-playground-17efdbc713c9">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Is-there-an-Alternative-to-Debezium-Kafka/20241103/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Is-there-an-Alternative-to-Debezium-Kafka/20241103/" class="post-title-link" itemprop="url">Is there an Alternative to Debezium + Kafka?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-11-04 01:23:14" itemprop="dateCreated datePublished" datetime="2024-11-04T01:23:14+08:00">2024-11-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Is-there-an-Alternative-to-Debezium-Kafka"><a href="#Is-there-an-Alternative-to-Debezium-Kafka" class="headerlink" title="Is there an Alternative to Debezium + Kafka?"></a>Is there an Alternative to Debezium + Kafka?</h3><h4 id="Evaluating-open-source-options-to-improve-performance-and-scalability-in-CDC-pipelines"><a href="#Evaluating-open-source-options-to-improve-performance-and-scalability-in-CDC-pipelines" class="headerlink" title="Evaluating open-source options to improve performance and scalability in CDC pipelines"></a>Evaluating open-source options to improve performance and scalability in CDC pipelines</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*E29Qz6t-stViDDtBGem1pg.png"></p>
+<p>I asked this question on <a target="_blank" rel="noopener" href="https://www.reddit.com/r/dataengineering/comments/1fv186f/is_there_an_alternative_to_debezium_kafka/">Reddit</a> a while back and received lots of valuable answers.</p>
+<p>Therefore, I’ve looked into each answer and documented the results in this article.</p>
+<h4 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h4><p>No, Debezium dominates the market at the moment, despite some drawbacks.</p>
+<h3 id="Background-Explanation"><a href="#Background-Explanation" class="headerlink" title="Background Explanation"></a>Background Explanation</h3><p>Why would we want to find an alternative to Debezium? The main reason is we encountered a challenging scenario.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*gu1kCRklam07TGLx78hyNg.png"></p>
+<p>This is a typical scenario for Debezium, where any modifications to the data source are captured and fed into Kafka for downstream processing.</p>
+<p>The advantage of this architecture is simple and efficient, ensuring all downstream processes are as real-time as possible.</p>
+<p>If the source has a large number of updates, Debezium can scale horizontally until a large number of updates are concentrated in a single table. This is where Debezium hits its limits.</p>
+<p>Even though Debezium can scale horizontally, it means the updates originally handled by one process can be distributed to multiple processes. If each table already has a dedicated process, horizontal scaling is no longer feasible.</p>
+<p>We are in such a situation, in our environment, even if the machine specification is stretched, the CDC throughput of a single table is capped at 25 MB&#x2F;s.</p>
+<p>This is certainly not a regular case, after all, 25 MB&#x2F;s change for a single table is quite significant. However, if we encounter a data source that is doing large-scale data migration, this limit can be easily breached.</p>
+<p>In order to ensure the real-time performance of our data pipeline downstream, we can only ask the upstream to be merciful when encountering this level of data migration, and try to do a good job of rate limiting.</p>
+<p>However, this limitation will greatly reduce the productivity of the upstream developers. On the one hand, they have to add auditing process to their regular maintenance, and on the other hand, they need to develop an additional rate limit for each maintenance.</p>
+<p>So let’s find a solution.</p>
+<h3 id="Solution-Overview"><a href="#Solution-Overview" class="headerlink" title="Solution Overview"></a>Solution Overview</h3><p>The following solutions were gathered from that Reddit article.</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://estuary.dev/vs-debezium/">Estuary Flow</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.striim.com/">Striim</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.fivetran.com/data-movement">Fivetran HVR</a></li>
+<li>Proprietary CDC</li>
+<li><a target="_blank" rel="noopener" href="https://conduit.io/">Conduit</a></li>
+</ol>
+<p>The first three solutions are enterprise services without open source, so they’re not going to work for us. After all, we’re trying to solve a partial use case, not a complete do-over.</p>
+<p>Although Estuary Flow says they have a local deployment approach, I couldn’t find any information about it.</p>
+<p>The fourth solution was to develop a new tool ourselves, which I believe would be a fundamental solution to the problem. After all, Debezium is developed in JAVA, and we should be able to achieve better performance with Golang, Rust, or even C&#x2F;C++. However, the development cost was too high for us, and it was difficult to start from scratch.</p>
+<p>The first four options didn’t meet our needs, but the fifth option caught my attention as a promising solution.</p>
+<p>Conduit is an open source data migration platform developed in Golang, and provides a variety of connectors to integrate many data stores. In addition, we can also develop our own converter to do data format preprocessing.</p>
+<p>Therefore, I started to test the performance of Conduit.</p>
+<h3 id="Expirement-Environment"><a href="#Expirement-Environment" class="headerlink" title="Expirement Environment"></a>Expirement Environment</h3><p>To keep things simple, I used Kafka Connect in place of Debezium. The two are essentially the same but with different dispatchers, and behind the scenes they all use the same <a target="_blank" rel="noopener" href="https://github.com/mongodb/mongo-kafka">library</a>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*h4QTwMPu5qI6cNgeTkfbVg.png"></p>
+<p>Locust is responsible for generating MongoDB changes, then Conduit and Kafka Connect will write to different Kafka topics.</p>
+<p>We can observe the writing speed of Kafka topics to determine who has better performance.</p>
+<p>The whole experiment environment is as follows.</p>
+<p>I use two of my own packaged images, Conduit and Kafka Connect, which have MongoDB connectors.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/conduit-mongo-connect">Conduit + Mongo connector</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wirelessr/mongodb-kafka-connect">Kafka Connect + Mongo connector</a></li>
+</ul>
+<p>It’s easy to generate a large amount of change by stuffing MongoDB with a bunch of fat documents and then just changing the value of a field in all the documents.</p>
+<p>The locust script used is as follows.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">from</span> locust <span class="keyword">import</span> User, task, between  </span><br><span class="line"><span class="keyword">import</span> pymongo  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MongoDBUser</span>(<span class="title class_ inherited__">User</span>):  </span><br><span class="line">    wait_time = between(<span class="number">1</span>, <span class="number">5</span>)  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, environment</span>):  </span><br><span class="line">        <span class="built_in">super</span>().__init__(environment)  </span><br><span class="line">        self.env = environment  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">on_start</span>(<span class="params">self</span>):  </span><br><span class="line">        self.client = pymongo.MongoClient(self.host)  </span><br><span class="line">        self.db = self.client[<span class="string">&quot;test&quot;</span>]  </span><br><span class="line">        self.collection = self.db[<span class="string">&quot;test_new&quot;</span>]  </span><br><span class="line">      </span><br><span class="line"><span class="meta">    @task  </span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">incr_seq</span>(<span class="params">self</span>):  </span><br><span class="line">        response = <span class="literal">None</span>  </span><br><span class="line">        exception = <span class="literal">None</span>  </span><br><span class="line">        start_perf_counter = time.perf_counter()  </span><br><span class="line">        response_length = <span class="number">0</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">try</span>:  </span><br><span class="line">            response = self.collection.update_many(  </span><br><span class="line">                &#123;&#125;,  </span><br><span class="line">                &#123;<span class="string">&quot;$inc&quot;</span>: &#123;<span class="string">&quot;seq&quot;</span>: <span class="number">1</span>&#125;&#125;  </span><br><span class="line">            )  </span><br><span class="line">            response_length = response.matched_count  </span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:  </span><br><span class="line">            exception = e  </span><br><span class="line">  </span><br><span class="line">        self.env.events.request.fire(  </span><br><span class="line">            request_type=<span class="string">&quot;mongo&quot;</span>,  </span><br><span class="line">            name=<span class="string">&quot;incr seq&quot;</span>,  </span><br><span class="line">            response_time=(time.perf_counter() - start_perf_counter) * <span class="number">1000</span>,  </span><br><span class="line">            response_length=response_length,  </span><br><span class="line">            response=response,  </span><br><span class="line">            context=<span class="literal">None</span>,  </span><br><span class="line">            exception=exception,  </span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
+
+<h3 id="Load-Test-Result"><a href="#Load-Test-Result" class="headerlink" title="Load Test Result"></a>Load Test Result</h3><p>For this test, I used a local machine without fully stressing its CPU or memory, leaving some resources available to avoid errors from performance bottlenecks.</p>
+<p>In other words, this test shows the regular ability of a single process to handle a single table load.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*wx2LwtN4oUPwbOC2.png"><img src="https://cdn-images-1.medium.com/max/800/0*W_ugqkV_Doh43U9o.png"></p>
+<p>As the results show, Kafka Connect’s throughput significantly outperforms Conduit’s when system resources are sufficient.</p>
+<p>I was a bit confused about this result, so I repeated the test a few times, but I got similar numbers.</p>
+<h3 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h3><p>Back to the question in the title.</p>
+<blockquote>
+<p><em>Is there an alternative to Debezium + Kafka?</em></p>
+</blockquote>
+<p>Not at the moment — at least, not among open-source tools.</p>
+<p>I’ve asked on Reddit, but maybe Medium will have a different answer, so feel free to offer your solutions.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/is-there-an-alternative-to-debezium-kafka-0ff112db83a9">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1430,306 +1711,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/When-to-Consider-Design-Patterns/20240804/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/When-to-Consider-Design-Patterns/20240804/" class="post-title-link" itemprop="url">When to Consider Design Patterns</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-08-05 01:44:05" itemprop="dateCreated datePublished" datetime="2024-08-05T01:44:05+08:00">2024-08-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="When-to-Consider-Design-Patterns"><a href="#When-to-Consider-Design-Patterns" class="headerlink" title="When to Consider Design Patterns"></a>When to Consider Design Patterns</h3><h4 id="Balancing-practicality-and-over-engineering-in-software-development"><a href="#Balancing-practicality-and-over-engineering-in-software-development" class="headerlink" title="Balancing practicality and over-engineering in software development"></a>Balancing practicality and over-engineering in software development</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*AMROf0mlE-X7Zqd6tpfwSA.png"></p>
-<p>This week, at the study group, our engineer asked a question: Should we follow the design pattern to design and implement the project from the beginning?</p>
-<p>The design pattern mentioned here refers to GoF’s <code>Design Patterns</code>.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*iNMvKrBpAzn0jPK2.png"></p>
-<p>Meanwhile, there is a related context which suggests that our coding should follow <code>SOLID principle</code> as much as possible, especially the first S and the second O, anyway.</p>
-<p>Since SOLID principle should be followed as much as possible, then the design pattern should also be taken into consideration from the very beginning, right?</p>
-<p>No, not really.</p>
-<h3 id="What-are-design-patterns"><a href="#What-are-design-patterns" class="headerlink" title="What are design patterns?"></a>What are design patterns?</h3><blockquote>
-<p><em>The design patterns we often talk about actually refer to those solutions defined by GoF, which are designed to solve the problems often faced in object-oriented programming.</em></p>
-</blockquote>
-<blockquote>
-<p><em>When we want the code to be easy to maintain and easy to modify, i.e., the open and closed principle, we abstract the problems through various encapsulation techniques, and eventually become those interesting design patterns.</em></p>
-</blockquote>
-<p>Did you notice two key points in this paragraph?</p>
-<ol>
-<li>OOP-specific problems</li>
-<li>Ease of maintenance and modification</li>
-</ol>
-<p>If your project has just started and there is still a question mark over whether it will be successful or not, why do you need to think about the flexibility in the long term?</p>
-<p>If your project requirements are fixed, why do you need to worry about maintenance and modification?</p>
-<p>If you’re one of my regular readers, you’ll remember we’ve talked about a similar question before.</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://lazypro.medium.com/when-to-consider-clean-architecture-a-practical-guide-6a21fccb5e6b"><em>When to consider clean architecture?</em></a></p>
-</blockquote>
-<p>Even earlier on, we have talked about another similar issue.</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://interviewnoodle.com/do-you-really-need-a-microservice-91a48cbea8c1"><em>Do you really need a microservice?</em></a></p>
-</blockquote>
-<p>Most of time, I’m on the side of “don’t over-engineering”.</p>
-<p>Whether it’s design patterns, clean architecture, or even microservice architecture, they are all means to solve problems, but first, you have to encounter the problem. If you have a clear problem, find the right solution, and don’t do it just for the sake of doing it.</p>
-<h3 id="What-exactly-is-a-Pattern"><a href="#What-exactly-is-a-Pattern" class="headerlink" title="What exactly is a Pattern?"></a>What exactly is a Pattern?</h3><p>By the way, what is pattern?</p>
-<p>As I mentioned at the beginning, the design patterns we often talk about actually refer to the solutions listed in the GoF book.</p>
-<p>Pattern is like a “symptom”, when you have a cold over and over again, you will know that you need to drink more water and take more rest, the same is true when we program. When we see a certain problem over and over again, we will naturally have a corresponding solution, but will this solution be the most effective one?</p>
-<p>The design pattern is the medicine for that symptom. When we come across a symptom, we will find out the corresponding medicine to solve the problem, and therefore, you should not usually take medicine without thinking about it, right? It’s unhealthy to take medicine when you don’t have symptoms.</p>
-<p>In fact, patterns are everywhere.</p>
-<p>Object-oriented programming has its patterns, software architecture has its patterns, and even system architecture has its patterns.</p>
-<p>For example, the following book should not be unfamiliar to you.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*E5DDIVAVxVUTZ0Fa.png"></p>
-<p>This book may feel a little unfamiliar.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*ZdKc7OfUv7vL705D.png"></p>
-<p>Here is a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Pattern-Oriented_Software_Architecture">series of books</a> from Volume 1 to Volume 5.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*LlkHCi-TI0vs5pzG.png"></p>
-<p>These books are all about the patterns encountered in various software development contexts, in short, a list of medicines.</p>
-<p>If we’re sick, we can get something out of it, but if we’ve never been sick, we don’t even know what they’re talking about, not to mention when to consider the patterns.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Software development is a pragmatic process.</p>
-<p>What we are doing is always encountering problems, thinking about them, and finally solving them.</p>
-<p>“This may be needed in the future, so I’m ready for it.” I’ve heard this phrase a lot, but in reality, most of these pre-prepared things don’t work. Because requirements are always changing.</p>
-<p>But if we find requirements have changed and it’s hard for us to implement them, then it’s not too late to consider what medicine we need to take. This is refactoring.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/when-to-consider-design-patterns-7d0507d1c429">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Backend/Paradigm-Shift-in-Software-Development-Part-2/20240728/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Backend/Paradigm-Shift-in-Software-Development-Part-2/20240728/" class="post-title-link" itemprop="url">Paradigm Shift in Software Development, Part 2</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-07-29 01:50:57" itemprop="dateCreated datePublished" datetime="2024-07-29T01:50:57+08:00">2024-07-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Backend/" itemprop="url" rel="index"><span itemprop="name">Backend</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Paradigm-Shift-in-Software-Development-Part-2"><a href="#Paradigm-Shift-in-Software-Development-Part-2" class="headerlink" title="Paradigm Shift in Software Development, Part 2"></a>Paradigm Shift in Software Development, Part 2</h3><h4 id="Addressing-the-limitations-of-GenAI-via-REST-API-function-calling"><a href="#Addressing-the-limitations-of-GenAI-via-REST-API-function-calling" class="headerlink" title="Addressing the limitations of GenAI via REST API function calling"></a>Addressing the limitations of GenAI via REST API function calling</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*R45EJH8jQ-H4IeYMD1OB7Q.png"></p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/a-paradigm-shift-in-software-development-leveraging-genai-for-direct-business-logic-processing-9929a724cc1c">Paradigm Shift in Software Development, Part 1</a></li>
-<li><a target="_blank" rel="noopener" href="https://medium.com/@lazypro/paradigm-shift-in-software-development-part-2-60703d518ac9">Paradigm Shift in Software Development, Part 2</a></li>
-</ul>
-<p>Last time, we mentioned that GenAI can be used to implement business logic and dramatically increase development productivity and reduce the effort of debugging.</p>
-<p>However, I have to say that GenAI is not suitable for applications that require accurate computation. In other words, the demonstration in the previous article was just a demo and not a recommendation to use GenAI for calculating promotions.</p>
-<p>But that doesn’t mean using GenAI as a business logic is a bad idea. On the contrary, GenAI is really suitable for replacing “some” business logic.</p>
-<p>Maybe you will ask, most of the business logic needs to be calculated and requires accuracy, so what exactly can GenAI help? Well, I’ll tell you, it helps call the APIs that have already been coded.</p>
-<p>The correct way to use GenAI to handle business logic is to encapsulate that business logic directly into a Remote Procedure Call (RPC) and let GenAI prepare the parameters needed for the RPC and call the corresponding RPC correctly.</p>
-<p>Currently, the RPC that is easiest for GenAI to handle is the REST API for the following reasons.</p>
-<ol>
-<li>Plain text style, no matter the URI, HTTP header, HTTP method, query parameter and request payload are all plain text.</li>
-<li>Full specification support. Nowadays, the most straightforward way to describe a REST API is to use a swagger, and the description file of the swagger is also plain text.</li>
-<li>REST is a mature and relatively less dependency choice, on the contrary, such as gRPC and other protocols need to have to install additional drivers.</li>
-</ol>
-<p>Therefore it’s pretty clear what we’re going to do, so let’s follow the steps and explain them. We will still use Gemini as a demonstration as in the previous article, but once again, you can use what you are familiar with.</p>
-<h3 id="Experimental-environment-introduction"><a href="#Experimental-environment-introduction" class="headerlink" title="Experimental environment introduction"></a>Experimental environment introduction</h3><p>I have prepared a web service with basic CRUD.</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/wirelessr/genai_api_calling">https://github.com/wirelessr/genai_api_calling</a></p>
-<p>Just <code>docker compose up</code> to get the service up.</p>
-<p>This service is a product microservice that handles CRUD for a single product and saves the results in a database. For ease of use, I’m using Redis as the database for this example.</p>
-<p>This service has two entry points.</p>
-<ol>
-<li><a target="_blank" rel="noopener" href="http://localhost:50000/">http://localhost:50000</a> is the home page of the microservice, with a simple list page and blocks for adding and modifying products.</li>
-<li><a target="_blank" rel="noopener" href="http://localhost:50000/apidocs">http://localhost:50000/apidocs</a> is the swagger home page, which lists all the API descriptions and specifications.</li>
-</ol>
-<p>Then prepare some basic test data.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST <span class="string">&quot;http://localhost:50000/api/product&quot;</span> -H <span class="string">&quot;accept: application/json&quot;</span> -H <span class="string">&quot;Content-Type: application/x-www-form-urlencoded&quot;</span> -d <span class="string">&quot;id=123&amp;name=Apple&amp;description=Fruit&quot;</span>  </span><br><span class="line">curl -X POST <span class="string">&quot;http://localhost:50000/api/product&quot;</span> -H <span class="string">&quot;accept: application/json&quot;</span> -H <span class="string">&quot;Content-Type: application/x-www-form-urlencoded&quot;</span> -d <span class="string">&quot;id=234&amp;name=Bird&amp;description=Animal&quot;</span>  </span><br><span class="line">curl -X POST <span class="string">&quot;http://localhost:50000/api/product&quot;</span> -H <span class="string">&quot;accept: application/json&quot;</span> -H <span class="string">&quot;Content-Type: application/x-www-form-urlencoded&quot;</span> -d <span class="string">&quot;id=345&amp;name=Cat&amp;description=Animal&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>It is worth noting that creating a new product and modifying a product are actually the same API: <code>POST /api/product</code>. When the product ID doesn’t exist, the API will create a new product; on the other hand, if the product ID exists, then it will modify the product.</p>
-<p>Remember this, because it’s relevant to the business logic we’re trying to implement.</p>
-<p>The following examples are actually listed in <a target="_blank" rel="noopener" href="https://github.com/wirelessr/genai_api_calling/blob/main/rest_api_calling.ipynb">rest_api_calling.ipynb</a>.</p>
-<h3 id="GenAI-calls-RPC"><a href="#GenAI-calls-RPC" class="headerlink" title="GenAI calls RPC"></a>GenAI calls RPC</h3><p>First, we need to enable GenAI to call RPCs, which is called function calling, and both OpenAI’s ChatGPT and Google’s Gemini have similar capabilities.</p>
-<p>Reference links are listed here.</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/function-calling">ChatGPT function calling</a></li>
-<li><a target="_blank" rel="noopener" href="https://ai.google.dev/gemini-api/docs/function-calling">Gemini function calling</a></li>
-</ul>
-<p>The following is an example.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_website_content</span>(<span class="params">url: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:  </span><br><span class="line">  <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">  Get the content from a specific URL similar to curl -X GET.Args.  </span></span><br><span class="line"><span class="string">      url (str, required): The target URL is either remote or local.  </span></span><br><span class="line"><span class="string">  Returns.  </span></span><br><span class="line"><span class="string">      str: The raw content from a specific URL.  </span></span><br><span class="line"><span class="string">  &quot;&quot;&quot;</span>  </span><br><span class="line">  response = requests.get(url)  </span><br><span class="line">  <span class="keyword">return</span> response.text  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">post_request</span>(<span class="params">url: <span class="built_in">str</span>, data: <span class="built_in">str</span></span>) -&gt; <span class="built_in">dict</span>:  </span><br><span class="line">  <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">  Send a request similar to curl -X POST.  </span></span><br><span class="line"><span class="string">  Args.  </span></span><br><span class="line"><span class="string">      url (str, required): Target URL.  </span></span><br><span class="line"><span class="string">      data (str, required): The data of the form in &quot;id=value1&amp;name=value2&amp;description=value3&quot; format.  </span></span><br><span class="line"><span class="string">  Returns.  </span></span><br><span class="line"><span class="string">      dict: Dictionary containing the status code and response content.  </span></span><br><span class="line"><span class="string">  &quot;&quot;&quot;</span>  </span><br><span class="line">  response = requests.post(url, headers=&#123;<span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/x-www-form-urlencoded&quot;</span>&#125;, data=data)  </span><br><span class="line">  <span class="keyword">try</span>:  </span><br><span class="line">      response_content = response.json()  </span><br><span class="line">  <span class="keyword">except</span> ValueError:  </span><br><span class="line">      response_content = response.text  </span><br><span class="line">  <span class="keyword">return</span> &#123;  </span><br><span class="line">      <span class="string">&quot;status_code&quot;</span>: response.status_code,  </span><br><span class="line">      <span class="string">&quot;content&quot;</span>: response_content,  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">system_instruction = <span class="string">&#x27;&#x27;&#x27;You are a professional web crawler and familiar with swagger usage.  </span></span><br><span class="line"><span class="string">You can get the content you want by yourself through web api,   </span></span><br><span class="line"><span class="string">and when you utilize web api, you will actively list which api is used.  </span></span><br><span class="line"><span class="string">If you don&#x27;t know the answer to a question, just answer no, don&#x27;t make up an answer.  </span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>  </span><br><span class="line">  </span><br><span class="line">model = genai.GenerativeModel(model_name=<span class="string">&#x27;gemini-1.5-pro&#x27;</span>,  </span><br><span class="line">                              tools=[get_website_content, post_request],  </span><br><span class="line">                              system_instruction=system_instruction,)</span><br></pre></td></tr></table></figure>
-
-<p>We have designed two tools for Gemini, <code>get_website_content</code> and <code>post_request</code>. The code comments and annotations must be written in detail so that GenAI can realize the use of these tools.</p>
-<p>Now GenAI can use <code>GET</code> and <code>POST</code>.</p>
-<h3 id="GenAI-understands-RPC-specifications"><a href="#GenAI-understands-RPC-specifications" class="headerlink" title="GenAI understands RPC specifications"></a>GenAI understands RPC specifications</h3><p>Once GenAI is able to invoke RPC, we then need to enable GenAI to learn “all” RPC specifications.</p>
-<p>In the case of REST APIs, the simplest way is to use a swagger to describe all the APIs, including their inputs and outputs, as well as their functionality. The more detailed the information, the more GenAI can operate correctly without having to spend a lot of effort tuning prompts.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">chat_session = model.start_chat(  </span><br><span class="line">    enable_automatic_function_calling=True,  </span><br><span class="line">    history=[  </span><br><span class="line">        &#123;  </span><br><span class="line">            &quot;role&quot;: &quot;user&quot;,  </span><br><span class="line">            &quot;parts&quot;: [  </span><br><span class="line">                &quot;I have a website and this website provides full swagger: http://localhost:50000/apispec_1.json Please tell me the features of this website.&quot;  </span><br><span class="line">            ]  </span><br><span class="line">        &#125;,  </span><br><span class="line">        &#123;  </span><br><span class="line">            &quot;role&quot;: &quot;model&quot;,  </span><br><span class="line">            &quot;parts&quot;: [  </span><br><span class="line">                &quot;&quot;&quot;This website provides four API endpoints:- Create or update a product: You can send a POST request to `/api/product` with product ID, name, and description to create or update a product.  </span><br><span class="line">- Delete a product: You can send a POST request to `/api/product/delete/&#123;product_id&#125;` to delete a product by its ID.  </span><br><span class="line">- Get a product: You can send a GET request to `/api/product/&#123;product_id&#125;` to retrieve the details of a product by its ID.  </span><br><span class="line">- Get all products: You can send a GET request to `/api/products` to get a list of all products. &quot;&quot;&quot;  </span><br><span class="line">            ]  </span><br><span class="line">        &#125;  </span><br><span class="line">    ]  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<p>This is the record I left after talking to Gemini beforehand, it can be used as the history of the prompt.</p>
-<p>You can also do some additional conversations to verify that Gemini has really learned it.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">response = chat_session.send_message(&quot;Create a new product by your own thought&quot;)  </span><br><span class="line">  </span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
-
-<h3 id="Practical-Business-Logic"><a href="#Practical-Business-Logic" class="headerlink" title="Practical Business Logic"></a>Practical Business Logic</h3><p>Now we’ve made sure that GenAI knows the basics, we can make GenAI implement business logic based on those basics.</p>
-<p>For example, the current <code>POST /api/product</code> is a combination of creation and modification, with the <code>id</code> determining whether to create or modify. The <code>id</code> is filled in by the client itself, so it is very likely to be wrong.</p>
-<p>Then we can ask GenAI to find out the unused <code>id</code> to add based on the result of <code>list</code>.</p>
-<blockquote>
-<p><em>Avoid the existing ids and create a new product.</em></p>
-</blockquote>
-<p>In this way, the client does not need to fill in the <code>id</code> itself but GenAI is responsible for generating the <code>id</code>.</p>
-<p>Or another use case, right now the <code>description</code> is free format, so it can be written any way we want. But we can use GenAI to provide a template so that all creations and modifications are in a fixed format, such as the following template.</p>
-<blockquote>
-<p>When creating and modifying products, the description must conform to the following format.</p>
-</blockquote>
-<blockquote>
-<ul>
-<li>Category: str, the category of the product.</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>Price: int, the price of the product.</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>Notes: str, additional information.</li>
-</ul>
-</blockquote>
-<p>The implementation of this business logic doesn’t involve computation, it’s just a matter of letting GenAI call on a known API to accomplish a specific goal.</p>
-<p>You can use your imagination to make more variations.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In the previous article we mentioned that GenAI can be used to implement business logic, and this is true. But in practice, we still need to do some development work to make GenAI able to implement business logic accurately.</p>
-<p>Because GenAI may be good at business logic, but it’s not accurate, so in order to maximize GenAI’s strengths, we need to make GenAI do as little computation as possible. By encapsulating the business logic that needs to be computed and enabling GenAI to execute it exactly according to the instructions we provide, we can maximize productivity.</p>
-<p>Why do we use GenAI to implement business logic?</p>
-<p>Let’s go back and answer this fundamental question. Because GenAI has the ability to understand natural language and execute our predefined scripts or steps, implementing business logic with GenAI becomes software development in natural language.</p>
-<p>Of course, GenAI is not perfect, there are a few core concepts in the development process.</p>
-<ol>
-<li>Integration must be done properly. Although the examples I have provided are all working scripts, in fact, to make GenAI actually put into production environment requires a lot of infrastructure. For example, LLM caching, vector databases, and model repository. Each of these components is a new tech stack for organizations that have never introduced GenAI before.</li>
-<li>Prompts must be good. Although we are developing in natural language, GenAI can easily “learn the wrong way” if we are not precise enough. Moreover, GenAI may perform normally but crash when it encounters a specific pattern, which will be very difficult to debug.</li>
-<li>Testing must be done right. We have already encapsulated business logic into RPC for GenAI, but we still need to make sure that GenAI works properly in all kinds of scenarios, so we must have a high coverage of test cases.</li>
-</ol>
-<p>As we can see, although software development with GenAI may seem attractive, there are many challenges that must be overcome. If we want to become a master of prompting, we still have to be a developer first.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/paradigm-shift-in-software-development-part-2-60703d518ac9">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

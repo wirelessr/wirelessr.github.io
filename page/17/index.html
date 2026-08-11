@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">280</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,327 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/Unique-Array-in-MongoDB-Document/20211121/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/MongoDB/Unique-Array-in-MongoDB-Document/20211121/" class="post-title-link" itemprop="url">Unique Array in MongoDB Document</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-11-22 07:43:05" itemprop="dateCreated datePublished" datetime="2021-11-22T07:43:05+08:00">2021-11-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Unique-Array-in-MongoDB-Document"><a href="#Unique-Array-in-MongoDB-Document" class="headerlink" title="Unique Array in MongoDB Document"></a>Unique Array in MongoDB Document</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*9KOWrIA6crjXcMXM.png"></p>
+<p>In order to explain the solution in detail, I have to introduce the user scenario first. We need a collection to record the group information including name, members, etc. However, we cannot allow a group with the same members in another group. For example, if <code>A</code> and <code>B</code> are in group 1, then they cannot be in group 2. Thus, we need maintain a members array which has an unique constraint.</p>
+<p>There is an assumption in our requirement.</p>
+<blockquote>
+<p><em>The amount of group members will be always 2. In other words, a group only has members</em> <code>[&quot;A&quot;, &quot;B&quot;]</code> <em>but not</em> <code>[&quot;A&quot;, &quot;B&quot;, &quot;C&quot;]</code><em>.</em></p>
+</blockquote>
+<p>Here comes an example collection:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[&#123;  </span><br><span class="line">    &quot;_id&quot;: 1,  </span><br><span class="line">    &quot;name&quot;: &quot;group1&quot;,  </span><br><span class="line">    &quot;members&quot;: [&quot;A&quot;, &quot;B&quot;]  </span><br><span class="line">&#125;, &#123;  </span><br><span class="line">    &quot;_id&quot;: 2,  </span><br><span class="line">    &quot;name&quot;: &quot;group2&quot;,  </span><br><span class="line">    &quot;members&quot;: [&quot;A&quot;, &quot;C&quot;]  </span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+
+<p>We want to query more faster, so we add an index on members, however, <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/core/index-multikey/">MongoDB Multikey Index</a> is very different from what our thought.</p>
+<ul>
+<li>Can we add an unique index on members?</li>
+<li>If the index type is regular, the answer is no.</li>
+<li>Can <code>db.group.find({members: [&quot;B&quot;, &quot;A&quot;]})</code> find anything？</li>
+<li>No, the array should be exactly matched.</li>
+</ul>
+<p>The root cause is creating an index on array, the index will become multikey index automatically. For the document with id 1, there will be two indexes Indicating to this document, namely <code>&quot;A&quot;</code> and <code>&quot;B&quot;</code>. In the same way, there will be two indexes, <code>&quot;A&quot;</code> and <code>&quot;C&quot;</code>, on document with id 2. That is to say, unique constraint doesn’t work while they all have index <code>&quot;A&quot;</code>.</p>
+<p>Although, there are two indexes <code>&quot;A&quot;</code> and <code>&quot;B&quot;</code> on document 1, it just makes MongoDB retrieve data faster. Instead of the full-table scan, MongoDB can reduce the search scope, especially, the linear search with <code>O(n)</code> is very slow on the array match. However, it has to exactly match the array including the order.</p>
+<p>How to solve these problems? There is a trick can handle, that is, use <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/core/index-text/">text index</a>. The figure comes from MongoDB Compass as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*oGdHtxi0cZWTF2md.png"></p>
+<p>Although the number of uses is 0, this is actually caused by MongoDB’s implementation. The search for the text index is to compare the text first, and then use <code>_id</code> to locate the real content.</p>
+<p>Nevertheless, this approach comes other problems when implementing applications:</p>
+<ol>
+<li>To find the content, we must know the order of members; otherwise, data cannot be retrieved.</li>
+<li>Similar to the problem one, even though this approach can make sure <code>[&quot;A&quot;, &quot;B&quot;]</code> will not be duplicated, it cannot reject the insertion with <code>[&quot;B&quot;, &quot;A&quot;]</code>.</li>
+<li>The search pattern, regarding whether a single target exists in members, is inefficient. We have to use <code>$in</code> without the bound from an index to reduce the search scope.</li>
+</ol>
+<p>There is a comprise solution to the problem 1 and 2. Before inserting or fetching data in the database, we sort the members in the application. However, this approach ties the data model and application logic together, which is hard to maintain and use. Hence, it is highly not recommended. As for the problem 3, there is no alternative solution.</p>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p>The correct (*see the last section) approach is still using the multikey and text index. But we don’t store scalar string in members; instead, we store objects. Thus, the original example will be modified slightly:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[&#123;  </span><br><span class="line">    &quot;_id&quot;: 1,  </span><br><span class="line">    &quot;name&quot;: &quot;group1&quot;,  </span><br><span class="line">    &quot;members&quot;: [&#123;&quot;name&quot;: &quot;A&quot;&#125;, &#123;&quot;name&quot;: &quot;B&quot;&#125;]  </span><br><span class="line">&#125;, &#123;  </span><br><span class="line">    &quot;_id&quot;: 2,  </span><br><span class="line">    &quot;name&quot;: &quot;group2&quot;,  </span><br><span class="line">    &quot;members&quot;: [&#123;&quot;name&quot;: &quot;A&quot;&#125;, &#123;&quot;name&quot;: &quot;C&quot;&#125;]  </span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+
+<p>In addition, the index on members should be on <code>members.name</code> with the text type and unique constraint.</p>
+<p>From the above example we can see the original members is changed from <code>[&quot;A&quot;, &quot;B&quot;]</code> to <code>[{&quot;name&quot;: &quot;A&quot;}, {&quot;name&quot;: &quot;B&quot;}]</code>. So what are the benefits of doing this? Yes, in fact, the three problems mentioned above have all been solved.</p>
+<ol>
+<li>We don’t care the order of members when searching a group. We can just use <code>db.group.find({$and: [{&quot;members.name&quot;: &quot;A&quot;}, {&quot;members.name&quot;: &quot;B&quot;}]})</code>.</li>
+<li>We don’t care whether <code>&quot;A&quot;</code> is the former or the letter, it can be rejected correctly if there is indeed a group with <code>&quot;A&quot;</code> and <code>&quot;B&quot;</code>.</li>
+<li>To find a group belongs to a specific member, we can use <code>db.group.find({&quot;members.name&quot;: &quot;A&quot;})</code>. This can find out all groups <code>&quot;A&quot;</code> belongs.</li>
+</ol>
+<p>It must be emphasized again that this solution is only applicable when all groups are composed of two members. Take the above example, if you want to create a group 3 with members <code>&quot;A&quot;, &quot;B&quot;, &quot;C&quot;</code>, it will be denied.</p>
+<p>Why we have a such requirement? We want to simplify the know-how of database operations on the client side. In theory, the client does not need to have any knowledge to manipulate the data of the database, and the database can always respond under inappropriate circumstances. Therefore, we don’t have to embed the database logic into every client. Nonetheless, the approach has its disadvantages. Firstly, the design has been fixed to only support groups of 2 members. Secondly, there is only one text index in a collection, i.e., we sacrifice the possibility of other text indexes. Finally, text index takes lots of spaces, it is considered a high price index.</p>
+<p>What should be the correct way? There are many possibilities, but the most feasible one should be <code>findAndModify</code> with <code>upsert</code>. By doing this, we can avoid creating a group with duplicated<br>members under the race condition. If there is a need to add more members, we can leverage <code>$addToSet</code> to operate on members to keep the uniqueness in members. From this we can know that to maintain the correctness of the data, there are many implementation requirements on the client side, so in the end we decided to write the integrity to the database and let the database take care of part of the correctness of the data.</p>
+<h3 id="Updated"><a href="#Updated" class="headerlink" title="Updated"></a>Updated</h3><p>We have found the multikey index in text type does not work in some conditions. Therefore, we are using <code>$addToSet</code> to be the temporary solution and still trying to find out a better approach.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/unique-array-in-mongodb-document-b77456fe88b4">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Redis/Message-Queue-in-Redis/20211118/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Redis/Message-Queue-in-Redis/20211118/" class="post-title-link" itemprop="url">Message Queue in Redis</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-11-18 13:29:56" itemprop="dateCreated datePublished" datetime="2021-11-18T13:29:56+08:00">2021-11-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Message-Queue-in-Redis"><a href="#Message-Queue-in-Redis" class="headerlink" title="Message Queue in Redis"></a>Message Queue in Redis</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*tCQ0jBqMoZYPbRem"></p>
+<p>My organization has done the technical selection recently, and we want to build an event-driven system. However, the budget is limited. We cannot choose a classic queuing service like RabbitMQ or a streaming process like Kafka. We have to find an affordable solution that can meet our needs. Currently, all we have is Redis. Therefore, we will build a message queue in Redis.</p>
+<p>In this article, I will introduce some properties of a message queue and describe how Redis can be used to build a message queue.</p>
+<h3 id="Message-Queue"><a href="#Message-Queue" class="headerlink" title="Message Queue"></a>Message Queue</h3><p>There are many aspects to consider when choosing a message queue, such as propagation, delivery, persistence, and consumer groups. In this section, I will explain them briefly.</p>
+<h3 id="Propagation"><a href="#Propagation" class="headerlink" title="Propagation"></a>Propagation</h3><p>The propagation means how messages are transferred by the message queue. There are 2 types of propagation,</p>
+<ul>
+<li>1-to-1</li>
+<li>1-to-many (fan-out)</li>
+</ul>
+<p>One-to-one is quite simple. The producer sends a message to the queue, and this message is received by only one consumer. On the other hand, one-to-many is a message that can be delivered to multiple consumers. It’s worth mentioning that the producer just sent a message, but the message can be transferred to many receivers. Such behavior is also called fan-out.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*J90JkLxFZDtdkrserWp-SA.png"></p>
+<h3 id="Delivery"><a href="#Delivery" class="headerlink" title="Delivery"></a>Delivery</h3><p>Delivery is interesting. Most queuing systems have their delivery guarantees. There are three common guarantees,</p>
+<ul>
+<li>At-most-once</li>
+<li>At-least-once</li>
+<li>Exactly-once</li>
+</ul>
+<p>At-most-once is relatively easy to achieve. It can be said that all queuing systems have this guarantee. The consumer can receive a sent message or nothing. This may happen in several situations. Firstly, the message is lost whereas a networking problem occurred. Secondly, although the consumer received it, he did not handle it well like crashed. The message disappears if it is gone, and it is impossible to retrieve the message again.</p>
+<p>At-least-once is a guarantee often used by some well-known systems such as RabbitMQ, Kafka, etc. Compared to at-most-once, at-least-once has a stronger guarantee. It can make sure the message must be processed. However, the message may be processed many times. For instance, a consumer does not acknowledge the queue that the message is handled, thus the queue sends a message to that consumer again.</p>
+<p>Exactly-once is the strictest guarantee. It ensures the message must be handled <strong>once</strong>. Even the popular systems can’t do this well, e.g. RabbitMQ. Nevertheless, the correct use and configuration of Kafka can still be achieved. The price is to sacrifice some performance.</p>
+<h3 id="Persistence"><a href="#Persistence" class="headerlink" title="Persistence"></a>Persistence</h3><p>Persistence means whether the message will disappear after it is sent to the system. There are also three types of persistence,</p>
+<ul>
+<li>In-memory</li>
+<li>In-disk</li>
+<li>Hybrid</li>
+</ul>
+<p>We all know what they means. But the interesting thing is, is it slower to persist messages in disk? No, not really. It depends on how persistence is implemented. Kafka uses LSM-tree to achieve a lot of throughput; in addition, it is better than RabbitMQ who uses memory. There is another example in Cassandra, Cassandra has very fast writing speed and uses LSM-tree as well.</p>
+<p>Hybrid is a special case combined with in-memory and in-disk. In order to improve the writing performance, the queuing system writes to the memory first, and then flush into the disk. RabbitMQ is a typical example in hybrid. However, RabbitMQ is also able to be configured as in-disk.</p>
+<h3 id="Consumer-Group"><a href="#Consumer-Group" class="headerlink" title="Consumer Group"></a>Consumer Group</h3><p>In my opinion, consumer group is the most important feature in a queuing system. Processing a message usually takes time, so that we have to use more consumers to deal with messages, aka scale-out. In consumer group scenes, both the target of one-to-one and one-to-many become a group of consumers instead of a single consumer.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*6BPlsfNqN6AVnl-2xAW7Jg.png"></p>
+<h3 id="Redis-Queue"><a href="#Redis-Queue" class="headerlink" title="Redis Queue"></a>Redis Queue</h3><p>After talking about the properties in a queuing system, let’s talk about how Redis be a message queue. There are 3 ways to do it,</p>
+<ul>
+<li>Pub&#x2F;Sub</li>
+<li>List</li>
+<li>Stream</li>
+</ul>
+<p>We will introduce one by one, and then give a comprehensive summary.</p>
+<h3 id="Pub-Sub"><a href="#Pub-Sub" class="headerlink" title="Pub&#x2F;Sub"></a>Pub&#x2F;Sub</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*C_jjZQ-aa5bXQ0bsuttziA.png"></p>
+<p>Pub&#x2F;Sub is a widely known solution for notifying, this feature was born almost at the same time as Redis. The consumer <code>SUBSCRIBE</code> a topic, aka a key, and then receive the data after a client <code>PUBLISH</code> messages to the same topic. As a traditional Pub&#x2F;Sub feature, it also can fan-out a message to multiple consumers. Moreover, A certain degree of messaging routing can also be achieved through <code>PSUBSCRIBE</code>.</p>
+<p>But Pub&#x2F;Sub in Redis are not popular for most use cases. The biggest problem is the message will delivery at most once. When a message is published, if the consumer doesn’t receive it right now, the message disappears. Furthermore, Redis doesn’t persist messages. All messages are gone away if Redis is shutdown.</p>
+<p>Let’s summarize Pub&#x2F;Sub:</p>
+<ul>
+<li>1-to-1 and 1-to-many are fine</li>
+<li>at-most-once</li>
+<li>no persistence</li>
+<li>no consumer group</li>
+</ul>
+<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*27N6WQ2Oas82SitCl10A8g.png"></p>
+<p>List is a useful data structure in Redis, and we can accomplish a FIFO queue easily by using it. The trick is we can use <code>BLPOP</code> to wait for a message in blocking mode. However, adding a timeout is recommended.</p>
+<p>According to the figure, we can see if there are multiple consumers wait for the same list, they are becoming a consumer group. Without configuring anything, the consumer group can be spontaneously formed by consumers. On the other hand, list cannot fan-out a message. If a message is <code>BLPOP</code> by a consumer, others can not be retrieved this message anymore, even the message is lost in that consumer.</p>
+<p>Nevertheless, Redis list can persist messages in memory. In addition, if you are enabling <code>AOF</code> or <code>RDB</code>, messages can be backed up into the disk. I have to say, following <a target="_blank" rel="noopener" href="https://lazypro.medium.com/data-persistence-in-redis-2780c11d1623">my previous article</a>, this approach is not entirely data persistence.</p>
+<p>To sum up,</p>
+<ul>
+<li>1-to-1 is okay, but no 1-to-many</li>
+<li>at-most-once</li>
+<li>persist in-memory, and backup in-disk</li>
+<li>consumer group works</li>
+</ul>
+<h3 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h3><p>After introducing the Pub&#x2F;Sub and List, we notice that neither of these two methods is very good. They have their own drawbacks. Therefore, Stream has come to solve these issues since Redis 5.0.</p>
+<p>Because Stream is much more complicated, let’s first look at what benefits Stream brings.</p>
+<ul>
+<li>1-to-1 and 1-to-many are fine</li>
+<li>at-least-once</li>
+<li>persist in-memory, and backup in-disk</li>
+<li>consumer group works</li>
+</ul>
+<p>As a result, Stream solves all issues in Pub&#x2F;Sub and List and enhances a lot, for e.g., at-least-once delivery.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*UTwE0z5imsbukNG_mEnSvw.png"></p>
+<p>The diagram is like Pub&#x2F;Sub, but the workflow is closer to List. The producer can generate messages at any time, and then <code>XADD</code> to Redis Stream. You can consider Stream as a list maintains all incoming messages. Consumers can also retrieve messages at any time via <code>XREAD</code>. The identifier in <code>XREAD</code> command represents where you want to read the message from.</p>
+<ul>
+<li><code>$</code>: No matter what messages are in Stream before, only retrieve from now on.</li>
+<li><code>0-0</code>: Always read from the head.</li>
+<li><code>&lt;id&gt;</code>: Start from the specific message id.</li>
+</ul>
+<p>Apart from supporting one-to-one mapping, Stream supports consumer groups as follows:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*IOg5-gQnDynx8HjDe7YuRg.png"></p>
+<p>To achieve at-least-once guarantee, like most queuing systems, the consumer must acknowledge Stream after processing a message by using <code>XACK</code>.</p>
+<p>The use of the special identifier, <code>&lt;</code>, here is to start reading from a position that no one has read in the group.</p>
+<p>After the above explanation, I provide a real example to show a consumer’s bootstrap in Node.js.</p>
+<p>Please note that every consumer has his own name, <code>ConsumerName</code>. First, the consumer read from the beginning to determine its last position. The response will be a empty array with no length, so that the consumer can get the correct <code>lastid</code>. Then, the consumer reads from the <code>lastid</code> and processes those messages. Finally, acknowledge Stream with finished <code>id</code>.</p>
+<h3 id="Stream-Consumer-Failover"><a href="#Stream-Consumer-Failover" class="headerlink" title="Stream Consumer Failover"></a>Stream Consumer Failover</h3><p>In the distributed system, we cannot name a consumer easily. For example, the consumer is run in a container within K8s: How do I maintain names to every pod? Even if we lock everyone’s name, how do we face the scale-out and scale-in scene?</p>
+<p>Therefore, keeping the name in the distributed system is impractical.</p>
+<p>In spite of this, we cannot name a consumer in <code>uuid</code> and forget the name after the consumer is down. Redis Stream maintains a table of names against last positions. So, if we generate a random name every time, the mapping table will become larger and larger. Worst of all, those messages that have been received but not acknowledged will never be processed.</p>
+<p>Fortunately, Redis Stream provides a method to claim those pending messages. The workflow is like this:</p>
+<ol>
+<li>Find out all pending message ids.</li>
+<li>Claim those ids to transfer the ownership.</li>
+</ol>
+<p>Therefore, the completed workflow in a consumer bootstrap is:</p>
+<ol>
+<li><code>XPENDING StreamName GroupName</code></li>
+<li><code>XCLAIM StreamName GroupName &lt;ConsumerName in uuid&gt; &lt;min-idle-time&gt; &lt;ID-1&gt; &lt;ID-2&gt; ... &lt;ID-N&gt;</code></li>
+<li>The above script</li>
+</ol>
+<p>The <code>min-idle-time</code> is a very useful approach. By using <code>min-idle-time</code>, we can avoid multiple consumers claim the same messages at the same time. The first consumer claims some messages, so such messages will no longer be idle. Hence, other consumers cannot claim those messages again.</p>
+<h3 id="Redis-Stream-Persistence"><a href="#Redis-Stream-Persistence" class="headerlink" title="Redis Stream Persistence"></a>Redis Stream Persistence</h3><p>Redis does not guarantee that the data will not be lost at all, even if the strictest setting is turned on. If we use Redis as a message queue, we must take additional measures to ensure persistence. The most common way is event-sourcing. Before publishing a message, we write this message into a durable storage like MySQL. Our consumers can work generally. However, if an error occurs, we can still leverage the durable messages in MySQL to recover our work.</p>
+<p>Besides, if Stream persists more and more messages, the memory usage of Redis would be a disaster. If we are looking at the Redis manual, we can find a command, <code>XDEL</code>. However, <code>XDEL</code> does not delete the messages, it only marks those messages as unused, and the messages are still there.</p>
+<p>How can we prevent memory leakage in Redis Stream? We can use <code>MAXLEN</code> whereas <code>XADD</code> is invoking. The command line is:</p>
+<blockquote>
+<p><em>XADD StreamName MAXLEN 1000 * foo bar</em></p>
+</blockquote>
+<p>But there is one thing you have to know, <code>MAXLEN</code> affects performance of Redis very much. It blocks the main process for a while, and no command can be executed during that period. If there are many incoming messages and the amount of queued messages reaches maximum, then Stream will be very busy to maintain <code>MAXLEN</code>.</p>
+<p>An alternative approach can be adopted. Instead of fixing the hard limit, we can give Redis the right to choose a comfortable length at its free time. Hence, the command will be:</p>
+<blockquote>
+<p><em>XADD StreamName MAXLEN ~ 1000 * foo bar</em></p>
+</blockquote>
+<p>The <code>~</code> sign means the maximum length is about 1000, it might be 900 or even 1300. Redis will pick a good time to strip a good size for it.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Let me summarize these three approaches.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*o68_P7KksDT9gt13nouN_g.png"></p>
+<p>There is an unfamiliar property complexity, which refers to the complexity of a technology but also the complexity of implementing a consumer.</p>
+<p>From my point of view, these three approaches have their pros and cons and also have their own applicable scenarios.</p>
+<ul>
+<li>Pub&#x2F;Sub: Best-effort notification.</li>
+<li>List: Tolerate message queues with some data loss.</li>
+<li>Stream: Loose streaming process.</li>
+</ul>
+<p>So, why is Redis Stream a loose streaming process? Because the consumer group in Redis Stream is not like Kafka. It cannot preserve the message ordering. In a high-volume traffic environment, consumers within the same group cannot be scaled out successfully.</p>
+<p>In the end, we chose List as the message queue. Our use cases are simple. We just want to throttle the notifications in the broadcast scene. The broadcast notification can tolerate the message loss. It’s good enough that most users can receive the message. In addition, the implementation effort is very low in Node.js, so we can finish it as soon as possible. Although it is not the best solution, it is good enough for our organization.</p>
+<h4 id="The-world’s-fastest-cloud-data-warehouse"><a href="#The-world’s-fastest-cloud-data-warehouse" class="headerlink" title="The world’s fastest cloud data warehouse:"></a>The world’s fastest cloud data warehouse:</h4><p>When designing analytics experiences which are consumed by customers in production, even the smallest delays in query response times become critical. Learn how to achieve <strong>sub-second</strong> performance over TBs of data with <a target="_blank" rel="noopener" href="https://www.firebolt.io/?v=m"><strong>Firebolt</strong>.</a></p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/message-queue-in-redis-9efe0de2c39c">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1008,253 +1329,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Design-Patterns-of-Event-driven-Architecture/20211014/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/Design-Patterns-of-Event-driven-Architecture/20211014/" class="post-title-link" itemprop="url">Design Patterns of Event-driven Architecture</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-10-14 09:45:39" itemprop="dateCreated datePublished" datetime="2021-10-14T09:45:39+08:00">2021-10-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>According to the <a target="_blank" rel="noopener" href="https://www.gartner.com/ngw/globalassets/en/information-technology/documents/top-10-strategic-technology-trends-for-2018.pdf">report</a>, we can see the event-driven model is a hot topic for the system design. However, designing a good event-driven architecture is quite challenging. We are familiar with the synchronization models, which request and response directly, but the stories are totally different in the asynchronization schemes. Nevertheless, here are some architecture patterns for reference.</p>
-<p>The blueprint comes from the <a target="_blank" rel="noopener" href="https://youtu.be/dc20BQ9izs8">video</a> and shows the whole vision on a well-defined event-driven architecture.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*__KCJ15dla1qq0Rb.png"></p>
-<p>I will briefly introduce those terminologies in the later sections.</p>
-<h3 id="Channel-monitoring-pattern"><a href="#Channel-monitoring-pattern" class="headerlink" title="Channel monitoring pattern"></a>Channel monitoring pattern</h3><p>The channel monitoring pattern define a role called channel monitor to watch the usage and utilization of the main queue. It monitors some metrics like the amount of pending messages, the amount of consumers and the consuming rate.</p>
-<p>Having those metrics helps to understand the workload and the healthy of the system. Moreover, the information can let the system be able to self-healing by adjusting the amount of consumers and throttling the producer.</p>
-<h3 id="Consumer-supervisor-pattern"><a href="#Consumer-supervisor-pattern" class="headerlink" title="Consumer supervisor pattern"></a>Consumer supervisor pattern</h3><p>This supervisor is responsible for adjusting the amount of consumers. It listens to the channel monitor and determines if the current consumers can handle the events. If the supervisor thinks the throughput of consumers is not enough, it will call more consumers to help, and vise versa.</p>
-<h3 id="Producer-control-flow-pattern"><a href="#Producer-control-flow-pattern" class="headerlink" title="Producer control flow pattern"></a>Producer control flow pattern</h3><p>In the previous section, the supervisor improves the throughput by making more consumers. However, if the cost is a concern, using more consumers obviously is infeasible.</p>
-<p>Therefore, there is another approach, producer control flow pattern. When the consuming rate cannot align to the producing rate, a controller will send a signal to the producer to slow down the event generation. After the pending events are processed, the producer can disable the throttling to restore the normal state.</p>
-<h3 id="Thread-delegate-pattern"><a href="#Thread-delegate-pattern" class="headerlink" title="Thread delegate pattern"></a>Thread delegate pattern</h3><p>The thread delegate pattern is a useful pattern not only in the event-driven architecture but the other types of the system design.</p>
-<p>The pattern has two purposes:</p>
-<ol>
-<li>Preserve the message order</li>
-<li>Track the metrics of event processing, ex. response time.</li>
-</ol>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*TzGIitumPt_dW98W.png"></p>
-<p>Let’s begin from the first purpose. When a huge amounts of events enter the queue, we are used to bring up more consumers to handle them, aka scale-out. This method is common in the stateless scenarios. But, some kind of events are stateful, the order of events must be addressed. For instance,</p>
-<ul>
-<li>Put some items in the cart</li>
-<li>Clean up the cart</li>
-<li>Put other items in the same cart</li>
-<li>Charge it</li>
-</ul>
-<p>The event order must be kept; otherwise, you may buy the wrong items. Thus, how to handle the events on multiple consumers? In thread delegate pattern, it introduces a new role, event dispatcher, and the dispatcher dispatch an event to the corresponding consumer based on the event type. In other words, all events with the same type will be in the same place, and the order can be ensured.</p>
-<p>So, the dispatcher maintains a mapping table to record which type of event belongs to who. After the consumer finishes an event, it callback to the dispatcher. The dispatcher knows all processing results of consumers, i.e., it can track the response time as well.</p>
-<h3 id="Workflow-event-pattern"><a href="#Workflow-event-pattern" class="headerlink" title="Workflow event pattern"></a>Workflow event pattern</h3><p>When event consumer encounter an error while processing, it may not fix the error due to many reasons like the malformed event, transaction conflicts, etc. Hence, the consumer emit this event to another queue handled by workflow processor. The processor will either fix the event or store the event in the storage. In addition, the processor can display the event on the dashboard and inform the human to take over the case. The human can fix the situation manually and resend this event to the queue.</p>
-<p>It is worth to mention that if the event is resent to the queue, the order cannot be guaranteed.</p>
-<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>We walk through several design patterns of an event-driven architecture. We can design a self-monitoring and self-healing system leverage those patterns. The system is scalable, robust, efficient, and fault-tolerant. However, there are some noteworthy patterns that have not been covered. I will introduce them in the future.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-patterns-of-event-driven-architecture-bf0121cfda7b">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Distributed-Transaction-Introduction/20211001/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/Distributed-Transaction-Introduction/20211001/" class="post-title-link" itemprop="url">Distributed Transaction Introduction</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-10-02 03:37:42" itemprop="dateCreated datePublished" datetime="2021-10-02T03:37:42+08:00">2021-10-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>This article will:</p>
-<ol>
-<li>explain what is the distributed transaction.</li>
-<li>introduce how to resolve the distributed problem.</li>
-<li>provide a real-world example to demonstrate how dose the proper solution look like.</li>
-</ol>
-<p>To discuss the distributed transaction, we should talk about the transaction first. We will enter the world of the distributed system design step by step. So, let’s begin.</p>
-<h3 id="What-is-Transaction"><a href="#What-is-Transaction" class="headerlink" title="What is Transaction"></a>What is Transaction</h3><p>The traditional transaction system provide 4 guarantees by the definition. They are known as ACID:</p>
-<ul>
-<li>Atomicity: All tasks in a transaction either all have been done or done with nothing. In this premise, we can ensure our database modifications will be all or nothing.</li>
-<li>Consistency: The operation in a transaction still follows the constraint. In addition, once it is committed, the changes can be read by others correctly.</li>
-<li>Isolation: The isolation is defined as 4 isolation levels. They are <code>Read Uncommitted</code>, <code>Read Committed</code>, <code>Repeatable Read</code>, and <code>Serializable</code>. Different isolation levels can solve different user scenarios. The <code>Seriablizable</code> treats all operations are in order; therefore, he will not encounter the racing conditions anymore.</li>
-<li>Durability: Once the data changes are committed, they will not be lost even the database crashes.</li>
-</ul>
-<h3 id="Who-has-Transaction"><a href="#Who-has-Transaction" class="headerlink" title="Who has Transaction"></a>Who has Transaction</h3><p>After describing ACID briefly, let’s see who can support them. I pick 3 very common targets, <code>MySQL</code>, <code>Mongo</code> and <code>Redis</code>.</p>
-<ul>
-<li>MySQL: Of course, yes. As a representative of OLTP(Online Transactional Processing), MySQL supports the transaction very well, and it is widely used to the transaction scheme. Although, the transaction level is usually set to <code>Repeatable Read</code>, MySQL is still the most appropriate solution.</li>
-<li>Mongo: Since v4.0 released, Mongo has supports the transaction. As long as the correct use <code>Write Concern</code> and <code>Read Concern</code> can ensure <code>Consistency</code> of the transaction. In my opinion, Mongo is very suitable for the de-normalized user scenario.</li>
-<li>Redis: Well, not really. We know Redis has the atomical operation due to the single-thread design. In addition, Redis has <code>MULTI</code> to execute multiple commands or <code>EVAL</code> to call the <code>Lua</code> script, so that Redis can perform lots of data changes at once. Moreover, Redis can use AOF to accomplish the data persistence. I have to say that Redis cannot support the transaction. Redis may leverage those mechanisms to solve part of the transaction stories; as a consequence, it does still not fully provide ACID.</li>
-</ul>
-<p>Let me summarize in a table:</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*CguLyqdZJ8lNVqmxg-8xdA.png"></p>
-<h3 id="How-about-Distributed-Transaction"><a href="#How-about-Distributed-Transaction" class="headerlink" title="How about Distributed Transaction"></a>How about Distributed Transaction</h3><p>Alright, we have gone through the traditional transaction. Now, we can talk about the distributed transaction. In order to ease the problem scope, I will give a simple definition to the distributed transaction, that is, provide ACID across multiple homogeneous&#x2F;heterogeneous data sources. Here are few examples:</p>
-<ol>
-<li>Insert a row in one MySQL database, and insert another row into another MySQL database.</li>
-<li>Insert a row in a MySQL database, and insert a document into a Mongo database.</li>
-<li>Insert a document in one of Mongo shards, and insert another document into another Mongo shards.</li>
-</ol>
-<blockquote>
-<p><em>The third example can be solved by native Mongo’s transaction after Mongo v4.2 released; therefore, we can skip this example.</em></p>
-</blockquote>
-<h3 id="Simple-Design-but-Incorrect"><a href="#Simple-Design-but-Incorrect" class="headerlink" title="Simple Design but Incorrect"></a>Simple Design but Incorrect</h3><p>Okay, let’s quick look a basic design concept. We perform the transaction on each data source, if there is one of them failed, we rollback the previous tasks.</p>
-<p>Based on our simple design, there is an implementation on data source A, B and C like this:</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*dYiSTnbVAO3P8caAVQVf1A.png"></p>
-<p>The problem here is: after we commit the result to A, we are hard to perform rollback on A if B is failed.</p>
-<p>Even if we adopt the nested transaction, the problem is still not resolved like the following diagram:</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*3ilS7E-5m3G370vJU2V2TA.png"></p>
-<p>According to the diagram below, we can see the same problem as the figure 1. We cannot rollback on C easily.</p>
-<h3 id="Two-phase-Commit-Protocol"><a href="#Two-phase-Commit-Protocol" class="headerlink" title="Two-phase Commit Protocol"></a>Two-phase Commit Protocol</h3><p>In the field of Microservice, this kind of problems are becoming common; hence, many protocols have been proposed to figure out the solution like <code>XA</code> and <code>SAGA</code>. Both <code>XA</code> and <code>SAGA</code> are based on the same theory, <code>2PC</code>, aka the two-phase commit protocol. I won’t dive into <code>2PC</code>, I will provide an introduction to explain its concept.</p>
-<p>There is a coordinator in the story, everyone want to perform the distributed transaction has to register(first commit) with it. The coordinator will poll every data source who participates in this transaction to get the permission. If there is any participant says no, the coordinator will reject the transaction request and perform rollback to every participant. If fortunately all data sources reply yes, the coordinator will response okay to the client. The client is able to perform the real commit(second commit) to the coordinator to proceed the process.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*ZsbogH53HuWUItiktCP1fA.png"></p>
-<p>See this, we can find out three problems:</p>
-<ol>
-<li>It is very time consuming. Client must wait for every data source agree his request, and then submit the real commit to them. Although this synchronization can ensure the strong consistency on data changes, we have to invest more time.</li>
-<li>SPOF(Single point of failure) is on the coordinator. If the coordinator crashes, all the distributed transactions do not work anymore.</li>
-<li>If the coordinator’s commit is failed due to the network loss or other reasons, the data will be inconsistent on those participated data sources.</li>
-</ol>
-<h3 id="Eventually-Consistency"><a href="#Eventually-Consistency" class="headerlink" title="Eventually Consistency"></a>Eventually Consistency</h3><p>It seems that multi-phase commit protocol is not feasible, we should try to find out a light weight approach called eventually consistency. Literally we know that we give up the strong consistency to reduce the implementation overhead. In other words, we hope the data can be consistent in the end. To achieve the eventually consistency approach, there are two keywords should keep in mind.</p>
-<ol>
-<li>Event sourcing: To make this term simple, it means we record the status changes instead of the status itself. For instance, the bank passbook records every transaction not only the balance.</li>
-<li>Idempotence: The idempotence is quite intuitive. We can perform a tasks many times, and the result is the same as we performed once.</li>
-</ol>
-<p>Combine these two concepts, we can design our system now. We make every transaction be an event, if a client want to perform a distributed transaction which means the client emit an event to the event processor. The event processor receives a event and start to do transaction on those multiple data sources. After all tasks finish, the event can be mark as <code>DONE</code>, and the event processor can handle the next one. If there is a transaction cannot succeed on one of the data sources, we don’t mark this event <code>DONE</code>, so that the event processor will retry later. Due to the idempotence, the event can be processed more than once. Nevertheless, putting a retry limit is recommended.</p>
-<p>Let’s see the diagram to show the design flow:</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*X--IGPY5ARQRsOG9oTwu3A.png"></p>
-<p>Perfect, as a result of the design concept, we can handle the distributed transaction correctly, and the data consistency will be kept eventually.</p>
-<p>Even though there is a queue in our design, in fact, you don’t need invoke a real queue in your system. There are many alternatives, e.g., store all events in a MySQL table having a column be the status. The core of this design is the event sourcing and the idempotence, you can accomplish them in what way you preferred.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/distributed-transaction-introduction-1cd105c830a2">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/16/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/18/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/16/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/18/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
