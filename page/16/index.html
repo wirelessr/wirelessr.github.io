@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">194</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">281</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,280 +214,6 @@
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Understand-Temporal-Coupling-in-Code/20220213/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/Understand-Temporal-Coupling-in-Code/20220213/" class="post-title-link" itemprop="url">Understand Temporal Coupling in Code</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-02-14 01:00:51" itemprop="dateCreated datePublished" datetime="2022-02-14T01:00:51+08:00">2022-02-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Understand-Temporal-Coupling-in-Code"><a href="#Understand-Temporal-Coupling-in-Code" class="headerlink" title="Understand Temporal Coupling in Code"></a>Understand Temporal Coupling in Code</h3><h4 id="We-often-talk-about-coupling-what-exactly-is-coupling"><a href="#We-often-talk-about-coupling-what-exactly-is-coupling" class="headerlink" title="We often talk about coupling, what exactly is coupling?"></a><em>We often talk about coupling, what exactly is coupling?</em></h4><p><img src="https://cdn-images-1.medium.com/max/800/0*UrvZqN0L9uK6XzO4"></p>
-<p>Generally, there are three types of component coupling.</p>
-<ol>
-<li>Afferent coupling: The task of the A component must depend on the implementation of B, C, and D.</li>
-</ol>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*SSCMX0zM8-8Gws4VXwep5g.png"></p>
-<ol start="2">
-<li>Efferent coupling: After the task of the A component is completed, B, C, D must be executed.</li>
-</ol>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*rLqf9u2kJOHIGL8LcEBgVg.png"></p>
-<ol start="3">
-<li>Temporal coupling: After the task of the A component is completed, B and C must be executed. In addition, B is earlier than C.</li>
-</ol>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*tjkqnGevNGSW5zLVn-sJkw.png"></p>
-<p>The components mentioned here can be source code level, module level or even service level based on the granularity.</p>
-<p>In this article we will dive into the temporal coupling in particular, because this is the most common and most overlooked pitfall. First we describe in Node.js as follows:</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*toZFte37Li_5D7I_g203bw.png"></p>
-<p>At this point, we found that this is really generic. Almost all of our code looks like this. It is normal to do three things in sequence in a method, isn’t it?</p>
-<p>Let’s take a more concrete example. Suppose we have an e-commerce with a function, <code>purchase</code>. Therefore, we begin to code in a simple way.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*Bq3Btv9FvTOmWN0h4hKuMQ.png"></p>
-<p>First summarize the price of all items in the cart. And then call the payment service to deal with the credit card. Simple, right?</p>
-<p>Alright, the marketing team wants to let people who spend over 1,000 dollars get a discount coupon, so we continue to modify our <code>purchase</code>.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*LlZYz55Pw54uoS6Zsy2CaA.png"></p>
-<p>This feature is also quite common, and then the sales team found that coupon is a good promotion method, so they proposed that people who reached 5,000 dollars could get a lottery chance. This <code>purchase</code> keeps growing.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*izql41NdZm2gQhxaFdCGyQ.png"></p>
-<p>This is a temporal coupling. Either <code>giveCoupon</code> or <code>lottery</code> actually depend on <code>purchase</code>, which must be done within the life cycle of <code>purchase</code>. Once the feature requirement becomes larger and larger, the performance of the entire <code>purchase</code> will be continuously dragged down. Especially, the <code>lottery</code> usually requires huge calculations, and the <code>purchase</code> is forced to wait for the <code>lottery</code> success to be considered a success.</p>
-<h3 id="De-couple-timing-by-domain-events"><a href="#De-couple-timing-by-domain-events" class="headerlink" title="De-couple timing by domain events"></a>De-couple timing by domain events</h3><p>From the previous section, we learned that <code>purchase</code> should only need to process payments, the rest of the behavior is additional, and should not be in the same life cycle as <code>purchase</code>. In other words, even if the <code>giveCoupon</code> fails, it should not affect <code>purchase</code> or <code>lottery</code>.</p>
-<p>There is a method in domain-driven development called domain events. When a task is completed, it will issue an event, and the handler that cares about the event can take the corresponding action after receiving the event. By the way, this approach is also called the <em>Observer Pattern</em> in the design pattern. In domain-driven development, the “notification” contains the domain’s ubiquitous language, hence the notification is named domain events.</p>
-<p>Therefore, let’s modify <code>purchase</code> a little bit in the Node’s way.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*0lcfBJKz0ywUgRvhfb-kFg.png"></p>
-<p>With events, we can completely decouple <code>giveCoupon</code> and <code>lottery</code> from <code>purchase</code>. Even if any one of the handler fails, it does not impact the original payment flow.</p>
-<p>Whereas <code>purchase</code> only needs to concentrate on the payment process. When the payment is successful, emit the event and let other functions take over.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*6UY2qnE1kDwMGvAvxIij7w.png"></p>
-<p>If there are more needs in the future, there is no need to change the original <code>purchase</code>, just add a new handler. And this is the concept of decoupling. Here we remove the code-level coupling and timing-level coupling.</p>
-<h3 id="How-to-handle-event-loss"><a href="#How-to-handle-event-loss" class="headerlink" title="How to handle event loss"></a>How to handle event loss</h3><p>In <a target="_blank" rel="noopener" href="https://towardsdev.com/resilient-caching-in-redis-a5b3c1a49f14">my previous article</a>, we mentioned that whenever failures can happen, we have to expect them and handle them gracefully. This is called <a target="_blank" rel="noopener" href="https://www.bmc.com/blogs/resilience-engineering/">resilience engineering</a>.</p>
-<p>When we decouple the coupons and lottery through domain events, we will immediately face a problem. What if the event is lost? The payment is finish, but the coupon has not been issued, which is definitely a big problem for the customer.</p>
-<p>In other words, how do we ensure that the emitted event will be executed. This is exactly why message queues were introduced into the system.</p>
-<p>We discussed the <a target="_blank" rel="noopener" href="https://selectfrom.dev/message-queue-in-redis-9efe0de2c39c">message queue</a> before, there are three different levels of guarantees in message delivery, which are:</p>
-<ul>
-<li>At most once</li>
-<li>At least once</li>
-<li>Exactly once</li>
-</ul>
-<p>Most message queues have the at-least-once guarantee. That is to say, through the message queue we can make sure that all events can be executed at least once. This also ensures that messages are not lost.</p>
-<p>Thus, to avoid event loss, we will change <code>emitter.emit</code> to a queue submission with like RabbitMQ or Kafka. At this stage, we have introduced decoupling at the system level, i.e., make event producers and consumers belong to different execution units.</p>
-<h3 id="How-to-handle-emitting-loss"><a href="#How-to-handle-emitting-loss" class="headerlink" title="How to handle emitting loss"></a>How to handle emitting loss</h3><p>The story isn’t over yet. We can already ensure that emitted events are executed. What if the event isn’t sent at all? Continue to take <code>purchase</code> as an example, when <code>payByCreditCard</code> has been successful, but it doesn’t send the event due to the system crashes for unexpected reasons. Then, even with a message queue, we still get the incorrect result.</p>
-<p>In order to avoid this problem, we can leverage the event sourcing. In <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/distributed-transaction-introduction-1cd105c830a2">Distributed Transaction</a> and <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">CQRS</a>, I have described the core concept of event sourcing.</p>
-<p>Before the event is emitted, store the event into a storage first. After the handler finishes processing the event, then mark the event in the storage as “processed”.</p>
-<p>There is one thing should be aware, the writing of events and the payment must be under the same transaction. In this way, as long as the payment is successful, the event will also be written successfully. Finally, we can periodically monitor for overdue events to know what went wrong.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This time we are still going through a step-by-step evolution of the system as we did in <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">Shift from Monolith to CQRS</a> to let you know how to decouple when systems become large and complex. At the beginning, we first decoupled source code and execution timing through domain events; then we introduced message queues with message producers and consumers to achieve system-level decoupling.</p>
-<p>As I said before, a system evolves to solve a problem, but it also creates new problems. We can only choose the most acceptable solution and seek compromises in complexity, performance, productivity and other factors.</p>
-<p>Splitting a complete action into different execution units must encounter inconsistencies. In resolving inconsistencies, there are many considerations, such as:</p>
-<ul>
-<li>Regardless of whether the event will be lost or not, just use the simplest architecture, <code>EventEmitter</code>. This approach is the simplest, and there may be no problem in 80% of the cases, but what should we do if there is a problem?</li>
-<li>Attempting to be as reliable as possible, so introduce message queues, which should be 99% sure that there will be no problems. But there is still 1%, is such a risk bearable?</li>
-<li>Implementing event sourcing comes at the cost of increased complexity and performance may be affected. Is this acceptable?</li>
-</ul>
-<p>Just like I always say, there is no perfect solution to system design. Each organization has a different level of risk tolerance. In various indicators, we look for the most acceptable solution for ourselves and think about the risks and failures we face at any time. As a result, everyone should be able to build a resilient system.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/temporal-coupling-in-code-e74899f7a48f">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Backend/How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum/20220206/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Backend/How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum/20220206/" class="post-title-link" itemprop="url">How Kanban Works and Why I Prefer It Over Scrum</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-02-07 01:19:06" itemprop="dateCreated datePublished" datetime="2022-02-07T01:19:06+08:00">2022-02-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Backend/" itemprop="url" rel="index"><span itemprop="name">Backend</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum"><a href="#How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum" class="headerlink" title="How Kanban Works and Why I Prefer It Over Scrum"></a>How Kanban Works and Why I Prefer It Over Scrum</h3><h4 id="Improve-work-productivity-by-using-Agile-development"><a href="#Improve-work-productivity-by-using-Agile-development" class="headerlink" title="Improve work productivity by using Agile development"></a>Improve work productivity by using Agile development</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*YYnxYV9xvzWkFkwd"></p>
-<p>We have talked about using <a target="_blank" rel="noopener" href="https://lazypro.medium.com/trunk-based-development-can-help-4bb425595c00">trunk-based development</a> to improve software development productivity. In fact, to dramatically increase productivity, you must apply multiple methods, which is why there are so many agile methodologies, two of which are well-known agile methods: Scrum and Kanban.</p>
-<p>Scrum is currently the most used by most organizations. Nevertheless, it is not easy to use Scrum well. In the many agile methodologies, Scrum is the most variant, and it can be said that there are a hundred Scrum practices in a hundred organizations.</p>
-<p>This is because the original Scrum has many “rules”, which cannot perfectly match the existing organizational structure of each organization. According to <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Conway%27s_law">Conway’s law</a>, most software architectures are closely related to organizational structures, resulting in various agile methods that can only provide the prototype and cannot be applied entirely.</p>
-<p>This article will briefly introduce the purpose of the agile method and Scrum, as well as the problems encountered by running Scrum, and then describe the main topic: Kanban.</p>
-<h3 id="Why-not-Waterfall"><a href="#Why-not-Waterfall" class="headerlink" title="Why not Waterfall?"></a>Why not Waterfall?</h3><blockquote>
-<p><em>Why do we need agile methods?<br>What exactly needs to be agile?</em></p>
-</blockquote>
-<p>First, let’s define what agile is.</p>
-<p>The purpose of agile is to generate value “faster”. So, what is the value? Frankly speaking, it is something that can make money. In other words, it usually exists in the form of features on a product. That is to say, only when the feature or product is delivered to the customer can generate the real value, and the purpose of agile development is to accelerate the delivery of this value stream.</p>
-<p>When we evaluate the delivery speed of the value stream, one indicator is usually used: lead time. The entire time from a feature request is generated to the requirement is actually delivered to the customer is called lead time.</p>
-<p>Under traditional waterfall development, this lead time can take several months, which doesn’t sound agile at all. Moreover, if this requirement is implemented halfway, it turns out that this is not what the customer wants, then all the resources invested are wasted.</p>
-<p>Therefore, modern software development focuses on dividing requirements into small pieces, and each small pieces has its own value. By continuously delivering these small values, the product iteration cycle can be faster.</p>
-<h3 id="Scrum"><a href="#Scrum" class="headerlink" title="Scrum"></a>Scrum</h3><p>I believe most of you have heard or even experienced the Scrum development process. From the conclusion of the previous section, we can know the core spirit of Scrum is to decompose large requirements into small requirements through a preset short cycle: Sprint. And, each small requirement is mapped in the form of a user story. It is important to have deliverable outputs at the end of each Sprint.</p>
-<p>There are three roles in Scrum.</p>
-<ol>
-<li>Product Owner: Obviously, this role is the owner of the product . He is like the traditional PM and sales, as a gateway between the development team and the customer, to find out what the customer desires.</li>
-<li>Scrum Master: The person, who is the most familiar with the Scrum process in the Scrum team, is responsible for hosting every “Scrum-defined” event, and must also act as the coordinator of product requirements and the development teams.</li>
-<li>Functional Teams: This role represents the development teams, the people who implement the product requirements. There are many different divisions depending on the team size and nature of the teams, such as frontend, backend, QA, etc.</li>
-</ol>
-<p>A Sprint consists of several different events.</p>
-<ol>
-<li>Planning: This event is used to decide what requirements should be taken in this Sprint. At this stage, each small requirement is usually made into a card with its cost points. Each fixed Sprint is equipped with a fixed number of points, that is to say, in this cycle, which tasks should be completed according to the number of points and priorities.</li>
-<li>Developing: After each member receives the assigned card, they start to work.</li>
-<li>Retroactive: At the end of Sprint, review the status of everyone’s cards and ensure the value that this Sprint can deliver, as well as review the performance of this Sprint.</li>
-</ol>
-<p>The above description briefly describes a complete Scrum development process. As far as we know, Scrum is complex, there are many dedicated roles and events, and there are many overheads for Scrum. Taking the team I used to work for as an example, Planning will take half a day, and Retroactive will also take half a day, plus there are regular meetings such as stand-up in the morning, the basic expenses alone can take two working days.</p>
-<p>In addition, estimating the number of points is also an imprecise practice. Who should set the price? Who will assign it? How much points can a cycle handle? It takes a long time to get used to each other before we can gradually get on the right way.</p>
-<p>Furthermore, how should the allocation of roles be configured? Each organization usually already has a basic organizational structure, and it is extremely difficult to extract roles that can adapt to Scrum.</p>
-<p>All of the above situations are even worse if there are several parallel Scrums. Especially when someone is in multiple Scrum teams, regular meetings can take up most of the time.</p>
-<h3 id="Kanban"><a href="#Kanban" class="headerlink" title="Kanban"></a>Kanban</h3><p>To sum up, Scrum is not efficient for small teams. Therefore, the teams I lead use another agile method: Kanban.</p>
-<p>Compared with Scrum, Kanban is used by fewer teams. The main reason is that most teams don’t use Kanban correctly and thus don’t see the benefits of Kanban. Most people just plan the various stages of the Kanban board, and then place the cards on the lanes like Scrum, and then move them through stage by stage. In the end, they didn’t get any benefit, just using Kanban in form, and then going back to Scrum, after all, the card making method is the same.</p>
-<p>Because of this, in this section I will first introduce the purpose of Kanban, then explain the key to using Kanban, and finally describe the development process of Kanban.</p>
-<h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*JXSc23QMyPMqu92dBPKZvg.png"></p>
-<p>Kanban is just like its appearance, it is actually a view of the value stream, and each stage of the value stream should be presented in Kanban. Assuming that your organization’s development process is, analysis, design, implementation, testing, and release, then there should be five stages on the Kanban board.</p>
-<p>As mentioned in the first section, the agile method is to accelerate the value stream; therefore, Kanban presents the entire value stream in a concrete way, and can also see the spending time of each task. When there is a card that cannot move to the next stage for a long time, it means that there is a problem, and the task status should be checked immediately and appropriate measures should be taken right away.</p>
-<p>For example, If the task content covered by the card is too large, the card should be divided into two immediately. And, let someone take over the small cards that are divided out. By checking the status of each card, the delivery of value can be accelerated.</p>
-<h3 id="Keys"><a href="#Keys" class="headerlink" title="Keys"></a>Keys</h3><p>There are only three key points to using Kanban correctly without any defined events.</p>
-<ol>
-<li>Cards can only be moved backward, not forward. Each stage of Kanban represents the stage of the value stream. Like the flow of water, water only flows down, and value only flows up to the customer. For instance, suppose one of the stages is development and the other is testing, even if a bug is found during testing, the card will not go back to development, instead, it should remain in testing.</li>
-<li>Define the Definition of Done (DoD): DoD is important for Kanban, what conditions must be met to go from one stage to the next is about quality. Taking development and testing as an example again, if the condition of DoD is that the unit test coverage reaches 80%, the card cannot enter the testing phase until this condition is met. On the other hand, it is also important to define a “measurable” DoD. It is recommended to turn the DoD of each stage into a checklist, which can make sure that every card movement is compliant and qualified.</li>
-<li>Determine Work-in-Progress (WIP): WIP is arguably the most important concept of using Kanban. Each stage must define its WIP, that is, the maximum number of cards that can be accepted. If the WIP of the next stage is full, even if the DoD has been completed, the card still cannot move to the next stage. The purpose of WIP is to be able to see at a glance where the value stream is stuck. As mentioned in the previous section, once a value stream gets stuck, immediate action must be taken. How do you know it’s stuck? The spending time of a certain card is an indicator, but when the number of cards is large, this indicator is easily ignored. Therefore, WIP is a more effective enforcement measure, as long as you see that the WIP is full and the card is forced to wait, then there is something blocking.</li>
-</ol>
-<h3 id="Working-Flow"><a href="#Working-Flow" class="headerlink" title="Working Flow"></a>Working Flow</h3><p>In this section, I will explain how my team uses Kanban. First of all, the Kanban boards we used are: open, to-do, design, develop, test, released, and closed.</p>
-<ul>
-<li>Open: All the feature requirements will be placed here after they are issued. At this time, the content of this card will be huge, and the time-consuming and so on are not estimated.</li>
-<li>To-do: According to the priority, the cards are taken out from the open, evaluated and split, and a large card will be split into several small cards and put into to-do. The working time per card is about 1–2 weeks. The WIP of the to-do will be set slightly larger, which represents the capacity of my team. We will queue up to do it. If the to-do is full, it means that my team has currently exceeded the load.</li>
-<li>Design: In the to-do stage, the due date of each card should be planned, and the design stage will further determine the spending time of the card in each stage. If it gets stuck on a stage in the future, it means that something is wrong. The DoD in the design stage is to produce the design documents included in the user story and use cases mentioned in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">my previous article</a>.</li>
-<li>Develop: After entering the development stage, it is the time for the feature development. At this time, the focus is whether the expected time and WIP are exceeded. WIP is defined here as roughly twice the size of the team. As for DoD, the unit test is completed, and the integration test on the local environment must be passed.</li>
-<li>Test: Cards in this stage have actually deployed to the staging or pre-production environment. Due to <a target="_blank" rel="noopener" href="https://lazypro.medium.com/trunk-based-development-can-help-4bb425595c00">trunk-based development</a>, every code commits into the trunk, and each test environment is released from the trunk. It is tested by QA in a pre-production environment, and after completion, it is ready to the release stage.</li>
-<li>Released: The feature has deployed to the production environment. At this stage, we will pay attention to a period of time to clarify whether the feature is working properly, and the time is DoD. If the observation time is satisfied, the card will enter the final stage: closed.</li>
-<li>Closed: Features in this stage are basically working normally, and every once in a while we will review the number of deliveries as our performance and then achieve.</li>
-</ul>
-<h3 id="Why-do-I-Prefer-Kanban"><a href="#Why-do-I-Prefer-Kanban" class="headerlink" title="Why do I Prefer Kanban?"></a>Why do I Prefer Kanban?</h3><p>As you know from the description in previous sections, the use of Kanban is flexible and can be easily applied regardless of the organizational structure. There will be no fixed regular meetings and no dedicated roles, and everyone can still develop like before. The Kanban board is just a visual tool that provides managers with an intuitive view of the progress of the work.</p>
-<p>The whole Kanban approach has no complicated rules, just the value stream, DoD, and WIP defined by each organization based on their existed working processes. By mastering the purpose and principles of Kanban, it is easy for organizations to implement their own customizations on Kanban, which is also the benefit of Kanban.</p>
-<p>As a leader experienced with Scrum and Kanban, I will continue to lead my team with the Kanban method in the future. After all, meetings are such a waste of time.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/improve-the-productivity-by-using-agile-development-778c7f069c6a">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -1443,6 +1169,234 @@
 <p>The example in this article is trivial, however, I believe you can realize the concepts of those approaches. The most important thing is each approach has its own strength and drawback, using them in a smart way is developer’s responsibility.</p>
 <blockquote>
 <p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/cardinality-counting-in-redis-3c3a472e2d9f">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Career/Journey-from-Software-Developer-to-Software-Architect/20211205/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Career/Journey-from-Software-Developer-to-Software-Architect/20211205/" class="post-title-link" itemprop="url">Journey from Software Developer to Software Architect</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-12-06 00:58:15" itemprop="dateCreated datePublished" datetime="2021-12-06T00:58:15+08:00">2021-12-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Career/" itemprop="url" rel="index"><span itemprop="name">Career</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="https://cdn-images-1.medium.com/max/800/0*Xy4ZsSaahPHif88g.png"></p>
+<p>The exciting 2021 is almost over, let me review my architect journey. Actually, I had been an architect in embedded system before, then I decided to change my career to the cloud service and backend development. After working and studying for years, I gradually changed from an engineer to a principle engineer. At the beginning of this year, I made my mind to be a backend architect. And finally, the dream comes true.</p>
+<p>In retrospect, I feel the change of professional position went smoothly. Therefore, I will review what I have done and will be done for your reference.</p>
+<h3 id="Why-changing-to-architect"><a href="#Why-changing-to-architect" class="headerlink" title="Why changing to architect"></a>Why changing to architect</h3><p>People often ask me why I want to be an architect instead of being a developer. There are two main reasons,</p>
+<ol>
+<li>Programming language can never be learned. New languages will appear every once in a while and become popular, e.g., <code>golang</code>. Even the existed languages are still enhanced and become unfamiliar like <code>C++11</code>, <code>C++14</code>, <code>C++17</code>, then <code>C++20</code>. On the other hand, the software engineering is much more constant. The core design of data stores, architectures, distributed systems are classic. In other words, mastering these technologies has a relatively high return on investment.</li>
+<li>When I was a developer, every time a clean architecture is written, it becomes a mess soon. Cross referencing, circular referencing, etc. are everywhere, I cannot stop it even being a staff engineer. It is better to become an authority and make rules instead of actual development.</li>
+</ol>
+<h3 id="What-is-R-R-of-architect"><a href="#What-is-R-R-of-architect" class="headerlink" title="What is R&amp;R of architect"></a>What is R&amp;R of architect</h3><blockquote>
+<p><em>“Managers are not confronted with problems that are independent of each other; but with dynamic situations that consist of complex systems of changing problems that interact with each other. I call such situations messes…Managers do not solve problems, they manage messes.”</em></p>
+</blockquote>
+<blockquote>
+<p><em>Some f-Laws from Ackoff, R. L., H. J. Addison and S. Bibb. 2007. Management f-Laws. Triarchy Press Ltd.</em></p>
+</blockquote>
+<p>The same applies to architects.</p>
+<ol>
+<li>Find out the root cause of the intractable online problem and hand it over to an engineer to solve it.</li>
+<li>Monitor and clarify system bottlenecks, find ways to optimize and improve.</li>
+<li>Educate and guide the development team to improve everyone’s skills, such as the low-level details of the database, SOLID principles for the system design, etc.</li>
+<li>Participate in the requirement meeting on the product side and propose a reasonable estimated schedule and change scope.</li>
+<li>Improve development process like CI&#x2F;CD pipelines, design review meetings, trunk-based development, etc.</li>
+<li>Participate in seminars and survey new technologies, techniques, and methodologies.</li>
+</ol>
+<p>From above description, we can find an architect does not solve issues completely; instead, the core value of an architect is simplifying the process whether it is an issue or a product requirement.</p>
+<h3 id="How-to-be-an-architect"><a href="#How-to-be-an-architect" class="headerlink" title="How to be an architect"></a>How to be an architect</h3><p>In order to be an architect, there are some properties helping the position change, and I find those properties really work.</p>
+<ol>
+<li>A lot of reading, you must have the habit of reading. Work process books, professional technical books, and management books are all essential. You have to be greedy.</li>
+<li>A lot of thinking, there is no code or architecture that cannot be optimized, and finding a reasonable improvement way is the responsibility of an architect.</li>
+<li>A lot of communication, the architect is not the person who actually does things, and (s)he must be able to guide developers in a timely manner while establishing authority.</li>
+<li>Stay motivated and optimistic. The work of the architect is very heavy. You have to deal with a large number of people and issues every day. If you don’t manage your mood well, you can easily fall into frustration.</li>
+</ol>
+<p>These four properties are useful, even though you don’t want to be an architect, you still can grow yourself up on the career path of a software engineer. At least, thanks to these properties, I have been able to change from an embedded system engineer to a backend architect successfully in 10 years.</p>
+<h3 id="Afterword"><a href="#Afterword" class="headerlink" title="Afterword"></a>Afterword</h3><p>Being a software architect is pretty interesting. I have no assigned or dedicated jobs in my organization, what I have to do is finding an issue and trying to fix it. All my tasks are assigned by myself. I can schedule my tasks in a proper way and be free to study from any resource. This is my journey in past 10 years, and you can write your own story on your career. It would be great if you could share with me.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/journey-from-software-developer-to-software-architect-26137c4853f0">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Layered-Architecture-Clarification/20211128/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Layered-Architecture-Clarification/20211128/" class="post-title-link" itemprop="url">Layered Architecture Clarification</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-11-29 02:15:33" itemprop="dateCreated datePublished" datetime="2021-11-29T02:15:33+08:00">2021-11-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="https://cdn-images-1.medium.com/max/800/0*aBdFCd2GP3xER_o3.jpg"></p>
+<p>Layered architecture is a common pattern of an architecture design, and it is very suitable for a small scale monolith. There are many advantages such as,</p>
+<ol>
+<li>very easy to design and implement</li>
+<li>very in line with human nature</li>
+<li>cooperate with each other more easily</li>
+</ol>
+<p>When we are talking about the layered architecture, we often have a myth; in order to replace the dependency, we should make those dependencies as a layer.</p>
+<p>In fact, that’s not the purpose of layered architecture. I believe we seldom need to change a database, a framework, even a programming language. Therefore, what is the benefit of using layers?</p>
+<p>Before we discuss further, we should see an example first.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*n_CYh281E5t66-KHXYncxw.png"></p>
+<p>The above diagram is a classic layered architecture for a web server. We separate a request flow into 4 components, route, controller, service and repository. Each component has its responsibility to handle a part of a request flow. This kind of implementation is also known as Single-Responsibility Principle.</p>
+<p>In many articles, we had been taught that route is made for the web framework changed, and the repo is to nail the database. However, as I mentioned earlier, we seldom need change those hard things. Route and repo here are just completing their own duties.</p>
+<h3 id="Single-Responsibility-Principle"><a href="#Single-Responsibility-Principle" class="headerlink" title="Single-Responsibility Principle"></a>Single-Responsibility Principle</h3><p>I will describe those 4 components’ responsibilities to let you realize them more confidently.</p>
+<ul>
+<li>Route is a the wrapper of a web framework. To interact with a framework and hide the implementation, we build a layer to enclose those details. In route layer, we usually define HTTP routes right here including HTTP methods and URI.</li>
+<li>Controller is the first line to handle a request. The main responsibility is validating the input request and assembling the response. This layer often implements some error handlers to reflect like “400 Bad Request”, “500 Internal Server Error”, etc.</li>
+<li>Service is where the business logic in. The core values of a web product are all here. If it is a E-commerce site, service will calculate the recommendation, orchestrate the render content, and all other logic.</li>
+<li>Repo is an abstraction onto a database. In order to isolate the business logic, we don’t want the database operation to pollute the code in services, thus, repo plays this role in accessing persisted data.</li>
+</ul>
+<p>The text description is a bit abstract, so I provide a more concrete example: <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Clean-Architect-in-Golang">https://github.com/wirelessr/Clean-Architect-in-Golang</a></p>
+<p>The GitHub repository is quite simple due to the screaming architecture, hence, we can know this is a classic web service.</p>
+<ul>
+<li>Route is a mux wrapper in http. It will do nothing and route HTTP request to the controller.</li>
+<li>Controller defines API interfaces. In <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Clean-Architect-in-Golang/blob/58c8e0738ff92a7363f73111523928b4c15a9762/controller/post-controller.go#L42">AddPost</a>, it also validates the request format and assembles the response.</li>
+<li>Service own all business logic including how to access durable data, what the post format is, and how to generate the post identifier.</li>
+<li>Repo hides all database details, so you can choose what data store you want. But, again, we don’t change our data store decision easily. Therefore, repo here is to encapsulate the data store access to make service be independent from <code>firestore</code>.</li>
+</ul>
+<h3 id="What’s-Benefit"><a href="#What’s-Benefit" class="headerlink" title="What’s Benefit"></a>What’s Benefit</h3><p>Do we just separate our web service into several layers for SRP? No. Actually, this comes some benefits. Let me show two most important advantages,</p>
+<ol>
+<li>Layers make testing become more easily.</li>
+<li>If those layers are modules, we can decouple the deployment of layer modules.</li>
+</ol>
+<p>The second one is straightforward. Thus, I will dive into the test. According to <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/whats-difference-between-unit-test-and-integration-test-aae6ef13220">my previous article</a>, we can leverage the dependency injection to accomplish a high testing coverage. For instance, in <a target="_blank" rel="noopener" href="https://github.com/wirelessr/Clean-Architect-in-Golang/blob/master/service/post-service_test.go">my golang example</a>, in order to verify the service, we can create a mocked repo to ignore the data store access.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>There are many articles trying to compare layered architecture and microservice architecture. However, layered architecture is not only an architecture pattern but also the coding technique for a SOLID software. This article tells you still can use layered architecture in your microservice like my post example. They are not two mutually exclusive things; moreover, they are more close to each other.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/layered-architecture-clarification-e55b69d60e98">Medium</a></p>
 </blockquote>
 
       

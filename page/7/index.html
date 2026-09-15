@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">194</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">281</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,278 +214,6 @@
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Elasticsearch/Elasticsearch-Index-Lifecycle-Management-in-a-Nutshell/20240421/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Elasticsearch/Elasticsearch-Index-Lifecycle-Management-in-a-Nutshell/20240421/" class="post-title-link" itemprop="url">Elasticsearch Index Lifecycle Management in a Nutshell</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-04-22 01:39:02" itemprop="dateCreated datePublished" datetime="2024-04-22T01:39:02+08:00">2024-04-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Elasticsearch-Index-Lifecycle-Management-in-a-Nutshell"><a href="#Elasticsearch-Index-Lifecycle-Management-in-a-Nutshell" class="headerlink" title="Elasticsearch Index Lifecycle Management in a Nutshell"></a>Elasticsearch Index Lifecycle Management in a Nutshell</h3><h4 id="Understanding-its-Application-Scenarios-and-Limitations"><a href="#Understanding-its-Application-Scenarios-and-Limitations" class="headerlink" title="Understanding its Application Scenarios and Limitations"></a>Understanding its Application Scenarios and Limitations</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*LQaJhD9iC8n85_qg"></p>
-<p>When we develop data-intensive applications, we usually classify data into frequently used and infrequently used, i.e. hot data and cold data. We have different ways of handling data at different “temperatures”, for example, cold data is stored in lower-cost storage, but with a lower access performance.</p>
-<p>If the databases we use have this kind of temperature management built in, then the operation effort will be greatly reduced.</p>
-<p>Fortunately, Elasticsearch has such a feature, called <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ilm-index-lifecycle.html">index lifecycle management</a> (ILM).</p>
-<p>Before we get into ILM, let’s jump to the conclusion.</p>
-<p>There are two common ways to use Elasticsearch, one is to treat Elasticsearch as an OLTP database, just like a regular database where we CRUD each document. The scenario is we need the search capabilities provided by Elasticsearch, so each document will be a corresponding entity.</p>
-<p>Take an e-commerce website as an example, in order to be able to search for product titles, content, etc., we will add a product as a document to Elasticsearch, and when there are any changes to the product, we will directly find out the corresponding document and modify the fields in it.</p>
-<p>So, the modeling in Elasticsearch will be an index, let’s say <code>products</code>, which contains many documents representing products.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*hiPxw1JZY-AKvbkBCVWWRQ.png"></p>
-<p>On the other hand, Elasticsearch can also be used as a time-series database. All data is continuously written to Elasticsearch, and the written documents are rarely modified. A common example of this is logs. We often use Elasticsearch’s powerful search capabilities to find specific patterns in logs. So in Elasticsearch, there may be a time-divided index, such as log-2024–04–01, log-2024–04–02 and so on.</p>
-<p>Elasticsearch’s ILM only benefits from the latter.</p>
-<h3 id="ILM-Concepts"><a href="#ILM-Concepts" class="headerlink" title="ILM Concepts"></a>ILM Concepts</h3><p>Why ILM can only work on time-series data scenarios and not on OLTP scenarios?</p>
-<p>Briefly, the unit of ILM is index, as indicated by the first letter I. Therefore, when only one index exists, there is no way for ILM to manage it. Either the whole index is hot, or the whole index is cold, and there is no way to distinguish which documents are hot and which are cold within this index.</p>
-<p>The whole concept of ILM in Elasticsearch is to label the index with hot, warm and cold. With different labels, there will be different behaviors, for example, a cold index can only be read but not written. In addition, the nodes in the cluster are labeled so that different temperature indexes belong to specific nodes. In this way, the cold index can be placed in a lower cost machine to save cost.</p>
-<p>In addition to ILM, Elasticsearch has another mechanism that is often paired with ILM, which is <code>Rollover</code>. When time-series data is constantly written to an index, the performance of the index will inevitably degrade. Therefore, <code>Rollover</code> allows the index to generate a new index when certain conditions are met, and the original index will no longer accept write requests.</p>
-<p>The principle of Rollover is to have a dedicated alias for writing to the underlying index, e.g. index-000001, and when a new index is generated, the alias is automatically switched to the new index, e.g. index-000002.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*HzH7HTT4hAB7wu1YVoFHfg.png"></p>
-<p>Based on the configured ILM policy, index-000001 will be converted from a hot index to a warm index, and then to a cold index, achieving a lifecycle.</p>
-<p>This is the whole concept of data tiering in Elasticsearch.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Although Elasticsearch has built-in ILM, there are still many people who misunderstand the concept of ILM. The built-in ILM is indeed a very powerful capability, but it is not a silver bullet as there are limitations on the scenarios it can be applied to.</p>
-<p>Therefore, this article mainly explains the concept of ILM and the applicable scenarios. As for the specific operation is not difficult, the official document has a detailed description, I will not dive into it.</p>
-<p>If we want to use Elasticsearch in an OLTP scenario and want to benefit from ILM, then I think we may need to change our modeling approach so that each CRUD creates a new entity, which might be simpler in this case.</p>
-<p>Here’s a possible approach, let’s continue with the <code>products</code> example.</p>
-<p>When we add a Japanese apple at the first index, <code>products-01</code>.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST /products-01/_doc/1  </span><br><span class="line">&#123;  </span><br><span class="line">    &quot;product_id&quot;: &quot;0001&quot;,  </span><br><span class="line">    &quot;product_name&quot;: &quot;Apple&quot;,  </span><br><span class="line">    &quot;description&quot;: &quot;Made in Japan&quot;,  </span><br><span class="line">    &quot;price&quot;: 100  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>After some time, Japanese apples were out of stock, so we switched to importing American apples. But at this time, the index has been changed to <code>products-02</code> due to <code>Rollover</code>, and the original <code>products-01</code> has been cooled down so we can’t update it.</p>
-<p>Then we need to write the same apples and updated information in <code>products-02</code>.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST /products-02/_doc/1  </span><br><span class="line">&#123;  </span><br><span class="line">    &quot;product_id&quot;: &quot;0001&quot;,  </span><br><span class="line">    &quot;product_name&quot;: &quot;Apple&quot;,  </span><br><span class="line">    &quot;description&quot;: &quot;Made in USA&quot;,  </span><br><span class="line">    &quot;price&quot;: 50  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>All of these indexes will have the same alias, <code>products-search</code>, for searching.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">POST /_aliases  </span><br><span class="line">&#123;  </span><br><span class="line">    &quot;actions&quot;: [  </span><br><span class="line">        &#123;  </span><br><span class="line">            &quot;add&quot;: &#123;  </span><br><span class="line">                &quot;index&quot;: &quot;products-01&quot;,  </span><br><span class="line">                &quot;alias&quot;: &quot;products-search&quot;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;,  </span><br><span class="line">        &#123;  </span><br><span class="line">            &quot;add&quot;: &#123;  </span><br><span class="line">                &quot;index&quot;: &quot;products-02&quot;,  </span><br><span class="line">                &quot;alias&quot;: &quot;products-search&quot;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">    ]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Finally, we search the results directly on <code>products-search</code> but sort them in order, and the top one will be the final result.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">POST /products-search/_search  </span><br><span class="line">&#123;  </span><br><span class="line">    &quot;query&quot;: &#123;  </span><br><span class="line">        &quot;bool&quot;: &#123;  </span><br><span class="line">            &quot;must&quot;: [  </span><br><span class="line">                &#123;  </span><br><span class="line">                    &quot;match&quot;: &#123;  </span><br><span class="line">                        &quot;product_name&quot;: &quot;Apple&quot;  </span><br><span class="line">                    &#125;  </span><br><span class="line">                &#125;  </span><br><span class="line">            ]  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;,  </span><br><span class="line">    &quot;sort&quot;: [  </span><br><span class="line">        &#123;  </span><br><span class="line">            &quot;_index&quot;: &#123;  </span><br><span class="line">                &quot;order&quot;: &quot;desc&quot;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">    ]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>So the client has to de-duplicate the data using <code>product_id</code>, which is a case of updates. Similarly for deletions, a document labeled with a soft delete flag needs to be added so that the client can be aware that the data is invalid.</p>
-<p>In order to implement data tiering on the backend, extra processing must be done on the client side. If the system wasn’t designed this way from the beginning, there would be a lot of development on the client side, which is not always a good approach.</p>
-<p>Alternatively, use additional ETL to move documents that meet the criteria to a different cold index. In this way the client can maintain its existing behavior without awareness.</p>
-<p>Anyway, there’s not much ILM can do for OLTP scenarios, it all depends on the system design.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/elasticsearch-index-lifecycle-management-in-a-nutshell-278072a9aab6">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Making-Gemini-a-Tarot-Master/20240331/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/AI/Making-Gemini-a-Tarot-Master/20240331/" class="post-title-link" itemprop="url">Making Gemini a Tarot Master</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-04-01 01:23:09" itemprop="dateCreated datePublished" datetime="2024-04-01T01:23:09+08:00">2024-04-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Making-Gemini-a-Tarot-Master"><a href="#Making-Gemini-a-Tarot-Master" class="headerlink" title="Making Gemini a Tarot Master"></a>Making Gemini a Tarot Master</h3><h4 id="Quickly-build-a-RAG-application-with-Streamlit-and-LangChain"><a href="#Quickly-build-a-RAG-application-with-Streamlit-and-LangChain" class="headerlink" title="Quickly build a RAG application with Streamlit and LangChain"></a>Quickly build a RAG application with Streamlit and LangChain</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*DWgc5anGVJRcVN4k"></p>
-<p>Nowadays, AI resources are quite available, which makes it much easier to implement RAG (retrieval-augmented generation) applications.</p>
-<p>In order for me to keep writing programs and not to be out of sync with the technology for too long, I’m going to use <code>LangChain</code> to implement a Tarot bot.</p>
-<p>I chose <code>LangChain</code> because it has an active ecosystem and supports multi-model design, so it’s easy to modify it according to the needs. For example, I’ll be using <code>Gemini Pro</code> as my LLM this time, but it’s easy to switch to <code>ChatGPT</code> or even the free <code>Ollama</code>.</p>
-<p>The whole process is simple.</p>
-<ol>
-<li>Crawl through the web to retrieve a lot of Tarot knowledge and examples.</li>
-<li>Convert these data into vectors and write them to vector storage.</li>
-<li>Build a Web App that can draw cards and present them.</li>
-<li>Feed the drawn cards to AI for interpretation based on the big data.</li>
-</ol>
-<p>The <a target="_blank" rel="noopener" href="https://rider-waite-tarot.streamlit.app/">final result</a> will be as follows.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*8oxm1JCCLCMBOfLA.png"></p>
-<blockquote>
-<p><em>Apologies for the Chinese. I’ve been studying Tarot lately, so I’m more likely to get the meaning right if it is in Chinese.</em></p>
-</blockquote>
-<p>This layout has a button to draw cards. When the button is pressed, three cards are turned over, each with an upright meaning and a reversed meaning. Finally Gemini will try to give a full explanation of the meaning of each card in context.</p>
-<p>Let’s get our hands dirty.</p>
-<h3 id="Preconditions"><a href="#Preconditions" class="headerlink" title="Preconditions"></a>Preconditions</h3><p>Let’s start by installing the packages that will be used.</p>
-<blockquote>
-<p><em>pip install langchain-google-genai langchain pymongo</em></p>
-</blockquote>
-<h3 id="Implementing-a-web-crawler"><a href="#Implementing-a-web-crawler" class="headerlink" title="Implementing a web crawler"></a>Implementing a web crawler</h3><p>Since web crawlers are not the focus of this article, and web crawlers involve finding targets and parsing web content, let me get directly to the heart of the RAG problem.</p>
-<blockquote>
-<p><em>How to put the material into vector storage?</em></p>
-</blockquote>
-<p>First, we make a basic declaration about which data store we want to use and what kind of embedding we want to use to convert the text into vectors.</p>
-<p>In this example, I’ve chosen to use <a target="_blank" rel="noopener" href="https://www.mongodb.com/">MongoDB Atlas</a>, so let’s get the settings right.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># MONGODB_ATLAS_CLUSTER_URI will contain credentials, please modify it accordingly.  </span></span><br><span class="line">client = MongoClient(MONGODB_ATLAS_CLUSTER_URI)  </span><br><span class="line">DB_NAME = <span class="string">&quot;langchain_db&quot;</span>  </span><br><span class="line">COLLECTION_NAME = <span class="string">&quot;test&quot;</span>  </span><br><span class="line">ATLAS_VECTOR_SEARCH_INDEX_NAME = <span class="string">&quot;index_name&quot;</span>  </span><br><span class="line">MONGODB_COLLECTION = client[DB_NAME][COLLECTION_NAME]</span><br></pre></td></tr></table></figure>
-
-<p>Next is Gemini’s own embedding.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os  </span><br><span class="line"><span class="keyword">from</span> langchain_google_genai <span class="keyword">import</span> GoogleGenerativeAIEmbeddings  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># GEMINI_PRO_API_TOKEN is a credential, please modify it accordingly.  </span></span><br><span class="line">os.environ[<span class="string">&quot;GOOGLE_API_KEY&quot;</span>] = GEMINI_PRO_API_TOKEN  </span><br><span class="line">embeddings = GoogleGenerativeAIEmbeddings(model=<span class="string">&quot;models/embedding-001&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>Before writing to storage, the data needs to be pre-processed. Assuming all the data is in JSON format, we need to split the JSON into smaller chunks to make it easier to use.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> langchain_text_splitters <span class="keyword">import</span> RecursiveJsonSplitter  </span><br><span class="line">  </span><br><span class="line">splitter = RecursiveJsonSplitter(max_chunk_size=<span class="number">300</span>)  </span><br><span class="line"><span class="comment"># json_data is the data source in JSON format  </span></span><br><span class="line">json_chunks = splitter.split_json(json_data=json_data)  </span><br><span class="line"><span class="comment"># docs will be stored  </span></span><br><span class="line">docs = splitter.create_documents(texts=[json_data])</span><br></pre></td></tr></table></figure>
-
-<p>Once everything is ready, it’s just time to convert the data into vectors and write them to MongoDB.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from langchain_community.vectorstores import MongoDBAtlasVectorSearch  </span><br><span class="line">  </span><br><span class="line"># insert the documents in MongoDB Atlas with their embedding  </span><br><span class="line">vector_orig = MongoDBAtlasVectorSearch.from_documents(  </span><br><span class="line">    documents=docs,  </span><br><span class="line">    embedding=embeddings,  </span><br><span class="line">    collection=MONGODB_COLLECTION,  </span><br><span class="line">    index_name=ATLAS_VECTOR_SEARCH_INDEX_NAME,  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<p>Depending on the state of the crawler and the results, this stage can take a lot of time, both for retrieving data and for writing to storage.</p>
-<h3 id="Web-App-implementation"><a href="#Web-App-implementation" class="headerlink" title="Web App implementation"></a>Web App implementation</h3><p>It’s not difficult to build a Web App quickly, as I’ve introduced in my <a target="_blank" rel="noopener" href="https://medium.com/stackademic/simplify-web-app-development-code-lite-create-big-6f87e21ea71c">previous article</a> about Streamlit.</p>
-<p>Therefore, I will only talk about two key points this time.</p>
-<p>There are many spreads in Tarot, each spread has different layouts and corresponding Gemini prompts, so we need to prepare a detailed explanation of the spreads for Gemini to know how to interpret them.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if spread_type == &#x27;Time Flow&#x27;:  </span><br><span class="line">    spread = init_time_flow_spread()  </span><br><span class="line">    sys_prompt = &#x27;&#x27;&#x27;  </span><br><span class="line">This is a Time Flow Tarot spread where three cards are drawn to represent the past, present and future.  </span><br><span class="line">  </span><br><span class="line">Based on the user&#x27;s question, the meaning of the three cards drawn by the user, and the following &#123;context&#125;, a reasonable explanation is given.  </span><br><span class="line">    &#x27;&#x27;&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>The tarot cards are drawn in upright and reversed positions, so we can’t just use the file paths in <code>st.image</code>, we need to read out the files and process them and use <code>numpy.ndarray</code> as the parameter.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">open_image</span>(<span class="params">fp</span>):  </span><br><span class="line">    <span class="keyword">from</span> PIL <span class="keyword">import</span> Image  </span><br><span class="line">    <span class="keyword">import</span> numpy <span class="keyword">as</span> np  </span><br><span class="line">  </span><br><span class="line">    image = Image.<span class="built_in">open</span>(fp)  </span><br><span class="line">    image_array = np.array(image)  </span><br><span class="line">    flipped_image = image.transpose(Image.ROTATE_180)  </span><br><span class="line">    flipped_image_array = np.array(flipped_image)  </span><br><span class="line">    <span class="keyword">return</span> image_array, flipped_image_array</span><br></pre></td></tr></table></figure>
-
-<h3 id="Integrate-with-Gemini-Pro"><a href="#Integrate-with-Gemini-Pro" class="headerlink" title="Integrate with Gemini Pro"></a>Integrate with Gemini Pro</h3><p>For Gemini to learn about Tarot, the results of the previous crawler are required, so the first step is to make Gemini able to retrieve the vectors we have stored, i.e. the R of the RAG.</p>
-<p>We’ll use the mentioned embedding and the MongoDB settings.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vector_search = MongoDBAtlasVectorSearch.from_connection_string(  </span><br><span class="line">    MONGODB_ATLAS_CLUSTER_URI,  </span><br><span class="line">    DB_NAME + &quot;.&quot; + COLLECTION_NAME,  </span><br><span class="line">    embeddings,  </span><br><span class="line">    index_name=ATLAS_VECTOR_SEARCH_INDEX_NAME,  </span><br><span class="line">)  </span><br><span class="line">retriever = vector_search.as_retriever()</span><br></pre></td></tr></table></figure>
-
-<p>Next we need to build the LLM using Gemini Pro.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> langchain_google_genai <span class="keyword">import</span> ChatGoogleGenerativeAI  </span><br><span class="line">  </span><br><span class="line">llm = ChatGoogleGenerativeAI(model=<span class="string">&quot;gemini-pro&quot;</span>, convert_system_message_to_human=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-
-<p>Finally, the whole chain is connected.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from langchain.chains.combine_documents import create_stuff_documents_chain  </span><br><span class="line">from langchain.chains import create_retrieval_chain  </span><br><span class="line">from langchain_core.prompts import ChatPromptTemplate  </span><br><span class="line">  </span><br><span class="line"># sys_promopt is based on Tarot&#x27;s Spreads.  </span><br><span class="line">prompt = ChatPromptTemplate.from_messages([  </span><br><span class="line">    (&#x27;system&#x27;, sys_prompt),  </span><br><span class="line">    (&#x27;user&#x27;, &#x27;Question: &#123;input&#125;&#x27;),  </span><br><span class="line">])  </span><br><span class="line">document_chain = create_stuff_documents_chain(llm, prompt)  </span><br><span class="line">retrieval_chain = create_retrieval_chain(retriever, document_chain)</span><br></pre></td></tr></table></figure>
-
-<p>With the whole chain, we can ask Gemini to start his show.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># input_text is the three cards drawn by the user.  </span><br><span class="line">response = retrieval_chain.invoke(&#123;  </span><br><span class="line">    &#x27;input&#x27;: input_text,  </span><br><span class="line">    &#x27;context&#x27;: []  </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This is the simplest example of a RAG implementation, applying all RAG elements, and each piece can actually be modified as needed. The domain knowledge of application is the results from crawlers, and this application just uses the information to answer questions.</p>
-<p>At the moment, I don’t intend Gemini to act like a real soothsayer with the user. Instead, Gemini will provide a one-time recommendation. For me, Tarot is a tool for inner dialogue, not for seeking magic.</p>
-<p>The whole project is on Github.</p>
-<p>Although this application has both UI and AI integration, the total number of code lines is only 150. I have to say, both Streamlit and LangChain are really great at packaging complex implementations in abstract and sophisticated interfaces, so that users can easily write functionality instead of dealing with miscellaneous things.</p>
-<p>Here are some of the LangChain materials I have references to.</p>
-<ul>
-<li>gemini-pro: <a target="_blank" rel="noopener" href="https://python.langchain.com/docs/integrations/chat/google_generative_ai">https://python.langchain.com/docs/integrations/chat/google_generative_ai</a></li>
-<li>gemini-embedding: <a target="_blank" rel="noopener" href="https://python.langchain.com/docs/integrations/text_embedding/google_generative_ai">https://python.langchain.com/docs/integrations/text_embedding/google_generative_ai</a></li>
-<li>mongo-atlas-vector: <a target="_blank" rel="noopener" href="https://python.langchain.com/docs/integrations/vectorstores/mongodb_atlas">https://python.langchain.com/docs/integrations/vectorstores/mongodb_atlas</a></li>
-<li>json-splitter: <a target="_blank" rel="noopener" href="https://python.langchain.com/docs/modules/data_connection/document_transformers/recursive_json_splitter">https://python.langchain.com/docs/modules/data_connection/document_transformers/recursive_json_splitter</a></li>
-</ul>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/making-gemini-a-tarot-master-30086d75b8eb">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -1503,6 +1231,233 @@
 <p><img src="https://cdn-images-1.medium.com/max/800/0*O_Up4VEEmm07XBSB.png"></p>
 <blockquote>
 <p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/agile-evolution-beyond-methods-9168fba147c0">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/How-Netflix-Handle-Hourly-Pipeline-Delay/20231129/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/How-Netflix-Handle-Hourly-Pipeline-Delay/20231129/" class="post-title-link" itemprop="url">一文看懂Netflix處理hourly pipeline延遲</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-11-29 10:17:05" itemprop="dateCreated datePublished" datetime="2023-11-29T10:17:05+08:00">2023-11-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>這篇是翻譯Netflix最近釋出的Psyberg系列文，同時也會補充一些相關的資訊。</p>
+<p>最主要的出處是以下三篇：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://netflixtechblog.com/1-streamlining-membership-data-engineering-at-netflix-with-psyberg-f68830617dd1">Streamlining Membership Data Engineering at Netflix with Psyberg</a></li>
+<li><a target="_blank" rel="noopener" href="https://netflixtechblog.com/2-diving-deeper-into-psyberg-stateless-vs-stateful-data-processing-1d273b3aaefb">Diving Deeper into Psyberg: Stateless vs Stateful Data Processing</a></li>
+<li><a target="_blank" rel="noopener" href="https://netflixtechblog.com/3-psyberg-automated-end-to-end-catch-up-260fbe366fe2">Psyberg: Automated end to end catch up</a></li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Architecture/How-Netflix-Handle-Hourly-Pipeline-Delay/20231129/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Database/Seamless-Transition-Handling-Exhausted-Auto-Increment-IDs/20231119/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Database/Seamless-Transition-Handling-Exhausted-Auto-Increment-IDs/20231119/" class="post-title-link" itemprop="url">Seamless Transition: Handling Exhausted Auto-Increment IDs</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-11-20 01:46:37" itemprop="dateCreated datePublished" datetime="2023-11-20T01:46:37+08:00">2023-11-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Navigating-Breaking-Changes-with-Unified-Queries-and-Gradual-Schema-Upgrades"><a href="#Navigating-Breaking-Changes-with-Unified-Queries-and-Gradual-Schema-Upgrades" class="headerlink" title="Navigating Breaking Changes with Unified Queries and Gradual Schema Upgrades"></a>Navigating Breaking Changes with Unified Queries and Gradual Schema Upgrades</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*Enmt3c0SHgFHdfXM"></p>
+<p>When we are using a relational database, we often use incremental ID as the primary key (e.g. <code>AUTO_INCREMENT</code> in MySQL or <code>SERIAL</code> in Postgres), have you ever thought about what will happen if the incremental ID is used up?</p>
+<p>For example, Postgres raises the following error.<br><code>ERROR: nextval: reached maximum value of sequence &quot;&lt;table_name&gt;_&lt;pk&gt;_seq&quot;</code>.</p>
+<p>Don’t feel hard of happening, it is possible to accidentally set the primary key to <code>SERIAL</code> instead of <code>BIGSERIAL</code>, and then a value larger than <strong>2147483647</strong> will overflow. For a database, it’s not a big number.</p>
+<p>If such a problem unfortunately occurs, what should we do to solve this?</p>
+<p>There are a lot of articles on how to migrate data from the original table to a new table, but in fact, I don’t recommend it. Of course, it’s easiest to migrate all the data to a new table at once, but there are several problems like the following.</p>
+<ol>
+<li>Migrating a large volume data consumes a lot of database resources, and will have a significant impact on the production environment.</li>
+<li>Data inconsistency is inevitable during the migration process. For example, if data is migrated to a new table and then a new version of application is deployed to read and write the new table, if there is data written to the old table during the migration period, then there will be inconsistency.</li>
+<li>If there is a downstream application that listens for updates to the source database (or CDC), then the downstream application will be flooded with events.</li>
+</ol>
+<p>Therefore, I recommend that applications support both old and new tables. Creating new data is always written to the new table, but reading or updating is done according to whether the data is in the old table or the new table.</p>
+<p>But how? For querying, should I look for the new table first and then the old table as in the example below?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (ret := find_orig_table(params)) <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:  </span><br><span class="line">    <span class="keyword">return</span> ret  </span><br><span class="line"><span class="keyword">elif</span> (ret := find_new_table(params)) <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:  </span><br><span class="line">    <span class="keyword">return</span> ret  </span><br><span class="line"><span class="keyword">else</span>:  </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
+<p>Actually, there is an even simpler approach.</p>
+<h3 id="Solution-Detail"><a href="#Solution-Detail" class="headerlink" title="Solution Detail"></a>Solution Detail</h3><p>To better describe the solution, let’s prepare the test environment with Postgres.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> table_with_auto_increment (  </span><br><span class="line">    id SERIAL <span class="keyword">PRIMARY</span> KEY,  </span><br><span class="line">    common_column1 <span class="type">VARCHAR</span>(<span class="number">50</span>),  </span><br><span class="line">    common_column2 <span class="type">INTEGER</span>,  </span><br><span class="line">    common_column3 TEXT  </span><br><span class="line">);  </span><br><span class="line"><span class="keyword">CREATE</span> EXTENSION IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> &quot;uuid-ossp&quot;;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> table_with_uuid_primary_key (  </span><br><span class="line">    id UUID <span class="keyword">DEFAULT</span> uuid_generate_v4() <span class="keyword">PRIMARY</span> KEY,  </span><br><span class="line">    common_column1 <span class="type">VARCHAR</span>(<span class="number">50</span>),  </span><br><span class="line">    common_column2 <span class="type">INTEGER</span>,  </span><br><span class="line">    common_column3 TEXT  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>Above is an old table (<code>table_with_auto_increment</code>) with <code>SERIAL</code> as primary key, it is easy to overflow, so we want to replace it with a new table (<code>table_with_uuid_primary_key</code>) with UUID as primary key.</p>
+<blockquote>
+<p><em>There is a lot of debate on whether UUID as primary key is good or bad, but that’s not the point of this article, it’s just one of the examples.</em></p>
+</blockquote>
+<p>Based on such a table structure, it will have a DTO (data transfer object) similar to the following.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> dataclasses <span class="keyword">import</span> dataclass  </span><br><span class="line"><span class="meta">@dataclass  </span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DTO</span>:  </span><br><span class="line">    <span class="built_in">id</span>: ...  </span><br><span class="line">    common_column1: ...  </span><br><span class="line">    common_column2: ...  </span><br><span class="line">    common_column3: ...</span><br></pre></td></tr></table></figure>
+
+<p>The DTO will be the same whether using the new table or the old table, so the business logic does not have to be modified during the migration process.</p>
+<p>Then, what’s the problem of looking for the new table first and then the old one? The main problem is twice accessing the database is two round trips, which leads to one more expense, and secondly, the two functions also have maintenance complexity. Therefore, it would be great if there is a way to use one database access to assemble a DTO from two tables.</p>
+<p>The first idea was to use <code>UNION</code>. However, it is worth mentioning that <code>UNION</code> requires both tables to have exactly the same datatype, and the <code>id</code> of our old and new tables are of different types.</p>
+<p>Therefore, we need to convert the id type at the same time with <code>UNION</code>, and converting both of them to <code>text</code> is the simplest way. This is done in the following example.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> id::text, common_column1, common_column2, common_column3  </span><br><span class="line"><span class="keyword">FROM</span> table_with_auto_increment  </span><br><span class="line"><span class="keyword">WHERE</span> common_column1 <span class="operator">=</span> <span class="string">&#x27;test&#x27;</span> <span class="keyword">AND</span> common_column2 <span class="operator">=</span> <span class="number">123</span>  </span><br><span class="line"><span class="keyword">UNION</span> <span class="keyword">ALL</span>  </span><br><span class="line"><span class="keyword">SELECT</span> id::text, common_column1, common_column2, common_column3  </span><br><span class="line"><span class="keyword">FROM</span> table_with_uuid_primary_key  </span><br><span class="line"><span class="keyword">WHERE</span> common_column1 <span class="operator">=</span> <span class="string">&#x27;test&#x27;</span> <span class="keyword">AND</span> common_column2 <span class="operator">=</span> <span class="number">123</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Our search criteria is <code>common_column1</code> is <code>test</code> and <code>common_column2</code> is 123, so we search both tables directly and combine the results. In general, only one of the two tables will have data ( with no bugs ), so it is very efficient to create the DTO in this way.</p>
+<p>In this example, the purpose of creating two tables is to change ids seamlessly, so we can simplify the process through type conversion.</p>
+<p>However, there are other scenarios where our functionality iteration leads to breaking change, so we make two tables to allow the old application to gradually transition to the new application, it may not be possible to simply do type conversion (maybe the types are not compatible at all).</p>
+<p>So, we can consider to use <code>OUTER JOIN</code> method, and use the common field as the key of <code>JOIN</code>, so that the result will be the union of the fields of the two tables.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span>  </span><br><span class="line">    t1.id <span class="keyword">AS</span> t1_id, t2.id <span class="keyword">AS</span> t2_id,  </span><br><span class="line">    <span class="built_in">COALESCE</span>(t1.common_column1, t2.common_column1) <span class="keyword">AS</span> common_column1,  </span><br><span class="line">    <span class="built_in">COALESCE</span>(t1.common_column2, t2.common_column2) <span class="keyword">AS</span> common_column2,  </span><br><span class="line">    <span class="built_in">COALESCE</span>(t1.common_column3, t2.common_column3) <span class="keyword">AS</span> common_column3  </span><br><span class="line"><span class="keyword">FROM</span>  </span><br><span class="line">    table_with_auto_increment t1  </span><br><span class="line"><span class="keyword">FULL</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span>  </span><br><span class="line">    table_with_uuid_primary_key t2  </span><br><span class="line"><span class="keyword">ON</span> t1.common_column1 <span class="operator">=</span> t2.common_column1 <span class="keyword">AND</span> t1.common_column2 <span class="operator">=</span> t2.common_column2  </span><br><span class="line"><span class="keyword">WHERE</span>  </span><br><span class="line">    t1.common_column1 <span class="operator">=</span> <span class="string">&#x27;test&#x27;</span> <span class="keyword">AND</span> t1.common_column2 <span class="operator">=</span> <span class="number">123</span>  </span><br><span class="line"><span class="keyword">OR</span>  </span><br><span class="line">    t2.common_column1 <span class="operator">=</span> <span class="string">&#x27;test&#x27;</span> <span class="keyword">AND</span> t2.common_column2 <span class="operator">=</span> <span class="number">123</span>;</span><br></pre></td></tr></table></figure>
+
+<p>The above example is very similar to <code>UNION</code>, we need to find out <code>common_column1</code> is <code>test</code> and <code>common_column2</code> is 123 in two tables, but we need to list the remaining columns.</p>
+<p>Nevertheless, the whole SQL is a bit annoying, such as the series of <code>COALESCE</code>, so I suggest some template rendering to make the development more intuitive.</p>
+<p>Here’s an example of using Python with <code>jinja2</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> jinja2 <span class="keyword">import</span> Template  </span><br><span class="line">columns = [<span class="string">&#x27;common_column1&#x27;</span>, <span class="string">&#x27;common_column2&#x27;</span>, <span class="string">&#x27;common_column3&#x27;</span>]  </span><br><span class="line">template_str = <span class="string">&quot;&quot;&quot;SELECT  </span></span><br><span class="line"><span class="string">    t1.id AS t1_id, t2.id AS t2_id  </span></span><br><span class="line"><span class="string">&#123;% for column in columns %&#125;  </span></span><br><span class="line"><span class="string">    , COALESCE(t1.&#123;&#123; column &#125;&#125;, t2.&#123;&#123; column &#125;&#125;) AS &#123;&#123; column &#125;&#125;  </span></span><br><span class="line"><span class="string">&#123;% endfor %&#125;  </span></span><br><span class="line"><span class="string">FROM  </span></span><br><span class="line"><span class="string">    table_with_auto_increment t1  </span></span><br><span class="line"><span class="string">FULL OUTER JOIN  </span></span><br><span class="line"><span class="string">    table_with_uuid_primary_key t2  </span></span><br><span class="line"><span class="string">ON t1.&#123;&#123;condition_column1&#125;&#125; = t2.&#123;&#123;condition_column1&#125;&#125; and t1.&#123;&#123;condition_column2&#125;&#125; = t2.&#123;&#123;condition_column2&#125;&#125;  </span></span><br><span class="line"><span class="string">WHERE  </span></span><br><span class="line"><span class="string">    t1.&#123;&#123;condition_column1&#125;&#125; = &#x27;&#123;&#123;condition_value1&#125;&#125;&#x27; AND t1.&#123;&#123;condition_column2&#125;&#125; = &#123;&#123;condition_value2&#125;&#125;  </span></span><br><span class="line"><span class="string">OR  </span></span><br><span class="line"><span class="string">    t2.&#123;&#123;condition_column1&#125;&#125; = &#x27;&#123;&#123;condition_value1&#125;&#125;&#x27; AND t2.&#123;&#123;condition_column2&#125;&#125; = &#123;&#123;condition_value2&#125;&#125;;  </span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span>  </span><br><span class="line">condition_column1 = <span class="string">&#x27;common_column1&#x27;</span>  </span><br><span class="line">condition_column2 = <span class="string">&#x27;common_column2&#x27;</span>  </span><br><span class="line">condition_value1 = <span class="string">&#x27;test&#x27;</span>  </span><br><span class="line">condition_value2 = <span class="number">123</span>  </span><br><span class="line">template = Template(template_str)  </span><br><span class="line">query = template.render(  </span><br><span class="line">    columns=columns,  </span><br><span class="line">    condition_column1=condition_column1, condition_column2=condition_column2,  </span><br><span class="line">    condition_value1=condition_value1, condition_value2=condition_value2  </span><br><span class="line">)  </span><br><span class="line"><span class="built_in">print</span>(query)</span><br></pre></td></tr></table></figure>
+
+<p>At this point, we’ve been able to make the transition from the old table structure to the new one seamless for the application.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Although in this article we have introduced how to solve the problem of <code>id</code> exhaustion, it can be used in any scenario where we need to make a breaking change to the table structure of the database.</p>
+<p>When the data volume is small, breaking change is not a big deal, we just need to migrate all the old tables to the new ones, but when the data volume is huge, such an approach will increase a lot of operation risks.</p>
+<p>A complete table migration involves not only the data migration itself, but also how to keep the production environment unaffected. The most common problem we encountered is how to synchronize the data to the new table if there are still clients writing to the old table during the data migration period.</p>
+<p>In addition, in order to avoid affecting the production environment, we usually have to choose the off-peak time to perform the migration, which inevitably requires many departments to work overtime together.</p>
+<p>For instance, the development team needs to release a new version of the program, the operation team needs to migrate the data, the SRE team needs to monitor the risk of online, and the QA team needs to validate. It is not worth for me to work so hard just for the sake of table migration.</p>
+<p>Therefore, it’s best to be able to upgrade your application to a new version seamlessly. This article introduces a simple but effective practice to avoid many unnecessary breaking changes. Of course, there are many different ways to achieve this, if you have some good solutions, please feel free to share them with me.</p>
+<h3 id="Stackademic"><a href="#Stackademic" class="headerlink" title="Stackademic"></a>Stackademic</h3><p><em>Thank you for reading until the end. Before you go:</em></p>
+<ul>
+<li><em>Please consider</em> <em><strong>clapping</strong></em> <em>and</em> <em><strong>following</strong></em> <em>the writer! 👏</em></li>
+<li><em>Follow us on</em> <a target="_blank" rel="noopener" href="https://twitter.com/stackademichq"><em><strong>Twitter(X)</strong></em></a><em>,</em> <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/stackademic"><em><strong>LinkedIn</strong></em></a><em>, and</em> <a target="_blank" rel="noopener" href="https://www.youtube.com/c/stackademic"><em><strong>YouTube</strong></em></a><em><strong>.</strong></em></li>
+<li><em>Visit</em> <a target="_blank" rel="noopener" href="http://stackademic.com/"><em><strong>Stackademic.com</strong></em></a> <em>to find out more about how we are democratizing free programming education around the world.</em></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/seamless-transition-handling-exhausted-auto-increment-ids-b209d1e1e4c9">Medium</a></p>
 </blockquote>
 
       

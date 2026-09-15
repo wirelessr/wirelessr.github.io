@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">194</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">281</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,253 +214,6 @@
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/The-Mystery-of-MongoDB-Indexing/20220424/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/MongoDB/The-Mystery-of-MongoDB-Indexing/20220424/" class="post-title-link" itemprop="url">The Mystery of MongoDB Indexing</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-04-25 01:17:13" itemprop="dateCreated datePublished" datetime="2022-04-25T01:17:13+08:00">2022-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="The-Mystery-of-MongoDB-Indexing"><a href="#The-Mystery-of-MongoDB-Indexing" class="headerlink" title="The Mystery of MongoDB Indexing"></a>The Mystery of MongoDB Indexing</h3><h4 id="Understand-the-ESR-Rule-and-Index-Intersection"><a href="#Understand-the-ESR-Rule-and-Index-Intersection" class="headerlink" title="Understand the ESR Rule and Index Intersection"></a>Understand the ESR Rule and Index Intersection</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*kJ-YeMcMK3K7POhJ"></p>
-<p>I believe we are all familiar with MySQL’s indexing rules. Because it is built from a B+ tree, MySQL indexes have a leftmost match rule. In order for the query to match the index, the columns used in MySQL query syntax are arranged from left to right. For example:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> b <span class="operator">&gt;</span> <span class="number">2</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> c;</span><br></pre></td></tr></table></figure>
-
-<p>The most efficient index for such a query is a compound index like <code>(a, b, c)</code>. However, such an index cannot be applied to</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> c;</span><br></pre></td></tr></table></figure>
-
-<p>This is because it lacks the necessary <code>b</code> column.</p>
-<p>This is the MySQL indexing rule, and in general, relational databases follow pretty much the same rule for implementation. However, there are subtle differences in MongoDB’s implementation with B-trees.</p>
-<h3 id="MongoDB-ESR-Rule"><a href="#MongoDB-ESR-Rule" class="headerlink" title="MongoDB ESR Rule"></a><a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/tutorial/equality-sort-range-rule/#std-label-esr-indexing-rule">MongoDB ESR Rule</a></h3><p>We will continue to use the query mentioned in the previous section as a demonstration.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="property">table</span>.<span class="title function_">find</span>(&#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: &#123;<span class="attr">$gt</span>: <span class="number">2</span>&#125;&#125;).<span class="title function_">sort</span>(&#123;<span class="attr">c</span>: <span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>Much the same as the MySQL query mentioned earlier, but with MongoDB’s MQL rewritten. However, the index that is valid for such a query is <code>(a, c, b)</code> instead of <code>(a, b, c)</code> as mentioned in the previous section.</p>
-<p>This is because MongoDB’s compound indexes must follow the ESR (Equality, Sort, Range) rule. Hence, in the above example, <code>b</code> is used for range matching and <code>c</code> is used for sorting, so the correct index order is <code>c</code> before <code>b</code>.</p>
-<h3 id="MongoDB-Index-Intersection"><a href="#MongoDB-Index-Intersection" class="headerlink" title="MongoDB Index Intersection"></a><a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/core/index-intersection/">MongoDB Index Intersection</a></h3><p>In addition to the ESR rules, which are different from relational databases, MongoDB has another mystery: it can use multiple (let’s say 2) indexes in the same query, which is called index intersection.</p>
-<p>Continue with the query in the previous section as an example.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="property">table</span>.<span class="title function_">find</span>(&#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: &#123;<span class="attr">$gt</span>: <span class="number">2</span>&#125;&#125;).<span class="title function_">sort</span>(&#123;<span class="attr">c</span>: <span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>To improve the query performance, we suggest to use <code>(a, c, b)</code> compound index, but in fact, we can achieve the same result with two indexes.</p>
-<ol>
-<li>b</li>
-<li>(a, c)</li>
-</ol>
-<p>We create a single index <code>b</code> and a compound index <code>(a, c)</code>, which can also improve the query performance.</p>
-<p>Why do we use <code>(a, c)</code>? Because even index intersection must follow ESR rule, so we separate ES and R.</p>
-<p>What is the advantage of this? The biggest advantage is that the composition of the index becomes more flexible. If only one index <code>(a, c, b)</code> is created, then if <code>b</code> is queried alone, there is no matching index to use, so an additional index of <code>b</code> must be created. As we all know, indexes are actually a cost, which will take up memory and affect writing efficiency. In other words, if a more compact index can be used to cover more complex query conditions, then such an index would be more valuable.</p>
-<h3 id="MongoDB-ESR-“Hidden”-Rule"><a href="#MongoDB-ESR-“Hidden”-Rule" class="headerlink" title="MongoDB ESR “Hidden” Rule"></a><a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/tutorial/equality-sort-range-rule/#additional-considerations">MongoDB ESR “Hidden” Rule</a></h3><p>When using MySQL we use <code>IN</code> to do range queries, but <code>IN</code> is actually an equality in MySQL. That is to say, when the query is <code>WHERE a IN (2, 3)</code> is actually equivalent to <code>WHERE a = 2 OR a = 3</code>.</p>
-<p>However, in MongoDB, it is not.</p>
-<p>If you simply use a single column <code>$in</code> then it still has the same behavior as MySQL.</p>
-<p>For example, <code>find({a: {$in: [2, 3]}})</code> and <code>find({$or: [{a: 2}, {a: 3}]})</code> are equivalent, and both belong to E of the ESR rule.</p>
-<p>But if used with sort, then <code>$in</code> is treated as a range match, i.e. R. For instance:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find(&#123;a: &#123;$in: [2, 3]&#125;&#125;).sort(&#123;b: 1&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>Here <code>a</code> is treated as R, so to meet such a query, the index to be created should be <code>(b, a)</code> instead of <code>(a, b)</code>.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>If you only have experience with relational databases, it’s easy to get confused by feature-rich NoSQL databases, especially since the underlying MongoDB is actually a B-tree family similar to relational databases. However, there are still significant differences in the implementation details.</p>
-<p>When creating MongoDB indexes, it is especially important to pay attention to ESR rule. Many users who have moved from MySQL can easily fall down on this rule without noticing it.</p>
-<p>In fact, even indexes using <code>(a, b, c)</code> don’t cause problems when the data volume is small; MongoDB sorts in memory, but when the data volume grows to a certain size, MongoDB can’t load the entire dataset in memory and uses hard disk accesses. Then the performance will be very tragic.</p>
-<p>Furthermore, the index intersection feature offers users more flexibility to create indexes and provides them with more diverse queries. However, it is also important to be aware of ESR rule when using index intersection in order not to lose more than you gain.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/the-mystery-of-mongodb-indexing-af61766647dc">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Design-an-E-commerce-Website-From-a-High-level-Perspective/20220417/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Microservice/Design-an-E-commerce-Website-From-a-High-level-Perspective/20220417/" class="post-title-link" itemprop="url">Design an E-commerce Website From a High-level Perspective</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-04-18 00:41:17" itemprop="dateCreated datePublished" datetime="2022-04-18T00:41:17+08:00">2022-04-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="Put-on-your-software-architecture-hat"><a href="#Put-on-your-software-architecture-hat" class="headerlink" title="Put on your software architecture hat"></a>Put on your software architecture hat</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*W7YBIiPi7xBHFTvQ"></p>
-<p>Last two weeks, there was a gathering of architects, in which we talked about e-commerce websites actually having some regular patterns, so if you want to quickly provide a high-level design, how would you do it?</p>
-<p>This article is a record of that discussion, I will list our ideas based on my impressions, and then present the thinking of architects on this classic design pattern.</p>
-<h3 id="Define-Basic-Domain-Services"><a href="#Define-Basic-Domain-Services" class="headerlink" title="Define Basic Domain Services"></a>Define Basic Domain Services</h3><p>Usually, for a startup system or architecture, I would recommend starting with a monolith. After constructing the MVP (minimum viable product), the architecture evolves depending on the functional and non-functional requirements to see whether it should be decomposed into microservices or the more popular Service-oriented architecture a few years ago.</p>
-<p>But in any case, there will be a monolith as the basis for a quick launch and validation of the idea.</p>
-<p>However, for an e-commerce site, there is no need for quick validation because the success of an e-commerce site depends on the products and exposure strategy rather than the features. Therefore, for e-commerce sites, it is more important to be able to solve the problems that will be encountered in the foreseeable future.</p>
-<p>Here are a few practical examples.</p>
-<p>With the rapid growth of users, the demand for user management will increase significantly, so it is necessary for user-related functions to become a separate service to facilitate fast iteration of the development cycle.</p>
-<p>Inventory, as the number of users on the site rises, the product-related features will drive most of the traffic. Customers are always looking for the products they want on the site and viewing the inventory, so in order to handle the high volume of traffic, it must be able to scale horizontally on its own. Therefore, inventory will also become a standalone service.</p>
-<p>Another core function of an e-commerce website is the purchase and order management. When a customer places an order, external services such as cash flow and logistics must be integrated behind the scenes, and new functions such as connecting different cash flows need to be implemented continuously. However, this development cycle is obviously different from user-related functions, and the need for testing and integration is completely different from the user services, that is, the order must also become a service.</p>
-<p>Finally, we will define basic domain services as follows.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*jtY6iexEvE_m9yN6h0SWxw.png"></p>
-<h3 id="Define-Databases"><a href="#Define-Databases" class="headerlink" title="Define Databases"></a>Define Databases</h3><p>In the previous section we mentioned that we have three independent services, User, Order and Inventory. Then we had to decide what database they should be using.</p>
-<p>For a system that is just starting up, I always recommend using the most mature technology that the team is most familiar with, while taking into account the various use cases.</p>
-<p>For this reason, I believe MySQL should be the best choice for services like Order Service and Inventory Service that require strong consistency. Although MySQL has always been criticized for its lack of horizontal scalability, there have been many new breakthroughs in recent years, and more and more distributed SQL is appearing. If the traffic of an e-commerce site rises to a bottleneck, then the pain of migrating from MySQL to distributed SQL will not be too much, after all, the applications barely need to be modified.</p>
-<p>In the case of User Service, this is more interesting. User-related management functions usually do not have strong consistency requirements, and user information and other data structures are varied and plentiful. As a document-based database, MongoDB can support various kinds of rich data presentation and provide a lot of management convenience. Of course, you can also use MySQL for User Service, but you need to put a little more effort into data normalization.</p>
-<p>Besides, if you use MongoDB to implement User Service, even if you have the need of strong consistency in the future, for example, if you want to give customers discount coupons, MongoDB can still provide enough strong consistency guarantee, since MongoDB also has transactions. However, it must be said that MongoDB transactions are not easy to code, which will increase the development effort.</p>
-<h3 id="Define-Communications"><a href="#Define-Communications" class="headerlink" title="Define Communications"></a>Define Communications</h3><p>Now we have three services in charge of their domain, but how do they communicate with each other? For instance, when a customer selects a product, then dispatches the order, billing and shipping, the three services must communicate with each other to complete the scenario.</p>
-<p>From my point of view, I would recommend that these three services be asynchronous. Although the overall process must ensure consistency, which dramatically increases the implementation effort, only asynchronization can tolerate high availability and high scalability. Availability and scalability are mandatory non-functional requirements for running an e-commerce site.</p>
-<p>For example, in the Black Friday promotion, there will be a large number of customers rushing to the website and placing a large number of orders, assuming that the three services communicate with each other synchronously, then the three services must scale at the same rate, which is obviously unreasonable.</p>
-<p>In addition, when an order must be served by all three services, and any one of them fails temporarily or the network is temporarily down, the whole order will fail. In other words, only through asynchronous communication can we ensure the availability and scalability required for e-commerce sites.</p>
-<p>At this point, we had a prototype of our system architecture.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*x4cwl2bzztJeW-cn8c3O2w.png"></p>
-<p>However, there is one component that we haven’t decided yet, and that is what kind of queue system should be used for asynchronization. In my opinion, we should use <code>Kafka</code>. Why not use a pure message queue like <code>RabbitMQ</code>? One important reason is that, <code>Kafka</code> has higher throughput when it comes to handling large traffic from a promotion event.</p>
-<p>Moreover, for behaviors like order and payment, we all know it is sequential. To preserve the message order while a large number of messages are flooding the queue, it is necessary to scale horizontally through <code>Kafka</code>’s consumer groups so that messages can be handled faster and in order at the same time.</p>
-<h3 id="Sketch-Workflow"><a href="#Sketch-Workflow" class="headerlink" title="Sketch Workflow"></a>Sketch Workflow</h3><p>Once we have a simple system architecture, we begin to sketch out the entire order placement process.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*fiY_vLMN-fZhBOic1EEA_A.png"></p>
-<p>At the beginning, the customer places an order with the inventory service, and the inventory service only handles inventory-related tasks, e.g., pre-deducting inventory. The purpose of reducing inventory before the payment is to avoid competition when a large number of users are consuming, and if the inventory is not actually reduced until the last stage, then there is a high risk that a consumer will buy air.</p>
-<p>When the inventory service has finished processing, the order service is notified that it has taken over the entire transaction while informing the customer that the order has been placed. At this moment, only the order is established, and the payment must be redirected through the frontend so that the customer can properly communicate with the order service to proceed the billing.</p>
-<p>When the payment is completed, the order service will notify the user service. User service can then proceed with user-related tasks, like coupon issuance or user level upgrade. Finally, the inventory service and the order service are informed that the transaction has been successfully completed.</p>
-<p>Or if there is an error in the order service or user service, a message must be sent to inform the other participating services. Then the service that receives the notification can handle it accordingly, for example, the inventory service must add back the pre-reduced inventory.</p>
-<h3 id="But-Not-Enough"><a href="#But-Not-Enough" class="headerlink" title="But, Not Enough"></a>But, Not Enough</h3><p>Readers who have been subscribing to my articles should have seen this is a very typical <a target="_blank" rel="noopener" href="https://betterprogramming.pub/design-distributed-transaction-with-practical-examples-7b1d93fddb63">distributed transaction</a>, and the proper approach to distributed transaction is to always be resilient, i.e., resilient to the errors.</p>
-<p>As I described in my previous article, <a target="_blank" rel="noopener" href="https://betterprogramming.pub/implement-event-driven-architecture-with-minimal-effort-182c3bbe5524">to handle distributed transactions in an event-driven architecture</a>, an arbiter (crontab) is desired. The crontab detects periodically which events have not been handled correctly and takes corresponding actions to repair them.</p>
-<p>The specific details will not be explained again in this article. But we can know in addition to the three domain services, there is another service that monitors the entire workflow.</p>
-<h3 id="But-Still-Not-Enough"><a href="#But-Still-Not-Enough" class="headerlink" title="But, Still Not Enough"></a>But, Still Not Enough</h3><p>Because the entire transaction process is asynchronous, the user must be able to know exactly what the status of the order is, what stage it is at, and so on. Therefore, it is also necessary to have a service that subscribes to the messages sent by each service, and has its own database to record and store the status of all transactions.</p>
-<p>This approach is also known as <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">CQRS</a>. The entire workflow is observed through a standalone cross-domain service, but unlike an arbiter, this observer does not actually participate in the workflow, nor does it make any kind of changes to the workflow.</p>
-<p>The observer exists only to allow the customer to get a proper overview of the workflow.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>E-commerce websites can be considered as the textbook of all backend architectures. All kinds of problems that backend engineers need to deal with will appear on e-commerce websites, but the books currently available on the market often only provide a monolithic solution, and focus on how to implement those functional requirements.</p>
-<p>But as backend experts, we all know using a monolith to run an e-commerce site is ultimately a dead end. Unless the product is completely unsellable, it will sooner or later face the challenge of traffic and availability.</p>
-<p>Although this article is a casual conversation among architects, it is actually a look at the challenges we encounter on a daily routine from a different perspective. Why does a startup e-commerce site need to have five services?</p>
-<ul>
-<li>To add new features more quickly and to have independent integration and testing processes, microservices must be segmented into domains.</li>
-<li>To have high availability and scalability, the coupling between domains must be reduced.</li>
-<li>For better fault tolerance, a resilient error recovery mechanism must be established.</li>
-<li>For a better user experience, a comprehensive presentation of the whole picture must be implemented.</li>
-</ul>
-<p>Previously, I often mentioned the drawbacks of microservices, eg <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/original-sin-of-microservices-part-1-90461ddcefb">Original Sin of Microservices, Part 1</a> and <a target="_blank" rel="noopener" href="https://lazypro.medium.com/original-sin-of-microservices-part-2-8856c0e8426d">Original Sin of Microservices, Part 2</a>.</p>
-<p>But this does not mean I totally reject microservices, instead I hope we can all face microservices with a correct attitude, not as the holy grail but also not as the devil.</p>
-<p>The right trade-off is always the most important core concept of software architecture.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-an-e-commerce-website-from-a-high-level-perspective-184618741ee8">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -1600,6 +1353,280 @@
 <p>How to be as reliable as possible with limited resources, whether in terms of time, manpower, or cost, is the most interesting part of system design.</p>
 <blockquote>
 <p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/implement-event-driven-architecture-with-minimal-effort-182c3bbe5524">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Understand-Temporal-Coupling-in-Code/20220213/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Understand-Temporal-Coupling-in-Code/20220213/" class="post-title-link" itemprop="url">Understand Temporal Coupling in Code</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-02-14 01:00:51" itemprop="dateCreated datePublished" datetime="2022-02-14T01:00:51+08:00">2022-02-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Understand-Temporal-Coupling-in-Code"><a href="#Understand-Temporal-Coupling-in-Code" class="headerlink" title="Understand Temporal Coupling in Code"></a>Understand Temporal Coupling in Code</h3><h4 id="We-often-talk-about-coupling-what-exactly-is-coupling"><a href="#We-often-talk-about-coupling-what-exactly-is-coupling" class="headerlink" title="We often talk about coupling, what exactly is coupling?"></a><em>We often talk about coupling, what exactly is coupling?</em></h4><p><img src="https://cdn-images-1.medium.com/max/800/0*UrvZqN0L9uK6XzO4"></p>
+<p>Generally, there are three types of component coupling.</p>
+<ol>
+<li>Afferent coupling: The task of the A component must depend on the implementation of B, C, and D.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*SSCMX0zM8-8Gws4VXwep5g.png"></p>
+<ol start="2">
+<li>Efferent coupling: After the task of the A component is completed, B, C, D must be executed.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*rLqf9u2kJOHIGL8LcEBgVg.png"></p>
+<ol start="3">
+<li>Temporal coupling: After the task of the A component is completed, B and C must be executed. In addition, B is earlier than C.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*tjkqnGevNGSW5zLVn-sJkw.png"></p>
+<p>The components mentioned here can be source code level, module level or even service level based on the granularity.</p>
+<p>In this article we will dive into the temporal coupling in particular, because this is the most common and most overlooked pitfall. First we describe in Node.js as follows:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*toZFte37Li_5D7I_g203bw.png"></p>
+<p>At this point, we found that this is really generic. Almost all of our code looks like this. It is normal to do three things in sequence in a method, isn’t it?</p>
+<p>Let’s take a more concrete example. Suppose we have an e-commerce with a function, <code>purchase</code>. Therefore, we begin to code in a simple way.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Bq3Btv9FvTOmWN0h4hKuMQ.png"></p>
+<p>First summarize the price of all items in the cart. And then call the payment service to deal with the credit card. Simple, right?</p>
+<p>Alright, the marketing team wants to let people who spend over 1,000 dollars get a discount coupon, so we continue to modify our <code>purchase</code>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*LlZYz55Pw54uoS6Zsy2CaA.png"></p>
+<p>This feature is also quite common, and then the sales team found that coupon is a good promotion method, so they proposed that people who reached 5,000 dollars could get a lottery chance. This <code>purchase</code> keeps growing.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*izql41NdZm2gQhxaFdCGyQ.png"></p>
+<p>This is a temporal coupling. Either <code>giveCoupon</code> or <code>lottery</code> actually depend on <code>purchase</code>, which must be done within the life cycle of <code>purchase</code>. Once the feature requirement becomes larger and larger, the performance of the entire <code>purchase</code> will be continuously dragged down. Especially, the <code>lottery</code> usually requires huge calculations, and the <code>purchase</code> is forced to wait for the <code>lottery</code> success to be considered a success.</p>
+<h3 id="De-couple-timing-by-domain-events"><a href="#De-couple-timing-by-domain-events" class="headerlink" title="De-couple timing by domain events"></a>De-couple timing by domain events</h3><p>From the previous section, we learned that <code>purchase</code> should only need to process payments, the rest of the behavior is additional, and should not be in the same life cycle as <code>purchase</code>. In other words, even if the <code>giveCoupon</code> fails, it should not affect <code>purchase</code> or <code>lottery</code>.</p>
+<p>There is a method in domain-driven development called domain events. When a task is completed, it will issue an event, and the handler that cares about the event can take the corresponding action after receiving the event. By the way, this approach is also called the <em>Observer Pattern</em> in the design pattern. In domain-driven development, the “notification” contains the domain’s ubiquitous language, hence the notification is named domain events.</p>
+<p>Therefore, let’s modify <code>purchase</code> a little bit in the Node’s way.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*0lcfBJKz0ywUgRvhfb-kFg.png"></p>
+<p>With events, we can completely decouple <code>giveCoupon</code> and <code>lottery</code> from <code>purchase</code>. Even if any one of the handler fails, it does not impact the original payment flow.</p>
+<p>Whereas <code>purchase</code> only needs to concentrate on the payment process. When the payment is successful, emit the event and let other functions take over.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*6UY2qnE1kDwMGvAvxIij7w.png"></p>
+<p>If there are more needs in the future, there is no need to change the original <code>purchase</code>, just add a new handler. And this is the concept of decoupling. Here we remove the code-level coupling and timing-level coupling.</p>
+<h3 id="How-to-handle-event-loss"><a href="#How-to-handle-event-loss" class="headerlink" title="How to handle event loss"></a>How to handle event loss</h3><p>In <a target="_blank" rel="noopener" href="https://towardsdev.com/resilient-caching-in-redis-a5b3c1a49f14">my previous article</a>, we mentioned that whenever failures can happen, we have to expect them and handle them gracefully. This is called <a target="_blank" rel="noopener" href="https://www.bmc.com/blogs/resilience-engineering/">resilience engineering</a>.</p>
+<p>When we decouple the coupons and lottery through domain events, we will immediately face a problem. What if the event is lost? The payment is finish, but the coupon has not been issued, which is definitely a big problem for the customer.</p>
+<p>In other words, how do we ensure that the emitted event will be executed. This is exactly why message queues were introduced into the system.</p>
+<p>We discussed the <a target="_blank" rel="noopener" href="https://selectfrom.dev/message-queue-in-redis-9efe0de2c39c">message queue</a> before, there are three different levels of guarantees in message delivery, which are:</p>
+<ul>
+<li>At most once</li>
+<li>At least once</li>
+<li>Exactly once</li>
+</ul>
+<p>Most message queues have the at-least-once guarantee. That is to say, through the message queue we can make sure that all events can be executed at least once. This also ensures that messages are not lost.</p>
+<p>Thus, to avoid event loss, we will change <code>emitter.emit</code> to a queue submission with like RabbitMQ or Kafka. At this stage, we have introduced decoupling at the system level, i.e., make event producers and consumers belong to different execution units.</p>
+<h3 id="How-to-handle-emitting-loss"><a href="#How-to-handle-emitting-loss" class="headerlink" title="How to handle emitting loss"></a>How to handle emitting loss</h3><p>The story isn’t over yet. We can already ensure that emitted events are executed. What if the event isn’t sent at all? Continue to take <code>purchase</code> as an example, when <code>payByCreditCard</code> has been successful, but it doesn’t send the event due to the system crashes for unexpected reasons. Then, even with a message queue, we still get the incorrect result.</p>
+<p>In order to avoid this problem, we can leverage the event sourcing. In <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/distributed-transaction-introduction-1cd105c830a2">Distributed Transaction</a> and <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">CQRS</a>, I have described the core concept of event sourcing.</p>
+<p>Before the event is emitted, store the event into a storage first. After the handler finishes processing the event, then mark the event in the storage as “processed”.</p>
+<p>There is one thing should be aware, the writing of events and the payment must be under the same transaction. In this way, as long as the payment is successful, the event will also be written successfully. Finally, we can periodically monitor for overdue events to know what went wrong.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This time we are still going through a step-by-step evolution of the system as we did in <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">Shift from Monolith to CQRS</a> to let you know how to decouple when systems become large and complex. At the beginning, we first decoupled source code and execution timing through domain events; then we introduced message queues with message producers and consumers to achieve system-level decoupling.</p>
+<p>As I said before, a system evolves to solve a problem, but it also creates new problems. We can only choose the most acceptable solution and seek compromises in complexity, performance, productivity and other factors.</p>
+<p>Splitting a complete action into different execution units must encounter inconsistencies. In resolving inconsistencies, there are many considerations, such as:</p>
+<ul>
+<li>Regardless of whether the event will be lost or not, just use the simplest architecture, <code>EventEmitter</code>. This approach is the simplest, and there may be no problem in 80% of the cases, but what should we do if there is a problem?</li>
+<li>Attempting to be as reliable as possible, so introduce message queues, which should be 99% sure that there will be no problems. But there is still 1%, is such a risk bearable?</li>
+<li>Implementing event sourcing comes at the cost of increased complexity and performance may be affected. Is this acceptable?</li>
+</ul>
+<p>Just like I always say, there is no perfect solution to system design. Each organization has a different level of risk tolerance. In various indicators, we look for the most acceptable solution for ourselves and think about the risks and failures we face at any time. As a result, everyone should be able to build a resilient system.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/temporal-coupling-in-code-e74899f7a48f">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Backend/How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum/20220206/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Backend/How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum/20220206/" class="post-title-link" itemprop="url">How Kanban Works and Why I Prefer It Over Scrum</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-02-07 01:19:06" itemprop="dateCreated datePublished" datetime="2022-02-07T01:19:06+08:00">2022-02-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Backend/" itemprop="url" rel="index"><span itemprop="name">Backend</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum"><a href="#How-Kanban-Works-and-Why-I-Prefer-It-Over-Scrum" class="headerlink" title="How Kanban Works and Why I Prefer It Over Scrum"></a>How Kanban Works and Why I Prefer It Over Scrum</h3><h4 id="Improve-work-productivity-by-using-Agile-development"><a href="#Improve-work-productivity-by-using-Agile-development" class="headerlink" title="Improve work productivity by using Agile development"></a>Improve work productivity by using Agile development</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*YYnxYV9xvzWkFkwd"></p>
+<p>We have talked about using <a target="_blank" rel="noopener" href="https://lazypro.medium.com/trunk-based-development-can-help-4bb425595c00">trunk-based development</a> to improve software development productivity. In fact, to dramatically increase productivity, you must apply multiple methods, which is why there are so many agile methodologies, two of which are well-known agile methods: Scrum and Kanban.</p>
+<p>Scrum is currently the most used by most organizations. Nevertheless, it is not easy to use Scrum well. In the many agile methodologies, Scrum is the most variant, and it can be said that there are a hundred Scrum practices in a hundred organizations.</p>
+<p>This is because the original Scrum has many “rules”, which cannot perfectly match the existing organizational structure of each organization. According to <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Conway%27s_law">Conway’s law</a>, most software architectures are closely related to organizational structures, resulting in various agile methods that can only provide the prototype and cannot be applied entirely.</p>
+<p>This article will briefly introduce the purpose of the agile method and Scrum, as well as the problems encountered by running Scrum, and then describe the main topic: Kanban.</p>
+<h3 id="Why-not-Waterfall"><a href="#Why-not-Waterfall" class="headerlink" title="Why not Waterfall?"></a>Why not Waterfall?</h3><blockquote>
+<p><em>Why do we need agile methods?<br>What exactly needs to be agile?</em></p>
+</blockquote>
+<p>First, let’s define what agile is.</p>
+<p>The purpose of agile is to generate value “faster”. So, what is the value? Frankly speaking, it is something that can make money. In other words, it usually exists in the form of features on a product. That is to say, only when the feature or product is delivered to the customer can generate the real value, and the purpose of agile development is to accelerate the delivery of this value stream.</p>
+<p>When we evaluate the delivery speed of the value stream, one indicator is usually used: lead time. The entire time from a feature request is generated to the requirement is actually delivered to the customer is called lead time.</p>
+<p>Under traditional waterfall development, this lead time can take several months, which doesn’t sound agile at all. Moreover, if this requirement is implemented halfway, it turns out that this is not what the customer wants, then all the resources invested are wasted.</p>
+<p>Therefore, modern software development focuses on dividing requirements into small pieces, and each small pieces has its own value. By continuously delivering these small values, the product iteration cycle can be faster.</p>
+<h3 id="Scrum"><a href="#Scrum" class="headerlink" title="Scrum"></a>Scrum</h3><p>I believe most of you have heard or even experienced the Scrum development process. From the conclusion of the previous section, we can know the core spirit of Scrum is to decompose large requirements into small requirements through a preset short cycle: Sprint. And, each small requirement is mapped in the form of a user story. It is important to have deliverable outputs at the end of each Sprint.</p>
+<p>There are three roles in Scrum.</p>
+<ol>
+<li>Product Owner: Obviously, this role is the owner of the product . He is like the traditional PM and sales, as a gateway between the development team and the customer, to find out what the customer desires.</li>
+<li>Scrum Master: The person, who is the most familiar with the Scrum process in the Scrum team, is responsible for hosting every “Scrum-defined” event, and must also act as the coordinator of product requirements and the development teams.</li>
+<li>Functional Teams: This role represents the development teams, the people who implement the product requirements. There are many different divisions depending on the team size and nature of the teams, such as frontend, backend, QA, etc.</li>
+</ol>
+<p>A Sprint consists of several different events.</p>
+<ol>
+<li>Planning: This event is used to decide what requirements should be taken in this Sprint. At this stage, each small requirement is usually made into a card with its cost points. Each fixed Sprint is equipped with a fixed number of points, that is to say, in this cycle, which tasks should be completed according to the number of points and priorities.</li>
+<li>Developing: After each member receives the assigned card, they start to work.</li>
+<li>Retroactive: At the end of Sprint, review the status of everyone’s cards and ensure the value that this Sprint can deliver, as well as review the performance of this Sprint.</li>
+</ol>
+<p>The above description briefly describes a complete Scrum development process. As far as we know, Scrum is complex, there are many dedicated roles and events, and there are many overheads for Scrum. Taking the team I used to work for as an example, Planning will take half a day, and Retroactive will also take half a day, plus there are regular meetings such as stand-up in the morning, the basic expenses alone can take two working days.</p>
+<p>In addition, estimating the number of points is also an imprecise practice. Who should set the price? Who will assign it? How much points can a cycle handle? It takes a long time to get used to each other before we can gradually get on the right way.</p>
+<p>Furthermore, how should the allocation of roles be configured? Each organization usually already has a basic organizational structure, and it is extremely difficult to extract roles that can adapt to Scrum.</p>
+<p>All of the above situations are even worse if there are several parallel Scrums. Especially when someone is in multiple Scrum teams, regular meetings can take up most of the time.</p>
+<h3 id="Kanban"><a href="#Kanban" class="headerlink" title="Kanban"></a>Kanban</h3><p>To sum up, Scrum is not efficient for small teams. Therefore, the teams I lead use another agile method: Kanban.</p>
+<p>Compared with Scrum, Kanban is used by fewer teams. The main reason is that most teams don’t use Kanban correctly and thus don’t see the benefits of Kanban. Most people just plan the various stages of the Kanban board, and then place the cards on the lanes like Scrum, and then move them through stage by stage. In the end, they didn’t get any benefit, just using Kanban in form, and then going back to Scrum, after all, the card making method is the same.</p>
+<p>Because of this, in this section I will first introduce the purpose of Kanban, then explain the key to using Kanban, and finally describe the development process of Kanban.</p>
+<h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><p><img src="https://cdn-images-1.medium.com/max/800/1*JXSc23QMyPMqu92dBPKZvg.png"></p>
+<p>Kanban is just like its appearance, it is actually a view of the value stream, and each stage of the value stream should be presented in Kanban. Assuming that your organization’s development process is, analysis, design, implementation, testing, and release, then there should be five stages on the Kanban board.</p>
+<p>As mentioned in the first section, the agile method is to accelerate the value stream; therefore, Kanban presents the entire value stream in a concrete way, and can also see the spending time of each task. When there is a card that cannot move to the next stage for a long time, it means that there is a problem, and the task status should be checked immediately and appropriate measures should be taken right away.</p>
+<p>For example, If the task content covered by the card is too large, the card should be divided into two immediately. And, let someone take over the small cards that are divided out. By checking the status of each card, the delivery of value can be accelerated.</p>
+<h3 id="Keys"><a href="#Keys" class="headerlink" title="Keys"></a>Keys</h3><p>There are only three key points to using Kanban correctly without any defined events.</p>
+<ol>
+<li>Cards can only be moved backward, not forward. Each stage of Kanban represents the stage of the value stream. Like the flow of water, water only flows down, and value only flows up to the customer. For instance, suppose one of the stages is development and the other is testing, even if a bug is found during testing, the card will not go back to development, instead, it should remain in testing.</li>
+<li>Define the Definition of Done (DoD): DoD is important for Kanban, what conditions must be met to go from one stage to the next is about quality. Taking development and testing as an example again, if the condition of DoD is that the unit test coverage reaches 80%, the card cannot enter the testing phase until this condition is met. On the other hand, it is also important to define a “measurable” DoD. It is recommended to turn the DoD of each stage into a checklist, which can make sure that every card movement is compliant and qualified.</li>
+<li>Determine Work-in-Progress (WIP): WIP is arguably the most important concept of using Kanban. Each stage must define its WIP, that is, the maximum number of cards that can be accepted. If the WIP of the next stage is full, even if the DoD has been completed, the card still cannot move to the next stage. The purpose of WIP is to be able to see at a glance where the value stream is stuck. As mentioned in the previous section, once a value stream gets stuck, immediate action must be taken. How do you know it’s stuck? The spending time of a certain card is an indicator, but when the number of cards is large, this indicator is easily ignored. Therefore, WIP is a more effective enforcement measure, as long as you see that the WIP is full and the card is forced to wait, then there is something blocking.</li>
+</ol>
+<h3 id="Working-Flow"><a href="#Working-Flow" class="headerlink" title="Working Flow"></a>Working Flow</h3><p>In this section, I will explain how my team uses Kanban. First of all, the Kanban boards we used are: open, to-do, design, develop, test, released, and closed.</p>
+<ul>
+<li>Open: All the feature requirements will be placed here after they are issued. At this time, the content of this card will be huge, and the time-consuming and so on are not estimated.</li>
+<li>To-do: According to the priority, the cards are taken out from the open, evaluated and split, and a large card will be split into several small cards and put into to-do. The working time per card is about 1–2 weeks. The WIP of the to-do will be set slightly larger, which represents the capacity of my team. We will queue up to do it. If the to-do is full, it means that my team has currently exceeded the load.</li>
+<li>Design: In the to-do stage, the due date of each card should be planned, and the design stage will further determine the spending time of the card in each stage. If it gets stuck on a stage in the future, it means that something is wrong. The DoD in the design stage is to produce the design documents included in the user story and use cases mentioned in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">my previous article</a>.</li>
+<li>Develop: After entering the development stage, it is the time for the feature development. At this time, the focus is whether the expected time and WIP are exceeded. WIP is defined here as roughly twice the size of the team. As for DoD, the unit test is completed, and the integration test on the local environment must be passed.</li>
+<li>Test: Cards in this stage have actually deployed to the staging or pre-production environment. Due to <a target="_blank" rel="noopener" href="https://lazypro.medium.com/trunk-based-development-can-help-4bb425595c00">trunk-based development</a>, every code commits into the trunk, and each test environment is released from the trunk. It is tested by QA in a pre-production environment, and after completion, it is ready to the release stage.</li>
+<li>Released: The feature has deployed to the production environment. At this stage, we will pay attention to a period of time to clarify whether the feature is working properly, and the time is DoD. If the observation time is satisfied, the card will enter the final stage: closed.</li>
+<li>Closed: Features in this stage are basically working normally, and every once in a while we will review the number of deliveries as our performance and then achieve.</li>
+</ul>
+<h3 id="Why-do-I-Prefer-Kanban"><a href="#Why-do-I-Prefer-Kanban" class="headerlink" title="Why do I Prefer Kanban?"></a>Why do I Prefer Kanban?</h3><p>As you know from the description in previous sections, the use of Kanban is flexible and can be easily applied regardless of the organizational structure. There will be no fixed regular meetings and no dedicated roles, and everyone can still develop like before. The Kanban board is just a visual tool that provides managers with an intuitive view of the progress of the work.</p>
+<p>The whole Kanban approach has no complicated rules, just the value stream, DoD, and WIP defined by each organization based on their existed working processes. By mastering the purpose and principles of Kanban, it is easy for organizations to implement their own customizations on Kanban, which is also the benefit of Kanban.</p>
+<p>As a leader experienced with Scrum and Kanban, I will continue to lead my team with the Kanban method in the future. After all, meetings are such a waste of time.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/improve-the-productivity-by-using-agile-development-778c7f069c6a">Medium</a></p>
 </blockquote>
 
       

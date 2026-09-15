@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">194</span>
+          <span class="site-state-item-count">192</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-count">281</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,275 +214,6 @@
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Backend/Deconstructing-AB-Test/20241215/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Backend/Deconstructing-AB-Test/20241215/" class="post-title-link" itemprop="url">Deconstructing A/B Test</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-12-16 02:00:05" itemprop="dateCreated datePublished" datetime="2024-12-16T02:00:05+08:00">2024-12-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Backend/" itemprop="url" rel="index"><span itemprop="name">Backend</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Deconstructing-A-B-Test"><a href="#Deconstructing-A-B-Test" class="headerlink" title="Deconstructing A&#x2F;B Test"></a>Deconstructing A&#x2F;B Test</h3><h4 id="A-practical-guide-to-building-custom-A-B-test-frameworks-without-overhead"><a href="#A-practical-guide-to-building-custom-A-B-test-frameworks-without-overhead" class="headerlink" title="A practical guide to building custom A&#x2F;B test frameworks without overhead"></a><em>A practical guide to building custom A&#x2F;B test frameworks without overhead</em></h4><p><img src="https://cdn-images-1.medium.com/max/800/1*ajM9L0etqm0O-zM3eQmYzw.png"></p>
-<p>When talking about A&#x2F;B test, many organizations always think of the need for “certain” commercial tools, as if those tools are the only way to implement A&#x2F;B test.</p>
-<p>In fact, in the previous article, we talked about <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/what-exactly-is-systems-thinking-ee2c177b52cb">systems thinking</a>, and the most important aspect of any system change is a shared vision, followed by a mental model, and the specific tools are at the surface level.</p>
-<p>Therefore, the problem with the introduction of the A&#x2F;B test is the mindset, not the tools.</p>
-<p>This article aims to deconstruct the A&#x2F;B test process and make the introduction of A&#x2F;B test easier and more natural, without having to rely on a huge enterprise solution.</p>
-<h3 id="Breaking-Down-the-A-B-Test-Workflow"><a href="#Breaking-Down-the-A-B-Test-Workflow" class="headerlink" title="Breaking Down the A&#x2F;B Test Workflow"></a>Breaking Down the A&#x2F;B Test Workflow</h3><p>An A&#x2F;B test experiment consists of the following four core elements.</p>
-<ol>
-<li>Setting up experiment conditions: Someone needs to design an experiment situation to verify the hypotheses, e.g. we want to test whether the new version of checkout process will increase the conversion rate.</li>
-<li>Implementing experiment behaviors: The application implements different workflows based on group information.</li>
-<li>Event logging: Events need to be sent out in different workflows and these events need to contain group information.</li>
-<li>Post-analysis: Based on the event logs, the analysis is done to determine whether the initial hypothesis is correct or not, and whether the initial experiment conditions are appropriate or not.</li>
-</ol>
-<p>Let’s describe an A&#x2F;B test interaction with a complete time sequence.</p>
-<ol>
-<li>Front-end receives group information from somewhere.</li>
-<li>Front-end interacts with back-end with this group information.</li>
-<li>Either front-end or back-end needs to do something based on the group information.</li>
-<li>Throughout the process, the events with the group information are sent to the event collector based on the tracking points.</li>
-<li>The event collector will store all the events for subsequent analysis.</li>
-</ol>
-<p>This completes an A&#x2F;B test interaction, and there will be enough information to analyze it continuously.</p>
-<h3 id="Identifying-and-Addressing-Gaps"><a href="#Identifying-and-Addressing-Gaps" class="headerlink" title="Identifying and Addressing Gaps"></a>Identifying and Addressing Gaps</h3><p>Let’s abstract this whole process to see what components are essential.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*xhj_o7bUlRrGF44a.png"></p>
-<p>I believe front-end and back-end should both exist, so there are three key components.</p>
-<ol>
-<li>Rule Manager: This is the role to manage the experiments and rules, which is what the first step of the time sequence above refers to somewhere.</li>
-<li>Event Collector: This is the event collection platform, i.e., the receiver of events sent from front-end or back-end.</li>
-<li>Event Store: This is where events are stored, either as part of the event collector or as a dataset pulled down through ETL.</li>
-</ol>
-<p>For an application developed over a period of time, I feel that event collector and event store should already be in place, after all, even if no A&#x2F;B test needs, there will be a need for various types of event management.</p>
-<p>But for some projects that are just starting out, these two roles may be unfamiliar. However, I have to say that for small projects, the implementation of these two roles can be very simple.</p>
-<p>Event collector is actually an api service, and event store is a database. Of course, as the project gets bigger and there are more events, the volume of the event store is likely to become huge, but BigQuery or Redshift can solve many of the difficulties.</p>
-<p>So the only thing that really matters is the rule manager.</p>
-<h3 id="What-is-Rule-Manager"><a href="#What-is-Rule-Manager" class="headerlink" title="What is Rule Manager?"></a>What is Rule Manager?</h3><p>A rule is a relatively abstract concept that describes a sequence of logical branches from which we can derive the final result from the inputs.</p>
-<p>A rule manager, as you can tell from its name, is a role that manages a rule set and processes the inputs and produces the outputs through a rule engine.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*YqnQpqe_mXioBlhI.png"></p>
-<p>Martin Fowler also has an excellent article on <a target="_blank" rel="noopener" href="https://martinfowler.com/bliki/RulesEngine.html">rule engine</a>.</p>
-<p>Let’s use a concrete example to describe what a rule manager does.</p>
-<p>Suppose we want to design an experiment to verify the checkout behavior of adult customers in all stores that have the “A” feature. In this case, we want to set 60% of users who meet the criteria to be A, 40% to be B, and any who do not meet the criteria to be recognized as B by default.</p>
-<p>This is an experiment scenario, and we can create a configuration file based on this experiment scenario.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- experiment: test_checkout  </span><br><span class="line">  A:  </span><br><span class="line">    - &quot;a_func = true&quot;  </span><br><span class="line">    - &quot;age &gt;= 18&quot;  </span><br><span class="line">    - &quot;percentage: 60%&quot;  </span><br><span class="line">  default: B</span><br></pre></td></tr></table></figure>
-
-<p>This configuration file creates three rules and relates them to the experiment <code>test_checkout</code>.</p>
-<p>Accordingly, we need to create a <code>context</code> on the client side that contains the necessary information for the rule engine to operate on the rules.</p>
-<p>Here is a possible <code>context</code>.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">  &quot;session_id&quot;: &lt;str&gt;,  </span><br><span class="line">  &quot;a_func&quot;: &lt;boolean&gt;,  </span><br><span class="line">  &quot;age&quot;: &lt;int&gt;,  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Because we have three rules, the context needs to contain three fields, of which <code>session_id</code> is a special one. The other two fields are easy to understand, but what is <code>session_id</code>?</p>
-<p>This usually refers to the user’s GUID, which may be <code>user_id</code> or <code>device_id</code> or some other kind of GUID, in order to avoid the possibility that users may be assigned to different groups during a sequence of operations, which would not only pollute the experimentation data, but also make for an inconsistent experience for the users.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*xdUu80oJn6ndvpc5ub5GDQ.png"></p>
-<p>In an experiment where we need to assign a specific percentage of users to different groups, there are two ways to accomplish this.</p>
-<ol>
-<li>Having a record of all the users allows us to accurately assign the ratio.</li>
-<li>We can get the relative ratio by using a consistent hashing algorithm with a <code>mod</code>.</li>
-</ol>
-<p>It is much more difficult to realize the precise ratio than the second approach, so most of the rule engine adopts the relative ratio.</p>
-<p>The implementation of a whole rule engine is more difficult depending on the number of supported rules, but if we keep a good code structure, I’m sure it won’t complicate the rule manager.</p>
-<p>The following is a simple example, since it uses Chain of Responsibility pattern, it is not difficult to add more rules in the future.</p>
-<h3 id="Why-Avoid-Commercial-Tools"><a href="#Why-Avoid-Commercial-Tools" class="headerlink" title="Why Avoid Commercial Tools?"></a>Why Avoid Commercial Tools?</h3><p>Why do we need to deconstruct the A&#x2F;B test process? Wouldn’t it be better to just use a ready-made tool?</p>
-<p>By deconstruct the A&#x2F;B test process, we should be able to understand that A&#x2F;B test is not complicated, and that the function of each component is quite simple. If there are already existing components in the organization that can be reused, even better.</p>
-<p>The biggest problem with introducing commercial tools is integration. Those enterprise solutions are end-to-end solutions and require some rewriting of the entire application.</p>
-<p>At the initial stage of introducing A&#x2F;B test, if we are not even familiar with the mentality and methodology of A&#x2F;B test, we will make drastic changes, which will only result in a greater Resistance to Change.</p>
-<p>Moreover, at the beginning, the experiment scenario we design must not be too large and complicated, and we don’t need a very complete solution to realize it.</p>
-<p>Take the example in this article as an example, the rules of comparison, equality, and percentage, which are commonly used in A&#x2F;B tests, can be implemented in just a few lines of code.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>I understand that those commercial tools have their strengths and specialties, and I agree that in most cases it’s important not to reinvent the wheel.</p>
-<p>However, when we learn from systems thinking that it’s more important to be at the bottom of the iceberg model than at the top, we should look back and see if our current needs are really a wheel.</p>
-<p>Or can we actually build a pyramid with a sledge?</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*nUJN6hbideFX7r11.png"></p>
-<p>From my point of view, purchasing an enterprise product involves going through layers and layers of financial reviews, and convincing departments to change existing applications one by one, which involves a huge amount of risk when the results are impossible to estimate.</p>
-<p>Therefore, I would choose a relatively simple approach to achieve almost the same result.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/deconstructing-a-b-test-801dfab1ff4b">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Backend/What-Exactly-is-Systems-Thinking/20241201/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Backend/What-Exactly-is-Systems-Thinking/20241201/" class="post-title-link" itemprop="url">What Exactly is Systems Thinking?</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-12-02 01:36:42" itemprop="dateCreated datePublished" datetime="2024-12-02T01:36:42+08:00">2024-12-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Backend/" itemprop="url" rel="index"><span itemprop="name">Backend</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="Systems-Thinking-makes-software-development-more-efficient"><a href="#Systems-Thinking-makes-software-development-more-efficient" class="headerlink" title="Systems Thinking makes software development more efficient"></a>Systems Thinking makes software development more efficient</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*tSzFkn7cZmiCdcwekaGFRg.png"></p>
-<p>This week I held a few workshops within my organization to explain what Systems Thinking is and some of the common tools used in Systems Thinking, supported by an ongoing classic case study from my organization.</p>
-<p>While gathering material for these workshops, two common questions often came up.</p>
-<ol>
-<li>Will you guide us through the design of an e-commerce system, an instant messaging system, or any system in this workshop?</li>
-<li>We don’t usually have the opportunity to redesign a system, so do we still need to learn systems thinking?</li>
-</ol>
-<p>These questions are closely related. Essentially, they both ask whether Systems Thinking is the same as software architecture design.</p>
-<p>The answer is definitely no.</p>
-<p>Systems Thinking is a methodology that goes beyond software architecture design and can be applied to any situation and any problem.</p>
-<blockquote>
-<p><em>So, what exactly is Systems Thinking? How does this relate to our daily routine?</em></p>
-</blockquote>
-<h3 id="What-is-System"><a href="#What-is-System" class="headerlink" title="What is System?"></a>What is System?</h3><p>Before explaining the importance of Systems Thinking, let’s talk about what a system is.</p>
-<p>Simply put, a system is a group of entities that are “interrelated” yet “independent,” working together toward a “common goal.”</p>
-<p>The most important part of this sentence is the common goal.</p>
-<p>A Chinese proverb describes “a plate of loose sand”, meaning even though everyone in the group is sand and on the same plate, you wouldn’t call it a system because there’s no goal.</p>
-<p>Is a baseball team a system? Absolutely. Each member has specific roles, like infielders, outfielders, or pitchers, but they share the common goal of winning.</p>
-<p>Now you know a system is not a software architecture.</p>
-<h3 id="What-Are-the-Benefits-of-Learning-Systems-Thinking"><a href="#What-Are-the-Benefits-of-Learning-Systems-Thinking" class="headerlink" title="What Are the Benefits of Learning Systems Thinking?"></a>What Are the Benefits of Learning Systems Thinking?</h3><p>Let’s go back to the second question at the beginning of this article.</p>
-<p>Why do we need to learn Systems Thinking? How will it be applied in daily routine?</p>
-<p>While we may rarely get the chance to redesign software architecture — whether through decomposition or changes in data structure — we, as developers, frequently face the challenge of implementing various features and functionalities.</p>
-<p>Have you ever thought about how to improve the productivity of your development when you have a large-scale project taking several months to complete?</p>
-<p>How do you plan project progress when changes affect multiple files, modules, or even services? How can you batch tasks effectively or minimize the impact radius during a critical failure?</p>
-<p>These are all areas of Systems Thinking, and they are issues that every engineer needs to face.</p>
-<p>I have written an article in <a target="_blank" rel="noopener" href="https://lazypro.medium.com/introducing-decision-making-process-cbb68e3b5f7">introduction to the decision making process</a>, which is actually a practical application of Systems Thinking.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*XNV_DxIlxphmjIj5.png"></p>
-<p>At the top of the pyramid is the “common goal” of the system.</p>
-<p>The following diagram shows the iceberg model of Systems Thinking.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*WVQ61CVvxd9CEzLn.png"></p>
-<p>The events we observe in daily routine are just the surface. When things go wrong, how can we address them? Systems Thinking emphasizes that the deeper we delve into the underlying structures and mental models, the greater our influence becomes.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>I’m not going to dig into the details of Systems Thinking too much in this article, after all, it’s not something to cover in a few words.</p>
-<p>But this article should quickly answer two common questions.</p>
-<ul>
-<li>What is Systems Thinking?</li>
-<li>What are the benefits of learning Systems Thinking?</li>
-</ul>
-<p>As software development becomes more complex and chaotic, it feels like venturing into darkness without direction. What we need is a light — a guiding beacon to illuminate our path and help us find clarity. That light is Systems Thinking.</p>
-<p>Systems Thinking isn’t a skill limited to architects or managers; it’s a mindset every engineer, product owner, and leader can benefit from. Whether you’re tackling a multi-month project or debugging a critical issue, systems thinking can help you see the bigger picture and guide your decisions with clarity.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/what-exactly-is-systems-thinking-ee2c177b52cb">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -1701,6 +1432,266 @@
 </ul>
 <blockquote>
 <p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-shopline-saves-40-space-in-main-database-9504a1eb2472">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Database/How-to-Perform-ALTER-TABLE-on-Huge-Table/20240825/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Database/How-to-Perform-ALTER-TABLE-on-Huge-Table/20240825/" class="post-title-link" itemprop="url">How to Perform ALTER TABLE on Huge Table</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-08-26 01:39:06" itemprop="dateCreated datePublished" datetime="2024-08-26T01:39:06+08:00">2024-08-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="How-to-Perform-ALTER-TABLE-on-Huge-Table"><a href="#How-to-Perform-ALTER-TABLE-on-Huge-Table" class="headerlink" title="How to Perform ALTER TABLE on Huge Table"></a>How to Perform ALTER TABLE on Huge Table</h3><h4 id="Avoiding-system-crashes-How-to-safely-alter-large-database-tables"><a href="#Avoiding-system-crashes-How-to-safely-alter-large-database-tables" class="headerlink" title="Avoiding system crashes: How to safely alter large database tables"></a>Avoiding system crashes: How to safely alter large database tables</h4><p><img src="https://cdn-images-1.medium.com/max/800/1*ICjiDbUr9M67hqhTAbd3aA.png"></p>
+<p>I’ve often heard engineers say if the RDBMS table is so large, let’s say millions or even tens of millions of rows, that just adding a new column with a default value will cause the system to crash.</p>
+<p>Actually, it’s not that bad.</p>
+<p>Well, it’s not that bad if you do it correctly.</p>
+<p>Let’s start by understanding why we all have a given idea that this is a dangerous thing to do.</p>
+<p>In Postgres, for example, when we want to add a new column with a default value, we execute the following command.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name  </span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">COLUMN</span> column_name data_type <span class="keyword">DEFAULT</span> default_value;</span><br></pre></td></tr></table></figure>
+
+<p>When Postgres recognizes this is an <code>ALTER TABLE</code> command and affects the entire table by default, it requests an <code>AccessExclusiveLock</code>. The lock is a table-level lock and is so exclusive that all other locks cannot coexist, including the lowest-level <code>AccessShareLock</code>, and all <code>SELECT</code>s require at least <code>AccessShareLock</code>, which results in the entire table being stuck.</p>
+<p>When this <code>ALTER TABLE</code> is executed on a large table, it means all rows have to be modified and updated to the default values, which also means that it will take a long time and consume a lot of system resources, and then, of course, the system will be crashed.</p>
+<p>But we can’t avoid having to make changes to the table’s columns, especially when the requirements are iterative, so what should we do?</p>
+<h3 id="Easy-for-you-to-say"><a href="#Easy-for-you-to-say" class="headerlink" title="Easy for you to say"></a>Easy for you to say</h3><p>Let’s start with an extreme ideal scenario, although I realize that most of them are not.</p>
+<p>When we expect the table to get this big, we’ll have to partition it.</p>
+<p>Continuing with the Postgres example, suppose our order table grows over time and one day overwhelms Postgres. At some point, we should consider partitioning.</p>
+<p>Assume we have the following order table.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orders (  </span><br><span class="line">    order_id SERIAL <span class="keyword">PRIMARY</span> KEY,  </span><br><span class="line">    tenant_id <span class="type">INTEGER</span>,  </span><br><span class="line">    order_date <span class="type">DATE</span>,  </span><br><span class="line">    <span class="comment">-- other columns  </span></span><br><span class="line">) <span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">RANGE</span> (tenant_id);</span><br></pre></td></tr></table></figure>
+
+<p>We can consider partitioning by <code>tenant_id</code> so that the data is spread out in many smaller tables on a tenant basis.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orders_part1 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> orders  </span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1</span>) <span class="keyword">TO</span> (<span class="number">1000</span>);  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orders_part2 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> orders  </span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="number">1001</span>) <span class="keyword">TO</span> (<span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
+
+<p>In this example, each child table would only have order information for 1000 tenants, which would effectively prevent the table from growing to a huge size.</p>
+<h3 id="The-reality-is"><a href="#The-reality-is" class="headerlink" title="The reality is"></a>The reality is</h3><p>But it’s a bit unrealistic to think about partitioning right from the beginning, because the management of a partitioned table is also a bit complicated.</p>
+<p>More often cases is the application we developed has grown to be huge without realizing it, and then there is an urgent requirement to iterate, we have to add the columns in a hurry. At this point, it’s too late to create partitions, move data, and rewrite queries.</p>
+<p>What should we do?</p>
+<p>Well, we need to minimize the negative impact of <code>ALTER TABLE</code>.</p>
+<p>First, let’s ignore the default value and set the column to nullable.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name  </span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">COLUMN</span> column_name data_type;</span><br></pre></td></tr></table></figure>
+
+<p>Keep in mind, do not insert in the middle of existing columns.</p>
+<p>This operation is pretty lightweight and can be done in a very short time even for huge tables.</p>
+<p>Next, we’ll start filling in the default values for this new column in batches with the primary key.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> table_name  </span><br><span class="line"><span class="keyword">SET</span> column_name <span class="operator">=</span> default_value  </span><br><span class="line"><span class="keyword">WHERE</span> primary_key_column <span class="keyword">BETWEEN</span> start_value <span class="keyword">AND</span> end_value;</span><br></pre></td></tr></table></figure>
+
+<p>Remember, it has to be a batch, i.e. just a few hundred rows at a time, and we’ll do it in batches until all the new columns in the table have values.</p>
+<p>The reason for the batch is because the lookup of the primary key is extremely efficient, and each update only locks a portion of rows, which on the one hand improves efficiency, and on the other hand reduces the scope of the affected data.</p>
+<p>Finally, we change the columns back to what we wanted at the beginning.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name  </span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">COLUMN</span> column_name data_type <span class="keyword">DEFAULT</span> default_value;</span><br></pre></td></tr></table></figure>
+
+<p>This operation will take a little longer than the first step, but it is acceptable.</p>
+<p>Splitting a command with a huge impact into three steps, each step with a limited range of impacts, will allow the avaiability of the system to be increased dramatically.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article we have not only explained the risks of doing an <code>ALTER TABLE</code> on a large table but also suggested specific ways to deal with them.</p>
+<p>Ideally, if you’re using an RDBMS, you’ll want to consider partitioning, or even sharding, before your data grows out of control. Most RDBMS don’t have built-in sharding mechanisms, so you’ll need to use an application to do the sharding.</p>
+<p>But the reality is that we often have to operate on existing large tables, so this article proposes a feasible solution. To make the most reasonable consideration, be cautious but don’t be overtaken by hesitation.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/how-to-perform-alter-table-on-huge-table-4b38edd3ade8">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/%E5%81%9A%E4%B8%80%E5%80%8B%E5%8B%99%E5%AF%A6%E7%9A%84RAG-Pragmatic-RAG/20240818/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/AI/%E5%81%9A%E4%B8%80%E5%80%8B%E5%8B%99%E5%AF%A6%E7%9A%84RAG-Pragmatic-RAG/20240818/" class="post-title-link" itemprop="url">做一個務實的RAG (Pragmatic RAG)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-08-19 01:33:51" itemprop="dateCreated datePublished" datetime="2024-08-19T01:33:51+08:00">2024-08-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="不要跟我五四三，回點有用的話來"><a href="#不要跟我五四三，回點有用的話來" class="headerlink" title="不要跟我五四三，回點有用的話來"></a><em>不要跟我五四三，回點有用的話來</em></h4><p><img src="https://cdn-images-1.medium.com/max/800/1*SCnwW02b4ApvfOgu45S9VA.png"></p>
+<p>這篇文章是專門為了繁體中文的 RAG 寫的。</p>
+<p>你有覺得聊天機器人一直在打高空嗎？<br>你有覺得聊天機器人總是瞎掰胡謅嗎？<br>你有覺得聊天機器人經常答非所問嗎？</p>
+<p>如果你使用的 prompt 已經很精準了，卻還常有上述感受，那很有可能你實作的 RAG 出了根本上的問題。</p>
+<p>要讓 RAG 務實有以下幾個重點：</p>
+<ol>
+<li>必須是要懂繁體中文的 embedding</li>
+<li>要有中文語意的分片器</li>
+<li>一定要是用繁體中文訓練的 LLM</li>
+<li>精準的 prompt 連同 system instruction</li>
+<li>沒做 rerank 的效果都差到不行，但 rerank 要懂繁體中文</li>
+</ol>
+<p>能夠做到上述五點，那麼你就可以得到一個穩重且有參考價值的 RAG。</p>
+<h3 id="核心概覽"><a href="#核心概覽" class="headerlink" title="核心概覽"></a>核心概覽</h3><p>以下我會提供一個使用 langchain 實作的繁體中文萬用套餐，最重要的是：本地運行，完全免費。</p>
+<p>既免費又萬用的核心元素是下列：</p>
+<ol>
+<li>懂中文的 embedding：<a target="_blank" rel="noopener" href="https://huggingface.co/BAAI/bge-m3">BGE-M3</a></li>
+<li>中文語意的分片器：<a target="_blank" rel="noopener" href="https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/recursive_text_splitter/#splitting-text-from-languages-without-word-boundaries">RecursiveCharacterTextSplitter</a></li>
+<li>繁體中文訓練的 LLM：<a target="_blank" rel="noopener" href="https://taide.tw/index/download-model">TAIDE</a></li>
+<li>懂繁體中文的 rerank：<a target="_blank" rel="noopener" href="https://github.com/google-research/bert/blob/master/multilingual.md#list-of-languages">ms-marco-MultiBERT-L-12</a></li>
+</ol>
+<p>上述都是免費的，搭配本地運行的框架：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://ollama.com/">Ollama</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/langchain-ai/langchain">Langchain</a></li>
+</ol>
+<p>就可以實作我們要的務實 RAG。</p>
+<h3 id="具體實踐"><a href="#具體實踐" class="headerlink" title="具體實踐"></a>具體實踐</h3><p>把 Ollama 裝好，有 Python 後就開始吧。</p>
+<p>以下我會用一個 <a target="_blank" rel="noopener" href="https://www.atlassian.com/software/confluence">Confluence</a> 的爬蟲做示範，但整個腳本可以套用在任何繁體中文的資料源。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Langchain 的核心套件  </span></span><br><span class="line">pip install langchain langchain-community langchain-core langchain-huggingface  </span><br><span class="line"><span class="comment"># Confluence 爬蟲需要的套件 (根據資料源可替換)  </span></span><br><span class="line">pip install atlassian-python-api lxml pytesseract docx2txt  </span><br><span class="line"><span class="comment"># Rerank 用  </span></span><br><span class="line">pip install flashrank  </span><br><span class="line"><span class="comment"># 向量存儲  </span></span><br><span class="line">pip install faiss-cpu</span><br></pre></td></tr></table></figure>
+
+<p>Python 套件都安裝完成後的第一步，我們要先準備給 RAG 使用的資料源，以本例來說是 Confluence。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from langchain_community.document_loaders import ConfluenceLoader  </span><br><span class="line">  </span><br><span class="line">CONFLUENCE_TOKEN = &#x27;&lt;your token&gt;&#x27;  </span><br><span class="line">USER = &#x27;&lt;your account&gt;&#x27;  </span><br><span class="line">ROOT_URL = &#x27;&lt;your domain&gt;&#x27;  </span><br><span class="line">SPACE_KEY = &#x27;&lt;your space&gt;&#x27;  </span><br><span class="line">PAGE_ID = &#x27;&lt;your page&gt;&#x27;  </span><br><span class="line">loader = ConfluenceLoader(  </span><br><span class="line">    url=ROOT_URL, username=USER, api_key=CONFLUENCE_TOKEN  </span><br><span class="line">)  </span><br><span class="line">documents = loader.load(space_key=SPACE_KEY,  </span><br><span class="line">    page_id=PAGE_ID, include_attachments=True, limit=50)</span><br></pre></td></tr></table></figure>
+
+<p>到此，Confluence 的資料就全部抓下來並存進 <code>documents</code> 了。</p>
+<p>若你要處理的是別的資料源，就直接從這裡往下，重點是所有資料要放進 <code>documents</code>。接著我們要來做分段，許多英文的教學會使用 token 來做分段，但中文與 token 並沒有很好的對應，效果會非常差。因此，我們依然採用標點符號的分段方式，並且讓上下兩片段是有重疊的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">from langchain.text_splitter import RecursiveCharacterTextSplitter  </span><br><span class="line">  </span><br><span class="line">text_splitter = RecursiveCharacterTextSplitter(  </span><br><span class="line">    chunk_size=800,  </span><br><span class="line">    chunk_overlap=400,  </span><br><span class="line">    length_function=len,  </span><br><span class="line">    is_separator_regex=False,  </span><br><span class="line">    separators=[  </span><br><span class="line">        &quot;\n\n&quot;,  </span><br><span class="line">        &quot;\n&quot;,  </span><br><span class="line">        &quot; &quot;,  </span><br><span class="line">        &quot;.&quot;,  </span><br><span class="line">        &quot;,&quot;,  </span><br><span class="line">        &quot;\u200b&quot;,  # Zero-width space  </span><br><span class="line">        &quot;\uff0c&quot;,  # Fullwidth comma  </span><br><span class="line">        &quot;\u3001&quot;,  # Ideographic comma  </span><br><span class="line">        &quot;\uff0e&quot;,  # Fullwidth full stop  </span><br><span class="line">        &quot;\u3002&quot;,  # Ideographic full stop  </span><br><span class="line">        &quot;&quot;,  </span><br><span class="line">    ],  </span><br><span class="line">)  </span><br><span class="line">texts = text_splitter.split_documents(documents)</span><br></pre></td></tr></table></figure>
+
+<p>上面程式碼可以看到，我們對中文的全型逗號和句號做了額外處理，想要加入更多字元也行。</p>
+<p>另一個關鍵是我們的片段長度是 <code>800</code> 且重疊 <code>400</code> 字，這是我實測下來最理想的長度了，當然也可以根據需求調整。</p>
+<p>接著我們準備開始做 embedding，務必記得，embedding 的模型一定要懂繁體中文。現階段，既免費效果又好的當屬 <code>BAAI/bge-m3</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> langchain_huggingface <span class="keyword">import</span> HuggingFaceEmbeddings  </span><br><span class="line"><span class="keyword">from</span> langchain_community.vectorstores <span class="keyword">import</span> FAISS  </span><br><span class="line">  </span><br><span class="line">HF_EMBEDDING_MODEL = <span class="string">&#x27;BAAI/bge-m3&#x27;</span>  </span><br><span class="line">hf_embeddings = HuggingFaceEmbeddings(  </span><br><span class="line">    model_name=HF_EMBEDDING_MODEL,  </span><br><span class="line">    model_kwargs=&#123;<span class="string">&#x27;device&#x27;</span>: <span class="string">&#x27;cpu&#x27;</span>&#125;,  </span><br><span class="line">    encode_kwargs=&#123;<span class="string">&#x27;normalize_embeddings&#x27;</span>: <span class="literal">False</span>&#125;  </span><br><span class="line">)  </span><br><span class="line">vectordb = FAISS.from_documents(texts, hf_embeddings)</span><br></pre></td></tr></table></figure>
+
+<p>現在我們已經有一份完整的向量放在記憶體內了，至於是否需要落地，也是根據需求決定。</p>
+<p>最後就是聊天對話了，讓我們用 langchain 的內建功能快速搭建起來。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">from langchain.prompts import PromptTemplate  </span><br><span class="line">from langchain.chains import RetrievalQA  </span><br><span class="line">from langchain.retrievers.document_compressors import FlashrankRerank  </span><br><span class="line">from langchain.retrievers import ContextualCompressionRetriever  </span><br><span class="line">from langchain_community.llms import Ollama  </span><br><span class="line">  </span><br><span class="line">LLM_MODEL = &#x27;cwchang/llama3-taide-lx-8b-chat-alpha1&#x27;  </span><br><span class="line">RERANK_MODEL = &#x27;ms-marco-MultiBERT-L-12&#x27;  </span><br><span class="line">  </span><br><span class="line">llm = Ollama(model=LLM_MODEL)  </span><br><span class="line">custom_prompt_template = &quot;&quot;&quot;  </span><br><span class="line">&lt;your system instruction&gt;  </span><br><span class="line">&#123;context&#125;  </span><br><span class="line">Question: &#123;question&#125;  </span><br><span class="line">Helpful Answer:&quot;&quot;&quot;  </span><br><span class="line">CUSTOMPROMPT = PromptTemplate(  </span><br><span class="line">    template=custom_prompt_template, input_variables=[&quot;context&quot;, &quot;question&quot;]  </span><br><span class="line">)  </span><br><span class="line">retriever = vectordb.as_retriever(search_type=&quot;similarity&quot;,  </span><br><span class="line">    search_kwargs=&#123;&quot;k&quot;: 100&#125;) # K1, Top100 Snippets  </span><br><span class="line">compressor = FlashrankRerank(model=RERANK_MODEL, top_n=5) # K2, Top5 Answers  </span><br><span class="line">compression_retriever = ContextualCompressionRetriever(  </span><br><span class="line">    base_compressor=compressor, base_retriever=retriever  </span><br><span class="line">)  </span><br><span class="line">qa = RetrievalQA.from_chain_type(llm=llm, chain_type=&quot;stuff&quot;,   </span><br><span class="line">    retriever=compression_retriever, return_source_documents=True)  </span><br><span class="line">## Inject custom prompt   </span><br><span class="line">qa.combine_documents_chain.llm_chain.prompt = CUSTOMPROMPT  </span><br><span class="line">question = &quot;&lt;your question&gt;&quot;  </span><br><span class="line">answer = qa(&#123;&quot;query&quot;: question&#125;)  </span><br><span class="line">print(answer)</span><br></pre></td></tr></table></figure>
+
+<p>上面這段 code 有幾個重點：</p>
+<ol>
+<li>採用 Ollama Hub 內有的 TAIDE 模型 (整合好的比較方便)</li>
+<li>Rerank 模型則是 langchain 整合的 <code>ms-marco-MultiBERT-L-12</code></li>
+<li>先用向量的相似性比對找出前 100 名，接著透過 rerank 找出最佳的 5 個</li>
+<li>雖然 <code>answer</code> 只會有一個答案，但 <code>return_source_documents=True</code> 所以可以看到參考了哪些結果</li>
+</ol>
+<h3 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h3><p>上面那整段 code 都只需要本地運行，硬碟大概需要 10 GB 左右，但因為不需要 GPU ，所以一般手上的電腦都可以跑。</p>
+<p>雖然是以 Confluence 爬蟲作為例子，但相信你們都可以發現，langchain 這個框架其實整合的相當好，大部分的工作都可以簡單幾行 code 就處理掉。即使是需要一定 know-how 的 rerank，也已經有內建的整合可以直接使用。</p>
+<p>至於腳本內沒提到的 prompt 和 system instruction，那個必須根據你的用途和語料來動態調整，所以如果使用這個腳本還碰到不夠精準的回答，那多半是這兩點沒調校好。</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/%E5%81%9A%E4%B8%80%E5%80%8B%E5%8B%99%E5%AF%A6%E7%9A%84rag-pragmatic-rag-65fc63647c51">Medium</a></p>
 </blockquote>
 
       
