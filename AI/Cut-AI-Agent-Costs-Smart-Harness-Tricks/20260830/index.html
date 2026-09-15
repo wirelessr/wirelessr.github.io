@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="UwHbW2CTRb9hu_gAS_JoTXH5d5V7EK1LW8M3ReqlD9c">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wirelessr.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Reduce operational expenses by optimizing tool call delegation in AI agents Recently, I spent quite a bit of time optimizing the cost of my agent harness. If you read my last article, you know my agen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cut AI Agent Costs: Smart Harness Tricks">
+<meta property="og:url" content="https://wirelessr.github.io/AI/Cut-AI-Agent-Costs-Smart-Harness-Tricks/20260830/">
+<meta property="og:site_name" content="CT Wu">
+<meta property="og:description" content="Reduce operational expenses by optimizing tool call delegation in AI agents Recently, I spent quite a bit of time optimizing the cost of my agent harness. If you read my last article, you know my agen">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:700/1*6s_Ym_uVFydXapfN9vkSIg.png">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:225/1*lUQEAiyCDO5gyOyhTx7y0A.png">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:412/1*40LeBKvbfuCc71_qI86PSA.png">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:239/1*hs2t4dX9WlegJtgjWqSJfg.png">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:634/1*ODyBQq1KaVW3zVbEqmqwbA.png">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:428/1*pfdVtDgqjDTVa2RiOAf4Qw.png">
+<meta property="og:image" content="https://miro.medium.com/v2/resize:fit:111/1*ZPS-AwpEuSuMbsgddf6Zhg.png">
+<meta property="article:published_time" content="2026-08-30T16:36:01.000Z">
+<meta property="article:modified_time" content="2026-08-30T16:36:01.000Z">
+<meta property="article:author" content="CT Wu">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://miro.medium.com/v2/resize:fit:700/1*6s_Ym_uVFydXapfN9vkSIg.png">
+
+
+<link rel="canonical" href="https://wirelessr.github.io/AI/Cut-AI-Agent-Costs-Smart-Harness-Tricks/20260830/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://wirelessr.github.io/AI/Cut-AI-Agent-Costs-Smart-Harness-Tricks/20260830/","path":"AI/Cut-AI-Agent-Costs-Smart-Harness-Tricks/20260830/","title":"Cut AI Agent Costs: Smart Harness Tricks"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Cut AI Agent Costs: Smart Harness Tricks | CT Wu</title>
+  
+
+
+
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "gqdi4dm6in");
+</script>
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820460770755862"
+     crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Cut AI Agent Costs: Smart Harness Tricks","datePublished":"2026-08-30T16:36:01+00:00","dateModified":"2026-08-30T16:36:01+00:00","author":{"@type":"Person","name":"CT Wu","url":"https://wirelessr.github.io"},"publisher":{"@type":"Person","name":"CT Wu","url":"https://wirelessr.github.io"},"url":"https://wirelessr.github.io/AI/Cut-AI-Agent-Costs-Smart-Harness-Tricks/20260830/","mainEntityOfPage":{"@type":"WebPage","@id":"https://wirelessr.github.io/AI/Cut-AI-Agent-Costs-Smart-Harness-Tricks/20260830/"}}</script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="CT Wu" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">CT Wu</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Software Architect · Backend · Data Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Reduce-operational-expenses-by-optimizing-tool-call-delegation-in-AI-agents"><span class="nav-number">1.</span> <span class="nav-text">Reduce operational expenses by optimizing tool call delegation in AI agents</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wrap-Up"><span class="nav-number">2.</span> <span class="nav-text">Wrap Up</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CT Wu"
+      src="/images/kulhr2h.png">
+  <p class="site-author-name" itemprop="name">CT Wu</p>
+  <div class="site-description" itemprop="description">Personal tech blog on software architecture, backend development, and data engineering</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">194</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">282</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wirelessr" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wirelessr" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://medium.com/@lazypro" title="Medium → https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener me" target="_blank"><i class="fab fa-medium fa-fw"></i>Medium</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://medium.com/@lazypro" title="https:&#x2F;&#x2F;medium.com&#x2F;@lazypro" rel="noopener" target="_blank">Medium</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://ithelp.ithome.com.tw/users/20146414/ironman" title="https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;users&#x2F;20146414&#x2F;ironman" rel="noopener" target="_blank">iThome</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/AI/Cut-AI-Agent-Costs-Smart-Harness-Tricks/20260830/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Cut AI Agent Costs: Smart Harness Tricks | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Cut AI Agent Costs: Smart Harness Tricks
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2026-08-31 00:36:01" itemprop="dateCreated datePublished" datetime="2026-08-31T00:36:01+08:00">2026-08-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="Reduce-operational-expenses-by-optimizing-tool-call-delegation-in-AI-agents"><a href="#Reduce-operational-expenses-by-optimizing-tool-call-delegation-in-AI-agents" class="headerlink" title="Reduce operational expenses by optimizing tool call delegation in AI agents"></a>Reduce operational expenses by optimizing tool call delegation in AI agents</h2><p><img src="https://miro.medium.com/v2/resize:fit:700/1*6s_Ym_uVFydXapfN9vkSIg.png"></p>
+<p>Recently, I spent quite a bit of time optimizing the cost of my agent harness. If you read my last article, you know my agents can already handle most of my daily routine automatically. However, the operational cost turned out to be huge. Once the architecture stabilized, my next step was to cut spending and improve efficiency.</p>
+<p>The most urgent task in reducing costs is finding out where the money actually goes. We can only save money if we know what we are spending it on.</p>
+<p>I initially thought that unstable cache prefixes were causing frequent cache misses and driving up total spending. I spent some time researching my session logs, only to discover a surprising fact. My cache hit rate was actually very high, hovering around at least 95%. Of course, there is still room for improvement here since this relates to how my loop engineering works. I hand over tasks between agents quite often, so cold starts happen frequently. This is an area we can tweak, but the room for optimization is limited. Cache pricing is low to begin with, and raising the hit rate from 95% to 99% brings less than a 5% gain.</p>
+<p>So where is the real bottleneck? To explain the core issue, let’s make a few assumptions to keep our mathematical model simple.</p>
+<p>Here are the assumptions:</p>
+<ol>
+<li><p>Each tool call costs 1 unit, including input and output.</p>
+</li>
+<li><p>Each turn requires at least 10 tool calls.</p>
+</li>
+</ol>
+<p>Under these rules, our cost structure looks like this:</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:225/1*lUQEAiyCDO5gyOyhTx7y0A.png"></p>
+<p>The cost for Turn k is 10k, making the total cost:</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:412/1*40LeBKvbfuCc71_qI86PSA.png"></p>
+<p>Because agents have no built-in memory, each turn carries forward the cumulative output of all previous turns as the session continues. Since this follows an O(N²) sequence, costs skyrocket very quickly over long turns.</p>
+<p>We can flatten this cost curve in two ways.</p>
+<p>First, let’s talk about the approach that is hard to implement: reducing the value of k. This means finishing the work in as few turns as possible. If turn counts grow too long, we must either fix issues in the agent’s workflow or compact the context and hand off the task to another agent. When task complexity is high, striking the right balance becomes extremely difficult. How long is long enough? When is the ideal moment to compact? These decisions are tough even for human engineers, let alone getting an agent to judge them autonomously.</p>
+<p>The alternative approach is reducing the compounding cost created by tool calling output. Specifically, we delegate all tool calls from the main session to subagents, letting the main session receive only the final conclusion.</p>
+<p>Let’s look at another mathematical model.</p>
+<p>We keep the previous assumptions and introduce a new notation M, which represents the setup cost of delegating to a subagent. We can simplify the subagent’s output cost to 1.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:239/1*hs2t4dX9WlegJtgjWqSJfg.png"></p>
+<p>The cost for Turn k is M+10+k, making the total cost:</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:634/1*ODyBQq1KaVW3zVbEqmqwbA.png"></p>
+<p>As shown in the table above, the execution volume per turn stays constant at 10 tool calls. The difference is that we preserve only the final output in the main session while discarding intermediate steps. This transforms the compounding 10k factor into a simple k.</p>
+<p>With formulas for both models, the rest is straightforward math. We need to find the Break-Even Point, calculating the cost difference and the threshold where savings exceed zero.</p>
+<p>Subtracting the two equations gives us the cost difference:</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:428/1*pfdVtDgqjDTVa2RiOAf4Qw.png"></p>
+<p>The threshold condition is:</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:111/1*ZPS-AwpEuSuMbsgddf6Zhg.png"></p>
+<p>Let’s assume M costs 10, making it equal to the cost of a single turn. The resulting break-even point occurs when N is greater than or equal to 4.</p>
+<p>In simple terms, following this strategy makes any session lasting 4 turns or longer cheaper. This model relies on ideal assumptions, such as a delegation cost of 10 and 10 tool calls per turn. But if you handle complex engineering tasks, you know how easily real workloads hit these numbers. These assumptions actually underestimate real-world usage.</p>
+<p>The benefits are clear.</p>
+<p>However, this strategy introduces a key challenge: what conditions should the main session use to decide whether to delegate a task instead of handling it directly?</p>
+<p>Delegating brings overhead. If we delegate simple commands like ls or grep, we end up losing money. What objective criteria should an agent use to make this call? Delegation only makes sense when the total cost of tool calling exceeds M, yet an agent cannot predict how many tool calls a turn will need. How can we help the agent make the right choice?</p>
+<p>This is where the classic Knowledge Matrix comes in handy.</p>
+<ul>
+<li><p>Known knowns: The agent handles this quadrant easily using its training data or the context we provide.</p>
+</li>
+<li><p>Unknown knowns: This quadrant is trickier, but a comprehensive knowledge base reduces the gap significantly.</p>
+</li>
+</ul>
+<p>An agent can tackle these first two quadrants through brute-force effort. When we handle complex workloads, however, we usually hit the unknown territory.</p>
+<ul>
+<li><p>Known unknowns: The agent uses reasoning to identify missing information. For example, it might check git history, verify ticket status in Jira, and validate deployment via kubectl. This sequence of actions generates tool calls.</p>
+</li>
+<li><p>Unknown unknowns: This quadrant is even more complex. Lacking sufficient context, the agent must rely on trial and error, digging up details through various tool calls while analyzing the results on the fly.</p>
+</li>
+</ul>
+<p>Our proposed solution targets the Known Unknowns quadrant directly.</p>
+<p>With a clear objective and a working formula, our next step is simple. We instruct the main session to list its required information explicitly before starting a task. If it can generate this list, it has entered the known unknowns space. When the item count exceeds a set threshold, it delegates the job to a subagent. I set my threshold at 3, though this remains a magic number.</p>
+<p>This approach cuts costs effortlessly.</p>
+<h2 id="Wrap-Up"><a href="#Wrap-Up" class="headerlink" title="Wrap Up"></a>Wrap Up</h2><p>I reviewed my setup using past prompts, and the performance improvement on long sessions was remarkable. Single-session costs dropped to 20% of their original baseline, yielding an 80% discount.</p>
+<p>Although this approach sounds simple on paper, fine-tuning the details takes real effort. How do we prompt the main session effectively? Should we use skills or AGENTS.md? What instructions work best? How do we teach the main session to handle each quadrant of the Knowledge Matrix?</p>
+<p>Because every engineer’s workload differs, I cannot offer a one-size-fits-all solution. My work focuses heavily on research and investigation, naturally generating many tool calls. If your daily work centers on writing code, your tasks will involve basic file access, which follows a completely different pattern.</p>
+<p>As with my previous posts, I am sharing the underlying methodology so you can customize it for your needs. The core principle remains simple: convert repetitive intra-turn tool calls into fixed costs, preventing total expenses from compounding out of control.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://lazypro.medium.com/cut-ai-agent-costs-smart-harness-tricks-2d9d6fc2fb92">Medium</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <!-- related posts -->
+        <h2>Related Posts</h2>
+        <ul class="popular-posts">
+            <li class="popular-posts-item">
+            <div class="popular-posts-title"><a href="/AI/Building-an-AI-Digital-Twin-with-Claude-Code/20260811/" rel="bookmark">Building an AI Digital Twin with Claude Code</a></div>
+            </li>
+            <li class="popular-posts-item">
+            <div class="popular-posts-title"><a href="/AI/How-to-Build-True-Digital-Twins-with-AI-Agents/20260811/" rel="bookmark">How to Build True Digital Twins with AI Agents</a></div>
+            </li>
+            <li class="popular-posts-item">
+            <div class="popular-posts-title"><a href="/AI/How-to-Learn-AI-from-Scratch/20250615/" rel="bookmark">How to Learn AI from Scratch</a></div>
+            </li>
+            <li class="popular-posts-item">
+            <div class="popular-posts-title"><a href="/AI/Is-AI-Killing-Traditional-Org-Structures/20251130/" rel="bookmark">Is AI Killing Traditional Org Structures?</a></div>
+            </li>
+            <li class="popular-posts-item">
+            <div class="popular-posts-title"><a href="/AI/Stop-AI-Overthinking-Save-API-Token-Costs/20260913/" rel="bookmark">Stop AI Overthinking: Save API Token Costs</a></div>
+            </li>
+        </ul>
+
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/AI/Building-an-AI-Digital-Twin-with-Claude-Code/20260811/" rel="prev" title="Building an AI Digital Twin with Claude Code">
+                  <i class="fa fa-chevron-left"></i> Building an AI Digital Twin with Claude Code
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/AI/Stop-AI-Overthinking-Save-API-Token-Costs/20260913/" rel="next" title="Stop AI Overthinking: Save API Token Costs">
+                  Stop AI Overthinking: Save API Token Costs <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-rocket"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CT Wu</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wirelessr/wirelessr.github.io","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

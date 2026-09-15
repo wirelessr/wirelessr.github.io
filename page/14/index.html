@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">192</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -214,6 +214,358 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Consistency-between-Cache-and-Database-Part-1/20220703/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Consistency-between-Cache-and-Database-Part-1/20220703/" class="post-title-link" itemprop="url">Consistency between Cache and Database, Part 1</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-07-03 23:36:56" itemprop="dateCreated datePublished" datetime="2022-07-03T23:36:56+08:00">2022-07-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Consistency-between-Cache-and-Database-Part-1"><a href="#Consistency-between-Cache-and-Database-Part-1" class="headerlink" title="Consistency between Cache and Database, Part 1"></a>Consistency between Cache and Database, Part 1</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*wfvcwb8VGPW7N1ZH.png"></p>
+<ul>
+<li>Part 1: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/consistency-between-cache-and-database-part-1-f64f4a76720">Read Aside Caching</a></li>
+<li>Part 2: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/consistency-between-cache-and-database-part-2-e28fc7f8a7c3">Enhanced Approaches</a></li>
+</ul>
+<p>Today we are going to talk about consistency, especially the consistency of data between cache and database. This is actually an important topic, particularly as the size of an organization increases, the requirements for consistency will grow and so will the implementation of consistency.</p>
+<p>For example, a startup service will not have a higher Service Level Agreement, aka SLA, than a mature service. For a startup service, a data consistency SLA of four nines (99.99%) might be considered high, but for a mature service like <a target="_blank" rel="noopener" href="https://aws.amazon.com/s3/storage-classes/?nc1=h_ls">AWS S3</a>, the data SLA is as high as 11 nines.</p>
+<p>We all know that for every nine, the difficulty and complexity of the implementation will increase in an exponential way, so for a startup service, there are basically no resources to maintain a very high SLA.</p>
+<p>Thus, how can we use the resources as effectively as possible to improve consistency? That’s what this article will introduce. Again, the consistency mentioned here refers specifically to the consistency between cache and database data.</p>
+<h3 id="Why-Caching"><a href="#Why-Caching" class="headerlink" title="Why Caching?"></a>Why Caching?</h3><p>I believe we all agree that inconsistencies are inevitable when we put data in two different storages. So what makes us put data into cache rather than risking inconsistency?</p>
+<ol>
+<li>The price of databases is high. In order to provide data persistence and as high availability as possible, even the relational database provides ACID guarantee, which makes the database implementation complex and also consumes hardware resources. Regardless of hard drives, memory or CPU, the database must be supported by good hardware specifications in order to work well, which also leads to the high price of the database itself.</li>
+<li>The performance of the database is limited. In order to persist the data, the data written to the database must be written to the hard drives, which also causes the performance bottleneck of the database, after all, the read and write efficiency of hard drives is much worse than memory.</li>
+<li>The database is far away from the user. Here, the far means the physical distance. As mentioned in the first point, because of the high cost of databases and the need to centralize data as much as possible for further analysis and utilization, a global service database is not placed in all over the world. The most common practice is to choose a fixed location. In Asia, for example, because AWS’s Singapore data center is lower priced, it is often chosen for Asian users, but for Japanese users, the network distance increases and the transfer rate decreases.</li>
+</ol>
+<p>For the above three reasons, the need for caching arises.</p>
+<p>Because a cache does not need to be persistent, it can use memory as the storage medium, so it is inexpensive and has excellent performance. Because of the low price, caches can be placed as close to the user as possible, for instance, caches can be placed in Tokyo so that users in Japan can use them nearby.</p>
+<h3 id="Caching-Patterns"><a href="#Caching-Patterns" class="headerlink" title="Caching Patterns"></a>Caching Patterns</h3><p>It seems that caching is necessary, so how do we use caching for the consistency as much as possible?</p>
+<p>To keep this article from losing focus, the caches mentioned are all based on Redis and the database is MySQL, and our goal is to improve consistency as much as possible with limited resources, both hardware and manpower, so the complex architectures of many large organizations are out of our scope, such as Meta’s <a target="_blank" rel="noopener" href="https://engineering.fb.com/2013/06/25/core-data/tao-the-power-of-the-graph/">TAO</a>.</p>
+<p>TAO is a distributed cache and has a very high SLA (10 nines). However, to operate such a service, there is a very complex architecture behind it, and even the monitoring of caching is extremely large, which is not affordable for an ordinary organization.</p>
+<p>Therefore, we will focus on the following patterns, highlighting their problems and how to avoid them as much as possible.</p>
+<ul>
+<li>Cache Expiry</li>
+<li>Read Aside</li>
+<li>Read Through</li>
+<li>Write Through</li>
+<li>Write Ahead (Write Behind)</li>
+<li>Double Delete</li>
+</ul>
+<p>The following sections will follow the below procedure.</p>
+<ol>
+<li>read path</li>
+<li>write path</li>
+<li>potential problems</li>
+<li>how to improve</li>
+</ol>
+<h3 id="Cache-Expiry"><a href="#Cache-Expiry" class="headerlink" title="Cache Expiry"></a>Cache Expiry</h3><p><strong>Read Path</strong></p>
+<ul>
+<li>Reading data from cache</li>
+<li>If the cache data does not exist</li>
+<li>Read from the database instead</li>
+<li>and write back to the cache</li>
+</ul>
+<p>We add a TTL to each data when writing back to the cache.</p>
+<blockquote>
+<p><em>EXPIRE key seconds [ NX | XX | GT | LT]</em></p>
+</blockquote>
+<p><strong>Write Path</strong></p>
+<ul>
+<li>Write data to the database only</li>
+</ul>
+<p><strong>Potential Problems</strong></p>
+<p>When updating data, inconsistencies occur because the data is only written back to the database. The inconsistency time depends on the TTL settings, nevertheless, it is difficult to choose a suitable value for the TTL.</p>
+<p>If the TTL is set too long, the inconsistency time will be increased and, on the contrary, the cache will not be effective.</p>
+<p>It is worth mentioning that caching is built to reduce the load on the database and to provide performance, and a very short TTL will make caching useless. For example, if the TTL of a certain data is set to 1 second, but no one reads it within 1 second, then the cached data will be no value at all.</p>
+<p><strong>How to Improve</strong></p>
+<p>The read path seems to be the usual practice, but when the database is updated, there should also be a mechanism for updating the cached data. And this is also the concept of <em>Read Aside</em>.</p>
+<h3 id="Read-Aside"><a href="#Read-Aside" class="headerlink" title="Read Aside"></a>Read Aside</h3><p><strong>Read Path</strong></p>
+<ul>
+<li>Reading data from cache</li>
+<li>If the cache data does not exist</li>
+<li>Read from the database instead</li>
+<li>and write back to the cache</li>
+</ul>
+<p>This process is the same as <em>Cache Expiry</em>, but the TTL can be set long enough. This allows the cache to have as much play time as possible.</p>
+<p><strong>Write Path</strong></p>
+<ul>
+<li>Write the data into the database first</li>
+<li>Then clean cache.</li>
+</ul>
+<p><strong>Potential Problems</strong></p>
+<p>Such read and write paths look fine, but there are a few corner cases that can’t be avoided.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*dPnVCTxrsXgsJdOtXUN3IA.png"></p>
+<p><code>A</code> wants to update the data, but <code>B</code> wants to read the data at the same time. Individually, both <code>A</code> and <code>B</code> have the right process, but when both of them happen together, there may be a problem. In the above example, <code>B</code> has already read the data from the cache before <code>A</code> clears the cache, so the data that <code>B</code> gets at that moment will be old.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*yyq6QF-JhPSQxxjVUWrn4A.png"></p>
+<p>When <code>A</code> is updating the data, the database is already finished updating, but it is killed due to “some reason”. At this moment, the data in the cache will remain inconsistent for a while until the next time the database is updated or a TTL occurs.</p>
+<p>Getting killed may sound serious and rare, but it’s actually more likely to happen than you might think. There are several scenarios where a kill can occur.</p>
+<ol>
+<li>When changing versions, either through containers or VMs, the old version of the application must be replaced with the new version, and the old version will be killed.</li>
+<li>When scale-in, the redundant application will be recycled and will also be killed.</li>
+<li>Lastly, it is the most common, when the application crashes, it will inevitably be killed.</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*68BT1_-j09AlAkx-PqNYpw.png"></p>
+<p>When <code>A</code> wants to read the data and <code>B</code> wants to update the data, again, both of them have the right individual process, but the error occurs.</p>
+<p>First <code>A</code> is trying to read data because no corresponding result is found in the cache, so he reads from the database; at the same time, <code>B</code> is trying to update the data so he clears the cache after the database operation. Then, <code>A</code> writes the data to the cache, and the inconsistency occurs, and the inconsistency will remain for a while.</p>
+<p><strong>How to Improve</strong></p>
+<p>Case 1 and Case 3 can be minimized when the application manipulates data correctly. Take Case 1 as an example, don’t do anything extra after updating the database and clean up the cache right away, while in Case 3, after reading data from the database, don’t do too much format conversion and write the result to the cache as soon as possible. In this way, the chance of occurrence can be reduced, but even so, there are still some unavoidable situations, such as the stop-the-world generated by garbage collection.</p>
+<p>Case 2, on the other hand, can reduce the chance of artificial occurrences by implementing a graceful shutdown, but there is nothing that can be done for an application crash.</p>
+<h3 id="Read-Aside-Variant"><a href="#Read-Aside-Variant" class="headerlink" title="Read Aside Variant"></a>Read Aside Variant</h3><p>In order to solve Case 1 and Case 2, some people will try to modify the original process.</p>
+<p><strong>Read Path</strong></p>
+<ul>
+<li>Reading data from cache</li>
+<li>If the cache data does not exist</li>
+<li>Read from the database instead</li>
+<li>and write back to the cache</li>
+</ul>
+<p>This process is exactly the same as the original <em>Read Aside</em>.</p>
+<p><strong>Write Path</strong></p>
+<ul>
+<li>Clean cache first</li>
+<li>Then write the data into the database.</li>
+</ul>
+<p>This process is the opposite of the original <em>Read Aside</em>.</p>
+<p><strong>Potential Problems</strong></p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*TwDOLUw9pRSgpgNFfLuDJw.png"></p>
+<p>Although the original Case 1 and Case 2 are solved, a new problem is created.</p>
+<p>When <code>A</code> tries to update the data, and <code>B</code> wants to read the data, <code>A</code> clears the cache first; then <code>B</code> cannot read the data, so it reads from the database instead, and <code>A</code> continues to update the database. Finally, <code>B</code> writes the read data back to the cache. The inconsistency is occurred.</p>
+<p><strong>How to Improve</strong></p>
+<p>In fact, Case 1 and Case 2 are much less likely to occur than the corner cases of this variant, especially when the correct implementation of <em>Read Aside</em> has significantly reduced the occurrence of Case 1 and Case 2. On the other hand, the corner cases of the variant cannot be effectively improved.</p>
+<blockquote>
+<p><em>Therefore, it is not recommended to use such a variant.</em></p>
+</blockquote>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In general, a relatively high level of consistency can be achieved by <em>Read Aside</em>, even if it is only a simple implementation, but it can also have a very good reliability.</p>
+<p>Nevertheless, if you would like to improve consistency further, <em>Read Aside</em> alone is not enough, and a more complex approach is required, but also at a higher cost. Therefore, I will leave these approaches for the next article. In the next article, I will describe how to make the best use of the resources at hand to achieve as much consistency as possible.</p>
+<p>To emphasize again, although <em>Read Aside</em> is very simple, it is reliable enough as long as it is implemented correctly.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/consistency-between-cache-and-database-part-1-f64f4a76720">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Combine-Domain-Driven-Design-and-Databases/20220626/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Combine-Domain-Driven-Design-and-Databases/20220626/" class="post-title-link" itemprop="url">Combine Domain-Driven Design and Databases</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-06-27 01:00:09" itemprop="dateCreated datePublished" datetime="2022-06-27T01:00:09+08:00">2022-06-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Explain-combining-Domain-Driven-Design-and-Databases"><a href="#Explain-combining-Domain-Driven-Design-and-Databases" class="headerlink" title="Explain combining Domain-Driven Design and Databases"></a>Explain combining Domain-Driven Design and Databases</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*BhHrlHoJcl3Heg5A.png"></p>
+<p>A while ago, we explained <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">how to design software in a clean architecture way</a>. At that time, although we provided the design and implementation of the domain objects and also implemented the unit tests, we did not describe how to integrate with the database.</p>
+<p>Therefore, this article will present another example of how domain-driven design and database can be put together. Next, we will provide a real-world design of a common street-level gashapon store with a MySQL database.</p>
+<h3 id="User-Stories"><a href="#User-Stories" class="headerlink" title="User Stories"></a>User Stories</h3><p>As we’ve done before, we start by describing the user story, and we understand our needs through that story.</p>
+<ul>
+<li>There will be a lot of machines, each with different combinations of items.</li>
+<li>In order to allow “generous” customers to buy everything at once, we offer the option to draw a lot of items at once.</li>
+<li>When we run out of items, we need to refill them immediately.</li>
+<li>If a person who draws a lot of items at one time runs out of items, we will refill the items immediately so that they can continue to draw.</li>
+</ul>
+<p>Such a story is actually a scenario that happens in every gashapon store, and after a clear description, we will know how to build the domain model.</p>
+<p>Generally speaking, we will need to model a gashapon machine and a gacha entity.</p>
+<h3 id="Use-Cases"><a href="#Use-Cases" class="headerlink" title="Use Cases"></a>Use Cases</h3><p>Then, we define more precise use cases based on user stories. Unlike a story, the use case will clearly describe what happened and how the system should react.</p>
+<ul>
+<li>Because this is an online gashapon store, it is possible for multiple people to draw at the same time. But just like the physical machine, everyone must draw in order.</li>
+<li>In the process of refilling the gacha, the user is not allowed to draw until all the gacha have been refilled.</li>
+<li>When A and B each draw 50 at the same time, but there are only 70 in the machine, one of them will get the 50 in the batch, while the other will draw 20 first, and then wait for the refill before drawing 30.</li>
+</ul>
+<p>With the use case, we can either draw a flowchart or write a process based on it. In this example, I chose to write the process in <code>Python</code> as follows.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">draw</span>(<span class="params">n, machine</span>):  </span><br><span class="line">    gachas = machine.pop(n)  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(gachas) &lt; n:  </span><br><span class="line">        machine.refill()  </span><br><span class="line">        gachas += draw(n - <span class="built_in">len</span>(gachas), machine)  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">return</span> gachas</span><br></pre></td></tr></table></figure>
+
+<p>In the user story, we mentioned that we will model a gashapon machine and a gacha. So the <code>machine</code> in this example code is the gashapon machine, which provides both <code>pop</code> and <code>refill</code> methods. On the other hand, gachas are a list with <code>gacha</code> in it.</p>
+<p>Before we go any further, there is one very important thing that must be stated. Both the <code>pop</code> and <code>refill</code> methods must be atomic. To avoid racing conditions, both methods must be atomic and cannot be preempted, while there will be multiple users drawing simultaneously.</p>
+<h3 id="Database-Modeling"><a href="#Database-Modeling" class="headerlink" title="Database Modeling"></a>Database Modeling</h3><p>We already have <code>machine</code> and <code>gacha</code>, and these two objects are very simple for developers who are familiar with object-oriented programming, but how should they be integrated with the database?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*Q00QHD27370wmhWN.png"></p>
+<p>As mentioned in the book <em>Patterns of Enterprise Application Architecture</em>, there are three options to describe the domain logic on the database.</p>
+<ol>
+<li>Transaction Script</li>
+<li>Table Module</li>
+<li>Domain Model</li>
+</ol>
+<p>The book explains the pros and cons of these three choices individually, and in my experience, I prefer to use <em>Table Module</em>. The reason is, the database is a standalone component, and to the application, the database is actually a <em>Singleton</em>. To be able to control concurrent access on this <em>Singleton</em>, it is necessary to have a single, unified and public interface.</p>
+<p>With <em>Transaction Script</em>, access to the database is spread all over the source code, making it almost impossible to manage when the application grows larger. On the other hand, <em>Domain Model</em> is too complex, as it creates a specific instance for each row of the table, which is very complicated in terms of implementation atomic operations. So I chose the compromise <em>Table Module</em> as the public interface to interact with the database.</p>
+<p>Take the above <code>machine</code> as an example.</p>
+<p>Since we have finished building the domain object, let’s define the schema of the table <code>GachaTable</code>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*slvDrZSNgDq2fLp-Rv0v9g.png"></p>
+<p>In the table, we can see there are two machines, one with the theme <em>Jurassic Park</em> and the other <em>Ice Age</em>, both of which have two individual gachas. The Jurassic Park machine looks like three, but one has actually been drawn already.</p>
+<p><code>Gacha</code>’s domain model is straightforward, which is <code>gacha_id</code> or more detailed, which may be the theme plus items, such as: Jurassic Park and T-Rex.</p>
+<p>A more interesting topic to discuss is <code>machine</code>. <code>machine</code> needs to define several attributes. First, it should be able to specify an id in the constructor, and second, there are two atomic methods, <code>pop</code> and <code>refill</code>. We will focus on these two methods in the following sections.</p>
+<h3 id="Atomic-Pop"><a href="#Atomic-Pop" class="headerlink" title="Atomic Pop"></a>Atomic Pop</h3><p>It is not difficult to implement an atomic <code>pop</code>: first sort by sequence number, then take out the first <code>n</code> rows, and finally set <code>is_drawn</code> to <code>true</code>. Let’s take the Jurassic Park machine as an example.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> GachaTable <span class="keyword">WHERE</span> machine_id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> is_drawn <span class="operator">=</span> <span class="literal">false</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> gacha_seq LIMIT n <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;  </span><br><span class="line"><span class="keyword">UPDATE</span> GachaTable <span class="keyword">SET</span> is_drawn <span class="operator">=</span> <span class="literal">true</span> <span class="keyword">WHERE</span> gacha_seq <span class="keyword">IN</span> $&#123;resultSeqs&#125;;  </span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+
+<p>As mentioned in <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/how-to-avoid-the-race-condition-and-the-negative-value-3f397b2b08e4">my previous article</a>, in order to avoid lost updates, MySQL has three approaches. In this example, to achieve atomic updates, it is easiest to add <code>FOR UPDATE</code> to the end of <code>SELECT</code> to preempt these rows.</p>
+<p>When the update is complete, the result of <code>SELECT</code> can be wrapped into <code>Gacha</code> instances and returned. This way the caller will be able to get the gachas drawn and know how many were drawn.</p>
+<h3 id="Atomic-Refill"><a href="#Atomic-Refill" class="headerlink" title="Atomic Refill"></a>Atomic Refill</h3><p>Another atomic method is <code>refill</code>. It is simple to not get interrupted in the middle of the fill process. Because MySQL transactions are not read by the rest of clients until <code>COMMIT</code> under the <code>Repeatable Read</code> condition.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;  </span><br><span class="line"><span class="keyword">for</span> gacha <span class="keyword">in</span> newGachaPackage():  </span><br><span class="line">    <span class="keyword">INSERT</span> <span class="keyword">INTO</span> GachaTable <span class="keyword">VALUES</span> $&#123;gacha&#125;;  </span><br><span class="line">      </span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Is that all? No, not really.</p>
+<p>This problem occurs when both users draw <code>n</code>, but there are not enough <code>n</code> gachas to draw.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7cfbBcXTSNYVrSPhgTgA0A.png"></p>
+<p>The sequential diagram above shows when A and B draw at the same time, A will draw <code>r</code> gachas and B will not, as we expected. However, both A and B will <code>refill</code> together, resulting in the same batch of gachas being filled twice.</p>
+<p>Usually, this does not cause any major problems. Because we arrange the <code>pop</code> by sequence number, we can guarantee that the second batch will be drawn only after the first batch is drained. But if we want to change the item, then the new items will be released later than we expected.</p>
+<p>On the other hand, two people are refilling at the same time so the redundancy becomes twice as much, and if the system has a very large number of simultaneous users, then the redundancy may become several times as much and take up a lot of resources.</p>
+<p>How to solve this problem? In the article <a target="_blank" rel="noopener" href="https://betterprogramming.pub/solve-phantom-read-in-mysql-a1c85f9a8c56">Solving Phantom Reads in MySQL</a>, it is mentioned that we can materialize conflicts. In other words, we add an external synchronization mechanism to mediate all concurrent users.</p>
+<p>In this example, we can add a new table, <code>MachineTable</code>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*WeEyK9FEAwIzvSuKRlT85Q.png"></p>
+<p>This table also allows the original <code>machine_id</code> of <code>GachaTable</code> to have an additional foreign key reference target. When we do <code>refill</code>, we have to lock this machine first before we can update it.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> MachineTable <span class="keyword">WHERE</span> machine_id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> GachaTable <span class="keyword">WHERE</span> machine_id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> is_drawn <span class="operator">=</span> <span class="literal">false</span>;  </span><br><span class="line">if <span class="operator">!</span>cnt:  </span><br><span class="line">    <span class="keyword">for</span> gacha <span class="keyword">in</span> newGachaPackage():  </span><br><span class="line">        <span class="keyword">INSERT</span> <span class="keyword">INTO</span> GachaTable <span class="keyword">VALUES</span> $&#123;gacha&#125;;  </span><br><span class="line">      </span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+
+<p>At first, we acquire the exclusive lock, then we re-confirm whether <code>GachaTable</code> needs <code>refill</code>, and finally, we actually insert the data into it. If it is not reconfirmed, then it is still possible to repeat <code>refill</code>.</p>
+<p>Here are a few extended discussions.</p>
+<ol>
+<li>Why do we need an additional <code>MachineTable</code>? Can’t we lock the original <code>GachaTable</code>? Due to phantom reads, MySQL’s <code>Repeatable Read</code> cannot avoid write skew from phantom reads in the case of new data. The detailed process is explained in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/solve-phantom-read-in-mysql-a1c85f9a8c56">my previous article</a>.</li>
+<li>When locking <code>MachineTable</code>, don’t you need to lock <code>GachaTable</code> when getting the count from <code>GachaTable</code>? Actually, it is not necessary. Because it will enter the <code>refill</code> process, it must be because the gachas have been drawn and everyone is waiting for the <code>refill</code>, so don’t worry about the <code>pop</code>.</li>
+</ol>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we explain the issues to be considered when combining a domain-driven design with a database design through a real-world example.</p>
+<p>The final result will contain two objects, <code>Gacha</code> and <code>Machine</code>, and the database will also contain two tables, <code>GachaTable</code> and <code>MachineTable</code>. All methods within <code>Machine</code> are atomic in nature.</p>
+<p>As we described in the design steps before, we need to first define the correct user stories and use cases, then start the modeling, and finally the implementation. Unlike normal application implementations, the database exists as a large <em>Singleton</em>, so we need to better integrate the database design into our domain design as well.</p>
+<p>In order to minimize the impact of the database on the overall design, it is crucial to build the domain model correctly. Of course, in this article we adopt the <em>Table Module</em> approach to domain design, which has its advantages and disadvantages.</p>
+<p>The advantage is by using the <code>Machine</code> domain model, we are able to simulate the real appearance of a gashapon machine and provide a common interface for all users to synchronize their processing. By encapsulating the gashapon behavior into <code>Machine</code>, future gashapon extensions can be easily performed. All the operations of <code>GachaTable</code> and <code>MachineTable</code> will also be controlled by a single object.</p>
+<p>The downside is that <code>Machine</code> actually contains the gashapon machine and the gacha table inside, which is too rough for a strict object-oriented religion. When more people are involved in the project, everyone’s understanding of the objects and the data tables begins to diverge, leading to a design collapse. For a large organization, the <em>Table Module</em> has its scope, and better cross-departmental collaboration relies on complete documentation and design reviews, which can affect everyone’s productivity.</p>
+<p>In this article we do not take too much time to explain the design process, but rather focus on how to integrate the database design in the domain objects. If you want to learn more about the details mentioned in this article, I have listed my previous articles below.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/how-to-avoid-the-race-condition-and-the-negative-value-3f397b2b08e4">Solve Lost Updates in MySQL</a></li>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/solve-phantom-read-in-mysql-a1c85f9a8c56">Solve Phantom Read in MySQL</a></li>
+<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">Designing Software Using Clean Architecture: Domain-Driven Design</a></li>
+</ul>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/combine-domain-driven-design-and-databases-747fa36ec642">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1323,253 +1675,6 @@
 <p>When it comes to locks, make sure you know exactly which context you want to deal with and get it right. In my case, even if I had Redis in my system and I would use it, I would design my system as if Redis data did not exist, so that you would know if your system would handle it correctly when something unfortunate happened.</p>
 <blockquote>
 <p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/redis-as-a-lock-are-you-sure-a870c9f22ad8">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/MongoDB/The-Mystery-of-MongoDB-Indexing/20220424/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/MongoDB/The-Mystery-of-MongoDB-Indexing/20220424/" class="post-title-link" itemprop="url">The Mystery of MongoDB Indexing</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-04-25 01:17:13" itemprop="dateCreated datePublished" datetime="2022-04-25T01:17:13+08:00">2022-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="The-Mystery-of-MongoDB-Indexing"><a href="#The-Mystery-of-MongoDB-Indexing" class="headerlink" title="The Mystery of MongoDB Indexing"></a>The Mystery of MongoDB Indexing</h3><h4 id="Understand-the-ESR-Rule-and-Index-Intersection"><a href="#Understand-the-ESR-Rule-and-Index-Intersection" class="headerlink" title="Understand the ESR Rule and Index Intersection"></a>Understand the ESR Rule and Index Intersection</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*kJ-YeMcMK3K7POhJ"></p>
-<p>I believe we are all familiar with MySQL’s indexing rules. Because it is built from a B+ tree, MySQL indexes have a leftmost match rule. In order for the query to match the index, the columns used in MySQL query syntax are arranged from left to right. For example:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> b <span class="operator">&gt;</span> <span class="number">2</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> c;</span><br></pre></td></tr></table></figure>
-
-<p>The most efficient index for such a query is a compound index like <code>(a, b, c)</code>. However, such an index cannot be applied to</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> c;</span><br></pre></td></tr></table></figure>
-
-<p>This is because it lacks the necessary <code>b</code> column.</p>
-<p>This is the MySQL indexing rule, and in general, relational databases follow pretty much the same rule for implementation. However, there are subtle differences in MongoDB’s implementation with B-trees.</p>
-<h3 id="MongoDB-ESR-Rule"><a href="#MongoDB-ESR-Rule" class="headerlink" title="MongoDB ESR Rule"></a><a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/tutorial/equality-sort-range-rule/#std-label-esr-indexing-rule">MongoDB ESR Rule</a></h3><p>We will continue to use the query mentioned in the previous section as a demonstration.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="property">table</span>.<span class="title function_">find</span>(&#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: &#123;<span class="attr">$gt</span>: <span class="number">2</span>&#125;&#125;).<span class="title function_">sort</span>(&#123;<span class="attr">c</span>: <span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>Much the same as the MySQL query mentioned earlier, but with MongoDB’s MQL rewritten. However, the index that is valid for such a query is <code>(a, c, b)</code> instead of <code>(a, b, c)</code> as mentioned in the previous section.</p>
-<p>This is because MongoDB’s compound indexes must follow the ESR (Equality, Sort, Range) rule. Hence, in the above example, <code>b</code> is used for range matching and <code>c</code> is used for sorting, so the correct index order is <code>c</code> before <code>b</code>.</p>
-<h3 id="MongoDB-Index-Intersection"><a href="#MongoDB-Index-Intersection" class="headerlink" title="MongoDB Index Intersection"></a><a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/core/index-intersection/">MongoDB Index Intersection</a></h3><p>In addition to the ESR rules, which are different from relational databases, MongoDB has another mystery: it can use multiple (let’s say 2) indexes in the same query, which is called index intersection.</p>
-<p>Continue with the query in the previous section as an example.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="property">table</span>.<span class="title function_">find</span>(&#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: &#123;<span class="attr">$gt</span>: <span class="number">2</span>&#125;&#125;).<span class="title function_">sort</span>(&#123;<span class="attr">c</span>: <span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>To improve the query performance, we suggest to use <code>(a, c, b)</code> compound index, but in fact, we can achieve the same result with two indexes.</p>
-<ol>
-<li>b</li>
-<li>(a, c)</li>
-</ol>
-<p>We create a single index <code>b</code> and a compound index <code>(a, c)</code>, which can also improve the query performance.</p>
-<p>Why do we use <code>(a, c)</code>? Because even index intersection must follow ESR rule, so we separate ES and R.</p>
-<p>What is the advantage of this? The biggest advantage is that the composition of the index becomes more flexible. If only one index <code>(a, c, b)</code> is created, then if <code>b</code> is queried alone, there is no matching index to use, so an additional index of <code>b</code> must be created. As we all know, indexes are actually a cost, which will take up memory and affect writing efficiency. In other words, if a more compact index can be used to cover more complex query conditions, then such an index would be more valuable.</p>
-<h3 id="MongoDB-ESR-“Hidden”-Rule"><a href="#MongoDB-ESR-“Hidden”-Rule" class="headerlink" title="MongoDB ESR “Hidden” Rule"></a><a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/tutorial/equality-sort-range-rule/#additional-considerations">MongoDB ESR “Hidden” Rule</a></h3><p>When using MySQL we use <code>IN</code> to do range queries, but <code>IN</code> is actually an equality in MySQL. That is to say, when the query is <code>WHERE a IN (2, 3)</code> is actually equivalent to <code>WHERE a = 2 OR a = 3</code>.</p>
-<p>However, in MongoDB, it is not.</p>
-<p>If you simply use a single column <code>$in</code> then it still has the same behavior as MySQL.</p>
-<p>For example, <code>find({a: {$in: [2, 3]}})</code> and <code>find({$or: [{a: 2}, {a: 3}]})</code> are equivalent, and both belong to E of the ESR rule.</p>
-<p>But if used with sort, then <code>$in</code> is treated as a range match, i.e. R. For instance:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find(&#123;a: &#123;$in: [2, 3]&#125;&#125;).sort(&#123;b: 1&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>Here <code>a</code> is treated as R, so to meet such a query, the index to be created should be <code>(b, a)</code> instead of <code>(a, b)</code>.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>If you only have experience with relational databases, it’s easy to get confused by feature-rich NoSQL databases, especially since the underlying MongoDB is actually a B-tree family similar to relational databases. However, there are still significant differences in the implementation details.</p>
-<p>When creating MongoDB indexes, it is especially important to pay attention to ESR rule. Many users who have moved from MySQL can easily fall down on this rule without noticing it.</p>
-<p>In fact, even indexes using <code>(a, b, c)</code> don’t cause problems when the data volume is small; MongoDB sorts in memory, but when the data volume grows to a certain size, MongoDB can’t load the entire dataset in memory and uses hard disk accesses. Then the performance will be very tragic.</p>
-<p>Furthermore, the index intersection feature offers users more flexibility to create indexes and provides them with more diverse queries. However, it is also important to be aware of ESR rule when using index intersection in order not to lose more than you gain.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/the-mystery-of-mongodb-indexing-af61766647dc">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Microservice/Design-an-E-commerce-Website-From-a-High-level-Perspective/20220417/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Microservice/Design-an-E-commerce-Website-From-a-High-level-Perspective/20220417/" class="post-title-link" itemprop="url">Design an E-commerce Website From a High-level Perspective</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-04-18 00:41:17" itemprop="dateCreated datePublished" datetime="2022-04-18T00:41:17+08:00">2022-04-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Microservice/" itemprop="url" rel="index"><span itemprop="name">Microservice</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="Put-on-your-software-architecture-hat"><a href="#Put-on-your-software-architecture-hat" class="headerlink" title="Put on your software architecture hat"></a>Put on your software architecture hat</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*W7YBIiPi7xBHFTvQ"></p>
-<p>Last two weeks, there was a gathering of architects, in which we talked about e-commerce websites actually having some regular patterns, so if you want to quickly provide a high-level design, how would you do it?</p>
-<p>This article is a record of that discussion, I will list our ideas based on my impressions, and then present the thinking of architects on this classic design pattern.</p>
-<h3 id="Define-Basic-Domain-Services"><a href="#Define-Basic-Domain-Services" class="headerlink" title="Define Basic Domain Services"></a>Define Basic Domain Services</h3><p>Usually, for a startup system or architecture, I would recommend starting with a monolith. After constructing the MVP (minimum viable product), the architecture evolves depending on the functional and non-functional requirements to see whether it should be decomposed into microservices or the more popular Service-oriented architecture a few years ago.</p>
-<p>But in any case, there will be a monolith as the basis for a quick launch and validation of the idea.</p>
-<p>However, for an e-commerce site, there is no need for quick validation because the success of an e-commerce site depends on the products and exposure strategy rather than the features. Therefore, for e-commerce sites, it is more important to be able to solve the problems that will be encountered in the foreseeable future.</p>
-<p>Here are a few practical examples.</p>
-<p>With the rapid growth of users, the demand for user management will increase significantly, so it is necessary for user-related functions to become a separate service to facilitate fast iteration of the development cycle.</p>
-<p>Inventory, as the number of users on the site rises, the product-related features will drive most of the traffic. Customers are always looking for the products they want on the site and viewing the inventory, so in order to handle the high volume of traffic, it must be able to scale horizontally on its own. Therefore, inventory will also become a standalone service.</p>
-<p>Another core function of an e-commerce website is the purchase and order management. When a customer places an order, external services such as cash flow and logistics must be integrated behind the scenes, and new functions such as connecting different cash flows need to be implemented continuously. However, this development cycle is obviously different from user-related functions, and the need for testing and integration is completely different from the user services, that is, the order must also become a service.</p>
-<p>Finally, we will define basic domain services as follows.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*jtY6iexEvE_m9yN6h0SWxw.png"></p>
-<h3 id="Define-Databases"><a href="#Define-Databases" class="headerlink" title="Define Databases"></a>Define Databases</h3><p>In the previous section we mentioned that we have three independent services, User, Order and Inventory. Then we had to decide what database they should be using.</p>
-<p>For a system that is just starting up, I always recommend using the most mature technology that the team is most familiar with, while taking into account the various use cases.</p>
-<p>For this reason, I believe MySQL should be the best choice for services like Order Service and Inventory Service that require strong consistency. Although MySQL has always been criticized for its lack of horizontal scalability, there have been many new breakthroughs in recent years, and more and more distributed SQL is appearing. If the traffic of an e-commerce site rises to a bottleneck, then the pain of migrating from MySQL to distributed SQL will not be too much, after all, the applications barely need to be modified.</p>
-<p>In the case of User Service, this is more interesting. User-related management functions usually do not have strong consistency requirements, and user information and other data structures are varied and plentiful. As a document-based database, MongoDB can support various kinds of rich data presentation and provide a lot of management convenience. Of course, you can also use MySQL for User Service, but you need to put a little more effort into data normalization.</p>
-<p>Besides, if you use MongoDB to implement User Service, even if you have the need of strong consistency in the future, for example, if you want to give customers discount coupons, MongoDB can still provide enough strong consistency guarantee, since MongoDB also has transactions. However, it must be said that MongoDB transactions are not easy to code, which will increase the development effort.</p>
-<h3 id="Define-Communications"><a href="#Define-Communications" class="headerlink" title="Define Communications"></a>Define Communications</h3><p>Now we have three services in charge of their domain, but how do they communicate with each other? For instance, when a customer selects a product, then dispatches the order, billing and shipping, the three services must communicate with each other to complete the scenario.</p>
-<p>From my point of view, I would recommend that these three services be asynchronous. Although the overall process must ensure consistency, which dramatically increases the implementation effort, only asynchronization can tolerate high availability and high scalability. Availability and scalability are mandatory non-functional requirements for running an e-commerce site.</p>
-<p>For example, in the Black Friday promotion, there will be a large number of customers rushing to the website and placing a large number of orders, assuming that the three services communicate with each other synchronously, then the three services must scale at the same rate, which is obviously unreasonable.</p>
-<p>In addition, when an order must be served by all three services, and any one of them fails temporarily or the network is temporarily down, the whole order will fail. In other words, only through asynchronous communication can we ensure the availability and scalability required for e-commerce sites.</p>
-<p>At this point, we had a prototype of our system architecture.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*x4cwl2bzztJeW-cn8c3O2w.png"></p>
-<p>However, there is one component that we haven’t decided yet, and that is what kind of queue system should be used for asynchronization. In my opinion, we should use <code>Kafka</code>. Why not use a pure message queue like <code>RabbitMQ</code>? One important reason is that, <code>Kafka</code> has higher throughput when it comes to handling large traffic from a promotion event.</p>
-<p>Moreover, for behaviors like order and payment, we all know it is sequential. To preserve the message order while a large number of messages are flooding the queue, it is necessary to scale horizontally through <code>Kafka</code>’s consumer groups so that messages can be handled faster and in order at the same time.</p>
-<h3 id="Sketch-Workflow"><a href="#Sketch-Workflow" class="headerlink" title="Sketch Workflow"></a>Sketch Workflow</h3><p>Once we have a simple system architecture, we begin to sketch out the entire order placement process.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*fiY_vLMN-fZhBOic1EEA_A.png"></p>
-<p>At the beginning, the customer places an order with the inventory service, and the inventory service only handles inventory-related tasks, e.g., pre-deducting inventory. The purpose of reducing inventory before the payment is to avoid competition when a large number of users are consuming, and if the inventory is not actually reduced until the last stage, then there is a high risk that a consumer will buy air.</p>
-<p>When the inventory service has finished processing, the order service is notified that it has taken over the entire transaction while informing the customer that the order has been placed. At this moment, only the order is established, and the payment must be redirected through the frontend so that the customer can properly communicate with the order service to proceed the billing.</p>
-<p>When the payment is completed, the order service will notify the user service. User service can then proceed with user-related tasks, like coupon issuance or user level upgrade. Finally, the inventory service and the order service are informed that the transaction has been successfully completed.</p>
-<p>Or if there is an error in the order service or user service, a message must be sent to inform the other participating services. Then the service that receives the notification can handle it accordingly, for example, the inventory service must add back the pre-reduced inventory.</p>
-<h3 id="But-Not-Enough"><a href="#But-Not-Enough" class="headerlink" title="But, Not Enough"></a>But, Not Enough</h3><p>Readers who have been subscribing to my articles should have seen this is a very typical <a target="_blank" rel="noopener" href="https://betterprogramming.pub/design-distributed-transaction-with-practical-examples-7b1d93fddb63">distributed transaction</a>, and the proper approach to distributed transaction is to always be resilient, i.e., resilient to the errors.</p>
-<p>As I described in my previous article, <a target="_blank" rel="noopener" href="https://betterprogramming.pub/implement-event-driven-architecture-with-minimal-effort-182c3bbe5524">to handle distributed transactions in an event-driven architecture</a>, an arbiter (crontab) is desired. The crontab detects periodically which events have not been handled correctly and takes corresponding actions to repair them.</p>
-<p>The specific details will not be explained again in this article. But we can know in addition to the three domain services, there is another service that monitors the entire workflow.</p>
-<h3 id="But-Still-Not-Enough"><a href="#But-Still-Not-Enough" class="headerlink" title="But, Still Not Enough"></a>But, Still Not Enough</h3><p>Because the entire transaction process is asynchronous, the user must be able to know exactly what the status of the order is, what stage it is at, and so on. Therefore, it is also necessary to have a service that subscribes to the messages sent by each service, and has its own database to record and store the status of all transactions.</p>
-<p>This approach is also known as <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">CQRS</a>. The entire workflow is observed through a standalone cross-domain service, but unlike an arbiter, this observer does not actually participate in the workflow, nor does it make any kind of changes to the workflow.</p>
-<p>The observer exists only to allow the customer to get a proper overview of the workflow.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>E-commerce websites can be considered as the textbook of all backend architectures. All kinds of problems that backend engineers need to deal with will appear on e-commerce websites, but the books currently available on the market often only provide a monolithic solution, and focus on how to implement those functional requirements.</p>
-<p>But as backend experts, we all know using a monolith to run an e-commerce site is ultimately a dead end. Unless the product is completely unsellable, it will sooner or later face the challenge of traffic and availability.</p>
-<p>Although this article is a casual conversation among architects, it is actually a look at the challenges we encounter on a daily routine from a different perspective. Why does a startup e-commerce site need to have five services?</p>
-<ul>
-<li>To add new features more quickly and to have independent integration and testing processes, microservices must be segmented into domains.</li>
-<li>To have high availability and scalability, the coupling between domains must be reduced.</li>
-<li>For better fault tolerance, a resilient error recovery mechanism must be established.</li>
-<li>For a better user experience, a comprehensive presentation of the whole picture must be implemented.</li>
-</ul>
-<p>Previously, I often mentioned the drawbacks of microservices, eg <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/original-sin-of-microservices-part-1-90461ddcefb">Original Sin of Microservices, Part 1</a> and <a target="_blank" rel="noopener" href="https://lazypro.medium.com/original-sin-of-microservices-part-2-8856c0e8426d">Original Sin of Microservices, Part 2</a>.</p>
-<p>But this does not mean I totally reject microservices, instead I hope we can all face microservices with a correct attitude, not as the holy grail but also not as the devil.</p>
-<p>The right trade-off is always the most important core concept of software architecture.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/design-an-e-commerce-website-from-a-high-level-perspective-184618741ee8">Medium</a></p>
 </blockquote>
 
       

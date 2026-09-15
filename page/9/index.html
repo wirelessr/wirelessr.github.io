@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">192</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -214,6 +214,331 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Data/Building-a-SNOWPLOW-Playground/20230723/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Data/Building-a-SNOWPLOW-Playground/20230723/" class="post-title-link" itemprop="url">Building a SNOWPLOW Playground</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-07-24 01:47:34" itemprop="dateCreated datePublished" datetime="2023-07-24T01:47:34+08:00">2023-07-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data/" itemprop="url" rel="index"><span itemprop="name">Data</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="An-Open-Source-Flexible-and-Powerful-Event-Tracking-System"><a href="#An-Open-Source-Flexible-and-Powerful-Event-Tracking-System" class="headerlink" title="An Open Source, Flexible and Powerful Event Tracking System"></a>An Open Source, Flexible and Powerful Event Tracking System</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*3xQloKg6O6bAExg5"></p>
+<p><a target="_blank" rel="noopener" href="https://snowplow.io/">SNOWPLOW</a> is a platform for tracking events, i.e. collecting various user behavior events and analyzing them. Nowadays, there are many famous similar products like Google Analytics, <a target="_blank" rel="noopener" href="https://mixpanel.com/">Mixpanel</a>, etc., but in the open source ecosystem, SNOWPLOW has a place.</p>
+<p>Although there is a paid version of SNOWPLOW, I can’t figure out any reason not to use Mixpanel instead of SNOWPLOW since I have to pay for it, but there are a lot of advantages I can put forward for the open source version of SNOWPLOW.</p>
+<p>For example, the architecture is simple and easy to integrate with existing infrastructure, and there are many flexible components that can be customized. Most importantly, there are a lot of SDKs available for various scenarios, e.g., Web, Mobile apps and even backend systems.</p>
+<p>This article will not introduce the use case of SNOWPLOW, because it has been introduced in detail in the <a target="_blank" rel="noopener" href="https://docs.snowplow.io/docs/recipes/">official document</a>. Instead, this article will introduce the architecture of SNOWPLOW and provide a <em><strong>free</strong></em> playground.</p>
+<blockquote>
+<p><em>Why emphasize on free?</em></p>
+</blockquote>
+<p>In fact, in the official SNOWPLOW document there is a <a target="_blank" rel="noopener" href="https://docs.snowplow.io/docs/getting-started-on-snowplow-open-source/what-is-quick-start/">quick start environment</a> for the terraform, but it is deployed on AWS or GCP and uses a lot of paid services. For a beta player, maybe we just want to experience what it can do, but don’t want to pay for it, at least I don’t, then a local free test environment is necessary.</p>
+<h3 id="Architecture-Overview"><a href="#Architecture-Overview" class="headerlink" title="Architecture Overview"></a>Architecture Overview</h3><p>First of all, let’s take a quick look at the SNOWPLOW architecture.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*QwVjSkCE7PS4Dg1A.png"></p>
+<p>There are three core components in the whole infrastructure, <strong>collector</strong>, <strong>enricher</strong> and <strong>schema registry</strong>, which are the fundamentals of SNOWPLOW. As for what kind of data warehouse or analysis engine to use, those can be freely matched and are not part of the SNOWPLOW package.</p>
+<ul>
+<li>Collector: Collects events from the SDK, these events are raw data and therefore continue to be delivered to the enricher.</li>
+<li>Schema Registry: The registry used in SNOWPLOW is a self-developed <strong>iglu</strong>, which is a service that manages JSON schema.</li>
+<li>Enricher: After receiving the raw data, the first step is to validate it with the schema registered in the schema registry, and if it passes the validation, then it will be processed to produce a more analytical format and continue to send it to the next stage. As for the data to be sent to the data warehouse or Looker or other analysis platforms is based on demand.</li>
+</ul>
+<p>One of the more interesting parts of the process is the enrichment stage, where <a target="_blank" rel="noopener" href="https://docs.snowplow.io/docs/enriching-your-data/available-enrichments/">here</a> lists all the available plugins. Let’s take a practical example. An incoming event will only have an IP field, but subsequent analysis will depend on the geographic location, which can be enriched by the plugin <a target="_blank" rel="noopener" href="https://docs.snowplow.io/docs/enriching-your-data/available-enrichments/ip-lookup-enrichment/">IP Lookup</a>.</p>
+<p>This is a simple but powerful architecture that includes both validation and enrichment, and what’s more, the events are flexible in their format and can be customized to fit every need. In addition, these events can be downstreamed in a variety of ways based on demand, and can be flexibly integrated with the existing infrastructure.</p>
+<h3 id="Playground"><a href="#Playground" class="headerlink" title="Playground"></a>Playground</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/wirelessr/snowplow-pipeline">https://github.com/wirelessr/snowplow-pipeline</a></p>
+</blockquote>
+<p>This Github repository provides a <code>docker-compose.yml</code>, yes, we all love <code>docker-compose</code>. All the required components can be built locally and the usage is written in the <code>README</code> which should not cause any problems.</p>
+<p>Also, for testing purposes, in addition to viewing the local database, I’ve put an additional <em>Kafka</em> management console at <code>localhost:9021</code>, which makes it possible to visually see each event.</p>
+<p>All the settings of the components to be modified are located in the <code>config.hocon</code> under the corresponding folder.</p>
+<p>Let’s describe the architecture of the test environment as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*KEkGHyNGnrFmO-z3IEW4qQ.png"></p>
+<ol>
+<li>There is a mock web with Javascript SDK installed, after entering <code>http://localhost</code> it will send some events to the collector periodically.</li>
+<li>When the collector receives an event, it will store it in the database (atomic.events) and send it to Kafka.</li>
+<li>When the Enricher receives an event, it first confirms the schema with the Iglu server, then performs basic enrichment and sends it to Kafka.</li>
+<li>The final mock processor is to simulate how the enriched event should be handled.</li>
+</ol>
+<p>The whole process is straightforward. After setting up the environment, we can observe the complete data flow in Kafka’s management console.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In fact, I have tried SNOWPLOW’s cloud-based Enterprise version, and the biggest difference I felt was the schema management. In the the open-source version, if we want to customize the event fields, we have to integrate Iglu’s REST API, and then we have to understand Iglu’s design concepts. However, in the cloud version, there is an easy-to-use UI that makes managing schema much easier.</p>
+<p>Nevertheless, if we just want to do basic event tracking, I believe the open-source version of SNOWPLOW provides a good capability. Of course, if we want to use it more deeply, we need to understand and integrate it more comprehensively, which is also the price to pay for open source software.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/building-a-snowplow-playground-90d90ff69393">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Flink-SQL-Performance-Tuning-Part-2/20230702/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Flink-SQL-Performance-Tuning-Part-2/20230702/" class="post-title-link" itemprop="url">Flink SQL Performance Tuning, Part 2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-07-03 02:00:15" itemprop="dateCreated datePublished" datetime="2023-07-03T02:00:15+08:00">2023-07-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Flink-SQL-Performance-Tuning-Part-2"><a href="#Flink-SQL-Performance-Tuning-Part-2" class="headerlink" title="Flink SQL Performance Tuning, Part 2"></a>Flink SQL Performance Tuning, Part 2</h3><h4 id="Explaining-the-concept-of-Split-Distinct-aggregation-and-JOIN-optimizations"><a href="#Explaining-the-concept-of-Split-Distinct-aggregation-and-JOIN-optimizations" class="headerlink" title="Explaining the concept of Split Distinct aggregation and JOIN optimizations"></a>Explaining the concept of Split Distinct aggregation and JOIN optimizations</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*uAPs3J29Z3WeqDhS"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/flink-sql-performance-tuning-part-1-f71a0a0ee91">Flink SQL Performance Tuning, Part 1</a></li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/flink-sql-performance-tuning-part-2-c102177b1ce1">Flink SQL Performance Tuning, Part 2</a></li>
+</ul>
+<p>In the previous article, we introduced three kinds of optimization mechanisms for Flink SQL as follows.</p>
+<ol>
+<li>Reduce sub plan</li>
+<li>Mini batch</li>
+<li>Local-Global aggregation</li>
+</ol>
+<p>These mechanisms correspond to some use cases individually. Among them, mini batch and Local-Global aggregation are both optimized for <code>GROUP BY</code> operations. However, in the previous article, we mentioned that even though both mechanisms can improve the performance of <code>GROUP BY</code>, they are not applicable to <code>DISTINCT</code>.</p>
+<p>Therefore, in these articles, we will start by explaining the reason for this problem, and then we will introduce more optimization mechanisms.</p>
+<h3 id="Split-Distinct-Aggregation"><a href="#Split-Distinct-Aggregation" class="headerlink" title="Split Distinct Aggregation"></a><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/tuning/#split-distinct-aggregation">Split Distinct Aggregation</a></h3><p>Before explaining the problems encountered by <code>DISTINCT</code>, let’s review Local-Global aggregation with an example.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> color, <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> id)  </span><br><span class="line"><span class="keyword">FROM</span> T  </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> color</span><br></pre></td></tr></table></figure>
+
+<p>This SQL command is a little different from the previous one, i.e., it uses <code>DISTINCT</code>, but it is similar to the previous one.</p>
+<p>In Local-Global aggregation, we will do a first aggregation in the mini batch according to the color, and then we will do a second aggregation in the next operator with the results of the mini batch pre-aggregation.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*stpDIGZoctvkUaU0G4JHQw.png"></p>
+<p>As we can see above, even though we did the pre-aggregation in the mini batch, the effect is not significant because the operation <code>DISTINCT</code> is not able to merge. This also results in a lot of data in the final aggregation, and the data skew is not solved.</p>
+<p>Since so, can we use <code>id</code> to group the data again during local aggregation? By splitting again, we can collect data with the same <code>id</code> together, and then we can merge them.</p>
+<p>This is exactly the concept of Split Distinct aggregation.</p>
+<p>Let’s use pseudocode to explain.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> color, <span class="built_in">SUM</span>(cnt)  </span><br><span class="line"><span class="keyword">FROM</span> (  </span><br><span class="line">    <span class="keyword">SELECT</span> color, <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> id) <span class="keyword">as</span> cnt  </span><br><span class="line">    <span class="keyword">FROM</span> T  </span><br><span class="line">    <span class="keyword">GROUP</span> <span class="keyword">BY</span> color, <span class="built_in">MOD</span>(HASH_CODE(id), <span class="number">4</span>)  </span><br><span class="line">)  </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> color</span><br></pre></td></tr></table></figure>
+
+<p>Split Distinct aggregation rewrites the original <code>COUNT(DISTINCT id)</code> into the above code. By first splitting the group with <code>id</code>, in this case into 4 groups, the pre-aggregation can be done.</p>
+<p>Therefore, the actual operator will look like the following diagram.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*lxuBynfRQT6dnQcPmVvPIA.png"></p>
+<p>We can see in the final aggregation stage that each operator needs to process the data more evenly, in other words, the data skew is solved.</p>
+<p>There are two settings to enable Split Distinct aggregation.</p>
+<ul>
+<li>table.optimizer.distinct-agg.split.enabled</li>
+<li>table.optimizer.distinct-agg.split.bucket-num</li>
+</ul>
+<p>The first setting is the feature toggle, and the second setting is the number of groups. Although we use <code>COUNT</code> as an example, any operation that is able to be merged can be split.</p>
+<p>Nevertheless, one of the problems with Split Distinct aggregation is the significantly larger state and the increased state access. This is because the result of the split operation relies on the state to be persistent.</p>
+<p>How to solve it?</p>
+<p>Well, it’s as simple as a Local-Global aggregation after splitting the group. So the complete settings are as follows.</p>
+<ul>
+<li>table.exec.mini-batch.enabled</li>
+<li>table.exec.mini-batch.allow-latency</li>
+<li>table.exec.mini-batch.size</li>
+<li>table.optimizer.agg-phase-strategy: “TWO_PHASE”</li>
+<li>table.optimizer.distinct-agg.split.enabled</li>
+<li>table.optimizer.distinct-agg.split.bucket-num</li>
+</ul>
+<p>We have turned on all the optimization settings related to <code>GROUP BY</code>. Be sure to remember that these come at a price, the most obvious of them is the increased use of computing resources.</p>
+<h3 id="JOIN-Optimization"><a href="#JOIN-Optimization" class="headerlink" title="JOIN Optimization"></a>JOIN Optimization</h3><p><code>JOIN</code> is a common practice for enrichment. In a normal SQL <code>JOIN</code>, it’s to find the same columns in the left and right tables and join the remaining columns together, but in streaming, it’s far from simple.</p>
+<p>Because, there is no physical table in streaming.</p>
+<p>So, in order to make the table concept, Flink will store the data in the state, and when there is an event input, the corresponding data can be taken out from the state immediately. However, there is a big problem with this approach, that is, the state will grow infinitely.</p>
+<p>For example, suppose Flink has two streams, order and product. The order stream will keep append once there is a new order, and the product stream will have events for product creation, update and deletion.</p>
+<p>Therefore, we write the following Flink SQL.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Orders  </span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Product  </span><br><span class="line"><span class="keyword">ON</span> Orders.productId <span class="operator">=</span> Product.id</span><br></pre></td></tr></table></figure>
+
+<p>In the implementation behind Flink, all changes to the product are stored by the state, so that the corresponding result can be found as soon as the order event is generated, even if the product does not have any orders at all.</p>
+<p>When there are a lot of products and the operator is running for a long time, this state can become very huge.</p>
+<p>The most straightforward solution to reduce the unused state is to <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/config/#table-exec-state-ttl">set TTL</a> as follows.</p>
+<ul>
+<li>table.exec.state.ttl</li>
+</ul>
+<p>Nevertheless, when a product’s state is deleted, it can lead to unexpected results. In the above example, when the state of a product is deleted, if the order event of the same product comes in, the corresponding product information will not be found.</p>
+<p>In addition to this simple and brutal approach, Flink also provides three alternatives to <code>JOIN</code> optimization.</p>
+<p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/joins/#interval-joins"><strong>Interval Join</strong></a></p>
+<p>It has a similar purpose to setting the TTL directly above, except that it allows the user to decide which field to use as the basis for time judgments.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span>  </span><br><span class="line"><span class="keyword">FROM</span> Orders o, Shipments s  </span><br><span class="line"><span class="keyword">WHERE</span> o.id <span class="operator">=</span> s.order_id  </span><br><span class="line"><span class="keyword">AND</span> o.order_time <span class="keyword">BETWEEN</span> s.ship_time <span class="operator">-</span> <span class="type">INTERVAL</span> <span class="string">&#x27;4&#x27;</span> <span class="keyword">HOUR</span> <span class="keyword">AND</span> s.ship_time</span><br></pre></td></tr></table></figure>
+
+<p>Through this SQL, we can specify <code>order_time</code> and <code>shipment_time</code> as the basis of TTL, then Flink can know not to keep the state of the difference between <code>order_time</code> and <code>shipment_time</code> for more than 4 hours.</p>
+<p>However, there is a limitation in this approach, in addition to the fact table on the left is append only, the dimension table on the right must also be append only, otherwise the time interval will be inconsistent.</p>
+<p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/joins/#temporal-joins"><strong>Temporal Join</strong></a></p>
+<p>Before we explain Temporal Join, let’s look at another example.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> orders  </span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> currency_rates  </span><br><span class="line"><span class="keyword">ON</span> orders.currency <span class="operator">=</span> currency_rates.currency</span><br></pre></td></tr></table></figure>
+
+<p>Assuming this is an international order, we need to know what the currency rate is for the order in order to calculate the sales performance of the product.</p>
+<p>In order to keep the currency rates available at all times, Flink keeps a complete history of the currency rates. For example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*4uJI9j1hxPTexp_SCEFKZg.png"></p>
+<p>Therefore, the correct result can be obtained regardless of whether the order is placed at 12:00 or 12:01. However, we don’t really need this historical data, because we only need the current currency of the order, and the past history can be cleared out.</p>
+<p>This is the concept of Temporal Join, only keep a latest mapping.</p>
+<blockquote>
+<p><em>currency: conversion_rate</em></p>
+</blockquote>
+<p>How to use this approach?</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> orders  </span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> currency_rates <span class="keyword">FOR</span> <span class="built_in">SYSTEM_TIME</span> <span class="keyword">AS</span> <span class="keyword">OF</span> orders.order_time  </span><br><span class="line"><span class="keyword">ON</span> orders.currency <span class="operator">=</span> currency_rates.currency;</span><br></pre></td></tr></table></figure>
+
+<p>One of the most special is <code>FOR SYSTEM_TIME AS OF</code>, this usage can be referred to <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/SQL:2011">SQL:2011 standard</a>, this article will not dive into it.</p>
+<p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/joins/#lookup-join"><strong>Lookup Join</strong></a></p>
+<p>The concept of Lookup Join is even more simple, since the state of Flink is so big and difficult to manage, it is better to go directly to the external data source, such as MySQL, for every event at the moment.</p>
+<blockquote>
+<p><em>Time for space.</em></p>
+</blockquote>
+<p>The entire syntax is written in the same way as the previous Temporal Join, using <code>FOR SYSTEM_TIME AS OF</code>, the only thing worth noting is the usage of <code>proc_time</code>.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> o.order_id, o.total, c.country, c.zip  </span><br><span class="line"><span class="keyword">FROM</span> Orders <span class="keyword">AS</span> o  </span><br><span class="line"><span class="keyword">JOIN</span> Customers <span class="keyword">FOR</span> <span class="built_in">SYSTEM_TIME</span> <span class="keyword">AS</span> <span class="keyword">OF</span> o.proc_time <span class="keyword">AS</span> c  </span><br><span class="line"><span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.id;</span><br></pre></td></tr></table></figure>
+
+<p>Because it is accessing external storage, Flink also provides some built-in optimization features.</p>
+<p>In general, the process of accessing external storage is synchronous, sending a request and waiting for a response before moving on to the next one. However, Flink offers to send all requests at once and then wait for responses asynchronously, and it is turned on by default.</p>
+<p>If we want to adjust it manually, we can refer to the <a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/hints/#lookup">Hints</a> mentioned in the official document.</p>
+<p>In addition, even if the external storage is accessed asynchronously, the actual operation will wait for the correct order of the responses after receiving them. If the order of the responses is not that important, then we can tell Flink not to wait for the responses to be in order.</p>
+<p>Use the SQL command mentioned earlier as an example.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="comment">/*+ LOOKUP(&#x27;table&#x27;=&#x27;Customers&#x27;, &#x27;async&#x27;=&#x27;true&#x27;. &#x27;output-mode&#x27;=&#x27;allow_unordered&#x27;, &#x27;capacity&#x27;=&#x27;100&#x27;, &#x27;timeout&#x27;=&#x27;180s&#x27;) */</span>  </span><br><span class="line">    o.order_id, o.total, c.country, c.zip  </span><br><span class="line"><span class="keyword">FROM</span> Orders <span class="keyword">AS</span> o  </span><br><span class="line"><span class="keyword">JOIN</span> Customers <span class="keyword">FOR</span> <span class="built_in">SYSTEM_TIME</span> <span class="keyword">AS</span> <span class="keyword">OF</span> o.proc_time <span class="keyword">AS</span> c  </span><br><span class="line"><span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.id;</span><br></pre></td></tr></table></figure>
+
+<p>It is most intuitive to tell the Flink optimizer what to do through Hints, so that it can be adjusted according to each command, but it is also possible to enable the global setting directly.</p>
+<ul>
+<li>table.exec.async-lookup.output-mode</li>
+<li>table.exec.async-lookup.buffer-capacity</li>
+<li>table.exec.async-lookup.timeout</li>
+</ul>
+<p>Mode and timeout are considered simple, as for capacity refers to how many IO command will trigger the actual <code>JOIN</code> operation. But I feel this is a bit abstract, set how much is appropriate is difficult to tell, it still needs to rely on experiments.</p>
+<p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/table/sql/queries/window-join/"><strong>Window Join</strong></a></p>
+<p>The last one is Window Join, which is similar to the concept of Interval Join mentioned earlier, and only retains a specific time range of states instead of all historical states. However, the window mechanism is very complicated and not required, so we will directly attach the example of the official document here without further explanation.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> L.num <span class="keyword">as</span> L_Num, L.id <span class="keyword">as</span> L_Id, R.num <span class="keyword">as</span> R_Num, R.id <span class="keyword">as</span> R_Id,  </span><br><span class="line">    <span class="built_in">COALESCE</span>(L.window_start, R.window_start) <span class="keyword">as</span> window_start,  </span><br><span class="line">    <span class="built_in">COALESCE</span>(L.window_end, R.window_end) <span class="keyword">as</span> window_end  </span><br><span class="line"><span class="keyword">FROM</span> (  </span><br><span class="line">    <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">TABLE</span>(  </span><br><span class="line">        TUMBLE(<span class="keyword">TABLE</span> LeftTable, DESCRIPTOR(row_time), <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> MINUTES)  </span><br><span class="line">    )  </span><br><span class="line">) L  </span><br><span class="line"><span class="keyword">FULL</span> <span class="keyword">JOIN</span> (  </span><br><span class="line">    <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">TABLE</span>(  </span><br><span class="line">        TUMBLE(<span class="keyword">TABLE</span> RightTable, DESCRIPTOR(row_time), <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> MINUTES)  </span><br><span class="line">    )  </span><br><span class="line">) R  </span><br><span class="line"><span class="keyword">ON</span> L.num <span class="operator">=</span> R.num <span class="keyword">AND</span> L.window_start <span class="operator">=</span> R.window_start <span class="keyword">AND</span> L.window_end <span class="operator">=</span> R.window_end;</span><br></pre></td></tr></table></figure>
+
+<p>To sum up, all kinds of JOIN rewriting are aimed at reducing the size of state.</p>
+<p>The original JOIN will generate extremely large state, which will consume a lot of hardware resources if stored in memory, or generate a lot of hard disk IO if stored on persistent storage such as RocksDB, either of which will have a huge impact on performance.</p>
+<p>Therefore, these four JOIN optimizations are all aimed at reducing the size of the state, but the exact solution to be used depends on the use case. The following is a brief list of the applicable scenarios.</p>
+<ul>
+<li>Interval Join: Both the fact table and dimension table are append-only.</li>
+<li>Temporal Join: Only the latest dimension is required.</li>
+<li>Lookup Join: The dimension table is stored externally and does not care about dimension changes.</li>
+<li>Window Join: Both fact and dimension tables have the window function enabled.</li>
+</ul>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In the previous article, we introduced how to optimize general SQL commands and how to make <code>GROUP BY</code> more efficient. In this article, we introduced <code>DISTINCT</code> and <code>JOIN</code>.</p>
+<p>I believe these two articles should have covered most of the Flink SQL scenarios, in fact, it is not hard to find that there are the following ways to make Flink SQL perform better.</p>
+<ul>
+<li>Reducing invalid ( repeated ) commands</li>
+<li>Reducing state access</li>
+<li>Reducing the size of state</li>
+<li>Reducing data skew</li>
+</ul>
+<p>Every optimization has a proper scenario and a price to pay, and how to make Flink SQL perform better is a balance between these tradeoffs. Most of the optimizations are case-by-case and require understanding of Flink implementation before they can be applied.</p>
+<p>These two articles are based on the latest stable version of Flink 1.17, maybe the URL of the attached reference will change, but I have explained the core concepts, so the new or old version of Flink should also be used as a reference.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/flink-sql-performance-tuning-part-2-c102177b1ce1">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1124,267 +1449,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Career/What-is-Staff-Engineer/20230425/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Career/What-is-Staff-Engineer/20230425/" class="post-title-link" itemprop="url">什麼是主任工程師？</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-04-25 16:56:44" itemprop="dateCreated datePublished" datetime="2023-04-25T16:56:44+08:00">2023-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Career/" itemprop="url" rel="index"><span itemprop="name">Career</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="主任工程師的種類"><a href="#主任工程師的種類" class="headerlink" title="主任工程師的種類"></a>主任工程師的種類</h1><p>大部分公司內的生涯階梯(<a target="_blank" rel="noopener" href="https://lethain.com/perf-management-system/">career ladder</a>或說職涯規劃)都對主任工程師(staff engineer)定義了一組一致的標準。每個人都希望能從這清楚的標準中知道公司內的權責，但我們要知道，這標準其實是一般性的，不是為了每個人量身訂做的。對於主任工程師來說更是如此，一個主任工程師的權責往往結合了數種角色，很難被清晰定義。</p>
-<p>不過這其中還是有規則可循的，大部分主任工程師的權責其實都能被歸納出一些模式，了解這些模式能更有效了解主任工程師這個角色。大致上來說有以下這四種。</p>
-<ul>
-<li>Tech Lead：負責引導特定團隊，有點像是管理職，但多數時候這個角色會負責複數個特定領域。有些公司也會賦予這個角色管理權限，使其更貼近管理職，可以招聘、打考績等。</li>
-<li>Architect：架構師負責確保某些關鍵系統的方向、品質和策略。這個角色必須同時具備深厚的技術底子並了解商業需求，甚至要領導組織決策。</li>
-<li>Solver：這常被稱為救火隊，負責處理複雜難解的問題以及給予適當方向，有時候這角色會在特定領域深耕，但也有可能會隨著組織需要輪調。</li>
-<li>Right Hand：這像是經營高層的左右手，具有一定的決策權。當要運作一個大型組織，這角色會扮演中樞角色，用來快速做出正確決策。</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/Career/What-is-Staff-Engineer/20230425/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Misc/Replacing-Medium-with-Hexo/20230423/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Misc/Replacing-Medium-with-Hexo/20230423/" class="post-title-link" itemprop="url">Replacing Medium with Hexo</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-04-24 01:43:04" itemprop="dateCreated datePublished" datetime="2023-04-24T01:43:04+08:00">2023-04-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Misc/" itemprop="url" rel="index"><span itemprop="name">Misc</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Replacing-Medium-with-Hexo"><a href="#Replacing-Medium-with-Hexo" class="headerlink" title="Replacing Medium with Hexo"></a>Replacing Medium with Hexo</h3><h4 id="A-complete-replacement-for-Medium-with-nearly-zero-overhead"><a href="#A-complete-replacement-for-Medium-with-nearly-zero-overhead" class="headerlink" title="A complete replacement for Medium with nearly zero overhead"></a>A complete replacement for Medium with nearly zero overhead</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*9zo0aBVJ9wmiZ3V3"></p>
-<p>Recently I reached 1,000 followers, and it’s been a long journey, much longer than I thought ever.</p>
-<p>Since a year half ago, I’ve been trying to post one article every Monday (except holidays), mainly about my work and studies, with the intention of getting more consistent exposure to attract more software engineers to discuss with me.</p>
-<p>In this process, I found out the algorithm of the article exposure should have been drastically modified, even though the number of followers exceeded 1,000 but the number of views could be counted, and this is not even the number of reads.</p>
-<p>This is not quite the same as what I wanted to achieve in the beginning, so I had the idea of building my own blog.</p>
-<p>To this blog, I have several requirements.</p>
-<ol>
-<li>To be easy to manage, I do not want to manage this site also need too much coding or operation overhead.</li>
-<li>It should be easy to publish articles, the biggest advantage of Medium is it is easy to write.</li>
-<li>Be able to render charts and Mermaid. My articles rely heavily on these visualizations, but right now Medium is completely incapable of doing anything with charts and Mermaid, so I have to cut and paste them from another place.</li>
-<li>Be able to leave comments, this is very important, I just want to have more discussion to write articles.</li>
-<li>To support clipboard uploading images, this feature of Medium is really convenient.</li>
-<li>Be able to track hit rates and SEO, but the technical details of this are more complicated and not my top priority.</li>
-</ol>
-<p>In the end, I chose <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> with Github Pages as my website.</p>
-<p>Firstly, it is quite easy to achieve this through Hexo’s built-in functions, and the generated static website is directly rendered as a Github Pages without the operation.</p>
-<p>Secondly, after integrating <a target="_blank" rel="noopener" href="https://github.com/marketplace/actions/hexo-action">Github Action</a>, basically, after writing a Markdown file, it can be automatically published by directly pushing it to Github, which is almost the same process as writing articles on Medium.</p>
-<p>To do the third and fourth points need to choose a good theme, I chose <a target="_blank" rel="noopener" href="https://theme-next.js.org/">NexT</a>.</p>
-<p>For the fifth point, I used some tricks, nevertheless, I was able to do it, by using <a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VS Code</a> with <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=mushan.vscode-paste-image">Paste Image</a> plugin.</p>
-<p>This article will enable every engineer familiar with Git and open source software to build a fully functional blog in less than an hour.</p>
-<h3 id="Hexo-Hexo-Action"><a href="#Hexo-Hexo-Action" class="headerlink" title="Hexo + Hexo Action"></a>Hexo + Hexo Action</h3><p>About the basic usage of Hexo and Hexo Action here will not explain in detail, their official documentation is written completely.</p>
-<p>I provide a SOP of my own, which can quickly generate a blog on Github Pages.</p>
-<ol>
-<li>Create two repositories, one for the Hexo source code and one for the generated static website. The name of the repository for the static website must be: <code>&lt;username&gt;.github.io</code>.</li>
-<li>Hexo’s source code repository just needs to <code>git push</code> the entire package of code after <code>hexo init blog</code>. Hexo has a sufficient <code>.gitignore</code>.</li>
-<li>If you need to use Hexo Action, you need to run <code>npm install</code> first to generate <code>package-lock.json</code>, which will be used in the deployment process.</li>
-<li>Generate a pair of keys for the deployment, set the private key in Hexo’s source code repository, and set the public key in the repository where the static site is located (which is still empty). For detailed process, please refer to Hexo Action’s official document.</li>
-<li>Put a Github Action workflow in the Hexo source code repository, basically the example of the official Hexo Action document can be applied directly after referring to the description.</li>
-<li>At this point, the two repositories are now connected properly, although the static site is not yet deployed. So we need to modify the Hexo config file: <code>_config.yml</code> to complete the deploy section at the bottom. For example:</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:  </span><br><span class="line">  type: &#x27;git&#x27;  </span><br><span class="line">  repository: git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git  </span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-
-<p>After following the SOP, you should be able to see the static site Hexo has created at your URL, <code>https://&lt;username&gt;.github.io</code>.</p>
-<h3 id="NexT-Theme"><a href="#NexT-Theme" class="headerlink" title="NexT Theme"></a>NexT Theme</h3><p>To install a new theme is simple, just find the theme’s Github and add it via <code>git submodule</code>, in this article we’ll use NexT as an example.</p>
-<blockquote>
-<p><em>git submodule add</em> <a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-theme-next"><em>https://github.com/next-theme/hexo-theme-next</em></a> <em>themes&#x2F;next</em></p>
-</blockquote>
-<p>That’s it.</p>
-<p>If you want to develop locally, remember to pull the submodule.</p>
-<blockquote>
-<p><em>git submodule init<br>git submodule update</em></p>
-</blockquote>
-<p>Next, modify Hexo’s config file: <code>_config.yml</code>, change the default <code>theme</code> to <code>next</code>, and the theme is applied.</p>
-<p>Then, it’s time to customize NexT.</p>
-<p>Since Hexo 5.0.0, it supports the dedicated theme config, which is <code>_config.[theme].yml</code>. So we only need to copy the default NexT config file to modify it.</p>
-<blockquote>
-<p><em>cp themes&#x2F;next&#x2F;_config.yml _config.next.yml</em></p>
-</blockquote>
-<p>I only care about two functions, Mermaid and comments.</p>
-<p>Mermaid’s settings are as follows. Just turn it on, of course, you can also modify the layout.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mermaid:  </span><br><span class="line">  enable: true  </span><br><span class="line">  # Available themes: default | dark | forest | neutral  </span><br><span class="line">  theme:  </span><br><span class="line">    light: default  </span><br><span class="line">    dark: dark</span><br></pre></td></tr></table></figure>
-
-<p>The comment function is more interesting, NexT supports many kinds of comment functions, including the popular <code>Disqus</code> and <code>Gitalk</code>.</p>
-<p>But I am hosted in a public Github repository, so Disqus is directly out because Disqus requires a <strong>shortname</strong> setting, but if the shortname is obtained, it will directly cause the account breach. Many other comment functions also face the same security concerns.</p>
-<p>Even if the Hexo source code is hosted in a private repository, as long as the static site repository used by Github Pages is public, it will still be compromised. By the way, you can pay Github to use a private repository to host Github Pages.</p>
-<p>Therefore, the comment system needs to choose OAuth base <code>Gitalk</code> or <code>Utterances</code>, nevertheless, I don’t know why NexT needs to set Gitalk’s secret key, so Gitalk is also out.</p>
-<p>To enable <code>Utterances</code> is simple as well, follow the <a target="_blank" rel="noopener" href="https://utteranc.es/?installation_id=36599887&setup_action=install">official website process</a> to install the OAuth App and modify the NexT config file.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">utterances:  </span><br><span class="line">  enable: true  </span><br><span class="line">  repo: &lt;installed repo&gt;  </span><br><span class="line">  # Available values: pathname | url | title | og:title  </span><br><span class="line">  issue_term: title  </span><br><span class="line">  # Available values: github-light | github-dark | preferred-color-scheme | github-dark-orange | icy-dark | dark-blue | photon-dark | boxy-light  </span><br><span class="line">  theme: github-light</span><br></pre></td></tr></table></figure>
-
-<p>Thus, the third and fourth requirements are completed.</p>
-<h3 id="Uploading-pictures-via-clipboard"><a href="#Uploading-pictures-via-clipboard" class="headerlink" title="Uploading pictures via clipboard"></a>Uploading pictures via clipboard</h3><p>To meet this requirement, we must first understand how the images are processed in Hexo.</p>
-<p>There are two options for searching for images in Hexo:</p>
-<ol>
-<li>Under <code>source</code> folder.</li>
-<li>Under the asset folder, please refer to <a target="_blank" rel="noopener" href="https://hexo.io/docs/asset-folders">link</a> for details.</li>
-</ol>
-<p>We want to use the first way, as long as there are images under source, we can read them directly using Markdown syntax.</p>
-<blockquote>
-<p><code>![](/images/abc.jpg)</code></p>
-</blockquote>
-<p>In the above example, the absolute path to the image is actually <code>&lt;projectRoot&gt;/source/images/abc.jpg</code>.</p>
-<p>But we also need a helper to read the clipboard, convert the content to image files and generate the corresponding Markdown syntax.</p>
-<p>VS Code has a plugin, Paste Image, that makes this easy, and it can adjust the upload location and the resulting Markdown syntax accordingly. But Hexo currently places images under the source folder, which is different from the Markdown Preview plugin I currently use (<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced">Markdown Preview Enhanced</a>).</p>
-<p>The preview plugin is not very compatible, so I can’t get the project directory of VS Code to match the root directory of Hexo, so my VS Code project directory can only be opened under source folder as a compromise.</p>
-<p>This makes the Paste Image settings need to be adjusted accordingly. Here are the settings I use, at <code>&lt;projectRoot&gt;/source/.vsconde/settings.json</code>.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">  &quot;pasteImage.basePath&quot;: &quot;$&#123;projectRoot&#125;&quot;,  </span><br><span class="line">  &quot;pasteImage.path&quot;: &quot;$&#123;projectRoot&#125;/images/&quot;,  </span><br><span class="line">  &quot;pasteImage.prefix&quot;: &quot;/&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>The reason for this compromise is I need the Mermaid preview feature of Markdown Preview Enhanced. Until I find another way to do it, this compromise is a doable solution.</p>
-<p>The good thing is that my writing process is not affected. When I need to publish an article, I just add a new Markdown to my VS Code project path, push it to Github after writing, and then it will be automatically deployed, so it doesn’t matter if the VS Code project path is source.</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>By combining these following components, it allows me to write articles in a more efficient way than Medium, and the previous pain points of having to cut and paste Mermaid and tables have disappeared.</p>
-<ul>
-<li>Hexo</li>
-<li>Github Action</li>
-<li>Github Pages</li>
-<li>NexT</li>
-</ul>
-<p>In addition, there is more room for customization, which is the best solution at the moment.</p>
-<p>Currently, my audiences are divided into English and Chinese circles, and Medium’s exposure to Chinese articles is lower than English, so I will gradually adjust the posting frequency and content in the future. After that, I will adjust my posting strategy based on the tracking data I collect.</p>
-<p>My main profession is a data architect, so this is my experiment with Medium and the blog I own.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/replacing-medium-with-hexo-ea5406a06fe">Medium</a></p>
-</blockquote>
-
       
     </div>
 

@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">192</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -214,6 +214,329 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Reducing-Database-Loading/20220911/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Reducing-Database-Loading/20220911/" class="post-title-link" itemprop="url">Reducing Database Loading</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-09-12 01:37:46" itemprop="dateCreated datePublished" datetime="2022-09-12T01:37:46+08:00">2022-09-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Reducing-Database-Loading"><a href="#Reducing-Database-Loading" class="headerlink" title="Reducing Database Loading"></a>Reducing Database Loading</h3><h4 id="Three-approaches-to-improve-database-elasticity"><a href="#Three-approaches-to-improve-database-elasticity" class="headerlink" title="Three approaches to improve database elasticity"></a>Three approaches to improve database elasticity</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*6tX29iYZM7ndHxkx"></p>
+<p>Last week we talked about <a target="_blank" rel="noopener" href="https://betterprogramming.pub/scalability-vs-elasticity-cfae2d7a19b">the difference between scalability and elasticity</a>, and the concept of solutions was mentioned at a high level. In this article, let’s take a look at some practical solutions.</p>
+<p>First, if you haven’t read <a target="_blank" rel="noopener" href="https://betterprogramming.pub/scalability-vs-elasticity-cfae2d7a19b">the last article</a>, I suggest you read it first. This time we are solving the elasticity problem rather than scalability. As mentioned before, the two most common solutions to the elasticity problem are caching and messaging.</p>
+<p>Therefore, in this article, we will list some common practical solutions and briefly analyze the advantages and disadvantages. Let’s get started.</p>
+<h3 id="Read-aside-Cache"><a href="#Read-aside-Cache" class="headerlink" title="Read-aside Cache"></a>Read-aside Cache</h3><p>When talking about caching, the most commonly used mechanism is the read-aside cache.</p>
+<p>The advantage is that it is very easy to understand and implement, and already provides a good consistency level. I’ve explained how it works in <a target="_blank" rel="noopener" href="https://medium.com/starbugs/consistency-between-cache-and-database-part-1-f64f4a76720">my previous article</a>, but let’s review it again.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*NyvutdsOM3g_lZsTLQwufw.png"></p>
+<p>The read mechanism of the read-aside cache is very simple: first try to get the data from the cache, and if you cannot get it, then get it from the database instead, and save it back to the cache. In this way, the next request for the same data can be taken directly from the cache.</p>
+<p>How to ensure that the cached data is up-to-date (consistency)?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uQumE0FrrikkRVczieqrjA.png"></p>
+<p>After updating the database, the corresponding records of the cache should be cleared immediately. When the same request comes in next time, it will be taken from the database first and the latest result will be written back to the cache.</p>
+<p>It looks like both read and write are perfect, so the read-aside cache should have a high degree of consistency! In fact, not really.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*v2lfsRIEgmJxRnKLcE9xAg.png"></p>
+<p>According to the above sequential diagram, we can find that both A and B are behaving correctly, but put together, they make an error, and B gets inconsistent data. This is the first problem.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*bMNgQafYbgkKtjBxiXCuxw.png"></p>
+<p>The second type of error is more intuitive, when A wants to update the data, A is killed after finishing the database update, probably due to bugs or application upgrade and so on. Then the data in the cache will remain inconsistent for a long time, until the next update or timeout.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*gH283i-SpUYWimTznDnZag.png"></p>
+<p>The third error is similar to the first one in that the individual actions of A and B are correct, but put together they are wrong. This inconsistent cache data will also remain for a while until the next update.</p>
+<p>These details have been explained in <a target="_blank" rel="noopener" href="https://medium.com/starbugs/consistency-between-cache-and-database-part-1-f64f4a76720">my previous article</a>, if you want to know more can also be used as a reference.</p>
+<p>In fact, problems 1 and 3 can be greatly mitigated by modifying the implementation of the application. In the first problem, when A finished writing the data, don’t do anything else, then clean up the cache quickly to reduce the possibility of being touched by B.</p>
+<p>The same is true for problem 3. When A finishes querying, don’t do too much processing and write back the cache as soon as possible, which can also greatly reduce the chance of occurring after B.</p>
+<p>However, there are three potential problems with read-aside caching.</p>
+<ol>
+<li>If a cache has a large scope of content, it can be difficult to determine when to clean it and to implement it. On the other hand, when many places have to be cleaned up, it may make the cache less effective.</li>
+<li>Dog pile effect. This refers to when a high-traffic system accesses cache frequently, if it encounters clearing cache or cache expiration, these traffic will still occur on the database. And the database may not be able to hold up.</li>
+<li>No graceful shutdown. Problems 1 and 3 can be improved by modifying the application, but problem 2 is not always possible, especially when the application fails, there is basically nothing to do.</li>
+</ol>
+<h3 id="Denormalization"><a href="#Denormalization" class="headerlink" title="Denormalization"></a>Denormalization</h3><blockquote>
+<p><em>If we have to take data from many places, it is ideal to put it all together and take it only once.</em></p>
+</blockquote>
+<p>Conventionally, in order to avoid data duplication in RDBMS, we would create individual tables according to the data type, and then join each other through foreign keys.</p>
+<p>But this will cause a problem, if it is an aggregated data must be pulled from each table, in the traffic and data volume of the system is not large, this approach is reasonable, and will have good performance. However, in a big data scenario, such performance is tragic.</p>
+<p>The performance of JOIN is not good enough for large data, and it is even worse if it is a subquery.</p>
+<p>Therefore, the idea of denormalization is to put all the data together and pull all the required data through a single query. Common practices include Facts Tables, etc., but this article does not focus on data modeling, but on system architecture.</p>
+<p>However, the problem is that reading from one place is possible, but what about writing to it? The original tables are already in use by clients, so do we need to find all the clients to modify them? No, it’s too much work!</p>
+<p>There are two ways, synchronization and asynchronization.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*pcxw2zhD391pIZoNloTRBA.png"></p>
+<p>This is an architecture of synchronization. The following DBs can be treated as databases or tables or even caches.</p>
+<p>When the service needs to write data, originally only <code>DB1</code>, <code>DB2</code> and <code>DB3</code> need to be written, in order to achieve denormalization, but also need to write <code>NewDB</code> in code, and <code>NewDB</code> is the result of aggregation.</p>
+<p>If someone needs to aggregate results, they can pull them directly from <code>NewDB</code>. If the owners of these DBs all belong to the same functional team, then this implementation looks acceptable.</p>
+<p>On the contrary, if the team that needs to consolidate the results is another functional team, such an architecture will not work. First, the other functional team has to find all the updates, then they have to make changes within the service, and they have to do it transactionally.</p>
+<p>For a cross-functional team, such a workflow is unrealistic and impossible. Hence, asynchronous data replication is introduced.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Jvc3ig-S14dPkr0FdlmgLQ.png"></p>
+<p>This architecture should be very common in my previous articles, it is in fact CQRS.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/shift-from-monolith-to-cqrs-a34bab75617e">Shift from Monolith to CQRS</a></li>
+<li><a target="_blank" rel="noopener" href="https://lazypro.medium.com/solve-performance-bottleneck-through-cqrs-3fd456df1551">Solve Performance Bottleneck through CQRS</a></li>
+</ul>
+<p>Nevertheless, there are various practices to implement CQRS, some of which are listed below. The following is a list of common practices from long to short time intervals.</p>
+<p><em><strong>ETL</strong></em></p>
+<blockquote>
+<p><em>DBs -&gt; Batching -&gt; Materialized View</em></p>
+</blockquote>
+<p>This is the most common practice nowadays, and almost all data engineers do it this way. Data is migrated from one place to another through batch processing, whether it is Hadoop or Spark.</p>
+<p>Some transformations and business logic may be added in the process. In order to make the data more accessible, if RDBMS is used as the NewDB, then <code>Materialized View</code> may be added. The data is snapshotted by predefined rules, and if the data is updated, it is refreshed to respond to the calculation of new data.</p>
+<p>But data migration is a very costly practice, so ETL does not happen all the time, instead, it happens once an hour or even once a day.</p>
+<p>Therefore, the data obtained from NewDB will not be the latest, but a snapshot at a certain point in time.</p>
+<p><em><strong>CDC</strong></em></p>
+<p>In order to keep the data as up-to-date as possible, we know that ETL is not enough. Therefore, CDC is another common practice.</p>
+<blockquote>
+<p><em>DBs -&gt; Debezium -&gt; Kafka -&gt; Streaming DB</em></p>
+</blockquote>
+<p>When data is updated, it is captured by <a target="_blank" rel="noopener" href="https://debezium.io/">Debezium</a>, streamed out to Kafka, and finally written to a streaming database.</p>
+<p>The streaming database is made available to external users, so the streaming database must be able to support not only streaming writes, but also rapid query capabilities.</p>
+<p>There are many mainstream streaming databases, and <a target="_blank" rel="noopener" href="https://pinot.apache.org/">Apache Pinot</a> is the most popular one recently.</p>
+<p>Because CDC streams are updated in real time, external users can get almost real-time data.</p>
+<p><em><strong>Streaming</strong></em></p>
+<p>Another mechanism for real time streaming comes from the service that originally wrote the data.</p>
+<blockquote>
+<p><em>Service -&gt; Kafka -&gt; Stream Handler -&gt; RocksDB</em></p>
+</blockquote>
+<p>When the service finishes updating the original database, it actively sends an event to Kafka and Kafka dispatches it.</p>
+<p>In such a system, it is most common to use a streaming framework to do the pre-processing of the streams and store them in the database. Common streaming frameworks include Apache Flink or Apache Samza, and of course the recent Kafka Stream.</p>
+<p>For the backend database, we choose a state persistence mechanism that can match the streaming processing framework, and RocksDB is the best choice for several common streaming processing frameworks.</p>
+<p>In this way, we can also get the latest data, but from the query point of view, the query capability provided by the streaming processing framework is not comparable to streaming database.</p>
+<p>The above three are common data replication methods, and it is worth mentioning that the components of each method can be exchanged or even extended to each other, so that different architectures can be built based on requirements.</p>
+<p>However, there are potential problems with asynchronous data replication.</p>
+<ol>
+<li>If there is a wide range of data to be used, it is a big problem to define the data to be replicated. Just as it is difficult to determine the cleanup time for a read-aside cache, it is difficult to define the scope of data replication.</li>
+<li>In addition, whether it is pre-processing through streaming framework or defining query through streaming database, the complexity is obviously high when it comes to complex data structure and complicated computation.</li>
+<li>Among these three methods, ETL has the lowest complexity, but ETL loses data real-time.</li>
+</ol>
+<h3 id="Asynchronous-requests-responses"><a href="#Asynchronous-requests-responses" class="headerlink" title="Asynchronous requests&#x2F;responses"></a>Asynchronous requests&#x2F;responses</h3><p>We all know the traditional request&#x2F;response model as follows.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uGPTmseC78Rh1BdeSUuung.png"></p>
+<p>Although this is a function call here, it can also be a remote call across services.</p>
+<p>After the client sends a request, the server responds to the request through a series of processing, which is the traditional approach. How can we do this asynchronously?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7-XxlbHa-6YYAUrW07npRA.png"></p>
+<p>The answer is to make the implementation of the function behind the server asynchronous.</p>
+<p>What are the benefits of doing this?</p>
+<ol>
+<li>Handle events by using event handlers, then we can control the number of handlers to determine the pressure on the backend system or database. In the synchronization model, when a large number of client requests come in, the server will fork threads accordingly and put pressure on the backend system. However, when the number of event handlers is controllable, the pressure on the backend system can be controlled as well.</li>
+<li>Request dedup. Since all requests from clients are entered into the message queue, event handlers have the ability to perform deduplication according to specific rules.</li>
+<li>Further, if a streaming framework is used, then the third approach from the previous section can be followed to achieve further denormalization.</li>
+</ol>
+<p>However, such an architecture also has drawbacks.</p>
+<ol>
+<li>Such an architecture must be based on the assumption that users will refresh the page a lot in a short period of time in order to be able to play the benefits of dedup. This architecture does not mean that it is only applicable to this context, but if there is no matching context, then the implementation will be too much pain and too little gain.</li>
+<li>Implementation overhead. The server must have the ability to wait for asynchronous messages, which is simple to say, but there are many aspects of the implementation. For example, should we use a temporary queue or a permanent queue? How long should I wait? Questions like these need to be carefully considered.</li>
+<li>Starvation. In order to control the number of concurrent messages, we don’t enable handlers unlimitedly, but this also means that some people can’t wait for processing and time out.</li>
+</ol>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>This article describes some approaches to improve the elasticity of a database.</p>
+<p>Unlike the approaches to improve scalability, scalability can be achieved through database-oriented approaches such as query optimization, indexing, and data sharding.</p>
+<p>However, improving elasticity cannot be accomplished through databases alone, but must be accompanied by architectural adjustments, so this article lists some common approaches.</p>
+<p>In fact, there are many more useful practices than that, and this article is aimed at small to medium-sized organizations. With a limited number of people and a limited budget, it is not possible to make large-scale changes, so we can only optimize on the original practices.</p>
+<p>Nevertheless, I believe these approaches should provide good insights for further evolution of the system, after all, all methodologies are similar.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/reducing-database-loading-b54f2d8edb39">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Scalability-vs-Elasticity/20220904/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kulhr2h.png">
+      <meta itemprop="name" content="CT Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CT Wu">
+      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | CT Wu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/Architecture/Scalability-vs-Elasticity/20220904/" class="post-title-link" itemprop="url">Scalability vs. Elasticity</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-09-05 01:40:48" itemprop="dateCreated datePublished" datetime="2022-09-05T01:40:48+08:00">2022-09-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="Understanding-the-main-difference-between-scalability-and-elasticity"><a href="#Understanding-the-main-difference-between-scalability-and-elasticity" class="headerlink" title="Understanding the main difference between scalability and elasticity"></a>Understanding the main difference between scalability and elasticity</h4><p><img src="https://cdn-images-1.medium.com/max/800/0*P_sNDP3G-T3YHj_Y"></p>
+<p>In system design, there are two single words are confusing, which are scalability and elasticity. They are so similar that we don’t distinguish them correctly.</p>
+<p>However, when we want to solve the issues caused by these two non-functional requirements individually, we need completely different approaches.</p>
+<p>Therefore, in order to design the right approach we have to know them and recognize their properties. In this article, we will talk about what scalability and elasticity are and how to treat the symptoms.</p>
+<h3 id="Scalability"><a href="#Scalability" class="headerlink" title="Scalability"></a>Scalability</h3><p>We often talked about horizontal scalability and vertical scalability, i. e., scale-out, and scale-up.</p>
+<p>But what’s good and bad for scalability?</p>
+<p>Let’s take a look at an example.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*RUAuNB-u9yy3ELnS.png"></p>
+<p>CPU grows with the time. This is normal. As the system grows, the number of users increases, the feature requirements increase, and thus the resource consumption increases as well. In this case, resources refer to CPU, but it can be applied to other resources, such as memory, response time, etc.</p>
+<p>So, if this diagram indicates a normal situation, what diagram indicates a problem?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*qGSKtxooiJ14GsLj.png"></p>
+<p>When resource usage does not rise linearly, but exponentially, something is wrong. It could be a bottleneck in usage that results in additional overhead, or a dramatic drop in performance when the amount of data exceeds a certain amount.</p>
+<p>On the other hand, what kind of shape represents good scalability?</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*7h5Y68D3yQOzlBzT.png"></p>
+<p>Similarly, resource usage rises over time, but the rate of increase shrinks, which means that scalability becomes better. The ideal state is a horizontal line, where the resource usage remains constant regardless of the number of users and the increase in feature requirements.</p>
+<p>In other words, how to make this line as straight and as close to the horizontal as possible is the issue to be addressed in solving the scalability.</p>
+<h3 id="Elasticity"><a href="#Elasticity" class="headerlink" title="Elasticity"></a>Elasticity</h3><p>After talking about scalability, let’s look at an example of elasticity.</p>
+<p>First, let’s also look at the normal situation of a system.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*6APHPIwZ9_H8vmUh.png"></p>
+<p>Resource usage fluctuates dramatically over time, with spikes occurring at certain times. It is easy to understand why this happens. Take an e-commerce site for example, when there is a Black Friday sale or Christmas coming up, the system usage will be much higher than usual. Or a ticketing site, when a top singer is going to have a concert, will also attract a large number of people to come to grab tickets.</p>
+<p>So what is good elasticity? It’s about eliminating those spikes, of course.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*yyLOWcLR-drgjx_L.png"></p>
+<p>There are two key points in this diagram.</p>
+<ol>
+<li>The red line is more stable than the blue line, but the red line is not a horizontal line.</li>
+<li>The red line is significantly higher than the blue line after the occurrence of a spike.</li>
+</ol>
+<p>The reason for the first point is simple, because the system usage is not fixed, so the use of resources will vary with the system usage. But in general, it can still be maintained in a stable state and there will be no significant ups and downs.</p>
+<p>The second point, I believe, is not difficult to understand: the reason why we can flatten the blue line as much as possible is not to reject all the user requests, but to postpone the instantaneous usage through “a sort of mechanism”. Therefore, after the spike, there will always be a period of digestion, causing the red line to be higher than the blue line.</p>
+<p>You may ask, though, the system can handle so many users without elasticity, so is it still necessary to improve the elasticity to make the effect of the red line?</p>
+<p>The answer is, definitely. Why?</p>
+<p>Because the highest point of the blue line is the limit of what the system can record, and more rejected user requests cannot enter the system and are not recorded. In the moment of the spike, the system’s maximum capacity is defined there, and all requests exceeding it are rejected.</p>
+<p>On the other hand, a more elastic system has a smoother resource usage and can handle more user requests without crashing the system.</p>
+<h3 id="The-Myth-of-Autoscaling"><a href="#The-Myth-of-Autoscaling" class="headerlink" title="The Myth of Autoscaling"></a>The Myth of Autoscaling</h3><p>Now, we understand the scalability and elasticity. So, can you answer one question?</p>
+<blockquote>
+<p><em>Ask, does autoscaling address the need for scalability or elasticity?</em></p>
+</blockquote>
+<p>The answer is, scalability.</p>
+<p>First of all, the principle of autoscaling is to track specific metrics by sampling and start scaling when the threshold is exceeded for a period of time.</p>
+<p>Therefore, it is already a while after the spike has occurred before scaling can begin. In addition, scaling is not immediately available; even containerized applications have to go through several steps to scale, such as loading the container image and cold-starting it on a new instance. A complex application can take a few minutes from the time it decides to scale to the time it is launched.</p>
+<p>As a result, autoscaling is not about elasticity, but about scalability.</p>
+<p>More importantly, autoscaling does not improve the whole system. In other words, autoscaling only allows the system to continue to grow with its original scalability, but does not make it better.</p>
+<p>One exception is that if elastic requirements can be predicted, then autoscaling can be effectively applied.</p>
+<p>For example, if the system receives a large number of requests at the beginning of the workday (e.g., 9:00 a.m.), then the system can be autoscaled by activating it at regular intervals. In this example, setting the time of the autoscaling between 8:30 am and 9:30 am can effectively solve the elasticity problem faced during that time.</p>
+<p>However, in general, the autoscaling faces the issue of scalability.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we introduced scalability and elasticity and explained what it looks like after improvement.</p>
+<p>Nevertheless, this article does not describe how to improve scalability, because scalability is a systemic issue and there is no one specific solution that can solve it all at once.</p>
+<p>First, bottlenecks must be identified, then the root causes must be figured out, and finally different solutions must be proposed for each bottleneck. This requires an extra investment of time and human resources to enable the system evolution, and autoscaling is a compromise to buy time. By spending additional money, the system is given time to evolve and is not shut down by the inability to scale.</p>
+<p>But autoscaling is not a long-term solution, and additional analysis, design and implementation costs are required to fundamentally solve the scalability issue.</p>
+<p>On the other hand, how to solve the elasticity issue?</p>
+<p>The answer is relatively simple, through caching or messaging. In order to tolerate a large number of requests in a moment, there must be a mechanism to postpone the current spike, and the most commonly used practice is caching.</p>
+<p>However, there are many different ways to implement caching, and the balance between caching and consistency is an important issue. I have introduced several caching practices.</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://medium.com/starbugs/consistency-between-cache-and-database-part-1-f64f4a76720">Consistency between Cache and Database, Part 1</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/starbugs/consistency-between-cache-and-database-part-2-e28fc7f8a7c3">Consistency between Cache and Database, Part 2</a></li>
+</ol>
+<p>These are the basic versions of caching, but there are many more advanced caching practices that will be mentioned in subsequent articles.</p>
+<p>The purpose of this article is only to explain the two words that are easily confused, and the only way to find a feasible solution among the many approaches is to correctly understand scalability and elasticity.</p>
+<blockquote>
+<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/scalability-vs-elasticity-cfae2d7a19b">Medium</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1352,358 +1675,6 @@
 <p>Therefore, in this article, I have chosen practices that we can all achieve, but even if they are simple practices, there is already a high enough level of consistency if they are implemented correctly.</p>
 <blockquote>
 <p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/consistency-between-cache-and-database-part-2-e28fc7f8a7c3">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Consistency-between-Cache-and-Database-Part-1/20220703/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/Consistency-between-Cache-and-Database-Part-1/20220703/" class="post-title-link" itemprop="url">Consistency between Cache and Database, Part 1</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-07-03 23:36:56" itemprop="dateCreated datePublished" datetime="2022-07-03T23:36:56+08:00">2022-07-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Consistency-between-Cache-and-Database-Part-1"><a href="#Consistency-between-Cache-and-Database-Part-1" class="headerlink" title="Consistency between Cache and Database, Part 1"></a>Consistency between Cache and Database, Part 1</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*wfvcwb8VGPW7N1ZH.png"></p>
-<ul>
-<li>Part 1: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/consistency-between-cache-and-database-part-1-f64f4a76720">Read Aside Caching</a></li>
-<li>Part 2: <a target="_blank" rel="noopener" href="https://lazypro.medium.com/consistency-between-cache-and-database-part-2-e28fc7f8a7c3">Enhanced Approaches</a></li>
-</ul>
-<p>Today we are going to talk about consistency, especially the consistency of data between cache and database. This is actually an important topic, particularly as the size of an organization increases, the requirements for consistency will grow and so will the implementation of consistency.</p>
-<p>For example, a startup service will not have a higher Service Level Agreement, aka SLA, than a mature service. For a startup service, a data consistency SLA of four nines (99.99%) might be considered high, but for a mature service like <a target="_blank" rel="noopener" href="https://aws.amazon.com/s3/storage-classes/?nc1=h_ls">AWS S3</a>, the data SLA is as high as 11 nines.</p>
-<p>We all know that for every nine, the difficulty and complexity of the implementation will increase in an exponential way, so for a startup service, there are basically no resources to maintain a very high SLA.</p>
-<p>Thus, how can we use the resources as effectively as possible to improve consistency? That’s what this article will introduce. Again, the consistency mentioned here refers specifically to the consistency between cache and database data.</p>
-<h3 id="Why-Caching"><a href="#Why-Caching" class="headerlink" title="Why Caching?"></a>Why Caching?</h3><p>I believe we all agree that inconsistencies are inevitable when we put data in two different storages. So what makes us put data into cache rather than risking inconsistency?</p>
-<ol>
-<li>The price of databases is high. In order to provide data persistence and as high availability as possible, even the relational database provides ACID guarantee, which makes the database implementation complex and also consumes hardware resources. Regardless of hard drives, memory or CPU, the database must be supported by good hardware specifications in order to work well, which also leads to the high price of the database itself.</li>
-<li>The performance of the database is limited. In order to persist the data, the data written to the database must be written to the hard drives, which also causes the performance bottleneck of the database, after all, the read and write efficiency of hard drives is much worse than memory.</li>
-<li>The database is far away from the user. Here, the far means the physical distance. As mentioned in the first point, because of the high cost of databases and the need to centralize data as much as possible for further analysis and utilization, a global service database is not placed in all over the world. The most common practice is to choose a fixed location. In Asia, for example, because AWS’s Singapore data center is lower priced, it is often chosen for Asian users, but for Japanese users, the network distance increases and the transfer rate decreases.</li>
-</ol>
-<p>For the above three reasons, the need for caching arises.</p>
-<p>Because a cache does not need to be persistent, it can use memory as the storage medium, so it is inexpensive and has excellent performance. Because of the low price, caches can be placed as close to the user as possible, for instance, caches can be placed in Tokyo so that users in Japan can use them nearby.</p>
-<h3 id="Caching-Patterns"><a href="#Caching-Patterns" class="headerlink" title="Caching Patterns"></a>Caching Patterns</h3><p>It seems that caching is necessary, so how do we use caching for the consistency as much as possible?</p>
-<p>To keep this article from losing focus, the caches mentioned are all based on Redis and the database is MySQL, and our goal is to improve consistency as much as possible with limited resources, both hardware and manpower, so the complex architectures of many large organizations are out of our scope, such as Meta’s <a target="_blank" rel="noopener" href="https://engineering.fb.com/2013/06/25/core-data/tao-the-power-of-the-graph/">TAO</a>.</p>
-<p>TAO is a distributed cache and has a very high SLA (10 nines). However, to operate such a service, there is a very complex architecture behind it, and even the monitoring of caching is extremely large, which is not affordable for an ordinary organization.</p>
-<p>Therefore, we will focus on the following patterns, highlighting their problems and how to avoid them as much as possible.</p>
-<ul>
-<li>Cache Expiry</li>
-<li>Read Aside</li>
-<li>Read Through</li>
-<li>Write Through</li>
-<li>Write Ahead (Write Behind)</li>
-<li>Double Delete</li>
-</ul>
-<p>The following sections will follow the below procedure.</p>
-<ol>
-<li>read path</li>
-<li>write path</li>
-<li>potential problems</li>
-<li>how to improve</li>
-</ol>
-<h3 id="Cache-Expiry"><a href="#Cache-Expiry" class="headerlink" title="Cache Expiry"></a>Cache Expiry</h3><p><strong>Read Path</strong></p>
-<ul>
-<li>Reading data from cache</li>
-<li>If the cache data does not exist</li>
-<li>Read from the database instead</li>
-<li>and write back to the cache</li>
-</ul>
-<p>We add a TTL to each data when writing back to the cache.</p>
-<blockquote>
-<p><em>EXPIRE key seconds [ NX | XX | GT | LT]</em></p>
-</blockquote>
-<p><strong>Write Path</strong></p>
-<ul>
-<li>Write data to the database only</li>
-</ul>
-<p><strong>Potential Problems</strong></p>
-<p>When updating data, inconsistencies occur because the data is only written back to the database. The inconsistency time depends on the TTL settings, nevertheless, it is difficult to choose a suitable value for the TTL.</p>
-<p>If the TTL is set too long, the inconsistency time will be increased and, on the contrary, the cache will not be effective.</p>
-<p>It is worth mentioning that caching is built to reduce the load on the database and to provide performance, and a very short TTL will make caching useless. For example, if the TTL of a certain data is set to 1 second, but no one reads it within 1 second, then the cached data will be no value at all.</p>
-<p><strong>How to Improve</strong></p>
-<p>The read path seems to be the usual practice, but when the database is updated, there should also be a mechanism for updating the cached data. And this is also the concept of <em>Read Aside</em>.</p>
-<h3 id="Read-Aside"><a href="#Read-Aside" class="headerlink" title="Read Aside"></a>Read Aside</h3><p><strong>Read Path</strong></p>
-<ul>
-<li>Reading data from cache</li>
-<li>If the cache data does not exist</li>
-<li>Read from the database instead</li>
-<li>and write back to the cache</li>
-</ul>
-<p>This process is the same as <em>Cache Expiry</em>, but the TTL can be set long enough. This allows the cache to have as much play time as possible.</p>
-<p><strong>Write Path</strong></p>
-<ul>
-<li>Write the data into the database first</li>
-<li>Then clean cache.</li>
-</ul>
-<p><strong>Potential Problems</strong></p>
-<p>Such read and write paths look fine, but there are a few corner cases that can’t be avoided.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*dPnVCTxrsXgsJdOtXUN3IA.png"></p>
-<p><code>A</code> wants to update the data, but <code>B</code> wants to read the data at the same time. Individually, both <code>A</code> and <code>B</code> have the right process, but when both of them happen together, there may be a problem. In the above example, <code>B</code> has already read the data from the cache before <code>A</code> clears the cache, so the data that <code>B</code> gets at that moment will be old.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*yyq6QF-JhPSQxxjVUWrn4A.png"></p>
-<p>When <code>A</code> is updating the data, the database is already finished updating, but it is killed due to “some reason”. At this moment, the data in the cache will remain inconsistent for a while until the next time the database is updated or a TTL occurs.</p>
-<p>Getting killed may sound serious and rare, but it’s actually more likely to happen than you might think. There are several scenarios where a kill can occur.</p>
-<ol>
-<li>When changing versions, either through containers or VMs, the old version of the application must be replaced with the new version, and the old version will be killed.</li>
-<li>When scale-in, the redundant application will be recycled and will also be killed.</li>
-<li>Lastly, it is the most common, when the application crashes, it will inevitably be killed.</li>
-</ol>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*68BT1_-j09AlAkx-PqNYpw.png"></p>
-<p>When <code>A</code> wants to read the data and <code>B</code> wants to update the data, again, both of them have the right individual process, but the error occurs.</p>
-<p>First <code>A</code> is trying to read data because no corresponding result is found in the cache, so he reads from the database; at the same time, <code>B</code> is trying to update the data so he clears the cache after the database operation. Then, <code>A</code> writes the data to the cache, and the inconsistency occurs, and the inconsistency will remain for a while.</p>
-<p><strong>How to Improve</strong></p>
-<p>Case 1 and Case 3 can be minimized when the application manipulates data correctly. Take Case 1 as an example, don’t do anything extra after updating the database and clean up the cache right away, while in Case 3, after reading data from the database, don’t do too much format conversion and write the result to the cache as soon as possible. In this way, the chance of occurrence can be reduced, but even so, there are still some unavoidable situations, such as the stop-the-world generated by garbage collection.</p>
-<p>Case 2, on the other hand, can reduce the chance of artificial occurrences by implementing a graceful shutdown, but there is nothing that can be done for an application crash.</p>
-<h3 id="Read-Aside-Variant"><a href="#Read-Aside-Variant" class="headerlink" title="Read Aside Variant"></a>Read Aside Variant</h3><p>In order to solve Case 1 and Case 2, some people will try to modify the original process.</p>
-<p><strong>Read Path</strong></p>
-<ul>
-<li>Reading data from cache</li>
-<li>If the cache data does not exist</li>
-<li>Read from the database instead</li>
-<li>and write back to the cache</li>
-</ul>
-<p>This process is exactly the same as the original <em>Read Aside</em>.</p>
-<p><strong>Write Path</strong></p>
-<ul>
-<li>Clean cache first</li>
-<li>Then write the data into the database.</li>
-</ul>
-<p>This process is the opposite of the original <em>Read Aside</em>.</p>
-<p><strong>Potential Problems</strong></p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*TwDOLUw9pRSgpgNFfLuDJw.png"></p>
-<p>Although the original Case 1 and Case 2 are solved, a new problem is created.</p>
-<p>When <code>A</code> tries to update the data, and <code>B</code> wants to read the data, <code>A</code> clears the cache first; then <code>B</code> cannot read the data, so it reads from the database instead, and <code>A</code> continues to update the database. Finally, <code>B</code> writes the read data back to the cache. The inconsistency is occurred.</p>
-<p><strong>How to Improve</strong></p>
-<p>In fact, Case 1 and Case 2 are much less likely to occur than the corner cases of this variant, especially when the correct implementation of <em>Read Aside</em> has significantly reduced the occurrence of Case 1 and Case 2. On the other hand, the corner cases of the variant cannot be effectively improved.</p>
-<blockquote>
-<p><em>Therefore, it is not recommended to use such a variant.</em></p>
-</blockquote>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In general, a relatively high level of consistency can be achieved by <em>Read Aside</em>, even if it is only a simple implementation, but it can also have a very good reliability.</p>
-<p>Nevertheless, if you would like to improve consistency further, <em>Read Aside</em> alone is not enough, and a more complex approach is required, but also at a higher cost. Therefore, I will leave these approaches for the next article. In the next article, I will describe how to make the best use of the resources at hand to achieve as much consistency as possible.</p>
-<p>To emphasize again, although <em>Read Aside</em> is very simple, it is reliable enough as long as it is implemented correctly.</p>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/consistency-between-cache-and-database-part-1-f64f4a76720">Medium</a></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wirelessr.github.io/Architecture/Combine-Domain-Driven-Design-and-Databases/20220626/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kulhr2h.png">
-      <meta itemprop="name" content="CT Wu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CT Wu">
-      <meta itemprop="description" content="Personal tech blog on software architecture, backend development, and data engineering">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | CT Wu">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Architecture/Combine-Domain-Driven-Design-and-Databases/20220626/" class="post-title-link" itemprop="url">Combine Domain-Driven Design and Databases</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-06-27 01:00:09" itemprop="dateCreated datePublished" datetime="2022-06-27T01:00:09+08:00">2022-06-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="Explain-combining-Domain-Driven-Design-and-Databases"><a href="#Explain-combining-Domain-Driven-Design-and-Databases" class="headerlink" title="Explain combining Domain-Driven Design and Databases"></a>Explain combining Domain-Driven Design and Databases</h3><p><img src="https://cdn-images-1.medium.com/max/800/0*BhHrlHoJcl3Heg5A.png"></p>
-<p>A while ago, we explained <a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">how to design software in a clean architecture way</a>. At that time, although we provided the design and implementation of the domain objects and also implemented the unit tests, we did not describe how to integrate with the database.</p>
-<p>Therefore, this article will present another example of how domain-driven design and database can be put together. Next, we will provide a real-world design of a common street-level gashapon store with a MySQL database.</p>
-<h3 id="User-Stories"><a href="#User-Stories" class="headerlink" title="User Stories"></a>User Stories</h3><p>As we’ve done before, we start by describing the user story, and we understand our needs through that story.</p>
-<ul>
-<li>There will be a lot of machines, each with different combinations of items.</li>
-<li>In order to allow “generous” customers to buy everything at once, we offer the option to draw a lot of items at once.</li>
-<li>When we run out of items, we need to refill them immediately.</li>
-<li>If a person who draws a lot of items at one time runs out of items, we will refill the items immediately so that they can continue to draw.</li>
-</ul>
-<p>Such a story is actually a scenario that happens in every gashapon store, and after a clear description, we will know how to build the domain model.</p>
-<p>Generally speaking, we will need to model a gashapon machine and a gacha entity.</p>
-<h3 id="Use-Cases"><a href="#Use-Cases" class="headerlink" title="Use Cases"></a>Use Cases</h3><p>Then, we define more precise use cases based on user stories. Unlike a story, the use case will clearly describe what happened and how the system should react.</p>
-<ul>
-<li>Because this is an online gashapon store, it is possible for multiple people to draw at the same time. But just like the physical machine, everyone must draw in order.</li>
-<li>In the process of refilling the gacha, the user is not allowed to draw until all the gacha have been refilled.</li>
-<li>When A and B each draw 50 at the same time, but there are only 70 in the machine, one of them will get the 50 in the batch, while the other will draw 20 first, and then wait for the refill before drawing 30.</li>
-</ul>
-<p>With the use case, we can either draw a flowchart or write a process based on it. In this example, I chose to write the process in <code>Python</code> as follows.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">draw</span>(<span class="params">n, machine</span>):  </span><br><span class="line">    gachas = machine.pop(n)  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(gachas) &lt; n:  </span><br><span class="line">        machine.refill()  </span><br><span class="line">        gachas += draw(n - <span class="built_in">len</span>(gachas), machine)  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">return</span> gachas</span><br></pre></td></tr></table></figure>
-
-<p>In the user story, we mentioned that we will model a gashapon machine and a gacha. So the <code>machine</code> in this example code is the gashapon machine, which provides both <code>pop</code> and <code>refill</code> methods. On the other hand, gachas are a list with <code>gacha</code> in it.</p>
-<p>Before we go any further, there is one very important thing that must be stated. Both the <code>pop</code> and <code>refill</code> methods must be atomic. To avoid racing conditions, both methods must be atomic and cannot be preempted, while there will be multiple users drawing simultaneously.</p>
-<h3 id="Database-Modeling"><a href="#Database-Modeling" class="headerlink" title="Database Modeling"></a>Database Modeling</h3><p>We already have <code>machine</code> and <code>gacha</code>, and these two objects are very simple for developers who are familiar with object-oriented programming, but how should they be integrated with the database?</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/0*Q00QHD27370wmhWN.png"></p>
-<p>As mentioned in the book <em>Patterns of Enterprise Application Architecture</em>, there are three options to describe the domain logic on the database.</p>
-<ol>
-<li>Transaction Script</li>
-<li>Table Module</li>
-<li>Domain Model</li>
-</ol>
-<p>The book explains the pros and cons of these three choices individually, and in my experience, I prefer to use <em>Table Module</em>. The reason is, the database is a standalone component, and to the application, the database is actually a <em>Singleton</em>. To be able to control concurrent access on this <em>Singleton</em>, it is necessary to have a single, unified and public interface.</p>
-<p>With <em>Transaction Script</em>, access to the database is spread all over the source code, making it almost impossible to manage when the application grows larger. On the other hand, <em>Domain Model</em> is too complex, as it creates a specific instance for each row of the table, which is very complicated in terms of implementation atomic operations. So I chose the compromise <em>Table Module</em> as the public interface to interact with the database.</p>
-<p>Take the above <code>machine</code> as an example.</p>
-<p>Since we have finished building the domain object, let’s define the schema of the table <code>GachaTable</code>.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*slvDrZSNgDq2fLp-Rv0v9g.png"></p>
-<p>In the table, we can see there are two machines, one with the theme <em>Jurassic Park</em> and the other <em>Ice Age</em>, both of which have two individual gachas. The Jurassic Park machine looks like three, but one has actually been drawn already.</p>
-<p><code>Gacha</code>’s domain model is straightforward, which is <code>gacha_id</code> or more detailed, which may be the theme plus items, such as: Jurassic Park and T-Rex.</p>
-<p>A more interesting topic to discuss is <code>machine</code>. <code>machine</code> needs to define several attributes. First, it should be able to specify an id in the constructor, and second, there are two atomic methods, <code>pop</code> and <code>refill</code>. We will focus on these two methods in the following sections.</p>
-<h3 id="Atomic-Pop"><a href="#Atomic-Pop" class="headerlink" title="Atomic Pop"></a>Atomic Pop</h3><p>It is not difficult to implement an atomic <code>pop</code>: first sort by sequence number, then take out the first <code>n</code> rows, and finally set <code>is_drawn</code> to <code>true</code>. Let’s take the Jurassic Park machine as an example.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> GachaTable <span class="keyword">WHERE</span> machine_id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> is_drawn <span class="operator">=</span> <span class="literal">false</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> gacha_seq LIMIT n <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;  </span><br><span class="line"><span class="keyword">UPDATE</span> GachaTable <span class="keyword">SET</span> is_drawn <span class="operator">=</span> <span class="literal">true</span> <span class="keyword">WHERE</span> gacha_seq <span class="keyword">IN</span> $&#123;resultSeqs&#125;;  </span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
-
-<p>As mentioned in <a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/how-to-avoid-the-race-condition-and-the-negative-value-3f397b2b08e4">my previous article</a>, in order to avoid lost updates, MySQL has three approaches. In this example, to achieve atomic updates, it is easiest to add <code>FOR UPDATE</code> to the end of <code>SELECT</code> to preempt these rows.</p>
-<p>When the update is complete, the result of <code>SELECT</code> can be wrapped into <code>Gacha</code> instances and returned. This way the caller will be able to get the gachas drawn and know how many were drawn.</p>
-<h3 id="Atomic-Refill"><a href="#Atomic-Refill" class="headerlink" title="Atomic Refill"></a>Atomic Refill</h3><p>Another atomic method is <code>refill</code>. It is simple to not get interrupted in the middle of the fill process. Because MySQL transactions are not read by the rest of clients until <code>COMMIT</code> under the <code>Repeatable Read</code> condition.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;  </span><br><span class="line"><span class="keyword">for</span> gacha <span class="keyword">in</span> newGachaPackage():  </span><br><span class="line">    <span class="keyword">INSERT</span> <span class="keyword">INTO</span> GachaTable <span class="keyword">VALUES</span> $&#123;gacha&#125;;  </span><br><span class="line">      </span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
-
-<p>Is that all? No, not really.</p>
-<p>This problem occurs when both users draw <code>n</code>, but there are not enough <code>n</code> gachas to draw.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*7cfbBcXTSNYVrSPhgTgA0A.png"></p>
-<p>The sequential diagram above shows when A and B draw at the same time, A will draw <code>r</code> gachas and B will not, as we expected. However, both A and B will <code>refill</code> together, resulting in the same batch of gachas being filled twice.</p>
-<p>Usually, this does not cause any major problems. Because we arrange the <code>pop</code> by sequence number, we can guarantee that the second batch will be drawn only after the first batch is drained. But if we want to change the item, then the new items will be released later than we expected.</p>
-<p>On the other hand, two people are refilling at the same time so the redundancy becomes twice as much, and if the system has a very large number of simultaneous users, then the redundancy may become several times as much and take up a lot of resources.</p>
-<p>How to solve this problem? In the article <a target="_blank" rel="noopener" href="https://betterprogramming.pub/solve-phantom-read-in-mysql-a1c85f9a8c56">Solving Phantom Reads in MySQL</a>, it is mentioned that we can materialize conflicts. In other words, we add an external synchronization mechanism to mediate all concurrent users.</p>
-<p>In this example, we can add a new table, <code>MachineTable</code>.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*WeEyK9FEAwIzvSuKRlT85Q.png"></p>
-<p>This table also allows the original <code>machine_id</code> of <code>GachaTable</code> to have an additional foreign key reference target. When we do <code>refill</code>, we have to lock this machine first before we can update it.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> MachineTable <span class="keyword">WHERE</span> machine_id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> GachaTable <span class="keyword">WHERE</span> machine_id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">AND</span> is_drawn <span class="operator">=</span> <span class="literal">false</span>;  </span><br><span class="line">if <span class="operator">!</span>cnt:  </span><br><span class="line">    <span class="keyword">for</span> gacha <span class="keyword">in</span> newGachaPackage():  </span><br><span class="line">        <span class="keyword">INSERT</span> <span class="keyword">INTO</span> GachaTable <span class="keyword">VALUES</span> $&#123;gacha&#125;;  </span><br><span class="line">      </span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
-
-<p>At first, we acquire the exclusive lock, then we re-confirm whether <code>GachaTable</code> needs <code>refill</code>, and finally, we actually insert the data into it. If it is not reconfirmed, then it is still possible to repeat <code>refill</code>.</p>
-<p>Here are a few extended discussions.</p>
-<ol>
-<li>Why do we need an additional <code>MachineTable</code>? Can’t we lock the original <code>GachaTable</code>? Due to phantom reads, MySQL’s <code>Repeatable Read</code> cannot avoid write skew from phantom reads in the case of new data. The detailed process is explained in <a target="_blank" rel="noopener" href="https://betterprogramming.pub/solve-phantom-read-in-mysql-a1c85f9a8c56">my previous article</a>.</li>
-<li>When locking <code>MachineTable</code>, don’t you need to lock <code>GachaTable</code> when getting the count from <code>GachaTable</code>? Actually, it is not necessary. Because it will enter the <code>refill</code> process, it must be because the gachas have been drawn and everyone is waiting for the <code>refill</code>, so don’t worry about the <code>pop</code>.</li>
-</ol>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>In this article, we explain the issues to be considered when combining a domain-driven design with a database design through a real-world example.</p>
-<p>The final result will contain two objects, <code>Gacha</code> and <code>Machine</code>, and the database will also contain two tables, <code>GachaTable</code> and <code>MachineTable</code>. All methods within <code>Machine</code> are atomic in nature.</p>
-<p>As we described in the design steps before, we need to first define the correct user stories and use cases, then start the modeling, and finally the implementation. Unlike normal application implementations, the database exists as a large <em>Singleton</em>, so we need to better integrate the database design into our domain design as well.</p>
-<p>In order to minimize the impact of the database on the overall design, it is crucial to build the domain model correctly. Of course, in this article we adopt the <em>Table Module</em> approach to domain design, which has its advantages and disadvantages.</p>
-<p>The advantage is by using the <code>Machine</code> domain model, we are able to simulate the real appearance of a gashapon machine and provide a common interface for all users to synchronize their processing. By encapsulating the gashapon behavior into <code>Machine</code>, future gashapon extensions can be easily performed. All the operations of <code>GachaTable</code> and <code>MachineTable</code> will also be controlled by a single object.</p>
-<p>The downside is that <code>Machine</code> actually contains the gashapon machine and the gacha table inside, which is too rough for a strict object-oriented religion. When more people are involved in the project, everyone’s understanding of the objects and the data tables begins to diverge, leading to a design collapse. For a large organization, the <em>Table Module</em> has its scope, and better cross-departmental collaboration relies on complete documentation and design reviews, which can affect everyone’s productivity.</p>
-<p>In this article we do not take too much time to explain the design process, but rather focus on how to integrate the database design in the domain objects. If you want to learn more about the details mentioned in this article, I have listed my previous articles below.</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://medium.com/interviewnoodle/how-to-avoid-the-race-condition-and-the-negative-value-3f397b2b08e4">Solve Lost Updates in MySQL</a></li>
-<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/solve-phantom-read-in-mysql-a1c85f9a8c56">Solve Phantom Read in MySQL</a></li>
-<li><a target="_blank" rel="noopener" href="https://betterprogramming.pub/how-to-design-in-clean-architecture-way-part-2-8524e76f2720">Designing Software Using Clean Architecture: Domain-Driven Design</a></li>
-</ul>
-<blockquote>
-<p>Originally published on <a target="_blank" rel="noopener" href="https://medium.com/@lazypro/combine-domain-driven-design-and-databases-747fa36ec642">Medium</a></p>
 </blockquote>
 
       
